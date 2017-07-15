@@ -11,20 +11,21 @@ import stevekung.mods.indicatia.utils.ModLogger;
 public class RenderProfileConfig
 {
     public static ProfileData profileData = new ProfileData();
+    private static final File FILE = new File(IndicatiaMod.MC.mcDataDir, "indicatia_profile.dat");
 
     public static void load()
     {
         try
         {
-            File file = new File(IndicatiaMod.MC.mcDataDir, "indicatia_profile.dat");
-            NBTTagCompound nbt = CompressedStreamTools.read(file);
+
+            NBTTagCompound nbt = CompressedStreamTools.read(RenderProfileConfig.FILE);
 
             if (nbt == null)
             {
                 return;
             }
             RenderProfileConfig.readProfileData(nbt.getTagList("ProfileData", 10));
-            ModLogger.info("Loading profile data {}", file.getPath());
+            ModLogger.info("Loading profile data {}", RenderProfileConfig.FILE.getPath());
         }
         catch (Exception e) {}
     }
@@ -33,10 +34,9 @@ public class RenderProfileConfig
     {
         try
         {
-            File file = new File(IndicatiaMod.MC.mcDataDir, "indicatia_profile.dat");
             NBTTagCompound nbt = new NBTTagCompound();
             nbt.setTag("ProfileData", RenderProfileConfig.writeProfileData());
-            CompressedStreamTools.safeWrite(nbt, file);
+            CompressedStreamTools.safeWrite(nbt, RenderProfileConfig.FILE);
         }
         catch (Exception e) {}
     }

@@ -74,7 +74,7 @@ public class GuiNewChatFast extends GuiNewChat
                                 int k = MathHelper.ceiling_float_int(this.getChatWidth() / f1);
                                 String s = chatline.getChatComponent().getFormattedText();
 
-                                if (ConfigManager.enableFastChatRender)
+                                if (!ConfigManager.enableFastChatRender)
                                 {
                                     Gui.drawRect(-2, j2 - 9, 0 + k + 4, j2, l1 / 2 << 24);
                                 }

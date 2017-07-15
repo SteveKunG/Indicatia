@@ -63,6 +63,7 @@ public class ExtendedConfig
     public static String ENTITY_DETECT_TYPE = "reset";
     public static String CAPE_URL = "";
     public static String HYPIXEL_NICK_NAME = "";
+    public static String TOP_DONATOR_FILE_PATH = "";
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
@@ -126,6 +127,7 @@ public class ExtendedConfig
             ExtendedConfig.ENTITY_DETECT_TYPE = ExtendedConfig.getString(nbt, "EntityDetectType", ExtendedConfig.ENTITY_DETECT_TYPE);
             ExtendedConfig.CAPE_URL = ExtendedConfig.getString(nbt, "CapeURL", ExtendedConfig.CAPE_URL);
             ExtendedConfig.HYPIXEL_NICK_NAME = ExtendedConfig.getString(nbt, "HypixelNickName", ExtendedConfig.HYPIXEL_NICK_NAME);
+            ExtendedConfig.TOP_DONATOR_FILE_PATH = ExtendedConfig.getString(nbt, "DonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
 
             ExtendedConfig.TOGGLE_SPRINT_USE_MODE = ExtendedConfig.getString(nbt, "ToggleSprintUseMode", ExtendedConfig.TOGGLE_SPRINT_USE_MODE);
             ExtendedConfig.TOGGLE_SNEAK_USE_MODE = ExtendedConfig.getString(nbt, "ToggleSneakUseMode", ExtendedConfig.TOGGLE_SNEAK_USE_MODE);
@@ -187,6 +189,7 @@ public class ExtendedConfig
             nbt.setString("EntityDetectType", ExtendedConfig.ENTITY_DETECT_TYPE);
             nbt.setString("CapeURL", ExtendedConfig.CAPE_URL);
             nbt.setString("HypixelNickName", ExtendedConfig.HYPIXEL_NICK_NAME);
+            nbt.setString("DonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
 
             nbt.setString("ToggleSprintUseMode", ExtendedConfig.TOGGLE_SPRINT_USE_MODE);
             nbt.setString("ToggleSneakUseMode", ExtendedConfig.TOGGLE_SNEAK_USE_MODE);

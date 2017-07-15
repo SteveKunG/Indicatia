@@ -1,5 +1,8 @@
 package stevekung.mods.indicatia.handler;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,7 @@ import stevekung.mods.indicatia.gui.GuiBossOverlayNew;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.InfoUtil;
 import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.utils.ModLogger;
 import stevekung.mods.indicatia.utils.RenderUtil;
 
 public class HUDRenderHandler
@@ -32,6 +36,8 @@ public class HUDRenderHandler
     private GuiBossOverlayNew overlayBoss;
     public static boolean recordEnable;
     private int recTick;
+    private static int readFileTicks;
+    private static String topDonator = "";
 
     public HUDRenderHandler(Minecraft mc)
     {
@@ -44,6 +50,8 @@ public class HUDRenderHandler
     {
         if (event.phase == TickEvent.Phase.START)
         {
+            HUDRenderHandler.readFileTicks++;
+
             if (HUDRenderHandler.recordEnable)
             {
                 this.recTick++;
@@ -51,6 +59,10 @@ public class HUDRenderHandler
             else
             {
                 this.recTick = 0;
+            }
+            if (!ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty() && HUDRenderHandler.readFileTicks % ConfigManager.readFileInterval == 0)
+            {
+                HUDRenderHandler.readDonationFile();
             }
         }
     }
@@ -107,6 +119,10 @@ public class HUDRenderHandler
                         leftInfo.add(HUDInfo.getRCPS());
                     }
                 }
+                if (!HUDRenderHandler.topDonator.isEmpty() && ConfigManager.donatorMessagePosition.equals("left"))
+                {
+                    leftInfo.add(HUDRenderHandler.topDonator);
+                }
 
                 // right info
                 if (ConfigManager.enableCurrentRealTime)
@@ -135,6 +151,10 @@ public class HUDRenderHandler
                     {
                         rightInfo.add(HUDInfo.getRCPS());
                     }
+                }
+                if (!HUDRenderHandler.topDonator.isEmpty() && ConfigManager.donatorMessagePosition.equals("right"))
+                {
+                    rightInfo.add(HUDRenderHandler.topDonator);
                 }
 
                 // equipments
@@ -292,5 +312,31 @@ public class HUDRenderHandler
                 RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
             }
         }
+    }
+
+    private static void readDonationFile()
+    {
+        File file = new File("/" + ExtendedConfig.TOP_DONATOR_FILE_PATH);
+        String text = "";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+        {
+            String line;
+
+            while ((line = reader.readLine()) != null)
+            {
+                if (!line.trim().equals(""))
+                {
+                    text = line.replace("\r", "");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            ModLogger.error("Couldn't read text file from path {}", file.getPath());
+            e.printStackTrace();
+            HUDRenderHandler.topDonator = "Cannot read text file!";
+        }
+        HUDRenderHandler.topDonator = text;
     }
 }

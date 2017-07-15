@@ -19,6 +19,7 @@ public class ConfigManager
     public static final String MAIN_SETTINGS = "indicatia_main_settings";
     public static final String RENDER_SETTINGS = "indicatia_render_settings";
     public static final String COLOR_SETTINGS = "indicatia_color_settings";
+    public static final String DONATION_SETTINGS = "indicatia_donation_settings";
 
     // Main Settings
     public static int afkMessageTime;
@@ -79,6 +80,10 @@ public class ConfigManager
     public static String customColorCPS;
     public static String customColorRCPS;
 
+    // Donation Settings
+    public static String donatorMessagePosition;
+    public static int readFileInterval;
+
     public static void init(File file)
     {
         ConfigManager.config = new Configuration(file);
@@ -98,6 +103,7 @@ public class ConfigManager
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.MAIN_SETTINGS, ConfigManager.addMainSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.RENDER_SETTINGS, ConfigManager.addRenderSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.COLOR_SETTINGS, ConfigManager.addCustomColorSetting());
+        ConfigManager.config.setCategoryPropertyOrder(ConfigManager.DONATION_SETTINGS, ConfigManager.addDonationSetting());
 
         if (ConfigManager.config.hasChanged())
         {
@@ -363,6 +369,24 @@ public class ConfigManager
         return propOrder;
     }
 
+    private static List<String> addDonationSetting()
+    {
+        Property prop;
+        List<String> propOrder = new ArrayList<>();
+
+        prop = ConfigManager.getProperty(ConfigManager.DONATION_SETTINGS, "Donator Message Position", "right");
+        prop.setValidValues(new String[] { "left", "right" });
+        ConfigManager.donatorMessagePosition = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.DONATION_SETTINGS, "Read File Interval", 200);
+        prop.setMinValue(200).setMaxValue(1200).setConfigEntryClass(NumberSliderEntry.class);
+        ConfigManager.readFileInterval = prop.getInt();
+        propOrder.add(prop.getName());
+
+        return propOrder;
+    }
+
     public static Property getProperty(String category, String name, boolean defaultValue)
     {
         return ConfigManager.config.get(category, name, defaultValue);
@@ -392,6 +416,7 @@ public class ConfigManager
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.MAIN_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.RENDER_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.COLOR_SETTINGS)));
+        list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.DONATION_SETTINGS)));
         return list;
     }
 

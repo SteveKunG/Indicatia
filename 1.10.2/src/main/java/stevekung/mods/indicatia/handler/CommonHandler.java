@@ -53,6 +53,7 @@ public class CommonHandler
     public static final GuiSleepMPNew sleepGui = new GuiSleepMPNew();
     public static final GuiNewChatUtil chatGuiSlash = new GuiNewChatUtil("/");
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
+    public static final GuiDonator donatorGui = new GuiDonator();
 
     // AFK Stuff
     public static boolean isAFK;
@@ -282,6 +283,10 @@ public class CommonHandler
             InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
             ExtendedConfig.save();
         }
+        if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
+        {
+            this.mc.displayGuiScreen(CommonHandler.donatorGui);
+        }
     }
 
     @SubscribeEvent
@@ -356,26 +361,6 @@ public class CommonHandler
                 }
             }
         }
-
-        /*if (unformattedText.contains("read"))TODO
-        {
-            File file = new File("/D:/New Text Document.txt");
-
-            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
-            {
-                String line;
-
-                while ((line = reader.readLine()) != null)
-                {
-                    if (!line.trim().equals(""))
-                    {
-                        String text = line.replace("\r", "");
-                        this.mc.thePlayer.addChatMessage(new JsonUtil().text(text));
-                    }
-                }
-            }
-            catch (Exception e) {}
-        }*/
     }
 
     @SubscribeEvent
