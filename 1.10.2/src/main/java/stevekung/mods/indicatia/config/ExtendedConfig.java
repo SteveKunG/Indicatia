@@ -14,6 +14,7 @@ import stevekung.mods.indicatia.utils.ModLogger;
 public class ExtendedConfig
 {
     public static final AutoLogin loginData = new AutoLogin();
+    private static final File FILE = new File(IndicatiaMod.MC.mcDataDir, "indicatia_data.dat");
 
     public static boolean TOGGLE_SPRINT = false;
     public static boolean TOGGLE_SNEAK = false;
@@ -71,8 +72,7 @@ public class ExtendedConfig
     {
         try
         {
-            File file = new File(IndicatiaMod.MC.mcDataDir, "indicatia_data.dat");
-            NBTTagCompound nbt = CompressedStreamTools.read(file);
+            NBTTagCompound nbt = CompressedStreamTools.read(ExtendedConfig.FILE);
 
             if (nbt == null)
             {
@@ -133,15 +133,13 @@ public class ExtendedConfig
 
             ExtendedConfig.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
 
-            ModLogger.info("Loading extended config {}", file.getPath());
+            ModLogger.info("Loading extended config {}", ExtendedConfig.FILE.getPath());
         }
         catch (Exception e) {}
     }
 
     public static void save()
     {
-        File file = new File(IndicatiaMod.MC.mcDataDir, "indicatia_data.dat");
-
         try
         {
             NBTTagCompound nbt = new NBTTagCompound();
@@ -196,7 +194,7 @@ public class ExtendedConfig
 
             nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
 
-            CompressedStreamTools.safeWrite(nbt, file);
+            CompressedStreamTools.safeWrite(nbt, ExtendedConfig.FILE);
         }
         catch (Exception e) {}
     }

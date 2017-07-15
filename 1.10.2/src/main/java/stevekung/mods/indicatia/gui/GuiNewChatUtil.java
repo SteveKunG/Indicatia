@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.HUDInfo;
+import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.InfoUtil;
 import stevekung.mods.indicatia.utils.JsonUtil;
 
@@ -144,7 +144,7 @@ public class GuiNewChatUtil extends GuiChat
             String space = ConfigManager.enableRCPS ? " " : "";
             int minX = ExtendedConfig.CPS_X_OFFSET;
             int minY = ExtendedConfig.CPS_Y_OFFSET;
-            int maxX = ExtendedConfig.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(HUDInfo.getCPS(this.mc) + space + HUDInfo.getRCPS(this.mc)) + 4;
+            int maxX = ExtendedConfig.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
             int maxY = ExtendedConfig.CPS_Y_OFFSET + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)

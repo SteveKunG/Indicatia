@@ -35,6 +35,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
+import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.renderer.LayerCustomCape;
 import stevekung.mods.indicatia.utils.*;
@@ -237,8 +238,8 @@ public class CommonHandler
                 if (ConfigManager.enableRenderInfo && ExtendedConfig.CPS_POSITION.equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings || this.mc.currentScreen instanceof GuiKeystrokeColorSettings))
                 {
                     String space = ConfigManager.enableRCPS ? " " : "";
-                    RenderUtil.drawRect(ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(HUDInfo.getCPS(this.mc) + space + HUDInfo.getRCPS(this.mc)) + 4, ExtendedConfig.CPS_Y_OFFSET + 11, 16777216, ExtendedConfig.CPS_OPACITY);
-                    this.mc.fontRendererObj.drawString(HUDInfo.getCPS(this.mc) + space + HUDInfo.getRCPS(this.mc), ExtendedConfig.CPS_X_OFFSET + 2, ExtendedConfig.CPS_Y_OFFSET + 2, 16777215, true);
+                    RenderUtil.drawRect(ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4, ExtendedConfig.CPS_Y_OFFSET + 11, 16777216, ExtendedConfig.CPS_OPACITY);
+                    this.mc.fontRendererObj.drawString(HUDInfo.getCPS() + space + HUDInfo.getRCPS(), ExtendedConfig.CPS_X_OFFSET + 2, ExtendedConfig.CPS_Y_OFFSET + 2, 16777215, true);
                 }
             }
         }
@@ -395,7 +396,7 @@ public class CommonHandler
             switch (event.getButton().id)
             {
             case 200:
-                CommonHandler.openLink("https://twitch.streamlabs.com/stevekung");//XXX
+                CommonHandler.openLink("https://www.paypal.com/us/cgi-bin/webscr?cmd=_flow&SESSION=XPqGeddDCddzKhlIiYLRKlvLYa3cNO2vB2stRt-Woh8rtGcOlTtf-BqRN8m&dispatch=5885d80a13c0db1f8e263663d3faee8d83a0bf7db316a7beb1b14b43acd04037&rapidsState=Donation__DonationFlow___StateDonationBilling&rapidsStateSignature=07a7e9a1b44da37b1e65a281bb3b3ebad6691cca");
                 break;
             case 201:
                 CommonHandler.openLink("https://tipme.in.th/stevekung");

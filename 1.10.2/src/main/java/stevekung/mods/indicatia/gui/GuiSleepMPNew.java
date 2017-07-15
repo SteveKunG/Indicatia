@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.utils.LangUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiSleepMPNew extends GuiNewChatUtil
@@ -16,7 +16,7 @@ public class GuiSleepMPNew extends GuiNewChatUtil
     public void initGui()
     {
         super.initGui();
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, I18n.format("multiplayer.stopSleeping")));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, LangUtil.translate("multiplayer.stopSleeping")));
     }
 
     @Override

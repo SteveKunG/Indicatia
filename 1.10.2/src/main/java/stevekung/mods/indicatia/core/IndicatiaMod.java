@@ -24,11 +24,9 @@ import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
+import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
-import stevekung.mods.indicatia.utils.CCMDHandler;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
-import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.indicatia.utils.VersionChecker;
+import stevekung.mods.indicatia.utils.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
 public class IndicatiaMod
@@ -37,7 +35,7 @@ public class IndicatiaMod
     public static final String MOD_ID = "indicatia";
     public static final int MAJOR_VERSION = 1;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 0;
+    public static final int BUILD_VERSION = 1;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     public static final String MC_VERSION = String.valueOf(FMLInjectionData.data()[4]);
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";
@@ -68,6 +66,7 @@ public class IndicatiaMod
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "indicatia.cfg"));
         KeyBindingHandler.init();
         ExtendedConfig.load();
+        RenderProfileConfig.load();
         MinecraftForge.EVENT_BUS.register(new HUDRenderHandler(IndicatiaMod.MC));
         MinecraftForge.EVENT_BUS.register(new CommonHandler(IndicatiaMod.MC));
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimationHandler(IndicatiaMod.MC));
@@ -85,6 +84,7 @@ public class IndicatiaMod
         ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
         ClientCommandHandler.instance.registerCommand(new CommandAFK());
         ClientCommandHandler.instance.registerCommand(new CommandIndicatia());
+        ClientCommandHandler.instance.registerCommand(new CommandProfile());
 
         if (IndicatiaMod.isSteveKunG())
         {
@@ -110,6 +110,14 @@ public class IndicatiaMod
         if (ConfigManager.enableVersionChecker)
         {
             VersionChecker.startCheck();
+        }
+        if (ConfigManager.enableCustomCape)
+        {
+            if (!ExtendedConfig.CAPE_URL.isEmpty())
+            {
+                CapeUtils.textureUploaded = true;
+                CapeUtils.setCapeURL(Base64Utils.decode(ExtendedConfig.CAPE_URL), true);
+            }
         }
     }
 

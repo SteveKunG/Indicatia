@@ -1,9 +1,9 @@
 package stevekung.mods.indicatia.gui;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import stevekung.mods.indicatia.utils.LangUtil;
 
 public class CycleValueEntry extends GuiConfigEntries.ButtonEntry
 {
@@ -24,7 +24,7 @@ public class CycleValueEntry extends GuiConfigEntries.ButtonEntry
     @Override
     public void updateValueButtonText()
     {
-        this.btnValue.displayString = I18n.format(this.configElement.getValidValues()[this.currentIndex]);
+        this.btnValue.displayString = LangUtil.translate(this.configElement.getValidValues()[this.currentIndex]);
     }
 
     @Override

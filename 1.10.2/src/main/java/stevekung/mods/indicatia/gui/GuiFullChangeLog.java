@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.utils.LangUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiFullChangeLog extends GuiScreen
@@ -46,7 +46,7 @@ public class GuiFullChangeLog extends GuiScreen
     public void initGui()
     {
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + 120, I18n.format("gui.done")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + 120, LangUtil.translate("gui.done")));
 
         if (this.stringList == null)
         {

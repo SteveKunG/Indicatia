@@ -49,6 +49,7 @@ public class KeystrokeRenderer
         float b = 0;
 
         GlStateManager.enableBlend();
+        GlStateManager.disableDepth();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         RenderUtil.bindKeystrokeTexture("key_square");
@@ -60,10 +61,10 @@ public class KeystrokeRenderer
         g = ExtendedConfig.KEYSTROKE_WASD_GREEN;
         b = ExtendedConfig.KEYSTROKE_WASD_BLUE;
         useRainbow = ExtendedConfig.KEYSTROKE_WASD_RAINBOW;
-        mc.fontRendererObj.drawString("W", width - widthSquare + 29.5F, heightSquare + 9, wDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRendererObj.drawString("A", width - widthSquare + 5.5F, heightSquare + 32, aDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRendererObj.drawString("S", width - widthSquare + 29.5F, heightSquare + 32, sDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRendererObj.drawString("D", width - widthSquare + 53.5F, heightSquare + 32, dDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRendererObj.drawString("W", width - widthSquare + 29.0625F, heightSquare + 9, wDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRendererObj.drawString("A", width - widthSquare + 5.0625F, heightSquare + 32, aDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRendererObj.drawString("S", width - widthSquare + 29.0625F, heightSquare + 32, sDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRendererObj.drawString("D", width - widthSquare + 53.0625F, heightSquare + 32, dDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
 
         if (ConfigManager.enableKeystrokeLMBRMB)
         {
@@ -74,8 +75,8 @@ public class KeystrokeRenderer
             g = ExtendedConfig.KEYSTROKE_LMBRMB_GREEN;
             b = ExtendedConfig.KEYSTROKE_LMBRMB_BLUE;
             useRainbow = ExtendedConfig.KEYSTROKE_LMBRMB_RAINBOW;
-            mc.fontRendererObj.drawString("LMB", width - widthSquare - 0.5F, heightSquare - 4, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-            mc.fontRendererObj.drawString("RMB", width - widthSquare + 47.5F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+            mc.fontRendererObj.drawString("LMB", width - widthSquare - 0.5625F, heightSquare - 4, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+            mc.fontRendererObj.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
 
             r = ExtendedConfig.KEYSTROKE_CPS_RED;
             g = ExtendedConfig.KEYSTROKE_CPS_GREEN;
@@ -86,13 +87,13 @@ public class KeystrokeRenderer
             {
                 String cps = "CPS:" + InfoUtil.INSTANCE.getCPS();
                 int smallFontWidth = smallFontRenderer.getStringWidth(cps);
-                smallFontRenderer.drawString(cps, width - widthSquare + 8.5F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), lmbDown ? false : true);
+                smallFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), lmbDown ? false : true);
             }
             if (ConfigManager.enableRCPS && ExtendedConfig.CPS_POSITION.equalsIgnoreCase("keystroke"))
             {
                 String rcps = "RCPS:" + InfoUtil.INSTANCE.getRCPS();
                 int smallFontWidth = smallFontRenderer.getStringWidth(rcps);
-                smallFontRenderer.drawString(rcps, width - widthSquare + 56.5F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), rmbDown ? false : true);
+                smallFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), rmbDown ? false : true);
             }
         }
         if (ConfigManager.enableKeystrokeSprintSneak)
@@ -131,5 +132,6 @@ public class KeystrokeRenderer
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 42, heightSquare + 48, blockDown ? 0 : 20, 0, 20, 20, 40, 20);
         }
         GlStateManager.disableBlend();
+        GlStateManager.enableDepth();
     }
 }

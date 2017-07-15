@@ -12,13 +12,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.Base64Utils;
-import stevekung.mods.indicatia.utils.CapeUtils;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.utils.*;
 
 public class GuiCustomCape extends GuiScreen
 {
@@ -39,9 +35,9 @@ public class GuiCustomCape extends GuiScreen
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
         this.inputField.setText(ExtendedConfig.CAPE_URL.isEmpty() ? "" : Base64Utils.decode(ExtendedConfig.CAPE_URL));
-        this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.done")));
+        this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.done")));
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
-        this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.cancel")));
+        this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Cape"));
         this.resetBtn.enabled = !ExtendedConfig.CAPE_URL.isEmpty();
 

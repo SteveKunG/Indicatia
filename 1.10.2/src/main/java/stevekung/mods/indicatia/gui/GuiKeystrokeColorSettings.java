@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -13,6 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.utils.LangUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiKeystrokeColorSettings extends GuiScreen
@@ -42,7 +42,7 @@ public class GuiKeystrokeColorSettings extends GuiScreen
         int buttonId = 0;
         int x = this.width / 2;
         int y = this.height / 4;
-        this.buttonList.add(new GuiButton(buttonId++, x - 100, this.height - 100, I18n.format("gui.done")));
+        this.buttonList.add(new GuiButton(buttonId++, x - 100, this.height - 100, LangUtil.translate("gui.done")));
         this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y - 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_LMBRMB_RED));
         this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y - 25, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_LMBRMB_GREEN));
         this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_LMBRMB_BLUE));

@@ -4,10 +4,10 @@ import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.utils.LangUtil;
 
 public class ConfigGuiFactory implements IModGuiFactory
 {
@@ -36,7 +36,7 @@ public class ConfigGuiFactory implements IModGuiFactory
     {
         public GuiMainConfig(GuiScreen gui)
         {
-            super(gui, ConfigManager.getConfigElements(), IndicatiaMod.MOD_ID, false, false, I18n.format("gui.config.indicatia.name"));
+            super(gui, ConfigManager.getConfigElements(), IndicatiaMod.MOD_ID, false, false, LangUtil.translate("gui.config.indicatia.name"));
         }
     }
 }

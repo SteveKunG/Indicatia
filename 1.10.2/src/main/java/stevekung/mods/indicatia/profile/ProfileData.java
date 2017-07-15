@@ -9,12 +9,12 @@ import com.google.common.collect.Maps;
 
 public class ProfileData
 {
-    private static final Map<String, ProfileSettingData> profileData = Maps.newHashMap();
+    private Map<String, ProfileSettingData> profileData = Maps.newHashMap();
 
     @Nullable
     public ProfileSettingData getProfile(String name)
     {
-        return ProfileData.profileData.get(name);
+        return this.profileData.get(name);
     }
 
     public ProfileSettingData addProfileData(String name, Object... objects)
@@ -28,7 +28,7 @@ public class ProfileData
         else
         {
             profile = new ProfileSettingData(name, objects);
-            ProfileData.profileData.put(name, profile);
+            this.profileData.put(name, profile);
             return profile;
         }
     }
@@ -36,18 +36,18 @@ public class ProfileData
     public ProfileSettingData saveProfileData(String name, Object... objects)
     {
         ProfileSettingData profile = new ProfileSettingData(name, objects);
-        ProfileData.profileData.put(name, profile);
+        this.profileData.put(name, profile);
         return profile;
     }
 
     public void removeProfile(String name)
     {
-        ProfileData.profileData.remove(name);
+        this.profileData.remove(name);
     }
 
     public Collection<ProfileSettingData> getProfileList()
     {
-        return ProfileData.profileData.values();
+        return this.profileData.values();
     }
 
     public static class ProfileSettingData

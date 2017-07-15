@@ -21,7 +21,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiBossOverlayNew;
-import stevekung.mods.indicatia.utils.HUDInfo;
+import stevekung.mods.indicatia.renderer.HUDInfo;
+import stevekung.mods.indicatia.utils.InfoUtil;
 import stevekung.mods.indicatia.utils.JsonUtil;
 import stevekung.mods.indicatia.utils.RenderUtil;
 
@@ -61,60 +62,129 @@ public class HUDRenderHandler
         {
             if (ConfigManager.enableRenderInfo && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
             {
-                List<String> list = new ArrayList<>();
+                List<String> leftInfo = new ArrayList<>();
+                List<String> rightInfo = new ArrayList<>();
 
+                // left info
                 if (ConfigManager.enablePing && !this.mc.isSingleplayer())
                 {
-                    list.add(HUDInfo.getPing());
+                    leftInfo.add(HUDInfo.getPing());
                 }
                 if (ConfigManager.enableFPS)
                 {
-                    list.add(HUDInfo.getFPS());
+                    leftInfo.add(HUDInfo.getFPS());
                 }
                 if (ConfigManager.enableXYZ)
                 {
-                    list.add(HUDInfo.getXYZ(this.mc));
+                    leftInfo.add(HUDInfo.getXYZ(this.mc));
 
                     if (this.mc.thePlayer.dimension == -1)
                     {
-                        list.add(HUDInfo.getOverworldXYZFromNether(this.mc));
+                        leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
                     }
                 }
                 if (ConfigManager.enableBiome)
                 {
-                    list.add(HUDInfo.getBiome(this.mc));
+                    leftInfo.add(HUDInfo.getBiome(this.mc));
                 }
                 if (ConfigManager.enableServerIP && this.mc.getCurrentServerData() != null && !this.mc.isSingleplayer())
                 {
-                    list.add(HUDInfo.getServerIP(this.mc));
+                    leftInfo.add(HUDInfo.getServerIP(this.mc));
+                }
+                if (ConfigManager.enableSlimeChunkFinder && this.mc.thePlayer.dimension == 0)
+                {
+                    String isSlimeChunk = InfoUtil.INSTANCE.isSlimeChunk(this.mc.thePlayer.getPosition()) ? "Yes" : "No";
+                    leftInfo.add("Slime Chunk: " + isSlimeChunk);
                 }
                 if (ExtendedConfig.CPS_POSITION.equals("left"))
                 {
                     if (ConfigManager.enableCPS)
                     {
-                        list.add(HUDInfo.getCPS(this.mc));
+                        leftInfo.add(HUDInfo.getCPS());
                     }
                     if (ConfigManager.enableRCPS)
                     {
-                        list.add(HUDInfo.getRCPS(this.mc));
+                        leftInfo.add(HUDInfo.getRCPS());
                     }
                 }
 
-                if (!this.mc.thePlayer.isSpectator() && ConfigManager.enableRenderEquippedItem)
+                // right info
+                if (ConfigManager.enableCurrentRealTime)
                 {
-                    HUDInfo.renderEquippedItems(this.mc);
+                    rightInfo.add(HUDInfo.getCurrentTime());
+                }
+                if (ConfigManager.enableCurrentGameTime)
+                {
+                    rightInfo.add(HUDInfo.getCurrentGameTime(this.mc));
+                }
+                if (ConfigManager.enableGameWeather && this.mc.theWorld.isRaining())
+                {
+                    rightInfo.add(HUDInfo.getGameWeather(this.mc));
+                }
+                if (ConfigManager.enableMoonPhase)
+                {
+                    rightInfo.add(InfoUtil.INSTANCE.getMoonPhase(this.mc));
+                }
+                if (ExtendedConfig.CPS_POSITION.equals("right"))
+                {
+                    if (ConfigManager.enableCPS)
+                    {
+                        rightInfo.add(HUDInfo.getCPS());
+                    }
+                    if (ConfigManager.enableRCPS)
+                    {
+                        rightInfo.add(HUDInfo.getRCPS());
+                    }
                 }
 
-                for (int i = 0; i < list.size(); ++i)
+                // equipments
+                if (!this.mc.thePlayer.isSpectator() && ConfigManager.enableRenderEquippedItem)
                 {
-                    String string = list.get(i);
+                    if (ConfigManager.equipmentPosition.equals("hotbar"))
+                    {
+                        HUDInfo.renderHotbarEquippedItems(this.mc);
+                    }
+                    else
+                    {
+                        HUDInfo.renderEquippedItems(this.mc);
+                    }
+                }
+
+                if (ConfigManager.enablePotionStatusHUD)
+                {
+                    HUDInfo.renderPotionStatusHUD(this.mc);
+                }
+
+                // left info
+                for (int i = 0; i < leftInfo.size(); ++i)
+                {
+                    ScaledResolution res = new ScaledResolution(this.mc);
+                    String string = leftInfo.get(i);
                     float fontHeight = this.mc.fontRendererObj.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRendererObj.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRendererObj.drawString(string, 3.0625F, yOffset, 16777215, true);
+                        this.mc.fontRendererObj.drawString(string, ConfigManager.swapRenderInfoToRight ? xOffset : 3.0625F, yOffset, 16777215, true);
+                        this.mc.mcProfiler.endSection();
+                    }
+                }
+
+                // right info
+                for (int i = 0; i < rightInfo.size(); ++i)
+                {
+                    ScaledResolution res = new ScaledResolution(this.mc);
+                    String string = rightInfo.get(i);
+                    float fontHeight = this.mc.fontRendererObj.FONT_HEIGHT + 1;
+                    float yOffset = 3 + fontHeight * i;
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRendererObj.getStringWidth(string);
+
+                    if (!string.isEmpty())
+                    {
+                        this.mc.mcProfiler.startSection("indicatia_info");
+                        this.mc.fontRendererObj.drawString(string, ConfigManager.swapRenderInfoToRight ? 3.0625F : xOffset, yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
