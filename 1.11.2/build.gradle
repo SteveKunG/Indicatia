@@ -15,9 +15,9 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = "1.8"
 
 minecraft {
-    version = "1.10.2-12.18.3.2316"
+    version = "1.11.2-13.20.1.2414"
     runDir = "run"
-    mappings = "snapshot_20161111"
+    mappings = "snapshot_20161220"
 	makeObfSourceJar = false
 }
 
@@ -29,7 +29,7 @@ ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.
 
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	outputs.upToDateWhen { false }
-	baseName = "Indicatia-1.10.2"
+	baseName = "Indicatia-1.11.2"
 
 	from(zipTree(project.ext.coreJar)) {
 		includes.addAll(project.ext.coreFiles)
