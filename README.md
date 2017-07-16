@@ -2,7 +2,7 @@ Indicatia
 ==============
 Indicatia Repository
 
-Displaying all player status and more comfortable features!
+Simple in-game info and utility!
 
 License
 ==============
