@@ -381,7 +381,7 @@ public class CommonHandler
             switch (event.getButton().id)
             {
             case 200:
-                CommonHandler.openLink("https://www.paypal.com/us/cgi-bin/webscr?cmd=_flow&SESSION=XPqGeddDCddzKhlIiYLRKlvLYa3cNO2vB2stRt-Woh8rtGcOlTtf-BqRN8m&dispatch=5885d80a13c0db1f8e263663d3faee8d83a0bf7db316a7beb1b14b43acd04037&rapidsState=Donation__DonationFlow___StateDonationBilling&rapidsStateSignature=07a7e9a1b44da37b1e65a281bb3b3ebad6691cca");
+                CommonHandler.openLink("https://twitch.streamlabs.com/stevekung");
                 break;
             case 201:
                 CommonHandler.openLink("https://tipme.in.th/stevekung");

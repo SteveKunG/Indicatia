@@ -13,7 +13,8 @@ import stevekung.mods.indicatia.utils.LangUtil;
 
 public class GuiDonator extends GuiScreen
 {
-    private GuiTextField inputField;
+    private GuiTextField topDonateInput;
+    private GuiTextField recentDonateInput;
     private GuiButton doneBtn;
     private GuiButton cancelBtn;
     private GuiButton resetBtn;
@@ -22,13 +23,20 @@ public class GuiDonator extends GuiScreen
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
-        this.inputField = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 150, this.height / 4 - 20, 300, 20);
-        this.inputField.setMaxStringLength(32767);
-        this.inputField.setFocused(true);
-        this.inputField.setCanLoseFocus(true);
-        this.inputField.setText(ExtendedConfig.TOP_DONATOR_FILE_PATH);
+        this.topDonateInput = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 150, this.height / 4 - 20, 300, 20);
+        this.topDonateInput.setMaxStringLength(32767);
+        this.topDonateInput.setFocused(false);
+        this.topDonateInput.setCanLoseFocus(true);
+        this.topDonateInput.setText(ExtendedConfig.TOP_DONATOR_FILE_PATH);
+
+        this.recentDonateInput = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 150, this.height / 4 + 20, 300, 20);
+        this.recentDonateInput.setMaxStringLength(32767);
+        this.recentDonateInput.setFocused(false);
+        this.recentDonateInput.setCanLoseFocus(true);
+        this.recentDonateInput.setText(ExtendedConfig.RECENT_DONATOR_FILE_PATH);
+
         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.done")));
-        this.doneBtn.enabled = !this.inputField.getText().isEmpty();
+        this.doneBtn.enabled = !this.topDonateInput.getText().isEmpty() || !this.recentDonateInput.getText().isEmpty();
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Path"));
         this.resetBtn.enabled = !ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty();
@@ -37,9 +45,9 @@ public class GuiDonator extends GuiScreen
     @Override
     public void updateScreen()
     {
-        this.doneBtn.enabled = !this.inputField.getText().isEmpty();
-        this.resetBtn.enabled = !this.inputField.getText().isEmpty();
-        this.inputField.updateCursorCounter();
+        this.doneBtn.enabled = !this.topDonateInput.getText().isEmpty() || !this.recentDonateInput.getText().isEmpty();
+        this.resetBtn.enabled = !this.topDonateInput.getText().isEmpty() || !this.recentDonateInput.getText().isEmpty();
+        this.topDonateInput.updateCursorCounter();
     }
 
     @Override
@@ -57,11 +65,16 @@ public class GuiDonator extends GuiScreen
         {
             if (button.id == 0)
             {
-                if (!this.inputField.getText().isEmpty())
+                if (!this.topDonateInput.getText().isEmpty())
                 {
-                    ExtendedConfig.TOP_DONATOR_FILE_PATH = this.inputField.getText().replace("" + '\u0022', "");
+                    ExtendedConfig.TOP_DONATOR_FILE_PATH = this.topDonateInput.getText().replace("" + '\u0022', "");
+                    this.mc.thePlayer.addChatMessage(json.text("Set top donator file path to " + ExtendedConfig.TOP_DONATOR_FILE_PATH));
                 }
-                this.mc.thePlayer.addChatMessage(json.text("Set donator file path to " + ExtendedConfig.TOP_DONATOR_FILE_PATH));
+                if (!this.recentDonateInput.getText().isEmpty())
+                {
+                    ExtendedConfig.RECENT_DONATOR_FILE_PATH = this.recentDonateInput.getText().replace("" + '\u0022', "");
+                    this.mc.thePlayer.addChatMessage(json.text("Set recent donator file path to " + ExtendedConfig.RECENT_DONATOR_FILE_PATH));
+                }
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
             if (button.id == 1)
@@ -72,7 +85,9 @@ public class GuiDonator extends GuiScreen
             {
                 this.mc.thePlayer.addChatMessage(json.text("Reset donator file path"));
                 ExtendedConfig.TOP_DONATOR_FILE_PATH = "";
-                this.inputField.setText("");
+                ExtendedConfig.RECENT_DONATOR_FILE_PATH = "";
+                this.topDonateInput.setText("");
+                this.recentDonateInput.setText("");
                 ExtendedConfig.save();
             }
         }
@@ -81,7 +96,8 @@ public class GuiDonator extends GuiScreen
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
-        this.inputField.textboxKeyTyped(typedChar, keyCode);
+        this.topDonateInput.textboxKeyTyped(typedChar, keyCode);
+        this.recentDonateInput.textboxKeyTyped(typedChar, keyCode);
 
         if (keyCode != 28 && keyCode != 156)
         {
@@ -100,7 +116,8 @@ public class GuiDonator extends GuiScreen
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
+        this.topDonateInput.mouseClicked(mouseX, mouseY, mouseButton);
+        this.recentDonateInput.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -108,8 +125,11 @@ public class GuiDonator extends GuiScreen
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, "Donator Message Settings", this.width / 2, 20, 16777215);
-        this.drawCenteredString(this.fontRendererObj, "Put your twitch donators file path, (.txt file only)", this.width / 2, 37, 10526880);
-        this.inputField.drawTextBox();
+        this.drawCenteredString(this.fontRendererObj, "Put your twitch donators file path. (.txt file only)", this.width / 2, 37, 10526880);
+        this.drawString(this.fontRendererObj, "Top Donate:", this.width / 2 - 212, this.height / 4 - 15, 10526880);
+        this.drawString(this.fontRendererObj, "Recent Donate:", this.width / 2 - 228, this.height / 4 + 25, 10526880);
+        this.topDonateInput.drawTextBox();
+        this.recentDonateInput.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

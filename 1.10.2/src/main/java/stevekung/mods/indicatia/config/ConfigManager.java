@@ -79,6 +79,10 @@ public class ConfigManager
     public static String customColorServerIP;
     public static String customColorCPS;
     public static String customColorRCPS;
+    public static String customColorTopDonateName;
+    public static String customColorRecentDonateName;
+    public static String customColorTopDonateCount;
+    public static String customColorRecentDonateCount;
 
     // Donation Settings
     public static String donatorMessagePosition;
@@ -364,6 +368,22 @@ public class ConfigManager
 
         prop = ConfigManager.getColorConfig("RCPS Color", "white");
         ConfigManager.customColorRCPS = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getColorConfig("Top Donate Name Color", "white");
+        ConfigManager.customColorTopDonateName = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getColorConfig("Recent Donate Name Color", "white");
+        ConfigManager.customColorRecentDonateName = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getColorConfig("Top Donate Count Color", "white");
+        ConfigManager.customColorTopDonateCount = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getColorConfig("Recent Donate Count Color", "white");
+        ConfigManager.customColorRecentDonateCount = prop.getString();
         propOrder.add(prop.getName());
 
         return propOrder;

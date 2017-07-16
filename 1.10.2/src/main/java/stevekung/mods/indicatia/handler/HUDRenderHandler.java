@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -38,6 +39,7 @@ public class HUDRenderHandler
     private int recTick;
     private static int readFileTicks;
     private static String topDonator = "";
+    private static String recentDonator = "";
 
     public HUDRenderHandler(Minecraft mc)
     {
@@ -60,9 +62,16 @@ public class HUDRenderHandler
             {
                 this.recTick = 0;
             }
-            if (!ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty() && HUDRenderHandler.readFileTicks % ConfigManager.readFileInterval == 0)
+            if (HUDRenderHandler.readFileTicks % ConfigManager.readFileInterval == 0)
             {
-                HUDRenderHandler.readDonationFile();
+                if (!ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty())
+                {
+                    HUDRenderHandler.readTopDonatorFile();
+                }
+                if (!ExtendedConfig.RECENT_DONATOR_FILE_PATH.isEmpty())
+                {
+                    HUDRenderHandler.readRecentDonatorFile();
+                }
             }
         }
     }
@@ -119,9 +128,16 @@ public class HUDRenderHandler
                         leftInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (!HUDRenderHandler.topDonator.isEmpty() && ConfigManager.donatorMessagePosition.equals("left"))
+                if (ConfigManager.donatorMessagePosition.equals("left"))
                 {
-                    leftInfo.add(HUDRenderHandler.topDonator);
+                    if (!HUDRenderHandler.topDonator.isEmpty())
+                    {
+                        leftInfo.add(HUDRenderHandler.topDonator);
+                    }
+                    if (!HUDRenderHandler.recentDonator.isEmpty())
+                    {
+                        leftInfo.add(HUDRenderHandler.recentDonator);
+                    }
                 }
 
                 // right info
@@ -152,9 +168,16 @@ public class HUDRenderHandler
                         rightInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (!HUDRenderHandler.topDonator.isEmpty() && ConfigManager.donatorMessagePosition.equals("right"))
+                if (ConfigManager.donatorMessagePosition.equals("right"))
                 {
-                    rightInfo.add(HUDRenderHandler.topDonator);
+                    if (!HUDRenderHandler.topDonator.isEmpty())
+                    {
+                        rightInfo.add(HUDRenderHandler.topDonator);
+                    }
+                    if (!HUDRenderHandler.recentDonator.isEmpty())
+                    {
+                        rightInfo.add(HUDRenderHandler.recentDonator);
+                    }
                 }
 
                 // equipments
@@ -314,7 +337,7 @@ public class HUDRenderHandler
         }
     }
 
-    private static void readDonationFile()
+    private static void readTopDonatorFile()
     {
         File file = new File("/" + ExtendedConfig.TOP_DONATOR_FILE_PATH);
         String text = "";
@@ -335,8 +358,36 @@ public class HUDRenderHandler
         {
             ModLogger.error("Couldn't read text file from path {}", file.getPath());
             e.printStackTrace();
-            HUDRenderHandler.topDonator = "Cannot read text file!";
+            HUDRenderHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
         }
-        HUDRenderHandler.topDonator = text;
+        String[] textSplit = text.split(" ");
+        HUDRenderHandler.topDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
+    }
+
+    private static void readRecentDonatorFile()
+    {
+        File file = new File("/" + ExtendedConfig.RECENT_DONATOR_FILE_PATH);
+        String text = "";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+        {
+            String line;
+
+            while ((line = reader.readLine()) != null)
+            {
+                if (!line.trim().equals(""))
+                {
+                    text = line.replace("\r", "");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            ModLogger.error("Couldn't read text file from path {}", file.getPath());
+            e.printStackTrace();
+            HUDRenderHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
+        }
+        String[] textSplit = text.split(" ");
+        HUDRenderHandler.recentDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
     }
 }

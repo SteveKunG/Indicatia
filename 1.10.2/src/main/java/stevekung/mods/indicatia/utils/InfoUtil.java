@@ -184,7 +184,7 @@ public class InfoUtil
         {
             sminutes = 0 + "" + minutes;
         }
-        return "Game Time: " + shours + ":" + sminutes + " " + ampm;
+        return "Game: " + shours + ":" + sminutes + " " + ampm;
     }
 
     public String getMoonPhase(Minecraft mc)

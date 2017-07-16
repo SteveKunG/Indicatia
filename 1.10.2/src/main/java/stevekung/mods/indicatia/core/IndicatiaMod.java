@@ -137,7 +137,7 @@ public class IndicatiaMod
         info.modId = IndicatiaMod.MOD_ID;
         info.name = IndicatiaMod.NAME;
         info.version = IndicatiaMod.VERSION;
-        info.description = "Displaying all player status and more comfortable features!";
+        info.description = "Simple in-game info and utility!";
         info.url = IndicatiaMod.URL;
         info.authorList = Arrays.asList("SteveKunG");
     }
