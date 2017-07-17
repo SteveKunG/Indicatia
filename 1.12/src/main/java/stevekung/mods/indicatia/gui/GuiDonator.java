@@ -36,17 +36,15 @@ public class GuiDonator extends GuiScreen
         this.recentDonateInput.setText(ExtendedConfig.RECENT_DONATOR_FILE_PATH);
 
         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.done")));
-        this.doneBtn.enabled = !this.topDonateInput.getText().isEmpty() || !this.recentDonateInput.getText().isEmpty();
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Path"));
-        this.resetBtn.enabled = !ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty();
+        this.resetBtn.enabled = !ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty() || !ExtendedConfig.RECENT_DONATOR_FILE_PATH.isEmpty();
     }
 
     @Override
     public void updateScreen()
     {
-        this.doneBtn.enabled = !this.topDonateInput.getText().isEmpty() || !this.recentDonateInput.getText().isEmpty();
-        this.resetBtn.enabled = !this.topDonateInput.getText().isEmpty() || !this.recentDonateInput.getText().isEmpty();
+        this.resetBtn.enabled = !ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty() || !ExtendedConfig.RECENT_DONATOR_FILE_PATH.isEmpty();
         this.topDonateInput.updateCursorCounter();
     }
 
@@ -65,14 +63,15 @@ public class GuiDonator extends GuiScreen
         {
             if (button.id == 0)
             {
+                ExtendedConfig.TOP_DONATOR_FILE_PATH = this.topDonateInput.getText().replace("" + '\u0022', "");
+                ExtendedConfig.RECENT_DONATOR_FILE_PATH = this.recentDonateInput.getText().replace("" + '\u0022', "");
+
                 if (!this.topDonateInput.getText().isEmpty())
                 {
-                    ExtendedConfig.TOP_DONATOR_FILE_PATH = this.topDonateInput.getText().replace("" + '\u0022', "");
                     this.mc.player.sendMessage(json.text("Set top donator file path to " + ExtendedConfig.TOP_DONATOR_FILE_PATH));
                 }
                 if (!this.recentDonateInput.getText().isEmpty())
                 {
-                    ExtendedConfig.RECENT_DONATOR_FILE_PATH = this.recentDonateInput.getText().replace("" + '\u0022', "");
                     this.mc.player.sendMessage(json.text("Set recent donator file path to " + ExtendedConfig.RECENT_DONATOR_FILE_PATH));
                 }
                 this.mc.displayGuiScreen((GuiScreen)null);
