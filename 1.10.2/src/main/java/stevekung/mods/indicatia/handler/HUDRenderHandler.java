@@ -3,6 +3,7 @@ package stevekung.mods.indicatia.handler;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,12 @@ import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
@@ -40,6 +43,7 @@ public class HUDRenderHandler
     private static int readFileTicks;
     private static String topDonator = "";
     private static String recentDonator = "";
+    private static final DecimalFormat tpsFormat = new DecimalFormat("########0.00");
 
     public HUDRenderHandler(Minecraft mc)
     {
@@ -85,6 +89,7 @@ public class HUDRenderHandler
             {
                 List<String> leftInfo = new ArrayList<>();
                 List<String> rightInfo = new ArrayList<>();
+                MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
                 // left info
                 if (ConfigManager.enablePing && !this.mc.isSingleplayer())
@@ -138,6 +143,17 @@ public class HUDRenderHandler
                     {
                         leftInfo.add(HUDRenderHandler.recentDonator);
                     }
+                }
+                // server tps
+                if (ConfigManager.enableServerTPS && server != null)
+                {
+                    int dimension = this.mc.thePlayer.dimension;
+                    double overallTPS = HUDRenderHandler.mean(server.tickTimeArray) * 1.0E-6D;
+                    double dimensionTPS = HUDRenderHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
+                    double tps = Math.min(1000.0D / overallTPS, 20);
+                    leftInfo.add("Overall TPS: " + HUDRenderHandler.tpsFormat.format(overallTPS));
+                    leftInfo.add("Dimension " + dimension + " TPS: " + HUDRenderHandler.tpsFormat.format(dimensionTPS));
+                    leftInfo.add("TPS: " + HUDRenderHandler.tpsFormat.format(tps));
                 }
 
                 // right info
@@ -353,6 +369,8 @@ public class HUDRenderHandler
                     text = line.replace("\r", "");
                 }
             }
+            String[] textSplit = text.split(" ");
+            HUDRenderHandler.topDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
         }
         catch (Exception e)
         {
@@ -360,8 +378,6 @@ public class HUDRenderHandler
             e.printStackTrace();
             HUDRenderHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
         }
-        String[] textSplit = text.split(" ");
-        HUDRenderHandler.topDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
     }
 
     private static void readRecentDonatorFile()
@@ -380,6 +396,8 @@ public class HUDRenderHandler
                     text = line.replace("\r", "");
                 }
             }
+            String[] textSplit = text.split(" ");
+            HUDRenderHandler.recentDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
         }
         catch (Exception e)
         {
@@ -387,7 +405,16 @@ public class HUDRenderHandler
             e.printStackTrace();
             HUDRenderHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
         }
-        String[] textSplit = text.split(" ");
-        HUDRenderHandler.recentDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
+    }
+
+    private static long mean(long[] values)
+    {
+        long sum = 0L;
+
+        for (long value : values)
+        {
+            sum += value;
+        }
+        return sum / values.length;
     }
 }
