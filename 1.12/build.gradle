@@ -48,3 +48,9 @@ task copyModFiles(type: Copy, dependsOn: "reobfJar") {
 	from(zipTree(project.ext.coreJar))
 	into 'temporary'
 }
+
+task buildDeobfJar(type: Jar) {
+    from sourceSets.main.output
+	baseName = "Indicatia-1.12"
+    classifier = 'deobf'
+}
