@@ -1,0 +1,2 @@
+-Fixed- Fixed info ordering
+-Fixed- Fixed ping not working on common server

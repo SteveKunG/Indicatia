@@ -20,10 +20,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -126,6 +123,15 @@ public class CommonHandler
         }
         GuiIngameForge.renderBossHealth = ConfigManager.enableRenderBossHealthStatus;
         GuiIngameForge.renderObjective = ConfigManager.enableRenderScoreboard;
+    }
+
+    @SubscribeEvent
+    public void onClientSendChat(ClientChatEvent event)
+    {
+        if (event.getOriginalMessage().contains("/nick") && !event.getOriginalMessage().contains("/nick reset"))
+        {
+            ExtendedConfig.HYPIXEL_NICK_NAME = event.getOriginalMessage().replace("/nick ", "");
+        }
     }
 
     @SubscribeEvent

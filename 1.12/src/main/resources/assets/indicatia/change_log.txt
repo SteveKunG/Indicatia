@@ -1,0 +1,4 @@
+-Added- Added /autorealm command
+-Update- Update to Minecraft 1.12
+-Fixed- Fixed info ordering
+-Fixed- Fixed ping not working on common server

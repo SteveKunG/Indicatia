@@ -23,19 +23,22 @@ public class InfoUtil
     {
         if (IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()) != null)
         {
-            if (GameProfileUtil.getUsername().equals(ExtendedConfig.HYPIXEL_NICK_NAME))
+            if (InfoUtil.INSTANCE.isHypixel())
             {
-                return IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()).getResponseTime();
+                if (!ExtendedConfig.HYPIXEL_NICK_NAME.isEmpty())
+                {
+                    for (Map.Entry<String, Integer> entry : CommonHandler.PLAYER_PING_MAP.entrySet())
+                    {
+                        if (entry.getKey().contains(ExtendedConfig.HYPIXEL_NICK_NAME))
+                        {
+                            return entry.getValue();
+                        }
+                    }
+                }
             }
             else
             {
-                for (Map.Entry<String, Integer> entry : CommonHandler.PLAYER_PING_MAP.entrySet())
-                {
-                    if (entry.getKey().contains(ExtendedConfig.HYPIXEL_NICK_NAME))
-                    {
-                        return entry.getValue();
-                    }
-                }
+                return IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()).getResponseTime();
             }
         }
         return 0;

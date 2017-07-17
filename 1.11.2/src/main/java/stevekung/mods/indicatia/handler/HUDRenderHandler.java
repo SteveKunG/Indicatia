@@ -91,6 +91,10 @@ public class HUDRenderHandler
                 {
                     leftInfo.add(HUDInfo.getPing());
                 }
+                if (ConfigManager.enableServerIP && this.mc.getCurrentServerData() != null && !this.mc.isSingleplayer())
+                {
+                    leftInfo.add(HUDInfo.getServerIP(this.mc));
+                }
                 if (ConfigManager.enableFPS)
                 {
                     leftInfo.add(HUDInfo.getFPS());
@@ -107,10 +111,6 @@ public class HUDRenderHandler
                 if (ConfigManager.enableBiome)
                 {
                     leftInfo.add(HUDInfo.getBiome(this.mc));
-                }
-                if (ConfigManager.enableServerIP && this.mc.getCurrentServerData() != null && !this.mc.isSingleplayer())
-                {
-                    leftInfo.add(HUDInfo.getServerIP(this.mc));
                 }
                 if (ConfigManager.enableSlimeChunkFinder && this.mc.player.dimension == 0)
                 {

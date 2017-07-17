@@ -16,6 +16,7 @@ out
 # file
 *.txt
 !license.txt
+!change_log.txt
 gradle-wrapper.jar
 gradle-wrapper.properties
 gradlew.bat
