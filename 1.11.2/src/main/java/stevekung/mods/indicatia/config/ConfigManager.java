@@ -63,6 +63,7 @@ public class ConfigManager
     public static boolean enableMoonPhase;
     public static boolean enablePotionHUDIcon;
     public static boolean alternatePotionHUDTextColor;
+    public static boolean enableServerTPS;
     public static String healthStatusMode;
     public static String keystrokePosition;
     public static String equipmentOrdering;
@@ -201,7 +202,6 @@ public class ConfigManager
         ConfigManager.enableAnnounceMessage = prop.getBoolean();
         propOrder.add(prop.getName());
 
-
         return propOrder;
     }
 
@@ -336,6 +336,11 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Alternate Potion HUD Text Color", false);
         ConfigManager.alternatePotionHUDTextColor = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Server TPS", false);
+        ConfigManager.enableServerTPS = prop.getBoolean();
+        prop.setComment(LangUtil.translate("gui.config.indicatia.server_tps"));
         propOrder.add(prop.getName());
 
         return propOrder;
