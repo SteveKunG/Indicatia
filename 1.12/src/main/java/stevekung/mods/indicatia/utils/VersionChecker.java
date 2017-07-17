@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -67,10 +68,10 @@ public class VersionChecker implements Runnable
             {
                 if (IndicatiaMod.MC_VERSION.equals(mcVersion.getVersion()))
                 {
-                    VersionChecker.LATEST_VERSION = IOUtils.readLines(version).get(mcVersion.ordinal());
+                    VersionChecker.LATEST_VERSION = IOUtils.readLines(version, StandardCharsets.UTF_8).get(mcVersion.ordinal());
                 }
             }
-            VersionChecker.ANNOUNCE_MESSAGE = IOUtils.readLines(desc);
+            VersionChecker.ANNOUNCE_MESSAGE = IOUtils.readLines(desc, StandardCharsets.UTF_8);
         }
         catch (IOException e)
         {
