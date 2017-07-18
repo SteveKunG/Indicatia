@@ -357,7 +357,7 @@ public class HUDInfo
             if (!leftItemStackList.isEmpty())
             {
                 int baseXOffset = res.getScaledWidth() / 2 - 91 - 20;
-                int yOffset = res.getScaledHeight() - 16 * i - 40;
+                int yOffset = res.getScaledHeight() - 16 * i - 18;
                 HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
             }
             mc.mcProfiler.endSection();
@@ -372,7 +372,7 @@ public class HUDInfo
             if (!rightItemStackList.isEmpty())
             {
                 int baseXOffset = res.getScaledWidth() / 2 + 95;
-                int yOffset = res.getScaledHeight() - 16 * i - 40;
+                int yOffset = res.getScaledHeight() - 16 * i - 18;
                 HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
             }
             mc.mcProfiler.endSection();
@@ -385,7 +385,7 @@ public class HUDInfo
             mc.mcProfiler.startSection("armor_durability_info");
             int stringWidth = mc.fontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
-            int yOffset = res.getScaledHeight() - 16 * i - 36;
+            int yOffset = res.getScaledHeight() - 16 * i - 14;
             mc.fontRenderer.drawString(string, (int) xOffset, yOffset, 16777215, true);
             mc.mcProfiler.endSection();
         }
@@ -396,7 +396,7 @@ public class HUDInfo
             String string = rightItemStatusList.get(i);
             mc.mcProfiler.startSection("armor_durability_info");
             float xOffset = res.getScaledWidth() / 2 + 114;
-            int yOffset = res.getScaledHeight() - 16 * i - 36;
+            int yOffset = res.getScaledHeight() - 16 * i - 14;
             mc.fontRenderer.drawString(string, (int) xOffset, yOffset, 16777215, true);
             mc.mcProfiler.endSection();
         }

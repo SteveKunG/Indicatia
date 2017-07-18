@@ -184,7 +184,7 @@ public class GuiChangeLogSlot extends GuiSlot
                     {
                         int k1 = this.width / 2 - this.getListWidth() / 2;
                         l1 = this.width / 2 + this.getListWidth() / 2;
-                        i2 = mouseY - this.top - this.headerPadding + (int)this.getAmountScrolled() - 4;
+                        i2 = mouseY - this.top - this.headerPadding + this.getAmountScrolled() - 4;
                         int j2 = i2 / this.slotHeight;
 
                         if (mouseX >= k1 && mouseX <= l1 && j2 >= 0 && i2 >= 0 && j2 < k)
@@ -196,7 +196,7 @@ public class GuiChangeLogSlot extends GuiSlot
                         }
                         else if (mouseX >= k1 && mouseX <= l1 && i2 < 0)
                         {
-                            this.func_148132_a(mouseX - k1, mouseY - this.top + (int)this.getAmountScrolled() - 4);
+                            this.func_148132_a(mouseX - k1, mouseY - this.top + this.getAmountScrolled() - 4);
                             flag1 = false;
                         }
 
@@ -276,7 +276,7 @@ public class GuiChangeLogSlot extends GuiSlot
         Tessellator tessellator = Tessellator.instance;
         this.drawContainerBackground(tessellator);
         l1 = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-        i2 = this.top + 4 - (int)this.getAmountScrolled();
+        i2 = this.top + 4 - this.getAmountScrolled();
 
         if (this.hasListHeader)
         {
