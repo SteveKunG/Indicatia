@@ -5,12 +5,11 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.handler.CommonHandler;
@@ -21,7 +20,7 @@ public class InfoUtil
 
     public int getPing()
     {
-        if (IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()) != null)
+        if (IndicatiaMod.MC.getNetHandler().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()) != null)
         {
             if (InfoUtil.INSTANCE.isHypixel())
             {
@@ -38,7 +37,7 @@ public class InfoUtil
             }
             else
             {
-                return IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()).getResponseTime();
+                return IndicatiaMod.MC.getNetHandler().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()).getResponseTime();
             }
         }
         return 0;
@@ -59,69 +58,69 @@ public class InfoUtil
         return new String[] {"black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white"};
     }
 
-    public TextFormatting getTextColor(String color)
+    public EnumChatFormatting getTextColor(String color)
     {
         if (color.equals("black"))
         {
-            return TextFormatting.BLACK;
+            return EnumChatFormatting.BLACK;
         }
         else if (color.equals("dark_blue"))
         {
-            return TextFormatting.DARK_BLUE;
+            return EnumChatFormatting.DARK_BLUE;
         }
         else if (color.equals("dark_green"))
         {
-            return TextFormatting.DARK_GREEN;
+            return EnumChatFormatting.DARK_GREEN;
         }
         else if (color.equals("dark_aqua"))
         {
-            return TextFormatting.DARK_AQUA;
+            return EnumChatFormatting.DARK_AQUA;
         }
         else if (color.equals("dark_red"))
         {
-            return TextFormatting.DARK_RED;
+            return EnumChatFormatting.DARK_RED;
         }
         else if (color.equals("dark_purple"))
         {
-            return TextFormatting.DARK_PURPLE;
+            return EnumChatFormatting.DARK_PURPLE;
         }
         else if (color.equals("gold"))
         {
-            return TextFormatting.GOLD;
+            return EnumChatFormatting.GOLD;
         }
         else if (color.equals("gray"))
         {
-            return TextFormatting.GRAY;
+            return EnumChatFormatting.GRAY;
         }
         else if (color.equals("dark_gray"))
         {
-            return TextFormatting.DARK_GRAY;
+            return EnumChatFormatting.DARK_GRAY;
         }
         else if (color.equals("blue"))
         {
-            return TextFormatting.BLUE;
+            return EnumChatFormatting.BLUE;
         }
         else if (color.equals("green"))
         {
-            return TextFormatting.GREEN;
+            return EnumChatFormatting.GREEN;
         }
         else if (color.equals("aqua"))
         {
-            return TextFormatting.AQUA;
+            return EnumChatFormatting.AQUA;
         }
         else if (color.equals("red"))
         {
-            return TextFormatting.RED;
+            return EnumChatFormatting.RED;
         }
         else if (color.equals("light_purple"))
         {
-            return TextFormatting.LIGHT_PURPLE;
+            return EnumChatFormatting.LIGHT_PURPLE;
         }
         else if (color.equals("yellow"))
         {
-            return TextFormatting.YELLOW;
+            return EnumChatFormatting.YELLOW;
         }
-        return TextFormatting.WHITE;
+        return EnumChatFormatting.WHITE;
     }
 
     public int getCPS()
@@ -166,7 +165,7 @@ public class InfoUtil
         IndicatiaMod.MC.ingameGUI.setRecordPlaying(message, isPlaying);
     }
 
-    public void setOverlayMessage(ITextComponent component, boolean isPlaying)
+    public void setOverlayMessage(IChatComponent component, boolean isPlaying)
     {
         IndicatiaMod.MC.ingameGUI.setRecordPlaying(component, isPlaying);
     }
@@ -239,102 +238,101 @@ public class InfoUtil
     {
         int color = 0;
 
-        if (potion == MobEffects.ABSORPTION)
+        if (potion == Potion.absorption)
         {
             color = RenderUtil.rgbToDecimal(247, 219, 21);
         }
-        else if (potion == MobEffects.REGENERATION)
+        else if (potion == Potion.regeneration)
         {
             color = RenderUtil.rgbToDecimal(244, 120, 226);
         }
-        else if (potion == MobEffects.STRENGTH)
+        else if (potion == Potion.damageBoost)
         {
             color = RenderUtil.rgbToDecimal(179, 55, 55);
         }
-        else if (potion == MobEffects.SPEED)
+        else if (potion == Potion.moveSpeed)
         {
             color = RenderUtil.rgbToDecimal(120, 201, 224);
         }
-        else if (potion == MobEffects.FIRE_RESISTANCE)
+        else if (potion == Potion.fireResistance)
         {
             color = RenderUtil.rgbToDecimal(233, 157, 73);
         }
-        else if (potion == MobEffects.RESISTANCE)
+        else if (potion == Potion.resistance)
         {
             color = RenderUtil.rgbToDecimal(137, 140, 154);
         }
-        else if (potion == MobEffects.JUMP_BOOST)
+        else if (potion == Potion.jump)
         {
             color = RenderUtil.rgbToDecimal(33, 251, 75);
         }
-        else if (potion == MobEffects.NIGHT_VISION)
+        else if (potion == Potion.nightVision)
         {
             color = RenderUtil.rgbToDecimal(97, 97, 224);
         }
-        else if (potion == MobEffects.WATER_BREATHING)
+        else if (potion == Potion.waterBreathing)
         {
             color = RenderUtil.rgbToDecimal(79, 122, 202);
         }
-        else if (potion == MobEffects.SLOWNESS)
+        else if (potion == Potion.moveSlowdown)
         {
             color = RenderUtil.rgbToDecimal(103, 123, 146);
         }
-        else if (potion == MobEffects.HASTE)
+        else if (potion == Potion.digSpeed)
         {
             color = RenderUtil.rgbToDecimal(182, 169, 80);
         }
-        else if (potion == MobEffects.MINING_FATIGUE)
+        else if (potion == Potion.digSlowdown)
         {
             color = RenderUtil.rgbToDecimal(90, 81, 29);
         }
-        else if (potion == MobEffects.NAUSEA)
+        else if (potion == Potion.confusion)
         {
             color = RenderUtil.rgbToDecimal(125, 43, 108);
         }
-        else if (potion == MobEffects.INVISIBILITY)
+        else if (potion == Potion.invisibility)
         {
             color = RenderUtil.rgbToDecimal(139, 142, 156);
         }
-        else if (potion == MobEffects.BLINDNESS)
+        else if (potion == Potion.blindness)
         {
             color = RenderUtil.rgbToDecimal(90, 90, 90);
         }
-        else if (potion == MobEffects.HUNGER)
+        else if (potion == Potion.hunger)
         {
             color = RenderUtil.rgbToDecimal(99, 133, 92);
         }
-        else if (potion == MobEffects.WEAKNESS)
+        else if (potion == Potion.weakness)
         {
             color = RenderUtil.rgbToDecimal(102, 108, 102);
         }
-        else if (potion == MobEffects.POISON)
+        else if (potion == Potion.poison)
         {
             color = RenderUtil.rgbToDecimal(81, 152, 50);
         }
-        else if (potion == MobEffects.WITHER)
+        else if (potion == Potion.wither)
         {
             color = RenderUtil.rgbToDecimal(105, 84, 80);
         }
-        else if (potion == MobEffects.HEALTH_BOOST)
+        else if (potion == Potion.healthBoost)
         {
             color = RenderUtil.rgbToDecimal(245, 124, 35);
         }
-        else if (potion == MobEffects.GLOWING)
-        {
-            color = RenderUtil.rgbToDecimal(146, 158, 96);
-        }
-        else if (potion == MobEffects.LEVITATION)
-        {
-            color = RenderUtil.rgbToDecimal(204, 252, 252);
-        }
-        else if (potion == MobEffects.LUCK)
-        {
-            color = RenderUtil.rgbToDecimal(50, 151, 0);
-        }
-        else if (potion == MobEffects.UNLUCK)
-        {
-            color = RenderUtil.rgbToDecimal(190, 162, 76);
-        }
         return color;
+    }
+
+    public int parseInt(String input, String type)
+    {
+        JsonUtil json = new JsonUtil();
+
+        try
+        {
+            return Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            IndicatiaMod.MC.thePlayer.addChatMessage(json.text(LangUtil.translate("commands.generic.num.invalid", input) + " in " + type + " setting").setChatStyle(json.red()));
+            return 0;
+        }
     }
 }

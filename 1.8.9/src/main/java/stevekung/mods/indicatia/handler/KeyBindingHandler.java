@@ -3,15 +3,11 @@ package stevekung.mods.indicatia.handler;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import stevekung.mods.indicatia.config.ConfigManager;
 
 public class KeyBindingHandler
 {
-    public static KeyBinding KEY_TOGGLE_SPRINT;
-    public static KeyBinding KEY_TOGGLE_SNEAK;
-    public static KeyBinding KEY_AUTO_SWIM;
     public static KeyBinding KEY_REC_COMMAND;
     public static KeyBinding KEY_CUSTOM_CAPE_GUI;
     public static KeyBinding KEY_QUICK_CONFIG;
@@ -19,22 +15,16 @@ public class KeyBindingHandler
 
     public static void init()
     {
-        KeyBindingHandler.KEY_TOGGLE_SPRINT = new KeyBindingIU("key.toggle_sprint.desc", KeyModifier.CONTROL, Keyboard.KEY_S);
-        KeyBindingHandler.KEY_TOGGLE_SNEAK = new KeyBindingIU("key.toggle_sneak.desc", KeyModifier.CONTROL, Keyboard.KEY_LSHIFT);
-        KeyBindingHandler.KEY_AUTO_SWIM = new KeyBindingIU("key.auto_swim.desc", KeyModifier.CONTROL, Keyboard.KEY_R);
-        KeyBindingHandler.KEY_REC_COMMAND = new KeyBinding("key.rec_overlay.desc", Keyboard.KEY_F9, "key.indicatia.category");
-        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBinding("key.quick_config.desc", Keyboard.KEY_F4, "key.indicatia.category");
-        KeyBindingHandler.KEY_DONATOR_GUI = new KeyBinding("key.donator_gui.desc", Keyboard.KEY_F6, "key.indicatia.category");
+        KeyBindingHandler.KEY_REC_COMMAND = new KeyBindingIU("key.rec_overlay.desc", Keyboard.KEY_F9);
+        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBindingIU("key.quick_config.desc", Keyboard.KEY_F4);
+        KeyBindingHandler.KEY_DONATOR_GUI = new KeyBindingIU("key.donator_gui.desc", Keyboard.KEY_F6);
 
         if (ConfigManager.enableCustomCape)
         {
-            KeyBindingHandler.KEY_CUSTOM_CAPE_GUI = new KeyBinding("key.custom_cape_gui.desc", Keyboard.KEY_H, "key.indicatia.category");
+            KeyBindingHandler.KEY_CUSTOM_CAPE_GUI = new KeyBindingIU("key.custom_cape_gui.desc", Keyboard.KEY_H);
             ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_CUSTOM_CAPE_GUI);
         }
 
-        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SPRINT);
-        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SNEAK);
-        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_AUTO_SWIM);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_REC_COMMAND);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_QUICK_CONFIG);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_DONATOR_GUI);

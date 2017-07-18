@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.utils.LangUtil;
@@ -58,7 +58,7 @@ public class GuiSleepMPNew extends GuiNewChatUtil
 
     private void wakeFromSleep()
     {
-        NetHandlerPlayClient connection = this.mc.thePlayer.connection;
-        connection.sendPacket(new CPacketEntityAction(this.mc.thePlayer, CPacketEntityAction.Action.STOP_SLEEPING));
+        NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.sendQueue;
+        nethandlerplayclient.addToSendQueue(new C0BPacketEntityAction(this.mc.thePlayer, C0BPacketEntityAction.Action.STOP_SLEEPING));
     }
 }

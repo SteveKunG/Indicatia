@@ -38,7 +38,7 @@ public class KeystrokeRenderer
         boolean rmbDown = nullScreen && Mouse.isButtonDown(1);
         boolean sprintDown = mc.thePlayer.isSprinting();
         boolean sneakDown = mc.thePlayer.isSneaking();
-        boolean blockDown = mc.thePlayer.isActiveItemStackBlocking();
+        boolean blockDown = mc.thePlayer.isBlocking();
         boolean useRainbow = false;
         int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
         float red = (rainbow >> 16 & 255) / 255.0F;

@@ -6,12 +6,9 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Items;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -26,6 +23,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
+import stevekung.mods.indicatia.renderer.RenderPlayerMOD;
 import stevekung.mods.indicatia.utils.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
@@ -39,7 +37,7 @@ public class IndicatiaMod
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     public static final String MC_VERSION = String.valueOf(FMLInjectionData.data()[4]);
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";
-    public static final String FORGE_VERSION = "after:Forge@[12.18.3.2316,);";
+    public static final String FORGE_VERSION = "after:Forge@[11.15.1.2318,);";
     public static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static boolean DEOBFUSCATED;
     public static Minecraft MC;
@@ -72,12 +70,6 @@ public class IndicatiaMod
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimationHandler(IndicatiaMod.MC));
         MinecraftForge.EVENT_BUS.register(new PlayerChatHandler(IndicatiaMod.MC));
 
-        if (ConfigManager.enableFishingRodOldRender)
-        {
-            ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));
-            ModLogger.info("Successfully replacing vanilla Fishing Rod item model");
-        }
-
         ClientCommandHandler.instance.registerCommand(new CommandMojangStatusCheck());
         ClientCommandHandler.instance.registerCommand(new CommandChangeLog());
         ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
@@ -88,7 +80,6 @@ public class IndicatiaMod
 
         if (IndicatiaMod.isSteveKunG())
         {
-            ClientCommandHandler.instance.registerCommand(new CommandEntityDetector());
             ClientCommandHandler.instance.registerCommand(new CommandAutoClick());
         }
     }
@@ -96,11 +87,17 @@ public class IndicatiaMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        if (ConfigManager.enableFishingRodOldRender)
+        IndicatiaMod.MC.getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityFishHook.class));
+        IndicatiaMod.MC.getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(IndicatiaMod.MC.getRenderManager()));
+        ModLogger.info("Successfully replacing {}", EntityFishHook.class.getName());
+
+        if (ConfigManager.enableCustomCape)
         {
-            IndicatiaMod.MC.getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityFishHook.class));
-            IndicatiaMod.MC.getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(IndicatiaMod.MC.getRenderManager()));
-            ModLogger.info("Successfully replacing {}", EntityFishHook.class.getName());
+            IndicatiaMod.MC.getRenderManager().playerRenderer = new RenderPlayerMOD();
+            IndicatiaMod.MC.getRenderManager().skinMap.entrySet().removeIf(entry -> entry.getKey().equals("default"));
+            IndicatiaMod.MC.getRenderManager().skinMap.entrySet().removeIf(entry -> entry.getKey().equals("slim"));
+            IndicatiaMod.MC.getRenderManager().skinMap.put("default", new RenderPlayerMOD());
+            IndicatiaMod.MC.getRenderManager().skinMap.put("slim", new RenderPlayerMOD(true));
         }
     }
 

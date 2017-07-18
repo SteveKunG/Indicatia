@@ -7,8 +7,8 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
@@ -39,41 +39,44 @@ public class CCMDHandler extends ClientCommandHandler
             {
                 return 0;
             }
-            if (icommand.checkPermission(this.getServer(), sender))
+            if (icommand.canCommandSenderUseCommand(sender))
             {
                 CommandEvent event = new CommandEvent(icommand, sender, args);
 
                 if (MinecraftForge.EVENT_BUS.post(event))
                 {
-                    if (event.getException() != null)
+                    if (event.exception != null)
                     {
-                        throw event.getException();
+                        throw event.exception;
                     }
                     return 0;
                 }
-                icommand.execute(this.getServer(), sender, args);
+                icommand.processCommand(sender, args);
                 return 1;
             }
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.permission"));
+            else
+            {
+                sender.addChatMessage(this.format(EnumChatFormatting.RED, "commands.generic.permission"));
+            }
         }
         catch (WrongUsageException wue)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.usage", this.format(TextFormatting.RED, wue.getMessage(), wue.getErrorObjects())));
+            sender.addChatMessage(this.format(EnumChatFormatting.RED, "commands.generic.usage", this.format(EnumChatFormatting.RED, wue.getMessage(), wue.getErrorObjects())));
         }
         catch (CommandException ce)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, ce.getMessage(), ce.getErrorObjects()));
+            sender.addChatMessage(this.format(EnumChatFormatting.RED, ce.getMessage(), ce.getErrorObjects()));
         }
         catch (Throwable t)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.exception"));
+            sender.addChatMessage(this.format(EnumChatFormatting.RED, "commands.generic.exception"));
             t.printStackTrace();
         }
         return -1;
     }
 
     @Override
-    public void autoComplete(String leftOfCursor)
+    public void autoComplete(String leftOfCursor, String full)
     {
         this.latestAutoComplete = null;
 
@@ -107,10 +110,10 @@ public class CCMDHandler extends ClientCommandHandler
         }
     }
 
-    private TextComponentTranslation format(TextFormatting color, String str, Object... args)
+    private ChatComponentTranslation format(EnumChatFormatting color, String str, Object... args)
     {
-        TextComponentTranslation ret = new TextComponentTranslation(str, args);
-        ret.getStyle().setColor(color);
+        ChatComponentTranslation ret = new ChatComponentTranslation(str, args);
+        ret.getChatStyle().setColor(color);
         return ret;
     }
 }

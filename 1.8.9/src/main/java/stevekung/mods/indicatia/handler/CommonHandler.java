@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
@@ -15,10 +17,10 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StringUtils;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -69,6 +71,8 @@ public class CommonHandler
     private static long sneakTimeOld = 0L;
     private static boolean sneakingOld = false;
 
+    public int closeScreen;//XXX
+
     public CommonHandler(Minecraft mc)
     {
         this.json = new JsonUtil();
@@ -78,7 +82,7 @@ public class CommonHandler
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent event)
     {
-        if (event.getModID().equalsIgnoreCase(IndicatiaMod.MOD_ID))
+        if (event.modID.equalsIgnoreCase(IndicatiaMod.MOD_ID))
         {
             ConfigManager.syncConfig(false);
         }
@@ -87,10 +91,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if (IndicatiaMod.isSteveKunG())
-        {
-            RenderUtil.renderGlowingEntity();
-        }
         if (this.mc.thePlayer != null)
         {
             if (InfoUtil.INSTANCE.isHypixel())
@@ -131,11 +131,11 @@ public class CommonHandler
     @SubscribeEvent
     public void onMouseClick(MouseEvent event)
     {
-        if (event.getButton() == 0 && event.isButtonstate())
+        if (event.button == 0 && event.buttonstate)
         {
             CommonHandler.LEFT_CLICK.add(Long.valueOf(System.currentTimeMillis()));
         }
-        if (event.getButton() == 1 && event.isButtonstate())
+        if (event.button == 1 && event.buttonstate)
         {
             CommonHandler.RIGHT_CLICK.add(Long.valueOf(System.currentTimeMillis()));
         }
@@ -148,15 +148,15 @@ public class CommonHandler
         {
             if (!IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.noConnection())
             {
-                event.player.addChatMessage(this.json.text("Unable to check latest version, Please check your internet connection").setStyle(this.json.red()));
-                event.player.addChatMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(this.json.red()));
+                event.player.addChatMessage(this.json.text("Unable to check latest version, Please check your internet connection").setChatStyle(this.json.red()));
+                event.player.addChatMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setChatStyle(this.json.red()));
                 IndicatiaMod.CHECK_NO_CONNECTION = true;
                 return;
             }
             if (!IndicatiaMod.FOUND_LATEST && !IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.isLatestVersion())
             {
-                event.player.addChatMessage(this.json.text("New version of ").appendSibling(this.json.text("Indicatia").setStyle(this.json.style().setColor(TextFormatting.AQUA)).appendSibling(this.json.text(" is available ").setStyle(this.json.white()).appendSibling(this.json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setStyle(this.json.style().setColor(TextFormatting.GREEN)).appendSibling(this.json.text(" for ").setStyle(this.json.white()).appendSibling(this.json.text("MC-" + IndicatiaMod.MC_VERSION).setStyle(this.json.style().setColor(TextFormatting.GOLD))))))));
-                event.player.addChatMessage(this.json.text("Download Link ").setStyle(this.json.style().setColor(TextFormatting.YELLOW)).appendSibling(this.json.text("[CLICK HERE]").setStyle(this.json.style().setColor(TextFormatting.BLUE).setHoverEvent(this.json.hover(HoverEvent.Action.SHOW_TEXT, this.json.text("Click Here!").setStyle(this.json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
+                event.player.addChatMessage(this.json.text("New version of ").appendSibling(this.json.text("Indicatia").setChatStyle(this.json.style().setColor(EnumChatFormatting.AQUA)).appendSibling(this.json.text(" is available ").setChatStyle(this.json.white()).appendSibling(this.json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setChatStyle(this.json.style().setColor(EnumChatFormatting.GREEN)).appendSibling(this.json.text(" for ").setChatStyle(this.json.white()).appendSibling(this.json.text("MC-" + IndicatiaMod.MC_VERSION).setChatStyle(this.json.style().setColor(EnumChatFormatting.GOLD))))))));
+                event.player.addChatMessage(this.json.text("Download Link ").setChatStyle(this.json.style().setColor(EnumChatFormatting.YELLOW)).appendSibling(this.json.text("[CLICK HERE]").setChatStyle(this.json.style().setColor(EnumChatFormatting.BLUE).setChatHoverEvent(this.json.hover(HoverEvent.Action.SHOW_TEXT, this.json.text("Click Here!").setChatStyle(this.json.style().setColor(EnumChatFormatting.DARK_GREEN)))).setChatClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
                 IndicatiaMod.FOUND_LATEST = true;
             }
             if (!IndicatiaMod.SHOW_ANNOUNCE_MESSAGE && !IndicatiaMod.CHECK_NO_CONNECTION)
@@ -165,10 +165,10 @@ public class CommonHandler
                 {
                     if (ConfigManager.enableAnnounceMessage)
                     {
-                        event.player.addChatMessage(this.json.text(log).setStyle(this.json.style().setColor(TextFormatting.GRAY)));
+                        event.player.addChatMessage(this.json.text(log).setChatStyle(this.json.style().setColor(EnumChatFormatting.GRAY)));
                     }
                 }
-                event.player.addChatMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(this.json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                event.player.addChatMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(this.json.colorFromConfig("gray").setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
         }
@@ -265,23 +265,44 @@ public class CommonHandler
         {
             this.mc.displayGuiScreen(CommonHandler.customCapeGui);
         }
-        if (ExtendedConfig.TOGGLE_SPRINT_USE_MODE.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+        if (ExtendedConfig.TOGGLE_SPRINT_USE_MODE.equalsIgnoreCase("key_binding"))
         {
-            ExtendedConfig.TOGGLE_SPRINT = !ExtendedConfig.TOGGLE_SPRINT;
-            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Toggle Sprint Enabled" : "Toggle Sprint Disabled").getFormattedText(), false);
-            ExtendedConfig.save();
+            String[] keyTS = ConfigManager.keyToggleSprint.split(",");
+            int keyTGCtrl = InfoUtil.INSTANCE.parseInt(keyTS[0], "Toggle Sprint");
+            int keyTGOther = InfoUtil.INSTANCE.parseInt(keyTS[1], "Toggle Sprint");
+
+            if (Keyboard.isKeyDown(keyTGCtrl) && Keyboard.isKeyDown(keyTGOther))
+            {
+                ExtendedConfig.TOGGLE_SPRINT = !ExtendedConfig.TOGGLE_SPRINT;
+                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Toggle Sprint Enabled" : "Toggle Sprint Disabled").getFormattedText(), false);
+                ExtendedConfig.save();
+            }
         }
-        if (ExtendedConfig.TOGGLE_SNEAK_USE_MODE.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
+        if (ExtendedConfig.TOGGLE_SNEAK_USE_MODE.equalsIgnoreCase("key_binding"))
         {
-            ExtendedConfig.TOGGLE_SNEAK = !ExtendedConfig.TOGGLE_SNEAK;
-            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Toggle Sneak Enabled" : "Toggle Sneak Disabled").getFormattedText(), false);
-            ExtendedConfig.save();
+            String[] keyTS = ConfigManager.keyToggleSneak.split(",");
+            int keyTGCtrl = InfoUtil.INSTANCE.parseInt(keyTS[0], "Toggle Sneak");
+            int keyTGOther = InfoUtil.INSTANCE.parseInt(keyTS[1], "Toggle Sneak");
+
+            if (Keyboard.isKeyDown(keyTGCtrl) && Keyboard.isKeyDown(keyTGOther))
+            {
+                ExtendedConfig.TOGGLE_SNEAK = !ExtendedConfig.TOGGLE_SNEAK;
+                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Toggle Sneak Enabled" : "Toggle Sneak Disabled").getFormattedText(), false);
+                ExtendedConfig.save();
+            }
         }
-        if (ExtendedConfig.AUTO_SWIM_USE_MODE.equals("key_binding") && KeyBindingHandler.KEY_AUTO_SWIM.isKeyDown())
+        if (ExtendedConfig.AUTO_SWIM_USE_MODE.equalsIgnoreCase("key_binding"))
         {
-            ExtendedConfig.AUTO_SWIM = !ExtendedConfig.AUTO_SWIM;
-            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
-            ExtendedConfig.save();
+            String[] keyAW = ConfigManager.keyAutoSwim.split(",");
+            int keyAWCtrl = InfoUtil.INSTANCE.parseInt(keyAW[0], "Auto Swim");
+            int keyAWOther = InfoUtil.INSTANCE.parseInt(keyAW[1], "Auto Swim");
+
+            if (Keyboard.isKeyDown(keyAWCtrl) && Keyboard.isKeyDown(keyAWOther))
+            {
+                ExtendedConfig.AUTO_SWIM = !ExtendedConfig.AUTO_SWIM;
+                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
+                ExtendedConfig.save();
+            }
         }
         if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
         {
@@ -292,13 +313,13 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientChatReceived(ClientChatReceivedEvent event)
     {
-        String unformattedText = event.getMessage().getUnformattedText();
+        String unformattedText = event.message.getUnformattedText();
 
         if (InfoUtil.INSTANCE.isHypixel())
         {
             Matcher nickMatcher = this.nickPattern.matcher(unformattedText);
 
-            if (event.getType() == 0)
+            if (event.type == 0)
             {
                 if (nickMatcher.matches())
                 {
@@ -366,19 +387,19 @@ public class CommonHandler
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {
-        if (event.getGui() instanceof GuiIngameMenu)
+        if (event.gui instanceof GuiIngameMenu)
         {
-            event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
-            event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 41, 135, 20, "Truemoney"));
+            event.buttonList.add(new GuiButton(200, event.gui.width - 145, 20, 135, 20, "Paypal"));
+            event.buttonList.add(new GuiButton(201, event.gui.width - 145, 41, 135, 20, "Truemoney"));
         }
     }
 
     @SubscribeEvent
     public void onActionGui(GuiScreenEvent.ActionPerformedEvent.Post event)
     {
-        if (event.getGui() instanceof GuiIngameMenu)
+        if (event.gui instanceof GuiIngameMenu)
         {
-            switch (event.getButton().id)
+            switch (event.button.id)
             {
             case 200:
                 CommonHandler.openLink("https://twitch.streamlabs.com/stevekung");
@@ -393,15 +414,15 @@ public class CommonHandler
     @SubscribeEvent
     public void onRenderGui(GuiScreenEvent.DrawScreenEvent.Post event)
     {
-        if (event.getGui() instanceof GuiIngameMenu)
+        if (event.gui instanceof GuiIngameMenu)
         {
-            event.getGui().drawString(this.mc.fontRendererObj, "Support Indicatia!", event.getGui().width - 120, 8, 65481);
+            event.gui.drawString(this.mc.fontRendererObj, "Support Indicatia!", event.gui.width - 120, 8, 65481);
         }
     }
 
     private static void getPingForNickedPlayer(Minecraft mc)
     {
-        List<NetworkPlayerInfo> list = Lists.newArrayList(mc.thePlayer.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = Lists.newArrayList(mc.thePlayer.sendQueue.getPlayerInfoMap());
         int maxPlayers = list.size();
 
         for (int i = 0; i < maxPlayers; ++i)

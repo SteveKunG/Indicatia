@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -153,6 +153,6 @@ public class GuiKeystrokeColorSettings extends GuiScreen
 
     private String getBooleanColor(boolean value)
     {
-        return value ? TextFormatting.GREEN + "true": TextFormatting.RED + "false";
+        return value ? EnumChatFormatting.GREEN + "true": EnumChatFormatting.RED + "false";
     }
 }

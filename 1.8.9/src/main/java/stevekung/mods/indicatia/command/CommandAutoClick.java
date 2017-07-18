@@ -6,8 +6,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 import stevekung.mods.indicatia.handler.CommonHandler;
 import stevekung.mods.indicatia.utils.JsonUtil;
 
@@ -20,7 +19,7 @@ public class CommandAutoClick extends ClientCommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         JsonUtil json = new JsonUtil();
 
@@ -66,7 +65,7 @@ public class CommandAutoClick extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -79,6 +78,6 @@ public class CommandAutoClick extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right");
             }
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.addTabCompletionOptions(sender, args, pos);
     }
 }

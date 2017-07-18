@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.JsonUtil;
 
@@ -18,7 +17,7 @@ public class CommandSlimeChunkSeed extends ClientCommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         JsonUtil json = new JsonUtil();
 

@@ -3,21 +3,18 @@ package stevekung.mods.indicatia.renderer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.google.common.collect.Ordering;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -62,7 +59,7 @@ public class HUDInfo
         {
             if (!chunk.isEmpty())
             {
-                String biomeName = chunk.getBiome(pos, mc.theWorld.getBiomeProvider()).getBiomeName().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+                String biomeName = chunk.getBiome(pos, mc.theWorld.getWorldChunkManager()).biomeName.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
                 return "Biome: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorBiome) + biomeName;
             }
             else
@@ -132,8 +129,7 @@ public class HUDInfo
         boolean isRightSide = ConfigManager.equipmentPosition.equals("right");
         int baseXOffset = isRightSide ? res.getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.ARMOR_STATUS_OFFSET;
-        ItemStack mainHandItem = mc.thePlayer.getHeldItemMainhand();
-        ItemStack offHandItem = mc.thePlayer.getHeldItemOffhand();
+        ItemStack mainHandItem = mc.thePlayer.getHeldItem();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.thePlayer.inventory);
 
         // held item stuff
@@ -145,22 +141,7 @@ public class HUDInfo
                 String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, mainHandItem);
                 itemStatusList.add(mainHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equals("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
-                if (mainHandItem.getItem() == Items.BOW)
-                {
-                    arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-                }
-                else
-                {
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
-            }
-            if (offHandItem != null)
-            {
-                itemStackList.add(offHandItem);
-                String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, offHandItem);
-                itemStatusList.add(offHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equals("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
-
-                if (offHandItem.getItem() == Items.BOW)
+                if (mainHandItem.getItem() == Items.bow)
                 {
                     arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
                 }
@@ -207,22 +188,7 @@ public class HUDInfo
                 String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, mainHandItem);
                 itemStatusList.add(mainHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equals("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
-                if (mainHandItem.getItem() == Items.BOW)
-                {
-                    arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-                }
-                else
-                {
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
-            }
-            if (offHandItem != null)
-            {
-                itemStackList.add(offHandItem);
-                String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, offHandItem);
-                itemStatusList.add(offHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equals("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
-
-                if (offHandItem.getItem() == Items.BOW)
+                if (mainHandItem.getItem() == Items.bow)
                 {
                     arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
                 }
@@ -336,8 +302,7 @@ public class HUDInfo
         List<String> rightItemStatusList = new ArrayList<>();
         List<String> rightArrowCountList = new ArrayList<>();
         ScaledResolution res = new ScaledResolution(mc);
-        ItemStack mainHandItem = mc.thePlayer.getHeldItemMainhand();
-        ItemStack offHandItem = mc.thePlayer.getHeldItemOffhand();
+        ItemStack mainHandItem = mc.thePlayer.getHeldItem();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.thePlayer.inventory);
         String status = ConfigManager.equipmentStatus;
 
@@ -367,28 +332,13 @@ public class HUDInfo
             String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, mainHandItem);
             leftItemStatusList.add(mainHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equals("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
-            if (mainHandItem.getItem() == Items.BOW)
+            if (mainHandItem.getItem() == Items.bow)
             {
                 leftArrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
             }
             else
             {
                 leftArrowCountList.add(""); // dummy bow arrow count list size
-            }
-        }
-        if (offHandItem != null)
-        {
-            rightItemStackList.add(offHandItem);
-            String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, offHandItem);
-            rightItemStatusList.add(offHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equals("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
-
-            if (offHandItem.getItem() == Items.BOW)
-            {
-                rightArrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-            }
-            else
-            {
-                rightArrowCountList.add(""); // dummy bow arrow count list size
             }
         }
 
@@ -505,16 +455,16 @@ public class HUDInfo
                         length = lengthOverlap / (collection.size() - 1);
                     }
 
-                    for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
+                    for (PotionEffect potioneffect : mc.thePlayer.getActivePotionEffects())
                     {
-                        Potion potion = potioneffect.getPotion();
-                        String s = Potion.getPotionDurationString(potioneffect, 1.0F);
+                        Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+                        String s = Potion.getDurationString(potioneffect);
                         String s1 = LangUtil.translate(potion.getName());
                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
                         if (showIcon)
                         {
-                            mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
+                            mc.getTextureManager().bindTexture(Gui.optionsBackground);
                             int i1 = potion.getStatusIconIndex();
                             mc.ingameGUI.drawTexturedModalRect(xPotion + 12, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                         }
@@ -555,16 +505,16 @@ public class HUDInfo
                         length = lengthOverlap / (collection.size() - 1);
                     }
 
-                    for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
+                    for (PotionEffect potioneffect : mc.thePlayer.getActivePotionEffects())
                     {
-                        Potion potion = potioneffect.getPotion();
-                        String s = Potion.getPotionDurationString(potioneffect, 1.0F);
+                        Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+                        String s = Potion.getDurationString(potioneffect);
                         String s1 = LangUtil.translate(potion.getName());
                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
                         if (showIcon)
                         {
-                            mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
+                            mc.getTextureManager().bindTexture(Gui.optionsBackground);
                             int i1 = potion.getStatusIconIndex();
                             mc.ingameGUI.drawTexturedModalRect(xPotion + 24, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                         }
@@ -604,16 +554,16 @@ public class HUDInfo
                         length = lengthOverlap / (collection.size() - 1);
                     }
 
-                    for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
+                    for (PotionEffect potioneffect : mc.thePlayer.getActivePotionEffects())
                     {
-                        Potion potion = potioneffect.getPotion();
-                        String s = Potion.getPotionDurationString(potioneffect, 1.0F);
+                        Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+                        String s = Potion.getDurationString(potioneffect);
                         String s1 = LangUtil.translate(potion.getName());
                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
                         if (showIcon)
                         {
-                            mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
+                            mc.getTextureManager().bindTexture(Gui.optionsBackground);
                             int i1 = potion.getStatusIconIndex();
                             mc.ingameGUI.drawTexturedModalRect(right ? xPotion + 12 : xPotion + 28, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                         }
@@ -669,23 +619,23 @@ public class HUDInfo
         return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getItemDamage() * 100 / itemStack.getMaxDamage();
     }
 
-    private static TextFormatting getResponseTimeColor(int responseTime)
+    private static EnumChatFormatting getResponseTimeColor(int responseTime)
     {
         if (responseTime >= 200 && responseTime < 300)
         {
-            return TextFormatting.YELLOW;
+            return EnumChatFormatting.YELLOW;
         }
         else if (responseTime >= 300 && responseTime < 500)
         {
-            return TextFormatting.RED;
+            return EnumChatFormatting.RED;
         }
         else if (responseTime >= 500)
         {
-            return TextFormatting.DARK_RED;
+            return EnumChatFormatting.DARK_RED;
         }
         else
         {
-            return TextFormatting.GREEN;
+            return EnumChatFormatting.GREEN;
         }
     }
 
@@ -738,7 +688,7 @@ public class HUDInfo
         {
             ItemStack itemStack = inventory.getStackInSlot(i);
 
-            if (itemStack != null && itemStack.getItem() instanceof ItemArrow)
+            if (itemStack != null && itemStack.getItem() == Items.arrow)
             {
                 arrowCount += itemStack.stackSize;
             }

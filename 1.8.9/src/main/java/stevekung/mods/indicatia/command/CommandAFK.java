@@ -6,10 +6,9 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.handler.CommonHandler;
@@ -24,7 +23,7 @@ public class CommandAFK extends ClientCommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         JsonUtil json = new JsonUtil();
 
@@ -52,14 +51,14 @@ public class CommandAFK extends ClientCommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.addChatMessage(json.text("You have not start using /afk command").setChatStyle(json.red()));
                 }
             }
             else if ("start".equalsIgnoreCase(args[0]))
             {
                 if (!CommonHandler.isAFK)
                 {
-                    ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 1);
+                    IChatComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 1);
                     String reason = component.createCopy().getUnformattedText();
                     CommonHandler.isAFK = true;
                     CommonHandler.afkReason = reason;
@@ -82,7 +81,7 @@ public class CommandAFK extends ClientCommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have already start /afk command").setStyle(json.red()));
+                    sender.addChatMessage(json.text("You have already start /afk command").setChatStyle(json.red()));
                 }
             }
             else if ("change_reason".equalsIgnoreCase(args[0]))
@@ -101,7 +100,7 @@ public class CommandAFK extends ClientCommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.addChatMessage(json.text("You have not start using /afk command").setChatStyle(json.red()));
                 }
             }
             else if ("mode".equalsIgnoreCase(args[0]))
@@ -145,7 +144,7 @@ public class CommandAFK extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -158,6 +157,6 @@ public class CommandAFK extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "idle", "move", "360", "360_move");
             }
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.addTabCompletionOptions(sender, args, pos);
     }
 }

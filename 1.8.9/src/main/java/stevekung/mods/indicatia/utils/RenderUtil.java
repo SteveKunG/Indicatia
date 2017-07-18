@@ -1,25 +1,15 @@
 package stevekung.mods.indicatia.utils;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.util.ResourceLocation;
-import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
 public class RenderUtil
@@ -28,14 +18,14 @@ public class RenderUtil
     {
         Minecraft mc = IndicatiaMod.MC;
         boolean hasName = entityLivingBase.hasCustomName();
-        double distance = entityLivingBase.getDistanceSqToEntity(mc.getRenderManager().renderViewEntity);
+        double distance = entityLivingBase.getDistanceSqToEntity(mc.getRenderViewEntity());
         int maxDistance = 64;
 
         if (distance <= maxDistance * maxDistance)
         {
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x, hasName ? y + entityLivingBase.height + 0.75F : !mc.isSingleplayer() ? y + entityLivingBase.height + 1F : y + entityLivingBase.height + 0.5F, (float)z);
-            GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
+            GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate((mc.getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-0.025F, -0.025F, 0.025F);
@@ -48,12 +38,12 @@ public class RenderUtil
             }
 
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
             int j = fontrenderer.getStringWidth(text) / 2;
             GlStateManager.disableTexture2D();
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
             vertexbuffer.pos(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             vertexbuffer.pos(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
@@ -74,40 +64,6 @@ public class RenderUtil
             GlStateManager.disableBlend();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.popMatrix();
-        }
-    }
-
-    public static void renderGlowingEntity()
-    {
-        if (IndicatiaMod.MC.theWorld != null)
-        {
-            for (Entity entity : IndicatiaMod.MC.theWorld.loadedEntityList)
-            {
-                if (entity.getEntityString() != null)
-                {
-                    entity.setGlowing(ExtendedConfig.ENTITY_DETECT_TYPE.equals(entity.getEntityString()));
-                }
-                if (ExtendedConfig.ENTITY_DETECT_TYPE.equals("all"))
-                {
-                    entity.setGlowing(!(entity instanceof EntityPlayerSP));
-                }
-                if (ExtendedConfig.ENTITY_DETECT_TYPE.equals("only_mob"))
-                {
-                    entity.setGlowing(entity instanceof EntityMob || entity instanceof IMob);
-                }
-                if (ExtendedConfig.ENTITY_DETECT_TYPE.equals("only_creature"))
-                {
-                    entity.setGlowing(entity instanceof EntityAnimal || entity instanceof EntitySquid);
-                }
-                if (ExtendedConfig.ENTITY_DETECT_TYPE.equals("only_non_mob"))
-                {
-                    entity.setGlowing(entity instanceof EntityItem || entity instanceof EntityArmorStand || entity instanceof EntityBoat || entity instanceof EntityMinecart);
-                }
-                if (ExtendedConfig.ENTITY_DETECT_TYPE.equalsIgnoreCase("only_player"))
-                {
-                    entity.setGlowing(entity instanceof EntityOtherPlayerMP);
-                }
-            }
         }
     }
 
@@ -145,7 +101,7 @@ public class RenderUtil
             float g = (color >> 8 & 255) / 255.0F;
             float b = (color & 255) / 255.0F;
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
             GlStateManager.enableBlend();
             GlStateManager.disableTexture2D();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

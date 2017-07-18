@@ -2,21 +2,16 @@ package stevekung.mods.indicatia.handler;
 
 import org.lwjgl.util.glu.Project;
 
-import com.google.common.base.Objects;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemMap;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -48,7 +43,8 @@ public class BlockhitAnimationHandler
 
         if (!this.isZoomed())
         {
-            this.renderHand(event.getPartialTicks(), event.getRenderPass());
+            this.renderHand(event.partialTicks, event.renderPass);
+            this.mc.entityRenderer.renderWorldDirections(event.partialTicks);
         }
     }
 
@@ -112,137 +108,60 @@ public class BlockhitAnimationHandler
 
     private void renderItemInFirstPerson(float partialTicks)
     {
+        float prevSwingProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgress + (this.mc.getItemRenderer().equippedProgress - this.mc.getItemRenderer().prevEquippedProgress) * partialTicks);
         AbstractClientPlayer player = this.mc.thePlayer;
         float swingProgress = player.getSwingProgress(partialTicks);
-        EnumHand hand = Objects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
         float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
         float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks;
-        boolean mainHand = true;
-        boolean offHand = true;
-
-        if (player.isHandActive())
-        {
-            ItemStack itemstack = player.getActiveItemStack();
-
-            if (itemstack != null && itemstack.getItem() == Items.BOW)
-            {
-                EnumHand enumhand1 = player.getActiveHand();
-                mainHand = enumhand1 == EnumHand.MAIN_HAND;
-                offHand = !mainHand;
-            }
-        }
-
-        this.mc.getItemRenderer().rotateArroundXAndY(pitch, yaw);
-        this.mc.getItemRenderer().setLightmap();
-        this.mc.getItemRenderer().rotateArm(partialTicks);
+        this.mc.getItemRenderer().func_178101_a(pitch, yaw);
+        this.mc.getItemRenderer().func_178109_a(player);
+        this.mc.getItemRenderer().func_178110_a((EntityPlayerSP)player, partialTicks);
         GlStateManager.enableRescaleNormal();
-
-        if (mainHand)
-        {
-            float mainHandSwing = hand == EnumHand.MAIN_HAND ? swingProgress : 0;
-            float equipProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgressMainHand + (this.mc.getItemRenderer().equippedProgressMainHand - this.mc.getItemRenderer().prevEquippedProgressMainHand) * partialTicks);
-            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.MAIN_HAND, mainHandSwing, this.mc.getItemRenderer().itemStackMainHand, equipProgress);
-        }
-        if (offHand)
-        {
-            float offHandSwing = hand == EnumHand.OFF_HAND ? swingProgress : 0;
-            float equipProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgressOffHand + (this.mc.getItemRenderer().equippedProgressOffHand - this.mc.getItemRenderer().prevEquippedProgressOffHand) * partialTicks);
-            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.OFF_HAND, offHandSwing, this.mc.getItemRenderer().itemStackOffHand, equipProgress);
-        }
-        GlStateManager.disableRescaleNormal();
-        RenderHelper.disableStandardItemLighting();
-    }
-
-    private void renderItemInFirstPerson(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress)
-    {
-        boolean mainHand = hand == EnumHand.MAIN_HAND;
-        EnumHandSide handSide = mainHand ? player.getPrimaryHand() : player.getPrimaryHand().opposite();
         GlStateManager.pushMatrix();
 
-        if (itemStack == null)
+        if (this.mc.getItemRenderer().itemToRender != null)
         {
-            if (mainHand && !player.isInvisible())
+            if (this.mc.getItemRenderer().itemToRender.getItem() instanceof ItemMap)
             {
-                this.mc.getItemRenderer().renderArmFirstPerson(equipProgress, swingProgress, handSide);
+                this.mc.getItemRenderer().renderItemMap(player, pitch, prevSwingProgress, swingProgress);
             }
-        }
-        else if (itemStack.getItem() instanceof ItemMap)
-        {
-            if (mainHand && this.mc.getItemRenderer().itemStackOffHand == null)
+            else if (player.getItemInUseCount() > 0)
             {
-                this.mc.getItemRenderer().renderMapFirstPerson(rotationPitch, equipProgress, swingProgress);
-            }
-            else
-            {
-                this.mc.getItemRenderer().renderMapFirstPersonSide(equipProgress, handSide, swingProgress, itemStack);
-            }
-        }
-        else
-        {
-            boolean rightSide = handSide == EnumHandSide.RIGHT;
+                EnumAction action = this.mc.getItemRenderer().itemToRender.getItemUseAction();
 
-            if (player.isHandActive() && player.getItemInUseCount() > 0 && player.getActiveHand() == hand)
-            {
-                int handType = rightSide ? 1 : -1;
-                float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-                float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
-
-                switch (itemStack.getItemUseAction())
+                switch (action)
                 {
                 case NONE:
-                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
-                    this.swingHandOldAnimation(equipProgress, f, f1);
+                    this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
                     break;
                 case EAT:
                 case DRINK:
-                    this.mc.getItemRenderer().transformEatFirstPerson(partialTicks, handSide, itemStack);
-                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
-                    this.swingHandOldAnimation(equipProgress, f, f1);
+                    this.mc.getItemRenderer().func_178104_a(player, partialTicks);
+                    this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
                     break;
                 case BLOCK:
-                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
-                    this.swingHandOldAnimation(equipProgress, f, f1);
+                    this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
+                    this.mc.getItemRenderer().func_178103_d();
                     break;
                 case BOW:
-                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
-                    this.swingHandOldAnimation(equipProgress, f, f1);
-                    GlStateManager.translate(handType * -0.2785682F, 0.18344387F, 0.15731531F);
-                    GlStateManager.rotate(-13.935F, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.rotate(handType * 35.3F, 0.0F, 1.0F, 0.0F);
-                    GlStateManager.rotate(handType * -9.785F, 0.0F, 0.0F, 1.0F);
-                    float f5 = itemStack.getMaxItemUseDuration() - (this.mc.thePlayer.getItemInUseCount() - partialTicks + 1.0F);
-                    float f6 = f5 / 20.0F;
-                    f6 = (f6 * f6 + f6 * 2.0F) / 3.0F;
-
-                    if (f6 > 1.0F)
-                    {
-                        f6 = 1.0F;
-                    }
-                    if (f6 > 0.1F)
-                    {
-                        float f7 = MathHelper.sin((f5 - 0.1F) * 1.3F);
-                        float f3 = f6 - 0.1F;
-                        float f4 = f7 * f3;
-                        GlStateManager.translate(f4 * 0.0F, f4 * 0.004F, f4 * 0.0F);
-                    }
-                    GlStateManager.translate(f6 * 0.0F, f6 * 0.0F, f6 * 0.04F);
-                    GlStateManager.scale(1.0F, 1.0F, 1.0F + f6 * 0.2F);
-                    GlStateManager.rotate(handType * 45.0F, 0.0F, -1.0F, 0.0F);
+                    this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
+                    this.mc.getItemRenderer().func_178098_a(partialTicks, player);
                 }
             }
             else
             {
-                float f = -0.4F * MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
-                float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt_float(swingProgress) * ((float)Math.PI * 2F));
-                float f2 = -0.2F * MathHelper.sin(swingProgress * (float)Math.PI);
-                int i = rightSide ? 1 : -1;
-                GlStateManager.translate(i * f, f1, f2);
-                this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
-                this.mc.getItemRenderer().transformFirstPerson(handSide, swingProgress);
+                this.mc.getItemRenderer().func_178105_d(swingProgress);
+                this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
             }
-            this.mc.getItemRenderer().renderItemSide(player, itemStack, rightSide ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, !rightSide);
+            this.mc.getItemRenderer().renderItem(player, this.mc.getItemRenderer().itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
+        }
+        else if (!player.isInvisible())
+        {
+            this.mc.getItemRenderer().func_178095_a(player, prevSwingProgress, swingProgress);
         }
         GlStateManager.popMatrix();
+        GlStateManager.disableRescaleNormal();
+        RenderHelper.disableStandardItemLighting();
     }
 
     private boolean isZoomed()
@@ -252,14 +171,5 @@ public class BlockhitAnimationHandler
             return true;
         }
         return false;
-    }
-
-    private void swingHandOldAnimation(float equipProgress, float f, float f1)
-    {
-        GlStateManager.translate(0.0F, equipProgress * 0.6F, 0.0F);
-        GlStateManager.rotate(0.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(f * 20.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(f1 * 20.0F, 0.0F, 0.0F, 1.0F);
-        GlStateManager.rotate(f1 * -80.0F, 1.0F, 0.0F, 0.0F);
     }
 }

@@ -32,9 +32,9 @@ public class PlayerChatHandler
         @SubscribeEvent
         public void onEntityJoinWorld(EntityJoinWorldEvent event)
         {
-            if (event.getEntity() instanceof EntityPlayerSP)
+            if (event.entity instanceof EntityPlayerSP)
             {
-                EntityPlayerSP player = (EntityPlayerSP) event.getEntity();
+                EntityPlayerSP player = (EntityPlayerSP) event.entity;
                 ServerData data = PlayerChatHandler.this.mc.getCurrentServerData();
                 this.runAutoLoginCommand(player, data);
                 MinecraftForge.EVENT_BUS.unregister(this);

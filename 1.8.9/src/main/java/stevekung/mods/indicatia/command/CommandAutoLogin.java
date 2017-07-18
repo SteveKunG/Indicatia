@@ -10,11 +10,10 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
@@ -31,7 +30,7 @@ public class CommandAutoLogin extends ClientCommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         JsonUtil json = new JsonUtil();
         Minecraft mc = IndicatiaMod.MC;
@@ -56,10 +55,10 @@ public class CommandAutoLogin extends ClientCommandBase
                     {
                         if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                         {
-                            sender.addChatMessage(json.text("An auto login data already set for Username: " + uuid.toString() + "!").setStyle(json.red()));
+                            sender.addChatMessage(json.text("An auto login data already set for Username: " + uuid.toString() + "!").setChatStyle(json.red()));
                             return;
                         }
-                        ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
+                        IChatComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
                         ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), uuid);
                         sender.addChatMessage(json.text("Set auto login data for Server: " + data.serverIP));
@@ -68,7 +67,7 @@ public class CommandAutoLogin extends ClientCommandBase
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.addChatMessage(json.text("Cannot add auto login data in singleplayer!").setStyle(json.red()));
+                    sender.addChatMessage(json.text("Cannot add auto login data in singleplayer!").setChatStyle(json.red()));
                     return;
                 }
             }
@@ -85,13 +84,13 @@ public class CommandAutoLogin extends ClientCommandBase
                         }
                         else
                         {
-                            sender.addChatMessage(json.text("No auto login data was set for Username: " + uuid.toString() + "!").setStyle(json.red()));
+                            sender.addChatMessage(json.text("No auto login data was set for Username: " + uuid.toString() + "!").setChatStyle(json.red()));
                         }
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.addChatMessage(json.text("Cannot remove auto login data in singleplayer!").setStyle(json.red()));
+                    sender.addChatMessage(json.text("Cannot remove auto login data in singleplayer!").setChatStyle(json.red()));
                     return;
                 }
             }
@@ -105,13 +104,13 @@ public class CommandAutoLogin extends ClientCommandBase
                 }
                 else
                 {
-                    TextComponentTranslation component = new TextComponentTranslation("commands.autologin.list.count", collection.size());
-                    component.getStyle().setColor(TextFormatting.DARK_GREEN);
+                    ChatComponentTranslation component = new ChatComponentTranslation("commands.autologin.list.count", collection.size());
+                    component.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
                     sender.addChatMessage(component);
 
                     for (AutoLoginData loginData : collection)
                     {
-                        sender.addChatMessage(new TextComponentTranslation("commands.autologin.list.entry", loginData.getServerIP(), loginData.getUUID()));
+                        sender.addChatMessage(new ChatComponentTranslation("commands.autologin.list.entry", loginData.getServerIP(), loginData.getUUID()));
                     }
                 }
             }
@@ -123,12 +122,12 @@ public class CommandAutoLogin extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list");
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.addTabCompletionOptions(sender, args, pos);
     }
 }

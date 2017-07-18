@@ -13,13 +13,14 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StringUtils;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -27,7 +28,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.gui.GuiBossOverlayNew;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.InfoUtil;
 import stevekung.mods.indicatia.utils.JsonUtil;
@@ -37,7 +37,6 @@ import stevekung.mods.indicatia.utils.RenderUtil;
 public class HUDRenderHandler
 {
     private final Minecraft mc;
-    private GuiBossOverlayNew overlayBoss;
     public static boolean recordEnable;
     private int recTick;
     private static int readFileTicks;
@@ -48,7 +47,6 @@ public class HUDRenderHandler
     public HUDRenderHandler(Minecraft mc)
     {
         this.mc = mc;
-        this.overlayBoss = new GuiBossOverlayNew();
     }
 
     @SubscribeEvent
@@ -83,7 +81,7 @@ public class HUDRenderHandler
     @SubscribeEvent
     public void onPreInfoRender(RenderGameOverlayEvent.Pre event)
     {
-        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
+        if (event.type == RenderGameOverlayEvent.ElementType.TEXT)
         {
             if (ConfigManager.enableRenderInfo && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
             {
@@ -261,18 +259,18 @@ public class HUDRenderHandler
                 this.mc.fontRendererObj.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
             }
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
+        if (event.type == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
         {
             if (CommonHandler.overlayPlayerList != null)
             {
                 event.setCanceled(true);
                 ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
-                NetHandlerPlayClient handler = this.mc.thePlayer.connection;
+                NetHandlerPlayClient handler = this.mc.thePlayer.sendQueue;
 
                 if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
                 {
                     CommonHandler.overlayPlayerList.updatePlayerList(true);
-                    CommonHandler.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.theWorld.getScoreboard(), scoreobjective);
+                    CommonHandler.overlayPlayerList.renderPlayerlist(event.resolution.getScaledWidth(), this.mc.theWorld.getScoreboard(), scoreobjective);
                 }
                 else
                 {
@@ -280,45 +278,66 @@ public class HUDRenderHandler
                 }
             }
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
+        if (event.type == RenderGameOverlayEvent.ElementType.CHAT)
         {
             if (ConfigManager.enableChatDepthRender)
             {
                 event.setCanceled(true);
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(0, event.getResolution().getScaledHeight() - 48, 0.0F);
+                GlStateManager.translate(0, event.resolution.getScaledHeight() - 48, 0.0F);
                 GlStateManager.disableDepth();
                 this.mc.ingameGUI.getChatGUI().drawChat(this.mc.ingameGUI.getUpdateCounter());
                 GlStateManager.enableDepth();
                 GlStateManager.popMatrix();
             }
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
+        if (event.type == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
         {
-            if (!ConfigManager.enableIngamePotionHUD)
+            if (ConfigManager.enableRenderBossHealthStatus)
             {
                 event.setCanceled(true);
+                this.mc.getTextureManager().bindTexture(Gui.icons);
+                GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+                GlStateManager.enableBlend();
+
+                if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
+                {
+                    --BossStatus.statusBarTime;
+                    ScaledResolution res = new ScaledResolution(this.mc);
+                    int i = res.getScaledWidth();
+                    int j = 182;
+                    int k = i / 2 - j / 2;
+                    int l = (int)(BossStatus.healthScale * (j + 1));
+                    int i1 = 12;
+
+                    if (!ConfigManager.enableRenderBossHealthBar)
+                    {
+                        this.mc.ingameGUI.drawTexturedModalRect(k, i1, 0, 74, j, 5);
+                        this.mc.ingameGUI.drawTexturedModalRect(k, i1, 0, 74, j, 5);
+
+                        if (l > 0)
+                        {
+                            this.mc.ingameGUI.drawTexturedModalRect(k, i1, 0, 79, l, 5);
+                        }
+                    }
+                    String name = BossStatus.bossName;
+                    this.mc.ingameGUI.getFontRenderer().drawStringWithShadow(name, i / 2 - this.mc.ingameGUI.getFontRenderer().getStringWidth(name) / 2, i1 - 10, 16777215);
+                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                    this.mc.getTextureManager().bindTexture(Gui.icons);
+                }
+                GlStateManager.disableBlend();
             }
-        }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
-        {
-            event.setCanceled(true);
-            this.mc.getTextureManager().bindTexture(Gui.ICONS);
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.enableBlend();
-            this.overlayBoss.renderBossHealth();
-            GlStateManager.disableBlend();
         }
     }
 
     @SubscribeEvent
     public void onRenderHealthStatus(RenderLivingEvent.Specials.Post event)
     {
-        EntityLivingBase entity = event.getEntity();
+        EntityLivingBase entity = event.entity;
         float health = entity.getHealth();
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
-        float range = entity.isSneaking() ? RenderLivingBase.NAME_TAG_RANGE_SNEAK : RenderLivingBase.NAME_TAG_RANGE;
+        float range = entity.isSneaking() ? RendererLivingEntity.NAME_TAG_RANGE_SNEAK : RendererLivingEntity.NAME_TAG_RANGE;
         double distance = entity.getDistanceSqToEntity(this.mc.getRenderViewEntity());
         String mode = ConfigManager.healthStatusMode;
         boolean flag = true;
@@ -347,8 +366,8 @@ public class HUDRenderHandler
         {
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand))
             {
-                String heart = json.text("\u2764 ").setStyle(json.colorFromConfig(color)).getFormattedText();
-                RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
+                String heart = json.text("\u2764 ").setChatStyle(json.colorFromConfig(color)).getFormattedText();
+                RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.x, event.y, event.z);
             }
         }
     }
@@ -376,7 +395,7 @@ public class HUDRenderHandler
         {
             ModLogger.error("Couldn't read text file from path {}", file.getPath());
             e.printStackTrace();
-            HUDRenderHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
+            HUDRenderHandler.topDonator = EnumChatFormatting.RED + "Cannot read text file!";
         }
     }
 
@@ -403,7 +422,7 @@ public class HUDRenderHandler
         {
             ModLogger.error("Couldn't read text file from path {}", file.getPath());
             e.printStackTrace();
-            HUDRenderHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
+            HUDRenderHandler.recentDonator = EnumChatFormatting.RED + "Cannot read text file!";
         }
     }
 

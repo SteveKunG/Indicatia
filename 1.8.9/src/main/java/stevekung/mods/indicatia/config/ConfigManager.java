@@ -7,6 +7,8 @@ import java.util.List;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.config.ConfigGuiType;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import stevekung.mods.indicatia.gui.ConfigColorEntry;
@@ -19,20 +21,19 @@ public class ConfigManager
     public static final String MAIN_SETTINGS = "indicatia_main_settings";
     public static final String RENDER_SETTINGS = "indicatia_render_settings";
     public static final String COLOR_SETTINGS = "indicatia_color_settings";
+    public static final String KEY_BINDING_SETTINGS = "indicatia_key_binding_settings";
     public static final String DONATION_SETTINGS = "indicatia_donation_settings";
 
     // Main Settings
     public static int afkMessageTime;
     public static boolean enableRenderInfo;
     public static boolean enableBlockhitAnimation;
-    public static boolean enableFishingRodOldRender;
     public static boolean enableVersionChecker;
     public static boolean enableAnnounceMessage;
     public static boolean enableAFKMessage;
     public static boolean enableFastChatRender;
     public static boolean enableCustomPlayerList;
     public static boolean enableChatDepthRender;
-    public static boolean enableIngamePotionHUD;
     public static boolean enableRenderBossHealthBar;
     public static boolean enableRenderBossHealthStatus;
     public static boolean enableRenderScoreboard;
@@ -85,6 +86,11 @@ public class ConfigManager
     public static String customColorTopDonateCount;
     public static String customColorRecentDonateCount;
 
+    // Key Binding Settings
+    public static String keyToggleSprint;
+    public static String keyToggleSneak;
+    public static String keyAutoSwim;
+
     // Donation Settings
     public static String donatorMessagePosition;
     public static int readFileInterval;
@@ -108,6 +114,7 @@ public class ConfigManager
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.MAIN_SETTINGS, ConfigManager.addMainSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.RENDER_SETTINGS, ConfigManager.addRenderSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.COLOR_SETTINGS, ConfigManager.addCustomColorSetting());
+        ConfigManager.config.setCategoryPropertyOrder(ConfigManager.KEY_BINDING_SETTINGS, ConfigManager.addKeyBindingSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.DONATION_SETTINGS, ConfigManager.addDonationSetting());
 
         if (ConfigManager.config.hasChanged())
@@ -132,33 +139,22 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Blockhit Animation", false);
         ConfigManager.enableBlockhitAnimation = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.blockhit_animation"));
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Fishing Rod Old Render", false);
-        ConfigManager.enableFishingRodOldRender = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.old_fish_render"));
-        prop.setRequiresMcRestart(true);
+        prop.comment = LangUtil.translate("gui.config.indicatia.blockhit_animation");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Fast Chat Render", false);
         ConfigManager.enableFastChatRender = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.fast_chat"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.fast_chat");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Player List", false);
         ConfigManager.enableCustomPlayerList = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.custom_player_list"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.custom_player_list");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Chat Depth Render", true);
         ConfigManager.enableChatDepthRender = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.chat_depth_render"));
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Ingame Potion HUD", true);
-        ConfigManager.enableIngamePotionHUD = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.potion_hud"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.chat_depth_render");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Boss Health Bar", true);
@@ -179,17 +175,17 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Smooth Eye Height", false);
         ConfigManager.enableSmoothEyeHeight = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.smooth_eye_height"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.smooth_eye_height");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Movement Handler", true);
         ConfigManager.enableCustomMovementHandler = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.custom_movement_handler"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.custom_movement_handler");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Cape", false);
         ConfigManager.enableCustomCape = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.custom_cape"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.custom_cape");
         prop.setRequiresMcRestart(true);
         propOrder.add(prop.getName());
 
@@ -330,7 +326,7 @@ public class ConfigManager
         ConfigManager.enableMoonPhase = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Potion HUD Icon", false);
+        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Potion HUD Icon", true);
         ConfigManager.enablePotionHUDIcon = prop.getBoolean();
         propOrder.add(prop.getName());
 
@@ -340,7 +336,7 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Server TPS", false);
         ConfigManager.enableServerTPS = prop.getBoolean();
-        prop.setComment(LangUtil.translate("gui.config.indicatia.server_tps"));
+        prop.comment = LangUtil.translate("gui.config.indicatia.server_tps");
         propOrder.add(prop.getName());
 
         return propOrder;
@@ -394,6 +390,24 @@ public class ConfigManager
         return propOrder;
     }
 
+    private static List<String> addKeyBindingSetting()
+    {
+        Property prop;
+        List<String> propOrder = new ArrayList<>();
+        prop = ConfigManager.getProperty(ConfigManager.KEY_BINDING_SETTINGS, "Key Toggle Sprint (Ctrl) + (Key)", "29,31");
+        ConfigManager.keyToggleSprint = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.KEY_BINDING_SETTINGS, "Key Toggle Sneak (Ctrl) + (Key)", "29,42");
+        ConfigManager.keyToggleSneak = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.KEY_BINDING_SETTINGS, "Key Auto Swim (Ctrl) + (Key)", "29,19");
+        ConfigManager.keyAutoSwim = prop.getString();
+        propOrder.add(prop.getName());
+        return propOrder;
+    }
+
     private static List<String> addDonationSetting()
     {
         Property prop;
@@ -441,6 +455,8 @@ public class ConfigManager
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.MAIN_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.RENDER_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.COLOR_SETTINGS)));
+        list.add(new DummyConfigElement("Key Code Example", "http://minecraft.gamepedia.com/Key_codes", ConfigGuiType.STRING, "gui.config.key_code_example"));
+        list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.KEY_BINDING_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.DONATION_SETTINGS)));
         return list;
     }

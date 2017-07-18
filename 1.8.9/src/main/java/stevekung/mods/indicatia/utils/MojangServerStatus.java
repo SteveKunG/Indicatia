@@ -1,13 +1,13 @@
 package stevekung.mods.indicatia.utils;
 
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.EnumChatFormatting;
 
 public enum MojangServerStatus
 {
-    ONLINE("Online", TextFormatting.GREEN.getFriendlyName()),
-    UNSTABLE("Unstable", TextFormatting.YELLOW.getFriendlyName()),
-    OFFLINE("Offline", TextFormatting.DARK_RED.getFriendlyName()),
-    UNKNOWN("Unknown", TextFormatting.RED.getFriendlyName());
+    ONLINE("Online", EnumChatFormatting.GREEN.getFriendlyName()),
+    UNSTABLE("Unstable", EnumChatFormatting.YELLOW.getFriendlyName()),
+    OFFLINE("Offline", EnumChatFormatting.DARK_RED.getFriendlyName()),
+    UNKNOWN("Unknown", EnumChatFormatting.RED.getFriendlyName());
 
     private String status;
     private String color;

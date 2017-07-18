@@ -20,19 +20,19 @@ public abstract class ClientCommandBase extends CommandBase
         return 0;
     }
 
-    protected IChatComponent getChatComponentFromNthArg(String[] args, int index)
+    protected static IChatComponent getChatComponentFromNthArg(String[] args, int index)
     {
-        IChatComponent itextcomponent = new ChatComponentText("");
+        IChatComponent component = new ChatComponentText("");
 
         for (int i = index; i < args.length; ++i)
         {
             if (i > index)
             {
-                itextcomponent.appendText(" ");
+                component.appendText(" ");
             }
-            IChatComponent itextcomponent1 = ForgeHooks.newChatWithLinks(args[i]);
-            itextcomponent.appendSibling(itextcomponent1);
+            IChatComponent component1 = ForgeHooks.newChatWithLinks(args[i]);
+            component.appendSibling(component1);
         }
-        return itextcomponent;
+        return component;
     }
 }

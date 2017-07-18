@@ -9,10 +9,9 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.profile.ProfileConfigData;
@@ -30,7 +29,7 @@ public class CommandProfile extends ClientCommandBase
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         JsonUtil json = new JsonUtil();
         ProfileConfigData configData = new ProfileConfigData();
@@ -49,7 +48,7 @@ public class CommandProfile extends ClientCommandBase
                 }
                 if (RenderProfileConfig.profileData.getProfile(args[1]) != null)
                 {
-                    sender.addChatMessage(json.text("Profile data was already set for name: " + args[1] + "!").setStyle(json.red()));
+                    sender.addChatMessage(json.text("Profile data was already set for name: " + args[1] + "!").setChatStyle(json.red()));
                     return;
                 }
                 RenderProfileConfig.profileData.addProfileData(args[1], ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableBiome, ConfigManager.enablePing, ConfigManager.enableServerIP,
@@ -87,7 +86,7 @@ public class CommandProfile extends ClientCommandBase
                     }
                     else
                     {
-                        sender.addChatMessage(json.text("Cannot load profile data from: " + args[1]).setStyle(json.red()));
+                        sender.addChatMessage(json.text("Cannot load profile data from: " + args[1]).setChatStyle(json.red()));
                         return;
                     }
                 }
@@ -102,7 +101,7 @@ public class CommandProfile extends ClientCommandBase
                 {
                     if (RenderProfileConfig.profileData.getProfile(args[1]) == null)
                     {
-                        sender.addChatMessage(json.text("Cannot save profile data to: " + args[1]).setStyle(json.red()));
+                        sender.addChatMessage(json.text("Cannot save profile data to: " + args[1]).setChatStyle(json.red()));
                         return;
                     }
                     if (args[1].equals(data.getProfileName()))
@@ -130,7 +129,7 @@ public class CommandProfile extends ClientCommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("Cannot remove or find profile data from: " + args[1]).setStyle(json.red()));
+                    sender.addChatMessage(json.text("Cannot remove or find profile data from: " + args[1]).setChatStyle(json.red()));
                 }
             }
             else if ("list".equalsIgnoreCase(args[0]))
@@ -143,13 +142,13 @@ public class CommandProfile extends ClientCommandBase
                 }
                 else
                 {
-                    TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.profileiu.list.count", new Object[] {Integer.valueOf(collection.size())});
-                    textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
+                    ChatComponentTranslation textcomponenttranslation = new ChatComponentTranslation("commands.profileiu.list.count", new Object[] {Integer.valueOf(collection.size())});
+                    textcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.DARK_GREEN);
                     sender.addChatMessage(textcomponenttranslation);
 
                     for (ProfileData.ProfileSettingData data : collection)
                     {
-                        sender.addChatMessage(new TextComponentTranslation("commands.profileiu.list.entry", new Object[] {data.getProfileName()}));
+                        sender.addChatMessage(new ChatComponentTranslation("commands.profileiu.list.entry", new Object[] {data.getProfileName()}));
                     }
                 }
             }
@@ -161,7 +160,7 @@ public class CommandProfile extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -181,6 +180,6 @@ public class CommandProfile extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, list);
             }
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.addTabCompletionOptions(sender, args, pos);
     }
 }

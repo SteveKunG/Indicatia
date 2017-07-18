@@ -6,10 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -68,7 +68,7 @@ public class GuiChangeLogSlot extends GuiSlot
     {
         this.parent.drawCenteredString(this.mc.fontRendererObj, "Indicatia " + IndicatiaMod.VERSION + " Change Log", this.width / 2, 16, 16777215);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
         this.mc.getTextureManager().bindTexture(this.textureType ? GuiChangeLogSlot.STONEBRICK : GuiChangeLogSlot.ANDESITE);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         float size = 32.0F;
@@ -87,7 +87,7 @@ public class GuiChangeLogSlot extends GuiSlot
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        if (this.visible)
+        if (this.field_178041_q)
         {
             this.mouseX = mouseX;
             this.mouseY = mouseY;
@@ -98,7 +98,7 @@ public class GuiChangeLogSlot extends GuiSlot
             GlStateManager.disableLighting();
             GlStateManager.disableFog();
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
             this.drawContainerBackground(tessellator);
             int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
             int l = this.top + 4 - (int)this.amountScrolled;
@@ -113,7 +113,7 @@ public class GuiChangeLogSlot extends GuiSlot
             this.overlayBackground(0, this.top, 255, 255);
             this.overlayBackground(this.bottom, this.height, 255, 255);
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
+            GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
             GlStateManager.disableAlpha();
             GlStateManager.shadeModel(7425);
             GlStateManager.disableTexture2D();
@@ -129,7 +129,7 @@ public class GuiChangeLogSlot extends GuiSlot
             vertexbuffer.pos(this.right, this.bottom - 4, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
             vertexbuffer.pos(this.left, this.bottom - 4, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
             tessellator.draw();
-            int j1 = this.getMaxScroll();
+            int j1 = this.func_148135_f();
 
             if (j1 > 0)
             {
@@ -154,7 +154,7 @@ public class GuiChangeLogSlot extends GuiSlot
                 vertexbuffer.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 100).endVertex();
                 tessellator.draw();
             }
-            this.renderDecorations(mouseX, mouseY);
+            this.func_148142_b(mouseX, mouseY);
             GlStateManager.enableTexture2D();
             GlStateManager.shadeModel(7424);
             GlStateManager.enableAlpha();

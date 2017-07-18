@@ -2,17 +2,18 @@ package stevekung.mods.indicatia.renderer;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Random;
 
 import org.apache.commons.io.IOUtils;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
@@ -84,21 +85,15 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
     private void readFontTexture()
     {
-        IResource iresource = null;
         BufferedImage bufferedimage;
 
         try
         {
-            iresource = this.getResource(SmallFontRenderer.LOCATION_FONT_TEXTURE);
-            bufferedimage = TextureUtil.readBufferedImage(iresource.getInputStream());
+            bufferedimage = TextureUtil.readBufferedImage(this.getResource(SmallFontRenderer.LOCATION_FONT_TEXTURE));
         }
         catch (IOException ioexception)
         {
             throw new RuntimeException(ioexception);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(iresource);
         }
 
         int lvt_3_1_ = bufferedimage.getWidth();
@@ -147,20 +142,20 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
     private void readGlyphSizes()
     {
-        IResource iresource = null;
+        InputStream inputstream = null;
 
         try
         {
-            iresource = this.getResource(new ResourceLocation("font/glyph_sizes.bin"));
-            iresource.getInputStream().read(this.glyphWidth);
+            inputstream = this.getResource(new ResourceLocation("font/glyph_sizes.bin"));
+            inputstream.read(this.glyphWidth);
         }
-        catch (IOException e)
+        catch (IOException ioexception)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException(ioexception);
         }
         finally
         {
-            IOUtils.closeQuietly(iresource);
+            IOUtils.closeQuietly(inputstream);
         }
     }
 
@@ -210,16 +205,16 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
             float f3 = (ch & 255) / 16 * 16;
             float f4 = f1 - f - 0.02F;
             float f5 = italic ? 1.0F : 0.0F;
-            GlStateManager.glBegin(5);
-            GlStateManager.glTexCoord2f(f2 / 256.0F, f3 / 256.0F);
-            GlStateManager.glVertex3f(this.posX + f5, this.posY, 0.0F);
-            GlStateManager.glTexCoord2f(f2 / 256.0F, (f3 + 15.98F) / 256.0F);
-            GlStateManager.glVertex3f(this.posX - f5, this.posY + 7.99F, 0.0F);
-            GlStateManager.glTexCoord2f((f2 + f4) / 256.0F, f3 / 256.0F);
-            GlStateManager.glVertex3f(this.posX + f4 / 2.0F + f5, this.posY, 0.0F);
-            GlStateManager.glTexCoord2f((f2 + f4) / 256.0F, (f3 + 15.98F) / 256.0F);
-            GlStateManager.glVertex3f(this.posX + f4 / 2.0F - f5, this.posY + 7.99F, 0.0F);
-            GlStateManager.glEnd();
+            GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+            GL11.glTexCoord2f(f2 / 256.0F, f3 / 256.0F);
+            GL11.glVertex3f(this.posX + f5, this.posY, 0.0F);
+            GL11.glTexCoord2f(f2 / 256.0F, (f3 + 15.98F) / 256.0F);
+            GL11.glVertex3f(this.posX - f5, this.posY + 7.99F, 0.0F);
+            GL11.glTexCoord2f((f2 + f4) / 256.0F, f3 / 256.0F);
+            GL11.glVertex3f(this.posX + f4 / 2.0F + f5, this.posY, 0.0F);
+            GL11.glTexCoord2f((f2 + f4) / 256.0F, (f3 + 15.98F) / 256.0F);
+            GL11.glVertex3f(this.posX + f4 / 2.0F - f5, this.posY + 7.99F, 0.0F);
+            GL11.glEnd();
             return (f1 - f) / 2.0F + 1.0F;
         }
     }
@@ -379,27 +374,27 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         if (this.strikethroughStyle)
         {
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer vertexbuffer = tessellator.getBuffer();
+            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             GlStateManager.disableTexture2D();
-            vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
-            vertexbuffer.pos(this.posX, this.posY + this.FONT_HEIGHT / 2, 0.0D).endVertex();
-            vertexbuffer.pos(this.posX + f, this.posY + this.FONT_HEIGHT / 2, 0.0D).endVertex();
-            vertexbuffer.pos(this.posX + f, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0D).endVertex();
-            vertexbuffer.pos(this.posX, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0D).endVertex();
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+            worldrenderer.pos(this.posX, this.posY + this.FONT_HEIGHT / 2, 0.0D).endVertex();
+            worldrenderer.pos(this.posX + f, this.posY + this.FONT_HEIGHT / 2, 0.0D).endVertex();
+            worldrenderer.pos(this.posX + f, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0D).endVertex();
+            worldrenderer.pos(this.posX, this.posY + this.FONT_HEIGHT / 2 - 1.0F, 0.0D).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
         }
         if (this.underlineStyle)
         {
             Tessellator tessellator1 = Tessellator.getInstance();
-            VertexBuffer vertexbuffer1 = tessellator1.getBuffer();
+            WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
             GlStateManager.disableTexture2D();
-            vertexbuffer1.begin(7, DefaultVertexFormats.POSITION);
+            worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
             int l = this.underlineStyle ? -1 : 0;
-            vertexbuffer1.pos(this.posX + l, this.posY + this.FONT_HEIGHT, 0.0D).endVertex();
-            vertexbuffer1.pos(this.posX + f, this.posY + this.FONT_HEIGHT, 0.0D).endVertex();
-            vertexbuffer1.pos(this.posX + f, this.posY + this.FONT_HEIGHT - 1.0F, 0.0D).endVertex();
-            vertexbuffer1.pos(this.posX + l, this.posY + this.FONT_HEIGHT - 1.0F, 0.0D).endVertex();
+            worldrenderer1.pos(this.posX + l, this.posY + this.FONT_HEIGHT, 0.0D).endVertex();
+            worldrenderer1.pos(this.posX + f, this.posY + this.FONT_HEIGHT, 0.0D).endVertex();
+            worldrenderer1.pos(this.posX + f, this.posY + this.FONT_HEIGHT - 1.0F, 0.0D).endVertex();
+            worldrenderer1.pos(this.posX + l, this.posY + this.FONT_HEIGHT - 1.0F, 0.0D).endVertex();
             tessellator1.draw();
             GlStateManager.enableTexture2D();
         }
@@ -522,8 +517,8 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         IndicatiaMod.MC.getTextureManager().bindTexture(location);
     }
 
-    private IResource getResource(ResourceLocation location) throws IOException
+    private InputStream getResource(ResourceLocation location) throws IOException
     {
-        return IndicatiaMod.MC.getResourceManager().getResource(location);
+        return IndicatiaMod.MC.getResourceManager().getResource(location).getInputStream();
     }
 }

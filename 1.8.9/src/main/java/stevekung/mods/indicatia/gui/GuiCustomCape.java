@@ -35,10 +35,10 @@ public class GuiCustomCape extends GuiScreen
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
         this.inputField.setText(ExtendedConfig.CAPE_URL.isEmpty() ? "" : Base64Utils.decode(ExtendedConfig.CAPE_URL));
-        this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.done")));
+        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.done")));
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
-        this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Cape"));
+        this.buttonList.add(this.cancelBtn = new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
+        this.buttonList.add(this.resetBtn = new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Cape"));
         this.resetBtn.enabled = !ExtendedConfig.CAPE_URL.isEmpty();
 
         if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.SHOW_CAPE)
@@ -54,7 +54,7 @@ public class GuiCustomCape extends GuiScreen
             this.capeOption = 2;
         }
         this.prevCapeOption = this.capeOption;
-        this.capeBtn = this.addButton(new GuiButton(3, this.width / 2 + 50 + 4, this.height / 4 + 50, 100, 20, ""));
+        this.buttonList.add(this.capeBtn = new GuiButton(3, this.width / 2 + 50 + 4, this.height / 4 + 50, 100, 20, ""));
         this.setTextForCapeOption();
     }
 

@@ -57,7 +57,7 @@ public class CapeUtils
             {
                 if (IndicatiaMod.MC.thePlayer != null)
                 {
-                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Missing protocol or wrong URL format").setStyle(json.red()));
+                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Missing protocol or wrong URL format").setChatStyle(json.red()));
                 }
                 e.printStackTrace();
                 return;
@@ -66,7 +66,7 @@ public class CapeUtils
             {
                 if (IndicatiaMod.MC.thePlayer != null)
                 {
-                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Cannot read image from URL").setStyle(json.red()));
+                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Cannot read image from URL").setChatStyle(json.red()));
                 }
                 e.printStackTrace();
                 return;

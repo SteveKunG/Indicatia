@@ -1,123 +1,105 @@
 package stevekung.mods.indicatia.utils;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 
 public class JsonUtil
 {
-    //    public static ITextComponent rawTextToJson(String json)
-    //    {
-    //        ITextComponent text = new JsonUtils().text("null ").setStyle(new JsonUtils().red());
-    //
-    //        try
-    //        {
-    //            text = Serializer.jsonToComponent("[{" + json + "}]");
-    //        }
-    //        catch (JsonParseException jsonparseexception)
-    //        {
-    //            if (Minecraft.getMinecraft().thePlayer.ticksExisted % 300 == 0)
-    //            {
-    //                Minecraft.getMinecraft().thePlayer.addChatMessage(new JsonUtils().text(jsonparseexception.getMessage()).setStyle(new JsonUtils().red()));
-    //            }
-    //        }
-    //        return text;
-    //    }
-
-    public TextComponentString text(String text)
+    public ChatComponentText text(String text)
     {
-        return new TextComponentString(text);
+        return new ChatComponentText(text);
     }
 
-    public Style style()
+    public ChatStyle style()
     {
-        return new Style();
+        return new ChatStyle();
     }
 
-    public Style colorFromConfig(String color)
+    public ChatStyle colorFromConfig(String color)
     {
         return this.style().setColor(this.color(color));
     }
 
-    private TextFormatting color(String color)
+    private EnumChatFormatting color(String color)
     {
         if (color.equalsIgnoreCase("black"))
         {
-            return TextFormatting.BLACK;
+            return EnumChatFormatting.BLACK;
         }
         else if (color.equalsIgnoreCase("dark_blue"))
         {
-            return TextFormatting.DARK_BLUE;
+            return EnumChatFormatting.DARK_BLUE;
         }
         else if (color.equalsIgnoreCase("dark_green"))
         {
-            return TextFormatting.DARK_GREEN;
+            return EnumChatFormatting.DARK_GREEN;
         }
         else if (color.equalsIgnoreCase("dark_aqua"))
         {
-            return TextFormatting.DARK_AQUA;
+            return EnumChatFormatting.DARK_AQUA;
         }
         else if (color.equalsIgnoreCase("dark_red"))
         {
-            return TextFormatting.DARK_RED;
+            return EnumChatFormatting.DARK_RED;
         }
         else if (color.equalsIgnoreCase("dark_purple"))
         {
-            return TextFormatting.DARK_PURPLE;
+            return EnumChatFormatting.DARK_PURPLE;
         }
         else if (color.equalsIgnoreCase("gold"))
         {
-            return TextFormatting.GOLD;
+            return EnumChatFormatting.GOLD;
         }
         else if (color.equalsIgnoreCase("gray"))
         {
-            return TextFormatting.GRAY;
+            return EnumChatFormatting.GRAY;
         }
         else if (color.equalsIgnoreCase("dark_gray"))
         {
-            return TextFormatting.DARK_GRAY;
+            return EnumChatFormatting.DARK_GRAY;
         }
         else if (color.equalsIgnoreCase("blue"))
         {
-            return TextFormatting.BLUE;
+            return EnumChatFormatting.BLUE;
         }
         else if (color.equalsIgnoreCase("green"))
         {
-            return TextFormatting.GREEN;
+            return EnumChatFormatting.GREEN;
         }
         else if (color.equalsIgnoreCase("aqua"))
         {
-            return TextFormatting.AQUA;
+            return EnumChatFormatting.AQUA;
         }
         else if (color.equalsIgnoreCase("red"))
         {
-            return TextFormatting.RED;
+            return EnumChatFormatting.RED;
         }
         else if (color.equalsIgnoreCase("light_purple"))
         {
-            return TextFormatting.LIGHT_PURPLE;
+            return EnumChatFormatting.LIGHT_PURPLE;
         }
         else if (color.equalsIgnoreCase("yellow"))
         {
-            return TextFormatting.YELLOW;
+            return EnumChatFormatting.YELLOW;
         }
         else
         {
-            return TextFormatting.WHITE;
+            return EnumChatFormatting.WHITE;
         }
     }
 
-    public Style white()
+    public ChatStyle white()
     {
-        return this.style().setColor(TextFormatting.WHITE);
+        return this.style().setColor(EnumChatFormatting.WHITE);
     }
 
-    public Style red()
+    public ChatStyle red()
     {
-        return this.style().setColor(TextFormatting.RED);
+        return this.style().setColor(EnumChatFormatting.RED);
     }
 
     public ClickEvent click(ClickEvent.Action action, String url)
@@ -125,7 +107,7 @@ public class JsonUtil
         return new ClickEvent(action, url);
     }
 
-    public HoverEvent hover(HoverEvent.Action action, ITextComponent text)
+    public HoverEvent hover(HoverEvent.Action action, IChatComponent text)
     {
         return new HoverEvent(action, text);
     }

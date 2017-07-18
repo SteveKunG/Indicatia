@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ConfigManager;
@@ -25,7 +25,7 @@ public class GuiNewChatFast extends GuiNewChat
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             int i = this.getLineCount();
-            int j = this.drawnChatLines.size();
+            int j = this.field_146253_i.size();
             float f = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
             if (j > 0)
@@ -43,9 +43,9 @@ public class GuiNewChatFast extends GuiNewChat
                 GlStateManager.scale(f1, f1, 1.0F);
                 int l = 0;
 
-                for (int i1 = 0; i1 + this.scrollPos < this.drawnChatLines.size() && i1 < i; ++i1)
+                for (int i1 = 0; i1 + this.scrollPos < this.field_146253_i.size() && i1 < i; ++i1)
                 {
-                    ChatLine chatline = this.drawnChatLines.get(i1 + this.scrollPos);
+                    ChatLine chatline = this.field_146253_i.get(i1 + this.scrollPos);
 
                     if (chatline != null)
                     {

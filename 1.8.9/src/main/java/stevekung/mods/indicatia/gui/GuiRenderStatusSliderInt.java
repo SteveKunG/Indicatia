@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -53,7 +53,7 @@ public class GuiRenderStatusSliderInt extends GuiButton
                 this.sliderValue = this.options.normalizeValue(f);
                 this.displayString = this.options.getEnumString() + ": " + this.getOptionValue(this.options);
             }
-            mc.getTextureManager().bindTexture(GuiButton.BUTTON_TEXTURES);
+            mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
             this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);

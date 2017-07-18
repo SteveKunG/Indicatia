@@ -12,12 +12,12 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.scoreboard.IScoreCriteria;
+import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.GameType;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.world.WorldSettings.GameType;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
@@ -31,7 +31,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     @Override
     public void renderPlayerlist(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
-        List<NetworkPlayerInfo> list = GuiPlayerTabOverlay.ENTRY_ORDERING.sortedCopy(this.mc.thePlayer.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = GuiPlayerTabOverlay.field_175252_a.sortedCopy(this.mc.thePlayer.sendQueue.getPlayerInfoMap());
         int i = 0;
         int j = 0;
 
@@ -40,9 +40,9 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(info));
             i = Math.max(i, k);
 
-            if (scoreObjective != null && scoreObjective.getRenderType() != IScoreCriteria.EnumRenderType.HEARTS)
+            if (scoreObjective != null && scoreObjective.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS)
             {
-                k = this.mc.fontRendererObj.getStringWidth(" " + scoreboard.getOrCreateScore(info.getGameProfile().getName(), scoreObjective).getScorePoints());
+                k = this.mc.fontRendererObj.getStringWidth(" " + scoreboard.getValueFromObjective(info.getGameProfile().getName(), scoreObjective).getScorePoints());
                 j = Math.max(j, k);
             }
         }
@@ -57,12 +57,12 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             ++j4;
         }
 
-        boolean flag = this.mc.isIntegratedServerRunning() || this.mc.getConnection().getNetworkManager().isEncrypted();
+        boolean flag = this.mc.isIntegratedServerRunning() || this.mc.getNetHandler().getNetworkManager().getIsencrypted();
         int l;
 
         if (scoreObjective != null)
         {
-            if (scoreObjective.getRenderType() == IScoreCriteria.EnumRenderType.HEARTS)
+            if (scoreObjective.getRenderType() == IScoreObjectiveCriteria.EnumRenderType.HEARTS)
             {
                 l = 90;
             }
@@ -81,8 +81,8 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         int k1 = 10;
         int l1 = i1 * j4 + (j4 - 1) * 5;
         List<String> list1 = null;
-        ITextComponent header = this.mc.ingameGUI.getTabList().header;
-        ITextComponent footer = this.mc.ingameGUI.getTabList().footer;
+        IChatComponent header = this.mc.ingameGUI.getTabList().header;
+        IChatComponent footer = this.mc.ingameGUI.getTabList().footer;
 
         if (header != null)
         {
@@ -131,7 +131,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
             if (k4 < list.size())
             {
@@ -160,7 +160,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
                 if (networkplayerinfo1.getGameType() == GameType.SPECTATOR)
                 {
-                    this.mc.fontRendererObj.drawStringWithShadow(TextFormatting.ITALIC + s4, j2, k2, -1862270977);
+                    this.mc.fontRendererObj.drawStringWithShadow(EnumChatFormatting.ITALIC + s4, j2, k2, -1862270977);
                 }
                 else
                 {
@@ -201,19 +201,19 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         if (ConfigManager.enableCustomPlayerList)
         {
             int ping = info.getResponseTime();
-            TextFormatting color = TextFormatting.GREEN;
+            EnumChatFormatting color = EnumChatFormatting.GREEN;
 
             if (ping >= 200 && ping < 300)
             {
-                color = TextFormatting.YELLOW;
+                color = EnumChatFormatting.YELLOW;
             }
             else if (ping >= 300 && ping < 500)
             {
-                color = TextFormatting.RED;
+                color = EnumChatFormatting.RED;
             }
             else if (ping >= 500)
             {
-                color = TextFormatting.DARK_RED;
+                color = EnumChatFormatting.DARK_RED;
             }
             String pingText = String.valueOf(ping);
             this.mc.fontRendererObj.drawString(color + pingText, x1 + x2 - this.mc.fontRendererObj.getStringWidth(pingText), y + 0.5F, 0, true);
