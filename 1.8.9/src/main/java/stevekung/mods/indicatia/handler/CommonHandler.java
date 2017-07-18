@@ -265,7 +265,7 @@ public class CommonHandler
         {
             this.mc.displayGuiScreen(CommonHandler.customCapeGui);
         }
-        if (ExtendedConfig.TOGGLE_SPRINT_USE_MODE.equalsIgnoreCase("key_binding"))
+        if (ExtendedConfig.TOGGLE_SPRINT_USE_MODE.equals("key_binding"))
         {
             String[] keyTS = ConfigManager.keyToggleSprint.split(",");
             int keyTGCtrl = InfoUtil.INSTANCE.parseInt(keyTS[0], "Toggle Sprint");
@@ -278,7 +278,7 @@ public class CommonHandler
                 ExtendedConfig.save();
             }
         }
-        if (ExtendedConfig.TOGGLE_SNEAK_USE_MODE.equalsIgnoreCase("key_binding"))
+        if (ExtendedConfig.TOGGLE_SNEAK_USE_MODE.equals("key_binding"))
         {
             String[] keyTS = ConfigManager.keyToggleSneak.split(",");
             int keyTGCtrl = InfoUtil.INSTANCE.parseInt(keyTS[0], "Toggle Sneak");
@@ -291,7 +291,7 @@ public class CommonHandler
                 ExtendedConfig.save();
             }
         }
-        if (ExtendedConfig.AUTO_SWIM_USE_MODE.equalsIgnoreCase("key_binding"))
+        if (ExtendedConfig.AUTO_SWIM_USE_MODE.equals("key_binding"))
         {
             String[] keyAW = ConfigManager.keyAutoSwim.split(",");
             int keyAWCtrl = InfoUtil.INSTANCE.parseInt(keyAW[0], "Auto Swim");
