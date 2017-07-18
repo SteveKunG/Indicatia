@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.handler;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.util.glu.Project;
 
 import com.google.common.base.Objects;
@@ -124,7 +126,7 @@ public class BlockhitAnimationHandler
         {
             ItemStack itemstack = player.getActiveItemStack();
 
-            if (itemstack != null && itemstack.getItem() == Items.BOW)
+            if (!itemstack.isEmpty() && itemstack.getItem() == Items.BOW)
             {
                 EnumHand enumhand1 = player.getActiveHand();
                 mainHand = enumhand1 == EnumHand.MAIN_HAND;
@@ -139,13 +141,13 @@ public class BlockhitAnimationHandler
 
         if (mainHand)
         {
-            float mainHandSwing = hand == EnumHand.MAIN_HAND ? swingProgress : 0;
+            float mainHandSwing = hand == EnumHand.MAIN_HAND ? swingProgress : 0.0F;
             float equipProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgressMainHand + (this.mc.getItemRenderer().equippedProgressMainHand - this.mc.getItemRenderer().prevEquippedProgressMainHand) * partialTicks);
             this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.MAIN_HAND, mainHandSwing, this.mc.getItemRenderer().itemStackMainHand, equipProgress);
         }
         if (offHand)
         {
-            float offHandSwing = hand == EnumHand.OFF_HAND ? swingProgress : 0;
+            float offHandSwing = hand == EnumHand.OFF_HAND ? swingProgress : 0.0F;
             float equipProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgressOffHand + (this.mc.getItemRenderer().equippedProgressOffHand - this.mc.getItemRenderer().prevEquippedProgressOffHand) * partialTicks);
             this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.OFF_HAND, offHandSwing, this.mc.getItemRenderer().itemStackOffHand, equipProgress);
         }
@@ -153,13 +155,13 @@ public class BlockhitAnimationHandler
         RenderHelper.disableStandardItemLighting();
     }
 
-    private void renderItemInFirstPerson(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress)
+    private void renderItemInFirstPerson(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, @Nullable ItemStack itemStack, float equipProgress)
     {
         boolean mainHand = hand == EnumHand.MAIN_HAND;
         EnumHandSide handSide = mainHand ? player.getPrimaryHand() : player.getPrimaryHand().opposite();
         GlStateManager.pushMatrix();
 
-        if (itemStack == null)
+        if (itemStack.isEmpty())
         {
             if (mainHand && !player.isInvisible())
             {
@@ -168,7 +170,7 @@ public class BlockhitAnimationHandler
         }
         else if (itemStack.getItem() instanceof ItemMap)
         {
-            if (mainHand && this.mc.getItemRenderer().itemStackOffHand == null)
+            if (mainHand && this.mc.getItemRenderer().itemStackOffHand.isEmpty())
             {
                 this.mc.getItemRenderer().renderMapFirstPerson(rotationPitch, equipProgress, swingProgress);
             }
