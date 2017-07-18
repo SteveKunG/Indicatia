@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+version = "1.0.2"
+group = "stevekung.mods.indicatia"
+archivesBaseName = "Indicatia-All"
+sourceCompatibility = targetCompatibility = "1.8"
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+    mappings = "stable_20"
+	makeObfSourceJar = false
+}
+
+dependencies {}
+processResources {}
+
+ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
+ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'assets/minecraft/**', 'license.txt', 'META-INF/indicatia_at.cfg']
+
+task buildJar(type: Jar, dependsOn: "rePackAllJar") {
+	outputs.upToDateWhen { false }
+	baseName = "Indicatia-1.8.9"
+
+	from(zipTree(project.ext.coreJar)) {
+		includes.addAll(project.ext.coreFiles)
+	}
+	manifest {
+        attributes.put("FMLAT", "indicatia_at.cfg")
+        attributes.put("FMLCorePluginContainsFMLMod", "true")
+    }
+}
+
+task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {
+	from 'temporary'
+}
+
+task copyModFiles(type: Copy, dependsOn: "reobfJar") {
+	from(zipTree(project.ext.coreJar))
+	into 'temporary'
+}
+
+task buildDeobfJar(type: Jar) {
+    from sourceSets.main.output
+	baseName = "Indicatia-1.8.9"
+    classifier = 'deobf'
+}
