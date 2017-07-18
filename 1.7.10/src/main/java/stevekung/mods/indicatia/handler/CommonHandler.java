@@ -5,12 +5,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -21,7 +19,6 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 import io.netty.channel.ChannelOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.event.ClickEvent;
@@ -43,7 +40,6 @@ import stevekung.mods.indicatia.utils.*;
 public class CommonHandler
 {
     private JsonUtil json;
-    public static final List<String> PLAYER_LIST = new ArrayList<>();
     public static final Map<String, Integer> PLAYER_PING_MAP = Maps.newHashMap();
     private final Minecraft mc;
     public static final List<Long> LEFT_CLICK = new ArrayList<>();
@@ -64,9 +60,6 @@ public class CommonHandler
     public static boolean autoClick;
     public static String autoClickMode = "right";
     public static int autoClickTicks = 0;
-
-    private static long sneakTimeOld = 0L;
-    private static boolean sneakingOld = false;
 
     public static boolean setTCPNoDelay = false;
 
@@ -186,7 +179,6 @@ public class CommonHandler
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
         CommonHandler.PLAYER_PING_MAP.clear();
-        CommonHandler.PLAYER_LIST.clear();
         CommonHandler.stopCommandTicks();
     }
 
@@ -205,16 +197,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event)
     {
-        if (event.phase == TickEvent.Phase.START)
-        {
-            if (ConfigManager.enableSmoothEyeHeight)
-            {
-                if (this.mc.thePlayer != null)
-                {
-                    this.mc.thePlayer.eyeHeight = CommonHandler.getSmoothEyeHeight(this.mc.thePlayer);
-                }
-            }
-        }
         if (event.phase == TickEvent.Phase.END)
         {
             if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
@@ -387,60 +369,6 @@ public class CommonHandler
         }
     }
 
-    private static float getSmoothEyeHeight(EntityPlayerSP player)
-    {
-        if (CommonHandler.sneakingOld != player.isSneaking() || CommonHandler.sneakTimeOld <= 0L)
-        {
-            CommonHandler.sneakTimeOld = System.currentTimeMillis();
-        }
-
-        CommonHandler.sneakingOld = player.isSneaking();
-        float defaultEyeHeight = 1.62F;
-        double sneakPress = 0.0004D;
-        double sneakValue = 0.015D;
-        int sneakTime = -50;
-        long systemTime = 58L;
-
-        if (player.isSneaking())
-        {
-            int sneakSystemTime = (int)(CommonHandler.sneakTimeOld + systemTime - System.currentTimeMillis());
-
-            if (sneakSystemTime > sneakTime)
-            {
-                defaultEyeHeight += (float)(sneakSystemTime * sneakPress);
-
-                if (defaultEyeHeight < 0.0F || defaultEyeHeight > 10.0F)
-                {
-                    defaultEyeHeight = 1.54F;
-                }
-            }
-            else
-            {
-                defaultEyeHeight = (float)(defaultEyeHeight - sneakValue);
-            }
-        }
-        else
-        {
-            int sneakSystemTime = (int)(CommonHandler.sneakTimeOld + systemTime - System.currentTimeMillis());
-
-            if (sneakSystemTime > sneakTime)
-            {
-                defaultEyeHeight -= (float)(sneakSystemTime * sneakPress);
-                defaultEyeHeight = (float)(defaultEyeHeight - sneakValue);
-
-                if (defaultEyeHeight < 0.0F)
-                {
-                    defaultEyeHeight = 1.62F;
-                }
-            }
-            else
-            {
-                defaultEyeHeight -= 0.0F;
-            }
-        }
-        return defaultEyeHeight;
-    }
-
     private static void replaceGui(Minecraft mc, GuiScreen currentScreen)
     {
         if (currentScreen != null)
@@ -490,11 +418,6 @@ public class CommonHandler
             if (i < players.size())
             {
                 GuiPlayerInfo player = players.get(i);
-                CommonHandler.PLAYER_LIST.add(player.name);
-                Set<String> hs = Sets.newHashSet();
-                hs.addAll(CommonHandler.PLAYER_LIST);
-                CommonHandler.PLAYER_LIST.clear();
-                CommonHandler.PLAYER_LIST.addAll(hs);
                 CommonHandler.PLAYER_PING_MAP.put(player.name, player.responseTime);
             }
         }

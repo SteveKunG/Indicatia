@@ -10,7 +10,6 @@ indicatia_donation_settings=Donation Settings
 gui.config.indicatia.fast_chat=Disable chat background rendering.
 gui.config.indicatia.custom_player_list=Show response time as number instead.
 gui.config.indicatia.chat_depth_render=Fix chat rendering if equipment icons is over Chat GUI.
-gui.config.indicatia.smooth_eye_height=Improve player eye height (Camera View) if sneaking.
 gui.config.indicatia.custom_movement_handler=Allow handled by custom player movement (Toggle Sprint/Sneak, AFK Stuff).
 gui.config.indicatia.custom_cape=Allowed to use Custom Cape by upload your Custom Cape texture to any website.
 gui.config.indicatia.server_tps=This will show overall Server TPS to testing performance.

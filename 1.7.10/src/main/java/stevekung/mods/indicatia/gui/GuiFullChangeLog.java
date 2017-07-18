@@ -10,6 +10,7 @@ import org.apache.commons.io.Charsets;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -19,7 +20,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import stevekung.mods.indicatia.utils.LangUtil;
 
 @SideOnly(Side.CLIENT)
@@ -31,14 +31,14 @@ public class GuiFullChangeLog extends GuiScreen
 
     public void display()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         Minecraft.getMinecraft().displayGuiScreen(this);
-        MinecraftForge.EVENT_BUS.unregister(this);
+        FMLCommonHandler.instance().bus().unregister(this);
     }
 
     @Override
@@ -73,17 +73,6 @@ public class GuiFullChangeLog extends GuiScreen
         this.changeLogSlot = new GuiChangeLogSlot(this.mc, this, this.stringList, this.width, this.height, this.rand.nextBoolean());
         this.changeLogSlot.registerScrollButtons(1, 1);
     }
-
-    /*@Override TODO
-    public void handleMouseInput()
-    {
-        super.handleMouseInput();
-
-        if (this.changeLogSlot != null)
-        {
-            this.changeLogSlot.handleMouseInput();
-        }
-    }*/
 
     @Override
     protected void actionPerformed(GuiButton button)

@@ -36,7 +36,6 @@ public class ConfigManager
     public static boolean enableRenderBossHealthBar;
     public static boolean enableRenderBossHealthStatus;
     public static boolean enableRenderScoreboard;
-    public static boolean enableSmoothEyeHeight;
     public static boolean enableCustomMovementHandler;
     public static boolean enableCustomCape;
     public static boolean enableAlternatePlayerModel;
@@ -166,11 +165,6 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable AFK Message", true);
         ConfigManager.enableAFKMessage = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Smooth Eye Height", false);
-        ConfigManager.enableSmoothEyeHeight = prop.getBoolean();
-        prop.comment = LangUtil.translate("gui.config.indicatia.smooth_eye_height");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Movement Handler", true);

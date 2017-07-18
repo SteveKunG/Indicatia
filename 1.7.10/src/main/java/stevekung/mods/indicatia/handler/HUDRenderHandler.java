@@ -326,7 +326,7 @@ public class HUDRenderHandler
                         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                         int ping = player.responseTime;
 
-                        if (ConfigManager.enableCustomPlayerList)
+                        if (!ConfigManager.enableCustomPlayerList)
                         {
                             this.mc.getTextureManager().bindTexture(Gui.icons);
                             int pingIndex = 4;
@@ -392,39 +392,36 @@ public class HUDRenderHandler
         }
         if (event.type == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
         {
-            if (ConfigManager.enableRenderBossHealthStatus)
+            event.setCanceled(true);
+            GL11.glEnable(GL11.GL_BLEND);
+
+            if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
             {
-                event.setCanceled(true);
-                GL11.glEnable(GL11.GL_BLEND);
+                --BossStatus.statusBarTime;
+                FontRenderer fontrenderer = this.mc.fontRenderer;
+                ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+                int i = scaledresolution.getScaledWidth();
+                short short1 = 182;
+                int j = i / 2 - short1 / 2;
+                int k = (int)(BossStatus.healthScale * (short1 + 1));
+                byte b0 = 12;
 
-                if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
+                if (ConfigManager.enableRenderBossHealthBar)
                 {
-                    --BossStatus.statusBarTime;
-                    FontRenderer fontrenderer = this.mc.fontRenderer;
-                    ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-                    int i = scaledresolution.getScaledWidth();
-                    short short1 = 182;
-                    int j = i / 2 - short1 / 2;
-                    int k = (int)(BossStatus.healthScale * (short1 + 1));
-                    byte b0 = 12;
+                    this.mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
+                    this.mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
 
-                    if (!ConfigManager.enableRenderBossHealthBar)
+                    if (k > 0)
                     {
-                        this.mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
-                        this.mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
-
-                        if (k > 0)
-                        {
-                            this.mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 79, k, 5);
-                        }
+                        this.mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 79, k, 5);
                     }
-                    String s = BossStatus.bossName;
-                    fontrenderer.drawStringWithShadow(s, i / 2 - fontrenderer.getStringWidth(s) / 2, b0 - 10, 16777215);
-                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    this.mc.getTextureManager().bindTexture(Gui.icons);
                 }
-                GL11.glDisable(GL11.GL_BLEND);
+                String s = BossStatus.bossName;
+                fontrenderer.drawStringWithShadow(s, i / 2 - fontrenderer.getStringWidth(s) / 2, b0 - 10, 16777215);
+                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                this.mc.getTextureManager().bindTexture(Gui.icons);
             }
+            GL11.glDisable(GL11.GL_BLEND);
         }
     }
 
