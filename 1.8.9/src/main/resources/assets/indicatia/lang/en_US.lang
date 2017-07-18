@@ -15,7 +15,8 @@ gui.config.indicatia.smooth_eye_height=Improve player eye height (Camera View) i
 gui.config.indicatia.custom_movement_handler=Allow handled by custom player movement (Toggle Sprint/Sneak, AFK Stuff).
 gui.config.indicatia.custom_cape=Allowed to use Custom Cape by upload your Custom Cape texture to any website.
 gui.config.indicatia.server_tps=This will show overall Server TPS to testing performance.
-gui.config.key_code_example.tooltip=Copy this URL and set your custom key code
+gui.config.indicatia.alternate_player_model=This will implement transparent skin from 1.9.
+gui.config.key_code_example.tooltip=Copy this URL and set your custom key code.
 
 # KEY BINDING
 key.indicatia.category=Indicatia

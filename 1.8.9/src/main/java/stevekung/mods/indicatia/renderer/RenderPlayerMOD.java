@@ -23,7 +23,6 @@ public class RenderPlayerMOD extends RenderPlayer
     {
         super(IndicatiaMod.MC.getRenderManager(), smallArms);
         this.mainModel = new ModelPlayerNew(0.0F, smallArms);
-        this.addLayer(new LayerCustomCape(this));
 
         boolean removedVanilla = false;
         Iterator<LayerRenderer<AbstractClientPlayer>> iterator = this.layerRenderers.iterator();

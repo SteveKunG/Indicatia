@@ -91,7 +91,7 @@ public class IndicatiaMod
         IndicatiaMod.MC.getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(IndicatiaMod.MC.getRenderManager()));
         ModLogger.info("Successfully replacing {}", EntityFishHook.class.getName());
 
-        if (ConfigManager.enableCustomCape)
+        if (ConfigManager.enableAlternatePlayerModel)
         {
             IndicatiaMod.MC.getRenderManager().playerRenderer = new RenderPlayerMOD();
             IndicatiaMod.MC.getRenderManager().skinMap.entrySet().removeIf(entry -> entry.getKey().equals("default"));

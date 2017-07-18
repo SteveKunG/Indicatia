@@ -40,6 +40,7 @@ public class ConfigManager
     public static boolean enableSmoothEyeHeight;
     public static boolean enableCustomMovementHandler;
     public static boolean enableCustomCape;
+    public static boolean enableAlternatePlayerModel;
 
     // Render Settings
     public static boolean swapRenderInfoToRight;
@@ -186,6 +187,12 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Cape", false);
         ConfigManager.enableCustomCape = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.custom_cape");
+        prop.setRequiresMcRestart(true);
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Alternate Player Model", false);
+        ConfigManager.enableAlternatePlayerModel = prop.getBoolean();
+        prop.comment = LangUtil.translate("gui.config.indicatia.alternate_player_model");
         prop.setRequiresMcRestart(true);
         propOrder.add(prop.getName());
 
