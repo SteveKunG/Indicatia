@@ -76,7 +76,6 @@ public class ConfigManager
     public static String potionStatusHUDPosition;
 
     // Custom Text Color Settings
-    public static String customColorFPS;
     public static String customColorXYZ;
     public static String customColorBiome;
     public static String customColorServerIP;
@@ -353,10 +352,6 @@ public class ConfigManager
     {
         Property prop;
         List<String> propOrder = new ArrayList<>();
-
-        prop = ConfigManager.getColorConfig("FPS Color", "white");
-        ConfigManager.customColorFPS = prop.getString();
-        propOrder.add(prop.getName());
 
         prop = ConfigManager.getColorConfig("XYZ Color", "white");
         ConfigManager.customColorXYZ = prop.getString();
