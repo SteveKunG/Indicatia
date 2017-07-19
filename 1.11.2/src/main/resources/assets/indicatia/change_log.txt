@@ -1,3 +1,2 @@
--Update- Update to Minecraft 1.11.2
--Fixed- Fixed info ordering
--Fixed- Fixed ping not working on common server
+-Fixed- Fixed blockhit animation
+-Remove- Removed FPS Color Config

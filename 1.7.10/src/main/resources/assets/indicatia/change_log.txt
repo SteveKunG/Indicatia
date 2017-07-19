@@ -1,2 +1,3 @@
 -Added- Added TCP No Delay
 -Update- Update from 1.8.9 to 1.7.10
+-Remove- Removed FPS Color Config
