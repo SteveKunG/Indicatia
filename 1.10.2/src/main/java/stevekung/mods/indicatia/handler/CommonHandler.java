@@ -69,6 +69,8 @@ public class CommonHandler
     private static long sneakTimeOld = 0L;
     private static boolean sneakingOld = false;
 
+    private int closeScreenTicks;
+
     public CommonHandler(Minecraft mc)
     {
         this.json = new JsonUtil();
@@ -100,6 +102,16 @@ public class CommonHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.thePlayer);
+
+                if (this.closeScreenTicks > 1)
+                {
+                    --this.closeScreenTicks;
+                }
+                if (this.closeScreenTicks == 1)
+                {
+                    this.mc.displayGuiScreen((GuiScreen)null);
+                    this.closeScreenTicks = 0;
+                }
 
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
@@ -197,6 +209,7 @@ public class CommonHandler
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
         CommonHandler.PLAYER_PING_MAP.clear();
+        this.closeScreenTicks = 0;
         CommonHandler.stopCommandTicks();
     }
 
