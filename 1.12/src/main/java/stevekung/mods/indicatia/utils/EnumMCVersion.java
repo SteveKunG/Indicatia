@@ -2,7 +2,6 @@ package stevekung.mods.indicatia.utils;
 
 public enum EnumMCVersion
 {
-    MC_1_7_2("1.7.2"),
     MC_1_7_10("1.7.10"),
     MC_1_8_9("1.8.9"),
     MC_1_10_2("1.10.2"),
