@@ -56,6 +56,6 @@ task copyModFiles(type: Copy, dependsOn: "reobf") {
 
 task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
-	baseName = "Indicatia-1.8.9"
+	baseName = "Indicatia-1.7.10"
     classifier = 'deobf'
 }
