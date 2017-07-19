@@ -71,7 +71,7 @@ public class CommonHandler
     private static long sneakTimeOld = 0L;
     private static boolean sneakingOld = false;
 
-    public int closeScreen;//XXX
+    private int closeScreenTicks;
 
     public CommonHandler(Minecraft mc)
     {
@@ -100,6 +100,16 @@ public class CommonHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.thePlayer);
+
+                if (this.closeScreenTicks > 1)
+                {
+                    --this.closeScreenTicks;
+                }
+                if (this.closeScreenTicks == 1)
+                {
+                    this.mc.displayGuiScreen((GuiScreen)null);
+                    this.closeScreenTicks = 0;
+                }
 
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
@@ -197,6 +207,7 @@ public class CommonHandler
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
         CommonHandler.PLAYER_PING_MAP.clear();
+        this.closeScreenTicks = 0;
         CommonHandler.stopCommandTicks();
     }
 
@@ -356,6 +367,7 @@ public class CommonHandler
                         {
                             CommonHandler.openLink("http://minecraft-server-list.com/server/292028/vote/");
                         }
+                        this.closeScreenTicks = 20;
                     }
                     if (unformattedText.contains("Get free coins by clicking"))
                     {
