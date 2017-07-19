@@ -1,0 +1,53 @@
+# CONFIG
+gui.config.indicatia.name=Indicatia Config
+indicatia_main_settings=Main Settings
+indicatia_render_settings=Render Settings
+indicatia_color_settings=Color Settings
+indicatia_key_binding_settings=Key Binding Settings
+indicatia_donation_settings=Donation Settings
+
+# CONFIG DESCRIPTION
+gui.config.indicatia.fast_chat=Disable chat background rendering.
+gui.config.indicatia.custom_player_list=Show response time as number instead.
+gui.config.indicatia.chat_depth_render=Fix chat rendering if equipment icons is over Chat GUI.
+gui.config.indicatia.custom_movement_handler=Allow handled by custom player movement (Toggle Sprint/Sneak, AFK Stuff).
+gui.config.indicatia.custom_cape=Allowed to use Custom Cape by upload your Custom Cape texture to any website.
+gui.config.indicatia.server_tps=This will show overall Server TPS to testing performance.
+gui.config.indicatia.alternate_player_model=This will implement transparent skin from 1.9.
+gui.config.key_code_example.tooltip=Copy this URL and set your custom key code.
+
+# KEY BINDING
+key.indicatia.category=Indicatia
+key.rec_overlay.desc=Recording Overlay
+key.quick_config.desc=Quick Config GUI
+key.custom_cape_gui.desc=Custom Cape GUI
+key.donator_gui.desc=Donator GUI
+
+# COMMAND
+commands.afk.usage=/afk <start:reason|stop|change_reason|mode...>
+commands.afk.mode.usage=/afk mode <idle|move|360|360_move>
+commands.autologin.usage=/autologin <add|remove|list> <command> <value>
+commands.autologin.list.count=Showing %s auto login data entry
+commands.autologin.list.entry=- Auto Login Data for '%s' created by '%s'
+commands.autologin.list.empty=There are no auto login data entries was saved
+commands.profileiu.usage=/profileiu <add|load|save|remove|list>
+commands.profileiu.add.usage=/profileiu add <name>
+commands.profileiu.load.usage=/profileiu load <name>
+commands.profileiu.save.usage=/profileiu save <name>
+commands.profileiu.remove.usage=/profileiu remove <name>
+commands.profileiu.list.empty=There are no profile data entries was saved
+commands.profileiu.list.count=Showing %s profile data entry
+commands.profileiu.list.entry=- Profile Data : '%s'
+commands.indicatia.usage=/indicatia <toggle_sprint|toggle_sneak|cps|gui>
+commands.indicatia.togglesprint.usage=/indicatia toggle_sprint <enable|disable|mode>
+commands.indicatia.togglesneak.usage=/indicatia toggle_sneak <enable|disable|mode>
+commands.indicatia.togglesprint.mode.usage=/indicatia toggle_sprint mode <key_binding|command>
+commands.indicatia.togglesneak.mode.usage=/indicatia toggle_sneak mode <key_binding|command>
+commands.indicatia.cps.usage=/indicatia cps <left|right|keystroke|custom>
+commands.slimeseed.usage=/slimeseed <seed>
+
+# INTERAL STUFF!
+commands.autoclick.usage=/autoclick <start|stop|mode...>
+commands.autoclick.mode.usage=/autoclick mode <left|right>
+commands.indicatia.autoswim.usage=/indicatia auto_swim <enable|disable|mode>
+commands.indicatia.autoswim.mode.usage=/indicatia auto_swim mode <key_binding|command>
