@@ -33,7 +33,18 @@ public class HUDInfo
 
     public static String getFPS()
     {
-        return "FPS: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorFPS) + Minecraft.debugFPS;
+        int fps = Minecraft.debugFPS;
+        EnumChatFormatting color = EnumChatFormatting.GREEN;
+
+        if (fps > 25 && fps <= 40)
+        {
+            color = EnumChatFormatting.YELLOW;
+        }
+        else if (fps <= 25)
+        {
+            color = EnumChatFormatting.RED;
+        }
+        return "FPS: " + EnumChatFormatting.GREEN + fps;
     }
 
     public static String getXYZ(Minecraft mc)
