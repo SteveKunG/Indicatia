@@ -204,7 +204,7 @@ public class GuiCustomCape extends GuiScreen
         float scale = 40.0F + height / 8 - 28;
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glPushMatrix();
-        GL11.glTranslatef(width / 2 - 50, height / 4 + 55, 0.0F);
+        GL11.glTranslatef(width / 2 - 50, height / 4 + 55, 256.0F);
         GL11.glScalef(-scale, scale, scale);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
         RenderHelper.enableStandardItemLighting();

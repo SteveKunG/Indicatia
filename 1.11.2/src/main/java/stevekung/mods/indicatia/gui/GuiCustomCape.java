@@ -206,7 +206,7 @@ public class GuiCustomCape extends GuiScreen
         float scale = 40.0F + height / 8 - 28;
         GlStateManager.enableColorMaterial();
         GlStateManager.pushMatrix();
-        GlStateManager.translate(width / 2 - 50, height / 4 + 55, 0.0F);
+        GlStateManager.translate(width / 2 - 50, height / 4 + 55, 256.0F);
         GlStateManager.scale(-scale, scale, scale);
         GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         RenderHelper.enableStandardItemLighting();
