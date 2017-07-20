@@ -1,5 +1,9 @@
 package stevekung.mods.indicatia.gui;
 
+import java.util.Iterator;
+
+import javax.annotation.Nullable;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -7,7 +11,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -41,7 +48,7 @@ public class GuiNewChatFast extends GuiNewChat
                 float f1 = this.func_146244_h();
                 int i1 = MathHelper.ceiling_float_int(this.func_146228_f() / f1);
                 GL11.glPushMatrix();
-                GL11.glTranslatef(2.0F, 20.0F, 0.0F);
+                GL11.glTranslatef(2.0F, 8.0F, 0.0F);
                 GL11.glScalef(f1, f1, 1.0F);
                 int j1;
                 int k1;
@@ -117,6 +124,67 @@ public class GuiNewChatFast extends GuiNewChat
                     }
                 }
                 GL11.glPopMatrix();
+            }
+        }
+    }
+
+    @Override
+    @Nullable
+    public IChatComponent func_146236_a(int mouseX, int mouseY)
+    {
+        if (!this.getChatOpen())
+        {
+            return null;
+        }
+        else
+        {
+            ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+            int i = scaledresolution.getScaleFactor();
+            float f = this.func_146244_h();
+            int j = mouseX / i - 2;
+            int k = mouseY / i - 40;
+            j = MathHelper.floor_float(j / f);
+            k = MathHelper.floor_float(k / f);
+
+            if (j >= 0 && k >= 0)
+            {
+                int l = Math.min(this.func_146232_i(), this.field_146253_i.size());
+
+                if (j <= MathHelper.floor_float(this.func_146228_f() / this.func_146244_h()) && k < this.mc.fontRenderer.FONT_HEIGHT * l + l)
+                {
+                    int i1 = k / this.mc.fontRenderer.FONT_HEIGHT + this.field_146250_j;
+
+                    if (i1 >= 0 && i1 < this.field_146253_i.size())
+                    {
+                        ChatLine chatline = (ChatLine) this.field_146253_i.get(i1);
+                        int j1 = 0;
+                        Iterator iterator = chatline.func_151461_a().iterator();
+
+                        while (iterator.hasNext())
+                        {
+                            IChatComponent ichatcomponent = (IChatComponent)iterator.next();
+
+                            if (ichatcomponent instanceof ChatComponentText)
+                            {
+                                j1 += this.mc.fontRenderer.getStringWidth(this.func_146235_b(((ChatComponentText)ichatcomponent).getChatComponentText_TextValue()));
+
+                                if (j1 > l)
+                                {
+                                    return ichatcomponent;
+                                }
+                            }
+                        }
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
             }
         }
     }
