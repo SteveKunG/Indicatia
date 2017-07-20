@@ -40,8 +40,8 @@ public class HUDRenderHandler
     public static boolean recordEnable;
     private int recTick;
     private static int readFileTicks;
-    private static String topDonator = "";
-    private static String recentDonator = "";
+    public static String topDonator = "";
+    public static String recentDonator = "";
     private static final DecimalFormat tpsFormat = new DecimalFormat("########0.00");
 
     public HUDRenderHandler(Minecraft mc)

@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.handler.HUDRenderHandler;
 import stevekung.mods.indicatia.utils.JsonUtil;
 import stevekung.mods.indicatia.utils.LangUtil;
 
@@ -85,6 +86,8 @@ public class GuiDonator extends GuiScreen
                 this.mc.thePlayer.addChatMessage(json.text("Reset donator file path"));
                 ExtendedConfig.TOP_DONATOR_FILE_PATH = "";
                 ExtendedConfig.RECENT_DONATOR_FILE_PATH = "";
+                HUDRenderHandler.topDonator = "";
+                HUDRenderHandler.recentDonator = "";
                 this.topDonateInput.setText("");
                 this.recentDonateInput.setText("");
                 ExtendedConfig.save();
