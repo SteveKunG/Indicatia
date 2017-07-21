@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.client.Minecraft;
@@ -46,6 +47,7 @@ public class CommonHandler
 {
     private JsonUtil json;
     public static final Map<String, Integer> PLAYER_PING_MAP = Maps.newHashMap();
+    private static final List<String> HYPIXEL_PLAYER_LIST = new ArrayList<>();
     private final Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
     public static GuiPlayerTabOverlayNew overlayPlayerList;
     private final Minecraft mc;
@@ -56,6 +58,7 @@ public class CommonHandler
     public static final GuiNewChatUtil chatGuiSlash = new GuiNewChatUtil("/");
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
     public static final GuiDonator donatorGui = new GuiDonator();
+    private static boolean foundUnnick;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -95,6 +98,12 @@ public class CommonHandler
         {
             if (InfoUtil.INSTANCE.isHypixel())
             {
+                if (CommonHandler.HYPIXEL_PLAYER_LIST.contains(GameProfileUtil.getUsername()) && !CommonHandler.foundUnnick)
+                {
+                    ExtendedConfig.HYPIXEL_NICK_NAME = GameProfileUtil.getUsername();
+                    ExtendedConfig.save();
+                    CommonHandler.foundUnnick = true;
+                }
                 CommonHandler.getPingForNickedPlayer(this.mc);
             }
             if (event.phase == TickEvent.Phase.START)
@@ -207,6 +216,8 @@ public class CommonHandler
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
         CommonHandler.PLAYER_PING_MAP.clear();
+        CommonHandler.HYPIXEL_PLAYER_LIST.clear();
+        CommonHandler.foundUnnick = false;
         this.closeScreenTicks = 0;
         CommonHandler.stopCommandTicks();
     }
@@ -335,6 +346,7 @@ public class CommonHandler
                 if (nickMatcher.matches())
                 {
                     ExtendedConfig.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
+                    CommonHandler.foundUnnick = false;
                     ExtendedConfig.save();
                 }
                 if (unformattedText.contains("Your nick has been reset!"))
@@ -444,6 +456,15 @@ public class CommonHandler
                 NetworkPlayerInfo connection = list.get(i);
                 GameProfile profile = connection.getGameProfile();
                 CommonHandler.PLAYER_PING_MAP.put(profile.getName(), connection.getResponseTime());
+
+                if (!CommonHandler.foundUnnick)
+                {
+                    CommonHandler.HYPIXEL_PLAYER_LIST.add(profile.getName());
+                    Set<String> sets = Sets.newHashSet();
+                    sets.addAll(CommonHandler.HYPIXEL_PLAYER_LIST);
+                    CommonHandler.HYPIXEL_PLAYER_LIST.clear();
+                    CommonHandler.HYPIXEL_PLAYER_LIST.addAll(sets);
+                }
             }
         }
     }
