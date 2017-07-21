@@ -1,2 +1,3 @@
--Fixed- Fixed blockhit animation
--Remove- Removed FPS Color Config
+-Update- Clear donator text when reset file path
+-Fixed- Fixed player rendering in Custom Cape GUI
+-Fixed- Fixed ping for nicked player in Hypixel

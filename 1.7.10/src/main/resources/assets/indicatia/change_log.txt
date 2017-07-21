@@ -1,3 +1,4 @@
--Added- Added TCP No Delay
--Update- Update from 1.8.9 to 1.7.10
--Remove- Removed FPS Color Config
+-Update- Clear donator text when reset file path
+-Fixed- Fixed player rendering in Custom Cape GUI
+-Fixed- Fixed Chat GUI position
+-Fixed- Fixed chat clicked field height

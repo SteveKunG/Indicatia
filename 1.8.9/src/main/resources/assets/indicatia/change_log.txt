@@ -1,3 +1,4 @@
--Update- Update from 1.10.2 to 1.8.9
--Update- Replaced Vanilla Fishing Rod item model
--Remove- Removed FPS Color Config
+-Update- Clear donator text when reset file path
+-Fixed- Fixed player rendering in Custom Cape GUI
+-Fixed- Fixed chat clicked field height
+-Fixed- Fixed ping for nicked player in Hypixel
