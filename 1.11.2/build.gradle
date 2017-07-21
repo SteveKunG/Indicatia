@@ -5,8 +5,17 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.0.9'
     }
 }
+
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.0.9'
+}
+
+def apiJson = file('D:/.M/Minecraft Modding Workspace/Indicatia/apiToken.json')
+def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
+def mcVersion = '1.11.2'
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 version = "1.0.5"
@@ -21,6 +30,26 @@ minecraft {
 	makeObfSourceJar = false
 }
 
+repositories {
+	maven {
+		url "https://plugins.gradle.org/m2/"
+	}
+}
+
+curseforge {
+	apiKey = parsedApi.apiKey
+	project {
+		id = '272146'
+		changelog = 'To read full change log use command /inchangelog in-game.'
+		releaseType = 'release'
+		addGameVersion mcVersion
+
+		mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
+			displayName = "Indicatia-" + mcVersion + "-" + version
+		}
+	}
+}
+
 dependencies {}
 processResources {}
 
@@ -29,7 +58,7 @@ ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.
 
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	outputs.upToDateWhen { false }
-	baseName = "Indicatia-1.11.2"
+	baseName = "Indicatia-" + mcVersion
 
 	from(zipTree(project.ext.coreJar)) {
 		includes.addAll(project.ext.coreFiles)
@@ -51,6 +80,6 @@ task copyModFiles(type: Copy, dependsOn: "reobfJar") {
 
 task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
-	baseName = "Indicatia-1.11.2"
+	baseName = "Indicatia-" + mcVersion
     classifier = 'deobf'
 }

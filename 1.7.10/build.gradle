@@ -9,14 +9,27 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        maven {
+            name = "cursegradle"
+            url = "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.0.9'
     }
 }
 
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.0.9'
+}
+
+def apiJson = file('D:/.M/Minecraft Modding Workspace/Indicatia/apiToken.json')
+def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
+def mcVersion = '1.7.10'
+
 apply plugin: 'forge'
-version = "1.0.4"
+version = "1.0.5"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = "1.7"
@@ -24,6 +37,20 @@ sourceCompatibility = targetCompatibility = "1.7"
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
     runDir = "run"
+}
+
+curseforge {
+	apiKey = parsedApi.apiKey
+	project {
+		id = '272146'
+		changelog = 'To read full change log use command /inchangelog in-game.'
+		releaseType = 'release'
+		addGameVersion mcVersion
+
+		mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
+			displayName = "Indicatia-" + mcVersion + "-" + version
+		}
+	}
 }
 
 dependencies {}
@@ -34,7 +61,7 @@ ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.
 
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	outputs.upToDateWhen { false }
-	baseName = "Indicatia-1.7.10"
+	baseName = "Indicatia-" + mcVersion
 
 	from(zipTree(project.ext.coreJar)) {
 		includes.addAll(project.ext.coreFiles)
@@ -56,6 +83,6 @@ task copyModFiles(type: Copy, dependsOn: "reobf") {
 
 task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
-	baseName = "Indicatia-1.7.10"
+	baseName = "Indicatia-" + mcVersion
     classifier = 'deobf'
 }
