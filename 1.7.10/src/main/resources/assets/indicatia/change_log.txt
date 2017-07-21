@@ -1,4 +1,2 @@
--Update- Clear donator text when reset file path
--Fixed- Fixed player rendering in Custom Cape GUI
--Fixed- Fixed Chat GUI position
--Fixed- Fixed chat clicked field height
+-Update- Change Log GUI can use Enter key to exit
+-Fixed- Fixed /mojangstatus command only working at one time

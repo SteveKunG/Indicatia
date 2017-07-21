@@ -9,7 +9,7 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-version = "1.0.4"
+version = "1.0.5"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = "1.8"

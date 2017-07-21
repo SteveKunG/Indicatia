@@ -1,4 +1,2 @@
--Update- Clear donator text when reset file path
--Fixed- Fixed player rendering in Custom Cape GUI
--Fixed- Fixed chat clicked field height
--Fixed- Fixed ping for nicked player in Hypixel
+-Update- Change Log GUI can use Enter key to exit
+-Fixed- Fixed /mojangstatus command only working at one time
