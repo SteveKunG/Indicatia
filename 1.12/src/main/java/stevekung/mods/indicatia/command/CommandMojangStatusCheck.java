@@ -7,8 +7,6 @@ import stevekung.mods.indicatia.utils.ThreadCheckMojangStatus;
 
 public class CommandMojangStatusCheck extends ClientCommandBase
 {
-    private static final ThreadCheckMojangStatus check = new ThreadCheckMojangStatus(false);
-
     @Override
     public String getName()
     {
@@ -18,6 +16,6 @@ public class CommandMojangStatusCheck extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        CommandMojangStatusCheck.check.start();
+        new ThreadCheckMojangStatus(false).start();
     }
 }
