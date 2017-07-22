@@ -496,6 +496,7 @@ public class HUDInfo
     {
         if (ConfigManager.enablePotionStatusHUD)
         {
+            GlStateManager.enableBlend();
             boolean iconAndTime = ConfigManager.potionStatusHUDStyle.equals("icon_and_time");
             boolean showIcon = ConfigManager.enablePotionHUDIcon;
             ScaledResolution scaledRes = new ScaledResolution(mc);

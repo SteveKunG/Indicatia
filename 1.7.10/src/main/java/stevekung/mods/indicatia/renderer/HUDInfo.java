@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -19,6 +18,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -30,6 +30,7 @@ public class HUDInfo
 {
     private static final SmallFontRenderer smallFontRenderer = new SmallFontRenderer();
     private static final RenderItem renderItem = new RenderItem();
+    private static final ResourceLocation inventoryBackground = new ResourceLocation("textures/gui/container/inventory.png");
 
     public static String getFPS()
     {
@@ -482,7 +483,7 @@ public class HUDInfo
 
                         if (showIcon)
                         {
-                            mc.getTextureManager().bindTexture(Gui.optionsBackground);
+                            mc.getTextureManager().bindTexture(HUDInfo.inventoryBackground);
                             int i1 = potion.getStatusIconIndex();
                             mc.ingameGUI.drawTexturedModalRect(xPotion + 12, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                         }
@@ -533,7 +534,7 @@ public class HUDInfo
 
                         if (showIcon)
                         {
-                            mc.getTextureManager().bindTexture(Gui.optionsBackground);
+                            mc.getTextureManager().bindTexture(HUDInfo.inventoryBackground);
                             int i1 = potion.getStatusIconIndex();
                             mc.ingameGUI.drawTexturedModalRect(xPotion + 24, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                         }
@@ -583,7 +584,7 @@ public class HUDInfo
 
                         if (showIcon)
                         {
-                            mc.getTextureManager().bindTexture(Gui.optionsBackground);
+                            mc.getTextureManager().bindTexture(HUDInfo.inventoryBackground);
                             int i1 = potion.getStatusIconIndex();
                             mc.ingameGUI.drawTexturedModalRect(right ? xPotion + 12 : xPotion + 28, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                         }
