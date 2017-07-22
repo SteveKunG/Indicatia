@@ -46,6 +46,7 @@ curseforge {
 		changelog = 'To read full change log use command /inchangelog in-game.'
 		releaseType = 'release'
 		addGameVersion mcVersion
+		addGameVersion 'Java 7'
 
 		mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
 			displayName = "Indicatia-" + mcVersion + "-" + version
