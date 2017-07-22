@@ -1,2 +1,5 @@
 -Update- Change Log GUI can use Enter key to exit
 -Fixed- Fixed /mojangstatus command only working at one time
+-Fixed- Fixed Potion HUD GL_BLEND
+-Fixed- Fixed Forge Event not working
+-Fixed- Fixed FPS Color not working
