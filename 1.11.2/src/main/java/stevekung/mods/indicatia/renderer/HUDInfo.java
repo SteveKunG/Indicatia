@@ -42,7 +42,7 @@ public class HUDInfo
         {
             color = TextFormatting.RED;
         }
-        return "FPS: " + TextFormatting.GREEN + fps;
+        return "FPS: " + color + fps;
     }
 
     public static String getXYZ(Minecraft mc)
