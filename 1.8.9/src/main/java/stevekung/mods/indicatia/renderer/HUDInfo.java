@@ -40,7 +40,7 @@ public class HUDInfo
         {
             color = EnumChatFormatting.RED;
         }
-        return "FPS: " + EnumChatFormatting.GREEN + fps;
+        return "FPS: " + color + fps;
     }
 
     public static String getXYZ(Minecraft mc)
