@@ -67,18 +67,11 @@ public class IndicatiaMod
         KeyBindingHandler.init();
         ExtendedConfig.load();
         RenderProfileConfig.load();
-        MinecraftForge.EVENT_BUS.register(new HUDRenderHandler(IndicatiaMod.MC));
-        MinecraftForge.EVENT_BUS.register(new CommonHandler(IndicatiaMod.MC));
-        MinecraftForge.EVENT_BUS.register(new PlayerChatHandler(IndicatiaMod.MC));
 
-        MinecraftForge.EVENT_BUS.register(new HUDRenderHandler(IndicatiaMod.MC));
-        FMLCommonHandler.instance().bus().register(new HUDRenderHandler(IndicatiaMod.MC));
-        MinecraftForge.EVENT_BUS.register(new CommonHandler(IndicatiaMod.MC));
-        FMLCommonHandler.instance().bus().register(new CommonHandler(IndicatiaMod.MC));
-        MinecraftForge.EVENT_BUS.register(new PlayerChatHandler(IndicatiaMod.MC));
-        FMLCommonHandler.instance().bus().register(new PlayerChatHandler(IndicatiaMod.MC));
-        MinecraftForge.EVENT_BUS.register(new CapeRendererHandler());
-        FMLCommonHandler.instance().bus().register(new CapeRendererHandler());
+        IndicatiaMod.registerForgeEvent(new HUDRenderHandler(IndicatiaMod.MC));
+        IndicatiaMod.registerForgeEvent(new CommonHandler(IndicatiaMod.MC));
+        IndicatiaMod.registerForgeEvent(new PlayerChatHandler(IndicatiaMod.MC));
+        IndicatiaMod.registerForgeEvent(new CapeRendererHandler());
 
         ClientCommandHandler.instance.registerCommand(new CommandMojangStatusCheck());
         ClientCommandHandler.instance.registerCommand(new CommandChangeLog());
@@ -129,6 +122,18 @@ public class IndicatiaMod
     public static boolean isSteveKunG()
     {
         return GameProfileUtil.getUsername().equals("SteveKunG") && GameProfileUtil.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatiaMod.isObfuscatedEnvironment();
+    }
+
+    public static void registerForgeEvent(Object obj)
+    {
+        MinecraftForge.EVENT_BUS.register(obj);
+        FMLCommonHandler.instance().bus().register(obj);
+    }
+
+    public static void unregisterForgeEvent(Object obj)
+    {
+        MinecraftForge.EVENT_BUS.unregister(obj);
+        FMLCommonHandler.instance().bus().unregister(obj);
     }
 
     private static void init(ModMetadata info)

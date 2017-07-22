@@ -10,7 +10,6 @@ import org.apache.commons.io.Charsets;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -20,6 +19,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.LangUtil;
 
 @SideOnly(Side.CLIENT)
@@ -31,14 +31,14 @@ public class GuiFullChangeLog extends GuiScreen
 
     public void display()
     {
-        FMLCommonHandler.instance().bus().register(this);
+        IndicatiaMod.registerForgeEvent(this);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         Minecraft.getMinecraft().displayGuiScreen(this);
-        FMLCommonHandler.instance().bus().unregister(this);
+        IndicatiaMod.unregisterForgeEvent(this);
     }
 
     @Override

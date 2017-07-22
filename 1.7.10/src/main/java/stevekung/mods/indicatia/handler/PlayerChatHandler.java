@@ -5,9 +5,9 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.Base64Utils;
 import stevekung.mods.indicatia.utils.GameProfileUtil;
@@ -29,7 +29,7 @@ public class PlayerChatHandler
             @Override
             public void run()
             {
-                MinecraftForge.EVENT_BUS.register(new PlayerRunCommandHandler());
+                IndicatiaMod.registerForgeEvent(new PlayerRunCommandHandler());
             }
         });
     }
@@ -44,7 +44,7 @@ public class PlayerChatHandler
                 EntityClientPlayerMP player = (EntityClientPlayerMP) event.entity;
                 ServerData data = PlayerChatHandler.this.mc.func_147104_D();
                 this.runAutoLoginCommand(player, data);
-                MinecraftForge.EVENT_BUS.unregister(this);
+                IndicatiaMod.unregisterForgeEvent(this);
             }
         }
 

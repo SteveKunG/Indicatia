@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.common.MinecraftForge;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.LangUtil;
@@ -24,13 +23,13 @@ public class GuiKeystrokeColorSettings extends GuiScreen
 
     public void display()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        IndicatiaMod.registerForgeEvent(this);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        MinecraftForge.EVENT_BUS.unregister(this);
+        IndicatiaMod.unregisterForgeEvent(this);
         IndicatiaMod.MC.displayGuiScreen(this);
     }
 
