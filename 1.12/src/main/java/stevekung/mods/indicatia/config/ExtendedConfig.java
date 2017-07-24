@@ -61,7 +61,6 @@ public class ExtendedConfig
 
     public static String CPS_POSITION = "left";
     public static String ENTITY_DETECT_TYPE = "reset";
-    public static String CAPE_URL = "";
     public static String HYPIXEL_NICK_NAME = "";
     public static String REALMS_MESSAGE = "";
     public static String TOP_DONATOR_FILE_PATH = "";
@@ -127,7 +126,6 @@ public class ExtendedConfig
 
             ExtendedConfig.CPS_POSITION = ExtendedConfig.getString(nbt, "CpsPosition", ExtendedConfig.CPS_POSITION);
             ExtendedConfig.ENTITY_DETECT_TYPE = ExtendedConfig.getString(nbt, "EntityDetectType", ExtendedConfig.ENTITY_DETECT_TYPE);
-            ExtendedConfig.CAPE_URL = ExtendedConfig.getString(nbt, "CapeURL", ExtendedConfig.CAPE_URL);
             ExtendedConfig.HYPIXEL_NICK_NAME = ExtendedConfig.getString(nbt, "HypixelNickName", ExtendedConfig.HYPIXEL_NICK_NAME);
             ExtendedConfig.REALMS_MESSAGE = ExtendedConfig.getString(nbt, "RealmsMessage", ExtendedConfig.REALMS_MESSAGE);
             ExtendedConfig.TOP_DONATOR_FILE_PATH = ExtendedConfig.getString(nbt, "TopDonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
@@ -191,7 +189,6 @@ public class ExtendedConfig
 
             nbt.setString("CpsPosition", ExtendedConfig.CPS_POSITION);
             nbt.setString("EntityDetectType", ExtendedConfig.ENTITY_DETECT_TYPE);
-            nbt.setString("CapeURL", ExtendedConfig.CAPE_URL);
             nbt.setString("HypixelNickName", ExtendedConfig.HYPIXEL_NICK_NAME);
             nbt.setString("RealmsMessage", ExtendedConfig.REALMS_MESSAGE);
             nbt.setString("TopDonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
