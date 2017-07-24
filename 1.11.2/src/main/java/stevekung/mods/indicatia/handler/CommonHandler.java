@@ -367,6 +367,7 @@ public class CommonHandler
                         {
                             CommonHandler.openLink("http://minecraft-server-list.com/server/292028/vote/");
                         }
+                        this.closeScreenTicks = 20;
                     }
                     if (unformattedText.contains("Get free coins by clicking"))
                     {
