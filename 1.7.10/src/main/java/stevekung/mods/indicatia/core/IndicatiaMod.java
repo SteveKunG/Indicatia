@@ -104,14 +104,7 @@ public class IndicatiaMod
         {
             VersionChecker.startCheck();
         }
-        if (ConfigManager.enableCustomCape)
-        {
-            if (!ExtendedConfig.CAPE_URL.isEmpty())
-            {
-                CapeUtils.textureUploaded = true;
-                CapeUtils.setCapeURL(Base64Utils.decode(ExtendedConfig.CAPE_URL), true);
-            }
-        }
+        CapeUtils.loadCapeTextureAtStartup();
     }
 
     public static boolean isObfuscatedEnvironment()

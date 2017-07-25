@@ -6,6 +6,6 @@ public class KeyBindingIU extends KeyBinding
 {
     public KeyBindingIU(String description, int keyCode)
     {
-        super(description, keyCode, "key.indicatorutils.category");
+        super(description, keyCode, "key.inditia.category");
     }
 }

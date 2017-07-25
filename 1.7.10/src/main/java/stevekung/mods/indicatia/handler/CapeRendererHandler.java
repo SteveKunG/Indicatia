@@ -22,7 +22,7 @@ public class CapeRendererHandler
         AbstractClientPlayer player = (AbstractClientPlayer) event.entityPlayer;
         float yaw;
 
-        if (ConfigManager.enableCustomCape && event.entityPlayer.getCommandSenderName().equals(GameProfileUtil.getUsername()) && !player.isInvisible() && ExtendedConfig.SHOW_CAPE && (!CapeUtils.CAPE_TEXTURE.isEmpty() || !ExtendedConfig.CAPE_URL.isEmpty()))
+        if (ConfigManager.enableCustomCape && event.entityPlayer.getCommandSenderName().equals(GameProfileUtil.getUsername()) && !player.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtils.CAPE_TEXTURE.isEmpty())
         {
             CapeUtils.bindCapeTexture();
             GL11.glColor3f(1.0F, 1.0F, 1.0F);

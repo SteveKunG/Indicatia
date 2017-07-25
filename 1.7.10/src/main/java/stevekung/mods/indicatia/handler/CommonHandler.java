@@ -94,6 +94,7 @@ public class CommonHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.thePlayer);
+                CapeUtils.loadCapeTexture();
 
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
@@ -233,7 +234,7 @@ public class CommonHandler
         {
             HUDRenderHandler.recordEnable = !HUDRenderHandler.recordEnable;
         }
-        if (ConfigManager.enableCustomCape && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI != null && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.getIsKeyPressed())
+        if (ConfigManager.enableCustomCape && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.getIsKeyPressed())
         {
             this.mc.displayGuiScreen(CommonHandler.customCapeGui);
         }

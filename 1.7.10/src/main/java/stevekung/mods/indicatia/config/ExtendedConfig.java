@@ -60,7 +60,6 @@ public class ExtendedConfig
     public static boolean KEYSTROKE_SNEAK_RAINBOW = false;
 
     public static String CPS_POSITION = "left";
-    public static String CAPE_URL = "";
     public static String TOP_DONATOR_FILE_PATH = "";
     public static String RECENT_DONATOR_FILE_PATH = "";
 
@@ -123,7 +122,6 @@ public class ExtendedConfig
             ExtendedConfig.KEYSTROKE_SNEAK_RAINBOW = ExtendedConfig.getBoolean(nbt, "KSSneakRB", ExtendedConfig.KEYSTROKE_SNEAK_RAINBOW);
 
             ExtendedConfig.CPS_POSITION = ExtendedConfig.getString(nbt, "CpsPosition", ExtendedConfig.CPS_POSITION);
-            ExtendedConfig.CAPE_URL = ExtendedConfig.getString(nbt, "CapeURL", ExtendedConfig.CAPE_URL);
             ExtendedConfig.TOP_DONATOR_FILE_PATH = ExtendedConfig.getString(nbt, "TopDonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
             ExtendedConfig.RECENT_DONATOR_FILE_PATH = ExtendedConfig.getString(nbt, "RecentDonatorFilePath", ExtendedConfig.RECENT_DONATOR_FILE_PATH);
 
@@ -184,7 +182,6 @@ public class ExtendedConfig
             nbt.setBoolean("KSSneakRB", ExtendedConfig.KEYSTROKE_SNEAK_RAINBOW);
 
             nbt.setString("CpsPosition", ExtendedConfig.CPS_POSITION);
-            nbt.setString("CapeURL", ExtendedConfig.CAPE_URL);
             nbt.setString("TopDonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
             nbt.setString("RecentDonatorFilePath", ExtendedConfig.RECENT_DONATOR_FILE_PATH);
 
