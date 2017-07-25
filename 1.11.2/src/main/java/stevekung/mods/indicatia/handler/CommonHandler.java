@@ -306,13 +306,13 @@ public class CommonHandler
         if (ExtendedConfig.TOGGLE_SNEAK_USE_MODE.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
         {
             ExtendedConfig.TOGGLE_SNEAK = !ExtendedConfig.TOGGLE_SNEAK;
-            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Toggle Sneak Enabled" : "Toggle Sneak Disabled").getFormattedText(), false);
+            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SNEAK ? "Toggle Sneak Enabled" : "Toggle Sneak Disabled").getFormattedText(), false);
             ExtendedConfig.save();
         }
         if (ExtendedConfig.AUTO_SWIM_USE_MODE.equals("key_binding") && KeyBindingHandler.KEY_AUTO_SWIM.isKeyDown())
         {
             ExtendedConfig.AUTO_SWIM = !ExtendedConfig.AUTO_SWIM;
-            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
+            InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.AUTO_SWIM ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
             ExtendedConfig.save();
         }
         if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())

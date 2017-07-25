@@ -1,3 +1,4 @@
 -Update- Custom Cape Improved
 -Fixed- Fixed Crash when downloading custom cape (Affect only slow connection)
 -Fixed- Fixed FPS problem when downloading custom cape
+-Fixed- Fixed Logic errors
