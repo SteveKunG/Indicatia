@@ -5,3 +5,4 @@
 -Fixed- Fixed FPS problem when downloading custom cape
 -Fixed- Fixed Indicatia Key Category translation
 -Fixed- Fixed Custom Cape rendering
+-Fixed- Fixed Logic errors

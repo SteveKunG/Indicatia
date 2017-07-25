@@ -310,7 +310,7 @@ public class CommonHandler
             if (Keyboard.isKeyDown(keyTGCtrl) && Keyboard.isKeyDown(keyTGOther))
             {
                 ExtendedConfig.TOGGLE_SNEAK = !ExtendedConfig.TOGGLE_SNEAK;
-                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Toggle Sneak Enabled" : "Toggle Sneak Disabled").getFormattedText(), false);
+                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SNEAK ? "Toggle Sneak Enabled" : "Toggle Sneak Disabled").getFormattedText(), false);
                 ExtendedConfig.save();
             }
         }
@@ -323,7 +323,7 @@ public class CommonHandler
             if (Keyboard.isKeyDown(keyAWCtrl) && Keyboard.isKeyDown(keyAWOther))
             {
                 ExtendedConfig.AUTO_SWIM = !ExtendedConfig.AUTO_SWIM;
-                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.TOGGLE_SPRINT ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
+                InfoUtil.INSTANCE.setOverlayMessage(this.json.text(ExtendedConfig.AUTO_SWIM ? "Auto Swim Enabled" : "Auto Swim Disabled").getFormattedText(), false);
                 ExtendedConfig.save();
             }
         }
