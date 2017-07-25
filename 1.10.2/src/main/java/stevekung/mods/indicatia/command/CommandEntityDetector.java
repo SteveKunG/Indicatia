@@ -18,8 +18,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.GameProfileUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandEntityDetector extends ClientCommandBase
 {

@@ -11,8 +11,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.InfoUtil;
-import stevekung.mods.indicatia.utils.RenderUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 public class KeystrokeRenderer
 {

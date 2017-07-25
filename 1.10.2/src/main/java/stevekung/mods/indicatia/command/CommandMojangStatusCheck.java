@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.command;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import stevekung.mods.indicatia.utils.ThreadCheckMojangStatus;
+import stevekung.mods.indicatia.util.ThreadCheckMojangStatus;
 
 public class CommandMojangStatusCheck extends ClientCommandBase
 {

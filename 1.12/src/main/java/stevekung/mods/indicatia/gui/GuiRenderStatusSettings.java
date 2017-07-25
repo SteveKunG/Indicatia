@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiRenderStatusSettings extends GuiScreen

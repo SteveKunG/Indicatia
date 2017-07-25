@@ -7,7 +7,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiSleepMPNew extends GuiNewChatUtil

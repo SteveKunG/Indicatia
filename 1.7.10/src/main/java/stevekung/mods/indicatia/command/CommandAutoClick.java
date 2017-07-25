@@ -7,7 +7,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import stevekung.mods.indicatia.handler.CommonHandler;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAutoClick extends ClientCommandBase
 {

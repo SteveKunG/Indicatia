@@ -9,7 +9,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.handler.CommonHandler;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAutoClick extends ClientCommandBase
 {

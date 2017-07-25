@@ -7,9 +7,9 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.AutoLogin;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.indicatia.util.AutoLogin;
+import stevekung.mods.indicatia.util.ModLogger;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 
 public class ExtendedConfig
 {

@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.gui;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 public class CycleValueEntry extends GuiConfigEntries.ButtonEntry
 {

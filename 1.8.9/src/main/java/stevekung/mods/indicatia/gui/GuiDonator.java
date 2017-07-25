@@ -9,8 +9,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.HUDRenderHandler;
-import stevekung.mods.indicatia.utils.JsonUtil;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 public class GuiDonator extends GuiScreen
 {

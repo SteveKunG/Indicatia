@@ -16,10 +16,10 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatia.utils.Base64Utils;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.Base64Util;
+import stevekung.mods.indicatia.util.GameProfileUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 
 public class CommandAutoLogin extends ClientCommandBase
 {
@@ -60,7 +60,7 @@ public class CommandAutoLogin extends ClientCommandBase
                         }
                         IChatComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
-                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), uuid);
+                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid);
                         sender.addChatMessage(json.text("Set auto login data for Server: " + data.serverIP));
                         ExtendedConfig.save();
                     }

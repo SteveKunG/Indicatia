@@ -20,7 +20,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiFullChangeLog extends GuiScreen

@@ -5,7 +5,7 @@ import cpw.mods.fml.client.config.GuiConfigEntries;
 import cpw.mods.fml.client.config.GuiUtils;
 import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.renderer.Tessellator;
-import stevekung.mods.indicatia.utils.InfoUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
 
 public class ConfigColorEntry extends CycleValueEntry
 {

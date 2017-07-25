@@ -12,8 +12,8 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import stevekung.mods.indicatia.gui.ConfigColorEntry;
-import stevekung.mods.indicatia.utils.InfoUtil;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 public class ConfigManager
 {

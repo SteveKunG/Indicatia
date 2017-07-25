@@ -8,9 +8,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatia.utils.Base64Utils;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
+import stevekung.mods.indicatia.util.Base64Util;
+import stevekung.mods.indicatia.util.GameProfileUtil;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 
 public class PlayerChatHandler
 {
@@ -49,7 +49,7 @@ public class PlayerChatHandler
                 {
                     if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtil.getUUID().equals(login.getUUID()))
                     {
-                        player.sendChatMessage(login.getCommand() + Base64Utils.decode(login.getValue()));
+                        player.sendChatMessage(login.getCommand() + Base64Util.decode(login.getValue()));
                     }
                 }
             }

@@ -29,10 +29,10 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiBossOverlayNew;
 import stevekung.mods.indicatia.renderer.HUDInfo;
-import stevekung.mods.indicatia.utils.InfoUtil;
-import stevekung.mods.indicatia.utils.JsonUtil;
-import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.indicatia.utils.RenderUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.indicatia.util.ModLogger;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 public class HUDRenderHandler
 {

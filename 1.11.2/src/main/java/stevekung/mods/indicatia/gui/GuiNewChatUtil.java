@@ -9,8 +9,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.renderer.HUDInfo;
-import stevekung.mods.indicatia.utils.InfoUtil;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class GuiNewChatUtil extends GuiChat
 {

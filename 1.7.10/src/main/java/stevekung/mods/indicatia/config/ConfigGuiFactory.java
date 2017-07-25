@@ -7,7 +7,7 @@ import cpw.mods.fml.client.config.GuiConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 public class ConfigGuiFactory implements IModGuiFactory
 {

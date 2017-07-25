@@ -37,7 +37,7 @@ import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.renderer.LayerCustomCape;
-import stevekung.mods.indicatia.utils.*;
+import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
 {
@@ -109,7 +109,7 @@ public class CommonHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.player);
-                CapeUtils.loadCapeTexture();
+                CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
                 {

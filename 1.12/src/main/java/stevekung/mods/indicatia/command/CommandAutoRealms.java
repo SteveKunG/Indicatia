@@ -6,7 +6,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAutoRealms extends ClientCommandBase
 {

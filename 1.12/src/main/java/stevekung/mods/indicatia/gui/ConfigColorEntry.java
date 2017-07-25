@@ -4,7 +4,7 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import stevekung.mods.indicatia.utils.InfoUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
 
 public class ConfigColorEntry extends CycleValueEntry
 {

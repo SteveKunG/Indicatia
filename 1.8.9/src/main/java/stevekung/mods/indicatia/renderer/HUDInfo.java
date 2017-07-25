@@ -19,8 +19,8 @@ import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.InfoUtil;
-import stevekung.mods.indicatia.utils.LangUtil;
+import stevekung.mods.indicatia.util.InfoUtil;
+import stevekung.mods.indicatia.util.LangUtil;
 
 public class HUDInfo
 {

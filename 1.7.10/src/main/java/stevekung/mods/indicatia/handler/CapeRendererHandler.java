@@ -10,8 +10,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.CapeUtils;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
+import stevekung.mods.indicatia.util.CapeUtil;
+import stevekung.mods.indicatia.util.GameProfileUtil;
 
 public class CapeRendererHandler
 {
@@ -22,9 +22,9 @@ public class CapeRendererHandler
         EntityPlayer player = event.entityPlayer;
         float yaw;
 
-        if (ConfigManager.enableCustomCape && player.getCommandSenderName().equals(GameProfileUtil.getUsername()) && !player.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtils.CAPE_TEXTURE.isEmpty())
+        if (ConfigManager.enableCustomCape && player.getCommandSenderName().equals(GameProfileUtil.getUsername()) && !player.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtil.CAPE_TEXTURE.isEmpty())
         {
-            CapeUtils.bindCapeTexture();
+            CapeUtil.bindCapeTexture();
             GL11.glColor3f(1.0F, 1.0F, 1.0F);
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 0.0F, 0.125F);

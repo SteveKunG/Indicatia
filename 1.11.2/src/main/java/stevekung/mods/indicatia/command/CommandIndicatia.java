@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.GuiRenderStatusSettings;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandIndicatia extends ClientCommandBase
 {

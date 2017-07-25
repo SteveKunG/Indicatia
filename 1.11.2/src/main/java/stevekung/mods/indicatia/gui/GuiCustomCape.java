@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.*;
+import stevekung.mods.indicatia.util.*;
 
 public class GuiCustomCape extends GuiScreen
 {
@@ -38,7 +38,7 @@ public class GuiCustomCape extends GuiScreen
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Cape"));
-        this.resetBtn.enabled = CapeUtils.pngFile.exists();
+        this.resetBtn.enabled = CapeUtil.pngFile.exists();
 
         if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.SHOW_CAPE)
         {
@@ -61,7 +61,7 @@ public class GuiCustomCape extends GuiScreen
     public void updateScreen()
     {
         this.doneBtn.enabled = !this.inputField.getText().isEmpty() || this.prevCapeOption != this.capeOption;
-        this.resetBtn.enabled = CapeUtils.pngFile.exists();
+        this.resetBtn.enabled = CapeUtil.pngFile.exists();
         this.setTextForCapeOption();
         this.inputField.updateCursorCounter();
     }
@@ -97,9 +97,9 @@ public class GuiCustomCape extends GuiScreen
             }
             if (button.id == 2)
             {
-                CapeUtils.CAPE_TEXTURE.remove(GameProfileUtil.getUsername());
+                CapeUtil.CAPE_TEXTURE.remove(GameProfileUtil.getUsername());
                 this.mc.player.sendMessage(json.text("Reset current cape texture"));
-                CapeUtils.pngFile.delete();
+                CapeUtil.pngFile.delete();
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
             if (button.id == 3)

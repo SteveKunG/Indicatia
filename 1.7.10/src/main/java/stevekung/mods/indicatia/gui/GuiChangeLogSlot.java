@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.utils.RenderUtil;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiChangeLogSlot extends GuiSlot

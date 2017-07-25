@@ -13,7 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.handler.CommonHandler;
-import stevekung.mods.indicatia.utils.JsonUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAFK extends ClientCommandBase
 {

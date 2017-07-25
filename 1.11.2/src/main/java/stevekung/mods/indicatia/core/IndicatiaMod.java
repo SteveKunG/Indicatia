@@ -25,10 +25,10 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
-import stevekung.mods.indicatia.utils.CapeUtils;
-import stevekung.mods.indicatia.utils.GameProfileUtil;
-import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.indicatia.utils.VersionChecker;
+import stevekung.mods.indicatia.util.CapeUtil;
+import stevekung.mods.indicatia.util.GameProfileUtil;
+import stevekung.mods.indicatia.util.ModLogger;
+import stevekung.mods.indicatia.util.VersionChecker;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
 public class IndicatiaMod
@@ -37,7 +37,7 @@ public class IndicatiaMod
     public static final String MOD_ID = "indicatia";
     public static final int MAJOR_VERSION = 1;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 5;
+    public static final int BUILD_VERSION = 6;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     public static final String MC_VERSION = String.valueOf(FMLInjectionData.data()[4]);
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";
@@ -114,7 +114,7 @@ public class IndicatiaMod
         }
         if (ConfigManager.enableCustomCape)
         {
-            CapeUtils.loadCapeTextureAtStartup();
+            CapeUtil.loadCapeTextureAtStartup();
         }
     }
 
