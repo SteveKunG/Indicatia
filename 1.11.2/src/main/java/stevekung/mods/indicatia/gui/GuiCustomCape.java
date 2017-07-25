@@ -34,12 +34,11 @@ public class GuiCustomCape extends GuiScreen
         this.inputField.setMaxStringLength(32767);
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
-        this.inputField.setText(ExtendedConfig.CAPE_URL.isEmpty() ? "" : Base64Utils.decode(ExtendedConfig.CAPE_URL));
         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.done")));
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtil.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Cape"));
-        this.resetBtn.enabled = !ExtendedConfig.CAPE_URL.isEmpty();
+        this.resetBtn.enabled = CapeUtils.pngFile.exists();
 
         if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.SHOW_CAPE)
         {
@@ -62,7 +61,7 @@ public class GuiCustomCape extends GuiScreen
     public void updateScreen()
     {
         this.doneBtn.enabled = !this.inputField.getText().isEmpty() || this.prevCapeOption != this.capeOption;
-        this.resetBtn.enabled = !ExtendedConfig.CAPE_URL.isEmpty();
+        this.resetBtn.enabled = CapeUtils.pngFile.exists();
         this.setTextForCapeOption();
         this.inputField.updateCursorCounter();
     }
@@ -76,14 +75,17 @@ public class GuiCustomCape extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
+        JsonUtil json = new JsonUtil();
+
         if (button.enabled)
         {
             if (button.id == 0)
             {
                 if (!this.inputField.getText().isEmpty())
                 {
-                    CapeUtils.textureUploaded = true;
-                    CapeUtils.setCapeURL(this.inputField.getText(), false);
+                    ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(this.inputField.getText());
+                    thread.start();
+                    this.mc.player.sendMessage(json.text("Start downloading cape texture from " + this.inputField.getText()));
                 }
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
@@ -95,11 +97,10 @@ public class GuiCustomCape extends GuiScreen
             }
             if (button.id == 2)
             {
-                ExtendedConfig.CAPE_URL = "";
                 CapeUtils.CAPE_TEXTURE.remove(GameProfileUtil.getUsername());
-                this.mc.player.sendMessage(new JsonUtil().text("Reset cape texture"));
-                this.inputField.setText("");
-                ExtendedConfig.save();
+                this.mc.player.sendMessage(json.text("Reset current cape texture"));
+                CapeUtils.pngFile.delete();
+                this.mc.displayGuiScreen((GuiScreen)null);
             }
             if (button.id == 3)
             {
@@ -199,32 +200,30 @@ public class GuiCustomCape extends GuiScreen
 
     private static void renderPlayer(Minecraft mc, int width, int height)
     {
-        float f2 = mc.player.renderYawOffset;
-        float f3 = mc.player.rotationYaw;
-        float f4 = mc.player.rotationPitch;
-        float f5 = mc.player.rotationYawHead;
+        float yawOffset = mc.player.renderYawOffset;
+        float yaw = mc.player.rotationYaw;
+        float pitch = mc.player.rotationPitch;
+        float yawHead = mc.player.rotationYawHead;
         float scale = 40.0F + height / 8 - 28;
-        GlStateManager.enableColorMaterial();
+        RenderHelper.enableStandardItemLighting();
         GlStateManager.pushMatrix();
         GlStateManager.translate(width / 2 - 50, height / 4 + 55, 256.0F);
         GlStateManager.scale(-scale, scale, scale);
         GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-        RenderHelper.enableStandardItemLighting();
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
         mc.player.renderYawOffset = 0.0F;
-        mc.player.rotationYaw = (float) Math.atan(19 / 40.0F) * 40.0F;
         mc.player.rotationYaw = 0.0F;
         mc.player.rotationYawHead = mc.player.rotationYaw;
-        GlStateManager.translate(0.0F, (float) mc.player.getYOffset(), 0.0F);
-        RenderManager rendermanager = mc.getRenderManager();
-        rendermanager.setPlayerViewY(180.0F);
-        rendermanager.setRenderShadow(false);
-        rendermanager.doRenderEntity(mc.player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
-        rendermanager.setRenderShadow(true);
-        mc.player.renderYawOffset = f2;
-        mc.player.rotationYaw = f3;
-        mc.player.rotationPitch = f4;
-        mc.player.rotationYawHead = f5;
+        GlStateManager.translate(0.0F, mc.player.getYOffset(), 0.0F);
+        RenderManager manager = mc.getRenderManager();
+        manager.setPlayerViewY(180.0F);
+        manager.setRenderShadow(false);
+        manager.doRenderEntity(mc.player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
+        manager.setRenderShadow(true);
+        mc.player.renderYawOffset = yawOffset;
+        mc.player.rotationYaw = yaw;
+        mc.player.rotationPitch = pitch;
+        mc.player.rotationYawHead = yawHead;
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();

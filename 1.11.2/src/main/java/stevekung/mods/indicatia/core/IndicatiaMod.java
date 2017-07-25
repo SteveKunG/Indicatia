@@ -25,7 +25,10 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
-import stevekung.mods.indicatia.utils.*;
+import stevekung.mods.indicatia.utils.CapeUtils;
+import stevekung.mods.indicatia.utils.GameProfileUtil;
+import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.indicatia.utils.VersionChecker;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
 public class IndicatiaMod
@@ -111,11 +114,7 @@ public class IndicatiaMod
         }
         if (ConfigManager.enableCustomCape)
         {
-            if (!ExtendedConfig.CAPE_URL.isEmpty())
-            {
-                CapeUtils.textureUploaded = true;
-                CapeUtils.setCapeURL(Base64Utils.decode(ExtendedConfig.CAPE_URL), true);
-            }
+            CapeUtils.loadCapeTextureAtStartup();
         }
     }
 

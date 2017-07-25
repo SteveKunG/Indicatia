@@ -1,4 +1,3 @@
--Update- Change Log GUI can use Enter key to exit
--Fixed- Fixed /mojangstatus command only working at one time
--Fixed- Fixed Potion HUD GL_BLEND
--Fixed- Fixed FPS Color not working
+-Update- Custom Cape Improved
+-Fixed- Fixed Crash when downloading custom cape (Affect only slow connection)
+-Fixed- Fixed FPS problem when downloading custom cape
