@@ -1,3 +1,4 @@
+-Added- Added Clear Chat (F3 + D)
 -Update- Custom Cape Improved
 -Update- Custom Cape Config now not required to restart game
 -Fixed- Fixed Crash when downloading custom cape (Affect only slow connection)

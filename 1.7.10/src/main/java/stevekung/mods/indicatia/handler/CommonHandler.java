@@ -238,6 +238,10 @@ public class CommonHandler
         {
             this.mc.displayGuiScreen(CommonHandler.customCapeGui);
         }
+        if (Keyboard.isKeyDown(Keyboard.KEY_F3) && Keyboard.isKeyDown(Keyboard.KEY_D))
+        {
+            this.mc.ingameGUI.getChatGUI().clearChatMessages();
+        }
         if (ExtendedConfig.TOGGLE_SPRINT_USE_MODE.equals("key_binding"))
         {
             String[] keyTS = ConfigManager.keyToggleSprint.split(",");
