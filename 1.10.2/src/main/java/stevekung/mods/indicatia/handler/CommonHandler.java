@@ -111,6 +111,7 @@ public class CommonHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.thePlayer);
+                CapeUtils.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
                 {
