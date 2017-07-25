@@ -24,7 +24,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (entity.getName().equals(GameProfileUtil.getUsername()) && !entity.isInvisible() && ExtendedConfig.SHOW_CAPE && (!CapeUtils.CAPE_TEXTURE.isEmpty() || !ExtendedConfig.CAPE_URL.isEmpty()))
+        if (entity.getName().equals(GameProfileUtil.getUsername()) && !entity.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtils.CAPE_TEXTURE.isEmpty())
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             CapeUtils.bindCapeTexture();

@@ -1,8 +1,7 @@
 package stevekung.mods.indicatia.utils;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -11,13 +10,13 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
 public class CapeUtils
 {
-    public static Map<String, DynamicTexture> CAPE_TEXTURE = Maps.newHashMap();
-    public static boolean textureUploaded = true;
+    public static final Map<String, DynamicTexture> CAPE_TEXTURE = Maps.newHashMap();
+    public static final File pngFile = new File(IndicatiaMod.MC.mcDataDir, "custom_cape");
+    public static boolean textureDownloaded = true;
 
     public static void bindCapeTexture()
     {
@@ -27,55 +26,41 @@ public class CapeUtils
         }
     }
 
-    public static void setCapeURL(String url, boolean startup)
+    public static void loadCapeTexture()
     {
-        URL jurl = null;
-        boolean noConnection = false;
         JsonUtil json = new JsonUtil();
 
-        try
+        if (!CapeUtils.textureDownloaded)
         {
-            jurl = new URL(url);
+            if (CapeUtils.pngFile.exists())
+            {
+                try
+                {
+                    CapeUtils.CAPE_TEXTURE.put(GameProfileUtil.getUsername(), new DynamicTexture(ImageIO.read(CapeUtils.pngFile)));
+                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("New custom cape texture successfully downloaded").setChatStyle(json.colorFromConfig("green")));
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            CapeUtils.textureDownloaded = true;
         }
-        catch (MalformedURLException e)
-        {
-            noConnection = true;
-            e.printStackTrace();
-            return;
-        }
+    }
 
-        if (CapeUtils.textureUploaded && !noConnection)
+    public static void loadCapeTextureAtStartup()
+    {
+        if (CapeUtils.pngFile.exists())
         {
             try
             {
-                CapeUtils.CAPE_TEXTURE.put(GameProfileUtil.getUsername(), new DynamicTexture(ImageIO.read(jurl)));
-                ExtendedConfig.CAPE_URL = Base64Utils.encode(url);
-                ExtendedConfig.save();
-                CapeUtils.textureUploaded = false;
-            }
-            catch (MalformedURLException e)
-            {
-                if (IndicatiaMod.MC.thePlayer != null)
-                {
-                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Missing protocol or wrong URL format").setChatStyle(json.red()));
-                }
-                e.printStackTrace();
-                return;
+                CapeUtils.CAPE_TEXTURE.put(GameProfileUtil.getUsername(), new DynamicTexture(ImageIO.read(CapeUtils.pngFile)));
+                ModLogger.info("Found downloaded custom cape file {}", CapeUtils.pngFile.getPath());
             }
             catch (IOException e)
             {
-                if (IndicatiaMod.MC.thePlayer != null)
-                {
-                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Cannot read image from URL").setChatStyle(json.red()));
-                }
                 e.printStackTrace();
-                return;
             }
-        }
-
-        if (!startup)
-        {
-            IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Downloaded new cape texture from URL"));
         }
     }
 }
