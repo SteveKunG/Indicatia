@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
@@ -19,10 +19,10 @@ public class CapeRendererHandler
     @SideOnly(Side.CLIENT)
     public void onPostRender(RenderPlayerEvent.Specials.Post event)
     {
-        AbstractClientPlayer player = (AbstractClientPlayer) event.entityPlayer;
+        EntityPlayer player = event.entityPlayer;
         float yaw;
 
-        if (ConfigManager.enableCustomCape && event.entityPlayer.getCommandSenderName().equals(GameProfileUtil.getUsername()) && !player.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtils.CAPE_TEXTURE.isEmpty())
+        if (ConfigManager.enableCustomCape && player.getCommandSenderName().equals(GameProfileUtil.getUsername()) && !player.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtils.CAPE_TEXTURE.isEmpty())
         {
             CapeUtils.bindCapeTexture();
             GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -59,6 +59,7 @@ public class CapeRendererHandler
             if (player.isSneaking())
             {
                 f5 += 25.0F;
+                GL11.glTranslatef(0.0F, 0.145F, -0.015F);
             }
 
             GL11.glRotatef(6.0F + f6 / 2.0F + f5, 1.0F, 0.0F, 0.0F);
