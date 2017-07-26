@@ -18,7 +18,7 @@ def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
 def mcVersion = '1.12'
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-version = "1.0.6"
+version = "1.0.7"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = "1.8"

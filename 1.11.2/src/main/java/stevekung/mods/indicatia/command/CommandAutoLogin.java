@@ -17,10 +17,10 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
 import stevekung.mods.indicatia.util.JsonUtil;
-import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 
 public class CommandAutoLogin extends ClientCommandBase
 {

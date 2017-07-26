@@ -18,8 +18,8 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.profile.ProfileConfigData;
 import stevekung.mods.indicatia.profile.ProfileData;
 import stevekung.mods.indicatia.profile.ProfileData.ProfileSettingData;
-import stevekung.mods.indicatia.util.JsonUtil;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
+import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandProfile extends ClientCommandBase
 {

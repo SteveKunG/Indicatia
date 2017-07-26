@@ -8,8 +8,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.AutoLogin;
-import stevekung.mods.indicatia.util.ModLogger;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatia.util.ModLogger;
 
 public class ExtendedConfig
 {

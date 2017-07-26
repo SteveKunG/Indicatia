@@ -8,9 +8,9 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
-import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 
 public class PlayerChatHandler
 {
