@@ -11,9 +11,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
-import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 
 public class PlayerChatHandler
 {
