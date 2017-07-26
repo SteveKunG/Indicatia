@@ -26,6 +26,7 @@ public class ConfigManager
     public static boolean enableRenderInfo;
     public static boolean enableBlockhitAnimation;
     public static boolean enableFishingRodOldRender;
+    public static boolean enableOldArmorRender;
     public static boolean enableVersionChecker;
     public static boolean enableAnnounceMessage;
     public static boolean enableAFKMessage;
@@ -138,6 +139,11 @@ public class ConfigManager
         ConfigManager.enableFishingRodOldRender = prop.getBoolean();
         prop.setComment(LangUtil.translate("gui.config.indicatia.old_fish_render"));
         prop.setRequiresMcRestart(true);
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Old Armor Render", false);
+        ConfigManager.enableOldArmorRender = prop.getBoolean();
+        prop.setComment(LangUtil.translate("gui.config.indicatia.old_armor_render"));
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Fast Chat Render", false);

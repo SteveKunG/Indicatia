@@ -12,10 +12,21 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.model.ModelSkeleton;
+import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.EntityGiantZombie;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -35,6 +46,7 @@ import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
+import stevekung.mods.indicatia.renderer.LayerAllArmor;
 import stevekung.mods.indicatia.renderer.LayerCustomCape;
 import stevekung.mods.indicatia.util.*;
 
@@ -200,6 +212,39 @@ public class CommonHandler
                 event.player.sendMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(this.json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPreRenderLiving(RenderLivingEvent.Pre event)
+    {
+        RenderLivingBase renderer = event.getRenderer();
+        List<LayerRenderer> layerLists = renderer.layerRenderers;
+        EntityLivingBase entity = event.getEntity();
+        RenderManager manager = this.mc.getRenderManager();
+
+        if (entity instanceof AbstractClientPlayer)
+        {
+            RenderPlayer renderDefault = manager.getSkinMap().get("default");
+            RenderPlayer renderSlim = manager.getSkinMap().get("slim");
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault, entity), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim, entity), renderer, entity);
+        }
+        else if (entity instanceof EntityZombieVillager)
+        {
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager), entity), renderer, entity);
+        }
+        else if (entity instanceof EntityGiantZombie)
+        {
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F), entity), renderer, entity);
+        }
+        else if (entity instanceof EntityZombie && !(entity instanceof EntityZombieVillager))
+        {
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager), entity), renderer, entity);
+        }
+        else if (entity instanceof AbstractSkeleton)
+        {
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager), entity), renderer, entity);
         }
     }
 
@@ -598,6 +643,83 @@ public class CommonHandler
             CommonHandler.autoClickTicks = 0;
             CommonHandler.autoClickMode = "left";
             ModLogger.info("Stopping Auto Click Command");
+        }
+    }
+
+    private static void replaceArmorLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer, RenderLivingBase render, EntityLivingBase entity)
+    {
+        int armorLayerIndex = -1;
+
+        if (ConfigManager.enableOldArmorRender)
+        {
+            for (int i = 0; i < layerLists.size(); i++)
+            {
+                LayerRenderer layer = layerLists.get(i);
+
+                if (layer instanceof LayerBipedArmor)
+                {
+                    armorLayerIndex = i;
+                }
+            }
+            if (armorLayerIndex >= 0)
+            {
+                layerLists.set(armorLayerIndex, newLayer);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < layerLists.size(); i++)
+            {
+                LayerRenderer layer = layerLists.get(i);
+
+                if (layer instanceof LayerAllArmor)
+                {
+                    armorLayerIndex = i;
+                }
+            }
+            if (armorLayerIndex >= 0)
+            {
+                if (entity instanceof AbstractClientPlayer)
+                {
+                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render));
+                }
+                else if ((entity instanceof EntityZombie || entity instanceof EntityGiantZombie) && !(entity instanceof EntityZombieVillager))
+                {
+                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render)
+                    {
+                        @Override
+                        protected void initArmor()
+                        {
+                            this.modelLeggings = new ModelZombie(0.5F, true);
+                            this.modelArmor = new ModelZombie(1.0F, true);
+                        }
+                    });
+                }
+                else if (entity instanceof AbstractSkeleton)
+                {
+                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render)
+                    {
+                        @Override
+                        protected void initArmor()
+                        {
+                            this.modelLeggings = new ModelSkeleton(0.5F, true);
+                            this.modelArmor = new ModelSkeleton(1.0F, true);
+                        }
+                    });
+                }
+                else if (entity instanceof EntityZombieVillager)
+                {
+                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render)
+                    {
+                        @Override
+                        protected void initArmor()
+                        {
+                            this.modelLeggings = new ModelZombieVillager(0.5F, 0.0F, true);
+                            this.modelArmor = new ModelZombieVillager(1.0F, 0.0F, true);
+                        }
+                    });
+                }
+            }
         }
     }
 
