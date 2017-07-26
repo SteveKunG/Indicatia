@@ -28,6 +28,7 @@ public class ConfigManager
     public static int afkMessageTime;
     public static boolean enableRenderInfo;
     public static boolean enableBlockhitAnimation;
+    public static boolean enableOldArmorRender;
     public static boolean enableVersionChecker;
     public static boolean enableAnnounceMessage;
     public static boolean enableAFKMessage;
@@ -140,6 +141,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Blockhit Animation", false);
         ConfigManager.enableBlockhitAnimation = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.blockhit_animation");
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Old Armor Render", false);
+        ConfigManager.enableOldArmorRender = prop.getBoolean();
+        prop.comment = LangUtil.translate("gui.config.indicatia.old_armor_render");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Fast Chat Render", false);
