@@ -23,6 +23,7 @@ public class GuiChangeLogSlot extends GuiSlot
     private boolean textureType;
     private static final ResourceLocation STONEBRICK = new ResourceLocation("textures/blocks/stonebrick.png");
     private static final ResourceLocation COBBLESTONE = new ResourceLocation("textures/blocks/cobblestone.png");
+    private static final ResourceLocation BACKGROUND = new ResourceLocation("indicatia:textures/gui/black.png");
 
     public GuiChangeLogSlot(Minecraft mc, GuiFullChangeLog parent, List<String> stringList, int width, int height, boolean texture)
     {
@@ -83,7 +84,22 @@ public class GuiChangeLogSlot extends GuiSlot
     }
 
     @Override
-    protected void drawContainerBackground(Tessellator tessellator) {}
+    protected void drawContainerBackground(Tessellator tessellator)
+    {
+        this.mc.getTextureManager().bindTexture(GuiChangeLogSlot.BACKGROUND);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glEnable(GL11.GL_BLEND);
+        float size = 32.0F;
+        int color = 255;
+        int alpha = 150;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA(color, color, color, alpha);
+        tessellator.addVertexWithUV(this.left, this.bottom, 0.0D, this.left / size, (this.bottom + (int)this.amountScrolled) / size);
+        tessellator.addVertexWithUV(this.right, this.bottom, 0.0D, this.right / size, (this.bottom + (int)this.amountScrolled) / size);
+        tessellator.addVertexWithUV(this.right, this.top, 0.0D, this.right / size, (this.top + (int)this.amountScrolled) / size);
+        tessellator.addVertexWithUV(this.left, this.top, 0.0D, this.left / size, (this.top + (int)this.amountScrolled) / size);
+        tessellator.draw();
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
