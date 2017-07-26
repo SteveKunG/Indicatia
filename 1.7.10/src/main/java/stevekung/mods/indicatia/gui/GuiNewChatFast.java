@@ -93,7 +93,7 @@ public class GuiNewChatFast extends GuiNewChat
                                 byte b0 = 0;
                                 int j2 = -j1 * 9;
 
-                                if (ConfigManager.enableFastChatRender)
+                                if (!ConfigManager.enableFastChatRender)
                                 {
                                     Gui.drawRect(b0, j2 - 9, b0 + i1 + 4, j2, i2 / 2 << 24);
                                 }
