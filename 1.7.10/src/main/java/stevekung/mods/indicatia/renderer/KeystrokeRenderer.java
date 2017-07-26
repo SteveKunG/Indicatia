@@ -16,11 +16,12 @@ import stevekung.mods.indicatia.util.RenderUtil;
 
 public class KeystrokeRenderer
 {
+    private static final SmallFontRenderer smallFontRenderer = new SmallFontRenderer();
+
     public static void init(Minecraft mc)
     {
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-        SmallFontRenderer smallFontRenderer = new SmallFontRenderer();
-        KeystrokeRenderer.renderStyleNormal(mc, smallFontRenderer, res.getScaledWidth());
+        KeystrokeRenderer.renderStyleNormal(mc, KeystrokeRenderer.smallFontRenderer, res.getScaledWidth());
     }
 
     private static void renderStyleNormal(Minecraft mc, SmallFontRenderer smallFontRenderer, int width)

@@ -1,2 +1,3 @@
 -Update- Add black background to Change Log GUI
 -Fixed- Fixed Fast Chat config
+-Fixed- Fixed Keystroke memory leak
