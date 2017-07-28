@@ -104,7 +104,7 @@ public class CommonHandler
         {
             RenderUtil.renderGlowingEntity();
         }
-        if (this.mc.thePlayer != null)
+        if (this.mc.player != null)
         {
             if (InfoUtil.INSTANCE.isHypixel())
             {
@@ -118,7 +118,7 @@ public class CommonHandler
             }
             if (event.phase == TickEvent.Phase.START)
             {
-                CommonHandler.runAFK(this.mc.thePlayer);
+                CommonHandler.runAFK(this.mc.player);
                 CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
@@ -148,9 +148,9 @@ public class CommonHandler
                     }
                 }
             }
-            if (!(this.mc.thePlayer.movementInput instanceof MovementInputFromOptionsIU))
+            if (!(this.mc.player.movementInput instanceof MovementInputFromOptionsIU))
             {
-                this.mc.thePlayer.movementInput = new MovementInputFromOptionsIU(this.mc.gameSettings);
+                this.mc.player.movementInput = new MovementInputFromOptionsIU(this.mc.gameSettings);
             }
             CommonHandler.replaceGui(this.mc, this.mc.currentScreen);
         }
@@ -178,15 +178,15 @@ public class CommonHandler
         {
             if (!IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.noConnection())
             {
-                event.player.addChatMessage(this.json.text("Unable to check latest version, Please check your internet connection").setStyle(this.json.red()));
-                event.player.addChatMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(this.json.red()));
+                event.player.sendMessage(this.json.text("Unable to check latest version, Please check your internet connection").setStyle(this.json.red()));
+                event.player.sendMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(this.json.red()));
                 IndicatiaMod.CHECK_NO_CONNECTION = true;
                 return;
             }
             if (!IndicatiaMod.FOUND_LATEST && !IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.isLatestVersion())
             {
-                event.player.addChatMessage(this.json.text("New version of ").appendSibling(this.json.text("Indicatia").setStyle(this.json.style().setColor(TextFormatting.AQUA)).appendSibling(this.json.text(" is available ").setStyle(this.json.white()).appendSibling(this.json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setStyle(this.json.style().setColor(TextFormatting.GREEN)).appendSibling(this.json.text(" for ").setStyle(this.json.white()).appendSibling(this.json.text("MC-" + IndicatiaMod.MC_VERSION).setStyle(this.json.style().setColor(TextFormatting.GOLD))))))));
-                event.player.addChatMessage(this.json.text("Download Link ").setStyle(this.json.style().setColor(TextFormatting.YELLOW)).appendSibling(this.json.text("[CLICK HERE]").setStyle(this.json.style().setColor(TextFormatting.BLUE).setHoverEvent(this.json.hover(HoverEvent.Action.SHOW_TEXT, this.json.text("Click Here!").setStyle(this.json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
+                event.player.sendMessage(this.json.text("New version of ").appendSibling(this.json.text("Indicatia").setStyle(this.json.style().setColor(TextFormatting.AQUA)).appendSibling(this.json.text(" is available ").setStyle(this.json.white()).appendSibling(this.json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setStyle(this.json.style().setColor(TextFormatting.GREEN)).appendSibling(this.json.text(" for ").setStyle(this.json.white()).appendSibling(this.json.text("MC-" + IndicatiaMod.MC_VERSION).setStyle(this.json.style().setColor(TextFormatting.GOLD))))))));
+                event.player.sendMessage(this.json.text("Download Link ").setStyle(this.json.style().setColor(TextFormatting.YELLOW)).appendSibling(this.json.text("[CLICK HERE]").setStyle(this.json.style().setColor(TextFormatting.BLUE).setHoverEvent(this.json.hover(HoverEvent.Action.SHOW_TEXT, this.json.text("Click Here!").setStyle(this.json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
                 IndicatiaMod.FOUND_LATEST = true;
             }
             if (!IndicatiaMod.SHOW_ANNOUNCE_MESSAGE && !IndicatiaMod.CHECK_NO_CONNECTION)
@@ -195,10 +195,10 @@ public class CommonHandler
                 {
                     if (ConfigManager.enableAnnounceMessage)
                     {
-                        event.player.addChatMessage(this.json.text(log).setStyle(this.json.style().setColor(TextFormatting.GRAY)));
+                        event.player.sendMessage(this.json.text(log).setStyle(this.json.style().setColor(TextFormatting.GRAY)));
                     }
                 }
-                event.player.addChatMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(this.json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                event.player.sendMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(this.json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
         }
@@ -285,9 +285,9 @@ public class CommonHandler
         {
             if (ConfigManager.enableSmoothEyeHeight)
             {
-                if (this.mc.thePlayer != null)
+                if (this.mc.player != null)
                 {
-                    this.mc.thePlayer.eyeHeight = CommonHandler.getSmoothEyeHeight(this.mc.thePlayer);
+                    this.mc.player.eyeHeight = CommonHandler.getSmoothEyeHeight(this.mc.player);
                 }
             }
         }
@@ -406,7 +406,7 @@ public class CommonHandler
                     }
                     if (unformattedText.contains("Get free coins by clicking"))
                     {
-                        this.mc.thePlayer.sendChatMessage("/tip all");
+                        this.mc.player.sendChatMessage("/tip all");
                     }
                 }
 
@@ -425,7 +425,7 @@ public class CommonHandler
                     reverseString.substring(0, reverseString.length() - 1);
                     String message = reverseString.toString().replace("online! isn't ", "");
                     String[] name = message.trim().split("\\s+");
-                    this.mc.thePlayer.sendChatMessage("/p remove " + name[0]);
+                    this.mc.player.sendChatMessage("/p remove " + name[0]);
                 }
             }
         }
@@ -469,7 +469,7 @@ public class CommonHandler
 
     private static void getPingForNickedPlayer(Minecraft mc)
     {
-        List<NetworkPlayerInfo> list = Lists.newArrayList(mc.thePlayer.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = Lists.newArrayList(mc.player.connection.getPlayerInfoMap());
         int maxPlayers = list.size();
 
         for (int i = 0; i < maxPlayers; ++i)
@@ -518,21 +518,21 @@ public class CommonHandler
 
             if (CommonHandler.afkMode.equals("idle"))
             {
-                player.setAngles(angle, angle);
+                player.turn(angle, angle);
             }
             else if (CommonHandler.afkMode.equals("360"))
             {
-                player.setAngles(1.0F, 0.0F);
+                player.turn(1.0F, 0.0F);
             }
             else if (CommonHandler.afkMode.equals("360_move"))
             {
-                player.setAngles(1.0F, 0.0F);
+                player.turn(1.0F, 0.0F);
                 CommonHandler.afkMoveTicks++;
                 CommonHandler.afkMoveTicks %= 8;
             }
             else
             {
-                player.setAngles(angle, angle);
+                player.turn(angle, angle);
                 CommonHandler.afkMoveTicks++;
                 CommonHandler.afkMoveTicks %= 8;
             }
@@ -609,7 +609,7 @@ public class CommonHandler
             {
                 mc.displayGuiScreen(CommonHandler.sleepGui);
             }
-            if (currentScreen instanceof GuiSleepMPNew && !mc.thePlayer.isPlayerSleeping())
+            if (currentScreen instanceof GuiSleepMPNew && !mc.player.isPlayerSleeping())
             {
                 mc.displayGuiScreen((GuiScreen)null);
             }

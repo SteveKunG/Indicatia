@@ -47,7 +47,7 @@ public class GuiNewChatUtil extends GuiChat
         }
         if (InfoUtil.INSTANCE.isHypixel())
         {
-            String skywars = this.mc.theWorld != null && this.mc.theWorld.getScoreboard() != null && this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
+            String skywars = this.mc.world != null && this.mc.world.getScoreboard() != null && this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
 
             this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
@@ -82,7 +82,7 @@ public class GuiNewChatUtil extends GuiChat
 
         if (InfoUtil.INSTANCE.isHypixel())
         {
-            String skywars = this.mc.theWorld != null && this.mc.theWorld.getScoreboard() != null && this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
+            String skywars = this.mc.world != null && this.mc.world.getScoreboard() != null && this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
 
             if (InfoUtil.INSTANCE.removeFormattingCodes(skywars).contains("skywars"))
             {
@@ -197,16 +197,16 @@ public class GuiNewChatUtil extends GuiChat
             ExtendedConfig.save();
             break;
         case 100:
-            this.mc.thePlayer.sendChatMessage("/chat a");
-            this.mc.thePlayer.addChatMessage(new JsonUtil().text("Reset Hypixel Chat"));
+            this.mc.player.sendChatMessage("/chat a");
+            this.mc.player.sendMessage(new JsonUtil().text("Reset Hypixel Chat"));
             break;
         case 101:
-            this.mc.thePlayer.sendChatMessage("/chat p");
-            this.mc.thePlayer.addChatMessage(new JsonUtil().text("Set chat mode to Hypixel Party Chat"));
+            this.mc.player.sendChatMessage("/chat p");
+            this.mc.player.sendMessage(new JsonUtil().text("Set chat mode to Hypixel Party Chat"));
             break;
         case 102:
-            this.mc.thePlayer.sendChatMessage("/chat g");
-            this.mc.thePlayer.addChatMessage(new JsonUtil().text("Set chat mode to Hypixel Guild Chat"));
+            this.mc.player.sendChatMessage("/chat g");
+            this.mc.player.sendMessage(new JsonUtil().text("Set chat mode to Hypixel Guild Chat"));
             break;
         case 150:
             GuiNewChatUtil.page = 1;
@@ -215,22 +215,22 @@ public class GuiNewChatUtil extends GuiChat
             GuiNewChatUtil.page = 0;
             break;
         case 1000:
-            this.mc.thePlayer.sendChatMessage("/lobby sw");
+            this.mc.player.sendChatMessage("/lobby sw");
             break;
         case 1001:
-            this.mc.thePlayer.sendChatMessage("/play solo_normal");
+            this.mc.player.sendChatMessage("/play solo_normal");
             break;
         case 1002:
-            this.mc.thePlayer.sendChatMessage("/play solo_insane");
+            this.mc.player.sendChatMessage("/play solo_insane");
             break;
         case 1003:
-            this.mc.thePlayer.sendChatMessage("/play teams_normal");
+            this.mc.player.sendChatMessage("/play teams_normal");
             break;
         case 1004:
-            this.mc.thePlayer.sendChatMessage("/play teams_insane");
+            this.mc.player.sendChatMessage("/play teams_insane");
             break;
         case 1005:
-            this.mc.thePlayer.sendChatMessage("/play mega_normal");
+            this.mc.player.sendChatMessage("/play mega_normal");
             break;
         }
     }

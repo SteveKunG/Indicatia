@@ -37,7 +37,7 @@ public class CapeUtil
                 try
                 {
                     CapeUtil.CAPE_TEXTURE.put(GameProfileUtil.getUsername(), new DynamicTexture(ImageIO.read(CapeUtil.pngFile)));
-                    IndicatiaMod.MC.thePlayer.addChatMessage(json.text("New custom cape texture successfully downloaded").setStyle(json.colorFromConfig("green")));
+                    IndicatiaMod.MC.player.sendMessage(json.text("New custom cape texture successfully downloaded").setStyle(json.colorFromConfig("green")));
                 }
                 catch (IOException e)
                 {

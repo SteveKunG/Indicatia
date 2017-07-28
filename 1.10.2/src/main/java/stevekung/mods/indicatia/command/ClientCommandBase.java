@@ -9,9 +9,9 @@ import net.minecraftforge.common.ForgeHooks;
 public abstract class ClientCommandBase extends CommandBase
 {
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override

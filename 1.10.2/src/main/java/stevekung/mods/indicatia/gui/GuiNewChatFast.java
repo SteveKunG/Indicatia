@@ -56,7 +56,7 @@ public class GuiNewChatFast extends GuiNewChat
                             double d0 = j1 / 200.0D;
                             d0 = 1.0D - d0;
                             d0 = d0 * 10.0D;
-                            d0 = MathHelper.clamp_double(d0, 0.0D, 1.0D);
+                            d0 = MathHelper.clamp(d0, 0.0D, 1.0D);
                             d0 = d0 * d0;
                             int l1 = (int)(255.0D * d0);
 
@@ -71,7 +71,7 @@ public class GuiNewChatFast extends GuiNewChat
                             if (l1 > 3)
                             {
                                 int j2 = -i1 * 9;
-                                int k = MathHelper.ceiling_float_int(this.getChatWidth() / f1);
+                                int k = MathHelper.ceil(this.getChatWidth() / f1);
                                 String s = chatline.getChatComponent().getFormattedText();
 
                                 if (!ConfigManager.enableFastChatRender)

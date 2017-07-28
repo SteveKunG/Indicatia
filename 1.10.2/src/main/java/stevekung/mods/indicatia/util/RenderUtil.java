@@ -79,9 +79,9 @@ public class RenderUtil
 
     public static void renderGlowingEntity()
     {
-        if (IndicatiaMod.MC.theWorld != null)
+        if (IndicatiaMod.MC.world != null)
         {
-            for (Entity entity : IndicatiaMod.MC.theWorld.loadedEntityList)
+            for (Entity entity : IndicatiaMod.MC.world.loadedEntityList)
             {
                 if (entity.getEntityString() != null)
                 {

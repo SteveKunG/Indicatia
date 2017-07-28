@@ -21,7 +21,7 @@ public class InfoUtil
 
     public int getPing()
     {
-        if (IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()) != null)
+        if (IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.player.getUniqueID()) != null)
         {
             if (InfoUtil.INSTANCE.isHypixel())
             {
@@ -38,7 +38,7 @@ public class InfoUtil
             }
             else
             {
-                return IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()).getResponseTime();
+                return IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.player.getUniqueID()).getResponseTime();
             }
         }
         return 0;
@@ -163,12 +163,12 @@ public class InfoUtil
 
     public void setOverlayMessage(String message, boolean isPlaying)
     {
-        IndicatiaMod.MC.ingameGUI.setRecordPlaying(message, isPlaying);
+        IndicatiaMod.MC.ingameGUI.setOverlayMessage(message, isPlaying);
     }
 
     public void setOverlayMessage(ITextComponent component, boolean isPlaying)
     {
-        IndicatiaMod.MC.ingameGUI.setRecordPlaying(component, isPlaying);
+        IndicatiaMod.MC.ingameGUI.setOverlayMessage(component, isPlaying);
     }
 
     public String getCurrentGameTime(long worldTicks)
@@ -193,7 +193,7 @@ public class InfoUtil
     public String getMoonPhase(Minecraft mc)
     {
         int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
-        int phase = moonPhaseFactors[mc.theWorld.provider.getMoonPhase(mc.theWorld.getWorldTime())];
+        int phase = moonPhaseFactors[mc.world.provider.getMoonPhase(mc.world.getWorldTime())];
         String status;
 
         switch (phase)
@@ -229,8 +229,8 @@ public class InfoUtil
 
     public boolean isSlimeChunk(BlockPos pos)
     {
-        int x = MathHelper.bucketInt(pos.getX(), 16);
-        int z = MathHelper.bucketInt(pos.getZ(), 16);
+        int x = MathHelper.intFloorDiv(pos.getX(), 16);
+        int z = MathHelper.intFloorDiv(pos.getZ(), 16);
         Random rnd = new Random(ExtendedConfig.SLIME_CHUNK_SEED + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rnd.nextInt(10) == 0;
     }

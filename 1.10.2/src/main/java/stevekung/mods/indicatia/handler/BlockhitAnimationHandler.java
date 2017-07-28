@@ -77,7 +77,7 @@ public class BlockhitAnimationHandler
 
         if (this.mc.gameSettings.viewBobbing)
         {
-            this.mc.entityRenderer.setupViewBobbing(partialTicks);
+            this.mc.entityRenderer.applyBobbing(partialTicks);
         }
 
         boolean isSleep = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
@@ -106,13 +106,13 @@ public class BlockhitAnimationHandler
         }
         if (this.mc.gameSettings.viewBobbing)
         {
-            this.mc.entityRenderer.setupViewBobbing(partialTicks);
+            this.mc.entityRenderer.applyBobbing(partialTicks);
         }
     }
 
     private void renderItemInFirstPerson(float partialTicks)
     {
-        AbstractClientPlayer player = this.mc.thePlayer;
+        AbstractClientPlayer player = this.mc.player;
         float swingProgress = player.getSwingProgress(partialTicks);
         EnumHand hand = Objects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
         float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
@@ -185,7 +185,7 @@ public class BlockhitAnimationHandler
             {
                 int handType = rightSide ? 1 : -1;
                 float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-                float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
+                float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
 
                 switch (itemStack.getItemUseAction())
                 {
@@ -210,7 +210,7 @@ public class BlockhitAnimationHandler
                     GlStateManager.rotate(-13.935F, 1.0F, 0.0F, 0.0F);
                     GlStateManager.rotate(handType * 35.3F, 0.0F, 1.0F, 0.0F);
                     GlStateManager.rotate(handType * -9.785F, 0.0F, 0.0F, 1.0F);
-                    float f5 = itemStack.getMaxItemUseDuration() - (this.mc.thePlayer.getItemInUseCount() - partialTicks + 1.0F);
+                    float f5 = itemStack.getMaxItemUseDuration() - (this.mc.player.getItemInUseCount() - partialTicks + 1.0F);
                     float f6 = f5 / 20.0F;
                     f6 = (f6 * f6 + f6 * 2.0F) / 3.0F;
 
@@ -232,8 +232,8 @@ public class BlockhitAnimationHandler
             }
             else
             {
-                float f = -0.4F * MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
-                float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt_float(swingProgress) * ((float)Math.PI * 2F));
+                float f = -0.4F * MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
+                float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt(swingProgress) * ((float)Math.PI * 2F));
                 float f2 = -0.2F * MathHelper.sin(swingProgress * (float)Math.PI);
                 int i = rightSide ? 1 : -1;
                 GlStateManager.translate(i * f, f1, f2);

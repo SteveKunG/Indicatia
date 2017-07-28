@@ -85,7 +85,7 @@ public class GuiCustomCape extends GuiScreen
                 {
                     ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(this.inputField.getText());
                     thread.start();
-                    this.mc.thePlayer.addChatMessage(json.text("Start downloading cape texture from " + this.inputField.getText()));
+                    this.mc.player.sendMessage(json.text("Start downloading cape texture from " + this.inputField.getText()));
                 }
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
@@ -98,7 +98,7 @@ public class GuiCustomCape extends GuiScreen
             if (button.id == 2)
             {
                 CapeUtil.CAPE_TEXTURE.remove(GameProfileUtil.getUsername());
-                this.mc.thePlayer.addChatMessage(json.text("Reset current cape texture"));
+                this.mc.player.sendMessage(json.text("Reset current cape texture"));
                 CapeUtil.pngFile.delete();
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
@@ -200,10 +200,10 @@ public class GuiCustomCape extends GuiScreen
 
     private static void renderPlayer(Minecraft mc, int width, int height)
     {
-        float yawOffset = mc.thePlayer.renderYawOffset;
-        float yaw = mc.thePlayer.rotationYaw;
-        float pitch = mc.thePlayer.rotationPitch;
-        float yawHead = mc.thePlayer.rotationYawHead;
+        float yawOffset = mc.player.renderYawOffset;
+        float yaw = mc.player.rotationYaw;
+        float pitch = mc.player.rotationPitch;
+        float yawHead = mc.player.rotationYawHead;
         float scale = 40.0F + height / 8 - 28;
         RenderHelper.enableStandardItemLighting();
         GlStateManager.pushMatrix();
@@ -211,19 +211,19 @@ public class GuiCustomCape extends GuiScreen
         GlStateManager.scale(-scale, scale, scale);
         GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-        mc.thePlayer.renderYawOffset = 0.0F;
-        mc.thePlayer.rotationYaw = 0.0F;
-        mc.thePlayer.rotationYawHead = mc.thePlayer.rotationYaw;
-        GlStateManager.translate(0.0F, mc.thePlayer.getYOffset(), 0.0F);
+        mc.player.renderYawOffset = 0.0F;
+        mc.player.rotationYaw = 0.0F;
+        mc.player.rotationYawHead = mc.player.rotationYaw;
+        GlStateManager.translate(0.0F, mc.player.getYOffset(), 0.0F);
         RenderManager manager = mc.getRenderManager();
         manager.setPlayerViewY(180.0F);
         manager.setRenderShadow(false);
-        manager.doRenderEntity(mc.thePlayer, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
+        manager.doRenderEntity(mc.player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
         manager.setRenderShadow(true);
-        mc.thePlayer.renderYawOffset = yawOffset;
-        mc.thePlayer.rotationYaw = yaw;
-        mc.thePlayer.rotationPitch = pitch;
-        mc.thePlayer.rotationYawHead = yawHead;
+        mc.player.renderYawOffset = yawOffset;
+        mc.player.rotationYaw = yaw;
+        mc.player.rotationPitch = pitch;
+        mc.player.rotationYawHead = yawHead;
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();

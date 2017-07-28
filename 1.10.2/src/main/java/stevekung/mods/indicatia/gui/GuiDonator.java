@@ -69,11 +69,11 @@ public class GuiDonator extends GuiScreen
 
                 if (!this.topDonateInput.getText().isEmpty())
                 {
-                    this.mc.thePlayer.addChatMessage(json.text("Set top donator file path to " + ExtendedConfig.TOP_DONATOR_FILE_PATH));
+                    this.mc.player.sendMessage(json.text("Set top donator file path to " + ExtendedConfig.TOP_DONATOR_FILE_PATH));
                 }
                 if (!this.recentDonateInput.getText().isEmpty())
                 {
-                    this.mc.thePlayer.addChatMessage(json.text("Set recent donator file path to " + ExtendedConfig.RECENT_DONATOR_FILE_PATH));
+                    this.mc.player.sendMessage(json.text("Set recent donator file path to " + ExtendedConfig.RECENT_DONATOR_FILE_PATH));
                 }
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
@@ -83,7 +83,7 @@ public class GuiDonator extends GuiScreen
             }
             if (button.id == 2)
             {
-                this.mc.thePlayer.addChatMessage(json.text("Reset donator file path"));
+                this.mc.player.sendMessage(json.text("Reset donator file path"));
                 ExtendedConfig.TOP_DONATOR_FILE_PATH = "";
                 ExtendedConfig.RECENT_DONATOR_FILE_PATH = "";
                 HUDRenderHandler.topDonator = "";

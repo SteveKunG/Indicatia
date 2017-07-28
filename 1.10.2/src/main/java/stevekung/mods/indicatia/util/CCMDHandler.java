@@ -54,19 +54,19 @@ public class CCMDHandler extends ClientCommandHandler
                 icommand.execute(this.getServer(), sender, args);
                 return 1;
             }
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.permission"));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.permission"));
         }
         catch (WrongUsageException wue)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.usage", this.format(TextFormatting.RED, wue.getMessage(), wue.getErrorObjects())));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.usage", this.format(TextFormatting.RED, wue.getMessage(), wue.getErrorObjects())));
         }
         catch (CommandException ce)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, ce.getMessage(), ce.getErrorObjects()));
+            sender.sendMessage(this.format(TextFormatting.RED, ce.getMessage(), ce.getErrorObjects()));
         }
         catch (Throwable t)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.exception"));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.exception"));
             t.printStackTrace();
         }
         return -1;
@@ -83,7 +83,7 @@ public class CCMDHandler extends ClientCommandHandler
 
             if (IndicatiaMod.MC.currentScreen instanceof GuiChat)
             {
-                List<String> commands = this.getTabCompletionOptions(IndicatiaMod.MC.thePlayer, leftOfCursor, IndicatiaMod.MC.thePlayer.getPosition());
+                List<String> commands = this.getTabCompletions(IndicatiaMod.MC.player, leftOfCursor, IndicatiaMod.MC.player.getPosition());
 
                 if (commands != null && !commands.isEmpty())
                 {

@@ -25,7 +25,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandAutoLogin extends ClientCommandBase
 {
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "autologin";
     }
@@ -56,19 +56,19 @@ public class CommandAutoLogin extends ClientCommandBase
                     {
                         if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                         {
-                            sender.addChatMessage(json.text("An auto login data already set for Username: " + uuid.toString() + "!").setStyle(json.red()));
+                            sender.sendMessage(json.text("An auto login data already set for Username: " + uuid.toString() + "!").setStyle(json.red()));
                             return;
                         }
                         ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
                         ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid);
-                        sender.addChatMessage(json.text("Set auto login data for Server: " + data.serverIP));
+                        sender.sendMessage(json.text("Set auto login data for Server: " + data.serverIP));
                         ExtendedConfig.save();
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.addChatMessage(json.text("Cannot add auto login data in singleplayer!").setStyle(json.red()));
+                    sender.sendMessage(json.text("Cannot add auto login data in singleplayer!").setStyle(json.red()));
                     return;
                 }
             }
@@ -81,17 +81,17 @@ public class CommandAutoLogin extends ClientCommandBase
                         if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                         {
                             ExtendedConfig.loginData.removeAutoLogin(uuid + data.serverIP);
-                            sender.addChatMessage(json.text("Remove auto login data from Username: " + uuid.toString()));
+                            sender.sendMessage(json.text("Remove auto login data from Username: " + uuid.toString()));
                         }
                         else
                         {
-                            sender.addChatMessage(json.text("No auto login data was set for Username: " + uuid.toString() + "!").setStyle(json.red()));
+                            sender.sendMessage(json.text("No auto login data was set for Username: " + uuid.toString() + "!").setStyle(json.red()));
                         }
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.addChatMessage(json.text("Cannot remove auto login data in singleplayer!").setStyle(json.red()));
+                    sender.sendMessage(json.text("Cannot remove auto login data in singleplayer!").setStyle(json.red()));
                     return;
                 }
             }
@@ -107,11 +107,11 @@ public class CommandAutoLogin extends ClientCommandBase
                 {
                     TextComponentTranslation component = new TextComponentTranslation("commands.autologin.list.count", collection.size());
                     component.getStyle().setColor(TextFormatting.DARK_GREEN);
-                    sender.addChatMessage(component);
+                    sender.sendMessage(component);
 
                     for (AutoLoginData loginData : collection)
                     {
-                        sender.addChatMessage(new TextComponentTranslation("commands.autologin.list.entry", loginData.getServerIP(), loginData.getUUID()));
+                        sender.sendMessage(new TextComponentTranslation("commands.autologin.list.entry", loginData.getServerIP(), loginData.getUUID()));
                     }
                 }
             }
@@ -123,12 +123,12 @@ public class CommandAutoLogin extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list");
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }

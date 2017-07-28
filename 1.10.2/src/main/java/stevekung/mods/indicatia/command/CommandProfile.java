@@ -24,7 +24,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandProfile extends ClientCommandBase
 {
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "profileiu";
     }
@@ -49,7 +49,7 @@ public class CommandProfile extends ClientCommandBase
                 }
                 if (RenderProfileConfig.profileData.getProfile(args[1]) != null)
                 {
-                    sender.addChatMessage(json.text("Profile data was already set for name: " + args[1] + "!").setStyle(json.red()));
+                    sender.sendMessage(json.text("Profile data was already set for name: " + args[1] + "!").setStyle(json.red()));
                     return;
                 }
                 RenderProfileConfig.profileData.addProfileData(args[1], ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableBiome, ConfigManager.enablePing, ConfigManager.enableServerIP,
@@ -57,7 +57,7 @@ public class CommandProfile extends ClientCommandBase
                         ConfigManager.enableCurrentRealTime, ConfigManager.enableCurrentGameTime, ConfigManager.enableGameWeather, ConfigManager.enableMoonPhase, ConfigManager.keystrokePosition, ConfigManager.equipmentOrdering,
                         ConfigManager.equipmentDirection, ConfigManager.equipmentStatus, ConfigManager.equipmentPosition, ConfigManager.potionStatusHUDStyle, ConfigManager.potionStatusHUDPosition, ExtendedConfig.ARMOR_STATUS_OFFSET,
                         ExtendedConfig.POTION_STATUS_OFFSET, ExtendedConfig.KEYSTROKE_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET);
-                sender.addChatMessage(json.text("Add profile data name: " + args[1]));
+                sender.sendMessage(json.text("Add profile data name: " + args[1]));
                 RenderProfileConfig.save();
             }
             else if ("load".equalsIgnoreCase(args[0]))
@@ -68,7 +68,7 @@ public class CommandProfile extends ClientCommandBase
                 }
                 if (RenderProfileConfig.profileData.getProfileList().isEmpty())
                 {
-                    sender.addChatMessage(json.text("Cannot load profile data, empty profile data file"));
+                    sender.sendMessage(json.text("Cannot load profile data, empty profile data file"));
                     return;
                 }
 
@@ -82,12 +82,12 @@ public class CommandProfile extends ClientCommandBase
                             //ConfigManager.getConfig().save();
                             ExtendedConfig.save();
                             RenderProfileConfig.save();
-                            sender.addChatMessage(json.text("Load profile data for name: " + args[1]));
+                            sender.sendMessage(json.text("Load profile data for name: " + args[1]));
                         }
                     }
                     else
                     {
-                        sender.addChatMessage(json.text("Cannot load profile data from: " + args[1]).setStyle(json.red()));
+                        sender.sendMessage(json.text("Cannot load profile data from: " + args[1]).setStyle(json.red()));
                         return;
                     }
                 }
@@ -102,7 +102,7 @@ public class CommandProfile extends ClientCommandBase
                 {
                     if (RenderProfileConfig.profileData.getProfile(args[1]) == null)
                     {
-                        sender.addChatMessage(json.text("Cannot save profile data to: " + args[1]).setStyle(json.red()));
+                        sender.sendMessage(json.text("Cannot save profile data to: " + args[1]).setStyle(json.red()));
                         return;
                     }
                     if (args[1].equals(data.getProfileName()))
@@ -113,7 +113,7 @@ public class CommandProfile extends ClientCommandBase
                                 ConfigManager.equipmentDirection, ConfigManager.equipmentStatus, ConfigManager.equipmentPosition, ConfigManager.potionStatusHUDStyle, ConfigManager.potionStatusHUDPosition, ExtendedConfig.ARMOR_STATUS_OFFSET,
                                 ExtendedConfig.POTION_STATUS_OFFSET, ExtendedConfig.KEYSTROKE_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET);
                         RenderProfileConfig.save();
-                        sender.addChatMessage(json.text("Save profile data for name: " + args[1]));
+                        sender.sendMessage(json.text("Save profile data for name: " + args[1]));
                     }
                 }
             }
@@ -126,11 +126,11 @@ public class CommandProfile extends ClientCommandBase
                 if (RenderProfileConfig.profileData.getProfile(args[1]) != null)
                 {
                     RenderProfileConfig.profileData.removeProfile(args[1]);
-                    sender.addChatMessage(json.text("Remove profile data for name: " + args[1]));
+                    sender.sendMessage(json.text("Remove profile data for name: " + args[1]));
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("Cannot remove or find profile data from: " + args[1]).setStyle(json.red()));
+                    sender.sendMessage(json.text("Cannot remove or find profile data from: " + args[1]).setStyle(json.red()));
                 }
             }
             else if ("list".equalsIgnoreCase(args[0]))
@@ -145,11 +145,11 @@ public class CommandProfile extends ClientCommandBase
                 {
                     TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.profileiu.list.count", new Object[] {Integer.valueOf(collection.size())});
                     textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
-                    sender.addChatMessage(textcomponenttranslation);
+                    sender.sendMessage(textcomponenttranslation);
 
                     for (ProfileData.ProfileSettingData data : collection)
                     {
-                        sender.addChatMessage(new TextComponentTranslation("commands.profileiu.list.entry", new Object[] {data.getProfileName()}));
+                        sender.sendMessage(new TextComponentTranslation("commands.profileiu.list.entry", new Object[] {data.getProfileName()}));
                     }
                 }
             }
@@ -161,7 +161,7 @@ public class CommandProfile extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -181,6 +181,6 @@ public class CommandProfile extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, list);
             }
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }
