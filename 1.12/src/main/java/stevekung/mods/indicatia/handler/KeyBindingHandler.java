@@ -5,7 +5,6 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import stevekung.mods.indicatia.config.ConfigManager;
 
 public class KeyBindingHandler
 {
@@ -25,13 +24,9 @@ public class KeyBindingHandler
         KeyBindingHandler.KEY_REC_COMMAND = new KeyBinding("key.rec_overlay.desc", Keyboard.KEY_F9, "key.indicatia.category");
         KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBinding("key.quick_config.desc", Keyboard.KEY_F4, "key.indicatia.category");
         KeyBindingHandler.KEY_DONATOR_GUI = new KeyBinding("key.donator_gui.desc", Keyboard.KEY_F6, "key.indicatia.category");
+        KeyBindingHandler.KEY_CUSTOM_CAPE_GUI = new KeyBinding("key.custom_cape_gui.desc", Keyboard.KEY_H, "key.indicatia.category");
 
-        if (ConfigManager.enableCustomCape)
-        {
-            KeyBindingHandler.KEY_CUSTOM_CAPE_GUI = new KeyBinding("key.custom_cape_gui.desc", Keyboard.KEY_H, "key.indicatia.category");
-            ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_CUSTOM_CAPE_GUI);
-        }
-
+        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_CUSTOM_CAPE_GUI);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SPRINT);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SNEAK);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_AUTO_SWIM);
