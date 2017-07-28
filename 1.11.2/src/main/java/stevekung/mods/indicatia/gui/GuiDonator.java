@@ -24,13 +24,13 @@ public class GuiDonator extends GuiScreen
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
-        this.topDonateInput = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 150, this.height / 4 - 20, 300, 20);
+        this.topDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 150, this.height / 4 - 20, 300, 20);
         this.topDonateInput.setMaxStringLength(32767);
         this.topDonateInput.setFocused(false);
         this.topDonateInput.setCanLoseFocus(true);
         this.topDonateInput.setText(ExtendedConfig.TOP_DONATOR_FILE_PATH);
 
-        this.recentDonateInput = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 150, this.height / 4 + 20, 300, 20);
+        this.recentDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 150, this.height / 4 + 20, 300, 20);
         this.recentDonateInput.setMaxStringLength(32767);
         this.recentDonateInput.setFocused(false);
         this.recentDonateInput.setCanLoseFocus(true);
@@ -126,10 +126,10 @@ public class GuiDonator extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, "Donator Message Settings", this.width / 2, 20, 16777215);
-        this.drawCenteredString(this.fontRendererObj, "Put your twitch donators file path. (.txt file only)", this.width / 2, 37, 10526880);
-        this.drawString(this.fontRendererObj, "Top Donate:", this.width / 2 - 212, this.height / 4 - 15, 10526880);
-        this.drawString(this.fontRendererObj, "Recent Donate:", this.width / 2 - 228, this.height / 4 + 25, 10526880);
+        this.drawCenteredString(this.fontRenderer, "Donator Message Settings", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, "Put your twitch donators file path. (.txt file only)", this.width / 2, 37, 10526880);
+        this.drawString(this.fontRenderer, "Top Donate:", this.width / 2 - 212, this.height / 4 - 15, 10526880);
+        this.drawString(this.fontRenderer, "Recent Donate:", this.width / 2 - 228, this.height / 4 + 25, 10526880);
         this.topDonateInput.drawTextBox();
         this.recentDonateInput.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);

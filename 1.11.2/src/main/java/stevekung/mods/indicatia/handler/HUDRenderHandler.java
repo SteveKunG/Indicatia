@@ -219,14 +219,14 @@ public class HUDRenderHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = leftInfo.get(i);
-                    float fontHeight = this.mc.fontRendererObj.FONT_HEIGHT + 1;
+                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRendererObj.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRendererObj.drawString(string, ConfigManager.swapRenderInfoToRight ? xOffset : 3.0625F, yOffset, 16777215, true);
+                        this.mc.fontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? xOffset : 3.0625F, yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
@@ -236,14 +236,14 @@ public class HUDRenderHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = rightInfo.get(i);
-                    float fontHeight = this.mc.fontRendererObj.FONT_HEIGHT + 1;
+                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRendererObj.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRendererObj.drawString(string, ConfigManager.swapRenderInfoToRight ? 3.0625F : xOffset, yOffset, 16777215, true);
+                        this.mc.fontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? 3.0625F : xOffset, yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
@@ -258,7 +258,7 @@ public class HUDRenderHandler
                 {
                     color = 16733525;
                 }
-                this.mc.fontRendererObj.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                this.mc.fontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)

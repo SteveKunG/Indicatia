@@ -26,7 +26,7 @@ sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 minecraft {
     version = "1.11.2-13.20.1.2425"
     runDir = "run"
-    mappings = "snapshot_20161220"
+    mappings = "stable_32"
 	makeObfSourceJar = false
 }
 

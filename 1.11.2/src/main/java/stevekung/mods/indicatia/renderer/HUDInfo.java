@@ -277,7 +277,7 @@ public class HUDInfo
         for (int i = 0; i < itemStatusList.size(); ++i)
         {
             String string = itemStatusList.get(i);
-            fontHeight = mc.fontRendererObj.FONT_HEIGHT + 7.0625F;
+            fontHeight = mc.fontRenderer.FONT_HEIGHT + 7.0625F;
 
             switch (direction)
             {
@@ -286,8 +286,8 @@ public class HUDInfo
                 {
                     yOffset = baseYOffset + 4 + fontHeight * i;
                     mc.mcProfiler.startSection("armor_durability_info");
-                    float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
-                    mc.fontRendererObj.drawString(string, xOffset, yOffset, 16777215, true);
+                    float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                    mc.fontRenderer.drawString(string, xOffset, yOffset, 16777215, true);
                     mc.mcProfiler.endSection();
                 }
                 break;
@@ -297,7 +297,7 @@ public class HUDInfo
                     fontHeight = status.equals("percent") ? 43 : status.equals("damage") ? 38 : status.equals("none") ? 16 : 61;
                     float xOffset = isRightSide ? baseXOffset - 24 - fontHeight * i : baseXOffset + 16 + fontHeight * i;
                     mc.mcProfiler.startSection("armor_durability_info");
-                    mc.fontRendererObj.drawString(string, xOffset, baseYOffset + 4, 16777215, true);
+                    mc.fontRenderer.drawString(string, xOffset, baseYOffset + 4, 16777215, true);
                     mc.mcProfiler.endSection();
                 }
                 break;
@@ -438,10 +438,10 @@ public class HUDInfo
         {
             String string = leftItemStatusList.get(i);
             mc.mcProfiler.startSection("armor_durability_info");
-            int stringWidth = mc.fontRendererObj.getStringWidth(string);
+            int stringWidth = mc.fontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 36;
-            mc.fontRendererObj.drawString(string, xOffset, yOffset, 16777215, true);
+            mc.fontRenderer.drawString(string, xOffset, yOffset, 16777215, true);
             mc.mcProfiler.endSection();
         }
 
@@ -452,7 +452,7 @@ public class HUDInfo
             mc.mcProfiler.startSection("armor_durability_info");
             float xOffset = res.getScaledWidth() / 2 + 114;
             int yOffset = res.getScaledHeight() - 16 * i - 36;
-            mc.fontRendererObj.drawString(string, xOffset, yOffset, 16777215, true);
+            mc.fontRenderer.drawString(string, xOffset, yOffset, 16777215, true);
             mc.mcProfiler.endSection();
         }
 
@@ -460,7 +460,7 @@ public class HUDInfo
         for (int i = 0; i < leftArrowCountList.size(); ++i)
         {
             String string = leftArrowCountList.get(i);
-            int stringWidth = mc.fontRendererObj.getStringWidth(string);
+            int stringWidth = mc.fontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 90 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 32;
 
@@ -543,14 +543,14 @@ public class HUDInfo
                         {
                             s1 = s1 + " " + LangUtil.translate("enchantment.level.4");
                         }
-                        int stringwidth1 = mc.fontRendererObj.getStringWidth(s);
-                        int stringwidth2 = mc.fontRendererObj.getStringWidth(s1);
+                        int stringwidth1 = mc.fontRenderer.getStringWidth(s);
+                        int stringwidth2 = mc.fontRenderer.getStringWidth(s1);
 
                         if (!iconAndTime)
                         {
-                            mc.fontRendererObj.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
+                            mc.fontRenderer.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
                         }
-                        mc.fontRendererObj.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
+                        mc.fontRenderer.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
                         yPotion -= length;
                     }
                 }
@@ -596,9 +596,9 @@ public class HUDInfo
 
                         if (!iconAndTime)
                         {
-                            mc.fontRendererObj.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
+                            mc.fontRenderer.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
                         }
-                        mc.fontRendererObj.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
+                        mc.fontRenderer.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
                         yPotion -= length;
                     }
                 }
@@ -643,14 +643,14 @@ public class HUDInfo
                             s1 = s1 + " " + LangUtil.translate("enchantment.level.4");
                         }
 
-                        int stringwidth1 = mc.fontRendererObj.getStringWidth(s);
-                        int stringwidth2 = mc.fontRendererObj.getStringWidth(s1);
+                        int stringwidth1 = mc.fontRenderer.getStringWidth(s);
+                        int stringwidth2 = mc.fontRenderer.getStringWidth(s1);
 
                         if (!iconAndTime)
                         {
-                            mc.fontRendererObj.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
+                            mc.fontRenderer.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
                         }
-                        mc.fontRendererObj.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
+                        mc.fontRenderer.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.alternatePotionHUDTextColor ? InfoUtil.INSTANCE.getAlternatePotionHUDTextColor(potion) : 16777215, true);
                         yPotion += length;
                     }
                 }
@@ -720,7 +720,7 @@ public class HUDInfo
             GlStateManager.enableColorMaterial();
             GlStateManager.disableLighting();
             GlStateManager.enableCull();
-            IndicatiaMod.MC.getRenderItem().renderItemOverlays(IndicatiaMod.MC.fontRendererObj, itemStack, x, y);
+            IndicatiaMod.MC.getRenderItem().renderItemOverlays(IndicatiaMod.MC.fontRenderer, itemStack, x, y);
             GlStateManager.blendFunc(770, 771);
             GlStateManager.disableLighting();
         }

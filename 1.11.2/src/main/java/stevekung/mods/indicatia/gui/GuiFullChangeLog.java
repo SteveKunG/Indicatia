@@ -11,7 +11,6 @@ import org.apache.commons.io.Charsets;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
@@ -38,7 +38,7 @@ public class GuiFullChangeLog extends GuiScreen
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        IndicatiaMod.MC.displayGuiScreen(this);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
@@ -64,7 +64,7 @@ public class GuiFullChangeLog extends GuiScreen
                     s = s.replaceAll("-Remove-", TextFormatting.RED + "-" + TextFormatting.RESET);
                     s = s.replaceAll("-Fixed-", TextFormatting.GOLD + "*" + TextFormatting.RESET);
                     s = s.replaceAll("-Update-", TextFormatting.YELLOW + "*" + TextFormatting.RESET);
-                    this.stringList.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(s, 264));
+                    this.stringList.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, 264));
                     this.rand = new Random();
                 }
                 inputstream.close();

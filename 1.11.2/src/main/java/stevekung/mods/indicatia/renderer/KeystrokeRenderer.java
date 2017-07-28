@@ -61,10 +61,10 @@ public class KeystrokeRenderer
         g = ExtendedConfig.KEYSTROKE_WASD_GREEN;
         b = ExtendedConfig.KEYSTROKE_WASD_BLUE;
         useRainbow = ExtendedConfig.KEYSTROKE_WASD_RAINBOW;
-        mc.fontRendererObj.drawString("W", width - widthSquare + 29.0625F, heightSquare + 9, wDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRendererObj.drawString("A", width - widthSquare + 5.0625F, heightSquare + 32, aDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRendererObj.drawString("S", width - widthSquare + 29.0625F, heightSquare + 32, sDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRendererObj.drawString("D", width - widthSquare + 53.0625F, heightSquare + 32, dDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRenderer.drawString("W", width - widthSquare + 29.0625F, heightSquare + 9, wDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRenderer.drawString("A", width - widthSquare + 5.0625F, heightSquare + 32, aDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRenderer.drawString("S", width - widthSquare + 29.0625F, heightSquare + 32, sDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        mc.fontRenderer.drawString("D", width - widthSquare + 53.0625F, heightSquare + 32, dDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
 
         if (ConfigManager.enableKeystrokeLMBRMB)
         {
@@ -75,8 +75,8 @@ public class KeystrokeRenderer
             g = ExtendedConfig.KEYSTROKE_LMBRMB_GREEN;
             b = ExtendedConfig.KEYSTROKE_LMBRMB_BLUE;
             useRainbow = ExtendedConfig.KEYSTROKE_LMBRMB_RAINBOW;
-            mc.fontRendererObj.drawString("LMB", width - widthSquare - 0.5625F, heightSquare - 4, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-            mc.fontRendererObj.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+            mc.fontRenderer.drawString("LMB", width - widthSquare - 0.5625F, heightSquare - 4, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+            mc.fontRenderer.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
 
             r = ExtendedConfig.KEYSTROKE_CPS_RED;
             g = ExtendedConfig.KEYSTROKE_CPS_GREEN;

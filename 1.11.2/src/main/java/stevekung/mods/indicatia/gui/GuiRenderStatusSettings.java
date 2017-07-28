@@ -2,7 +2,6 @@ package stevekung.mods.indicatia.gui;
 
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.MinecraftForge;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
@@ -25,7 +25,7 @@ public class GuiRenderStatusSettings extends GuiScreen
     public void onClientTick(ClientTickEvent event)
     {
         MinecraftForge.EVENT_BUS.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        IndicatiaMod.MC.displayGuiScreen(this);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class GuiRenderStatusSettings extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawCenteredString(this.fontRendererObj, "Render Status Settings", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, "Render Status Settings", this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

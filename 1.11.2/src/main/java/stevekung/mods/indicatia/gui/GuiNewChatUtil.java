@@ -144,7 +144,7 @@ public class GuiNewChatUtil extends GuiChat
             String space = ConfigManager.enableRCPS ? " " : "";
             int minX = ExtendedConfig.CPS_X_OFFSET;
             int minY = ExtendedConfig.CPS_Y_OFFSET;
-            int maxX = ExtendedConfig.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
+            int maxX = ExtendedConfig.CPS_X_OFFSET + this.fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
             int maxY = ExtendedConfig.CPS_Y_OFFSET + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)

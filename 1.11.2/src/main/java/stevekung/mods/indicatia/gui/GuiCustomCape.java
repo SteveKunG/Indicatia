@@ -30,7 +30,7 @@ public class GuiCustomCape extends GuiScreen
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
-        this.inputField = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 150, this.height / 4 + 85, 300, 20);
+        this.inputField = new GuiTextField(2, this.fontRenderer, this.width / 2 - 150, this.height / 4 + 85, 300, 20);
         this.inputField.setMaxStringLength(32767);
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
@@ -142,8 +142,8 @@ public class GuiCustomCape extends GuiScreen
     {
         GuiCustomCape.renderPlayer(this.mc, this.width, this.height);
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, "Custom Cape Downloader", this.width / 2, 20, 16777215);
-        this.drawCenteredString(this.fontRendererObj, "Put your Cape URL (Must be .png or image format)", this.width / 2, 37, 10526880);
+        this.drawCenteredString(this.fontRenderer, "Custom Cape Downloader", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRenderer, "Put your Cape URL (Must be .png or image format)", this.width / 2, 37, 10526880);
         this.inputField.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
