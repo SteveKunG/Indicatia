@@ -113,9 +113,9 @@ public class BlockhitAnimationHandler
         float swingProgress = player.getSwingProgress(partialTicks);
         float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
         float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks;
-        this.mc.getItemRenderer().func_178101_a(pitch, yaw);
-        this.mc.getItemRenderer().func_178109_a(player);
-        this.mc.getItemRenderer().func_178110_a((EntityPlayerSP)player, partialTicks);
+        this.mc.getItemRenderer().rotateArroundXAndY(pitch, yaw);
+        this.mc.getItemRenderer().setLightMapFromPlayer(player);
+        this.mc.getItemRenderer().rotateWithPlayerRotations((EntityPlayerSP)player, partialTicks);
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
@@ -136,28 +136,28 @@ public class BlockhitAnimationHandler
                     break;
                 case EAT:
                 case DRINK:
-                    this.mc.getItemRenderer().func_178104_a(player, partialTicks);
+                    this.mc.getItemRenderer().performDrinking(player, partialTicks);
                     this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
                     break;
                 case BLOCK:
                     this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
-                    this.mc.getItemRenderer().func_178103_d();
+                    this.mc.getItemRenderer().doBlockTransformations();
                     break;
                 case BOW:
                     this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
-                    this.mc.getItemRenderer().func_178098_a(partialTicks, player);
+                    this.mc.getItemRenderer().doBowTransformations(partialTicks, player);
                 }
             }
             else
             {
-                this.mc.getItemRenderer().func_178105_d(swingProgress);
+                this.mc.getItemRenderer().doItemUsedTransformations(swingProgress);
                 this.mc.getItemRenderer().transformFirstPersonItem(prevSwingProgress, swingProgress);
             }
             this.mc.getItemRenderer().renderItem(player, this.mc.getItemRenderer().itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
         }
         else if (!player.isInvisible())
         {
-            this.mc.getItemRenderer().func_178095_a(player, prevSwingProgress, swingProgress);
+            this.mc.getItemRenderer().renderPlayerArm(player, prevSwingProgress, swingProgress);
         }
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();

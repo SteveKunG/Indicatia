@@ -39,7 +39,7 @@ public class RenderUtil
 
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+            FontRenderer fontrenderer = IndicatiaMod.MC.fontRendererObj;
             int j = fontrenderer.getStringWidth(text) / 2;
             GlStateManager.disableTexture2D();
             Tessellator tessellator = Tessellator.getInstance();

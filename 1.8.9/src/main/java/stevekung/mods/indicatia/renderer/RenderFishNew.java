@@ -1,6 +1,5 @@
 package stevekung.mods.indicatia.renderer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -13,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @SideOnly(Side.CLIENT)
 public class RenderFishNew extends Render<EntityFishHook>
@@ -60,7 +60,7 @@ public class RenderFishNew extends Render<EntityFishHook>
             double d3 = entity.angler.getEyeHeight();
             double dz = 0.0D;
 
-            if (this.renderManager.options != null && this.renderManager.options.thirdPersonView > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
+            if (this.renderManager.options != null && this.renderManager.options.thirdPersonView > 0 || entity.angler != IndicatiaMod.MC.thePlayer)
             {
                 double xz = entity.angler.isSneaking() ? 0.775D : 0.9D;
                 float f9 = (entity.angler.prevRenderYawOffset + (entity.angler.renderYawOffset - entity.angler.prevRenderYawOffset) * partialTicks) * (float)Math.PI / 180.0F;

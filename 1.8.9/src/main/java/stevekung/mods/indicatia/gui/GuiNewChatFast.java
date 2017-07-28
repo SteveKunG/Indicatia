@@ -27,7 +27,7 @@ public class GuiNewChatFast extends GuiNewChat
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
             int i = this.getLineCount();
-            int j = this.field_146253_i.size();
+            int j = this.drawnChatLines.size();
             float f = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
             if (j > 0)
@@ -45,9 +45,9 @@ public class GuiNewChatFast extends GuiNewChat
                 GlStateManager.scale(f1, f1, 1.0F);
                 int l = 0;
 
-                for (int i1 = 0; i1 + this.scrollPos < this.field_146253_i.size() && i1 < i; ++i1)
+                for (int i1 = 0; i1 + this.scrollPos < this.drawnChatLines.size() && i1 < i; ++i1)
                 {
-                    ChatLine chatline = this.field_146253_i.get(i1 + this.scrollPos);
+                    ChatLine chatline = this.drawnChatLines.get(i1 + this.scrollPos);
 
                     if (chatline != null)
                     {
@@ -131,15 +131,15 @@ public class GuiNewChatFast extends GuiNewChat
 
             if (j >= 0 && k >= 0)
             {
-                int l = Math.min(this.getLineCount(), this.field_146253_i.size());
+                int l = Math.min(this.getLineCount(), this.drawnChatLines.size());
 
                 if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
                 {
                     int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
 
-                    if (i1 >= 0 && i1 < this.field_146253_i.size())
+                    if (i1 >= 0 && i1 < this.drawnChatLines.size())
                     {
-                        ChatLine chatline = this.field_146253_i.get(i1);
+                        ChatLine chatline = this.drawnChatLines.get(i1);
                         int j1 = 0;
 
                         for (IChatComponent itextcomponent : chatline.getChatComponent())

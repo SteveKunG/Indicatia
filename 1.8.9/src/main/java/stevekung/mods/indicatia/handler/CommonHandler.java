@@ -698,8 +698,8 @@ public class CommonHandler
                         @Override
                         protected void initArmor()
                         {
-                            this.field_177189_c = new ModelZombie(0.5F, true);
-                            this.field_177186_d = new ModelZombie(1.0F, true);
+                            this.modelLeggings = new ModelZombie(0.5F, true);
+                            this.modelArmor = new ModelZombie(1.0F, true);
                         }
                     });
                 }
@@ -710,8 +710,8 @@ public class CommonHandler
                         @Override
                         protected void initArmor()
                         {
-                            this.field_177189_c = new ModelSkeleton(0.5F, true);
-                            this.field_177186_d = new ModelSkeleton(1.0F, true);
+                            this.modelLeggings = new ModelSkeleton(0.5F, true);
+                            this.modelArmor = new ModelSkeleton(1.0F, true);
                         }
                     });
                 }
@@ -722,8 +722,8 @@ public class CommonHandler
                         @Override
                         protected void initArmor()
                         {
-                            this.field_177189_c = new ModelZombieVillager(0.5F, 0.0F, true);
-                            this.field_177186_d = new ModelZombieVillager(1.0F, 0.0F, true);
+                            this.modelLeggings = new ModelZombieVillager(0.5F, 0.0F, true);
+                            this.modelArmor = new ModelZombieVillager(1.0F, 0.0F, true);
                         }
                     });
                 }
