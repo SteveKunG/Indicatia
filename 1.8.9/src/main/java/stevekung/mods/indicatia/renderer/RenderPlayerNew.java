@@ -12,14 +12,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @SideOnly(Side.CLIENT)
-public class RenderPlayerMOD extends RenderPlayer
+public class RenderPlayerNew extends RenderPlayer
 {
-    public RenderPlayerMOD()
+    public RenderPlayerNew()
     {
         this(false);
     }
 
-    public RenderPlayerMOD(boolean smallArms)
+    public RenderPlayerNew(boolean smallArms)
     {
         super(IndicatiaMod.MC.getRenderManager(), smallArms);
         this.mainModel = new ModelPlayerNew(0.0F, smallArms);

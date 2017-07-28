@@ -23,7 +23,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
-import stevekung.mods.indicatia.renderer.RenderPlayerMOD;
+import stevekung.mods.indicatia.renderer.RenderPlayerNew;
 import stevekung.mods.indicatia.util.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
@@ -93,11 +93,11 @@ public class IndicatiaMod
 
         if (ConfigManager.enableAlternatePlayerModel)
         {
-            IndicatiaMod.MC.getRenderManager().playerRenderer = new RenderPlayerMOD();
+            IndicatiaMod.MC.getRenderManager().playerRenderer = new RenderPlayerNew();
             IndicatiaMod.MC.getRenderManager().skinMap.entrySet().removeIf(entry -> entry.getKey().equals("default"));
             IndicatiaMod.MC.getRenderManager().skinMap.entrySet().removeIf(entry -> entry.getKey().equals("slim"));
-            IndicatiaMod.MC.getRenderManager().skinMap.put("default", new RenderPlayerMOD());
-            IndicatiaMod.MC.getRenderManager().skinMap.put("slim", new RenderPlayerMOD(true));
+            IndicatiaMod.MC.getRenderManager().skinMap.put("default", new RenderPlayerNew());
+            IndicatiaMod.MC.getRenderManager().skinMap.put("slim", new RenderPlayerNew(true));
         }
     }
 
