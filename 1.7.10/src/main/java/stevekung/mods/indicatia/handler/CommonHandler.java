@@ -20,7 +20,10 @@ import io.netty.channel.ChannelOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.EnumChatFormatting;
@@ -35,6 +38,7 @@ import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
+import stevekung.mods.indicatia.renderer.ModelBipedNew;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -62,6 +66,7 @@ public class CommonHandler
     public static int autoClickTicks = 0;
 
     public static boolean setTCPNoDelay = false;
+    private static boolean setNewRender = false;
 
     public CommonHandler(Minecraft mc)
     {
@@ -75,6 +80,7 @@ public class CommonHandler
         if (event.modID.equalsIgnoreCase(IndicatiaMod.MOD_ID))
         {
             ConfigManager.syncConfig(false);
+            CommonHandler.setNewRender = false;
         }
     }
 
@@ -85,6 +91,26 @@ public class CommonHandler
         {
             CommonHandler.getPingAndPlayerList(this.mc);
 
+            if (!CommonHandler.setNewRender)
+            {
+                RenderPlayer render = (RenderPlayer) RenderManager.instance.getEntityRenderObject(this.mc.thePlayer);
+
+                if (ConfigManager.enableAlternatePlayerModel)
+                {
+                    render.mainModel = new ModelBipedNew(0.0F);
+                    render.modelBipedMain = (ModelBipedNew)render.mainModel;
+                    render.modelArmorChestplate = new ModelBipedNew(1.0F);
+                    render.modelArmor = new ModelBipedNew(0.5F);
+                }
+                else
+                {
+                    render.mainModel = new ModelBiped(0.0F);
+                    render.modelBipedMain = (ModelBiped)render.mainModel;
+                    render.modelArmorChestplate = new ModelBiped(1.0F);
+                    render.modelArmor = new ModelBiped(0.5F);
+                }
+                CommonHandler.setNewRender = true;
+            }
             if (this.mc.getNetHandler() != null && CommonHandler.setTCPNoDelay)
             {
                 this.mc.getNetHandler().getNetworkManager().channel().config().setOption(ChannelOption.TCP_NODELAY, true);

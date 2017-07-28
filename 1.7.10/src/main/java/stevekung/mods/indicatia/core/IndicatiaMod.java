@@ -5,18 +5,14 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.UUID;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,7 +21,6 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
-import stevekung.mods.indicatia.renderer.RenderPlayerNew;
 import stevekung.mods.indicatia.util.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, guiFactory = IndicatiaMod.GUI_FACTORY)
@@ -84,16 +79,6 @@ public class IndicatiaMod
         if (IndicatiaMod.isSteveKunG())
         {
             ClientCommandHandler.instance.registerCommand(new CommandAutoClick());
-        }
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        if (ConfigManager.enableAlternatePlayerModel)
-        {
-            RenderingRegistry.registerEntityRenderingHandler(EntityPlayerSP.class, new RenderPlayerNew());
-            RenderingRegistry.registerEntityRenderingHandler(EntityOtherPlayerMP.class, new RenderPlayerNew());
         }
     }
 
