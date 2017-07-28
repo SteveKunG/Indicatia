@@ -143,12 +143,12 @@ public class InfoUtil
 
     public void setOverlayMessage(String message, boolean isPlaying)
     {
-        IndicatiaMod.MC.ingameGUI.func_110326_a(message, isPlaying);
+        IndicatiaMod.MC.ingameGUI.setRecordPlaying(message, isPlaying);
     }
 
     public void setOverlayMessage(IChatComponent component, boolean isPlaying)
     {
-        IndicatiaMod.MC.ingameGUI.func_110326_a(component.getFormattedText(), isPlaying);
+        IndicatiaMod.MC.ingameGUI.setRecordPlaying(component.getFormattedText(), isPlaying);
     }
 
     public String getCurrentGameTime(long worldTicks)
@@ -219,7 +219,7 @@ public class InfoUtil
     {
         int color = 0;
 
-        if (potion == Potion.field_76444_x)
+        if (potion == Potion.absorption)
         {
             color = RenderUtil.rgbToDecimal(247, 219, 21);
         }
@@ -295,7 +295,7 @@ public class InfoUtil
         {
             color = RenderUtil.rgbToDecimal(105, 84, 80);
         }
-        else if (potion == Potion.field_76434_w)
+        else if (potion == Potion.healthBoost)
         {
             color = RenderUtil.rgbToDecimal(245, 124, 35);
         }

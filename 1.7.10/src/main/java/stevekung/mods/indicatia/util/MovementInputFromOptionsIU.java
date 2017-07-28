@@ -23,7 +23,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
     {
         super(gameSettings);
         this.gameSettings = gameSettings;
-        this.mc = Minecraft.getMinecraft();
+        this.mc = IndicatiaMod.MC;
     }
 
     @Override

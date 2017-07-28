@@ -14,7 +14,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
@@ -37,7 +36,7 @@ public class GuiFullChangeLog extends GuiScreen
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        IndicatiaMod.MC.displayGuiScreen(this);
         IndicatiaMod.unregisterForgeEvent(this);
     }
 
@@ -63,7 +62,7 @@ public class GuiFullChangeLog extends GuiScreen
                     s = s.replaceAll("-Remove-", EnumChatFormatting.RED + "-" + EnumChatFormatting.RESET);
                     s = s.replaceAll("-Fixed-", EnumChatFormatting.GOLD + "*" + EnumChatFormatting.RESET);
                     s = s.replaceAll("-Update-", EnumChatFormatting.YELLOW + "*" + EnumChatFormatting.RESET);
-                    this.stringList.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, 264));
+                    this.stringList.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(s, 264));
                     this.rand = new Random();
                 }
                 inputstream.close();

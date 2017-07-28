@@ -32,7 +32,7 @@ public class GuiNewChatFast extends GuiNewChat
     {
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
         {
-            int j = this.func_146232_i();
+            int j = this.getLineCount();
             boolean flag = false;
             int k = 0;
             int l = this.field_146253_i.size();
@@ -45,8 +45,8 @@ public class GuiNewChatFast extends GuiNewChat
                     flag = true;
                 }
 
-                float f1 = this.func_146244_h();
-                int i1 = MathHelper.ceiling_float_int(this.func_146228_f() / f1);
+                float f1 = this.getChatScale();
+                int i1 = MathHelper.ceiling_float_int(this.getChatWidth() / f1);
                 GL11.glPushMatrix();
                 GL11.glTranslatef(2.0F, 8.0F, 0.0F);
                 GL11.glScalef(f1, f1, 1.0F);
@@ -54,9 +54,9 @@ public class GuiNewChatFast extends GuiNewChat
                 int k1;
                 int i2;
 
-                for (j1 = 0; j1 + this.field_146250_j < this.field_146253_i.size() && j1 < j; ++j1)
+                for (j1 = 0; j1 + this.scrollPos < this.field_146253_i.size() && j1 < j; ++j1)
                 {
-                    ChatLine chatline = (ChatLine)this.field_146253_i.get(j1 + this.field_146250_j);
+                    ChatLine chatline = (ChatLine)this.field_146253_i.get(j1 + this.scrollPos);
 
                     if (chatline != null)
                     {
@@ -99,8 +99,8 @@ public class GuiNewChatFast extends GuiNewChat
                                 }
 
                                 GL11.glEnable(GL11.GL_BLEND);
-                                String s = chatline.func_151461_a().getFormattedText();
-                                this.mc.fontRenderer.drawStringWithShadow(s, b0, j2 - 8, 16777215 + (i2 << 24));
+                                String s = chatline.getChatComponent().getFormattedText();
+                                this.mc.fontRendererObj.drawStringWithShadow(s, b0, j2 - 8, 16777215 + (i2 << 24));
                                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                             }
                         }
@@ -108,17 +108,17 @@ public class GuiNewChatFast extends GuiNewChat
                 }
                 if (flag)
                 {
-                    j1 = this.mc.fontRenderer.FONT_HEIGHT;
+                    j1 = this.mc.fontRendererObj.FONT_HEIGHT;
                     GL11.glTranslatef(-3.0F, 0.0F, 0.0F);
                     int k2 = l * j1 + l;
                     k1 = k * j1 + k;
-                    int l2 = this.field_146250_j * k1 / l;
+                    int l2 = this.scrollPos * k1 / l;
                     int l1 = k1 * k1 / k2;
 
                     if (k2 != k1)
                     {
                         i2 = l2 > 0 ? 170 : 96;
-                        int i3 = this.field_146251_k ? 13382451 : 3355562;
+                        int i3 = this.isScrolled ? 13382451 : 3355562;
                         Gui.drawRect(0, -l2, 2, -l2 - l1, i3 + (i2 << 24));
                         Gui.drawRect(2, -l2, 1, -l2 - l1, 13421772 + (i2 << 24));
                     }
@@ -130,7 +130,7 @@ public class GuiNewChatFast extends GuiNewChat
 
     @Override
     @Nullable
-    public IChatComponent func_146236_a(int mouseX, int mouseY)
+    public IChatComponent getChatComponent(int mouseX, int mouseY)
     {
         if (!this.getChatOpen())
         {
@@ -140,7 +140,7 @@ public class GuiNewChatFast extends GuiNewChat
         {
             ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
             int i = scaledresolution.getScaleFactor();
-            float f = this.func_146244_h();
+            float f = this.getChatScale();
             int j = mouseX / i - 2;
             int k = mouseY / i - 40;
             j = MathHelper.floor_float(j / f);
@@ -148,17 +148,17 @@ public class GuiNewChatFast extends GuiNewChat
 
             if (j >= 0 && k >= 0)
             {
-                int l = Math.min(this.func_146232_i(), this.field_146253_i.size());
+                int l = Math.min(this.getLineCount(), this.field_146253_i.size());
 
-                if (j <= MathHelper.floor_float(this.func_146228_f() / this.func_146244_h()) && k < this.mc.fontRenderer.FONT_HEIGHT * l + l)
+                if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
                 {
-                    int i1 = k / this.mc.fontRenderer.FONT_HEIGHT + this.field_146250_j;
+                    int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
 
                     if (i1 >= 0 && i1 < this.field_146253_i.size())
                     {
                         ChatLine chatline = (ChatLine) this.field_146253_i.get(i1);
                         int j1 = 0;
-                        Iterator iterator = chatline.func_151461_a().iterator();
+                        Iterator iterator = chatline.getChatComponent().iterator();
 
                         while (iterator.hasNext())
                         {
@@ -166,7 +166,7 @@ public class GuiNewChatFast extends GuiNewChat
 
                             if (ichatcomponent instanceof ChatComponentText)
                             {
-                                j1 += this.mc.fontRenderer.getStringWidth(this.func_146235_b(((ChatComponentText)ichatcomponent).getChatComponentText_TextValue()));
+                                j1 += this.mc.fontRendererObj.getStringWidth(this.formatColors(((ChatComponentText)ichatcomponent).getChatComponentText_TextValue()));
 
                                 if (j1 > l)
                                 {

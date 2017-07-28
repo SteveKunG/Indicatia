@@ -4,7 +4,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -23,7 +22,7 @@ public class GuiRenderStatusSettings extends GuiScreen
     public void onClientTick(ClientTickEvent event)
     {
         IndicatiaMod.unregisterForgeEvent(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        IndicatiaMod.MC.displayGuiScreen(this);
     }
 
     @Override

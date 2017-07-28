@@ -33,6 +33,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.util.InfoUtil;
 import stevekung.mods.indicatia.util.JsonUtil;
@@ -116,7 +117,7 @@ public class HUDRenderHandler
                 {
                     leftInfo.add(HUDInfo.getBiome(this.mc));
                 }
-                if (ConfigManager.enableServerIP && this.mc.func_147104_D() != null && !this.mc.isSingleplayer())
+                if (ConfigManager.enableServerIP && this.mc.getCurrentServerData() != null && !this.mc.isSingleplayer())
                 {
                     leftInfo.add(HUDInfo.getServerIP(this.mc));
                 }
@@ -222,14 +223,14 @@ public class HUDRenderHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
                     String string = leftInfo.get(i);
-                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = this.mc.fontRendererObj.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRendererObj.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? (int) xOffset : (int) 3.0625F, (int) yOffset, 16777215, true);
+                        this.mc.fontRendererObj.drawString(string, ConfigManager.swapRenderInfoToRight ? (int) xOffset : (int) 3.0625F, (int) yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
@@ -239,14 +240,14 @@ public class HUDRenderHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
                     String string = rightInfo.get(i);
-                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = this.mc.fontRendererObj.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRendererObj.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? (int) 3.0625F : (int) xOffset, (int) yOffset, 16777215, true);
+                        this.mc.fontRendererObj.drawString(string, ConfigManager.swapRenderInfoToRight ? (int) 3.0625F : (int) xOffset, (int) yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
@@ -261,13 +262,13 @@ public class HUDRenderHandler
                 {
                     color = 16733525;
                 }
-                this.mc.fontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                this.mc.fontRendererObj.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
             }
         }
         if (event.type == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
         {
             event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().func_96539_a(0);
+            ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
             NetHandlerPlayClient handler = this.mc.thePlayer.sendQueue;
             @SuppressWarnings("unchecked")
             List<GuiPlayerInfo> players = handler.playerInfoList;
@@ -308,18 +309,18 @@ public class HUDRenderHandler
                         GuiPlayerInfo player = players.get(i);
                         ScorePlayerTeam team = this.mc.theWorld.getScoreboard().getPlayersTeam(player.name);
                         String displayName = ScorePlayerTeam.formatPlayerName(team, player.name);
-                        this.mc.fontRenderer.drawStringWithShadow(displayName, xPos, yPos, 16777215);
+                        this.mc.fontRendererObj.drawStringWithShadow(displayName, xPos, yPos, 16777215);
 
                         if (scoreobjective != null)
                         {
-                            int endX = xPos + this.mc.fontRenderer.getStringWidth(displayName) + 5;
+                            int endX = xPos + this.mc.fontRendererObj.getStringWidth(displayName) + 5;
                             int maxX = xPos + columnWidth - 12 - 5;
 
                             if (maxX - endX > 5)
                             {
-                                Score score = scoreobjective.getScoreboard().func_96529_a(player.name, scoreobjective);
+                                Score score = scoreobjective.getScoreboard().getValueFromObjective(player.name, scoreobjective);
                                 String scoreDisplay = EnumChatFormatting.YELLOW + "" + score.getScorePoints();
-                                this.mc.fontRenderer.drawStringWithShadow(scoreDisplay, maxX - this.mc.fontRenderer.getStringWidth(scoreDisplay), yPos, 16777215);
+                                this.mc.fontRendererObj.drawStringWithShadow(scoreDisplay, maxX - this.mc.fontRendererObj.getStringWidth(scoreDisplay), yPos, 16777215);
                             }
                         }
 
@@ -371,7 +372,7 @@ public class HUDRenderHandler
                             {
                                 color = 11141120;
                             }
-                            this.mc.fontRenderer.drawString(String.valueOf(ping), xPos + columnWidth - 1 - this.mc.fontRenderer.getStringWidth(String.valueOf(ping)), (int) (yPos + 0.5F), color, true);
+                            this.mc.fontRendererObj.drawString(String.valueOf(ping), xPos + columnWidth - 1 - this.mc.fontRendererObj.getStringWidth(String.valueOf(ping)), (int) (yPos + 0.5F), color, true);
                         }
                     }
                 }
@@ -385,7 +386,7 @@ public class HUDRenderHandler
                 GL11.glPushMatrix();
                 GL11.glTranslatef(0, event.resolution.getScaledHeight() - 48, 0.0F);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
-                Minecraft.getMinecraft().ingameGUI.getChatGUI().drawChat(Minecraft.getMinecraft().ingameGUI.getUpdateCounter());
+                IndicatiaMod.MC.ingameGUI.getChatGUI().drawChat(IndicatiaMod.MC.ingameGUI.getUpdateCounter());
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 GL11.glPopMatrix();
             }
@@ -398,7 +399,7 @@ public class HUDRenderHandler
             if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
             {
                 --BossStatus.statusBarTime;
-                FontRenderer fontrenderer = this.mc.fontRenderer;
+                FontRenderer fontrenderer = this.mc.fontRendererObj;
                 ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
                 int i = scaledresolution.getScaledWidth();
                 short short1 = 182;
