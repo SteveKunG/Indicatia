@@ -1,2 +1,4 @@
--Added- Added Old Armor Render
--Update- Add black background to Change Log GUI
+-Added- Added more donator text option
+-Update- Adjust Fishing Rod position
+-Update- Custom Cape now not required to restart game
+-Fixed- Fixed some Donator GUI bug

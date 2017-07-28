@@ -1,3 +1,4 @@
--Update- Add black background to Change Log GUI
--Fixed- Fixed Fast Chat config
--Fixed- Fixed Keystroke memory leak
+-Added- Added more donator text option
+-Update- Optimize transparent skin rendering
+-Update- Custom Cape now not required to restart game
+-Fixed- Fixed some Donator GUI bug
