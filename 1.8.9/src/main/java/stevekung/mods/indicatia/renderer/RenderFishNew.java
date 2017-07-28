@@ -62,14 +62,15 @@ public class RenderFishNew extends Render<EntityFishHook>
 
             if (this.renderManager.options != null && this.renderManager.options.thirdPersonView > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
             {
+                double xz = entity.angler.isSneaking() ? 0.775D : 0.9D;
                 float f9 = (entity.angler.prevRenderYawOffset + (entity.angler.renderYawOffset - entity.angler.prevRenderYawOffset) * partialTicks) * (float)Math.PI / 180.0F;
                 double d4 = MathHelper.sin(f9);
                 double d6 = MathHelper.cos(f9);
-                d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * partialTicks - d6 * 0.35D - d4 * 0.8D;
-                d1 = entity.angler.prevPosY + d3 + (entity.angler.posY - entity.angler.prevPosY) * partialTicks - 0.45D;
-                d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * partialTicks - d4 * 0.35D + d6 * 0.8D;
-                d3 = entity.angler.isSneaking() ? -0.35D : 0.0D;
-                dz = entity.angler.isSneaking() ? 0.065D : 0.0D;
+                d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * partialTicks - d6 * 0.35D - d4 * xz;
+                d1 = entity.angler.prevPosY + d3 + (entity.angler.posY - entity.angler.prevPosY) * partialTicks - 0.4D;
+                d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * partialTicks - d4 * 0.35D + d6 * xz;
+                d3 = entity.angler.isSneaking() ? -0.45D : 0.0D;
+                dz = entity.angler.isSneaking() ? 0.015D : 0.0D;
             }
 
             double d13 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
