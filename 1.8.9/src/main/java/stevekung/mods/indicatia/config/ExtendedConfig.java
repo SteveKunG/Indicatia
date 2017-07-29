@@ -18,7 +18,6 @@ public class ExtendedConfig
 
     public static boolean TOGGLE_SPRINT = false;
     public static boolean TOGGLE_SNEAK = false;
-    public static boolean AUTO_CLEAR_CHAT = false;
     public static boolean AUTO_SWIM = false;
     public static boolean SHOW_CAPE = true;
 
@@ -83,7 +82,6 @@ public class ExtendedConfig
 
             ExtendedConfig.TOGGLE_SPRINT = ExtendedConfig.getBoolean(nbt, "ToggleSprint", ExtendedConfig.TOGGLE_SPRINT);
             ExtendedConfig.TOGGLE_SNEAK = ExtendedConfig.getBoolean(nbt, "ToggleSneak", ExtendedConfig.TOGGLE_SNEAK);
-            ExtendedConfig.AUTO_CLEAR_CHAT = ExtendedConfig.getBoolean(nbt, "AutoClearChat", ExtendedConfig.AUTO_CLEAR_CHAT);
             ExtendedConfig.AUTO_SWIM = ExtendedConfig.getBoolean(nbt, "AutoSwim", ExtendedConfig.AUTO_SWIM);
             ExtendedConfig.SHOW_CAPE = ExtendedConfig.getBoolean(nbt, "ShowCape", ExtendedConfig.SHOW_CAPE);
 
@@ -149,7 +147,6 @@ public class ExtendedConfig
             NBTTagCompound nbt = new NBTTagCompound();
             nbt.setBoolean("ToggleSprint", ExtendedConfig.TOGGLE_SPRINT);
             nbt.setBoolean("ToggleSneak", ExtendedConfig.TOGGLE_SNEAK);
-            nbt.setBoolean("AutoClearChat", ExtendedConfig.AUTO_CLEAR_CHAT);
             nbt.setBoolean("AutoSwim", ExtendedConfig.AUTO_SWIM);
             nbt.setBoolean("ShowCape", ExtendedConfig.SHOW_CAPE);
 
