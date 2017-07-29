@@ -91,6 +91,7 @@ public class GuiDonator extends GuiScreen
                 ExtendedConfig.RECENT_DONATOR_FILE_PATH = this.recentDonateInput.getText().replace("" + '\u0022', "");
                 ExtendedConfig.TOP_DONATOR_TEXT = this.convertString(this.topDonateTextInput.getText());
                 ExtendedConfig.RECENT_DONATOR_TEXT = this.convertString(this.recentDonateTextInput.getText());
+                ExtendedConfig.save();
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
             if (button.id == 1)
