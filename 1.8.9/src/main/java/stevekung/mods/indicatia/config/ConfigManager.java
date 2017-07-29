@@ -197,6 +197,7 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Alternate Player Model", false);
         ConfigManager.enableAlternatePlayerModel = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.alternate_player_model");
+        prop.setRequiresMcRestart(true);
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Version Checker", true);

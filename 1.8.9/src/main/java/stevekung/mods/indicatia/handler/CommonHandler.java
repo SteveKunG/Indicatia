@@ -17,7 +17,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
@@ -46,7 +45,10 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.renderer.*;
+import stevekung.mods.indicatia.renderer.HUDInfo;
+import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
+import stevekung.mods.indicatia.renderer.LayerAllArmor;
+import stevekung.mods.indicatia.renderer.LayerCustomCape;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -81,7 +83,6 @@ public class CommonHandler
     private static boolean sneakingOld = false;
 
     private int closeScreenTicks;
-    private static boolean setNewRender = false;
 
     public CommonHandler(Minecraft mc)
     {
@@ -95,7 +96,6 @@ public class CommonHandler
         if (event.modID.equalsIgnoreCase(IndicatiaMod.MOD_ID))
         {
             ConfigManager.syncConfig(false);
-            CommonHandler.setNewRender = false;
         }
     }
 
@@ -104,21 +104,6 @@ public class CommonHandler
     {
         if (this.mc.thePlayer != null)
         {
-            if (!CommonHandler.setNewRender)
-            {
-                Render<AbstractClientPlayer> render = this.mc.getRenderManager().getEntityRenderObject(this.mc.thePlayer);
-                RenderPlayer renderplayer = (RenderPlayer)render;
-
-                if (ConfigManager.enableAlternatePlayerModel)
-                {
-                    renderplayer.mainModel = new ModelPlayerNew(0.0F, this.mc.thePlayer.sendQueue.getPlayerInfo(GameProfileUtil.getUUID()).getSkinType().equals("slim"));
-                }
-                else
-                {
-                    renderplayer.mainModel = new ModelPlayer(0.0F, this.mc.thePlayer.sendQueue.getPlayerInfo(GameProfileUtil.getUUID()).getSkinType().equals("slim"));
-                }
-                CommonHandler.setNewRender = true;
-            }
             if (InfoUtil.INSTANCE.isHypixel())
             {
                 if (CommonHandler.HYPIXEL_PLAYER_LIST.contains(GameProfileUtil.getUsername()) && !CommonHandler.foundUnnick)

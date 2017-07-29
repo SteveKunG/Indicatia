@@ -1,5 +1,4 @@
 -Added- Added more donator text option
 -Update- Adjust Fishing Rod position
 -Update- Custom Cape now not required to restart game
--Update- Optimize transparent skin rendering
 -Fixed- Fixed some Donator GUI bug
