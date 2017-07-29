@@ -135,11 +135,13 @@ public class HUDRenderHandler
                 {
                     if (!HUDRenderHandler.topDonator.isEmpty())
                     {
-                        leftInfo.add(HUDRenderHandler.topDonator);
+                        String text = ExtendedConfig.TOP_DONATOR_TEXT.isEmpty() ? "" : ExtendedConfig.TOP_DONATOR_TEXT + EnumChatFormatting.RESET + " ";
+                        leftInfo.add(text + HUDRenderHandler.topDonator);
                     }
                     if (!HUDRenderHandler.recentDonator.isEmpty())
                     {
-                        leftInfo.add(HUDRenderHandler.recentDonator);
+                        String text = ExtendedConfig.RECENT_DONATOR_TEXT.isEmpty() ? "" : ExtendedConfig.RECENT_DONATOR_TEXT + EnumChatFormatting.RESET + " ";
+                        leftInfo.add(text + HUDRenderHandler.recentDonator);
                     }
                 }
                 // server tps
@@ -186,11 +188,13 @@ public class HUDRenderHandler
                 {
                     if (!HUDRenderHandler.topDonator.isEmpty())
                     {
-                        rightInfo.add(HUDRenderHandler.topDonator);
+                        String text = ExtendedConfig.TOP_DONATOR_TEXT.isEmpty() ? "" : ExtendedConfig.TOP_DONATOR_TEXT + EnumChatFormatting.RESET + " ";
+                        rightInfo.add(text + HUDRenderHandler.topDonator);
                     }
                     if (!HUDRenderHandler.recentDonator.isEmpty())
                     {
-                        rightInfo.add(HUDRenderHandler.recentDonator);
+                        String text = ExtendedConfig.RECENT_DONATOR_TEXT.isEmpty() ? "" : ExtendedConfig.RECENT_DONATOR_TEXT + EnumChatFormatting.RESET + " ";
+                        rightInfo.add(text + HUDRenderHandler.recentDonator);
                     }
                 }
 
