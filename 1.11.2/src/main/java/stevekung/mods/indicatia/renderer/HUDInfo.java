@@ -190,8 +190,9 @@ public class HUDInfo
             {
                 if (!mc.player.inventory.armorInventory.get(i).isEmpty())
                 {
+                    String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                     itemStackList.add(mc.player.inventory.armorInventory.get(i));
-                    itemStatusList.add(HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)));
+                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                     arrowCountList.add(""); // dummy bow arrow count list size
                 }
             }
@@ -201,8 +202,9 @@ public class HUDInfo
             {
                 if (!mc.player.inventory.armorInventory.get(i).isEmpty())
                 {
+                    String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                     itemStackList.add(mc.player.inventory.armorInventory.get(i));
-                    itemStatusList.add(HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)));
+                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                     arrowCountList.add(""); // dummy bow arrow count list size
                 }
             }
@@ -356,8 +358,9 @@ public class HUDInfo
         {
             if (!mc.player.inventory.armorInventory.get(i).isEmpty())
             {
+                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                 leftItemStackList.add(mc.player.inventory.armorInventory.get(i));
-                leftItemStatusList.add(HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)));
+                leftItemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                 leftArrowCountList.add(""); // dummy bow arrow count list size
             }
         }
@@ -366,8 +369,9 @@ public class HUDInfo
         {
             if (!mc.player.inventory.armorInventory.get(i).isEmpty())
             {
+                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                 rightItemStackList.add(mc.player.inventory.armorInventory.get(i));
-                rightItemStatusList.add(HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)));
+                rightItemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                 rightArrowCountList.add(""); // dummy bow arrow count list size
             }
         }

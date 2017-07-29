@@ -1,4 +1,5 @@
 -Added- Added more donator text option
 -Update- Adjust Fishing Rod position
 -Update- Custom Cape now not required to restart game
+-Update- Equipments now counted item on head slot
 -Fixed- Fixed some Donator GUI bug
