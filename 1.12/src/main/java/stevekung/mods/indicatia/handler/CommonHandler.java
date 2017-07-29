@@ -336,7 +336,7 @@ public class CommonHandler
         {
             HUDRenderHandler.recordEnable = !HUDRenderHandler.recordEnable;
         }
-        if (ConfigManager.enableCustomCape && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI != null && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
+        if (ConfigManager.enableCustomCape && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
         {
             this.mc.displayGuiScreen(CommonHandler.customCapeGui);
         }

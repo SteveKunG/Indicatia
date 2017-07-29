@@ -112,10 +112,7 @@ public class IndicatiaMod
         {
             VersionChecker.startCheck();
         }
-        if (ConfigManager.enableCustomCape)
-        {
-            CapeUtil.loadCapeTextureAtStartup();
-        }
+        CapeUtil.loadCapeTextureAtStartup();
     }
 
     public static boolean isObfuscatedEnvironment()

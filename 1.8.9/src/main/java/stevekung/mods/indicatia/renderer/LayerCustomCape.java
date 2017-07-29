@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.util.CapeUtil;
 import stevekung.mods.indicatia.util.GameProfileUtil;
@@ -24,7 +25,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (entity.getName().equals(GameProfileUtil.getUsername()) && !entity.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtil.CAPE_TEXTURE.isEmpty())
+        if (ConfigManager.enableCustomCape && entity.getName().equals(GameProfileUtil.getUsername()) && !entity.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtil.CAPE_TEXTURE.isEmpty())
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             CapeUtil.bindCapeTexture();

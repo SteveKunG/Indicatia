@@ -240,13 +240,10 @@ public class CommonHandler
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event)
     {
-        if (ConfigManager.enableCustomCape)
-        {
-            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
-            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-            renderDefault.addLayer(new LayerCustomCape(renderDefault));
-            renderSlim.addLayer(new LayerCustomCape(renderSlim));
-        }
+        RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
+        RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
+        renderDefault.addLayer(new LayerCustomCape(renderDefault));
+        renderSlim.addLayer(new LayerCustomCape(renderSlim));
     }
 
     @SubscribeEvent
@@ -327,7 +324,7 @@ public class CommonHandler
         {
             HUDRenderHandler.recordEnable = !HUDRenderHandler.recordEnable;
         }
-        if (ConfigManager.enableCustomCape && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI != null && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
+        if (ConfigManager.enableCustomCape && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
         {
             this.mc.displayGuiScreen(CommonHandler.customCapeGui);
         }

@@ -195,7 +195,6 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Cape", false);
         ConfigManager.enableCustomCape = prop.getBoolean();
         prop.setComment(LangUtil.translate("gui.config.indicatia.custom_cape"));
-        prop.setRequiresMcRestart(true);
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Version Checker", true);
