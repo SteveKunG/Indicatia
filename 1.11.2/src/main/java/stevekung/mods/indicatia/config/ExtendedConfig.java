@@ -64,6 +64,8 @@ public class ExtendedConfig
     public static String HYPIXEL_NICK_NAME = "";
     public static String TOP_DONATOR_FILE_PATH = "";
     public static String RECENT_DONATOR_FILE_PATH = "";
+    public static String TOP_DONATOR_TEXT = "";
+    public static String RECENT_DONATOR_TEXT = "";
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
@@ -128,6 +130,8 @@ public class ExtendedConfig
             ExtendedConfig.HYPIXEL_NICK_NAME = ExtendedConfig.getString(nbt, "HypixelNickName", ExtendedConfig.HYPIXEL_NICK_NAME);
             ExtendedConfig.TOP_DONATOR_FILE_PATH = ExtendedConfig.getString(nbt, "TopDonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
             ExtendedConfig.RECENT_DONATOR_FILE_PATH = ExtendedConfig.getString(nbt, "RecentDonatorFilePath", ExtendedConfig.RECENT_DONATOR_FILE_PATH);
+            ExtendedConfig.TOP_DONATOR_TEXT = ExtendedConfig.getString(nbt, "TopDonatorText", ExtendedConfig.TOP_DONATOR_TEXT);
+            ExtendedConfig.RECENT_DONATOR_TEXT = ExtendedConfig.getString(nbt, "RecentDonatorText", ExtendedConfig.RECENT_DONATOR_TEXT);
 
             ExtendedConfig.TOGGLE_SPRINT_USE_MODE = ExtendedConfig.getString(nbt, "ToggleSprintUseMode", ExtendedConfig.TOGGLE_SPRINT_USE_MODE);
             ExtendedConfig.TOGGLE_SNEAK_USE_MODE = ExtendedConfig.getString(nbt, "ToggleSneakUseMode", ExtendedConfig.TOGGLE_SNEAK_USE_MODE);
@@ -190,6 +194,8 @@ public class ExtendedConfig
             nbt.setString("HypixelNickName", ExtendedConfig.HYPIXEL_NICK_NAME);
             nbt.setString("TopDonatorFilePath", ExtendedConfig.TOP_DONATOR_FILE_PATH);
             nbt.setString("RecentDonatorFilePath", ExtendedConfig.RECENT_DONATOR_FILE_PATH);
+            nbt.setString("TopDonatorText", ExtendedConfig.TOP_DONATOR_TEXT);
+            nbt.setString("RecentDonatorText", ExtendedConfig.RECENT_DONATOR_TEXT);
 
             nbt.setString("ToggleSprintUseMode", ExtendedConfig.TOGGLE_SPRINT_USE_MODE);
             nbt.setString("ToggleSneakUseMode", ExtendedConfig.TOGGLE_SNEAK_USE_MODE);
