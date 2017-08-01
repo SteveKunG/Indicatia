@@ -111,10 +111,12 @@ public class CommonHandler
             if (ConfigManager.enableAlternatePlayerModel)
             {
                 renderPlayer.mainModel = new ModelPlayerNew(0.0F, this.mc.thePlayer.getSkinType().equalsIgnoreCase("slim"));
+                ModLogger.info("Set player model to {}", ModelPlayerNew.class.getName());
             }
             else
             {
                 renderPlayer.mainModel = new ModelPlayer(0.0F, this.mc.thePlayer.getSkinType().equalsIgnoreCase("slim"));
+                ModLogger.info("Set player model to {}", ModelPlayer.class.getName());
             }
             CommonHandler.setNewRender = true;
         }

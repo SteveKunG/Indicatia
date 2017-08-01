@@ -97,6 +97,7 @@ public class CommonHandler
                 render.modelBipedMain = (ModelBipedNew)render.mainModel;
                 render.modelArmorChestplate = new ModelBipedNew(1.0F);
                 render.modelArmor = new ModelBipedNew(0.5F);
+                ModLogger.info("Set player model to {}", ModelBipedNew.class.getName());
             }
             else
             {
@@ -104,6 +105,7 @@ public class CommonHandler
                 render.modelBipedMain = (ModelBiped)render.mainModel;
                 render.modelArmorChestplate = new ModelBiped(1.0F);
                 render.modelArmor = new ModelBiped(0.5F);
+                ModLogger.info("Set player model to {}", ModelBiped.class.getName());
             }
             CommonHandler.setNewRender = true;
         }
