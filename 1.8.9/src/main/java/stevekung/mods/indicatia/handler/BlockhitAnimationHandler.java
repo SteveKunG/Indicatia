@@ -43,8 +43,17 @@ public class BlockhitAnimationHandler
 
         if (!this.isZoomed())
         {
+            if (ConfigManager.enableAlternatePlayerModel)
+            {
+                GlStateManager.enableBlend();
+                GlStateManager.blendFunc(770, 771);
+            }
             this.renderHand(event.partialTicks, event.renderPass);
             this.mc.entityRenderer.renderWorldDirections(event.partialTicks);
+            if (ConfigManager.enableAlternatePlayerModel)
+            {
+                GlStateManager.disableBlend();
+            }
         }
     }
 

@@ -17,12 +17,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
@@ -45,10 +47,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.renderer.HUDInfo;
-import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
-import stevekung.mods.indicatia.renderer.LayerAllArmor;
-import stevekung.mods.indicatia.renderer.LayerCustomCape;
+import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -81,6 +80,7 @@ public class CommonHandler
 
     private static long sneakTimeOld = 0L;
     private static boolean sneakingOld = false;
+    private static boolean setNewRender;
 
     private int closeScreenTicks;
 
@@ -96,12 +96,28 @@ public class CommonHandler
         if (event.modID.equalsIgnoreCase(IndicatiaMod.MOD_ID))
         {
             ConfigManager.syncConfig(false);
+            CommonHandler.setNewRender = false;
         }
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
+        if (!CommonHandler.setNewRender && this.mc.thePlayer != null)
+        {
+            Render render = this.mc.getRenderManager().getEntityRenderObject(this.mc.thePlayer);
+            RenderPlayer renderPlayer = (RenderPlayer) render;
+
+            if (ConfigManager.enableAlternatePlayerModel)
+            {
+                renderPlayer.mainModel = new ModelPlayerNew(0.0F, this.mc.thePlayer.getSkinType().equalsIgnoreCase("slim"));
+            }
+            else
+            {
+                renderPlayer.mainModel = new ModelPlayer(0.0F, this.mc.thePlayer.getSkinType().equalsIgnoreCase("slim"));
+            }
+            CommonHandler.setNewRender = true;
+        }
         if (this.mc.thePlayer != null)
         {
             if (InfoUtil.INSTANCE.isHypixel())
@@ -216,6 +232,7 @@ public class CommonHandler
             RenderPlayer renderSlim = manager.getSkinMap().get("slim");
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault, entity), renderer, entity);
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim, entity), renderer, entity);
+            CommonHandler.replaceCustomHeadLayer(layerLists, manager);
         }
         else if (entity instanceof EntityZombie && ((EntityZombie)entity).isVillager())
         {
@@ -725,6 +742,25 @@ public class CommonHandler
                     });
                 }
             }
+        }
+    }
+
+    private static void replaceCustomHeadLayer(List<LayerRenderer> layerLists, RenderManager manager)
+    {
+        int customHeadIndex = -1;
+
+        for (int i = 0; i < layerLists.size(); i++)
+        {
+            LayerRenderer layer = layerLists.get(i);
+
+            if (layer instanceof LayerCustomHead)
+            {
+                customHeadIndex = i;
+            }
+        }
+        if (customHeadIndex >= 0)
+        {
+            layerLists.set(customHeadIndex, new LayerCustomHead(manager.playerRenderer.getMainModel().bipedHead));
         }
     }
 

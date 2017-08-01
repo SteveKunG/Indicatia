@@ -28,8 +28,6 @@ public class ModelPlayerNew extends ModelPlayer
             GlStateManager.scale(1.5F / f, 1.5F / f, 1.5F / f);
             GlStateManager.translate(0.0F, 16.0F * scale, 0.0F);
             this.bipedHead.render(scale);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
             GlStateManager.scale(1.0F / f, 1.0F / f, 1.0F / f);
             GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
             this.bipedBody.render(scale);
@@ -45,7 +43,6 @@ public class ModelPlayerNew extends ModelPlayer
             {
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
             }
-
             this.bipedHead.render(scale);
             this.bipedBody.render(scale);
             this.bipedRightArm.render(scale);
