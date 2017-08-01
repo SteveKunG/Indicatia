@@ -87,30 +87,30 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
+        if (!CommonHandler.setNewRender && this.mc.thePlayer != null)
+        {
+            RenderPlayer render = (RenderPlayer) RenderManager.instance.getEntityRenderObject(this.mc.thePlayer);
+
+            if (ConfigManager.enableAlternatePlayerModel)
+            {
+                render.mainModel = new ModelBipedNew(0.0F);
+                render.modelBipedMain = (ModelBipedNew)render.mainModel;
+                render.modelArmorChestplate = new ModelBipedNew(1.0F);
+                render.modelArmor = new ModelBipedNew(0.5F);
+            }
+            else
+            {
+                render.mainModel = new ModelBiped(0.0F);
+                render.modelBipedMain = (ModelBiped)render.mainModel;
+                render.modelArmorChestplate = new ModelBiped(1.0F);
+                render.modelArmor = new ModelBiped(0.5F);
+            }
+            CommonHandler.setNewRender = true;
+        }
         if (this.mc.thePlayer != null)
         {
             CommonHandler.getPingAndPlayerList(this.mc);
 
-            if (!CommonHandler.setNewRender)
-            {
-                RenderPlayer render = (RenderPlayer) RenderManager.instance.getEntityRenderObject(this.mc.thePlayer);
-
-                if (ConfigManager.enableAlternatePlayerModel)
-                {
-                    render.mainModel = new ModelBipedNew(0.0F);
-                    render.modelBipedMain = (ModelBipedNew)render.mainModel;
-                    render.modelArmorChestplate = new ModelBipedNew(1.0F);
-                    render.modelArmor = new ModelBipedNew(0.5F);
-                }
-                else
-                {
-                    render.mainModel = new ModelBiped(0.0F);
-                    render.modelBipedMain = (ModelBiped)render.mainModel;
-                    render.modelArmorChestplate = new ModelBiped(1.0F);
-                    render.modelArmor = new ModelBiped(0.5F);
-                }
-                CommonHandler.setNewRender = true;
-            }
             if (this.mc.getNetHandler() != null && CommonHandler.setTCPNoDelay)
             {
                 this.mc.getNetHandler().getNetworkManager().channel().config().setOption(ChannelOption.TCP_NODELAY, true);
