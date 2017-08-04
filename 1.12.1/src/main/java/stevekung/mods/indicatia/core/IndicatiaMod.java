@@ -72,7 +72,6 @@ public class IndicatiaMod
         MinecraftForge.EVENT_BUS.register(new CommonHandler(IndicatiaMod.MC));
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimationHandler(IndicatiaMod.MC));
         MinecraftForge.EVENT_BUS.register(new PlayerChatHandler(IndicatiaMod.MC));
-        MinecraftForge.EVENT_BUS.register(this);
 
         if (ConfigManager.enableFishingRodOldRender)
         {
