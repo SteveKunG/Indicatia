@@ -6,7 +6,7 @@ public enum EnumMCVersion
     MC_1_8_9("1.8.9"),
     MC_1_10_2("1.10.2"),
     MC_1_11_2("1.11.2"),
-    MC_1_12("1.12");
+    MC_1_12_1("1.12.1");
 
     private String version;
     private static EnumMCVersion[] values = EnumMCVersion.values();

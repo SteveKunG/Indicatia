@@ -15,16 +15,16 @@ plugins {
 
 def apiJson = file('D:/.M/Minecraft Modding Workspace/Indicatia/apiToken.json')
 def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
-def mcVersion = '1.12'
+def mcVersion = '1.12.1'
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-version = "1.0.8"
+version = "1.0.9"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.12-14.21.1.2426"
+    version = "1.12.1-14.22.0.2444"
     runDir = "run"
     mappings = "snapshot_20170624"
 	makeObfSourceJar = false
@@ -106,4 +106,4 @@ task deleteTemporary(type: Delete) {
 	delete 'temporary_deobf'
 }
 
-buildDeobfJar.finalizedBy(deleteTemporary)
+buildJar.finalizedBy(deleteTemporary)
