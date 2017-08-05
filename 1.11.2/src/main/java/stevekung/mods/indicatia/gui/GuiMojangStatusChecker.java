@@ -1,8 +1,8 @@
 package stevekung.mods.indicatia.gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -16,7 +16,7 @@ import stevekung.mods.indicatia.util.MojangStatusChecker;
 @SideOnly(Side.CLIENT)
 public class GuiMojangStatusChecker extends GuiScreen
 {
-    private static List<String> statusList = new ArrayList<>();
+    private static List<String> statusList = new CopyOnWriteArrayList<>();
     private final GuiScreen lastScreen;
     private GuiButton doneButton;
     private GuiButton checkButton;
@@ -42,6 +42,7 @@ public class GuiMojangStatusChecker extends GuiScreen
         if (this.doneButton.enabled && keyCode == 1)
         {
             this.mc.displayGuiScreen(null);
+            GuiMojangStatusChecker.statusList.clear();
         }
     }
 
