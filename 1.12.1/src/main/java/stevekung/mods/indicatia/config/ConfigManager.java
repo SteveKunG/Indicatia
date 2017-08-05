@@ -138,7 +138,7 @@ public class ConfigManager
         ConfigManager.endGameTitleTime = prop.getInt();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Title Message", "you lose,you win,game end,victory!");
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Title Message", "you lose,you win,game end,victory");
         ConfigManager.endGameTitleMessage = prop.getString().toLowerCase();
         prop.setComment(LangUtil.translate("gui.config.indicatia.end_game_title_message"));
         propOrder.add(prop.getName());
