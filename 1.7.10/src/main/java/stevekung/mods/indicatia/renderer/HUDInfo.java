@@ -320,7 +320,6 @@ public class HUDInfo
         List<String> leftArrowCountList = new ArrayList<>();
         List<ItemStack> rightItemStackList = new ArrayList<>();
         List<String> rightItemStatusList = new ArrayList<>();
-        List<String> rightArrowCountList = new ArrayList<>();
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         ItemStack mainHandItem = mc.thePlayer.getHeldItem();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.thePlayer.inventory);
@@ -344,7 +343,6 @@ public class HUDInfo
                 String itemCount = HUDInfo.getInventoryItemCount(mc.thePlayer.inventory, mc.thePlayer.inventory.armorInventory[i]);
                 rightItemStackList.add(mc.thePlayer.inventory.armorInventory[i]);
                 rightItemStatusList.add(mc.thePlayer.inventory.armorInventory[i].isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.thePlayer.inventory.armorInventory[i]) : HUDInfo.getItemStackCount(mc.thePlayer.inventory.armorInventory[i], Integer.parseInt(itemCount)));
-                rightArrowCountList.add(""); // dummy bow arrow count list size
             }
         }
 
@@ -423,24 +421,7 @@ public class HUDInfo
             String string = leftArrowCountList.get(i);
             int stringWidth = mc.fontRendererObj.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 90 - stringWidth;
-            int yOffset = res.getScaledHeight() - 16 * i - 32;
-
-            if (!string.isEmpty())
-            {
-                mc.mcProfiler.startSection("arrow_count");
-                GL11.glDisable(GL11.GL_DEPTH_TEST);
-                HUDInfo.smallFontRenderer.drawString(string, xOffset, yOffset, 16777215, true);
-                GL11.glEnable(GL11.GL_DEPTH_TEST);
-                mc.mcProfiler.endSection();
-            }
-        }
-
-        // right arrow count stuff
-        for (int i = 0; i < rightArrowCountList.size(); ++i)
-        {
-            String string = rightArrowCountList.get(i);
-            float xOffset = res.getScaledWidth() / 2 + 104;
-            int yOffset = res.getScaledHeight() - 16 * i - 32;
+            int yOffset = res.getScaledHeight() - 16 * i - 10;
 
             if (!string.isEmpty())
             {
