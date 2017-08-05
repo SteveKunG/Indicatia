@@ -17,6 +17,8 @@ gui.config.indicatia.custom_movement_handler=Allow handled by custom player move
 gui.config.indicatia.custom_cape=Allowed to use Custom Cape by upload your Custom Cape texture to any website.
 gui.config.indicatia.server_tps=This will show overall Server TPS to testing performance. (Only works only client)
 gui.config.indicatia.old_armor_render=This will using old armor hurt effect render. (red overlay)
+gui.config.indicatia.end_game_title_message=This will check message from Title if equal to it. Split text by "," Example: Goodbye,You Died
+gui.config.indicatia.end_game_message=This message will be printed to in-game chat when game is end or finished. Disable by leave it blank.
 
 # KEY BINDING
 key.indicatia.category=Indicatia
