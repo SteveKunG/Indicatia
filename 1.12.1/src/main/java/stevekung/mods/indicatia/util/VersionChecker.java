@@ -1,6 +1,5 @@
 package stevekung.mods.indicatia.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,6 +33,8 @@ public class VersionChecker implements Runnable
     {
         InputStream version = null;
         InputStream desc = null;
+        String latest = null;
+        int major = 0, minor = 0, build = 0;
 
         try
         {
@@ -66,41 +67,48 @@ public class VersionChecker implements Runnable
         {
             for (EnumMCVersion mcVersion : EnumMCVersion.valuesCached())
             {
-                if (IndicatiaMod.MC_VERSION.equals(mcVersion.getVersion()))
+                for (String enumVersion : mcVersion.getVersion().split(" "))
                 {
-                    VersionChecker.LATEST_VERSION = IOUtils.readLines(version, StandardCharsets.UTF_8).get(mcVersion.ordinal());
+                    if (IndicatiaMod.MC_VERSION.contains(enumVersion))
+                    {
+                        latest = IOUtils.readLines(version, StandardCharsets.UTF_8).get(mcVersion.ordinal());
+                    }
                 }
             }
-            VersionChecker.ANNOUNCE_MESSAGE = IOUtils.readLines(desc, StandardCharsets.UTF_8);
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        catch (Exception e) {}
         finally
         {
             IOUtils.closeQuietly(version);
+        }
+
+        try
+        {
+            VersionChecker.ANNOUNCE_MESSAGE = IOUtils.readLines(desc, StandardCharsets.UTF_8);
+        }
+        catch (Exception e) {}
+        finally
+        {
             IOUtils.closeQuietly(desc);
         }
 
-        int major = 0;
-        int minor = 0;
-        int build = 0;
-        String latest = VersionChecker.LATEST_VERSION;
-
-        if (latest.contains("[" + IndicatiaMod.MC_VERSION + "]="))
+        for (String latestVersion : latest.split(" "))
         {
-            latest = latest.replace("[" + IndicatiaMod.MC_VERSION + "]=", "").replace(".", "");
-
-            try
+            if (latestVersion.contains(IndicatiaMod.MC_VERSION))
             {
-                major = Integer.parseInt(String.valueOf(latest.charAt(0)));
-                minor = Integer.parseInt(String.valueOf(latest.charAt(1)));
-                build = Integer.parseInt(String.valueOf(latest.charAt(2)));
+                latestVersion = latest.substring(latest.indexOf("=")).replace("=", "").replace(".", "");
+
+                try
+                {
+                    major = Integer.parseInt(String.valueOf(latestVersion.charAt(0)));
+                    minor = Integer.parseInt(String.valueOf(latestVersion.charAt(1)));
+                    build = Integer.parseInt(String.valueOf(latestVersion.charAt(2)));
+                }
+                catch (Exception e) {}
             }
-            catch (Exception e) {}
         }
         String latestVersion = major + "." + minor + "." + build;
+        VersionChecker.LATEST_VERSION = latestVersion;
         VersionChecker.LATEST = !IndicatiaMod.VERSION.equals(latestVersion) && (major > IndicatiaMod.MAJOR_VERSION || minor > IndicatiaMod.MINOR_VERSION || build > IndicatiaMod.BUILD_VERSION);
     }
 
@@ -117,11 +125,6 @@ public class VersionChecker implements Runnable
     public String getLatestVersion()
     {
         return VersionChecker.LATEST_VERSION;
-    }
-
-    public String getLatestVersionReplaceMC()
-    {
-        return VersionChecker.LATEST_VERSION.replace("[" + IndicatiaMod.MC_VERSION + "]=", "");
     }
 
     public String getExceptionMessage()

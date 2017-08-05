@@ -42,7 +42,8 @@ curseforge {
 		id = '272146'
 		changelog = 'To read full change log use command /inchangelog in-game.'
 		releaseType = 'release'
-		addGameVersion mcVersion
+		addGameVersion '1.12'
+        addGameVersion mcVersion
 
 		mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
 			displayName = "Indicatia-" + mcVersion + "-" + version
