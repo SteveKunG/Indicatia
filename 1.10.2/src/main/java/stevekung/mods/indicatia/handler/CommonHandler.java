@@ -119,6 +119,7 @@ public class CommonHandler
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.player);
+                CommonHandler.printVersionMessage(this.json, this.mc.player);
                 CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
@@ -168,39 +169,6 @@ public class CommonHandler
         if (event.getButton() == 1 && event.isButtonstate())
         {
             CommonHandler.RIGHT_CLICK.add(Long.valueOf(System.currentTimeMillis()));
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event)
-    {
-        if (ConfigManager.enableVersionChecker)
-        {
-            if (!IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.noConnection())
-            {
-                event.player.sendMessage(this.json.text("Unable to check latest version, Please check your internet connection").setStyle(this.json.red()));
-                event.player.sendMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(this.json.red()));
-                IndicatiaMod.CHECK_NO_CONNECTION = true;
-                return;
-            }
-            if (!IndicatiaMod.FOUND_LATEST && !IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.isLatestVersion())
-            {
-                event.player.sendMessage(this.json.text("New version of ").appendSibling(this.json.text("Indicatia").setStyle(this.json.style().setColor(TextFormatting.AQUA)).appendSibling(this.json.text(" is available ").setStyle(this.json.white()).appendSibling(this.json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setStyle(this.json.style().setColor(TextFormatting.GREEN)).appendSibling(this.json.text(" for ").setStyle(this.json.white()).appendSibling(this.json.text("MC-" + IndicatiaMod.MC_VERSION).setStyle(this.json.style().setColor(TextFormatting.GOLD))))))));
-                event.player.sendMessage(this.json.text("Download Link ").setStyle(this.json.style().setColor(TextFormatting.YELLOW)).appendSibling(this.json.text("[CLICK HERE]").setStyle(this.json.style().setColor(TextFormatting.BLUE).setHoverEvent(this.json.hover(HoverEvent.Action.SHOW_TEXT, this.json.text("Click Here!").setStyle(this.json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
-                IndicatiaMod.FOUND_LATEST = true;
-            }
-            if (!IndicatiaMod.SHOW_ANNOUNCE_MESSAGE && !IndicatiaMod.CHECK_NO_CONNECTION)
-            {
-                for (String log : VersionChecker.INSTANCE.getAnnounceMessage())
-                {
-                    if (ConfigManager.enableAnnounceMessage)
-                    {
-                        event.player.sendMessage(this.json.text(log).setStyle(this.json.style().setColor(TextFormatting.GRAY)));
-                    }
-                }
-                event.player.sendMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(this.json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
-                IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
-            }
         }
     }
 
@@ -720,6 +688,38 @@ public class CommonHandler
         {
             ModLogger.info("Couldn't open link {}", url);
             e.printStackTrace();
+        }
+    }
+    
+    private static void printVersionMessage(JsonUtil json, EntityPlayerSP player)
+    {
+        if (ConfigManager.enableVersionChecker)
+        {
+            if (!IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.noConnection())
+            {
+                player.sendMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.red()));
+                player.sendMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.red()));
+                IndicatiaMod.CHECK_NO_CONNECTION = true;
+                return;
+            }
+            if (!IndicatiaMod.FOUND_LATEST && !IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.isLatestVersion())
+            {
+                player.sendMessage(json.text("New version of ").appendSibling(json.text("Indicatia").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatiaMod.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
+                player.sendMessage(json.text("Download Link ").setStyle(json.style().setColor(TextFormatting.YELLOW)).appendSibling(json.text("[CLICK HERE]").setStyle(json.style().setColor(TextFormatting.BLUE).setHoverEvent(json.hover(HoverEvent.Action.SHOW_TEXT, json.text("Click Here!").setStyle(json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
+                IndicatiaMod.FOUND_LATEST = true;
+            }
+            if (!IndicatiaMod.SHOW_ANNOUNCE_MESSAGE && !IndicatiaMod.CHECK_NO_CONNECTION)
+            {
+                for (String log : VersionChecker.INSTANCE.getAnnounceMessage())
+                {
+                    if (ConfigManager.enableAnnounceMessage)
+                    {
+                        player.sendMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY)));
+                    }
+                }
+                player.sendMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
+            }
         }
     }
 }
