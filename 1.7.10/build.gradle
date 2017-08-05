@@ -29,7 +29,7 @@ def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
 def mcVersion = '1.7.10'
 
 apply plugin: 'forge'
-version = "1.0.8"
+version = "1.0.9"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7
@@ -41,18 +41,18 @@ minecraft {
 }
 
 curseforge {
-	apiKey = parsedApi.apiKey
-	project {
-		id = '272146'
-		changelog = 'To read full change log use command /inchangelog in-game.'
-		releaseType = 'release'
-		addGameVersion mcVersion
-		addGameVersion 'Java 7'
+    apiKey = parsedApi.apiKey
+    project {
+        id = '272146'
+        changelog = 'To read full change log use command /inchangelog in-game.'
+        releaseType = 'release'
+        addGameVersion mcVersion
+        addGameVersion 'Java 7'
 
-		mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
-			displayName = "Indicatia-" + mcVersion + "-" + version
-		}
-	}
+        mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
+            displayName = "Indicatia-" + mcVersion + "-" + version
+        }
+    }
 }
 
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
@@ -60,12 +60,12 @@ ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.
 
 // build normal jar
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
-	outputs.upToDateWhen { false }
-	baseName = "Indicatia-" + mcVersion
+    outputs.upToDateWhen { false }
+    baseName = "Indicatia-" + mcVersion
 
-	from(zipTree(project.ext.coreJar)) {
-		includes.addAll(project.ext.coreFiles)
-	}
+    from(zipTree(project.ext.coreJar)) {
+        includes.addAll(project.ext.coreFiles)
+    }
     manifest {
         attributes.put("FMLAT", "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")
@@ -73,42 +73,42 @@ task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 }
 
 task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {
-	from 'temporary'
+    from 'temporary'
 }
 
 task copyModFiles(type: Copy, dependsOn: "reobf") {
-	from(zipTree(project.ext.coreJar))
-	into 'temporary'
+    from(zipTree(project.ext.coreJar))
+    into 'temporary'
 }
 
 // build deobf jar
 task buildDeobfJar(type: Jar, dependsOn: "rePackAllDeobfJar") {
-	outputs.upToDateWhen { false }
-	baseName = "Indicatia-" + mcVersion
-	classifier = 'deobf'
+    outputs.upToDateWhen { false }
+    baseName = "Indicatia-" + mcVersion
+    classifier = 'deobf'
 
-	from(zipTree(project.ext.coreJar)) {
-		includes.addAll(project.ext.coreFiles)
-	}
-	manifest {
+    from(zipTree(project.ext.coreJar)) {
+        includes.addAll(project.ext.coreFiles)
+    }
+    manifest {
         attributes.put("FMLAT", "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")
-	}
+    }
 }
 
 task rePackAllDeobfJar(type: Jar, dependsOn: "copyDeobfModFiles") {
-	from 'temporary_deobf'
+    from 'temporary_deobf'
 }
 
 task copyDeobfModFiles(type: Copy, dependsOn: "reobf") {
-	from sourceSets.main.output
-	into 'temporary_deobf'
+    from sourceSets.main.output
+    into 'temporary_deobf'
 }
 
 // delete temp folders
 task deleteTemporary(type: Delete) {
-	delete 'temporary'
-	delete 'temporary_deobf'
+    delete 'temporary'
+    delete 'temporary_deobf'
 }
 
-buildDeobfJar.finalizedBy(deleteTemporary)
+buildJar.finalizedBy(deleteTemporary)
