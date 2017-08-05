@@ -30,7 +30,7 @@ import stevekung.mods.indicatia.util.GameProfileUtil;
 import stevekung.mods.indicatia.util.ModLogger;
 import stevekung.mods.indicatia.util.VersionChecker;
 
-@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
+@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY, acceptedMinecraftVersions = "[1.12,1.12.1]")
 public class IndicatiaMod
 {
     public static final String NAME = "Indicatia";
