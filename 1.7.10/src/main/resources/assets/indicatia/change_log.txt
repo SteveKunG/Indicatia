@@ -1,1 +1,4 @@
+-Added- Added Mojang Status Checker Button to Main Menu
+-Update- Alternate Player Model improvement
+-Fixed- Fixed announce message not printed to chat sometime
 -Fixed- Minor fixes for Alternate Player Model
