@@ -112,3 +112,4 @@ task deleteTemporary(type: Delete) {
 }
 
 buildJar.finalizedBy(deleteTemporary)
+buildDeobfJar.finalizedBy(deleteTemporary)
