@@ -26,13 +26,7 @@ public class GuiButtonMojangStatus extends GuiButton
             mc.getTextureManager().bindTexture(GuiButtonMojangStatus.MOJANG_TEXTURES);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            int i = 0;
-
-            if (flag)
-            {
-                i += 20;
-            }
-            Gui.drawModalRectWithCustomSizedTexture(this.x, this.y, i, 0, this.width, this.height, 40, 20);
+            Gui.drawModalRectWithCustomSizedTexture(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
     }
 }
