@@ -324,6 +324,11 @@ public class CommonHandler
             event.buttonList.add(new GuiButton(200, event.gui.width - 145, 20, 135, 20, "Paypal"));
             event.buttonList.add(new GuiButton(201, event.gui.width - 145, 41, 135, 20, "Truemoney"));
         }
+        if (event.gui instanceof GuiMainMenu)
+        {
+            int height = event.gui.height / 4 + 48;
+            event.buttonList.add(new GuiButtonMojangStatus(200, event.gui.width / 2 - 124, height + 63));
+        }
     }
 
     @SubscribeEvent
@@ -339,6 +344,13 @@ public class CommonHandler
             case 201:
                 CommonHandler.openLink("https://tipme.in.th/stevekung");
                 break;
+            }
+        }
+        if (event.gui instanceof GuiMainMenu)
+        {
+            if (event.button.id == 200)
+            {
+                this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.gui));
             }
         }
     }
