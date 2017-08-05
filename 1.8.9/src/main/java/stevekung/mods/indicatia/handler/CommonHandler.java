@@ -81,6 +81,8 @@ public class CommonHandler
     private static long sneakTimeOld = 0L;
     private static boolean sneakingOld = false;
     private static boolean setNewRender;
+    private static boolean setNewRenderInitial;
+    private int setNewRenderTicks;
 
     private int closeScreenTicks;
     private static boolean printAutoGG;
@@ -105,7 +107,7 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if (!CommonHandler.setNewRender && this.mc.thePlayer != null)
+        if (!CommonHandler.setNewRender && this.mc.thePlayer != null || this.setNewRenderTicks == 20)
         {
             Render render = this.mc.getRenderManager().getEntityRenderObject(this.mc.thePlayer);
             RenderPlayer renderPlayer = (RenderPlayer) render;
@@ -121,6 +123,8 @@ public class CommonHandler
                 ModLogger.info("Set player model to {}", ModelPlayer.class.getName());
             }
             CommonHandler.setNewRender = true;
+            this.setNewRenderTicks = 0;
+            CommonHandler.setNewRenderInitial = false;
         }
         if (this.mc.thePlayer != null)
         {
@@ -141,6 +145,10 @@ public class CommonHandler
                 CommonHandler.processAutoGG(this.mc);
                 CapeUtil.loadCapeTexture();
 
+                if (this.setNewRenderTicks < 20 && CommonHandler.setNewRenderInitial)
+                {
+                    this.setNewRenderTicks++;
+                }
                 if (this.closeScreenTicks > 1)
                 {
                     --this.closeScreenTicks;
@@ -239,6 +247,7 @@ public class CommonHandler
     {
         this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();
         CommonHandler.overlayPlayerList = new GuiPlayerTabOverlayNew();
+        CommonHandler.setNewRenderInitial = true;
     }
 
     @SubscribeEvent
