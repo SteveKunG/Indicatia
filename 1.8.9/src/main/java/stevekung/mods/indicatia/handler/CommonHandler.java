@@ -83,6 +83,8 @@ public class CommonHandler
     private static boolean setNewRender;
 
     private int closeScreenTicks;
+    private static boolean printAutoGG;
+    private static int printAutoGGTicks;
 
     public CommonHandler(Minecraft mc)
     {
@@ -136,6 +138,7 @@ public class CommonHandler
             {
                 CommonHandler.runAFK(this.mc.thePlayer);
                 CommonHandler.printVersionMessage(this.json, this.mc.thePlayer);
+                CommonHandler.processAutoGG(this.mc);
                 CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
@@ -776,6 +779,32 @@ public class CommonHandler
                 }
                 player.addChatMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(json.colorFromConfig("gray").setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
+            }
+        }
+    }
+    
+    private static void processAutoGG(Minecraft mc)
+    {
+        if (mc.ingameGUI.displayedTitle.isEmpty() && !ConfigManager.endGameMessage.isEmpty())
+        {
+            CommonHandler.printAutoGG = true;
+            CommonHandler.printAutoGGTicks = 0;
+        }
+        if (CommonHandler.printAutoGG && CommonHandler.printAutoGGTicks < ConfigManager.endGameTitleTime)
+        {
+            CommonHandler.printAutoGGTicks++;
+        }
+
+        for (String message : ConfigManager.endGameTitleMessage.split(","))
+        {
+            String messageToLower = InfoUtil.INSTANCE.removeFormattingCodes(message).toLowerCase();
+            String displayTitleMessage = InfoUtil.INSTANCE.removeFormattingCodes(mc.ingameGUI.displayedTitle).toLowerCase();
+
+            if (displayTitleMessage.contains(messageToLower) && CommonHandler.printAutoGGTicks == ConfigManager.endGameTitleTime)
+            {
+                mc.thePlayer.sendChatMessage(ConfigManager.endGameMessage);
+                CommonHandler.printAutoGG = false;
+                CommonHandler.printAutoGGTicks = 0;
             }
         }
     }

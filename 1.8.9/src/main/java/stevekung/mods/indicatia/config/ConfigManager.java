@@ -26,6 +26,9 @@ public class ConfigManager
 
     // Main Settings
     public static int afkMessageTime;
+    public static int endGameTitleTime;
+    public static String endGameTitleMessage;
+    public static String endGameMessage;
     public static boolean enableRenderInfo;
     public static boolean enableBlockhitAnimation;
     public static boolean enableOldArmorRender;
@@ -136,6 +139,21 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "AFK Message Time (minute)", 5);
         prop.setMinValue(1).setMaxValue(60).setConfigEntryClass(NumberSliderEntry.class);
         ConfigManager.afkMessageTime = prop.getInt();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Message Time (game tick)", 20);
+        prop.setMinValue(20).setMaxValue(100).setConfigEntryClass(NumberSliderEntry.class);
+        ConfigManager.endGameTitleTime = prop.getInt();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Title Message", "you lose,you win,game end,victory");
+        ConfigManager.endGameTitleMessage = prop.getString().toLowerCase();
+        prop.comment = LangUtil.translate("gui.config.indicatia.end_game_title_message");
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Message", "");
+        ConfigManager.endGameMessage = prop.getString();
+        prop.comment = LangUtil.translate("gui.config.indicatia.end_game_message");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Blockhit Animation", false);
