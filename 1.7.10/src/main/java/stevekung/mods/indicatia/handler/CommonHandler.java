@@ -66,7 +66,6 @@ public class CommonHandler
     public static int autoClickTicks = 0;
 
     public static boolean setTCPNoDelay = false;
-    private static boolean setNewRender = false;
 
     public CommonHandler(Minecraft mc)
     {
@@ -80,35 +79,12 @@ public class CommonHandler
         if (event.modID.equalsIgnoreCase(IndicatiaMod.MOD_ID))
         {
             ConfigManager.syncConfig(false);
-            CommonHandler.setNewRender = false;
         }
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if (!CommonHandler.setNewRender && this.mc.thePlayer != null)
-        {
-            RenderPlayer render = (RenderPlayer) RenderManager.instance.getEntityRenderObject(this.mc.thePlayer);
-
-            if (ConfigManager.enableAlternatePlayerModel)
-            {
-                render.mainModel = new ModelBipedNew(0.0F);
-                render.modelBipedMain = (ModelBipedNew)render.mainModel;
-                render.modelArmorChestplate = new ModelBipedNew(1.0F);
-                render.modelArmor = new ModelBipedNew(0.5F);
-                ModLogger.info("Set player model to {}", ModelBipedNew.class.getName());
-            }
-            else
-            {
-                render.mainModel = new ModelBiped(0.0F);
-                render.modelBipedMain = (ModelBiped)render.mainModel;
-                render.modelArmorChestplate = new ModelBiped(1.0F);
-                render.modelArmor = new ModelBiped(0.5F);
-                ModLogger.info("Set player model to {}", ModelBiped.class.getName());
-            }
-            CommonHandler.setNewRender = true;
-        }
         if (this.mc.thePlayer != null)
         {
             CommonHandler.getPingAndPlayerList(this.mc);
@@ -123,6 +99,7 @@ public class CommonHandler
             {
                 CommonHandler.runAFK(this.mc.thePlayer);
                 CommonHandler.printVersionMessage(this.json, this.mc.thePlayer);
+                CommonHandler.replacingPlayerModel(this.mc.thePlayer);
                 CapeUtil.loadCapeTexture();
 
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
@@ -511,6 +488,34 @@ public class CommonHandler
                 }
                 player.addChatMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(json.colorFromConfig("gray").setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
+            }
+        }
+    }
+
+    private static void replacingPlayerModel(EntityClientPlayerMP player)
+    {
+        RenderPlayer render = (RenderPlayer) RenderManager.instance.getEntityRenderObject(player);
+
+        if (ConfigManager.enableAlternatePlayerModel)
+        {
+            if (!render.mainModel.getClass().equals(ModelBipedNew.class))
+            {
+                render.mainModel = new ModelBipedNew(0.0F);
+                render.modelBipedMain = (ModelBipedNew)render.mainModel;
+                render.modelArmorChestplate = new ModelBipedNew(1.0F);
+                render.modelArmor = new ModelBipedNew(0.5F);
+                ModLogger.info("Set player model to {}", ModelBipedNew.class.getName());
+            }
+        }
+        else
+        {
+            if (!render.mainModel.getClass().equals(ModelBiped.class))
+            {
+                render.mainModel = new ModelBiped(0.0F);
+                render.modelBipedMain = (ModelBiped)render.mainModel;
+                render.modelArmorChestplate = new ModelBiped(1.0F);
+                render.modelArmor = new ModelBiped(0.5F);
+                ModLogger.info("Set player model to {}", ModelBiped.class.getName());
             }
         }
     }
