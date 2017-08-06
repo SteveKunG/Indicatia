@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.ModLogger;
 
 @SideOnly(Side.CLIENT)
 public class ColoredFontRenderer extends FontRenderer
@@ -22,6 +23,7 @@ public class ColoredFontRenderer extends FontRenderer
     public ColoredFontRenderer(GameSettings gameSettings, ResourceLocation location, TextureManager textureManager, boolean unicode)
     {
         super(gameSettings, location, textureManager, unicode);
+        ModLogger.info("Loading {} for fancy text!", this.getClass().getName());
     }
 
     @Override
