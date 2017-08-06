@@ -80,9 +80,6 @@ public class CommonHandler
 
     private static long sneakTimeOld = 0L;
     private static boolean sneakingOld = false;
-    private static boolean setNewRender;
-    private static boolean setNewRenderInitial;
-    private int setNewRenderTicks;
 
     private int closeScreenTicks;
     private static boolean printAutoGG;
@@ -100,32 +97,12 @@ public class CommonHandler
         if (event.modID.equalsIgnoreCase(IndicatiaMod.MOD_ID))
         {
             ConfigManager.syncConfig(false);
-            CommonHandler.setNewRender = false;
         }
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        if (!CommonHandler.setNewRender && this.mc.thePlayer != null || this.setNewRenderTicks == 20)
-        {
-            Render render = this.mc.getRenderManager().getEntityRenderObject(this.mc.thePlayer);
-            RenderPlayer renderPlayer = (RenderPlayer) render;
-
-            if (ConfigManager.enableAlternatePlayerModel)
-            {
-                renderPlayer.mainModel = new ModelPlayerNew(0.0F, this.mc.thePlayer.getSkinType().equalsIgnoreCase("slim"));
-                ModLogger.info("Set player model to {}", ModelPlayerNew.class.getName());
-            }
-            else
-            {
-                renderPlayer.mainModel = new ModelPlayer(0.0F, this.mc.thePlayer.getSkinType().equalsIgnoreCase("slim"));
-                ModLogger.info("Set player model to {}", ModelPlayer.class.getName());
-            }
-            CommonHandler.setNewRender = true;
-            this.setNewRenderTicks = 0;
-            CommonHandler.setNewRenderInitial = false;
-        }
         if (this.mc.thePlayer != null)
         {
             if (InfoUtil.INSTANCE.isHypixel())
@@ -143,12 +120,9 @@ public class CommonHandler
                 CommonHandler.runAFK(this.mc.thePlayer);
                 CommonHandler.printVersionMessage(this.json, this.mc.thePlayer);
                 CommonHandler.processAutoGG(this.mc);
+                CommonHandler.replacingPlayerModel(this.mc, this.mc.thePlayer);
                 CapeUtil.loadCapeTexture();
 
-                if (this.setNewRenderTicks < 20 && CommonHandler.setNewRenderInitial)
-                {
-                    this.setNewRenderTicks++;
-                }
                 if (this.closeScreenTicks > 1)
                 {
                     --this.closeScreenTicks;
@@ -247,7 +221,6 @@ public class CommonHandler
     {
         this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();
         CommonHandler.overlayPlayerList = new GuiPlayerTabOverlayNew();
-        CommonHandler.setNewRenderInitial = true;
     }
 
     @SubscribeEvent
@@ -803,7 +776,7 @@ public class CommonHandler
             }
         }
     }
-    
+
     private static void processAutoGG(Minecraft mc)
     {
         if (mc.ingameGUI.displayedTitle.isEmpty() && !ConfigManager.endGameMessage.isEmpty())
@@ -826,6 +799,29 @@ public class CommonHandler
                 mc.thePlayer.sendChatMessage(ConfigManager.endGameMessage);
                 CommonHandler.printAutoGG = false;
                 CommonHandler.printAutoGGTicks = 0;
+            }
+        }
+    }
+
+    private static void replacingPlayerModel(Minecraft mc, EntityPlayerSP player)
+    {
+        Render render = mc.getRenderManager().getEntityRenderObject(player);
+        RenderPlayer renderPlayer = (RenderPlayer) render;
+
+        if (ConfigManager.enableAlternatePlayerModel)
+        {
+            if (!renderPlayer.mainModel.getClass().equals(ModelPlayerNew.class))
+            {
+                renderPlayer.mainModel = new ModelPlayerNew(0.0F, player.getSkinType().equalsIgnoreCase("slim"));
+                ModLogger.info("Set player model to {}", ModelPlayerNew.class.getName());
+            }
+        }
+        else
+        {
+            if (!renderPlayer.mainModel.getClass().equals(ModelPlayer.class))
+            {
+                renderPlayer.mainModel = new ModelPlayer(0.0F, player.getSkinType().equalsIgnoreCase("slim"));
+                ModLogger.info("Set player model to {}", ModelPlayer.class.getName());
             }
         }
     }
