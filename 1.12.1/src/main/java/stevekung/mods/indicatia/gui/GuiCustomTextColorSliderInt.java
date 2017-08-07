@@ -51,20 +51,13 @@ public class GuiCustomTextColorSliderInt extends GuiButton
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 14737632;
 
-            if (this.packedFGColour != 0)
+            if (!this.enabled)
             {
-                j = this.packedFGColour;
+                j = 10526880;
             }
-            else
+            else if (this.hovered)
             {
-                if (!this.enabled)
-                {
-                    j = 10526880;
-                }
-                else if (this.hovered)
-                {
-                    j = 16777120;
-                }
+                j = 16777120;
             }
             this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, j);
         }

@@ -115,7 +115,6 @@ public class ExtendedConfig
     public static int RECENT_DONATE_COUNT_COLOR_R = 255;
     public static int RECENT_DONATE_COUNT_COLOR_G = 255;
     public static int RECENT_DONATE_COUNT_COLOR_B = 255;
-
     public static int PING_COLOR_R = 255;
     public static int PING_COLOR_G = 255;
     public static int PING_COLOR_B = 255;

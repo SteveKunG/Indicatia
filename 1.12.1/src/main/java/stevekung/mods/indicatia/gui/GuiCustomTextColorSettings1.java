@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.gui;
 
+import static stevekung.mods.indicatia.config.ExtendedConfig.*;
+
 import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
@@ -11,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.JsonUtil;
 import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
@@ -37,6 +40,7 @@ public class GuiCustomTextColorSettings1 extends GuiScreen
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 120, LangUtil.translate("gui.done")));
         this.buttonList.add(this.nextButton = new GuiButton(201, this.width / 2 + 105, this.height - 120, 20, 20, ">"));
         this.buttonList.add(this.prevButton = new GuiButton(202, this.width / 2 - 125, this.height - 120, 20, 20, "<"));
+        this.buttonList.add(new GuiButton(203, this.width / 2 - 50, this.height - 98, 100, 20, "Reset All"));
 
         this.prevButton.enabled = false;
 
@@ -117,6 +121,25 @@ public class GuiCustomTextColorSettings1 extends GuiScreen
             {
                 ExtendedConfig.save();
                 this.mc.displayGuiScreen(new GuiCustomTextColorSettings2());
+            }
+            if (button.id == 203)
+            {
+                JsonUtil json = new JsonUtil();
+                FPS_COLOR_R = FPS_COLOR_G = FPS_COLOR_B = FPS_M40_COLOR_G = FPS_26_40_COLOR_R = FPS_26_40_COLOR_G = FPS_L25_COLOR_R = XYZ_COLOR_R = XYZ_COLOR_G = XYZ_COLOR_B = XYZ_VALUE_COLOR_R
+                        = XYZ_VALUE_COLOR_G = XYZ_VALUE_COLOR_B = BIOME_COLOR_R = BIOME_COLOR_G = BIOME_COLOR_B = BIOME_VALUE_COLOR_R = BIOME_VALUE_COLOR_G = BIOME_VALUE_COLOR_B = CPS_COLOR_R
+                        = CPS_COLOR_G = CPS_COLOR_B = CPS_VALUE_COLOR_R = CPS_VALUE_COLOR_G = CPS_VALUE_COLOR_B = RCPS_COLOR_R = RCPS_COLOR_G = RCPS_COLOR_B = RCPS_VALUE_COLOR_R = RCPS_VALUE_COLOR_G = RCPS_VALUE_COLOR_B
+                        = TOP_DONATE_NAME_COLOR_R = TOP_DONATE_NAME_COLOR_G = TOP_DONATE_NAME_COLOR_B = RECENT_DONATE_NAME_COLOR_R = RECENT_DONATE_NAME_COLOR_G = RECENT_DONATE_NAME_COLOR_B = TOP_DONATE_COUNT_COLOR_R
+                        = TOP_DONATE_COUNT_COLOR_G = TOP_DONATE_COUNT_COLOR_B = RECENT_DONATE_COUNT_COLOR_R = RECENT_DONATE_COUNT_COLOR_G = RECENT_DONATE_COUNT_COLOR_B = PING_COLOR_R = PING_COLOR_G = PING_COLOR_B
+                        = PING_L200_COLOR_G = PING_200_300_COLOR_R = PING_200_300_COLOR_G = PING_300_500_COLOR_R = IP_COLOR_R = IP_COLOR_G = IP_COLOR_B = IP_VALUE_COLOR_R = IP_VALUE_COLOR_G = IP_VALUE_COLOR_B
+                        = SLIME_COLOR_R = SLIME_COLOR_G = SLIME_COLOR_B = SLIME_VALUE_COLOR_R = SLIME_VALUE_COLOR_G = SLIME_VALUE_COLOR_B = 255;
+
+                FPS_M40_COLOR_R = FPS_M40_COLOR_B = FPS_26_40_COLOR_G = FPS_L25_COLOR_G = FPS_L25_COLOR_B = PING_L200_COLOR_R = PING_L200_COLOR_B = PING_200_300_COLOR_B = PING_300_500_COLOR_G = PING_300_500_COLOR_B
+                        = 85;
+
+                PING_M500_COLOR_R = 170;
+                PING_M500_COLOR_G = PING_M500_COLOR_B = 0;
+                this.mc.player.sendMessage(json.text("Reset all color settings"));
+                this.mc.displayGuiScreen(null);
             }
         }
     }
