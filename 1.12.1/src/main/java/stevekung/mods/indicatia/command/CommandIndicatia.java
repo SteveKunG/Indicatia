@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.gui.GuiCustomTextColorSettings1;
 import stevekung.mods.indicatia.gui.GuiRenderStatusSettings;
 import stevekung.mods.indicatia.util.JsonUtil;
 
@@ -223,6 +224,10 @@ public class CommandIndicatia extends ClientCommandBase
             {
                 new GuiRenderStatusSettings().display();
             }
+            else if ("color_gui".equalsIgnoreCase(args[0]))
+            {
+                new GuiCustomTextColorSettings1().display();
+            }
             else
             {
                 throw new WrongUsageException("commands.indicatia.usage");
@@ -235,7 +240,7 @@ public class CommandIndicatia extends ClientCommandBase
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "toggle_sprint", "toggle_sneak", "cps", IndicatiaMod.isSteveKunG() ? "auto_swim" : "", "gui");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "toggle_sprint", "toggle_sneak", "cps", IndicatiaMod.isSteveKunG() ? "auto_swim" : "", "gui", "color_gui");
         }
         if (args.length == 2)
         {

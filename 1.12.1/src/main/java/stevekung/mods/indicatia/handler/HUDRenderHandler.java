@@ -27,7 +27,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.GuiBossOverlayNew;
+import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.util.InfoUtil;
 import stevekung.mods.indicatia.util.JsonUtil;
@@ -43,6 +45,10 @@ public class HUDRenderHandler
     private static int readFileTicks;
     public static String topDonator = "";
     public static String recentDonator = "";
+    private static String topDonatorName = "";
+    private static String topDonatorCount = "";
+    private static String recentDonatorName = "";
+    private static String recentDonatorCount = "";
     private static final DecimalFormat tpsFormat = new DecimalFormat("########0.00");
 
     public HUDRenderHandler(Minecraft mc)
@@ -66,16 +72,13 @@ public class HUDRenderHandler
             {
                 this.recTick = 0;
             }
-            if (HUDRenderHandler.readFileTicks % ConfigManager.readFileInterval == 0)
+            if (!ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty())
             {
-                if (!ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty())
-                {
-                    HUDRenderHandler.readTopDonatorFile();
-                }
-                if (!ExtendedConfig.RECENT_DONATOR_FILE_PATH.isEmpty())
-                {
-                    HUDRenderHandler.readRecentDonatorFile();
-                }
+                HUDRenderHandler.readTopDonatorFile();
+            }
+            if (!ExtendedConfig.RECENT_DONATOR_FILE_PATH.isEmpty())
+            {
+                HUDRenderHandler.readRecentDonatorFile();
             }
         }
     }
@@ -120,7 +123,7 @@ public class HUDRenderHandler
                 if (ConfigManager.enableSlimeChunkFinder && this.mc.player.dimension == 0)
                 {
                     String isSlimeChunk = InfoUtil.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No";
-                    leftInfo.add("Slime Chunk: " + isSlimeChunk);
+                    leftInfo.add(ColoredFontRenderer.color(ExtendedConfig.SLIME_COLOR_R, ExtendedConfig.SLIME_COLOR_G, ExtendedConfig.SLIME_COLOR_B) + "Slime Chunk: " + ColoredFontRenderer.color(ExtendedConfig.SLIME_VALUE_COLOR_R, ExtendedConfig.SLIME_VALUE_COLOR_G, ExtendedConfig.SLIME_VALUE_COLOR_B) + isSlimeChunk);
                 }
                 if (ExtendedConfig.CPS_POSITION.equals("left"))
                 {
@@ -223,14 +226,14 @@ public class HUDRenderHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = leftInfo.get(i);
-                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - IndicatiaMod.coloredFontRenderer.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? xOffset : 3.0625F, yOffset, 16777215, true);
+                        IndicatiaMod.coloredFontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? xOffset : 3.0625F, yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
@@ -240,14 +243,14 @@ public class HUDRenderHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = rightInfo.get(i);
-                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - IndicatiaMod.coloredFontRenderer.getStringWidth(string);
 
                     if (!string.isEmpty())
                     {
                         this.mc.mcProfiler.startSection("indicatia_info");
-                        this.mc.fontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? 3.0625F : xOffset, yOffset, 16777215, true);
+                        IndicatiaMod.coloredFontRenderer.drawString(string, ConfigManager.swapRenderInfoToRight ? 3.0625F : xOffset, yOffset, 16777215, true);
                         this.mc.mcProfiler.endSection();
                     }
                 }
@@ -262,7 +265,7 @@ public class HUDRenderHandler
                 {
                     color = 16733525;
                 }
-                this.mc.fontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                IndicatiaMod.coloredFontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - IndicatiaMod.coloredFontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
@@ -362,26 +365,31 @@ public class HUDRenderHandler
         File file = new File("/" + ExtendedConfig.TOP_DONATOR_FILE_PATH);
         String text = "";
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+        if (HUDRenderHandler.readFileTicks % ConfigManager.readFileInterval == 0)
         {
-            String line;
-
-            while ((line = reader.readLine()) != null)
+            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
             {
-                if (!line.trim().equals(""))
+                String line;
+
+                while ((line = reader.readLine()) != null)
                 {
-                    text = line.replace("\r", "");
+                    if (!line.trim().equals(""))
+                    {
+                        text = line.replace("\r", "");
+                    }
                 }
+                String[] textSplit = text.split(" ");
+                HUDRenderHandler.topDonatorName = textSplit[0];
+                HUDRenderHandler.topDonatorCount = textSplit[1];
             }
-            String[] textSplit = text.split(" ");
-            HUDRenderHandler.topDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorTopDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
+            catch (Exception e)
+            {
+                ModLogger.error("Couldn't read text file from path {}", file.getPath());
+                e.printStackTrace();
+                HUDRenderHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
+            }
         }
-        catch (Exception e)
-        {
-            ModLogger.error("Couldn't read text file from path {}", file.getPath());
-            e.printStackTrace();
-            HUDRenderHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
-        }
+        HUDRenderHandler.topDonator = ColoredFontRenderer.color(ExtendedConfig.TOP_DONATE_NAME_COLOR_R, ExtendedConfig.TOP_DONATE_NAME_COLOR_G, ExtendedConfig.TOP_DONATE_NAME_COLOR_B) + HUDRenderHandler.topDonatorName + ColoredFontRenderer.color(ExtendedConfig.TOP_DONATE_COUNT_COLOR_R, ExtendedConfig.TOP_DONATE_COUNT_COLOR_G, ExtendedConfig.TOP_DONATE_COUNT_COLOR_B) + " " + HUDRenderHandler.topDonatorCount.replace("THB", "") + "THB";
     }
 
     private static void readRecentDonatorFile()
@@ -389,26 +397,31 @@ public class HUDRenderHandler
         File file = new File("/" + ExtendedConfig.RECENT_DONATOR_FILE_PATH);
         String text = "";
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+        if (HUDRenderHandler.readFileTicks % ConfigManager.readFileInterval == 0)
         {
-            String line;
-
-            while ((line = reader.readLine()) != null)
+            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
             {
-                if (!line.trim().equals(""))
+                String line;
+
+                while ((line = reader.readLine()) != null)
                 {
-                    text = line.replace("\r", "");
+                    if (!line.trim().equals(""))
+                    {
+                        text = line.replace("\r", "");
+                    }
                 }
+                String[] textSplit = text.split(" ");
+                HUDRenderHandler.recentDonatorName = textSplit[0];
+                HUDRenderHandler.recentDonatorCount = textSplit[1];
             }
-            String[] textSplit = text.split(" ");
-            HUDRenderHandler.recentDonator = InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateName) + textSplit[0] + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRecentDonateCount) + " " + textSplit[1].replace("THB", "") + "THB";
+            catch (Exception e)
+            {
+                ModLogger.error("Couldn't read text file from path {}", file.getPath());
+                e.printStackTrace();
+                HUDRenderHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
+            }
         }
-        catch (Exception e)
-        {
-            ModLogger.error("Couldn't read text file from path {}", file.getPath());
-            e.printStackTrace();
-            HUDRenderHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
-        }
+        HUDRenderHandler.recentDonator = ColoredFontRenderer.color(ExtendedConfig.RECENT_DONATE_NAME_COLOR_R, ExtendedConfig.RECENT_DONATE_NAME_COLOR_G, ExtendedConfig.RECENT_DONATE_NAME_COLOR_B) + HUDRenderHandler.recentDonatorName + ColoredFontRenderer.color(ExtendedConfig.RECENT_DONATE_COUNT_COLOR_R, ExtendedConfig.RECENT_DONATE_COUNT_COLOR_G, ExtendedConfig.RECENT_DONATE_COUNT_COLOR_B) + " " + HUDRenderHandler.recentDonatorCount.replace("THB", "") + "THB";
     }
 
     private static long mean(long[] values)

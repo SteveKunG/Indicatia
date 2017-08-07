@@ -2,7 +2,6 @@
 gui.config.indicatia.name=Indicatia Config
 indicatia_main_settings=Main Settings
 indicatia_render_settings=Render Settings
-indicatia_color_settings=Color Settings
 indicatia_donation_settings=Donation Settings
 
 # CONFIG DESCRIPTION
@@ -44,7 +43,7 @@ commands.profileiu.remove.usage=/profileiu remove <name>
 commands.profileiu.list.empty=There are no profile data entries was saved
 commands.profileiu.list.count=Showing %s profile data entry
 commands.profileiu.list.entry=- Profile Data : '%s'
-commands.indicatia.usage=/indicatia <toggle_sprint|toggle_sneak|cps|gui>
+commands.indicatia.usage=/indicatia <toggle_sprint|toggle_sneak|cps|gui|color_gui>
 commands.indicatia.togglesprint.usage=/indicatia toggle_sprint <enable|disable|mode>
 commands.indicatia.togglesneak.usage=/indicatia toggle_sneak <enable|disable|mode>
 commands.indicatia.togglesprint.mode.usage=/indicatia toggle_sprint mode <key_binding|command>
