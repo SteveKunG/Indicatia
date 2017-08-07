@@ -88,7 +88,7 @@ public class HUDInfo
 
     public static String getPing()
     {
-        int responseTime = InfoUtil.INSTANCE.getPing() + 500;
+        int responseTime = InfoUtil.INSTANCE.getPing();
         return ColoredFontRenderer.color(ExtendedConfig.PING_COLOR_R, ExtendedConfig.PING_COLOR_G, ExtendedConfig.PING_COLOR_B) + "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
     }
 
