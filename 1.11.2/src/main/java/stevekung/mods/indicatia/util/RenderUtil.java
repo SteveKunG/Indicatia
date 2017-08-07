@@ -83,6 +83,10 @@ public class RenderUtil
         {
             for (Entity entity : IndicatiaMod.MC.world.loadedEntityList)
             {
+                if (entity.getName() != null)
+                {
+                    entity.setGlowing(ExtendedConfig.ENTITY_DETECT_TYPE.equals(entity.getName()));
+                }
                 if (entity.getEntityString() != null)
                 {
                     entity.setGlowing(ExtendedConfig.ENTITY_DETECT_TYPE.equals(entity.getEntityString()));
