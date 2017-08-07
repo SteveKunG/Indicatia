@@ -6,9 +6,11 @@ import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Items;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,6 +26,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
+import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.util.CapeUtil;
 import stevekung.mods.indicatia.util.GameProfileUtil;
@@ -48,6 +51,7 @@ public class IndicatiaMod
     public static boolean CHECK_NO_CONNECTION;
     public static boolean SHOW_ANNOUNCE_MESSAGE;
     public static boolean FOUND_LATEST;
+    public static ColoredFontRenderer coloredFontRenderer;
 
     static
     {
@@ -113,6 +117,8 @@ public class IndicatiaMod
             VersionChecker.startCheck();
         }
         CapeUtil.loadCapeTextureAtStartup();
+        IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(IndicatiaMod.MC.gameSettings, new ResourceLocation("textures/font/ascii.png"), IndicatiaMod.MC.renderEngine, false);
+        ((IReloadableResourceManager)IndicatiaMod.MC.getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
     }
 
     public static boolean isObfuscatedEnvironment()
