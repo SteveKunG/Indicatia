@@ -1,3 +1,5 @@
--Added- Added Auto GG (Checked only Title message)
--Added- Added Mojang Status Checker Button to Main Menu
--Fixed- Fixed announce message not printed to chat sometime
+-Added- Added Custom Text Color GUI
+-Added- Added Old Hurt Render for Elytra
+-Update- Some Improvement for Donator Text
+-Update- Health Status rendering improvement
+-Remove- Removed Old Custom Text Color Settings

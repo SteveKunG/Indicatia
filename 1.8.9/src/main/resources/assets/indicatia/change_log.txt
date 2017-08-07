@@ -1,1 +1,5 @@
+-Added- Added Custom Text Color GUI
+-Update- Some Improvement for Donator Text
+-Update- Health Status rendering improvement
 -Fixed- Fixed alternate player model not applied
+-Remove- Removed Old Custom Text Color Settings
