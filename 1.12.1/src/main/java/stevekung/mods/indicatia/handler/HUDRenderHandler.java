@@ -329,27 +329,9 @@ public class HUDRenderHandler
         float range = entity.isSneaking() ? RenderLivingBase.NAME_TAG_RANGE_SNEAK : RenderLivingBase.NAME_TAG_RANGE;
         double distance = entity.getDistanceSqToEntity(this.mc.getRenderViewEntity());
         String mode = ConfigManager.healthStatusMode;
-        boolean flag = true;
+        boolean flag = mode.equals("disable") ? false : mode.equals("pointed") ? entity == InfoUtil.INSTANCE.extendedPointedEntity : true;
         JsonUtil json = new JsonUtil();
-        Style color = json.green();
-
-        if (halfHealth)
-        {
-            color = json.red();
-        }
-        if (halfHealth1)
-        {
-            color = json.darkRed();
-        }
-
-        if (mode.equals("disable"))
-        {
-            flag = false;
-        }
-        else if (mode.equals("pointed"))
-        {
-            flag = entity == this.mc.pointedEntity;
-        }
+        Style color = halfHealth ? json.red() : halfHealth1 ? json.darkRed() : json.green();
 
         if (distance < range * range)
         {

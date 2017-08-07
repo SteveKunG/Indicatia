@@ -270,6 +270,7 @@ public class CommonHandler
                     this.mc.player.eyeHeight = CommonHandler.getSmoothEyeHeight(this.mc.player);
                 }
             }
+            InfoUtil.INSTANCE.processMouseOverEntity(this.mc);
         }
         if (event.phase == TickEvent.Phase.END)
         {
