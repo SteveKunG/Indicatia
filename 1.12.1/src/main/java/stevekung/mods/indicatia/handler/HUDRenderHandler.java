@@ -19,6 +19,7 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -329,16 +330,16 @@ public class HUDRenderHandler
         double distance = entity.getDistanceSqToEntity(this.mc.getRenderViewEntity());
         String mode = ConfigManager.healthStatusMode;
         boolean flag = true;
-        String color = "green";
         JsonUtil json = new JsonUtil();
+        Style color = json.green();
 
         if (halfHealth)
         {
-            color = "red";
+            color = json.red();
         }
         if (halfHealth1)
         {
-            color = "dark_red";
+            color = json.darkRed();
         }
 
         if (mode.equals("disable"))
@@ -354,7 +355,7 @@ public class HUDRenderHandler
         {
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand))
             {
-                String heart = json.text("\u2764 ").setStyle(json.colorFromConfig(color)).getFormattedText();
+                String heart = json.text("\u2764 ").setStyle(color).getFormattedText();
                 RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
             }
         }

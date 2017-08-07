@@ -19,79 +19,6 @@ public class JsonUtil
         return new Style();
     }
 
-    public Style colorFromConfig(String color)
-    {
-        return this.style().setColor(this.color(color));
-    }
-
-    private TextFormatting color(String color)
-    {
-        if (color.equalsIgnoreCase("black"))
-        {
-            return TextFormatting.BLACK;
-        }
-        else if (color.equalsIgnoreCase("dark_blue"))
-        {
-            return TextFormatting.DARK_BLUE;
-        }
-        else if (color.equalsIgnoreCase("dark_green"))
-        {
-            return TextFormatting.DARK_GREEN;
-        }
-        else if (color.equalsIgnoreCase("dark_aqua"))
-        {
-            return TextFormatting.DARK_AQUA;
-        }
-        else if (color.equalsIgnoreCase("dark_red"))
-        {
-            return TextFormatting.DARK_RED;
-        }
-        else if (color.equalsIgnoreCase("dark_purple"))
-        {
-            return TextFormatting.DARK_PURPLE;
-        }
-        else if (color.equalsIgnoreCase("gold"))
-        {
-            return TextFormatting.GOLD;
-        }
-        else if (color.equalsIgnoreCase("gray"))
-        {
-            return TextFormatting.GRAY;
-        }
-        else if (color.equalsIgnoreCase("dark_gray"))
-        {
-            return TextFormatting.DARK_GRAY;
-        }
-        else if (color.equalsIgnoreCase("blue"))
-        {
-            return TextFormatting.BLUE;
-        }
-        else if (color.equalsIgnoreCase("green"))
-        {
-            return TextFormatting.GREEN;
-        }
-        else if (color.equalsIgnoreCase("aqua"))
-        {
-            return TextFormatting.AQUA;
-        }
-        else if (color.equalsIgnoreCase("red"))
-        {
-            return TextFormatting.RED;
-        }
-        else if (color.equalsIgnoreCase("light_purple"))
-        {
-            return TextFormatting.LIGHT_PURPLE;
-        }
-        else if (color.equalsIgnoreCase("yellow"))
-        {
-            return TextFormatting.YELLOW;
-        }
-        else
-        {
-            return TextFormatting.WHITE;
-        }
-    }
-
     public Style white()
     {
         return this.style().setColor(TextFormatting.WHITE);
@@ -100,6 +27,21 @@ public class JsonUtil
     public Style red()
     {
         return this.style().setColor(TextFormatting.RED);
+    }
+
+    public Style darkRed()
+    {
+        return this.style().setColor(TextFormatting.DARK_RED);
+    }
+
+    public Style green()
+    {
+        return this.style().setColor(TextFormatting.GREEN);
+    }
+
+    public Style gray()
+    {
+        return this.style().setColor(TextFormatting.GRAY);
     }
 
     public ClickEvent click(ClickEvent.Action action, String url)

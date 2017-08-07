@@ -9,7 +9,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.util.JsonUtil;
 import stevekung.mods.indicatia.util.MojangServerStatus;
 import stevekung.mods.indicatia.util.MojangStatusChecker;
 
@@ -69,8 +68,7 @@ public class GuiMojangStatusChecker extends GuiScreen
                     for (MojangStatusChecker checker : MojangStatusChecker.valuesCached())
                     {
                         MojangServerStatus status = checker.getServiceStatus();
-                        JsonUtil json = new JsonUtil();
-                        GuiMojangStatusChecker.statusList.add(checker.getName() + ": " + json.colorFromConfig(status.getColor()).getFormattingCode() + status.getStatus());
+                        GuiMojangStatusChecker.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
                     }
                     this.refreshButton.enabled = true;
                     this.doneButton.enabled = true;

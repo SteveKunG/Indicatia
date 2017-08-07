@@ -744,7 +744,7 @@ public class CommonHandler
                         player.sendMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY)));
                     }
                 }
-                player.sendMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(json.colorFromConfig("gray").setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                player.sendMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setStyle(json.gray().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
         }
