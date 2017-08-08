@@ -19,6 +19,7 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -344,33 +345,15 @@ public class HUDRenderHandler
         float range = entity.isSneaking() ? RendererLivingEntity.NAME_TAG_RANGE_SNEAK : RendererLivingEntity.NAME_TAG_RANGE;
         double distance = entity.getDistanceSqToEntity(this.mc.getRenderViewEntity());
         String mode = ConfigManager.healthStatusMode;
-        boolean flag = true;
-        String color = "green";
+        boolean flag = mode.equals("disable") ? false : mode.equals("pointed") ? entity == InfoUtil.INSTANCE.extendedPointedEntity : true;
         JsonUtil json = new JsonUtil();
-
-        if (halfHealth)
-        {
-            color = "red";
-        }
-        if (halfHealth1)
-        {
-            color = "dark_red";
-        }
-
-        if (mode.equals("disable"))
-        {
-            flag = false;
-        }
-        else if (mode.equals("pointed"))
-        {
-            flag = entity == this.mc.pointedEntity;
-        }
+        ChatStyle color = halfHealth ? json.red() : halfHealth1 ? json.darkRed() : json.green();
 
         if (distance < range * range)
         {
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand))
             {
-                String heart = json.text("\u2764 ").setChatStyle(json.colorFromConfig(color)).getFormattedText();
+                String heart = json.text("\u2764 ").setChatStyle(color).getFormattedText();
                 RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.x, event.y, event.z);
             }
         }

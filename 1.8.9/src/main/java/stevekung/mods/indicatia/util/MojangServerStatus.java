@@ -4,15 +4,15 @@ import net.minecraft.util.EnumChatFormatting;
 
 public enum MojangServerStatus
 {
-    ONLINE("Online", EnumChatFormatting.GREEN.getFriendlyName()),
-    UNSTABLE("Unstable", EnumChatFormatting.YELLOW.getFriendlyName()),
-    OFFLINE("Offline", EnumChatFormatting.DARK_RED.getFriendlyName()),
-    UNKNOWN("Unknown", EnumChatFormatting.RED.getFriendlyName());
+    ONLINE("Online", EnumChatFormatting.GREEN),
+    UNSTABLE("Unstable", EnumChatFormatting.YELLOW),
+    OFFLINE("Offline", EnumChatFormatting.DARK_RED),
+    UNKNOWN("Unknown", EnumChatFormatting.RED);
 
     private String status;
-    private String color;
+    private EnumChatFormatting color;
 
-    private MojangServerStatus(String status, String color)
+    private MojangServerStatus(String status, EnumChatFormatting color)
     {
         this.status = status;
         this.color = color;
@@ -23,7 +23,7 @@ public enum MojangServerStatus
         return this.status;
     }
 
-    public String getColor()
+    public EnumChatFormatting getColor()
     {
         return this.color;
     }

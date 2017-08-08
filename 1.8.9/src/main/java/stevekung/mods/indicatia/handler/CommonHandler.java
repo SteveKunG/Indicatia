@@ -258,6 +258,7 @@ public class CommonHandler
                     this.mc.thePlayer.eyeHeight = CommonHandler.getSmoothEyeHeight(this.mc.thePlayer);
                 }
             }
+            InfoUtil.INSTANCE.processMouseOverEntity(this.mc, event.renderTickTime);
         }
         if (event.phase == TickEvent.Phase.END)
         {
@@ -772,7 +773,7 @@ public class CommonHandler
                         player.addChatMessage(json.text(log).setChatStyle(json.style().setColor(EnumChatFormatting.GRAY)));
                     }
                 }
-                player.addChatMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(json.colorFromConfig("gray").setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                player.addChatMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(json.gray().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
         }
