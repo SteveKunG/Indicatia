@@ -9,24 +9,6 @@ import net.minecraft.util.text.event.HoverEvent;
 
 public class JsonUtil
 {
-    //    public static ITextComponent rawTextToJson(String json)
-    //    {
-    //        ITextComponent text = new JsonUtils().text("null ").setStyle(new JsonUtils().red());
-    //
-    //        try
-    //        {
-    //            text = Serializer.jsonToComponent("[{" + json + "}]");
-    //        }
-    //        catch (JsonParseException jsonparseexception)
-    //        {
-    //            if (Minecraft.getMinecraft().thePlayer.ticksExisted % 300 == 0)
-    //            {
-    //                Minecraft.getMinecraft().thePlayer.addChatMessage(new JsonUtils().text(jsonparseexception.getMessage()).setStyle(new JsonUtils().red()));
-    //            }
-    //        }
-    //        return text;
-    //    }
-
     public TextComponentString text(String text)
     {
         return new TextComponentString(text);

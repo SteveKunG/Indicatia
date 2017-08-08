@@ -9,8 +9,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import stevekung.mods.indicatia.gui.ConfigColorEntry;
-import stevekung.mods.indicatia.util.InfoUtil;
 import stevekung.mods.indicatia.util.LangUtil;
 
 public class ConfigManager
@@ -18,7 +16,6 @@ public class ConfigManager
     private static Configuration config;
     public static final String MAIN_SETTINGS = "indicatia_main_settings";
     public static final String RENDER_SETTINGS = "indicatia_render_settings";
-    public static final String COLOR_SETTINGS = "indicatia_color_settings";
     public static final String DONATION_SETTINGS = "indicatia_donation_settings";
 
     // Main Settings
@@ -77,17 +74,6 @@ public class ConfigManager
     public static String potionStatusHUDStyle;
     public static String potionStatusHUDPosition;
 
-    // Custom Text Color Settings
-    public static String customColorXYZ;
-    public static String customColorBiome;
-    public static String customColorServerIP;
-    public static String customColorCPS;
-    public static String customColorRCPS;
-    public static String customColorTopDonateName;
-    public static String customColorRecentDonateName;
-    public static String customColorTopDonateCount;
-    public static String customColorRecentDonateCount;
-
     // Donation Settings
     public static String donatorMessagePosition;
     public static int readFileInterval;
@@ -110,7 +96,6 @@ public class ConfigManager
 
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.MAIN_SETTINGS, ConfigManager.addMainSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.RENDER_SETTINGS, ConfigManager.addRenderSetting());
-        ConfigManager.config.setCategoryPropertyOrder(ConfigManager.COLOR_SETTINGS, ConfigManager.addCustomColorSetting());
         ConfigManager.config.setCategoryPropertyOrder(ConfigManager.DONATION_SETTINGS, ConfigManager.addDonationSetting());
 
         if (ConfigManager.config.hasChanged())
@@ -368,50 +353,6 @@ public class ConfigManager
         return propOrder;
     }
 
-    private static List<String> addCustomColorSetting()
-    {
-        Property prop;
-        List<String> propOrder = new ArrayList<>();
-
-        prop = ConfigManager.getColorConfig("XYZ Color", "white");
-        ConfigManager.customColorXYZ = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("Biome Color", "white");
-        ConfigManager.customColorBiome = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("Server IP Color", "white");
-        ConfigManager.customColorServerIP = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("CPS Color", "white");
-        ConfigManager.customColorCPS = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("RCPS Color", "white");
-        ConfigManager.customColorRCPS = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("Top Donate Name Color", "white");
-        ConfigManager.customColorTopDonateName = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("Recent Donate Name Color", "white");
-        ConfigManager.customColorRecentDonateName = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("Top Donate Count Color", "white");
-        ConfigManager.customColorTopDonateCount = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.getColorConfig("Recent Donate Count Color", "white");
-        ConfigManager.customColorRecentDonateCount = prop.getString();
-        propOrder.add(prop.getName());
-
-        return propOrder;
-    }
-
     private static List<String> addDonationSetting()
     {
         Property prop;
@@ -445,20 +386,11 @@ public class ConfigManager
         return ConfigManager.config.get(category, name, defaultValue);
     }
 
-    private static Property getColorConfig(String name, String defaultValue)
-    {
-        Property prop = ConfigManager.getProperty(ConfigManager.COLOR_SETTINGS, name, defaultValue);
-        prop.setConfigEntryClass(ConfigColorEntry.class);
-        prop.setValidValues(InfoUtil.INSTANCE.getJsonColor());
-        return prop;
-    }
-
     public static List<IConfigElement> getConfigElements()
     {
         List<IConfigElement> list = new ArrayList<>();
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.MAIN_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.RENDER_SETTINGS)));
-        list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.COLOR_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.DONATION_SETTINGS)));
         return list;
     }
