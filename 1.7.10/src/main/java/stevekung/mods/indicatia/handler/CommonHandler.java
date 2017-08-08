@@ -169,7 +169,7 @@ public class CommonHandler
                         event.player.addChatMessage(this.json.text(log).setChatStyle(this.json.style().setColor(EnumChatFormatting.GRAY)));
                     }
                 }
-                event.player.addChatMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(this.json.colorFromConfig("gray").setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                event.player.addChatMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(this.json.gray().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
         }
@@ -204,6 +204,10 @@ public class CommonHandler
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event)
     {
+        if (event.phase == TickEvent.Phase.START)
+        {
+            InfoUtil.INSTANCE.processMouseOverEntity(this.mc, event.renderTickTime);
+        }
         if (event.phase == TickEvent.Phase.END)
         {
             if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
@@ -486,7 +490,7 @@ public class CommonHandler
                         player.addChatMessage(json.text(log).setChatStyle(json.style().setColor(EnumChatFormatting.GRAY)));
                     }
                 }
-                player.addChatMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(json.colorFromConfig("gray").setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
+                player.addChatMessage(json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(json.gray().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
             }
         }
