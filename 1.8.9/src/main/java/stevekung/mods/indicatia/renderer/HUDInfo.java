@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatia.config.ConfigManager;
@@ -616,23 +615,23 @@ public class HUDInfo
         return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getItemDamage() * 100 / itemStack.getMaxDamage();
     }
 
-    private static EnumChatFormatting getResponseTimeColor(int responseTime)
+    private static String getResponseTimeColor(int responseTime)
     {
         if (responseTime >= 200 && responseTime < 300)
         {
-            return EnumChatFormatting.YELLOW;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_200_300_COLOR_R, ExtendedConfig.PING_200_300_COLOR_G, ExtendedConfig.PING_200_300_COLOR_B);
         }
         else if (responseTime >= 300 && responseTime < 500)
         {
-            return EnumChatFormatting.RED;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_300_500_COLOR_R, ExtendedConfig.PING_300_500_COLOR_G, ExtendedConfig.PING_300_500_COLOR_B);
         }
         else if (responseTime >= 500)
         {
-            return EnumChatFormatting.DARK_RED;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_M500_COLOR_R, ExtendedConfig.PING_M500_COLOR_G, ExtendedConfig.PING_M500_COLOR_B);
         }
         else
         {
-            return EnumChatFormatting.GREEN;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_L200_COLOR_R, ExtendedConfig.PING_L200_COLOR_G, ExtendedConfig.PING_L200_COLOR_B);
         }
     }
 
