@@ -4,15 +4,15 @@ import net.minecraft.util.text.TextFormatting;
 
 public enum MojangServerStatus
 {
-    ONLINE("Online", TextFormatting.GREEN.getFriendlyName()),
-    UNSTABLE("Unstable", TextFormatting.YELLOW.getFriendlyName()),
-    OFFLINE("Offline", TextFormatting.DARK_RED.getFriendlyName()),
-    UNKNOWN("Unknown", TextFormatting.RED.getFriendlyName());
+    ONLINE("Online", TextFormatting.GREEN),
+    UNSTABLE("Unstable", TextFormatting.YELLOW),
+    OFFLINE("Offline", TextFormatting.DARK_RED),
+    UNKNOWN("Unknown", TextFormatting.RED);
 
     private String status;
-    private String color;
+    private TextFormatting color;
 
-    private MojangServerStatus(String status, String color)
+    private MojangServerStatus(String status, TextFormatting color)
     {
         this.status = status;
         this.color = color;
@@ -23,7 +23,7 @@ public enum MojangServerStatus
         return this.status;
     }
 
-    public String getColor()
+    public TextFormatting getColor()
     {
         return this.color;
     }
