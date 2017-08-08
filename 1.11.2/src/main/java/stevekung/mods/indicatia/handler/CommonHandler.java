@@ -21,7 +21,6 @@ import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
-import net.minecraft.client.renderer.entity.layers.LayerElytra;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
@@ -45,7 +44,10 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.renderer.*;
+import stevekung.mods.indicatia.renderer.HUDInfo;
+import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
+import stevekung.mods.indicatia.renderer.LayerAllArmor;
+import stevekung.mods.indicatia.renderer.LayerCustomCape;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -216,7 +218,6 @@ public class CommonHandler
         {
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderSkeleton(manager), entity), renderer, entity);
         }
-        CommonHandler.replaceElytraLayer(layerLists, renderer, entity);
     }
 
     @SubscribeEvent
@@ -700,44 +701,6 @@ public class CommonHandler
                         }
                     });
                 }
-            }
-        }
-    }
-
-    private static void replaceElytraLayer(List<LayerRenderer> layerLists, RenderLivingBase render, EntityLivingBase entity)
-    {
-        int elytraLayerIndex = -1;
-
-        if (ConfigManager.enableOldArmorRender)
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer layer = layerLists.get(i);
-
-                if (layer instanceof LayerElytra)
-                {
-                    elytraLayerIndex = i;
-                }
-            }
-            if (elytraLayerIndex >= 0)
-            {
-                layerLists.set(elytraLayerIndex, new LayerElytraNew(render));
-            }
-        }
-        else
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer layer = layerLists.get(i);
-
-                if (layer instanceof LayerElytraNew)
-                {
-                    elytraLayerIndex = i;
-                }
-            }
-            if (elytraLayerIndex >= 0)
-            {
-                layerLists.set(elytraLayerIndex, new LayerElytra(render));
             }
         }
     }
