@@ -443,7 +443,7 @@ public class ConfigManager
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.MAIN_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.RENDER_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.COLOR_SETTINGS)));
-        list.add(new DummyConfigElement("Key Code Example", "http://minecraft.gamepedia.com/Key_codes", ConfigGuiType.STRING, "gui.config.key_code_example"));
+        list.add(new DummyConfigElement<>("Key Code Example", "http://minecraft.gamepedia.com/Key_codes", ConfigGuiType.STRING, "gui.config.key_code_example"));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.KEY_BINDING_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.DONATION_SETTINGS)));
         return list;
