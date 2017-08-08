@@ -6,7 +6,6 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -27,81 +26,6 @@ public class InfoUtil
             }
         }
         return 0;
-    }
-
-    public String[] getColorCode()
-    {
-        return new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
-    }
-
-    public String[] getJsonColor()
-    {
-        return new String[] {"black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white"};
-    }
-
-    public EnumChatFormatting getTextColor(String color)
-    {
-        if (color.equals("black"))
-        {
-            return EnumChatFormatting.BLACK;
-        }
-        else if (color.equals("dark_blue"))
-        {
-            return EnumChatFormatting.DARK_BLUE;
-        }
-        else if (color.equals("dark_green"))
-        {
-            return EnumChatFormatting.DARK_GREEN;
-        }
-        else if (color.equals("dark_aqua"))
-        {
-            return EnumChatFormatting.DARK_AQUA;
-        }
-        else if (color.equals("dark_red"))
-        {
-            return EnumChatFormatting.DARK_RED;
-        }
-        else if (color.equals("dark_purple"))
-        {
-            return EnumChatFormatting.DARK_PURPLE;
-        }
-        else if (color.equals("gold"))
-        {
-            return EnumChatFormatting.GOLD;
-        }
-        else if (color.equals("gray"))
-        {
-            return EnumChatFormatting.GRAY;
-        }
-        else if (color.equals("dark_gray"))
-        {
-            return EnumChatFormatting.DARK_GRAY;
-        }
-        else if (color.equals("blue"))
-        {
-            return EnumChatFormatting.BLUE;
-        }
-        else if (color.equals("green"))
-        {
-            return EnumChatFormatting.GREEN;
-        }
-        else if (color.equals("aqua"))
-        {
-            return EnumChatFormatting.AQUA;
-        }
-        else if (color.equals("red"))
-        {
-            return EnumChatFormatting.RED;
-        }
-        else if (color.equals("light_purple"))
-        {
-            return EnumChatFormatting.LIGHT_PURPLE;
-        }
-        else if (color.equals("yellow"))
-        {
-            return EnumChatFormatting.YELLOW;
-        }
-        return EnumChatFormatting.WHITE;
     }
 
     public int getCPS()

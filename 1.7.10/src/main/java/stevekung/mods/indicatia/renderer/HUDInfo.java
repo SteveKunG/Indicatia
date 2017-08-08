@@ -16,7 +16,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
@@ -35,17 +34,17 @@ public class HUDInfo
     public static String getFPS()
     {
         int fps = Minecraft.debugFPS;
-        EnumChatFormatting color = EnumChatFormatting.GREEN;
+        String color = ColoredFontRenderer.color(ExtendedConfig.FPS_M40_COLOR_R, ExtendedConfig.FPS_M40_COLOR_G, ExtendedConfig.FPS_M40_COLOR_B);
 
         if (fps > 25 && fps <= 40)
         {
-            color = EnumChatFormatting.YELLOW;
+            color = ColoredFontRenderer.color(ExtendedConfig.FPS_26_40_COLOR_R, ExtendedConfig.FPS_26_40_COLOR_G, ExtendedConfig.FPS_26_40_COLOR_B);
         }
         else if (fps <= 25)
         {
-            color = EnumChatFormatting.RED;
+            color = ColoredFontRenderer.color(ExtendedConfig.FPS_L25_COLOR_R, ExtendedConfig.FPS_L25_COLOR_G, ExtendedConfig.FPS_L25_COLOR_B);
         }
-        return "FPS: " + color + fps;
+        return ColoredFontRenderer.color(ExtendedConfig.FPS_COLOR_R, ExtendedConfig.FPS_COLOR_G, ExtendedConfig.FPS_COLOR_B) + "FPS: " + color + fps;
     }
 
     public static String getXYZ(Minecraft mc)
@@ -54,7 +53,7 @@ public class HUDInfo
         int y = MathHelper.floor_double(mc.thePlayer.boundingBox.minY);
         int z = MathHelper.floor_double(mc.thePlayer.posZ);
         String nether = mc.thePlayer.dimension == -1 ? "Nether " : "";
-        return nether + "XYZ: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorXYZ) + x + " " + y + " " + z;
+        return ColoredFontRenderer.color(ExtendedConfig.XYZ_COLOR_R, ExtendedConfig.XYZ_COLOR_G, ExtendedConfig.XYZ_COLOR_B) + nether + "XYZ: " + ColoredFontRenderer.color(ExtendedConfig.XYZ_VALUE_COLOR_R, ExtendedConfig.XYZ_VALUE_COLOR_G, ExtendedConfig.XYZ_VALUE_COLOR_B) + x + " " + y + " " + z;
     }
 
     public static String getOverworldXYZFromNether(Minecraft mc)
@@ -62,7 +61,7 @@ public class HUDInfo
         int x = MathHelper.floor_double(mc.thePlayer.posX);
         int y = MathHelper.floor_double(mc.thePlayer.boundingBox.minY);
         int z = MathHelper.floor_double(mc.thePlayer.posZ);
-        return "Overworld XYZ: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorXYZ) + x * 8 + " " + y + " " + z * 8;
+        return ColoredFontRenderer.color(ExtendedConfig.XYZ_COLOR_R, ExtendedConfig.XYZ_COLOR_G, ExtendedConfig.XYZ_COLOR_B) + "Overworld XYZ: " + ColoredFontRenderer.color(ExtendedConfig.XYZ_VALUE_COLOR_R, ExtendedConfig.XYZ_VALUE_COLOR_G, ExtendedConfig.XYZ_VALUE_COLOR_B) + x * 8 + " " + y + " " + z * 8;
     }
 
     public static String getBiome(Minecraft mc)
@@ -78,7 +77,7 @@ public class HUDInfo
             if (!chunk.isEmpty())
             {
                 String biomeName = chunk.getBiomeGenForWorldCoords(x & 15, z & 15, mc.theWorld.getWorldChunkManager()).biomeName.replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-                return "Biome: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorBiome) + biomeName;
+                return ColoredFontRenderer.color(ExtendedConfig.BIOME_COLOR_R, ExtendedConfig.BIOME_COLOR_G, ExtendedConfig.BIOME_COLOR_B) + "Biome: " + ColoredFontRenderer.color(ExtendedConfig.BIOME_VALUE_COLOR_R, ExtendedConfig.BIOME_VALUE_COLOR_G, ExtendedConfig.BIOME_VALUE_COLOR_B) + biomeName;
             }
             else
             {
@@ -94,12 +93,12 @@ public class HUDInfo
     public static String getPing()
     {
         int responseTime = InfoUtil.INSTANCE.getPing();
-        return "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
+        return ColoredFontRenderer.color(ExtendedConfig.PING_COLOR_R, ExtendedConfig.PING_COLOR_G, ExtendedConfig.PING_COLOR_B) + "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
     }
 
     public static String getServerIP(Minecraft mc)
     {
-        String ip = "IP: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorServerIP) + mc.getCurrentServerData().serverIP;
+        String ip = ColoredFontRenderer.color(ExtendedConfig.IP_COLOR_R, ExtendedConfig.IP_COLOR_G, ExtendedConfig.IP_COLOR_B) + "IP: " + "" + ColoredFontRenderer.color(ExtendedConfig.IP_VALUE_COLOR_R, ExtendedConfig.IP_VALUE_COLOR_G, ExtendedConfig.IP_VALUE_COLOR_B) + mc.getCurrentServerData().serverIP;
 
         if (ConfigManager.enableServerIPMCVersion)
         {
@@ -110,12 +109,12 @@ public class HUDInfo
 
     public static String getCPS()
     {
-        return "CPS: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorCPS) + InfoUtil.INSTANCE.getCPS();
+        return ColoredFontRenderer.color(ExtendedConfig.CPS_COLOR_R, ExtendedConfig.CPS_COLOR_G, ExtendedConfig.CPS_COLOR_B) + "CPS: " + "" + ColoredFontRenderer.color(ExtendedConfig.CPS_VALUE_COLOR_R, ExtendedConfig.CPS_VALUE_COLOR_G, ExtendedConfig.CPS_VALUE_COLOR_B) + InfoUtil.INSTANCE.getCPS();
     }
 
     public static String getRCPS()
     {
-        return "RCPS: " + InfoUtil.INSTANCE.getTextColor(ConfigManager.customColorRCPS) + InfoUtil.INSTANCE.getRCPS();
+        return ColoredFontRenderer.color(ExtendedConfig.RCPS_COLOR_R, ExtendedConfig.RCPS_COLOR_G, ExtendedConfig.RCPS_COLOR_B) + "RCPS: " + "" + ColoredFontRenderer.color(ExtendedConfig.RCPS_VALUE_COLOR_R, ExtendedConfig.RCPS_VALUE_COLOR_G, ExtendedConfig.RCPS_VALUE_COLOR_B) + InfoUtil.INSTANCE.getRCPS();
     }
 
     public static String getCurrentTime()
@@ -625,23 +624,23 @@ public class HUDInfo
         return itemStack.getMaxDurability() <= 0 ? 0 : 100 - itemStack.getMetadata() * 100 / itemStack.getMaxDurability();
     }
 
-    private static EnumChatFormatting getResponseTimeColor(int responseTime)
+    private static String getResponseTimeColor(int responseTime)
     {
         if (responseTime >= 200 && responseTime < 300)
         {
-            return EnumChatFormatting.YELLOW;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_200_300_COLOR_R, ExtendedConfig.PING_200_300_COLOR_G, ExtendedConfig.PING_200_300_COLOR_B);
         }
         else if (responseTime >= 300 && responseTime < 500)
         {
-            return EnumChatFormatting.RED;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_300_500_COLOR_R, ExtendedConfig.PING_300_500_COLOR_G, ExtendedConfig.PING_300_500_COLOR_B);
         }
         else if (responseTime >= 500)
         {
-            return EnumChatFormatting.DARK_RED;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_M500_COLOR_R, ExtendedConfig.PING_M500_COLOR_G, ExtendedConfig.PING_M500_COLOR_B);
         }
         else
         {
-            return EnumChatFormatting.GREEN;
+            return ColoredFontRenderer.color(ExtendedConfig.PING_L200_COLOR_R, ExtendedConfig.PING_L200_COLOR_G, ExtendedConfig.PING_L200_COLOR_B);
         }
     }
 
