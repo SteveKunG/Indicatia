@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 
 public class KeyBindingHandler
 {
@@ -15,6 +16,8 @@ public class KeyBindingHandler
     public static KeyBinding KEY_CUSTOM_CAPE_GUI;
     public static KeyBinding KEY_QUICK_CONFIG;
     public static KeyBinding KEY_DONATOR_GUI;
+    public static KeyBinding KEY_TRUEFASTER_RAINBOW;
+    public static KeyBinding KEY_INW_TRUEFASTER;
 
     public static void init()
     {
@@ -33,5 +36,13 @@ public class KeyBindingHandler
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_REC_COMMAND);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_QUICK_CONFIG);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_DONATOR_GUI);
+
+        if (IndicatiaMod.isSteveKunG())
+        {
+            KeyBindingHandler.KEY_TRUEFASTER_RAINBOW = new KeyBinding("key.truefaster_rainbow.desc", Keyboard.KEY_6, "key.indicatia.category");
+            KeyBindingHandler.KEY_INW_TRUEFASTER = new KeyBinding("key.inw_truefaster.desc", Keyboard.KEY_7, "key.indicatia.category");
+            ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TRUEFASTER_RAINBOW);
+            ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_INW_TRUEFASTER);
+        }
     }
 }

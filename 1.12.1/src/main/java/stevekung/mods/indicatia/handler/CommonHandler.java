@@ -1,5 +1,6 @@
 package stevekung.mods.indicatia.handler;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.*;
@@ -19,6 +20,7 @@ import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -27,6 +29,8 @@ import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextFormatting;
@@ -34,6 +38,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -45,10 +50,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.renderer.HUDInfo;
-import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
-import stevekung.mods.indicatia.renderer.LayerAllArmor;
-import stevekung.mods.indicatia.renderer.LayerCustomCape;
+import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -67,6 +69,11 @@ public class CommonHandler
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
     public static final GuiDonator donatorGui = new GuiDonator();
     private static boolean foundUnnick;
+    public static boolean isTruefasterRainbow;
+    public static boolean isInwTruefaster;
+    public static int rainbowTimeStatic;
+    public static int inwTimeStatic;
+    private int rainbowTime;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -90,6 +97,13 @@ public class CommonHandler
     {
         this.json = new JsonUtil();
         this.mc = mc;
+    }
+
+    @SubscribeEvent
+    public void onRegister(RegistryEvent.Register<SoundEvent> event)
+    {
+        event.getRegistry().register(new SoundEvent(new ResourceLocation("indicatia:pete_music")).setRegistryName(new ResourceLocation("indicatia:pete_music")));
+        event.getRegistry().register(new SoundEvent(new ResourceLocation("indicatia:inwtrue")).setRegistryName(new ResourceLocation("indicatia:inwtrue")));
     }
 
     @SubscribeEvent
@@ -127,6 +141,24 @@ public class CommonHandler
                 CommonHandler.processAutoGG(this.mc);
                 CapeUtil.loadCapeTexture();
 
+                if (this.rainbowTime > 0)
+                {
+                    this.rainbowTime--;
+                }
+                if (CommonHandler.inwTimeStatic < 260 && CommonHandler.isInwTruefaster)
+                {
+                    CommonHandler.inwTimeStatic++;
+                }
+                if (CommonHandler.inwTimeStatic == 260)
+                {
+                    CommonHandler.isInwTruefaster = false;
+                    CommonHandler.inwTimeStatic = 0;
+                }
+                if (this.rainbowTime == 0)
+                {
+                    CommonHandler.isTruefasterRainbow = false;
+                    CommonHandler.rainbowTimeStatic = 0;
+                }
                 if (this.closeScreenTicks > 1)
                 {
                     --this.closeScreenTicks;
@@ -196,6 +228,17 @@ public class CommonHandler
         EntityLivingBase entity = event.getEntity();
         RenderManager manager = this.mc.getRenderManager();
 
+        //GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);//XXX
+
+        if (entity.getName().contains("truefaster") && this.rainbowTime > 0)
+        {
+            int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
+            float red = (rainbow >> 16 & 255) / 255.0F;
+            float green = (rainbow >> 8 & 255) / 255.0F;
+            float blue = (rainbow & 255) / 255.0F;
+            GlStateManager.color(red, green, blue);
+        }
+
         if (entity instanceof AbstractClientPlayer)
         {
             RenderPlayer renderDefault = manager.getSkinMap().get("default");
@@ -228,6 +271,7 @@ public class CommonHandler
         RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
         renderDefault.addLayer(new LayerCustomCape(renderDefault));
         renderSlim.addLayer(new LayerCustomCape(renderSlim));
+        renderDefault.addLayer(new LayerInwTruefaster());
     }
 
     @SubscribeEvent
@@ -334,6 +378,17 @@ public class CommonHandler
         if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
         {
             this.mc.displayGuiScreen(CommonHandler.donatorGui);
+        }
+        if (KeyBindingHandler.KEY_TRUEFASTER_RAINBOW.isKeyDown() && this.rainbowTime == 0)
+        {
+            this.mc.player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("indicatia:pete_music")), 1.0F, 1.0F);
+            CommonHandler.isTruefasterRainbow = true;
+            this.rainbowTime = 280;
+        }
+        if (KeyBindingHandler.KEY_INW_TRUEFASTER.isKeyDown() && CommonHandler.inwTimeStatic == 0)
+        {
+            this.mc.player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("indicatia:inwtrue")), 1.0F, 1.0F);
+            CommonHandler.isInwTruefaster = true;
         }
     }
 

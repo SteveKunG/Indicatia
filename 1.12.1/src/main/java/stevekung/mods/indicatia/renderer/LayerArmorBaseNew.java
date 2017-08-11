@@ -1,5 +1,6 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.awt.Color;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.handler.CommonHandler;
 
 @SideOnly(Side.CLIENT)
 public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLivingBase> implements LayerRenderer<E>
@@ -81,6 +83,16 @@ public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLiv
                 }
 
                 GlStateManager.color(this.colorR, this.colorG, this.colorB, this.alpha);
+
+                if (entity.getName().contains("truefaster") && CommonHandler.isTruefasterRainbow)
+                {
+                    int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
+                    float red = (rainbow >> 16 & 255) / 255.0F;
+                    float green = (rainbow >> 8 & 255) / 255.0F;
+                    float blue = (rainbow & 255) / 255.0F;
+                    GlStateManager.color(red, green, blue);
+                }
+
                 t.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
                 if (!this.skipRenderGlint && itemStack.hasEffect())

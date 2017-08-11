@@ -1,0 +1,12 @@
+{
+	"pete_music":
+	{
+		"category": "player",
+		"sounds": ["indicatia:pete_music"]
+	},
+    "inwtrue":
+	{
+		"category": "player",
+		"sounds": ["indicatia:inwtrue"]
+	}
+}
