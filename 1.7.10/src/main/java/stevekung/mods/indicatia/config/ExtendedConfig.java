@@ -139,6 +139,12 @@ public class ExtendedConfig
     public static int SLIME_VALUE_COLOR_R = 255;
     public static int SLIME_VALUE_COLOR_G = 255;
     public static int SLIME_VALUE_COLOR_B = 255;
+    public static int EQUIPMENT_COLOR_R = 255;
+    public static int EQUIPMENT_COLOR_G = 255;
+    public static int EQUIPMENT_COLOR_B = 255;
+    public static int ARROW_COUNT_COLOR_R = 255;
+    public static int ARROW_COUNT_COLOR_G = 255;
+    public static int ARROW_COUNT_COLOR_B = 255;
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
@@ -278,6 +284,12 @@ public class ExtendedConfig
             ExtendedConfig.SLIME_VALUE_COLOR_R = ExtendedConfig.getInteger(nbt, "SlimeValueColorR", ExtendedConfig.SLIME_VALUE_COLOR_R);
             ExtendedConfig.SLIME_VALUE_COLOR_G = ExtendedConfig.getInteger(nbt, "SlimeValueColorG", ExtendedConfig.SLIME_VALUE_COLOR_G);
             ExtendedConfig.SLIME_VALUE_COLOR_B = ExtendedConfig.getInteger(nbt, "SlimeValueColorB", ExtendedConfig.SLIME_VALUE_COLOR_B);
+            ExtendedConfig.EQUIPMENT_COLOR_R = ExtendedConfig.getInteger(nbt, "EquipmentColorR", ExtendedConfig.EQUIPMENT_COLOR_R);
+            ExtendedConfig.EQUIPMENT_COLOR_G = ExtendedConfig.getInteger(nbt, "EquipmentColorG", ExtendedConfig.EQUIPMENT_COLOR_G);
+            ExtendedConfig.EQUIPMENT_COLOR_B = ExtendedConfig.getInteger(nbt, "EquipmentColorB", ExtendedConfig.EQUIPMENT_COLOR_B);
+            ExtendedConfig.ARROW_COUNT_COLOR_R = ExtendedConfig.getInteger(nbt, "ArrowCountColorR", ExtendedConfig.ARROW_COUNT_COLOR_R);
+            ExtendedConfig.ARROW_COUNT_COLOR_G = ExtendedConfig.getInteger(nbt, "ArrowCountColorG", ExtendedConfig.ARROW_COUNT_COLOR_G);
+            ExtendedConfig.ARROW_COUNT_COLOR_B = ExtendedConfig.getInteger(nbt, "ArrowCountColorB", ExtendedConfig.ARROW_COUNT_COLOR_B);
 
             ExtendedConfig.TOGGLE_SPRINT_USE_MODE = ExtendedConfig.getString(nbt, "ToggleSprintUseMode", ExtendedConfig.TOGGLE_SPRINT_USE_MODE);
             ExtendedConfig.TOGGLE_SNEAK_USE_MODE = ExtendedConfig.getString(nbt, "ToggleSneakUseMode", ExtendedConfig.TOGGLE_SNEAK_USE_MODE);
@@ -415,6 +427,12 @@ public class ExtendedConfig
             nbt.setInteger("SlimeValueColorR", ExtendedConfig.SLIME_VALUE_COLOR_R);
             nbt.setInteger("SlimeValueColorG", ExtendedConfig.SLIME_VALUE_COLOR_G);
             nbt.setInteger("SlimeValueColorB", ExtendedConfig.SLIME_VALUE_COLOR_B);
+            nbt.setInteger("EquipmentColorR", ExtendedConfig.EQUIPMENT_COLOR_R);
+            nbt.setInteger("EquipmentColorG", ExtendedConfig.EQUIPMENT_COLOR_G);
+            nbt.setInteger("EquipmentColorB", ExtendedConfig.EQUIPMENT_COLOR_B);
+            nbt.setInteger("ArrowCountColorR", ExtendedConfig.ARROW_COUNT_COLOR_R);
+            nbt.setInteger("ArrowCountColorG", ExtendedConfig.ARROW_COUNT_COLOR_G);
+            nbt.setInteger("ArrowCountColorB", ExtendedConfig.ARROW_COUNT_COLOR_B);
 
             nbt.setString("ToggleSprintUseMode", ExtendedConfig.TOGGLE_SPRINT_USE_MODE);
             nbt.setString("ToggleSneakUseMode", ExtendedConfig.TOGGLE_SNEAK_USE_MODE);

@@ -8,7 +8,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
-public class GuiCustomTextColorSettings2 extends GuiScreen
+public class GuiCustomTextColorSettings3 extends GuiScreen
 {
     private GuiButton nextButton;
     private GuiButton prevButton;
@@ -20,14 +20,16 @@ public class GuiCustomTextColorSettings2 extends GuiScreen
         this.buttonList.add(this.nextButton = new GuiButton(201, this.width / 2 + 105, this.height - 120, 20, 20, ">"));
         this.buttonList.add(this.prevButton = new GuiButton(202, this.width / 2 - 125, this.height - 120, 20, 20, "<"));
 
+        this.nextButton.enabled = false;
+
         // column 1
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 45, GuiCustomTextColorSliderInt.Options.IP_B));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 65, GuiCustomTextColorSliderInt.Options.IP_G));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 85, GuiCustomTextColorSliderInt.Options.IP_B));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 105, GuiCustomTextColorSliderInt.Options.IP_VALUE_R));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 125, GuiCustomTextColorSliderInt.Options.IP_VALUE_G));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 145, GuiCustomTextColorSliderInt.Options.IP_VALUE_B));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 165, GuiCustomTextColorSliderInt.Options.CPS_R));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 45, GuiCustomTextColorSliderInt.Options.EQUIPMENT_R));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 65, GuiCustomTextColorSliderInt.Options.EQUIPMENT_G));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 85, GuiCustomTextColorSliderInt.Options.EQUIPMENT_B));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 105, GuiCustomTextColorSliderInt.Options.ARROW_R));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 125, GuiCustomTextColorSliderInt.Options.ARROW_G));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 145, GuiCustomTextColorSliderInt.Options.ARROW_B));
+        /*this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 165, GuiCustomTextColorSliderInt.Options.CPS_R));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 185, GuiCustomTextColorSliderInt.Options.CPS_G));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 205, GuiCustomTextColorSliderInt.Options.CPS_B));
 
@@ -62,7 +64,7 @@ public class GuiCustomTextColorSettings2 extends GuiScreen
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 + 110, 145, GuiCustomTextColorSliderInt.Options.SLIME_B));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 + 110, 165, GuiCustomTextColorSliderInt.Options.SLIME_VALUE_R));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 + 110, 185, GuiCustomTextColorSliderInt.Options.SLIME_VALUE_G));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 + 110, 205, GuiCustomTextColorSliderInt.Options.SLIME_VALUE_B));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 + 110, 205, GuiCustomTextColorSliderInt.Options.SLIME_VALUE_B));*/
     }
 
     @Override
@@ -93,15 +95,10 @@ public class GuiCustomTextColorSettings2 extends GuiScreen
                 ExtendedConfig.save();
                 this.mc.displayGuiScreen(null);
             }
-            if (button.id == 201)
-            {
-                ExtendedConfig.save();
-                this.mc.displayGuiScreen(new GuiCustomTextColorSettings3());
-            }
             if (button.id == 202)
             {
                 ExtendedConfig.save();
-                this.mc.displayGuiScreen(new GuiCustomTextColorSettings1());
+                this.mc.displayGuiScreen(new GuiCustomTextColorSettings2());
             }
         }
     }

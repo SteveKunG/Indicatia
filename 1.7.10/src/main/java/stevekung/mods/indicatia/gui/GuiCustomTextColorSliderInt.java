@@ -341,6 +341,24 @@ public class GuiCustomTextColorSliderInt extends GuiButton
         case SLIME_VALUE_B:
             ExtendedConfig.SLIME_VALUE_COLOR_B = ivalue;
             break;
+        case EQUIPMENT_R:
+            ExtendedConfig.EQUIPMENT_COLOR_R = ivalue;
+            break;
+        case EQUIPMENT_G:
+            ExtendedConfig.EQUIPMENT_COLOR_G = ivalue;
+            break;
+        case EQUIPMENT_B:
+            ExtendedConfig.EQUIPMENT_COLOR_B = ivalue;
+            break;
+        case ARROW_R:
+            ExtendedConfig.ARROW_COUNT_COLOR_R = ivalue;
+            break;
+        case ARROW_G:
+            ExtendedConfig.ARROW_COUNT_COLOR_G = ivalue;
+            break;
+        case ARROW_B:
+            ExtendedConfig.ARROW_COUNT_COLOR_B = ivalue;
+            break;
         }
     }
 
@@ -498,6 +516,18 @@ public class GuiCustomTextColorSliderInt extends GuiButton
             return ExtendedConfig.SLIME_VALUE_COLOR_G;
         case SLIME_VALUE_B:
             return ExtendedConfig.SLIME_VALUE_COLOR_B;
+        case EQUIPMENT_R:
+            return ExtendedConfig.EQUIPMENT_COLOR_R;
+        case EQUIPMENT_G:
+            return ExtendedConfig.EQUIPMENT_COLOR_G;
+        case EQUIPMENT_B:
+            return ExtendedConfig.EQUIPMENT_COLOR_B;
+        case ARROW_R:
+            return ExtendedConfig.ARROW_COUNT_COLOR_R;
+        case ARROW_G:
+            return ExtendedConfig.ARROW_COUNT_COLOR_G;
+        case ARROW_B:
+            return ExtendedConfig.ARROW_COUNT_COLOR_B;
         }
         return 0;
     }
@@ -579,7 +609,13 @@ public class GuiCustomTextColorSliderInt extends GuiButton
         SLIME_B("Slime B"),
         SLIME_VALUE_R("Slime Value R"),
         SLIME_VALUE_G("Slime Value G"),
-        SLIME_VALUE_B("Slime Value B");
+        SLIME_VALUE_B("Slime Value B"),
+        EQUIPMENT_R("Equipment R"),
+        EQUIPMENT_G("Equipment G"),
+        EQUIPMENT_B("Equipment B"),
+        ARROW_R("Arrow Count R"),
+        ARROW_G("Arrow Count G"),
+        ARROW_B("Arrow Count B");
 
         private String enumString;
         private float valueStep;
