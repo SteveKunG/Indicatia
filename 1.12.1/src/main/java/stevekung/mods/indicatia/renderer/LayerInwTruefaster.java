@@ -19,7 +19,7 @@ public class LayerInwTruefaster implements LayerRenderer<EntityLivingBase>
     @Override
     public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (CommonHandler.inwTimeStatic > 0 && !entity.getName().contains("truefaster"))
+        if (CommonHandler.inwTimeStatic > 0 && entity.getName().contains("truefaster"))
         {
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
