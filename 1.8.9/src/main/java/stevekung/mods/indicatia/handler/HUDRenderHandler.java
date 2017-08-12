@@ -71,13 +71,23 @@ public class HUDRenderHandler
             {
                 this.recTick = 0;
             }
+
             if (!ExtendedConfig.TOP_DONATOR_FILE_PATH.isEmpty())
             {
                 HUDRenderHandler.readTopDonatorFile();
             }
+            else
+            {
+                HUDRenderHandler.topDonator = "";
+            }
+
             if (!ExtendedConfig.RECENT_DONATOR_FILE_PATH.isEmpty())
             {
                 HUDRenderHandler.readRecentDonatorFile();
+            }
+            else
+            {
+                HUDRenderHandler.recentDonator = "";
             }
         }
     }

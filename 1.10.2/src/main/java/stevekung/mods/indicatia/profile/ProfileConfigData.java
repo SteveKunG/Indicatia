@@ -109,6 +109,8 @@ public class ProfileConfigData
         ExtendedConfig.KEYSTROKE_Y_OFFSET = (int) data.getObjects()[24];
         ExtendedConfig.CPS_X_OFFSET = (int) data.getObjects()[25];
         ExtendedConfig.CPS_Y_OFFSET =  (int) data.getObjects()[26];
+        ExtendedConfig.TOP_DONATOR_FILE_PATH =  (String) data.getObjects()[27];
+        ExtendedConfig.RECENT_DONATOR_FILE_PATH =  (String) data.getObjects()[28];
     }
 
     public void set(Property prop, Object object)

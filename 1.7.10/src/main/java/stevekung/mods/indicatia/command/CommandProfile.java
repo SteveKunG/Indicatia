@@ -54,7 +54,7 @@ public class CommandProfile extends ClientCommandBase
                         ConfigManager.enableRenderEquippedItem, ConfigManager.enablePotionStatusHUD, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableRCPS, ConfigManager.enableSlimeChunkFinder,
                         ConfigManager.enableCurrentRealTime, ConfigManager.enableCurrentGameTime, ConfigManager.enableGameWeather, ConfigManager.enableMoonPhase, ConfigManager.keystrokePosition, ConfigManager.equipmentOrdering,
                         ConfigManager.equipmentDirection, ConfigManager.equipmentStatus, ConfigManager.equipmentPosition, ConfigManager.potionStatusHUDStyle, ConfigManager.potionStatusHUDPosition, ExtendedConfig.ARMOR_STATUS_OFFSET,
-                        ExtendedConfig.POTION_STATUS_OFFSET, ExtendedConfig.KEYSTROKE_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET);
+                        ExtendedConfig.POTION_STATUS_OFFSET, ExtendedConfig.KEYSTROKE_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET, ExtendedConfig.TOP_DONATOR_FILE_PATH, ExtendedConfig.RECENT_DONATOR_FILE_PATH);
                 sender.addChatMessage(json.text("Add profile data name: " + args[1]));
                 RenderProfileConfig.save();
             }
@@ -77,7 +77,7 @@ public class CommandProfile extends ClientCommandBase
                         if (args[1].equals(data.getProfileName()))
                         {
                             configData.load(data);
-                            //ConfigManager.getConfig().save();
+                            ConfigManager.getConfig().save();
                             ExtendedConfig.save();
                             RenderProfileConfig.save();
                             sender.addChatMessage(json.text("Load profile data for name: " + args[1]));
@@ -109,7 +109,7 @@ public class CommandProfile extends ClientCommandBase
                                 ConfigManager.enableRenderEquippedItem, ConfigManager.enablePotionStatusHUD, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableRCPS, ConfigManager.enableSlimeChunkFinder,
                                 ConfigManager.enableCurrentRealTime, ConfigManager.enableCurrentGameTime, ConfigManager.enableGameWeather, ConfigManager.enableMoonPhase, ConfigManager.keystrokePosition, ConfigManager.equipmentOrdering,
                                 ConfigManager.equipmentDirection, ConfigManager.equipmentStatus, ConfigManager.equipmentPosition, ConfigManager.potionStatusHUDStyle, ConfigManager.potionStatusHUDPosition, ExtendedConfig.ARMOR_STATUS_OFFSET,
-                                ExtendedConfig.POTION_STATUS_OFFSET, ExtendedConfig.KEYSTROKE_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET);
+                                ExtendedConfig.POTION_STATUS_OFFSET, ExtendedConfig.KEYSTROKE_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET, ExtendedConfig.TOP_DONATOR_FILE_PATH, ExtendedConfig.RECENT_DONATOR_FILE_PATH);
                         RenderProfileConfig.save();
                         sender.addChatMessage(json.text("Save profile data for name: " + args[1]));
                     }
