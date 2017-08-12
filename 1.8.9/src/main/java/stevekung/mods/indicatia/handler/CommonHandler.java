@@ -15,6 +15,7 @@ import com.mojang.authlib.GameProfile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.model.ModelPlayer;
@@ -26,6 +27,7 @@ import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -121,6 +123,7 @@ public class CommonHandler
                 CommonHandler.printVersionMessage(this.json, this.mc.thePlayer);
                 CommonHandler.processAutoGG(this.mc);
                 CommonHandler.replacingPlayerModel(this.mc, this.mc.thePlayer);
+                CommonHandler.replacingOthersPlayerModel(this.mc);
                 CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
@@ -182,13 +185,35 @@ public class CommonHandler
         EntityLivingBase entity = event.entity;
         RenderManager manager = this.mc.getRenderManager();
 
-        if (entity instanceof AbstractClientPlayer)
+        if (entity == this.mc.thePlayer)
         {
-            RenderPlayer renderDefault = manager.getSkinMap().get("default");
-            RenderPlayer renderSlim = manager.getSkinMap().get("slim");
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderDefault, entity), renderer, entity);
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderSlim, entity), renderer, entity);
-            CommonHandler.replaceCustomHeadLayer(layerLists, manager);
+            if (this.mc.thePlayer.getSkinType().equals("slim"))
+            {
+                RenderPlayer render = manager.getSkinMap().get("slim");
+                CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
+                CommonHandler.replaceCustomHeadLayer(layerLists, render);
+            }
+            else
+            {
+                RenderPlayer render = manager.getSkinMap().get("default");
+                CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
+                CommonHandler.replaceCustomHeadLayer(layerLists, render);
+            }
+        }
+        else if (entity instanceof EntityOtherPlayerMP)
+        {
+            if (((EntityOtherPlayerMP) entity).getSkinType().equals("slim"))
+            {
+                RenderPlayer render = manager.getSkinMap().get("slim");
+                CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
+                CommonHandler.replaceCustomHeadLayer(layerLists, render);
+            }
+            else
+            {
+                RenderPlayer render = manager.getSkinMap().get("default");
+                CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
+                CommonHandler.replaceCustomHeadLayer(layerLists, render);
+            }
         }
         else if (entity instanceof EntityZombie && ((EntityZombie)entity).isVillager())
         {
@@ -714,7 +739,7 @@ public class CommonHandler
         }
     }
 
-    private static void replaceCustomHeadLayer(List<LayerRenderer> layerLists, RenderManager manager)
+    private static void replaceCustomHeadLayer(List<LayerRenderer> layerLists, RenderPlayer render)
     {
         int customHeadIndex = -1;
 
@@ -729,7 +754,7 @@ public class CommonHandler
         }
         if (customHeadIndex >= 0)
         {
-            layerLists.set(customHeadIndex, new LayerCustomHead(manager.playerRenderer.getMainModel().bipedHead));
+            layerLists.set(customHeadIndex, new LayerCustomHead(render.getMainModel().bipedHead));
         }
     }
 
@@ -824,6 +849,36 @@ public class CommonHandler
             {
                 renderPlayer.mainModel = new ModelPlayer(0.0F, player.getSkinType().equalsIgnoreCase("slim"));
                 ModLogger.info("Set player model to {}", ModelPlayer.class.getName());
+            }
+        }
+    }
+
+    private static void replacingOthersPlayerModel(Minecraft mc)
+    {
+        for (Entity entity : mc.theWorld.playerEntities)
+        {
+            if (entity instanceof EntityOtherPlayerMP)
+            {
+                EntityOtherPlayerMP player = (EntityOtherPlayerMP) entity;
+                Render render = mc.getRenderManager().getEntityRenderObject(player);
+                RenderPlayer renderPlayer = (RenderPlayer) render;
+
+                if (ConfigManager.enableAlternatePlayerModel)
+                {
+                    if (!renderPlayer.mainModel.getClass().equals(ModelPlayerNew.class))
+                    {
+                        renderPlayer.mainModel = new ModelPlayerNew(0.0F, player.getSkinType().equalsIgnoreCase("slim"));
+                        ModLogger.info("Set player model to {}", ModelPlayerNew.class.getName());
+                    }
+                }
+                else
+                {
+                    if (!renderPlayer.mainModel.getClass().equals(ModelPlayer.class))
+                    {
+                        renderPlayer.mainModel = new ModelPlayer(0.0F, player.getSkinType().equalsIgnoreCase("slim"));
+                        ModLogger.info("Set player model to {}", ModelPlayer.class.getName());
+                    }
+                }
             }
         }
     }

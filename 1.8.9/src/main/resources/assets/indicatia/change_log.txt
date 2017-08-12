@@ -1,5 +1,2 @@
--Added- Added Custom Text Color GUI
--Update- Some Improvement for Donator Text
--Update- Health Status rendering improvement
--Fixed- Fixed alternate player model not applied
--Remove- Removed Old Custom Text Color Settings
+-Fixed- Fixed others player model bug with Custom Head Layer
+-Fixed- Fixed slim player model bug with Armor Layer
