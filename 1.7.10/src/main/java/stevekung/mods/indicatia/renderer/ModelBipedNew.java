@@ -36,12 +36,6 @@ public class ModelBipedNew extends ModelBiped
     private void actualRender(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
-
-        if (!this.renderingEnchantment)
-        {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-
         GL11.glPushMatrix();
 
         if (!this.renderingEnchantment)
