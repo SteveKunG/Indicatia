@@ -7,9 +7,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.client.Minecraft;
@@ -56,7 +53,7 @@ import stevekung.mods.indicatia.util.*;
 public class CommonHandler
 {
     private JsonUtil json;
-    public static final Map<String, Integer> PLAYER_PING_MAP = Maps.newHashMap();
+    public static final Map<String, Integer> PLAYER_PING_MAP = new HashMap<>();
     private static final List<String> HYPIXEL_PLAYER_LIST = new ArrayList<>();
     private final Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
     public static GuiPlayerTabOverlayNew overlayPlayerList;
@@ -95,7 +92,7 @@ public class CommonHandler
 
     public CommonHandler(Minecraft mc)
     {
-        this.json = new JsonUtil();
+        this.json = IndicatiaMod.json;
         this.mc = mc;
     }
 
@@ -518,7 +515,7 @@ public class CommonHandler
 
     private static void getPingForNickedPlayer(Minecraft mc)
     {
-        List<NetworkPlayerInfo> list = Lists.newArrayList(mc.player.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = new ArrayList<>(mc.player.connection.getPlayerInfoMap());
         int maxPlayers = list.size();
 
         for (int i = 0; i < maxPlayers; ++i)
@@ -532,7 +529,7 @@ public class CommonHandler
                 if (!CommonHandler.foundUnnick)
                 {
                     CommonHandler.HYPIXEL_PLAYER_LIST.add(profile.getName());
-                    Set<String> sets = Sets.newHashSet();
+                    Set<String> sets = new HashSet<>();
                     sets.addAll(CommonHandler.HYPIXEL_PLAYER_LIST);
                     CommonHandler.HYPIXEL_PLAYER_LIST.clear();
                     CommonHandler.HYPIXEL_PLAYER_LIST.addAll(sets);

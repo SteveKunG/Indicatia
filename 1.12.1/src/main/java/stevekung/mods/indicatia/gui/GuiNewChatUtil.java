@@ -8,9 +8,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.util.InfoUtil;
-import stevekung.mods.indicatia.util.JsonUtil;
 
 public class GuiNewChatUtil extends GuiChat
 {
@@ -198,15 +198,15 @@ public class GuiNewChatUtil extends GuiChat
             break;
         case 100:
             this.mc.player.sendChatMessage("/chat a");
-            this.mc.player.sendMessage(new JsonUtil().text("Reset Hypixel Chat"));
+            this.mc.player.sendMessage(IndicatiaMod.json.text("Reset Hypixel Chat"));
             break;
         case 101:
             this.mc.player.sendChatMessage("/chat p");
-            this.mc.player.sendMessage(new JsonUtil().text("Set chat mode to Hypixel Party Chat"));
+            this.mc.player.sendMessage(IndicatiaMod.json.text("Set chat mode to Hypixel Party Chat"));
             break;
         case 102:
             this.mc.player.sendChatMessage("/chat g");
-            this.mc.player.sendMessage(new JsonUtil().text("Set chat mode to Hypixel Guild Chat"));
+            this.mc.player.sendMessage(IndicatiaMod.json.text("Set chat mode to Hypixel Guild Chat"));
             break;
         case 150:
             GuiNewChatUtil.page = 1;

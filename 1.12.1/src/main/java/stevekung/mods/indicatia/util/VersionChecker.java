@@ -5,11 +5,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-
-import com.google.common.collect.Lists;
 
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
@@ -19,7 +18,7 @@ public class VersionChecker implements Runnable
     private static boolean NO_CONNECTION;
     private static String LATEST_VERSION;
     private static String EXCEPTION_MESSAGE;
-    private static List<String> ANNOUNCE_MESSAGE = Lists.newArrayList();
+    private static List<String> ANNOUNCE_MESSAGE = new ArrayList<>();
     public static final VersionChecker INSTANCE = new VersionChecker();
 
     public static void startCheck()

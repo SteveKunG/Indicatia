@@ -40,7 +40,7 @@ import stevekung.mods.indicatia.util.RenderUtil;
 public class HUDRenderHandler
 {
     private final Minecraft mc;
-    private GuiBossOverlayNew overlayBoss;
+    private final GuiBossOverlayNew overlayBoss;
     public static boolean recordEnable;
     private int recTick;
     private static int readFileTicks;
@@ -330,7 +330,7 @@ public class HUDRenderHandler
         double distance = entity.getDistanceSqToEntity(this.mc.getRenderViewEntity());
         String mode = ConfigManager.healthStatusMode;
         boolean flag = mode.equals("disable") ? false : mode.equals("pointed") ? entity == InfoUtil.INSTANCE.extendedPointedEntity : true;
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
         Style color = halfHealth ? json.red() : halfHealth1 ? json.darkRed() : json.green();
 
         if (distance < range * range)

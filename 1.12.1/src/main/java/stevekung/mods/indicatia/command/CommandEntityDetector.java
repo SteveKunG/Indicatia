@@ -3,8 +3,6 @@ package stevekung.mods.indicatia.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandBase;
@@ -32,7 +30,7 @@ public class CommandEntityDetector extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         if (args.length == 1)
         {
@@ -71,7 +69,7 @@ public class CommandEntityDetector extends ClientCommandBase
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         NetHandlerPlayClient connection = IndicatiaMod.MC.player.connection;
-        List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> playerInfo = new ArrayList<>(connection.getPlayerInfoMap());
         List<String> entityList = new ArrayList<>();
 
         for (ResourceLocation resource : EntityList.getEntityNameList())

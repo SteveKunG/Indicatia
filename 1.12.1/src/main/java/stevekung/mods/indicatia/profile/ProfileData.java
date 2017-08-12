@@ -1,15 +1,14 @@
 package stevekung.mods.indicatia.profile;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Maps;
-
 public class ProfileData
 {
-    private static final Map<String, ProfileSettingData> profileData = Maps.newHashMap();
+    private static final Map<String, ProfileSettingData> profileData = new HashMap<>();
 
     @Nullable
     public ProfileSettingData getProfile(String name)
