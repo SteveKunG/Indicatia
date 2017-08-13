@@ -226,7 +226,14 @@ public class HUDRenderHandler
                     }
                     else
                     {
-                        HUDInfo.renderEquippedItems(this.mc);
+                        if (ConfigManager.equipmentDirection.equals("vertical"))
+                        {
+                            HUDInfo.renderVerticalEquippedItems(this.mc);
+                        }
+                        else
+                        {
+                            HUDInfo.renderHorizontalEquippedItems(this.mc);
+                        }
                     }
                 }
 

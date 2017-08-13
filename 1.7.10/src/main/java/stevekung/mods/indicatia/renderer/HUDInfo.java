@@ -133,10 +133,75 @@ public class HUDInfo
         return "Weather: " + weather;
     }
 
-    public static void renderEquippedItems(Minecraft mc)
+    public static void renderHorizontalEquippedItems(Minecraft mc)
     {
         String ordering = ConfigManager.equipmentOrdering;
-        String direction = ConfigManager.equipmentDirection;
+        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        boolean isRightSide = ConfigManager.equipmentPosition.equals("right");
+        int baseXOffset = 2;
+        int baseYOffset = ExtendedConfig.ARMOR_STATUS_OFFSET;
+        ItemStack mainHandItem = mc.thePlayer.getCurrentEquippedItem();
+        List<HorizontalEquipment> element = new ArrayList<>();
+        int prevX = 0;
+        int rightWidth = 0;
+        element.clear();
+
+        // held item stuff
+        if (ordering.equals("reverse"))
+        {
+            if (mainHandItem != null)
+            {
+                element.add(new HorizontalEquipment(mainHandItem, false));
+            }
+        }
+
+        // armor stuff
+        switch (ordering)
+        {
+        case "default":
+            for (int i = 3; i >= 0; i--)
+            {
+                if (mc.thePlayer.inventory.armorInventory[i] != null)
+                {
+                    element.add(new HorizontalEquipment(mc.thePlayer.inventory.armorInventory[i], mc.thePlayer.inventory.armorInventory[i].isItemStackDamageable()));
+                }
+            }
+            break;
+        case "reverse":
+            for (int i = 0; i <= 3; i++)
+            {
+                if (mc.thePlayer.inventory.armorInventory[i] != null)
+                {
+                    element.add(new HorizontalEquipment(mc.thePlayer.inventory.armorInventory[i], mc.thePlayer.inventory.armorInventory[i].isItemStackDamageable()));
+                }
+            }
+            break;
+        }
+
+        // held item stuff
+        if (ordering.equals("default"))
+        {
+            if (mainHandItem != null)
+            {
+                element.add(new HorizontalEquipment(mainHandItem, false));
+            }
+        }
+
+        for (HorizontalEquipment equipment : element)
+        {
+            rightWidth += equipment.getWidth();
+        }
+        for (HorizontalEquipment equipment : element)
+        {
+            int xBaseRight = res.getScaledWidth() - rightWidth - baseXOffset;
+            equipment.render(isRightSide ? xBaseRight + prevX + equipment.getWidth() : baseXOffset + prevX, baseYOffset);
+            prevX += equipment.getWidth();
+        }
+    }
+
+    public static void renderVerticalEquippedItems(Minecraft mc)
+    {
+        String ordering = ConfigManager.equipmentOrdering;
         String status = ConfigManager.equipmentStatus;
         List<ItemStack> itemStackList = new ArrayList<>();
         List<String> itemStatusList = new ArrayList<>();
@@ -225,20 +290,9 @@ public class HUDInfo
 
             if (!itemStackList.isEmpty())
             {
-                switch (direction)
-                {
-                case "vertical":
-                    int yOffset = baseYOffset + 16 * i;
-                    HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
-                    yOffset += 16;
-                    break;
-                case "horizontal":
-                    int xLength = status.equals("percent") ? 42 : status.equals("damage") ? 38 : status.equals("none") ? 16 : 61;
-                    int xOffset = isRightSide ? baseXOffset - xLength * i : baseXOffset + xLength * i;
-                    HUDInfo.renderItem(itemStack, xOffset, baseYOffset);
-                    xOffset += 16;
-                    break;
-                }
+                int yOffset = baseYOffset + 16 * i;
+                HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
+                yOffset += 16;
             }
             mc.mcProfiler.endSection();
         }
@@ -252,28 +306,13 @@ public class HUDInfo
             String string = itemStatusList.get(i);
             fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 7.0625F;
 
-            switch (direction)
+            if (!string.isEmpty())
             {
-            case "vertical":
-                if (!string.isEmpty())
-                {
-                    yOffset = baseYOffset + 4 + fontHeight * i;
-                    mc.mcProfiler.startSection("armor_durability_info");
-                    float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
-                    IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, (int) xOffset, (int) yOffset, 16777215, true);
-                    mc.mcProfiler.endSection();
-                }
-                break;
-            case "horizontal":
-                if (!string.isEmpty())
-                {
-                    fontHeight = status.equals("percent") ? 43 : status.equals("damage") ? 38 : status.equals("none") ? 16 : 61;
-                    float xOffset = isRightSide ? baseXOffset - 24 - fontHeight * i : baseXOffset + 16 + fontHeight * i;
-                    mc.mcProfiler.startSection("armor_durability_info");
-                    IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, (int) xOffset, baseYOffset + 4, 16777215, true);
-                    mc.mcProfiler.endSection();
-                }
-                break;
+                yOffset = baseYOffset + 4 + fontHeight * i;
+                mc.mcProfiler.startSection("armor_durability_info");
+                float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, (int) xOffset, (int) yOffset, 16777215, true);
+                mc.mcProfiler.endSection();
             }
         }
 
@@ -283,34 +322,15 @@ public class HUDInfo
             String string = arrowCountList.get(i);
             yOffset = baseYOffset + 8 + fontHeight * i;
 
-            switch (direction)
+            if (!string.isEmpty())
             {
-            case "vertical":
-                if (!string.isEmpty())
-                {
-                    mc.mcProfiler.startSection("arrow_count");
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
-                    IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
-                    IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int) (isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F), (int)yOffset, 16777215, true);
-                    IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
-                    GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    mc.mcProfiler.endSection();
-                }
-                break;
-            case "horizontal":
-                if (!string.isEmpty())
-                {
-                    fontHeight = status.equals("percent") ? 43 : status.equals("damage") ? 38 : status.equals("none") ? 16 : 61;
-                    float xOffset = isRightSide ? baseXOffset + 5 - fontHeight * i : baseXOffset + 5 + fontHeight * i;
-                    mc.mcProfiler.startSection("arrow_count");
-                    GL11.glDisable(GL11.GL_DEPTH_TEST);
-                    IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
-                    IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int)xOffset, (int)baseYOffset + 8, 16777215, true);
-                    IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
-                    GL11.glEnable(GL11.GL_DEPTH_TEST);
-                    mc.mcProfiler.endSection();
-                }
-                break;
+                mc.mcProfiler.startSection("arrow_count");
+                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
+                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int) (isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F), (int)yOffset, 16777215, true);
+                IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                mc.mcProfiler.endSection();
             }
         }
     }
@@ -606,7 +626,7 @@ public class HUDInfo
         }
     }
 
-    private static String getArmorDurabilityStatus(ItemStack itemStack)
+    static String getArmorDurabilityStatus(ItemStack itemStack)
     {
         String status = ConfigManager.equipmentStatus;
 
@@ -649,7 +669,7 @@ public class HUDInfo
         }
     }
 
-    private static void renderItem(ItemStack itemStack, int x, int y)
+    static void renderItem(ItemStack itemStack, int x, int y)
     {
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -674,7 +694,7 @@ public class HUDInfo
         }
     }
 
-    private static String getInventoryItemCount(InventoryPlayer inventory, ItemStack other)
+    static String getInventoryItemCount(InventoryPlayer inventory, ItemStack other)
     {
         int count = 0;
 
@@ -690,7 +710,7 @@ public class HUDInfo
         return String.valueOf(count);
     }
 
-    private static int getInventoryArrowCount(InventoryPlayer inventory)
+    static int getInventoryArrowCount(InventoryPlayer inventory)
     {
         int arrowCount = 0;
 
@@ -706,12 +726,12 @@ public class HUDInfo
         return arrowCount;
     }
 
-    private static String getItemStackCount(ItemStack itemStack, int count)
+    static String getItemStackCount(ItemStack itemStack, int count)
     {
         return count == 0 || count == 1 || count == 1 && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Unbreakable") ? "" : String.valueOf(count);
     }
 
-    private static String getArrowStackCount(int count)
+    static String getArrowStackCount(int count)
     {
         return count == 0 ? "" : String.valueOf(count);
     }
