@@ -1,5 +1,7 @@
--Added- Added Custom Text Color GUI
--Update- Some Improvement for Donator Text
--Update- Health Status rendering improvement
--Fixed- Fixed alternate player model not applied
--Remove- Removed Old Custom Text Color Settings
+-Added- Added Fully Horizontal Equipment HUD rendering
+-Added- Added Custom Color to Equipment Status
+-Added- Added Custom Color to Equipment Arrow Count
+-Update- Render Profile now save Donator File Path
+-Fixed- Fixed Render Profile config saving issue
+-Fixed- Fixed key binding category localization
+-Fixed- Fixed leather armor rendering

@@ -1,5 +1,6 @@
--Added- Added Custom Text Color GUI
--Added- Added Old Hurt Render for Elytra
--Update- Some Improvement for Donator Text
--Update- Health Status rendering improvement
--Remove- Removed Old Custom Text Color Settings
+-Added- Added Fully Horizontal Equipment HUD rendering
+-Added- Added Custom Color to Equipment Status
+-Added- Added Custom Color to Equipment Arrow Count
+-Update- Render Profile now save Donator File Path
+-Fixed- Fixed Render Profile config saving issue
+-Remove- Removed Old Hurt Render for Elytra
