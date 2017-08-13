@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 
+@SuppressWarnings("deprecation")
 public class BlockhitAnimationHandler
 {
     private final Minecraft mc;

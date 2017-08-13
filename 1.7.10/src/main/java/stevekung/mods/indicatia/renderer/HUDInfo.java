@@ -450,7 +450,7 @@ public class HUDInfo
                 mc.mcProfiler.startSection("arrow_count");
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
-                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int)xOffset, (int)yOffset, 16777215, true);
+                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int)xOffset, yOffset, 16777215, true);
                 IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 mc.mcProfiler.endSection();
