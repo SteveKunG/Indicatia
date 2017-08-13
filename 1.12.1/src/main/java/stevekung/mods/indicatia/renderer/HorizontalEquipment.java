@@ -31,7 +31,7 @@ public class HorizontalEquipment
     {
         boolean isRightSide = ConfigManager.equipmentPosition.equals("right");
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 5, 16777215, true);
+        IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215, true);
 
         if (this.itemStack.getItem() instanceof ItemBow)
         {
