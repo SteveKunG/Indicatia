@@ -137,7 +137,7 @@ public class HUDInfo
         int baseYOffset = ExtendedConfig.ARMOR_STATUS_OFFSET;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
-        List<EquipmentElement> element = new ArrayList<>();
+        List<HorizontalEquipment> element = new ArrayList<>();
         int prevX = 0;
         int rightWidth = 0;
         element.clear();
@@ -147,11 +147,11 @@ public class HUDInfo
         {
             if (!mainHandItem.isEmpty())
             {
-                element.add(new EquipmentElement(mainHandItem, false));
+                element.add(new HorizontalEquipment(mainHandItem, false));
             }
             if (!offHandItem.isEmpty())
             {
-                element.add(new EquipmentElement(offHandItem, false));
+                element.add(new HorizontalEquipment(offHandItem, false));
             }
         }
 
@@ -163,7 +163,7 @@ public class HUDInfo
             {
                 if (!mc.player.inventory.armorInventory.get(i).isEmpty())
                 {
-                    element.add(new EquipmentElement(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isItemStackDamageable()));
+                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isItemStackDamageable()));
                 }
             }
             break;
@@ -172,7 +172,7 @@ public class HUDInfo
             {
                 if (!mc.player.inventory.armorInventory.get(i).isEmpty())
                 {
-                    element.add(new EquipmentElement(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isItemStackDamageable()));
+                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isItemStackDamageable()));
                 }
             }
             break;
@@ -183,19 +183,19 @@ public class HUDInfo
         {
             if (!mainHandItem.isEmpty())
             {
-                element.add(new EquipmentElement(mainHandItem, false));
+                element.add(new HorizontalEquipment(mainHandItem, false));
             }
             if (!offHandItem.isEmpty())
             {
-                element.add(new EquipmentElement(offHandItem, false));
+                element.add(new HorizontalEquipment(offHandItem, false));
             }
         }
 
-        for (EquipmentElement equipment : element)
+        for (HorizontalEquipment equipment : element)
         {
             rightWidth += equipment.getWidth();
         }
-        for (EquipmentElement equipment : element)
+        for (HorizontalEquipment equipment : element)
         {
             int xBaseRight = res.getScaledWidth() - rightWidth - baseXOffset;
             equipment.render(isRightSide ? xBaseRight + prevX + equipment.getWidth() : baseXOffset + prevX, baseYOffset);

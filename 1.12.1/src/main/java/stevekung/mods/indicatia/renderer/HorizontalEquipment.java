@@ -7,7 +7,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
-public class EquipmentElement
+public class HorizontalEquipment
 {
     private final ItemStack itemStack;
     private int width;
@@ -15,7 +15,7 @@ public class EquipmentElement
     private int itemDamageWidth;
     private final boolean isArmor;
 
-    public EquipmentElement(ItemStack itemStack, boolean isArmor)
+    public HorizontalEquipment(ItemStack itemStack, boolean isArmor)
     {
         this.itemStack = itemStack;
         this.isArmor = isArmor;
