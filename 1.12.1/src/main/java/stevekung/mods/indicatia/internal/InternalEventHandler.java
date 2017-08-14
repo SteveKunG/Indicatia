@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.ModLogger;
 
 public class InternalEventHandler
 {
@@ -33,6 +34,7 @@ public class InternalEventHandler
 
     public static void init()
     {
+        ModLogger.info("Initial SteveKunG fun stuff!");
         MinecraftForge.EVENT_BUS.register(new InternalEventHandler());
         InternalEventHandler.KEY_TRUEFASTER_RAINBOW = new KeyBinding("key.truefaster_rainbow.desc", Keyboard.KEY_6, "key.indicatia.category");
         InternalEventHandler.KEY_INW_TRUEFASTER = new KeyBinding("key.inw_truefaster.desc", Keyboard.KEY_7, "key.indicatia.category");
@@ -42,7 +44,7 @@ public class InternalEventHandler
 
     public static void renderRainbowArmor(Entity entity)
     {
-        if (!entity.getName().contains("truefaster") && InternalEventHandler.isTruefasterRainbow)
+        if (entity.getName().contains("truefaster") && InternalEventHandler.isTruefasterRainbow)
         {
             int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
             float red = (rainbow >> 16 & 255) / 255.0F;
