@@ -1,4 +1,4 @@
-package stevekung.mods.indicatia.renderer;
+package stevekung.mods.indicatia.internal;
 
 import java.util.Random;
 
@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.handler.CommonHandler;
 
 @SideOnly(Side.CLIENT)
 public class LayerInwTruefaster implements LayerRenderer<EntityLivingBase>
@@ -19,12 +18,12 @@ public class LayerInwTruefaster implements LayerRenderer<EntityLivingBase>
     @Override
     public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (CommonHandler.inwTimeStatic > 0 && entity.getName().contains("truefaster"))
+        if (InternalEventHandler.inwTimeStatic > 0 && entity.getName().contains("truefaster"))
         {
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             RenderHelper.disableStandardItemLighting();
-            float f = (CommonHandler.inwTimeStatic + partialTicks) / 200.0F;
+            float f = (InternalEventHandler.inwTimeStatic + partialTicks) / 200.0F;
             float f1 = 0.0F;
 
             if (f > 0.8F)
