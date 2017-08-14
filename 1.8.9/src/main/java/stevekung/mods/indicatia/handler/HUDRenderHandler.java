@@ -368,7 +368,7 @@ public class HUDRenderHandler
 
         if (distance < range * range)
         {
-            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand))
+            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand) && !InfoUtil.INSTANCE.isHypixel())
             {
                 String heart = json.text("\u2764 ").setChatStyle(color).getFormattedText();
                 RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.x, event.y, event.z);
