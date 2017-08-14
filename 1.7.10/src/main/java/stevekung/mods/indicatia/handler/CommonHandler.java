@@ -143,39 +143,6 @@ public class CommonHandler
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event)
-    {
-        if (ConfigManager.enableVersionChecker)
-        {
-            if (!IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.noConnection())
-            {
-                event.player.addChatMessage(this.json.text("Unable to check latest version, Please check your internet connection").setChatStyle(this.json.red()));
-                event.player.addChatMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setChatStyle(this.json.red()));
-                IndicatiaMod.CHECK_NO_CONNECTION = true;
-                return;
-            }
-            if (!IndicatiaMod.FOUND_LATEST && !IndicatiaMod.CHECK_NO_CONNECTION && VersionChecker.INSTANCE.isLatestVersion())
-            {
-                event.player.addChatMessage(this.json.text("New version of ").appendSibling(this.json.text("Indicatia").setChatStyle(this.json.style().setColor(EnumChatFormatting.AQUA)).appendSibling(this.json.text(" is available ").setChatStyle(this.json.white()).appendSibling(this.json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatiaMod.MC_VERSION + "]=", "")).setChatStyle(this.json.style().setColor(EnumChatFormatting.GREEN)).appendSibling(this.json.text(" for ").setChatStyle(this.json.white()).appendSibling(this.json.text("MC-" + IndicatiaMod.MC_VERSION).setChatStyle(this.json.style().setColor(EnumChatFormatting.GOLD))))))));
-                event.player.addChatMessage(this.json.text("Download Link ").setChatStyle(this.json.style().setColor(EnumChatFormatting.YELLOW)).appendSibling(this.json.text("[CLICK HERE]").setChatStyle(this.json.style().setColor(EnumChatFormatting.BLUE).setChatHoverEvent(this.json.hover(HoverEvent.Action.SHOW_TEXT, this.json.text("Click Here!").setChatStyle(this.json.style().setColor(EnumChatFormatting.DARK_GREEN)))).setChatClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, IndicatiaMod.URL)))));
-                IndicatiaMod.FOUND_LATEST = true;
-            }
-            if (!IndicatiaMod.SHOW_ANNOUNCE_MESSAGE && !IndicatiaMod.CHECK_NO_CONNECTION)
-            {
-                for (String log : VersionChecker.INSTANCE.getAnnounceMessage())
-                {
-                    if (ConfigManager.enableAnnounceMessage)
-                    {
-                        event.player.addChatMessage(this.json.text(log).setChatStyle(this.json.style().setColor(EnumChatFormatting.GRAY)));
-                    }
-                }
-                event.player.addChatMessage(this.json.text("To read Indicatia full change log. Use /inchangelog command!").setChatStyle(this.json.gray().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
-                IndicatiaMod.SHOW_ANNOUNCE_MESSAGE = true;
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
     {
         this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();
