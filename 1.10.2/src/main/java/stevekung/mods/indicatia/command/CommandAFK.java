@@ -18,7 +18,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandAFK extends ClientCommandBase
 {
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "afk";
     }
@@ -47,12 +47,12 @@ public class CommandAFK extends ClientCommandBase
 
                     if (ConfigManager.enableAFKMessage)
                     {
-                        IndicatiaMod.MC.player.sendChatMessage("I'm back! AFK Time is : " + StringUtils.ticksToElapsedTime(CommonHandler.afkTicks) + " minutes");
+                        IndicatiaMod.MC.thePlayer.sendChatMessage("I'm back! AFK Time is : " + StringUtils.ticksToElapsedTime(CommonHandler.afkTicks) + " minutes");
                     }
                 }
                 else
                 {
-                    sender.sendMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
                 }
             }
             else if ("start".equalsIgnoreCase(args[0]))
@@ -77,12 +77,12 @@ public class CommandAFK extends ClientCommandBase
 
                     if (ConfigManager.enableAFKMessage)
                     {
-                        IndicatiaMod.MC.player.sendChatMessage(message + reason);
+                        IndicatiaMod.MC.thePlayer.sendChatMessage(message + reason);
                     }
                 }
                 else
                 {
-                    sender.sendMessage(json.text("You have already start /afk command").setStyle(json.red()));
+                    sender.addChatMessage(json.text("You have already start /afk command").setStyle(json.red()));
                 }
             }
             else if ("change_reason".equalsIgnoreCase(args[0]))
@@ -97,11 +97,11 @@ public class CommandAFK extends ClientCommandBase
                     String oldReason = CommonHandler.afkReason;
                     String newReason = ClientCommandBase.getChatComponentFromNthArg(args, 1).createCopy().getUnformattedText();
                     CommonHandler.afkReason = newReason;
-                    sender.sendMessage(json.text("Change AFK Reason from " + oldReason + " to " + newReason));
+                    sender.addChatMessage(json.text("Change AFK Reason from " + oldReason + " to " + newReason));
                 }
                 else
                 {
-                    sender.sendMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
                 }
             }
             else if ("mode".equalsIgnoreCase(args[0]))
@@ -115,22 +115,22 @@ public class CommandAFK extends ClientCommandBase
                 {
                     CommonHandler.afkMode = "idle";
                     CommonHandler.afkMoveTicks = 0;
-                    sender.sendMessage(json.text("Set AFK mode to idle"));
+                    sender.addChatMessage(json.text("Set AFK mode to idle"));
                 }
                 else if ("move".equalsIgnoreCase(args[1]))
                 {
                     CommonHandler.afkMode = "move";
-                    sender.sendMessage(json.text("Set AFK mode to move"));
+                    sender.addChatMessage(json.text("Set AFK mode to move"));
                 }
                 else if ("360".equalsIgnoreCase(args[1]))
                 {
                     CommonHandler.afkMode = "360";
-                    sender.sendMessage(json.text("Set AFK mode to 360"));
+                    sender.addChatMessage(json.text("Set AFK mode to 360"));
                 }
                 else if ("360_move".equalsIgnoreCase(args[1]))
                 {
                     CommonHandler.afkMode = "360_move";
-                    sender.sendMessage(json.text("Set AFK mode to 360 and move"));
+                    sender.addChatMessage(json.text("Set AFK mode to 360 and move"));
                 }
                 else
                 {
@@ -145,7 +145,7 @@ public class CommandAFK extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -158,6 +158,6 @@ public class CommandAFK extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "idle", "move", "360", "360_move");
             }
         }
-        return super.getTabCompletions(server, sender, args, pos);
+        return super.getTabCompletionOptions(server, sender, args, pos);
     }
 }

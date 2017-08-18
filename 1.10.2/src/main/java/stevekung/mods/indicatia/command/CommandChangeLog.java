@@ -10,7 +10,7 @@ public class CommandChangeLog extends ClientCommandBase
     private static final GuiFullChangeLog gui = new GuiFullChangeLog();
 
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "inchangelog";
     }

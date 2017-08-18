@@ -26,7 +26,7 @@ public class ThreadCheckMojangStatus extends Thread
             }
             else
             {
-                IndicatiaMod.MC.player.sendMessage(json.text(checker.getName() + ": ").appendSibling(json.text(status.getColor() + status.getStatus())));
+                IndicatiaMod.MC.thePlayer.addChatMessage(json.text(checker.getName() + ": ").appendSibling(json.text(status.getColor() + status.getStatus())));
             }
         }
     }

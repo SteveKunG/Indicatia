@@ -47,7 +47,7 @@ public class GuiRenderStatusSliderInt extends GuiButton
             if (this.dragging)
             {
                 this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
+                this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
                 float f = this.options.denormalizeValue(this.sliderValue);
                 this.setOptionValue(this.options, f);
                 this.sliderValue = this.options.normalizeValue(f);
@@ -66,7 +66,7 @@ public class GuiRenderStatusSliderInt extends GuiButton
         if (super.mousePressed(mc, mouseX, mouseY))
         {
             this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-            this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
+            this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
             this.setOptionValue(this.options, this.options.denormalizeValue(this.sliderValue));
             this.displayString = this.options.getEnumString() + ": " + this.getOptionValue(this.options);
             this.dragging = true;
@@ -286,18 +286,18 @@ public class GuiRenderStatusSliderInt extends GuiButton
 
         public float normalizeValue(float value)
         {
-            return MathHelper.clamp((this.snapToStepclamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+            return MathHelper.clamp_float((this.snapToStepclamp_float(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
         }
 
         public float denormalizeValue(float value)
         {
-            return this.snapToStepclamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
+            return this.snapToStepclamp_float(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp_float(value, 0.0F, 1.0F));
         }
 
-        public float snapToStepclamp(float value)
+        public float snapToStepclamp_float(float value)
         {
             value = this.snapToStep(value);
-            return MathHelper.clamp(value, this.valueMin, this.valueMax);
+            return MathHelper.clamp_float(value, this.valueMin, this.valueMax);
         }
 
         private float snapToStep(float value)

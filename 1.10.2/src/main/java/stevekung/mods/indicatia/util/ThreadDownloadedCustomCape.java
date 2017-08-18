@@ -34,18 +34,18 @@ public class ThreadDownloadedCustomCape extends Thread
         {
             e.printStackTrace();
 
-            if (IndicatiaMod.MC.player != null)
+            if (IndicatiaMod.MC.thePlayer != null)
             {
-                IndicatiaMod.MC.player.sendMessage(json.text("Missing protocol or wrong Image URL format, must be .png!").setStyle(json.red()));
+                IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Missing protocol or wrong Image URL format, must be .png!").setStyle(json.red()));
             }
         }
         catch (IOException e)
         {
             e.printStackTrace();
 
-            if (IndicatiaMod.MC.player != null)
+            if (IndicatiaMod.MC.thePlayer != null)
             {
-                IndicatiaMod.MC.player.sendMessage(json.text("Cannot read image from URL/No internet connection!").setStyle(json.red()));
+                IndicatiaMod.MC.thePlayer.addChatMessage(json.text("Cannot read image from URL/No internet connection!").setStyle(json.red()));
             }
         }
     }

@@ -8,7 +8,7 @@ import stevekung.mods.indicatia.util.ThreadCheckMojangStatus;
 public class CommandMojangStatusCheck extends ClientCommandBase
 {
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "mojangstatus";
     }

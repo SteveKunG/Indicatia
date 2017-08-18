@@ -35,7 +35,7 @@ public class HorizontalEquipment
 
         if (this.itemStack.getItem() instanceof ItemBow)
         {
-            int arrowCount = HUDInfo.getInventoryArrowCount(IndicatiaMod.MC.player.inventory);
+            int arrowCount = HUDInfo.getInventoryArrowCount(IndicatiaMod.MC.thePlayer.inventory);
             GlStateManager.disableDepth();
             IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
             IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
@@ -46,7 +46,7 @@ public class HorizontalEquipment
 
     private void initSize()
     {
-        String itemCount = HUDInfo.getInventoryItemCount(IndicatiaMod.MC.player.inventory, this.itemStack);
+        String itemCount = HUDInfo.getInventoryItemCount(IndicatiaMod.MC.thePlayer.inventory, this.itemStack);
 
         if (this.isArmor)
         {

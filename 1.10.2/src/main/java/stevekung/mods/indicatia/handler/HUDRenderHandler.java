@@ -118,7 +118,7 @@ public class HUDRenderHandler
                 {
                     leftInfo.add(HUDInfo.getXYZ(this.mc));
 
-                    if (this.mc.player.dimension == -1)
+                    if (this.mc.thePlayer.dimension == -1)
                     {
                         leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
                     }
@@ -131,9 +131,9 @@ public class HUDRenderHandler
                 {
                     leftInfo.add(HUDInfo.getServerIP(this.mc));
                 }
-                if (ConfigManager.enableSlimeChunkFinder && this.mc.player.dimension == 0)
+                if (ConfigManager.enableSlimeChunkFinder && this.mc.thePlayer.dimension == 0)
                 {
-                    String isSlimeChunk = InfoUtil.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No";
+                    String isSlimeChunk = InfoUtil.INSTANCE.isSlimeChunk(this.mc.thePlayer.getPosition()) ? "Yes" : "No";
                     leftInfo.add(ColoredFontRenderer.color(ExtendedConfig.SLIME_COLOR_R, ExtendedConfig.SLIME_COLOR_G, ExtendedConfig.SLIME_COLOR_B) + "Slime Chunk: " + ColoredFontRenderer.color(ExtendedConfig.SLIME_VALUE_COLOR_R, ExtendedConfig.SLIME_VALUE_COLOR_G, ExtendedConfig.SLIME_VALUE_COLOR_B) + isSlimeChunk);
                 }
                 if (ExtendedConfig.CPS_POSITION.equals("left"))
@@ -163,7 +163,7 @@ public class HUDRenderHandler
                 // server tps
                 if (ConfigManager.enableServerTPS && server != null)
                 {
-                    int dimension = this.mc.player.dimension;
+                    int dimension = this.mc.thePlayer.dimension;
                     double overallTPS = HUDRenderHandler.mean(server.tickTimeArray) * 1.0E-6D;
                     double dimensionTPS = HUDRenderHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
                     double tps = Math.min(1000.0D / overallTPS, 20);
@@ -181,7 +181,7 @@ public class HUDRenderHandler
                 {
                     rightInfo.add(HUDInfo.getCurrentGameTime(this.mc));
                 }
-                if (ConfigManager.enableGameWeather && this.mc.world.isRaining())
+                if (ConfigManager.enableGameWeather && this.mc.theWorld.isRaining())
                 {
                     rightInfo.add(HUDInfo.getGameWeather(this.mc));
                 }
@@ -215,7 +215,7 @@ public class HUDRenderHandler
                 }
 
                 // equipments
-                if (!this.mc.player.isSpectator() && ConfigManager.enableRenderEquippedItem)
+                if (!this.mc.thePlayer.isSpectator() && ConfigManager.enableRenderEquippedItem)
                 {
                     if (ConfigManager.equipmentPosition.equals("hotbar"))
                     {
@@ -291,13 +291,13 @@ public class HUDRenderHandler
             if (CommonHandler.overlayPlayerList != null)
             {
                 event.setCanceled(true);
-                ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-                NetHandlerPlayClient handler = this.mc.player.connection;
+                ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
+                NetHandlerPlayClient handler = this.mc.thePlayer.connection;
 
                 if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
                 {
                     CommonHandler.overlayPlayerList.updatePlayerList(true);
-                    CommonHandler.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
+                    CommonHandler.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.theWorld.getScoreboard(), scoreobjective);
                 }
                 else
                 {

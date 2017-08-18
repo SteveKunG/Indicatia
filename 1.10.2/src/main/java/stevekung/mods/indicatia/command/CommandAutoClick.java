@@ -14,7 +14,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandAutoClick extends ClientCommandBase
 {
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "autoclick";
     }
@@ -34,12 +34,12 @@ public class CommandAutoClick extends ClientCommandBase
             {
                 CommonHandler.autoClick = false;
                 CommonHandler.autoClickTicks = 0;
-                sender.sendMessage(json.text("Disabled Auto Click"));
+                sender.addChatMessage(json.text("Disabled Auto Click"));
             }
             else if ("start".equalsIgnoreCase(args[0]))
             {
                 CommonHandler.autoClick = true;
-                sender.sendMessage(json.text("Enabled Auto Click"));
+                sender.addChatMessage(json.text("Enabled Auto Click"));
             }
             else if ("mode".equalsIgnoreCase(args[0]))
             {
@@ -50,12 +50,12 @@ public class CommandAutoClick extends ClientCommandBase
                 if ("left".equalsIgnoreCase(args[1]))
                 {
                     CommonHandler.autoClickMode = "left";
-                    sender.sendMessage(json.text("Changed Auto Click mode to Left"));
+                    sender.addChatMessage(json.text("Changed Auto Click mode to Left"));
                 }
                 else if ("right".equalsIgnoreCase(args[1]))
                 {
                     CommonHandler.autoClickMode = "right";
-                    sender.sendMessage(json.text("Changed Auto Click mode to Right"));
+                    sender.addChatMessage(json.text("Changed Auto Click mode to Right"));
                 }
             }
             else
@@ -66,7 +66,7 @@ public class CommandAutoClick extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -79,6 +79,6 @@ public class CommandAutoClick extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right");
             }
         }
-        return super.getTabCompletions(server, sender, args, pos);
+        return super.getTabCompletionOptions(server, sender, args, pos);
     }
 }

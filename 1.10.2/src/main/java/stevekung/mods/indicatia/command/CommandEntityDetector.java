@@ -24,7 +24,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandEntityDetector extends ClientCommandBase
 {
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "entitydetect";
     }
@@ -51,7 +51,7 @@ public class CommandEntityDetector extends ClientCommandBase
                 {
                     if (GameProfileUtil.getUsername().equalsIgnoreCase(input))
                     {
-                        sender.sendMessage(json.text("Cannot set entity detector type to yourself!").setStyle(json.red()));
+                        sender.addChatMessage(json.text("Cannot set entity detector type to yourself!").setStyle(json.red()));
                         return;
                     }
                     else
@@ -64,7 +64,7 @@ public class CommandEntityDetector extends ClientCommandBase
                     ExtendedConfig.ENTITY_DETECT_TYPE = input.equalsIgnoreCase("reset") ? "" : input;
                 }
             }
-            sender.sendMessage(json.text("Set entity detector type to " + input));
+            sender.addChatMessage(json.text("Set entity detector type to " + input));
             ExtendedConfig.save();
             return;
         }
@@ -72,9 +72,9 @@ public class CommandEntityDetector extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        NetHandlerPlayClient connection = IndicatiaMod.MC.player.connection;
+        NetHandlerPlayClient connection = IndicatiaMod.MC.thePlayer.connection;
         List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
         List<String> entityList = EntityList.getEntityNameList();
         entityList.add("all");
@@ -95,6 +95,6 @@ public class CommandEntityDetector extends ClientCommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, entityList);
         }
-        return super.getTabCompletions(server, sender, args, pos);
+        return super.getTabCompletionOptions(server, sender, args, pos);
     }
 }

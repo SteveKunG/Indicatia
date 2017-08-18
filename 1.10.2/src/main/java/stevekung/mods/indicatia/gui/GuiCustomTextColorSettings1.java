@@ -138,7 +138,7 @@ public class GuiCustomTextColorSettings1 extends GuiScreen
 
                 PING_M500_COLOR_R = 170;
                 PING_M500_COLOR_G = PING_M500_COLOR_B = 0;
-                this.mc.player.sendMessage(json.text("Reset all color settings"));
+                this.mc.thePlayer.addChatMessage(json.text("Reset all color settings"));
                 this.mc.displayGuiScreen(null);
             }
         }

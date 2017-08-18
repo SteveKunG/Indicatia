@@ -45,7 +45,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
                 double d3 = MathHelper.sin(f * 0.017453292F);
                 double d4 = -MathHelper.cos(f * 0.017453292F);
                 float f1 = (float)d1 * 10.0F;
-                f1 = MathHelper.clamp(f1, -6.0F, 32.0F);
+                f1 = MathHelper.clamp_float(f1, -6.0F, 32.0F);
                 float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;
                 float f3 = (float)(d0 * d4 - d2 * d3) * 100.0F;
 

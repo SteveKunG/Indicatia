@@ -50,7 +50,7 @@ public class GuiCPSSlider extends GuiButton
             if (this.dragging)
             {
                 this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
+                this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
                 float f = this.options.denormalizeValue(this.sliderValue);
                 this.sliderValue = this.options.normalizeValue(f);
 
@@ -82,7 +82,7 @@ public class GuiCPSSlider extends GuiButton
         if (super.mousePressed(mc, mouseX, mouseY))
         {
             this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-            this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
+            this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
             ExtendedConfig.CPS_OPACITY = this.sliderValue;
             this.displayString = this.options.getEnumString();
             this.dragging = true;
@@ -125,18 +125,18 @@ public class GuiCPSSlider extends GuiButton
 
         public float normalizeValue(float value)
         {
-            return MathHelper.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+            return MathHelper.clamp_float((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
         }
 
         public float denormalizeValue(float value)
         {
-            return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
+            return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp_float(value, 0.0F, 1.0F));
         }
 
         public float snapToStepClamp(float value)
         {
             value = this.snapToStep(value);
-            return MathHelper.clamp(value, this.valueMin, this.valueMax);
+            return MathHelper.clamp_float(value, this.valueMin, this.valueMax);
         }
 
         private float snapToStep(float value)

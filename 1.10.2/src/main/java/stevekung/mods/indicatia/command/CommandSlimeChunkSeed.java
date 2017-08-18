@@ -12,7 +12,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandSlimeChunkSeed extends ClientCommandBase
 {
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "slimeseed";
     }
@@ -39,13 +39,13 @@ public class CommandSlimeChunkSeed extends ClientCommandBase
                     if (longSeed != 0L)
                     {
                         ExtendedConfig.SLIME_CHUNK_SEED = longSeed;
-                        sender.sendMessage(json.text("Set slime chunk seed to " + longSeed));
+                        sender.addChatMessage(json.text("Set slime chunk seed to " + longSeed));
                     }
                 }
                 catch (NumberFormatException e)
                 {
                     ExtendedConfig.SLIME_CHUNK_SEED = seed.hashCode();
-                    sender.sendMessage(json.text("Set slime chunk seed to " + seed.hashCode()));
+                    sender.addChatMessage(json.text("Set slime chunk seed to " + seed.hashCode()));
                 }
             }
             ExtendedConfig.save();

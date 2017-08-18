@@ -17,7 +17,7 @@ import stevekung.mods.indicatia.util.JsonUtil;
 public class CommandIndicatia extends ClientCommandBase
 {
     @Override
-    public String getName()
+    public String getCommandName()
     {
         return "indicatia";
     }
@@ -43,13 +43,13 @@ public class CommandIndicatia extends ClientCommandBase
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.TOGGLE_SPRINT = true;
-                    sender.sendMessage(json.text("Enabled Toggle Sprint"));
+                    sender.addChatMessage(json.text("Enabled Toggle Sprint"));
                     ExtendedConfig.save();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.TOGGLE_SPRINT = false;
-                    sender.sendMessage(json.text("Disabled Toggle Sprint"));
+                    sender.addChatMessage(json.text("Disabled Toggle Sprint"));
                     ExtendedConfig.save();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -62,13 +62,13 @@ public class CommandIndicatia extends ClientCommandBase
                     if ("key_binding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedConfig.TOGGLE_SPRINT_USE_MODE = "key_binding";
-                        sender.sendMessage(json.text("Set toggle sprint to use Key Binding"));
+                        sender.addChatMessage(json.text("Set toggle sprint to use Key Binding"));
                         ExtendedConfig.save();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedConfig.TOGGLE_SPRINT_USE_MODE = "command";
-                        sender.sendMessage(json.text("Set toggle sprint to use Command"));
+                        sender.addChatMessage(json.text("Set toggle sprint to use Command"));
                         ExtendedConfig.save();
                     }
                     else
@@ -91,13 +91,13 @@ public class CommandIndicatia extends ClientCommandBase
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.TOGGLE_SNEAK = true;
-                    sender.sendMessage(json.text("Enabled Toggle Sprint"));
+                    sender.addChatMessage(json.text("Enabled Toggle Sprint"));
                     ExtendedConfig.save();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.TOGGLE_SNEAK = false;
-                    sender.sendMessage(json.text("Disabled Toggle Sprint"));
+                    sender.addChatMessage(json.text("Disabled Toggle Sprint"));
                     ExtendedConfig.save();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -109,13 +109,13 @@ public class CommandIndicatia extends ClientCommandBase
                     if ("key_binding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedConfig.TOGGLE_SNEAK_USE_MODE = "key_binding";
-                        sender.sendMessage(json.text("Set toggle sneak to use Key Binding"));
+                        sender.addChatMessage(json.text("Set toggle sneak to use Key Binding"));
                         ExtendedConfig.save();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedConfig.TOGGLE_SNEAK_USE_MODE = "command";
-                        sender.sendMessage(json.text("Set toggle sneak to use Command"));
+                        sender.addChatMessage(json.text("Set toggle sneak to use Command"));
                         ExtendedConfig.save();
                     }
                     else
@@ -138,25 +138,25 @@ public class CommandIndicatia extends ClientCommandBase
                 if ("left".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.CPS_POSITION = "left";
-                    sender.sendMessage(json.text("Set CPS position to Left"));
+                    sender.addChatMessage(json.text("Set CPS position to Left"));
                     ExtendedConfig.save();
                 }
                 else if ("right".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.CPS_POSITION = "right";
-                    sender.sendMessage(json.text("Set CPS position to Right"));
+                    sender.addChatMessage(json.text("Set CPS position to Right"));
                     ExtendedConfig.save();
                 }
                 else if ("keystroke".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.CPS_POSITION = "keystroke";
-                    sender.sendMessage(json.text("Set CPS position to Keystroke"));
+                    sender.addChatMessage(json.text("Set CPS position to Keystroke"));
                     ExtendedConfig.save();
                 }
                 else if ("custom".equalsIgnoreCase(args[1]))
                 {
                     ExtendedConfig.CPS_POSITION = "custom";
-                    sender.sendMessage(json.text("Set CPS position to Customize"));
+                    sender.addChatMessage(json.text("Set CPS position to Customize"));
                     ExtendedConfig.save();
                 }
                 else
@@ -178,7 +178,7 @@ public class CommandIndicatia extends ClientCommandBase
                         throw new WrongUsageException("commands.indicatia.autoswim.usage");
                     }
                     ExtendedConfig.AUTO_SWIM = true;
-                    sender.sendMessage(json.text("Enabled Auto Swim"));
+                    sender.addChatMessage(json.text("Enabled Auto Swim"));
                     ExtendedConfig.save();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
@@ -188,7 +188,7 @@ public class CommandIndicatia extends ClientCommandBase
                         throw new WrongUsageException("commands.indicatia.autoswim.usage");
                     }
                     ExtendedConfig.AUTO_SWIM = false;
-                    sender.sendMessage(json.text("Disabled Auto Swim"));
+                    sender.addChatMessage(json.text("Disabled Auto Swim"));
                     ExtendedConfig.save();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -201,13 +201,13 @@ public class CommandIndicatia extends ClientCommandBase
                     if ("key_binding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedConfig.AUTO_SWIM_USE_MODE = "key_binding";
-                        sender.sendMessage(json.text("Set auto swim to use Key Binding"));
+                        sender.addChatMessage(json.text("Set auto swim to use Key Binding"));
                         ExtendedConfig.save();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedConfig.AUTO_SWIM_USE_MODE = "command";
-                        sender.sendMessage(json.text("Set auto swim to use Command"));
+                        sender.addChatMessage(json.text("Set auto swim to use Command"));
                         ExtendedConfig.save();
                     }
                     else
@@ -236,7 +236,7 @@ public class CommandIndicatia extends ClientCommandBase
     }
 
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -260,6 +260,6 @@ public class CommandIndicatia extends ClientCommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "key_binding", "command");
             }
         }
-        return super.getTabCompletions(server, sender, args, pos);
+        return super.getTabCompletionOptions(server, sender, args, pos);
     }
 }

@@ -58,7 +58,7 @@ public class GuiSleepMPNew extends GuiNewChatUtil
 
     private void wakeFromSleep()
     {
-        NetHandlerPlayClient connection = this.mc.player.connection;
-        connection.sendPacket(new CPacketEntityAction(this.mc.player, CPacketEntityAction.Action.STOP_SLEEPING));
+        NetHandlerPlayClient connection = this.mc.thePlayer.connection;
+        connection.sendPacket(new CPacketEntityAction(this.mc.thePlayer, CPacketEntityAction.Action.STOP_SLEEPING));
     }
 }
