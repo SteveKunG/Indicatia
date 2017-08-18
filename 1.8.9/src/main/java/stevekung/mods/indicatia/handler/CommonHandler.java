@@ -706,8 +706,8 @@ public class CommonHandler
                         @Override
                         protected void initArmor()
                         {
-                            this.modelLeggings = new ModelZombie(0.5F, true);
-                            this.modelArmor = new ModelZombie(1.0F, true);
+                            this.field_177189_c = new ModelZombie(0.5F, true);
+                            this.field_177186_d = new ModelZombie(1.0F, true);
                         }
                     });
                 }
@@ -718,8 +718,8 @@ public class CommonHandler
                         @Override
                         protected void initArmor()
                         {
-                            this.modelLeggings = new ModelSkeleton(0.5F, true);
-                            this.modelArmor = new ModelSkeleton(1.0F, true);
+                            this.field_177189_c = new ModelSkeleton(0.5F, true);
+                            this.field_177186_d = new ModelSkeleton(1.0F, true);
                         }
                     });
                 }
@@ -730,8 +730,8 @@ public class CommonHandler
                         @Override
                         protected void initArmor()
                         {
-                            this.modelLeggings = new ModelZombieVillager(0.5F, 0.0F, true);
-                            this.modelArmor = new ModelZombieVillager(1.0F, 0.0F, true);
+                            this.field_177189_c = new ModelZombieVillager(0.5F, 0.0F, true);
+                            this.field_177186_d = new ModelZombieVillager(1.0F, 0.0F, true);
                         }
                     });
                 }
@@ -806,7 +806,7 @@ public class CommonHandler
 
     private static void processAutoGG(Minecraft mc)
     {
-        if (mc.ingameGUI.displayedTitle.isEmpty() && !ConfigManager.endGameMessage.isEmpty())
+        if (mc.ingameGUI.field_175201_x.isEmpty() && !ConfigManager.endGameMessage.isEmpty())
         {
             CommonHandler.printAutoGG = true;
             CommonHandler.printAutoGGTicks = 0;
@@ -819,7 +819,7 @@ public class CommonHandler
         for (String message : ConfigManager.endGameTitleMessage.split(","))
         {
             String messageToLower = InfoUtil.INSTANCE.removeFormattingCodes(message).toLowerCase();
-            String displayTitleMessage = InfoUtil.INSTANCE.removeFormattingCodes(mc.ingameGUI.displayedTitle).toLowerCase();
+            String displayTitleMessage = InfoUtil.INSTANCE.removeFormattingCodes(mc.ingameGUI.field_175201_x).toLowerCase();
 
             if (displayTitleMessage.contains(messageToLower) && CommonHandler.printAutoGGTicks == ConfigManager.endGameTitleTime)
             {
