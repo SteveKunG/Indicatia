@@ -57,7 +57,7 @@ public class HorizontalEquipment
             String status = ConfigManager.equipmentStatus;
             this.itemDamage = this.itemStack.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : status.equals("none") ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
-        this.itemDamageWidth = IndicatiaMod.MC.fontRenderer.getStringWidth(this.itemDamage);
+        this.itemDamageWidth = IndicatiaMod.MC.fontRendererObj.getStringWidth(this.itemDamage);
         this.width = 20 + this.itemDamageWidth;
     }
 }

@@ -90,12 +90,12 @@ public class GuiMojangStatusChecker extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, "Mojang Status Checker", this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.fontRendererObj, "Mojang Status Checker", this.width / 2, 15, 16777215);
         int height = 0;
 
         for (String statusList : GuiMojangStatusChecker.statusList)
         {
-            this.drawString(this.fontRenderer, statusList, this.width / 2 - 120, 35 + height, 16777215);
+            this.drawString(this.fontRendererObj, statusList, this.width / 2 - 120, 35 + height, 16777215);
             height += 12;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);

@@ -51,7 +51,7 @@ public class LayerAllArmor<E extends EntityLivingBase> extends LayerArmorBaseNew
     @Override
     protected void setModelSlotVisible(ModelBiped model, EntityEquipmentSlot slot, E entity)
     {
-        model.setVisible(false);
+        model.setInvisible(false);
         model.isChild = entity.isChild();
 
         switch (slot)

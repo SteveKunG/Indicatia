@@ -64,7 +64,7 @@ public class GuiFullChangeLog extends GuiScreen
                     s = s.replaceAll("-Remove-", TextFormatting.RED + "-" + TextFormatting.RESET);
                     s = s.replaceAll("-Fixed-", TextFormatting.GOLD + "*" + TextFormatting.RESET);
                     s = s.replaceAll("-Update-", TextFormatting.YELLOW + "*" + TextFormatting.RESET);
-                    this.stringList.addAll(this.mc.fontRenderer.listFormattedStringToWidth(s, 264));
+                    this.stringList.addAll(this.mc.fontRendererObj.listFormattedStringToWidth(s, 264));
                     this.rand = new Random();
                 }
                 inputstream.close();

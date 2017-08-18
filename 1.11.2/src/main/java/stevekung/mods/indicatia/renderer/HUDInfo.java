@@ -345,7 +345,7 @@ public class HUDInfo
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
                 mc.mcProfiler.startSection("armor_durability_info");
-                float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
                 IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, xOffset, yOffset, 16777215, true);
                 mc.mcProfiler.endSection();
             }
@@ -362,7 +362,7 @@ public class HUDInfo
                 mc.mcProfiler.startSection("arrow_count");
                 GlStateManager.disableDepth();
                 IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
-                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
+                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
                 IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
                 GlStateManager.enableDepth();
                 mc.mcProfiler.endSection();
@@ -472,7 +472,7 @@ public class HUDInfo
         {
             String string = leftItemStatusList.get(i);
             mc.mcProfiler.startSection("armor_durability_info");
-            int stringWidth = mc.fontRenderer.getStringWidth(string);
+            int stringWidth = mc.fontRendererObj.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 36;
             IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, xOffset, yOffset, 16777215, true);
@@ -494,7 +494,7 @@ public class HUDInfo
         for (int i = 0; i < leftArrowCountList.size(); ++i)
         {
             String string = leftArrowCountList.get(i);
-            int stringWidth = mc.fontRenderer.getStringWidth(string);
+            int stringWidth = mc.fontRendererObj.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 90 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 32;
 

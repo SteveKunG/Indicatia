@@ -38,16 +38,16 @@ public class GuiCustomTextColorSliderInt extends GuiButton
     {
         if (this.visible)
         {
-            FontRenderer fontrenderer = mc.fontRenderer;
+            FontRenderer fontrenderer = mc.fontRendererObj;
             mc.getTextureManager().bindTexture(GuiCustomTextColorSliderInt.TEXTURE);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             int i = this.getHoverState(this.hovered);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            this.drawTexturedModalRect(this.x, this.y, 0, i * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, i * 20, this.width / 2, this.height);
+            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, i * 20, this.width / 2, this.height);
+            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, i * 20, this.width / 2, this.height);
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 14737632;
 
@@ -59,7 +59,7 @@ public class GuiCustomTextColorSliderInt extends GuiButton
             {
                 j = 16777120;
             }
-            this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, j);
+            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
         }
     }
 
@@ -70,7 +70,7 @@ public class GuiCustomTextColorSliderInt extends GuiButton
         {
             if (this.dragging)
             {
-                this.sliderValue = (float)(mouseX - (this.x + 4)) / (float)(this.width - 8);
+                this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
                 this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
                 float f = this.options.denormalizeValue(this.sliderValue);
                 this.setOptionValue(this.options, f);
@@ -79,8 +79,8 @@ public class GuiCustomTextColorSliderInt extends GuiButton
             }
             mc.getTextureManager().bindTexture(GuiCustomTextColorSliderInt.TEXTURE);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)), this.y, 0, 20, 4, this.height);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)) + 4, this.y, 196, 20, 4, this.height);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 20, 4, this.height);
+            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 20, 4, this.height);
         }
     }
 
@@ -89,7 +89,7 @@ public class GuiCustomTextColorSliderInt extends GuiButton
     {
         if (super.mousePressed(mc, mouseX, mouseY))
         {
-            this.sliderValue = (float)(mouseX - (this.x + 4)) / (float)(this.width - 8);
+            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
             this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0F, 1.0F);
             this.setOptionValue(this.options, this.options.denormalizeValue(this.sliderValue));
             this.displayString = this.options.getEnumString() + ": " + this.getOptionValue(this.options);

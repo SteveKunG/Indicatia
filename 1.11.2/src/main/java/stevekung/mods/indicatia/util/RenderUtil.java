@@ -30,6 +30,7 @@ public class RenderUtil
         boolean hasName = entityLivingBase.hasCustomName();
         double distance = entityLivingBase.getDistanceSqToEntity(mc.getRenderManager().renderViewEntity);
         int maxDistance = 64;
+        FontRenderer fontrenderer = IndicatiaMod.MC.fontRendererObj;
 
         if (distance <= maxDistance * maxDistance)
         {
@@ -49,7 +50,6 @@ public class RenderUtil
 
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            FontRenderer fontrenderer = IndicatiaMod.MC.fontRenderer;
             int j = fontrenderer.getStringWidth(text) / 2;
             GlStateManager.disableTexture2D();
             Tessellator tessellator = Tessellator.getInstance();

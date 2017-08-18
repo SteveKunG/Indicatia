@@ -80,7 +80,7 @@ public class GuiNewChatFast extends GuiNewChat
                                 }
 
                                 GlStateManager.enableBlend();
-                                this.mc.fontRenderer.drawStringWithShadow(s, 0.0F, j2 - 8, 16777215 + (l1 << 24));
+                                this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, j2 - 8, 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }
@@ -89,7 +89,7 @@ public class GuiNewChatFast extends GuiNewChat
                 }
                 if (flag)
                 {
-                    int k2 = this.mc.fontRenderer.FONT_HEIGHT;
+                    int k2 = this.mc.fontRendererObj.FONT_HEIGHT;
                     GlStateManager.translate(-3.0F, 0.0F, 0.0F);
                     int l2 = j * k2 + j;
                     int i3 = l * k2 + l;

@@ -117,7 +117,7 @@ public class GuiCustomTextColorSettings2 extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawCenteredString(this.fontRenderer, "Custom Text Color Settings", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRendererObj, "Custom Text Color Settings", this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

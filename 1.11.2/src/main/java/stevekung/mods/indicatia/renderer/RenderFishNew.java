@@ -95,9 +95,9 @@ public class RenderFishNew extends Render<EntityFishHook>
                 vec3d = vec3d.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * 0.017453292F);
                 vec3d = vec3d.rotateYaw(f8 * 0.5F);
                 vec3d = vec3d.rotatePitch(-f8 * 0.7F);
-                d4 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks + vec3d.x;
-                d5 = player.prevPosY + (player.posY - player.prevPosY) * partialTicks + vec3d.y;
-                d6 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks + vec3d.z;
+                d4 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks + vec3d.xCoord;
+                d5 = player.prevPosY + (player.posY - player.prevPosY) * partialTicks + vec3d.yCoord;
+                d6 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks + vec3d.zCoord;
                 d7 = player.getEyeHeight();
             }
             else
