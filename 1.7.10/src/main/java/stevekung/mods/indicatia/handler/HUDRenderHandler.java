@@ -130,7 +130,7 @@ public class HUDRenderHandler
                 {
                     leftInfo.add(HUDInfo.getBiome(this.mc));
                 }
-                if (ConfigManager.enableServerIP && this.mc.getCurrentServerData() != null && !this.mc.isSingleplayer())
+                if (ConfigManager.enableServerIP && this.mc.func_147104_D() != null && !this.mc.isSingleplayer())
                 {
                     leftInfo.add(HUDInfo.getServerIP(this.mc));
                 }
@@ -292,7 +292,7 @@ public class HUDRenderHandler
         if (event.type == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
         {
             event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
+            ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().func_96539_a(0);
             NetHandlerPlayClient handler = this.mc.thePlayer.sendQueue;
             @SuppressWarnings("unchecked")
             List<GuiPlayerInfo> players = handler.playerInfoList;
@@ -342,7 +342,7 @@ public class HUDRenderHandler
 
                             if (maxX - endX > 5)
                             {
-                                Score score = scoreobjective.getScoreboard().getValueFromObjective(player.name, scoreobjective);
+                                Score score = scoreobjective.getScoreboard().func_96529_a(player.name, scoreobjective);
                                 String scoreDisplay = EnumChatFormatting.YELLOW + "" + score.getScorePoints();
                                 IndicatiaMod.coloredFontRenderer.drawStringWithShadow(scoreDisplay, maxX - IndicatiaMod.coloredFontRenderer.getStringWidth(scoreDisplay), yPos, 16777215);
                             }

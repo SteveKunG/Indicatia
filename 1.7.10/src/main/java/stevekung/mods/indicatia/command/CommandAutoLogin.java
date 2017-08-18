@@ -33,7 +33,7 @@ public class CommandAutoLogin extends ClientCommandBase
     {
         JsonUtil json = new JsonUtil();
         Minecraft mc = IndicatiaMod.MC;
-        ServerData data = mc.getCurrentServerData();
+        ServerData data = mc.func_147104_D();
         UUID uuid = GameProfileUtil.getUUID();
 
         if (args.length < 1)

@@ -62,13 +62,13 @@ public class GuiChangeLogSlot extends GuiSlot
     protected void drawSlot(int entryID, int insideLeft, int yPos, int insideSlotHeight, Tessellator tessellator, int mouseXIn, int mouseYIn)
     {
         String test = this.stringList.get(entryID);
-        this.mc.fontRendererObj.drawStringWithShadow(test, insideLeft - 20, yPos + 2, 16777215);
+        this.mc.fontRenderer.drawStringWithShadow(test, insideLeft - 20, yPos + 2, 16777215);
     }
 
     @Override
     protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha)
     {
-        this.parent.drawCenteredString(this.mc.fontRendererObj, "Indicatia " + IndicatiaMod.VERSION + " Change Log", this.width / 2, 16, 16777215);
+        this.parent.drawCenteredString(this.mc.fontRenderer, "Indicatia " + IndicatiaMod.VERSION + " Change Log", this.width / 2, 16, 16777215);
         Tessellator tessellator = Tessellator.instance;
         this.mc.getTextureManager().bindTexture(this.textureType ? GuiChangeLogSlot.STONEBRICK : GuiChangeLogSlot.COBBLESTONE);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -117,7 +117,7 @@ public class GuiChangeLogSlot extends GuiSlot
 
         if (mouseX > this.left && mouseX < this.right && mouseY > this.top && mouseY < this.bottom)
         {
-            if (Mouse.isButtonDown(0) && this.getEnabled())
+            if (Mouse.isButtonDown(0) && this.func_148125_i())
             {
                 if (this.initialClickY == -1.0F)
                 {

@@ -34,7 +34,7 @@ public class GuiSleepMPNew extends GuiNewChatUtil
 
             if (!text.isEmpty())
             {
-                this.submitChatMessage(text);
+                this.func_146403_a(text);
             }
             this.inputField.setText("");
             this.mc.ingameGUI.getChatGUI().resetScroll();

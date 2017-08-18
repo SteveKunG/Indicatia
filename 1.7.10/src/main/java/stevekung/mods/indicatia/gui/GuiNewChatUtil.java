@@ -51,7 +51,7 @@ public class GuiNewChatUtil extends GuiChat
 
             if (!text.isEmpty())
             {
-                this.submitChatMessage(text);
+                this.func_146403_a(text);
             }
             this.mc.displayGuiScreen((GuiScreen)null);
         }
@@ -80,7 +80,7 @@ public class GuiNewChatUtil extends GuiChat
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state)
+    protected void mouseMovedOrUp(int mouseX, int mouseY, int state)
     {
         if (ConfigManager.enableCPS && ExtendedConfig.CPS_POSITION.equalsIgnoreCase("custom"))
         {
@@ -89,7 +89,7 @@ public class GuiNewChatUtil extends GuiChat
                 this.isDragging = false;
             }
         }
-        super.mouseReleased(mouseX, mouseY, state);
+        super.mouseMovedOrUp(mouseX, mouseY, state);
     }
 
     @Override

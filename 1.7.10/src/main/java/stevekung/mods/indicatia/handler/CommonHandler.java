@@ -108,13 +108,13 @@ public class CommonHandler
 
                     if (CommonHandler.autoClickMode.equals("left"))
                     {
-                        this.mc.sendClickBlockToController(true);
+                        this.mc.func_147115_a(true);
                     }
                     else
                     {
                         if (CommonHandler.autoClickTicks % 4 == 0)
                         {
-                            this.mc.rightClickMouse();
+                            this.mc.func_147121_ag();
                         }
                     }
                 }
@@ -189,8 +189,8 @@ public class CommonHandler
                 if (ConfigManager.enableRenderInfo && ExtendedConfig.CPS_POSITION.equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings || this.mc.currentScreen instanceof GuiKeystrokeColorSettings))
                 {
                     String space = ConfigManager.enableRCPS ? " " : "";
-                    RenderUtil.drawRect(ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4, ExtendedConfig.CPS_Y_OFFSET + 11, 16777216, ExtendedConfig.CPS_OPACITY);
-                    this.mc.fontRendererObj.drawString(HUDInfo.getCPS() + space + HUDInfo.getRCPS(), ExtendedConfig.CPS_X_OFFSET + 2, ExtendedConfig.CPS_Y_OFFSET + 2, 16777215, true);
+                    RenderUtil.drawRect(ExtendedConfig.CPS_X_OFFSET, ExtendedConfig.CPS_Y_OFFSET, ExtendedConfig.CPS_X_OFFSET + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4, ExtendedConfig.CPS_Y_OFFSET + 11, 16777216, ExtendedConfig.CPS_OPACITY);
+                    this.mc.fontRenderer.drawString(HUDInfo.getCPS() + space + HUDInfo.getRCPS(), ExtendedConfig.CPS_X_OFFSET + 2, ExtendedConfig.CPS_Y_OFFSET + 2, 16777215, true);
                 }
             }
         }
@@ -308,7 +308,7 @@ public class CommonHandler
     {
         if (event.gui instanceof GuiIngameMenu)
         {
-            event.gui.drawString(this.mc.fontRendererObj, "Support Indicatia!", event.gui.width - 120, 8, 65481);
+            event.gui.drawString(this.mc.fontRenderer, "Support Indicatia!", event.gui.width - 120, 8, 65481);
         }
     }
 

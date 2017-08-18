@@ -18,6 +18,7 @@ public class RenderUtil
         Minecraft mc = IndicatiaMod.MC;
         double distance = entityLivingBase.getDistanceSqToEntity(mc.renderViewEntity);
         int maxDistance = 64;
+        FontRenderer fontrenderer = IndicatiaMod.MC.fontRenderer;
 
         if (distance <= maxDistance * maxDistance)
         {
@@ -25,7 +26,6 @@ public class RenderUtil
             {
                 float f = 1.6F;
                 float f1 = 0.016666668F * f;
-                FontRenderer fontrenderer = IndicatiaMod.MC.fontRendererObj;
                 GL11.glPushMatrix();
                 GL11.glTranslatef((float)x + 0.0F, (float)y + entityLivingBase.height + 1.0F, (float)z);
                 GL11.glNormal3f(0.0F, 1.0F, 0.0F);
@@ -57,7 +57,6 @@ public class RenderUtil
             }
             else
             {
-                FontRenderer fontrenderer = IndicatiaMod.MC.fontRendererObj;
                 float f = 1.6F;
                 float f1 = 0.016666668F * f;
                 GL11.glPushMatrix();

@@ -24,7 +24,7 @@ public class PlayerChatHandler
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
-        this.mc.addScheduledTask(new Runnable()
+        this.mc.func_152344_a(new Runnable()
         {
             @Override
             public void run()
@@ -42,7 +42,7 @@ public class PlayerChatHandler
             if (event.entity instanceof EntityClientPlayerMP)
             {
                 EntityClientPlayerMP player = (EntityClientPlayerMP) event.entity;
-                ServerData data = PlayerChatHandler.this.mc.getCurrentServerData();
+                ServerData data = PlayerChatHandler.this.mc.func_147104_D();
                 this.runAutoLoginCommand(player, data);
                 IndicatiaMod.unregisterForgeEvent(this);
             }

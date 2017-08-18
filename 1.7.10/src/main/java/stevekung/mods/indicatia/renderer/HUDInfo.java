@@ -97,7 +97,7 @@ public class HUDInfo
 
     public static String getServerIP(Minecraft mc)
     {
-        String ip = ColoredFontRenderer.color(ExtendedConfig.IP_COLOR_R, ExtendedConfig.IP_COLOR_G, ExtendedConfig.IP_COLOR_B) + "IP: " + "" + ColoredFontRenderer.color(ExtendedConfig.IP_VALUE_COLOR_R, ExtendedConfig.IP_VALUE_COLOR_G, ExtendedConfig.IP_VALUE_COLOR_B) + mc.getCurrentServerData().serverIP;
+        String ip = ColoredFontRenderer.color(ExtendedConfig.IP_COLOR_R, ExtendedConfig.IP_COLOR_G, ExtendedConfig.IP_COLOR_B) + "IP: " + "" + ColoredFontRenderer.color(ExtendedConfig.IP_VALUE_COLOR_R, ExtendedConfig.IP_VALUE_COLOR_G, ExtendedConfig.IP_VALUE_COLOR_B) + mc.func_147104_D().serverIP;
 
         if (ConfigManager.enableServerIPMCVersion)
         {
@@ -310,7 +310,7 @@ public class HUDInfo
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
                 mc.mcProfiler.startSection("armor_durability_info");
-                float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
                 IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, (int) xOffset, (int) yOffset, 16777215, true);
                 mc.mcProfiler.endSection();
             }
@@ -327,7 +327,7 @@ public class HUDInfo
                 mc.mcProfiler.startSection("arrow_count");
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
-                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int) (isRightSide ? res.getScaledWidth() - mc.fontRendererObj.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F), (int)yOffset, 16777215, true);
+                IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.ARROW_COUNT_COLOR_R, ExtendedConfig.ARROW_COUNT_COLOR_G, ExtendedConfig.ARROW_COUNT_COLOR_B) + string, (int) (isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F), (int)yOffset, 16777215, true);
                 IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 mc.mcProfiler.endSection();
@@ -419,7 +419,7 @@ public class HUDInfo
         {
             String string = leftItemStatusList.get(i);
             mc.mcProfiler.startSection("armor_durability_info");
-            int stringWidth = mc.fontRendererObj.getStringWidth(string);
+            int stringWidth = mc.fontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 14;
             IndicatiaMod.coloredFontRenderer.drawString(ColoredFontRenderer.color(ExtendedConfig.EQUIPMENT_COLOR_R, ExtendedConfig.EQUIPMENT_COLOR_G, ExtendedConfig.EQUIPMENT_COLOR_B) + string, (int) xOffset, yOffset, 16777215, true);
@@ -441,7 +441,7 @@ public class HUDInfo
         for (int i = 0; i < leftArrowCountList.size(); ++i)
         {
             String string = leftArrowCountList.get(i);
-            int stringWidth = mc.fontRendererObj.getStringWidth(string);
+            int stringWidth = mc.fontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 90 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 10;
 
@@ -634,11 +634,11 @@ public class HUDInfo
         {
         case "damage/max_damage":
         default:
-            return itemStack.getMaxDurability() - itemStack.getMetadata() + "/" + itemStack.getMaxDurability();
+            return itemStack.getMaxDamage() - itemStack.getItemDamage() + "/" + itemStack.getMaxDamage();
         case "percent":
             return HUDInfo.calculateItemDurabilityPercent(itemStack) + "%";
         case "damage":
-            return String.valueOf(itemStack.getMaxDurability() - itemStack.getMetadata());
+            return String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage());
         case "none":
             return "";
         }
@@ -646,7 +646,7 @@ public class HUDInfo
 
     private static int calculateItemDurabilityPercent(ItemStack itemStack)
     {
-        return itemStack.getMaxDurability() <= 0 ? 0 : 100 - itemStack.getMetadata() * 100 / itemStack.getMaxDurability();
+        return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getItemDamage() * 100 / itemStack.getMaxDamage();
     }
 
     private static String getResponseTimeColor(int responseTime)
@@ -702,7 +702,7 @@ public class HUDInfo
         {
             ItemStack playerItems = inventory.getStackInSlot(i);
 
-            if (playerItems != null && playerItems.getItem() == other.getItem() && playerItems.getMetadata() == other.getMetadata() && ItemStack.areItemStackTagsEqual(playerItems, other))
+            if (playerItems != null && playerItems.getItem() == other.getItem() && playerItems.getItemDamage() == other.getItemDamage() && ItemStack.areItemStackTagsEqual(playerItems, other))
             {
                 count += playerItems.stackSize;
             }
