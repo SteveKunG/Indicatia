@@ -32,7 +32,7 @@ apply plugin: 'forge'
 version = "1.1.1"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
@@ -46,7 +46,7 @@ curseforge {
         changelog = 'To read full change log use command /inchangelog in-game.'
         releaseType = 'release'
         addGameVersion mcVersion
-        addGameVersion 'Java 7'
+        addGameVersion 'Java 8'
 
         mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
             displayName = "Indicatia-" + mcVersion + "-" + version
