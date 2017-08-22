@@ -24,14 +24,7 @@ public class PlayerChatHandler
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
-        this.mc.func_152344_a(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                IndicatiaMod.registerForgeEvent(new PlayerRunCommandHandler());
-            }
-        });
+        this.mc.func_152344_a(() -> IndicatiaMod.registerForgeEvent(new PlayerRunCommandHandler()));
     }
 
     public class PlayerRunCommandHandler

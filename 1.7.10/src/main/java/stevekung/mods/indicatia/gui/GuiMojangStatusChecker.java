@@ -60,23 +60,19 @@ public class GuiMojangStatusChecker extends GuiScreen
         }
         if (button.id == 202)
         {
-            Thread thread = new Thread(new Runnable()
+            Thread thread = new Thread(() ->
             {
-                @Override
-                public void run()
+                try
                 {
-                    try
+                    for (MojangStatusChecker checker : MojangStatusChecker.valuesCached())
                     {
-                        for (MojangStatusChecker checker : MojangStatusChecker.valuesCached())
-                        {
-                            MojangServerStatus status = checker.getServiceStatus();
-                            GuiMojangStatusChecker.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
-                        }
-                        GuiMojangStatusChecker.this.refreshButton.enabled = true;
-                        GuiMojangStatusChecker.this.doneButton.enabled = true;
+                        MojangServerStatus status = checker.getServiceStatus();
+                        GuiMojangStatusChecker.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
                     }
-                    catch (Exception e) {}
+                    GuiMojangStatusChecker.this.refreshButton.enabled = true;
+                    GuiMojangStatusChecker.this.doneButton.enabled = true;
                 }
+                catch (Exception e) {}
             });
 
             if (thread.getState() == Thread.State.NEW)
