@@ -56,7 +56,7 @@ public class LayerInwTruefaster implements LayerRenderer<EntityLivingBase>
                 int r = 100;
                 int g = 100;
                 int b = 50;
-                bufferbuilder.pos(0.0D, 0.0D, 0.0D).color(r, g, b, 10).endVertex();
+                bufferbuilder.pos(0.0D, 0.0D, 0.0D).color(r, g, b, 5).endVertex();
                 bufferbuilder.pos(-0.866D * f3, f2, -0.5F * f3).color(r, g, b, 0).endVertex();
                 bufferbuilder.pos(0.866D * f3, f2, -0.5F * f3).color(r, g, b, 0).endVertex();
                 bufferbuilder.pos(0.0D, f2, 1.0F * f3).color(r, g, b, 0).endVertex();

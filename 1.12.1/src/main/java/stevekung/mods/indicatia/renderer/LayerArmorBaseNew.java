@@ -1,5 +1,6 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,17 @@ public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLiv
     private float colorB = 1.0F;
     private boolean skipRenderGlint;
     private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = new HashMap<>();
+    private static Method renderRainbowArmor;
+
+    static
+    {
+        try
+        {
+            Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
+            LayerArmorBaseNew.renderRainbowArmor = clazz.getMethod("renderRainbowArmor", Entity.class);
+        }
+        catch (Exception e) {}
+    }
 
     public LayerArmorBaseNew(RenderLivingBase renderer, E entity)
     {
@@ -83,8 +95,7 @@ public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLiv
 
                 try
                 {
-                    Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
-                    clazz.getMethod("renderRainbowArmor", Entity.class).invoke(null, entity);
+                    LayerArmorBaseNew.renderRainbowArmor.invoke(null, entity);
                 }
                 catch (Exception e) {}
 
