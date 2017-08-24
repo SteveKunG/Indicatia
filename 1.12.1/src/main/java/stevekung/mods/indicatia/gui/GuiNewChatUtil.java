@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -53,7 +54,7 @@ public class GuiNewChatUtil extends GuiChat
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
             this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
 
-            if (InfoUtil.INSTANCE.removeFormattingCodes(skywars).contains("skywars"))
+            if (TextFormatting.getTextWithoutFormattingCodes(skywars).contains("skywars"))
             {
                 this.buttonList.add(this.swLobby = new GuiButton(1000, this.width - 72, 2, 70, 20, "SW Lobby"));
                 this.buttonList.add(this.swSoloNormal = new GuiButton(1001, this.width - 72, 23, 70, 20, "Solo Normal"));
@@ -84,7 +85,7 @@ public class GuiNewChatUtil extends GuiChat
         {
             String skywars = this.mc.world != null && this.mc.world.getScoreboard() != null && this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
 
-            if (InfoUtil.INSTANCE.removeFormattingCodes(skywars).contains("skywars"))
+            if (TextFormatting.getTextWithoutFormattingCodes(skywars).contains("skywars"))
             {
                 if (GuiNewChatUtil.page == 0)
                 {
