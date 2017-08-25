@@ -6,27 +6,52 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.gui.GuiDropdownElement.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.util.InfoUtil;
 
-public class GuiNewChatUtil extends GuiChat
+public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
 {
     private boolean isDragging;
     private int lastPosX;
     private int lastPosY;
-    private static int page;
+    private static int gameTypeSelected;
+    private GuiDropdownElement lobbyOptions;
+
+    // skywars solo
     private GuiButton swLobby;
     private GuiButton swSoloNormal;
     private GuiButton swSoloInsane;
-    private GuiButton nextSWMode;
+    private GuiButton swRankedMode;
+
+    // skywars team
     private GuiButton swTeamNormal;
     private GuiButton swTeamInsane;
     private GuiButton swMegaMode;
-    private GuiButton previousSWMode;
+
+    // skywars labs solo
+    private GuiButton swSoloTNT;
+    private GuiButton swSoloRush;
+    private GuiButton swSoloSlime;
+
+    // skywars labs team
+    private GuiButton swTeamTNT;
+    private GuiButton swTeamRush;
+    private GuiButton swTeamSlime;
+
+    // bedwars
+    private GuiButton bwLobby;
+    private GuiButton bwEightOne;
+    private GuiButton bwEightTwo;
+    private GuiButton bwFourThree;
+    private GuiButton bwFourFour;
+
+    // prototype
+    private GuiButton ptlLobby;
+    private GuiButton ptlMurder;
 
     public GuiNewChatUtil() {}
 
@@ -48,30 +73,51 @@ public class GuiNewChatUtil extends GuiChat
         }
         if (InfoUtil.INSTANCE.isHypixel())
         {
-            String skywars = this.mc.world != null && this.mc.world.getScoreboard() != null && this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
-
+            // hypixel
             this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
             this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
+            this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 123, 2, "Skywars: Solo", "Skywars: Team", "Skywars Labs: Solo", "Skywars Labs: Team", "Bedwars", "Prototype"));
 
-            if (TextFormatting.getTextWithoutFormattingCodes(skywars).contains("skywars"))
+            // skywars solo
+            this.buttonList.add(this.swLobby = new GuiButton(1000, this.width - 72, 23, 70, 20, "\u00a7eSW Lobby"));
+
+            this.buttonList.add(this.swSoloNormal = new GuiButton(1001, this.width - 72, 44, 70, 20, "Solo Normal"));
+            this.buttonList.add(this.swSoloInsane = new GuiButton(1002, this.width - 72, 65, 70, 20, "Solo Insane"));
+            this.buttonList.add(this.swRankedMode = new GuiButton(1003, this.width - 72, 86, 70, 20, "Ranked Mode"));
+
+            // skywars team
+            this.buttonList.add(this.swTeamNormal = new GuiButton(1004, this.width - 72, 44, 70, 20, "Team Normal"));
+            this.buttonList.add(this.swTeamInsane = new GuiButton(1005, this.width - 72, 65, 70, 20, "Team Insane"));
+            this.buttonList.add(this.swMegaMode = new GuiButton(1006, this.width - 72, 86, 70, 20, "Mega Mode"));
+
+            // skywars labs solo
+            this.buttonList.add(this.swSoloTNT = new GuiButton(1007, this.width - 72, 44, 70, 20, "Solo TNT"));
+            this.buttonList.add(this.swSoloRush = new GuiButton(1008, this.width - 72, 65, 70, 20, "Solo Rush"));
+            this.buttonList.add(this.swSoloSlime = new GuiButton(1009, this.width - 72, 86, 70, 20, "Solo Slime"));
+
+            // skywars labs team
+            this.buttonList.add(this.swTeamTNT = new GuiButton(1010, this.width - 72, 44, 70, 20, "Team TNT"));
+            this.buttonList.add(this.swTeamRush = new GuiButton(1011, this.width - 72, 65, 70, 20, "Team Rush"));
+            this.buttonList.add(this.swTeamSlime = new GuiButton(1012, this.width - 72, 86, 70, 20, "Team Slime"));
+
+            // bedwars
+            this.buttonList.add(this.bwLobby = new GuiButton(1013, this.width - 72, 23, 70, 20, "\u00a7eBW Lobby"));
+            this.buttonList.add(this.bwEightOne = new GuiButton(1014, this.width - 72, 44, 70, 20, "Solo"));
+            this.buttonList.add(this.bwEightTwo = new GuiButton(1015, this.width - 72, 65, 70, 20, "Doubles"));
+            this.buttonList.add(this.bwFourThree = new GuiButton(1016, this.width - 72, 86, 70, 20, "3v3v3v3"));
+            this.buttonList.add(this.bwFourFour = new GuiButton(1017, this.width - 72, 107, 70, 20, "4v4v4v4"));
+
+            // prototype
+            this.buttonList.add(this.ptlLobby = new GuiButton(1018, this.width - 72, 23, 70, 20, "\u00a7ePTL Lobby"));
+            this.buttonList.add(this.ptlMurder = new GuiButton(1019, this.width - 72, 44, 70, 20, "Murder"));
+
+            for (GuiButton button : this.buttonList)
             {
-                this.buttonList.add(this.swLobby = new GuiButton(1000, this.width - 72, 2, 70, 20, "SW Lobby"));
-                this.buttonList.add(this.swSoloNormal = new GuiButton(1001, this.width - 72, 23, 70, 20, "Solo Normal"));
-                this.buttonList.add(this.swSoloInsane = new GuiButton(1002, this.width - 72, 44, 70, 20, "Solo Insane"));
-                this.buttonList.add(this.nextSWMode = new GuiButton(150, this.width - 22, 65, 20, 20, ">"));
-                this.buttonList.add(this.swTeamNormal = new GuiButton(1003, this.width - 72, 2, 70, 20, "Team Normal"));
-                this.buttonList.add(this.swTeamInsane = new GuiButton(1004, this.width - 72, 23, 70, 20, "Team Insane"));
-                this.buttonList.add(this.swMegaMode = new GuiButton(1005, this.width - 72, 44, 70, 20, "Mega Mode"));
-                this.buttonList.add(this.previousSWMode = new GuiButton(151, this.width - 22, 65, 20, 20, "<"));
-                this.swTeamNormal.visible = false;
-                this.swTeamInsane.visible = false;
-                this.swMegaMode.visible = false;
-                this.previousSWMode.visible = false;
-                this.swLobby.visible = false;
-                this.swSoloNormal.visible = false;
-                this.swSoloInsane.visible = false;
-                this.nextSWMode.visible = false;
+                if (!button.getClass().equals(GuiDropdownElement.class) && !(button.id >= 0 && button.id <= 102))
+                {
+                    button.visible = false;
+                }
             }
         }
     }
@@ -83,32 +129,45 @@ public class GuiNewChatUtil extends GuiChat
 
         if (InfoUtil.INSTANCE.isHypixel())
         {
-            String skywars = this.mc.world != null && this.mc.world.getScoreboard() != null && this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.world.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
+            boolean clicked = !this.lobbyOptions.dropdownClicked;
 
-            if (TextFormatting.getTextWithoutFormattingCodes(skywars).contains("skywars"))
+            switch (GuiNewChatUtil.gameTypeSelected)
             {
-                if (GuiNewChatUtil.page == 0)
-                {
-                    this.swLobby.visible = true;
-                    this.swSoloNormal.visible = true;
-                    this.swSoloInsane.visible = true;
-                    this.nextSWMode.visible = true;
-                    this.swTeamNormal.visible = false;
-                    this.swTeamInsane.visible = false;
-                    this.swMegaMode.visible = false;
-                    this.previousSWMode.visible = false;
-                }
-                else
-                {
-                    this.swLobby.visible = false;
-                    this.swSoloNormal.visible = false;
-                    this.swSoloInsane.visible = false;
-                    this.nextSWMode.visible = false;
-                    this.swTeamNormal.visible = true;
-                    this.swTeamInsane.visible = true;
-                    this.swMegaMode.visible = true;
-                    this.previousSWMode.visible = true;
-                }
+            case 0:
+                this.swLobby.visible = clicked;
+                this.swSoloNormal.visible = clicked;
+                this.swSoloInsane.visible = clicked;
+                this.swRankedMode.visible = clicked;
+                break;
+            case 1:
+                this.swLobby.visible = clicked;
+                this.swTeamNormal.visible = clicked;
+                this.swTeamInsane.visible = clicked;
+                this.swMegaMode.visible = clicked;
+                break;
+            case 2:
+                this.swLobby.visible = clicked;
+                this.swSoloTNT.visible = clicked;
+                this.swSoloRush.visible = clicked;
+                this.swSoloSlime.visible = clicked;
+                break;
+            case 3:
+                this.swLobby.visible = clicked;
+                this.swTeamTNT.visible = clicked;
+                this.swTeamRush.visible = clicked;
+                this.swTeamSlime.visible = clicked;
+                break;
+            case 4:
+                this.bwLobby.visible = clicked;
+                this.bwEightOne.visible = clicked;
+                this.bwEightTwo.visible = clicked;
+                this.bwFourThree.visible = clicked;
+                this.bwFourFour.visible = clicked;
+                break;
+            case 5:
+                this.ptlLobby.visible = clicked;
+                this.ptlMurder.visible = clicked;
+                break;
             }
         }
     }
@@ -209,12 +268,6 @@ public class GuiNewChatUtil extends GuiChat
             this.mc.player.sendChatMessage("/chat g");
             this.mc.player.sendMessage(IndicatiaMod.json.text("Set chat mode to Hypixel Guild Chat"));
             break;
-        case 150:
-            GuiNewChatUtil.page = 1;
-            break;
-        case 151:
-            GuiNewChatUtil.page = 0;
-            break;
         case 1000:
             this.mc.player.sendChatMessage("/lobby sw");
             break;
@@ -225,14 +278,68 @@ public class GuiNewChatUtil extends GuiChat
             this.mc.player.sendChatMessage("/play solo_insane");
             break;
         case 1003:
-            this.mc.player.sendChatMessage("/play teams_normal");
+            this.mc.player.sendChatMessage("/play ranked_normal");
             break;
         case 1004:
-            this.mc.player.sendChatMessage("/play teams_insane");
+            this.mc.player.sendChatMessage("/play teams_normal");
             break;
         case 1005:
+            this.mc.player.sendChatMessage("/play teams_insane");
+            break;
+        case 1006:
             this.mc.player.sendChatMessage("/play mega_normal");
             break;
+        case 1007:
+            this.mc.player.sendChatMessage("/play solo_insane_tnt_madness");
+            break;
+        case 1008:
+            this.mc.player.sendChatMessage("/play solo_insane_rush");
+            break;
+        case 1009:
+            this.mc.player.sendChatMessage("/play solo_insane_slime");
+            break;
+        case 1010:
+            this.mc.player.sendChatMessage("/play teams_insane_tnt_madness");
+            break;
+        case 1011:
+            this.mc.player.sendChatMessage("/play teams_insane_rush");
+            break;
+        case 1012:
+            this.mc.player.sendChatMessage("/play teams_insane_slime");
+            break;
+        case 1013:
+            this.mc.player.sendChatMessage("/lobby bw");
+            break;
+        case 1014:
+            this.mc.player.sendChatMessage("/play bedwars_eight_one");
+            break;
+        case 1015:
+            this.mc.player.sendChatMessage("/play bedwars_eight_two");
+            break;
+        case 1016:
+            this.mc.player.sendChatMessage("/play bedwars_four_three");
+            break;
+        case 1017:
+            this.mc.player.sendChatMessage("/play bedwars_four_four");
+            break;
+        case 1018:
+            this.mc.player.sendChatMessage("/lobby ptl");
+            break;
+        case 1019:
+            this.mc.player.sendChatMessage("/play prototype_murder_mystery");
+            break;
         }
+    }
+
+    @Override
+    public void onSelectionChanged(GuiDropdownElement dropdown, int selection)
+    {
+        GuiNewChatUtil.gameTypeSelected = selection;
+    }
+
+    @Override
+    public int getInitialSelection(GuiDropdownElement dropdown)
+    {
+        return GuiNewChatUtil.gameTypeSelected;
     }
 }
