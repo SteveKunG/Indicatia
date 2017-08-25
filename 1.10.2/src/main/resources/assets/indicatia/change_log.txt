@@ -1,6 +1,4 @@
--Added- Added Fully Horizontal Equipment HUD rendering
--Added- Added Custom Color to Equipment Status
--Added- Added Custom Color to Equipment Arrow Count
--Update- Render Profile now save Donator File Path
--Fixed- Fixed Render Profile config saving issue
--Remove- Removed Old Hurt Render for Elytra
+-Added- Added Game Type Dropdown Button (Only work on Hypixel)
+-Update- Automatically disabled Health Status on Hypixel
+-Update- Improve Keystroke/Custom CPS rendering
+-Update- Changed Slider Button rendering in Render Settings GUI
