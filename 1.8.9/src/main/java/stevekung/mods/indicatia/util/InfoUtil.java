@@ -82,15 +82,6 @@ public class InfoUtil
         return CommonHandler.RIGHT_CLICK.size();
     }
 
-    public String removeFormattingCodes(String text)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            text = text.replace("\u00a7" + i, "");
-        }
-        return text = text.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "").replace("\u00a7" + "k", "").replace("\u00a7" + "l", "").replace("\u00a7" + "m", "").replace("\u00a7" + "n", "").replace("\u00a7" + "o", "").replace("\u00a7" + "r", "");
-    }
-
     public void setOverlayMessage(String message, boolean isPlaying)
     {
         IndicatiaMod.MC.ingameGUI.setRecordPlaying(message, isPlaying);
