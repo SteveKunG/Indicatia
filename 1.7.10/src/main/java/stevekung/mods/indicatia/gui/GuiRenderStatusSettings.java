@@ -60,7 +60,7 @@ public class GuiRenderStatusSettings extends GuiScreen
             }
             if (button.id == 208)
             {
-                new GuiKeystrokeColorSettings().display();
+                this.mc.displayGuiScreen(new GuiKeystrokeColorSettings());
             }
         }
     }

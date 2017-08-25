@@ -1,14 +1,11 @@
 package stevekung.mods.indicatia.gui;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.LangUtil;
 
 @SideOnly(Side.CLIENT)
@@ -20,18 +17,6 @@ public class GuiKeystrokeColorSettings extends GuiScreen
     private GuiButton blockRainbow;
     private GuiButton sprintRainbow;
     private GuiButton sneakRainbow;
-
-    public void display()
-    {
-        IndicatiaMod.registerForgeEvent(this);
-    }
-
-    @SubscribeEvent
-    public void onClientTick(ClientTickEvent event)
-    {
-        IndicatiaMod.unregisterForgeEvent(this);
-        IndicatiaMod.MC.displayGuiScreen(this);
-    }
 
     @Override
     public void initGui()

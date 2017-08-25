@@ -1,8 +1,10 @@
 package stevekung.mods.indicatia.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -11,6 +13,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 @SideOnly(Side.CLIENT)
 public class GuiRenderStatusSliderInt extends GuiButton
 {
+    private static final ResourceLocation TEXTURE = new ResourceLocation("indicatia:textures/gui/trans_gui.png");
     private float sliderValue;
     public boolean dragging;
     private final Options options;
@@ -40,6 +43,36 @@ public class GuiRenderStatusSliderInt extends GuiButton
     }
 
     @Override
+    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+    {
+        if (this.visible)
+        {
+            FontRenderer fontrenderer = mc.fontRenderer;
+            mc.getTextureManager().bindTexture(GuiRenderStatusSliderInt.TEXTURE);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            int i = this.getHoverState(this.hovered);
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            this.drawTexturedModalRect(this.x, this.y, 0, i * 20, this.width / 2, this.height);
+            this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, i * 20, this.width / 2, this.height);
+            this.mouseDragged(mc, mouseX, mouseY);
+            int j = 14737632;
+
+            if (!this.enabled)
+            {
+                j = 10526880;
+            }
+            else if (this.hovered)
+            {
+                j = 16777120;
+            }
+            this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, j);
+        }
+    }
+
+    @Override
     protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
     {
         if (this.visible)
@@ -53,10 +86,10 @@ public class GuiRenderStatusSliderInt extends GuiButton
                 this.sliderValue = this.options.normalizeValue(f);
                 this.displayString = this.options.getEnumString() + ": " + this.getOptionValue(this.options);
             }
-            mc.getTextureManager().bindTexture(GuiButton.BUTTON_TEXTURES);
+            mc.getTextureManager().bindTexture(GuiRenderStatusSliderInt.TEXTURE);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)), this.y, 0, 20, 4, this.height);
+            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)) + 4, this.y, 196, 20, 4, this.height);
         }
     }
 
