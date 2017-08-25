@@ -4,6 +4,11 @@
 		"category": "player",
 		"sounds": ["indicatia:pete_music"]
 	},
+    "pete_dance":
+	{
+		"category": "player",
+		"sounds": ["indicatia:pete_dance"]
+	},
     "inwtrue":
 	{
 		"category": "player",

@@ -66,7 +66,6 @@ public class IndicatiaMod
         IndicatiaMod.MC = Minecraft.getMinecraft();
         IndicatiaMod.json = new JsonUtil();
         IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
-        IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
     }
 
     @EventHandler

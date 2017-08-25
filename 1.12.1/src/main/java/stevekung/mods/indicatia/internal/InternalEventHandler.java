@@ -19,6 +19,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.ModLogger;
 
@@ -30,6 +31,7 @@ public class InternalEventHandler
     public static int inwTimeStatic;
     private int rainbowTime;
     public static KeyBinding KEY_TRUEFASTER_RAINBOW;
+    public static KeyBinding KEY_TRUEFASTER_RAINBOW_2;
     public static KeyBinding KEY_INW_TRUEFASTER;
 
     public static void init()
@@ -37,14 +39,16 @@ public class InternalEventHandler
         ModLogger.info("Initial SteveKunG fun stuff!");
         MinecraftForge.EVENT_BUS.register(new InternalEventHandler());
         InternalEventHandler.KEY_TRUEFASTER_RAINBOW = new KeyBinding("key.truefaster_rainbow.desc", Keyboard.KEY_6, "key.indicatia.category");
+        InternalEventHandler.KEY_TRUEFASTER_RAINBOW_2 = new KeyBinding("key.truefaster_rainbow_2.desc", Keyboard.KEY_8, "key.indicatia.category");
         InternalEventHandler.KEY_INW_TRUEFASTER = new KeyBinding("key.inw_truefaster.desc", Keyboard.KEY_7, "key.indicatia.category");
         ClientRegistry.registerKeyBinding(InternalEventHandler.KEY_TRUEFASTER_RAINBOW);
+        ClientRegistry.registerKeyBinding(InternalEventHandler.KEY_TRUEFASTER_RAINBOW_2);
         ClientRegistry.registerKeyBinding(InternalEventHandler.KEY_INW_TRUEFASTER);
     }
 
     public static void renderRainbowArmor(Entity entity)
     {
-        if (entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") || entity.getUniqueID().toString().contains(IndicatiaMod.allowedUserUUID) && InternalEventHandler.isTruefasterRainbow)
+        if ((entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") || entity.getUniqueID().toString().contains(IndicatiaMod.allowedUserUUID)) && InternalEventHandler.isTruefasterRainbow)
         {
             int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
             float red = (rainbow >> 16 & 255) / 255.0F;
@@ -57,8 +61,9 @@ public class InternalEventHandler
     @SubscribeEvent
     public void onRegister(RegistryEvent.Register<SoundEvent> event)
     {
-        event.getRegistry().register(new SoundEvent(new ResourceLocation("indicatia:pete_music")).setRegistryName(new ResourceLocation("indicatia:pete_music")));
-        event.getRegistry().register(new SoundEvent(new ResourceLocation("indicatia:inwtrue")).setRegistryName(new ResourceLocation("indicatia:inwtrue")));
+        InternalEventHandler.registerSound(event.getRegistry(), "pete_music");
+        InternalEventHandler.registerSound(event.getRegistry(), "pete_dance");
+        InternalEventHandler.registerSound(event.getRegistry(), "inwtrue");
     }
 
     @SubscribeEvent
@@ -94,7 +99,7 @@ public class InternalEventHandler
 
         //GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);//XXX
 
-        if (entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") || entity.getUniqueID().toString().contains(IndicatiaMod.allowedUserUUID) && this.rainbowTime > 0)
+        if ((entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") || entity.getUniqueID().toString().contains(IndicatiaMod.allowedUserUUID)) && this.rainbowTime > 0)
         {
             int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
             float red = (rainbow >> 16 & 255) / 255.0F;
@@ -120,6 +125,12 @@ public class InternalEventHandler
             InternalEventHandler.isTruefasterRainbow = true;
             this.rainbowTime = 280;
         }
+        if (InternalEventHandler.KEY_TRUEFASTER_RAINBOW_2.isKeyDown() && this.rainbowTime == 0)
+        {
+            IndicatiaMod.MC.player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("indicatia:pete_dance")), 1.0F, 1.0F);
+            InternalEventHandler.isTruefasterRainbow = true;
+            this.rainbowTime = 220;
+        }
         if (InternalEventHandler.KEY_INW_TRUEFASTER.isKeyDown() && InternalEventHandler.inwTimeStatic == 0)
         {
             IndicatiaMod.MC.player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("indicatia:inwtrue")), 1.0F, 1.0F);
@@ -127,4 +138,8 @@ public class InternalEventHandler
         }
     }
 
+    private static void registerSound(IForgeRegistry<SoundEvent> registry, String sound)
+    {
+        registry.register(new SoundEvent(new ResourceLocation("indicatia:" + sound)).setRegistryName(new ResourceLocation("indicatia:" + sound)));
+    }
 }
