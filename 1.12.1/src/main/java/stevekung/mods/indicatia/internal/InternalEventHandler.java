@@ -44,7 +44,7 @@ public class InternalEventHandler
 
     public static void renderRainbowArmor(Entity entity)
     {
-        if (entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") && InternalEventHandler.isTruefasterRainbow)
+        if (entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") || entity.getUniqueID().toString().contains(IndicatiaMod.allowedUserUUID) && InternalEventHandler.isTruefasterRainbow)
         {
             int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
             float red = (rainbow >> 16 & 255) / 255.0F;
@@ -94,7 +94,7 @@ public class InternalEventHandler
 
         //GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);//XXX
 
-        if (entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") && this.rainbowTime > 0)
+        if (entity.getName().contains("truefaster") || entity.getName().contains("SteveKunG") || entity.getUniqueID().toString().contains(IndicatiaMod.allowedUserUUID) && this.rainbowTime > 0)
         {
             int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
             float red = (rainbow >> 16 & 255) / 255.0F;

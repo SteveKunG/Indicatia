@@ -1,7 +1,9 @@
 package stevekung.mods.indicatia.core;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
@@ -50,6 +52,8 @@ public class IndicatiaMod
     public static boolean FOUND_LATEST;
     public static ColoredFontRenderer coloredFontRenderer;
     public static JsonUtil json;
+    private static final List<String> allowedUUID = new ArrayList<>();
+    public static String allowedUserUUID;
 
     static
     {
@@ -61,11 +65,22 @@ public class IndicatiaMod
 
         IndicatiaMod.MC = Minecraft.getMinecraft();
         IndicatiaMod.json = new JsonUtil();
+        IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
+        IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
     }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        for (String uuid : IndicatiaMod.allowedUUID)
+        {
+            if (GameProfileUtil.getUUID().toString().contains(uuid))
+            {
+                IndicatiaMod.allowedUserUUID = uuid;
+                ModLogger.info("Found user {} that can be use all features in the mod!", uuid);
+            }
+        }
+
         IndicatiaMod.init(event.getModMetadata());
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "indicatia.cfg"));
         KeyBindingHandler.init();
@@ -138,7 +153,7 @@ public class IndicatiaMod
 
     public static boolean isSteveKunG()
     {
-        return GameProfileUtil.getUsername().equals("SteveKunG") && GameProfileUtil.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatiaMod.isObfuscatedEnvironment();
+        return GameProfileUtil.getUsername().equals("SteveKunG") && GameProfileUtil.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatiaMod.isObfuscatedEnvironment() || GameProfileUtil.getUUID().toString().contains(IndicatiaMod.allowedUserUUID);
     }
 
     private static void init(ModMetadata info)
