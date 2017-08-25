@@ -361,7 +361,7 @@ public class CommonHandler
                     if (unformattedText.contains(votingText1))
                     {
                         String replacedText = unformattedText.replace(votingText1, "");
-                        replacedText = InfoUtil.INSTANCE.removeFormattingCodes(replacedText);
+                        replacedText = TextFormatting.getTextWithoutFormattingCodes(replacedText);
                         replacedText = replacedText.replace(votingText2, "");
 
                         if (replacedText.contains("vote.hypixel.net/0"))
@@ -754,8 +754,8 @@ public class CommonHandler
 
         for (String message : ConfigManager.endGameTitleMessage.split(","))
         {
-            String messageToLower = InfoUtil.INSTANCE.removeFormattingCodes(message).toLowerCase();
-            String displayTitleMessage = InfoUtil.INSTANCE.removeFormattingCodes(mc.ingameGUI.displayedTitle).toLowerCase();
+            String messageToLower = TextFormatting.getTextWithoutFormattingCodes(message).toLowerCase();
+            String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(mc.ingameGUI.displayedTitle).toLowerCase();
 
             if (displayTitleMessage.contains(messageToLower) && CommonHandler.printAutoGGTicks == ConfigManager.endGameTitleTime)
             {
