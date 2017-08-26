@@ -53,7 +53,7 @@ public class IndicatiaMod
     public static ColoredFontRenderer coloredFontRenderer;
     public static JsonUtil json;
     private static final List<String> allowedUUID = new ArrayList<>();
-    public static String allowedUserUUID;
+    public static String allowedUserUUID = "";
 
     static
     {
