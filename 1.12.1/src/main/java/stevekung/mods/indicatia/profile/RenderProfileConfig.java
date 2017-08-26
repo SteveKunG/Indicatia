@@ -78,6 +78,7 @@ public class RenderProfileConfig
             nbt.setInteger("CPSY", (int) login.getObjects()[26]);
             nbt.setString("TopDonatePath", (String) login.getObjects()[27]);
             nbt.setString("RecentDonatePath", (String) login.getObjects()[28]);
+            nbt.setString("DonatorPos", (String) login.getObjects()[28]);
             list.appendTag(nbt);
         }
         return list;
@@ -92,7 +93,7 @@ public class RenderProfileConfig
                     nbt.getBoolean("Equipments"), nbt.getBoolean("PotionHUD"), nbt.getBoolean("Keystroke"), nbt.getBoolean("CPS"), nbt.getBoolean("RCPS"), nbt.getBoolean("SlimeChunk"), nbt.getBoolean("RealTime"),
                     nbt.getBoolean("GameTime"), nbt.getBoolean("Weather"), nbt.getBoolean("MoonPhase"), nbt.getString("KeystokePos"), nbt.getString("EquipOrder"), nbt.getString("EquipDirection"), nbt.getString("EquipStatus"),
                     nbt.getString("EquipPos"), nbt.getString("PotionStyle"), nbt.getString("PotionPos"), nbt.getInteger("ArmorOffset"), nbt.getInteger("PotionOffset"), nbt.getInteger("KeystrokeY"), nbt.getInteger("CPSX"), nbt.getInteger("CPSY"),
-                    nbt.getString("TopDonatePath"), nbt.getString("RecentDonatePath"));
+                    nbt.getString("TopDonatePath"), nbt.getString("RecentDonatePath"), nbt.getString("DonatorPos"));
         }
     }
 }

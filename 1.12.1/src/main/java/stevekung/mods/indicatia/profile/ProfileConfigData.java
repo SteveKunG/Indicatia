@@ -111,6 +111,11 @@ public class ProfileConfigData
         ExtendedConfig.CPS_Y_OFFSET =  (int) data.getObjects()[26];
         ExtendedConfig.TOP_DONATOR_FILE_PATH =  (String) data.getObjects()[27];
         ExtendedConfig.RECENT_DONATOR_FILE_PATH =  (String) data.getObjects()[28];
+
+        prop = ConfigManager.getProperty(ConfigManager.DONATION_SETTINGS, "Donator Message Position", "right");
+        prop.set((String) data.getObjects()[29]);
+        prop.setValidValues(new String[] { "left", "right" });
+        ConfigManager.donatorMessagePosition = prop.getString();
     }
 
     public void set(Property prop, Object object)
