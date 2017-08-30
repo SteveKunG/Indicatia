@@ -55,12 +55,12 @@ public class IndicatiaMod
         catch (Exception e) {}
 
         IndicatiaMod.MC = Minecraft.getMinecraft();
+        IndicatiaMod.overrideClientCommandHandler();
     }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        IndicatiaMod.overrideClientCommandHandler();
         IndicatiaMod.init(event.getModMetadata());
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "indicatia.cfg"));
         KeyBindingHandler.init();
