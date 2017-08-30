@@ -2,10 +2,11 @@ package stevekung.mods.indicatia.gui;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.ChatLine;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -115,57 +116,6 @@ public class GuiNewChatFast extends GuiNewChat
     @Nullable
     public IChatComponent getChatComponent(int mouseX, int mouseY)
     {
-        if (!this.getChatOpen())
-        {
-            return null;
-        }
-        else
-        {
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-            int i = scaledresolution.getScaleFactor();
-            float f = this.getChatScale();
-            int j = mouseX / i - 2;
-            int k = mouseY / i - 40;
-            j = MathHelper.floor_float(j / f);
-            k = MathHelper.floor_float(k / f);
-
-            if (j >= 0 && k >= 0)
-            {
-                int l = Math.min(this.getLineCount(), this.field_146253_i.size());
-
-                if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
-                {
-                    int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
-
-                    if (i1 >= 0 && i1 < this.field_146253_i.size())
-                    {
-                        ChatLine chatline = this.field_146253_i.get(i1);
-                        int j1 = 0;
-
-                        for (IChatComponent itextcomponent : chatline.getChatComponent())
-                        {
-                            if (itextcomponent instanceof ChatComponentText)
-                            {
-                                j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.func_178909_a(((ChatComponentText)itextcomponent).getChatComponentText_TextValue(), false));
-
-                                if (j1 > j)
-                                {
-                                    return itextcomponent;
-                                }
-                            }
-                        }
-                    }
-                    return null;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
+        return super.getChatComponent(mouseX + 3, mouseY - 25);
     }
 }

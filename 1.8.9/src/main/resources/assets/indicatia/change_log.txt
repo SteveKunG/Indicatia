@@ -1,4 +1,1 @@
--Added- Added Game Type Dropdown Button (Only work on Hypixel)
--Update- Automatically disabled Health Status on Hypixel
--Update- Improve Keystroke/Custom CPS rendering
--Update- Changed Slider Button rendering in Render Settings GUI
+-Fixed- Fixed Chat component conflict
