@@ -1,4 +1,1 @@
--Update- Improve Keystroke/Custom CPS rendering
--Update- Java 8 Support
--Update- Changed Slider Button rendering in Render Settings GUI
--Fixed- Fixed Access Transformer method name
+-Fixed- Fixed Chat component conflict
