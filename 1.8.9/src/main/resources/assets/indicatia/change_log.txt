@@ -1,1 +1,2 @@
 -Fixed- Fixed Chat component conflict
+-Fixed- Fixed Client Command Handler loaded too late
