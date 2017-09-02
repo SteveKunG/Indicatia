@@ -1,31 +1,20 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
-.classpath
-.project
-
-# idea
-out
-*.ipr
-*.iws
-*.iml
-.idea
-
-# file
-*.txt
-!license.txt
-!change_log.txt
-gradle-wrapper.jar
-gradle-wrapper.properties
-gradlew.bat
-gradlew
-
 # folder
+bin
+.settings
 .gradle
 .gradle_data
 build
 eclipse
 run
 */src/main/java/net/minecraft/
+
+# file
+*.launch
+*.txt
+.metadata
+.classpath
+.project
+gradle-wrapper.jar
+gradle-wrapper.properties
+gradlew.bat
+gradlew
