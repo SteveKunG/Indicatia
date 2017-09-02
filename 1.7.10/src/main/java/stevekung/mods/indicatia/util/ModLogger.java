@@ -5,12 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ModLogger
 {
-    private static final Logger LOG;
-
-    static
-    {
-        LOG = LogManager.getLogger("Indicatia");
-    }
+    private static final Logger LOG = LogManager.getLogger("Indicatia");
 
     public static void info(String message)
     {
