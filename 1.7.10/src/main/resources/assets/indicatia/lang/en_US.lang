@@ -14,6 +14,7 @@ gui.config.indicatia.custom_cape=Allowed to use Custom Cape by upload your Custo
 gui.config.indicatia.server_tps=This will show overall Server TPS to testing performance.
 gui.config.indicatia.alternate_player_model=This will implement transparent skin from 1.9.
 gui.config.key_code_example.tooltip=Copy this URL and set your custom key code.
+gui.config.indicatia.render_nametag_fix=Improve Nametag rendering when in the Third Person view.
 
 # KEY BINDING
 key.indicatia.category=Indicatia

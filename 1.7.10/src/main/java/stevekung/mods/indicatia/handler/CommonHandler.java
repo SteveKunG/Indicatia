@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 
@@ -22,8 +23,12 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.EnumChatFormatting;
@@ -31,6 +36,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import stevekung.mods.indicatia.config.ConfigGuiFactory;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -137,6 +143,30 @@ public class CommonHandler
         if (event.button == 1 && event.buttonstate)
         {
             CommonHandler.RIGHT_CLICK.add(Long.valueOf(System.currentTimeMillis()));
+        }
+    }
+
+    @SubscribeEvent
+    public void onPreRenderLivingSpecials(RenderLivingEvent.Specials.Pre event)
+    {
+        EntityLivingBase entity = event.entity;
+
+        if (ConfigManager.enableRenderNametagFix)
+        {
+            event.setCanceled(true);
+
+            if (event.renderer.func_110813_b(entity))
+            {
+                double d0 = entity.getDistanceSqToEntity(RenderManager.instance.livingPlayer);
+                float f = entity.isSneaking() ? RendererLivingEntity.NAME_TAG_RANGE_SNEAK : RendererLivingEntity.NAME_TAG_RANGE;
+
+                if (d0 < f * f)
+                {
+                    String name = entity.func_145748_c_().getFormattedText();
+                    GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+                    CommonHandler.renderEntityName(this.mc, entity, name, event.x, event.y, event.z);
+                }
+            }
         }
     }
 
@@ -468,5 +498,67 @@ public class CommonHandler
                 ModLogger.info("Set player model to {}", ModelBiped.class.getName());
             }
         }
+    }
+
+    private static void renderEntityName(Minecraft mc, EntityLivingBase entity, String str, double x, double y, double z)
+    {
+        int maxDistance = 64;
+        double d0 = entity.getDistanceSqToEntity(mc.renderViewEntity);
+
+        if (d0 <= maxDistance * maxDistance)
+        {
+            boolean flag = entity.isSneaking();
+            float f = RenderManager.instance.playerViewY;
+            float f1 = RenderManager.instance.playerViewX;
+            boolean flag1 = RenderManager.instance.options.thirdPersonView == 2;
+            float f2 = entity.height + 0.5F - (flag ? 0.25F : 0.0F);
+            int i = "deadmau5".equals(str) ? -10 : 0;
+            CommonHandler.drawNameplate(RenderManager.instance.getFontRenderer(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
+        }
+    }
+
+    private static void drawNameplate(FontRenderer fontRenderer, String str, float x, float y, float z, int verticalShift, float viewerYaw, float viewerPitch, boolean isThirdPersonFrontal, boolean isSneaking)
+    {
+        GL11.glPushMatrix();
+        GL11.glTranslatef(x, y, z);
+        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-viewerYaw, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
+        GL11.glScalef(-0.025F, -0.025F, 0.025F);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(false);
+
+        if (!isSneaking)
+        {
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+        }
+
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        Tessellator tessellator = Tessellator.instance;
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        tessellator.startDrawingQuads();
+        int i = fontRenderer.getStringWidth(str) / 2;
+        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+        tessellator.addVertex(-i - 1, -1.0D, 0.0D);
+        tessellator.addVertex(-i - 1, 8.0D, 0.0D);
+        tessellator.addVertex(i + 1, 8.0D, 0.0D);
+        tessellator.addVertex(i + 1, -1.0D, 0.0D);
+        tessellator.draw();
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+        if (!isSneaking)
+        {
+            fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, verticalShift, 553648127);
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+        }
+
+        GL11.glDepthMask(true);
+        fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, verticalShift, isSneaking ? 553648127 : -1);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glPopMatrix();
     }
 }
