@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -23,10 +24,14 @@ import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
@@ -232,6 +237,30 @@ public class CommonHandler
         else if (entity instanceof EntitySkeleton)
         {
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderSkeleton(manager), entity), renderer, entity);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPreRenderLivingSpecials(RenderLivingEvent.Specials.Pre<EntityLivingBase> event)
+    {
+        EntityLivingBase entity = event.entity;
+
+        if (ConfigManager.enableRenderNametagFix)
+        {
+            event.setCanceled(true);
+
+            if (event.renderer.canRenderName(entity))
+            {
+                double d0 = entity.getDistanceSqToEntity(this.mc.getRenderManager().livingPlayer);
+                float f = entity.isSneaking() ? RendererLivingEntity.NAME_TAG_RANGE_SNEAK : RendererLivingEntity.NAME_TAG_RANGE;
+
+                if (d0 < f * f)
+                {
+                    String name = entity.getDisplayName().getFormattedText();
+                    GlStateManager.alphaFunc(516, 0.1F);
+                    CommonHandler.renderEntityName(this.mc, entity, name, event.x, event.y, event.z);
+                }
+            }
         }
     }
 
@@ -864,5 +893,66 @@ public class CommonHandler
                 }
             }
         }
+    }
+
+    private static void renderEntityName(Minecraft mc, EntityLivingBase entity, String str, double x, double y, double z)
+    {
+        int maxDistance = 64;
+        double d0 = entity.getDistanceSqToEntity(mc.getRenderViewEntity());
+
+        if (d0 <= maxDistance * maxDistance)
+        {
+            boolean flag = entity.isSneaking();
+            float f = mc.getRenderManager().playerViewY;
+            float f1 = mc.getRenderManager().playerViewX;
+            boolean flag1 = mc.getRenderManager().options.thirdPersonView == 2;
+            float f2 = entity.height + 0.5F - (flag ? 0.25F : 0.0F);
+            int i = "deadmau5".equals(str) ? -10 : 0;
+            CommonHandler.drawNameplate(mc.getRenderManager().getFontRenderer(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
+        }
+    }
+
+    private static void drawNameplate(FontRenderer fontRenderer, String str, float x, float y, float z, int verticalShift, float viewerYaw, float viewerPitch, boolean isThirdPersonFrontal, boolean isSneaking)
+    {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-viewerYaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate((isThirdPersonFrontal ? -1 : 1) * viewerPitch, 1.0F, 0.0F, 0.0F);
+        GlStateManager.scale(-0.025F, -0.025F, 0.025F);
+        GlStateManager.disableLighting();
+        GlStateManager.depthMask(false);
+
+        if (!isSneaking)
+        {
+            GlStateManager.disableDepth();
+        }
+
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        int i = fontRenderer.getStringWidth(str) / 2;
+        GlStateManager.disableTexture2D();
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer vertexbuffer = tessellator.getWorldRenderer();
+        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        vertexbuffer.pos(-i - 1, -1 + verticalShift, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        vertexbuffer.pos(-i - 1, 8 + verticalShift, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        vertexbuffer.pos(i + 1, 8 + verticalShift, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        vertexbuffer.pos(i + 1, -1 + verticalShift, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+
+        if (!isSneaking)
+        {
+            fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, verticalShift, 553648127);
+            GlStateManager.enableDepth();
+        }
+
+        GlStateManager.depthMask(true);
+        fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, verticalShift, isSneaking ? 553648127 : -1);
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.popMatrix();
     }
 }

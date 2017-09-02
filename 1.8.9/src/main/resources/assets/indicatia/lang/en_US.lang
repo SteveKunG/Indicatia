@@ -19,6 +19,7 @@ gui.config.indicatia.old_armor_render=This will using old armor hurt effect rend
 gui.config.key_code_example.tooltip=Copy this URL and set your custom key code.
 gui.config.indicatia.end_game_title_message=This will check message from Title if equal to it. Split text by "," Example: Goodbye,You Died
 gui.config.indicatia.end_game_message=This message will be printed to in-game chat when game is end or finished. Disable by leave it blank.
+gui.config.indicatia.render_nametag_fix=Improve Nametag rendering when in the Third Person view.
 
 # KEY BINDING
 key.indicatia.category=Indicatia

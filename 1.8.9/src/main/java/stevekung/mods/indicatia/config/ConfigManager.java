@@ -42,6 +42,7 @@ public class ConfigManager
     public static boolean enableCustomMovementHandler;
     public static boolean enableCustomCape;
     public static boolean enableAlternatePlayerModel;
+    public static boolean enableRenderNametagFix;
 
     // Render Settings
     public static boolean swapRenderInfoToRight;
@@ -200,6 +201,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Alternate Player Model", false);
         ConfigManager.enableAlternatePlayerModel = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.alternate_player_model");
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Render Nametag Fix", true);
+        ConfigManager.enableRenderNametagFix = prop.getBoolean();
+        prop.comment = LangUtil.translate("gui.config.indicatia.render_nametag_fix");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Version Checker", true);
