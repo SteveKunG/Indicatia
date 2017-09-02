@@ -99,6 +99,7 @@ public class GuiDropdownElement extends GuiButton
             else
             {
                 this.dropdownClicked = false;
+                return true;
             }
         }
         return false;
