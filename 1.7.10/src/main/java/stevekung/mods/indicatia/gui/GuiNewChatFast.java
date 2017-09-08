@@ -10,10 +10,12 @@ import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.HideNameData;
 
 @SideOnly(Side.CLIENT)
 public class GuiNewChatFast extends GuiNewChat
@@ -88,15 +90,23 @@ public class GuiNewChatFast extends GuiNewChat
                             {
                                 byte b0 = 0;
                                 int j2 = -j1 * 9;
+                                String text = chatline.func_151461_a().getFormattedText();
 
                                 if (!ConfigManager.enableFastChatRender)
                                 {
                                     Gui.drawRect(b0, j2 - 9, b0 + i1 + 4, j2, i2 / 2 << 24);
                                 }
 
+                                for (String hide : HideNameData.getHideNameList())
+                                {
+                                    if (text.contains(hide))
+                                    {
+                                        text = text.replace(hide, EnumChatFormatting.OBFUSCATED + hide + EnumChatFormatting.RESET);
+                                    }
+                                }
+
                                 GL11.glEnable(GL11.GL_BLEND);
-                                String s = chatline.func_151461_a().getFormattedText();
-                                this.mc.fontRenderer.drawStringWithShadow(s, b0, j2 - 8, 16777215 + (i2 << 24));
+                                this.mc.fontRenderer.drawStringWithShadow(text, b0, j2 - 8, 16777215 + (i2 << 24));
                                 GL11.glDisable(GL11.GL_ALPHA_TEST);
                             }
                         }

@@ -37,10 +37,7 @@ import stevekung.mods.indicatia.gui.GuiRenderStatusSettings;
 import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
-import stevekung.mods.indicatia.util.InfoUtil;
-import stevekung.mods.indicatia.util.JsonUtil;
-import stevekung.mods.indicatia.util.ModLogger;
-import stevekung.mods.indicatia.util.RenderUtil;
+import stevekung.mods.indicatia.util.*;
 
 public class HUDRenderHandler
 {
@@ -350,6 +347,15 @@ public class HUDRenderHandler
                         GuiPlayerInfo player = players.get(i);
                         ScorePlayerTeam team = this.mc.theWorld.getScoreboard().getPlayersTeam(player.name);
                         String displayName = ScorePlayerTeam.formatPlayerName(team, player.name);
+
+                        for (String hide : HideNameData.getHideNameList())
+                        {
+                            if (displayName.contains(hide))
+                            {
+                                displayName = displayName.replace(hide, EnumChatFormatting.OBFUSCATED + hide + EnumChatFormatting.RESET);
+                            }
+                        }
+
                         IndicatiaMod.coloredFontRenderer.drawStringWithShadow(displayName, xPos, yPos, 16777215);
 
                         if (scoreobjective != null)

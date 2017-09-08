@@ -45,6 +45,7 @@ commands.indicatia.togglesprint.mode.usage=/indicatia toggle_sprint mode <key_bi
 commands.indicatia.togglesneak.mode.usage=/indicatia toggle_sneak mode <key_binding|command>
 commands.indicatia.cps.usage=/indicatia cps <left|right|keystroke|custom>
 commands.slimeseed.usage=/slimeseed <seed>
+commands.hidename.usage=/inhidename <add|remove> <name>
 
 # INTERAL STUFF!
 commands.autoclick.usage=/autoclick <start|stop|mode...>

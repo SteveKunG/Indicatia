@@ -79,6 +79,7 @@ public class IndicatiaMod
         ClientCommandHandler.instance.registerCommand(new CommandAFK());
         ClientCommandHandler.instance.registerCommand(new CommandIndicatia());
         ClientCommandHandler.instance.registerCommand(new CommandProfile());
+        ClientCommandHandler.instance.registerCommand(new CommandHideName());
 
         if (IndicatiaMod.isSteveKunG())
         {
