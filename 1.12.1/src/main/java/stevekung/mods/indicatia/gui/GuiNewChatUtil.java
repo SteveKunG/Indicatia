@@ -1,16 +1,28 @@
 package stevekung.mods.indicatia.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.HoverEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.GuiDropdownElement.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
+import stevekung.mods.indicatia.util.HideNameData;
 import stevekung.mods.indicatia.util.InfoUtil;
 
 public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
@@ -341,5 +353,78 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     public int getInitialSelection(GuiDropdownElement dropdown)
     {
         return GuiNewChatUtil.gameTypeSelected;
+    }
+
+    @Override
+    protected void handleComponentHover(ITextComponent component, int mouseX, int mouseY)
+    {
+        if (component != null && component.getStyle().getHoverEvent() != null)
+        {
+            HoverEvent hover = component.getStyle().getHoverEvent();
+
+            if (hover.getAction() == HoverEvent.Action.SHOW_ITEM)
+            {
+                ItemStack itemStack = ItemStack.EMPTY;
+
+                try
+                {
+                    NBTBase base = JsonToNBT.getTagFromJson(hover.getValue().getUnformattedText());
+
+                    if (base instanceof NBTTagCompound)
+                    {
+                        itemStack = new ItemStack((NBTTagCompound)base);
+                    }
+                }
+                catch (NBTException e) {}
+
+                if (itemStack.isEmpty())
+                {
+                    this.drawHoveringText(TextFormatting.RED + "Invalid Item!", mouseX, mouseY);
+                }
+                else
+                {
+                    this.renderToolTip(itemStack, mouseX, mouseY);
+                }
+            }
+            else if (hover.getAction() == HoverEvent.Action.SHOW_ENTITY)
+            {
+                if (this.mc.gameSettings.advancedItemTooltips)
+                {
+                    try
+                    {
+                        NBTTagCompound compound = JsonToNBT.getTagFromJson(hover.getValue().getUnformattedText());
+                        List<String> list = new ArrayList<>();
+                        String name = compound.getString("name");
+
+                        for (String hide : HideNameData.getHideNameList())
+                        {
+                            if (name.contains(hide))
+                            {
+                                name = name.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
+                            }
+                        }
+
+                        list.add(name);
+
+                        if (compound.hasKey("type", 8))
+                        {
+                            String s = compound.getString("type");
+                            list.add("Type: " + s);
+                        }
+                        list.add(compound.getString("id"));
+                        this.drawHoveringText(list, mouseX, mouseY);
+                    }
+                    catch (NBTException e)
+                    {
+                        this.drawHoveringText(TextFormatting.RED + "Invalid Entity!", mouseX, mouseY);
+                    }
+                }
+            }
+            else if (hover.getAction() == HoverEvent.Action.SHOW_TEXT)
+            {
+                this.drawHoveringText(this.mc.fontRenderer.listFormattedStringToWidth(hover.getValue().getFormattedText(), Math.max(this.width / 2, 200)), mouseX, mouseY);
+            }
+            GlStateManager.disableLighting();
+        }
     }
 }

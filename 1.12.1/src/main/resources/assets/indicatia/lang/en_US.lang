@@ -51,6 +51,7 @@ commands.indicatia.togglesneak.mode.usage=/indicatia toggle_sneak mode <key_bind
 commands.indicatia.cps.usage=/indicatia cps <left|right|keystroke|custom>
 commands.slimeseed.usage=/slimeseed <seed>
 commands.autorealms.usage=/autorealms <message...>
+commands.hidename.usage=/inhidename <add|remove> <name>
 
 # INTERAL STUFF!
 key.auto_swim.desc=Auto Swim
