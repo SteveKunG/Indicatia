@@ -6,10 +6,12 @@ import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.HideNameData;
 
 @SideOnly(Side.CLIENT)
 public class GuiNewChatFast extends GuiNewChat
@@ -72,15 +74,23 @@ public class GuiNewChatFast extends GuiNewChat
                             {
                                 int j2 = -i1 * 9;
                                 int k = MathHelper.ceil(this.getChatWidth() / f1);
-                                String s = chatline.getChatComponent().getFormattedText();
+                                String text = chatline.getChatComponent().getFormattedText();
 
                                 if (!ConfigManager.enableFastChatRender)
                                 {
                                     Gui.drawRect(-2, j2 - 9, 0 + k + 4, j2, l1 / 2 << 24);
                                 }
 
+                                for (String hide : HideNameData.getHideNameList())
+                                {
+                                    if (text.contains(hide))
+                                    {
+                                        text = text.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
+                                    }
+                                }
+
                                 GlStateManager.enableBlend();
-                                this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, j2 - 8, 16777215 + (l1 << 24));
+                                this.mc.fontRendererObj.drawStringWithShadow(text, 0.0F, j2 - 8, 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }

@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.AutoLogin;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatia.util.HideNameData;
 import stevekung.mods.indicatia.util.ModLogger;
 
 public class ExtendedConfig
@@ -300,6 +301,7 @@ public class ExtendedConfig
             ExtendedConfig.AUTO_SWIM_USE_MODE = ExtendedConfig.getString(nbt, "AutoSwimUseMode", ExtendedConfig.AUTO_SWIM_USE_MODE);
 
             ExtendedConfig.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
+            HideNameData.load(nbt.getTagList("HideNameList", 10));
 
             ModLogger.info("Loading extended config {}", ExtendedConfig.FILE.getPath());
         }
@@ -445,6 +447,7 @@ public class ExtendedConfig
             nbt.setString("AutoSwimUseMode", ExtendedConfig.AUTO_SWIM_USE_MODE);
 
             nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
+            nbt.setTag("HideNameList", HideNameData.save());
 
             CompressedStreamTools.safeWrite(nbt, ExtendedConfig.FILE);
         }
