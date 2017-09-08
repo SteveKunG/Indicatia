@@ -20,6 +20,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.HideNameData;
 
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 {
@@ -164,6 +165,13 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
                 }
                 else
                 {
+                    for (String hide : HideNameData.getHideNameList())
+                    {
+                        if (s4.contains(hide))
+                        {
+                            s4 = s4.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
+                        }
+                    }
                     this.mc.fontRendererObj.drawStringWithShadow(s4, j2, k2, -1);
                 }
 

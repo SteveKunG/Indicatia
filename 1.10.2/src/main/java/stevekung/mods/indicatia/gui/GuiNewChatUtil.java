@@ -1,20 +1,41 @@
 package stevekung.mods.indicatia.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityList;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.Achievement;
+import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.HoverEvent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiDropdownElement.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
+import stevekung.mods.indicatia.util.HideNameData;
 import stevekung.mods.indicatia.util.InfoUtil;
 import stevekung.mods.indicatia.util.JsonUtil;
 
 public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
 {
+    private static final Splitter NEWLINE_SPLITTER = Splitter.on('\n');
     private boolean isDragging;
     private int lastPosX;
     private int lastPosY;
@@ -341,5 +362,110 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     public int getInitialSelection(GuiDropdownElement dropdown)
     {
         return GuiNewChatUtil.gameTypeSelected;
+    }
+
+    @Override
+    protected void handleComponentHover(ITextComponent component, int mouseX, int mouseY)
+    {
+        if (component != null && component.getStyle().getHoverEvent() != null)
+        {
+            HoverEvent hover = component.getStyle().getHoverEvent();
+
+            if (hover.getAction() == HoverEvent.Action.SHOW_ITEM)
+            {
+                ItemStack itemStack = null;
+
+                try
+                {
+                    NBTBase base = JsonToNBT.getTagFromJson(hover.getValue().getUnformattedText());
+
+                    if (base instanceof NBTTagCompound)
+                    {
+                        itemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound)base);
+                    }
+                }
+                catch (NBTException e) {}
+
+                if (itemStack != null)
+                {
+                    this.renderToolTip(itemStack, mouseX, mouseY);
+                }
+                else
+                {
+                    this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid Item!", mouseX, mouseY);
+                }
+            }
+            else if (hover.getAction() == HoverEvent.Action.SHOW_ENTITY)
+            {
+                if (this.mc.gameSettings.advancedItemTooltips)
+                {
+                    try
+                    {
+                        NBTBase base = JsonToNBT.getTagFromJson(hover.getValue().getUnformattedText());
+
+                        if (base instanceof NBTTagCompound)
+                        {
+                            List<String> list1 = new ArrayList<>();
+                            NBTTagCompound compound = (NBTTagCompound)base;
+                            String name = compound.getString("name");
+
+                            for (String hide : HideNameData.getHideNameList())
+                            {
+                                if (name.contains(hide))
+                                {
+                                    name = name.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
+                                }
+                            }
+
+                            list1.add(name);
+
+                            if (compound.hasKey("type", 8))
+                            {
+                                String s = compound.getString("type");
+                                list1.add("Type: " + s + " (" + EntityList.getIDFromString(s) + ")");
+                            }
+                            list1.add(compound.getString("id"));
+                            this.drawHoveringText(list1, mouseX, mouseY);
+                        }
+                        else
+                        {
+                            this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid Entity!", mouseX, mouseY);
+                        }
+                    }
+                    catch (NBTException e)
+                    {
+                        this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid Entity!", mouseX, mouseY);
+                    }
+                }
+            }
+            else if (hover.getAction() == HoverEvent.Action.SHOW_TEXT)
+            {
+                this.drawHoveringText(NEWLINE_SPLITTER.splitToList(hover.getValue().getFormattedText()), mouseX, mouseY);
+            }
+            else if (hover.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT)
+            {
+                StatBase base = StatList.getOneShotStat(hover.getValue().getUnformattedText());
+
+                if (base != null)
+                {
+                    ITextComponent itextcomponent = base.getStatName();
+                    ITextComponent itextcomponent1 = new TextComponentTranslation("stats.tooltip.type." + (base.isAchievement() ? "achievement" : "statistic"));
+                    itextcomponent1.getStyle().setItalic(Boolean.valueOf(true));
+                    String s1 = base instanceof Achievement ? ((Achievement)base).getDescription() : null;
+                    List<String> list = Lists.newArrayList(new String[] {itextcomponent.getFormattedText(), itextcomponent1.getFormattedText()});
+
+                    if (s1 != null)
+                    {
+                        list.addAll(this.fontRendererObj.listFormattedStringToWidth(s1, 150));
+                    }
+                    this.drawHoveringText(list, mouseX, mouseY);
+                }
+                else
+                {
+                    this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid statistic/achievement!", mouseX, mouseY);
+                }
+            }
+            GlStateManager.disableLighting();
+        }
     }
 }
