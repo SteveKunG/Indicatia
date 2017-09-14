@@ -51,7 +51,7 @@ public class InfoUtil
 
     public boolean isHypixel()
     {
-        return IndicatiaMod.MC.getCurrentServerData() != null && IndicatiaMod.MC.getCurrentServerData().serverIP.toLowerCase().contains("hypixel");
+        return IndicatiaMod.MC.getCurrentServerData() != null && (IndicatiaMod.MC.getCurrentServerData().serverIP.toLowerCase().contains("hypixel") || IndicatiaMod.MC.getCurrentServerData().serverIP.contains("209.222.115.42"));
     }
 
     public int getCPS()

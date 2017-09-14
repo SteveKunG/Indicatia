@@ -37,6 +37,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.EnumChatFormatting;
@@ -75,6 +76,8 @@ public class CommonHandler
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
     public static final GuiDonator donatorGui = new GuiDonator();
     private static boolean foundUnnick;
+    private static boolean skinSwapEnabled;
+    private static int skinSwapTicks;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -143,6 +146,20 @@ public class CommonHandler
                     this.closeScreenTicks = 0;
                 }
 
+                if (IndicatiaMod.isSteveKunG() && CommonHandler.skinSwapTicks > 0)
+                {
+                    CommonHandler.skinSwapTicks--;
+
+                    for (EnumPlayerModelParts part : EnumPlayerModelParts.values())
+                    {
+                        if (part != EnumPlayerModelParts.CAPE)
+                        {
+                            this.mc.gameSettings.setModelPartEnabled(part, CommonHandler.skinSwapEnabled ? true : false);
+                            this.mc.gameSettings.sendSettingsToServer();
+                        }
+                    }
+                    this.mc.gameSettings.saveOptions();
+                }
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
                     CommonHandler.autoClickTicks++;
@@ -379,6 +396,12 @@ public class CommonHandler
         if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
         {
             this.mc.displayGuiScreen(CommonHandler.donatorGui);
+        }
+        // skin swapper
+        if (IndicatiaMod.isSteveKunG() && Keyboard.isKeyDown(Keyboard.KEY_4))
+        {
+            CommonHandler.skinSwapEnabled = !CommonHandler.skinSwapEnabled;
+            CommonHandler.skinSwapTicks = 128 + InfoUtil.INSTANCE.getPing() / 4;
         }
     }
 
