@@ -1,15 +1,18 @@
 package stevekung.mods.indicatia.handler;
 
 import java.awt.Desktop;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -18,11 +21,14 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
 import io.netty.channel.ChannelOption;
+import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.multiplayer.ServerAddress;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -31,7 +37,17 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
+import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.status.INetHandlerStatusClient;
+import net.minecraft.network.status.client.C00PacketServerQuery;
+import net.minecraft.network.status.client.C01PacketPing;
+import net.minecraft.network.status.server.S00PacketServerInfo;
+import net.minecraft.network.status.server.S01PacketPong;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -48,7 +64,6 @@ import stevekung.mods.indicatia.util.*;
 public class CommonHandler
 {
     private JsonUtil json;
-    public static final Map<String, Integer> PLAYER_PING_MAP = Maps.newHashMap();
     private final Minecraft mc;
     public static final List<Long> LEFT_CLICK = new ArrayList<>();
     public static final List<Long> RIGHT_CLICK = new ArrayList<>();
@@ -57,6 +72,10 @@ public class CommonHandler
     public static final GuiNewChatUtil chatGuiSlash = new GuiNewChatUtil("/");
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
     public static final GuiDonator donatorGui = new GuiDonator();
+    private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
+    private static final OldServerPinger pinger = new OldServerPinger();
+    public static int currentServerPing;
+    private static int pendingPingTicks;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -89,10 +108,10 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
+        CommonHandler.getRealTimeServerPing(this.mc);
+
         if (this.mc.thePlayer != null)
         {
-            CommonHandler.getPingAndPlayerList(this.mc);
-
             if (this.mc.getNetHandler() != null && CommonHandler.setTCPNoDelay)
             {
                 this.mc.getNetHandler().getNetworkManager().channel().config().setOption(ChannelOption.TCP_NODELAY, true);
@@ -180,7 +199,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
-        CommonHandler.PLAYER_PING_MAP.clear();
         CommonHandler.stopCommandTicks();
     }
 
@@ -410,20 +428,74 @@ public class CommonHandler
         }
     }
 
-    private static void getPingAndPlayerList(Minecraft mc)
+    private static void getRealTimeServerPing(Minecraft mc)
     {
-        NetHandlerPlayClient handler = mc.thePlayer.sendQueue;
-        List<GuiPlayerInfo> players = handler.playerInfoList;
-        int maxPlayers = handler.currentServerMaxPlayers;
+        ServerData server = mc.func_147104_D();
 
-        for (int i = 0; i < maxPlayers; i++)
+        if (server != null)
         {
-            if (i < players.size())
+            CommonHandler.serverPinger.submit(() ->
             {
-                GuiPlayerInfo player = players.get(i);
-                CommonHandler.PLAYER_PING_MAP.put(player.name, player.responseTime);
+                try
+                {
+                    CommonHandler.ping(server);
+                    CommonHandler.pendingPingTicks = 6;
+                }
+                catch (Exception e) {}
+            });
+            if (CommonHandler.pendingPingTicks > 0)
+            {
+                CommonHandler.pendingPingTicks--;
+
+                if (CommonHandler.pendingPingTicks == 0)
+                {
+                    if (server.pingToServer != -1L)
+                    {
+                        CommonHandler.currentServerPing = (int) server.pingToServer;
+                    }
+                }
             }
         }
+    }
+
+    private static void ping(ServerData server) throws UnknownHostException
+    {
+        ServerAddress address = ServerAddress.func_78860_a(server.serverIP);
+        NetworkManager manager = NetworkManager.provideLanClient(InetAddress.getByName(address.getIP()), address.getPort());
+
+        manager.setNetHandler(new INetHandlerStatusClient()
+        {
+            @Override
+            public void handleServerInfo(S00PacketServerInfo packet)
+            {
+                manager.scheduleOutboundPacket(new C01PacketPing(Minecraft.getSystemTime()), new GenericFutureListener[0]);
+            }
+
+            @Override
+            public void handlePong(S01PacketPong packet)
+            {
+                long i = packet.func_149292_c();
+                long j = Minecraft.getSystemTime();
+                server.pingToServer = (int) (j - i);
+                manager.closeChannel(new ChatComponentText("Finished"));
+            }
+
+            @Override
+            public void onDisconnect(IChatComponent component) {}
+
+            @Override
+            public void onConnectionStateTransition(EnumConnectionState state1, EnumConnectionState state2) {}
+
+            @Override
+            public void onNetworkTick() {}
+        });
+
+        try
+        {
+            manager.scheduleOutboundPacket(new C00Handshake(5, address.getIP(), address.getPort(), EnumConnectionState.STATUS), new GenericFutureListener[0]);
+            manager.scheduleOutboundPacket(new C00PacketServerQuery(), new GenericFutureListener[0]);
+        }
+        catch (Throwable throwable) {}
     }
 
     private static void openLink(String url)

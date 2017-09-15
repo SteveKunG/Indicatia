@@ -2,7 +2,6 @@ package stevekung.mods.indicatia.util;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -20,18 +19,6 @@ public class InfoUtil
     public static final InfoUtil INSTANCE = new InfoUtil();
     public Entity extendedPointedEntity;
     private Entity pointedEntity;
-
-    public int getPing()
-    {
-        for (Map.Entry<String, Integer> entry : CommonHandler.PLAYER_PING_MAP.entrySet())
-        {
-            if (entry.getKey().contains(GameProfileUtil.getUsername()))
-            {
-                return entry.getValue();
-            }
-        }
-        return 0;
-    }
 
     public int getCPS()
     {

@@ -22,6 +22,7 @@ import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.handler.CommonHandler;
 import stevekung.mods.indicatia.util.InfoUtil;
 import stevekung.mods.indicatia.util.LangUtil;
 
@@ -91,7 +92,7 @@ public class HUDInfo
 
     public static String getPing()
     {
-        int responseTime = InfoUtil.INSTANCE.getPing();
+        int responseTime = CommonHandler.currentServerPing;
         return ColoredFontRenderer.color(ExtendedConfig.PING_COLOR_R, ExtendedConfig.PING_COLOR_G, ExtendedConfig.PING_COLOR_B) + "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
     }
 
