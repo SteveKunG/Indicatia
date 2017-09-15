@@ -1,7 +1,9 @@
 package stevekung.mods.indicatia.handler;
 
 import java.awt.Desktop;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,8 +28,8 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
+import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -43,7 +45,17 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
+import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.status.INetHandlerStatusClient;
+import net.minecraft.network.status.client.C00PacketServerQuery;
+import net.minecraft.network.status.client.C01PacketPing;
+import net.minecraft.network.status.server.S00PacketServerInfo;
+import net.minecraft.network.status.server.S01PacketPong;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
@@ -78,7 +90,6 @@ public class CommonHandler
     public static final GuiDonator donatorGui = new GuiDonator();
     public static int currentServerPing;
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
-    private static final OldServerPinger pinger = new OldServerPinger();
     private static int pendingPingTicks;
 
     // AFK Stuff
@@ -510,7 +521,7 @@ public class CommonHandler
             {
                 try
                 {
-                    CommonHandler.pinger.ping(server);
+                    CommonHandler.ping(server);
                     CommonHandler.pendingPingTicks = 32;
                 }
                 catch (Exception e) {}
@@ -528,6 +539,43 @@ public class CommonHandler
                 }
             }
         }
+    }
+
+    private static void ping(ServerData server) throws UnknownHostException
+    {
+        ServerAddress address = ServerAddress.fromString(server.serverIP);
+        NetworkManager manager = NetworkManager.func_181124_a(InetAddress.getByName(address.getIP()), address.getPort(), false);
+
+        manager.setNetHandler(new INetHandlerStatusClient()
+        {
+            private long currentSystemTime = 0L;
+
+            @Override
+            public void handleServerInfo(S00PacketServerInfo packet)
+            {
+                this.currentSystemTime = Minecraft.getSystemTime();
+                manager.sendPacket(new C01PacketPing(this.currentSystemTime));
+            }
+
+            @Override
+            public void handlePong(S01PacketPong packet)
+            {
+                long i = this.currentSystemTime;
+                long j = Minecraft.getSystemTime();
+                server.pingToServer = j - i;
+                manager.closeChannel(new ChatComponentText("Finished"));
+            }
+
+            @Override
+            public void onDisconnect(IChatComponent component) {}
+        });
+
+        try
+        {
+            manager.sendPacket(new C00Handshake(47, address.getIP(), address.getPort(), EnumConnectionState.STATUS));
+            manager.sendPacket(new C00PacketServerQuery());
+        }
+        catch (Throwable throwable) {}
     }
 
     private static void getHypixelNickedPlayer(Minecraft mc)
