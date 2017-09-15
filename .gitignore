@@ -7,6 +7,7 @@ build
 eclipse
 run
 */src/main/java/net/minecraft/
+*/src/main/java/stevekung/mods/indicatia/internal
 
 # file
 *.launch
