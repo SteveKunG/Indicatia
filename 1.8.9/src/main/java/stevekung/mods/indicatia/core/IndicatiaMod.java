@@ -73,6 +73,16 @@ public class IndicatiaMod
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimationHandler(IndicatiaMod.MC));
         MinecraftForge.EVENT_BUS.register(new PlayerChatHandler(IndicatiaMod.MC));
 
+        if (IndicatiaMod.isSteveKunG())
+        {
+            try
+            {
+                Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
+                clazz.getMethod("init").invoke(null);
+            }
+            catch (Exception e) {}
+        }
+
         ClientCommandHandler.instance.registerCommand(new CommandMojangStatusCheck());
         ClientCommandHandler.instance.registerCommand(new CommandChangeLog());
         ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());

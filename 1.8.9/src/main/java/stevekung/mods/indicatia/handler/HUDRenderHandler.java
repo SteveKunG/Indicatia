@@ -216,6 +216,23 @@ public class HUDRenderHandler
                     }
                 }
 
+                List<String> internalList = null;
+
+                if (IndicatiaMod.isSteveKunG())
+                {
+                    try
+                    {
+                        Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
+                        Object obj = clazz.getMethod("getInfo").invoke(List.class);
+                        internalList = (List<String>) obj;
+                    }
+                    catch (Exception e) {}
+                }
+                if (internalList != null)
+                {
+                    rightInfo.addAll(internalList);
+                }
+
                 // equipments
                 if (!this.mc.thePlayer.isSpectator() && ConfigManager.enableRenderEquippedItem)
                 {
