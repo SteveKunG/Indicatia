@@ -52,6 +52,7 @@ curseforge {
 
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'assets/minecraft/**', 'license.txt', 'META-INF/indicatia_at.cfg']
+ext.internalFiles = ['stevekung/mods/indicatia/internal/**']
 
 // build normal jar
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
@@ -60,6 +61,7 @@ task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 
     from(zipTree(project.ext.coreJar)) {
         includes.addAll(project.ext.coreFiles)
+        excludes.addAll(project.ext.internalFiles)
     }
     manifest {
         attributes.put("FMLAT", "indicatia_at.cfg")
@@ -84,6 +86,23 @@ task buildDeobfJar(type: Jar, dependsOn: "rePackAllDeobfJar") {
 
     from(zipTree(project.ext.coreJar)) {
         includes.addAll(project.ext.coreFiles)
+        excludes.addAll(project.ext.internalFiles)
+    }
+    manifest {
+        attributes.put("FMLAT", "indicatia_at.cfg")
+        attributes.put("FMLCorePluginContainsFMLMod", "true")
+    }
+}
+
+// build my jar
+task buildMyJar(type: Jar, dependsOn: "rePackAllJar") {
+    outputs.upToDateWhen { false }
+    baseName = "Indicatia-" + mcVersion
+    classifier = 'me'
+
+    from(zipTree(project.ext.coreJar)) {
+        includes.addAll(project.ext.coreFiles)
+        includes.addAll(project.ext.internalFiles)
     }
     manifest {
         attributes.put("FMLAT", "indicatia_at.cfg")
