@@ -1,4 +1,3 @@
--Added- Added Game Type Dropdown Button (Only work on Hypixel)
--Update- Automatically disabled Health Status on Hypixel
--Update- Improve Keystroke/Custom CPS rendering
--Update- Changed Slider Button rendering in Render Settings GUI
+-Added- Added Hide Name Command
+-Update- Improved get ping from server for nicked players in Hypixel
+-Fixed- Fixed dropdown click sound

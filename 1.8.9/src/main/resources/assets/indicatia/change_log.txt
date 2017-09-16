@@ -1,2 +1,6 @@
+-Added- Added Hide Name Command
+-Added- Added Render Nametag Fix configuration
+-Update- Improved get ping from server for nicked players in Hypixel
 -Fixed- Fixed Chat component conflict
 -Fixed- Fixed Client Command Handler loaded too late
+-Fixed- Fixed dropdown click sound
