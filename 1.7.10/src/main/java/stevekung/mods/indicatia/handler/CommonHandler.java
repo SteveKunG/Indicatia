@@ -3,7 +3,6 @@ package stevekung.mods.indicatia.handler;
 import java.awt.Desktop;
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -21,7 +20,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
 import io.netty.channel.ChannelOption;
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.*;
@@ -45,7 +43,6 @@ import net.minecraft.network.status.client.C00PacketServerQuery;
 import net.minecraft.network.status.client.C01PacketPing;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
@@ -75,7 +72,7 @@ public class CommonHandler
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static final OldServerPinger pinger = new OldServerPinger();
     public static int currentServerPing;
-    private static int pendingPingTicks;
+    private static int pendingPingTicks = 100;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -108,8 +105,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        CommonHandler.getRealTimeServerPing(this.mc);
-
         if (this.mc.thePlayer != null)
         {
             if (this.mc.getNetHandler() != null && CommonHandler.setTCPNoDelay)
@@ -125,6 +120,16 @@ public class CommonHandler
                 CommonHandler.replacingPlayerModel(this.mc.thePlayer);
                 CapeUtil.loadCapeTexture();
 
+                if (CommonHandler.pendingPingTicks > 0 && this.mc.func_147104_D() != null)
+                {
+                    CommonHandler.pendingPingTicks--;
+
+                    if (CommonHandler.pendingPingTicks == 0)
+                    {
+                        CommonHandler.getRealTimeServerPing(this.mc.func_147104_D());
+                        CommonHandler.pendingPingTicks = 100;
+                    }
+                }
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
                     CommonHandler.autoClickTicks++;
@@ -428,74 +433,45 @@ public class CommonHandler
         }
     }
 
-    private static void getRealTimeServerPing(Minecraft mc)
+    private static void getRealTimeServerPing(ServerData server)
     {
-        ServerData server = mc.func_147104_D();
-
-        if (server != null)
+        CommonHandler.serverPinger.submit(() ->
         {
-            CommonHandler.serverPinger.submit(() ->
+            try
             {
-                try
-                {
-                    CommonHandler.ping(server);
-                    CommonHandler.pendingPingTicks = 6;
-                }
-                catch (Exception e) {}
-            });
-            if (CommonHandler.pendingPingTicks > 0)
-            {
-                CommonHandler.pendingPingTicks--;
+                ServerAddress address = ServerAddress.func_78860_a(server.serverIP);
+                NetworkManager manager = NetworkManager.provideLanClient(InetAddress.getByName(address.getIP()), address.getPort());
 
-                if (CommonHandler.pendingPingTicks == 0)
+                manager.setNetHandler(new INetHandlerStatusClient()
                 {
-                    if (server.pingToServer != -1L)
+                    @Override
+                    public void handleServerInfo(S00PacketServerInfo packet)
                     {
-                        CommonHandler.currentServerPing = (int) server.pingToServer;
+                        manager.scheduleOutboundPacket(new C01PacketPing(Minecraft.getSystemTime()));
                     }
-                }
+
+                    @Override
+                    public void handlePong(S01PacketPong packet)
+                    {
+                        long i = packet.func_149292_c();
+                        long j = Minecraft.getSystemTime();
+                        CommonHandler.currentServerPing = (int) (j - i);
+                    }
+
+                    @Override
+                    public void onDisconnect(IChatComponent component) {}
+
+                    @Override
+                    public void onConnectionStateTransition(EnumConnectionState state1, EnumConnectionState state2) {}
+
+                    @Override
+                    public void onNetworkTick() {}
+                });
+                manager.scheduleOutboundPacket(new C00Handshake(5, address.getIP(), address.getPort(), EnumConnectionState.STATUS));
+                manager.scheduleOutboundPacket(new C00PacketServerQuery());
             }
-        }
-    }
-
-    private static void ping(ServerData server) throws UnknownHostException
-    {
-        ServerAddress address = ServerAddress.func_78860_a(server.serverIP);
-        NetworkManager manager = NetworkManager.provideLanClient(InetAddress.getByName(address.getIP()), address.getPort());
-
-        manager.setNetHandler(new INetHandlerStatusClient()
-        {
-            @Override
-            public void handleServerInfo(S00PacketServerInfo packet)
-            {
-                manager.scheduleOutboundPacket(new C01PacketPing(Minecraft.getSystemTime()), new GenericFutureListener[0]);
-            }
-
-            @Override
-            public void handlePong(S01PacketPong packet)
-            {
-                long i = packet.func_149292_c();
-                long j = Minecraft.getSystemTime();
-                server.pingToServer = (int) (j - i);
-                manager.closeChannel(new ChatComponentText("Finished"));
-            }
-
-            @Override
-            public void onDisconnect(IChatComponent component) {}
-
-            @Override
-            public void onConnectionStateTransition(EnumConnectionState state1, EnumConnectionState state2) {}
-
-            @Override
-            public void onNetworkTick() {}
+            catch (Exception e) {}
         });
-
-        try
-        {
-            manager.scheduleOutboundPacket(new C00Handshake(5, address.getIP(), address.getPort(), EnumConnectionState.STATUS), new GenericFutureListener[0]);
-            manager.scheduleOutboundPacket(new C00PacketServerQuery(), new GenericFutureListener[0]);
-        }
-        catch (Throwable throwable) {}
     }
 
     private static void openLink(String url)
