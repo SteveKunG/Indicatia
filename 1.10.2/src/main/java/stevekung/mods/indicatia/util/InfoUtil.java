@@ -2,13 +2,13 @@ package stevekung.mods.indicatia.util;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -30,24 +30,17 @@ public class InfoUtil
 
     public int getPing()
     {
-        if (IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()) != null)
+        NetworkPlayerInfo info = IndicatiaMod.MC.getConnection().getPlayerInfo(GameProfileUtil.getUUID());
+
+        if (info != null)
         {
-            if (InfoUtil.INSTANCE.isHypixel())
+            if (info.getResponseTime() > 0)
             {
-                if (!ExtendedConfig.HYPIXEL_NICK_NAME.isEmpty())
-                {
-                    for (Map.Entry<String, Integer> entry : CommonHandler.PLAYER_PING_MAP.entrySet())
-                    {
-                        if (entry.getKey().contains(ExtendedConfig.HYPIXEL_NICK_NAME))
-                        {
-                            return entry.getValue();
-                        }
-                    }
-                }
+                return info.getResponseTime();
             }
             else
             {
-                return IndicatiaMod.MC.getConnection().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID()).getResponseTime();
+                return CommonHandler.currentServerPing;
             }
         }
         return 0;
