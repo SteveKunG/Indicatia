@@ -19,7 +19,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
 import stevekung.mods.indicatia.config.ConfigManager;
+import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.handler.CommonHandler;
 import stevekung.mods.indicatia.util.HideNameData;
 
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
@@ -208,7 +210,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     {
         if (ConfigManager.enableCustomPlayerList)
         {
-            int ping = info.getResponseTime();
+            int ping = info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) ? CommonHandler.currentServerPing : info.getResponseTime();
             TextFormatting color = TextFormatting.GREEN;
 
             if (ping >= 200 && ping < 300)
