@@ -1,24 +1,29 @@
 package stevekung.mods.indicatia.handler;
 
 import java.awt.Desktop;
+import java.net.InetAddress;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.authlib.GameProfile;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.multiplayer.ServerAddress;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -27,7 +32,16 @@ import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
+import net.minecraft.network.EnumConnectionState;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.status.INetHandlerStatusClient;
+import net.minecraft.network.status.client.CPacketPing;
+import net.minecraft.network.status.client.CPacketServerQuery;
+import net.minecraft.network.status.server.SPacketPong;
+import net.minecraft.network.status.server.SPacketServerInfo;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
@@ -51,9 +65,7 @@ import stevekung.mods.indicatia.util.*;
 public class CommonHandler
 {
     private JsonUtil json;
-    public static final Map<String, Integer> PLAYER_PING_MAP = Maps.newHashMap();
-    private static final List<String> HYPIXEL_PLAYER_LIST = new ArrayList<>();
-    private final Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
+    private static final Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
     public static GuiPlayerTabOverlayNew overlayPlayerList;
     private final Minecraft mc;
     public static final List<Long> LEFT_CLICK = new ArrayList<>();
@@ -63,7 +75,9 @@ public class CommonHandler
     public static final GuiNewChatUtil chatGuiSlash = new GuiNewChatUtil("/");
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
     public static final GuiDonator donatorGui = new GuiDonator();
-    private static boolean foundUnnick;
+    public static int currentServerPing;
+    private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
+    private static int pendingPingTicks = 100;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -107,21 +121,12 @@ public class CommonHandler
         }
         if (this.mc.player != null)
         {
-            if (InfoUtil.INSTANCE.isHypixel())
-            {
-                if (CommonHandler.HYPIXEL_PLAYER_LIST.contains(GameProfileUtil.getUsername()) && !CommonHandler.foundUnnick)
-                {
-                    ExtendedConfig.HYPIXEL_NICK_NAME = GameProfileUtil.getUsername();
-                    ExtendedConfig.save();
-                    CommonHandler.foundUnnick = true;
-                }
-                CommonHandler.getPingForNickedPlayer(this.mc);
-            }
             if (event.phase == TickEvent.Phase.START)
             {
                 CommonHandler.runAFK(this.mc.player);
                 CommonHandler.printVersionMessage(this.json, this.mc.player);
                 CommonHandler.processAutoGG(this.mc);
+                CommonHandler.getHypixelNickedPlayer(this.mc);
                 CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)
@@ -134,6 +139,16 @@ public class CommonHandler
                     this.closeScreenTicks = 0;
                 }
 
+                if (CommonHandler.pendingPingTicks > 0 && this.mc.getCurrentServerData() != null)
+                {
+                    CommonHandler.pendingPingTicks--;
+
+                    if (CommonHandler.pendingPingTicks == 0)
+                    {
+                        CommonHandler.getRealTimeServerPing(this.mc.getCurrentServerData());
+                        CommonHandler.pendingPingTicks = 100;
+                    }
+                }
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
                     CommonHandler.autoClickTicks++;
@@ -159,16 +174,6 @@ public class CommonHandler
         }
         GuiIngameForge.renderBossHealth = ConfigManager.enableRenderBossHealthStatus;
         GuiIngameForge.renderObjective = ConfigManager.enableRenderScoreboard;
-    }
-
-    @SubscribeEvent
-    public void onClientSendChat(ClientChatEvent event)
-    {
-        if (event.getOriginalMessage().contains("/nick") && !event.getOriginalMessage().contains("/nick reset"))
-        {
-            ExtendedConfig.HYPIXEL_NICK_NAME = event.getOriginalMessage().replace("/nick ", "");
-            CommonHandler.foundUnnick = false;
-        }
     }
 
     @SubscribeEvent
@@ -237,9 +242,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
-        CommonHandler.PLAYER_PING_MAP.clear();
-        CommonHandler.HYPIXEL_PLAYER_LIST.clear();
-        CommonHandler.foundUnnick = false;
         this.closeScreenTicks = 0;
         CommonHandler.stopCommandTicks();
     }
@@ -322,19 +324,18 @@ public class CommonHandler
 
         if (InfoUtil.INSTANCE.isHypixel())
         {
-            Matcher nickMatcher = this.nickPattern.matcher(unformattedText);
+            Matcher nickMatcher = CommonHandler.nickPattern.matcher(unformattedText);
 
             if (event.getType() == 0)
             {
                 if (nickMatcher.matches())
                 {
                     ExtendedConfig.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
-                    CommonHandler.foundUnnick = false;
                     ExtendedConfig.save();
                 }
                 if (unformattedText.contains("Your nick has been reset!"))
                 {
-                    ExtendedConfig.HYPIXEL_NICK_NAME = GameProfileUtil.getUsername();
+                    ExtendedConfig.HYPIXEL_NICK_NAME = "";
                     ExtendedConfig.save();
                 }
                 if (IndicatiaMod.isSteveKunG())
@@ -439,27 +440,54 @@ public class CommonHandler
         }
     }
 
-    private static void getPingForNickedPlayer(Minecraft mc)
+    private static void getRealTimeServerPing(ServerData server)
     {
-        List<NetworkPlayerInfo> list = Lists.newArrayList(mc.player.connection.getPlayerInfoMap());
-        int maxPlayers = list.size();
-
-        for (int i = 0; i < maxPlayers; ++i)
+        CommonHandler.serverPinger.submit(() ->
         {
-            if (i < list.size())
+            try
             {
-                NetworkPlayerInfo connection = list.get(i);
-                GameProfile profile = connection.getGameProfile();
-                CommonHandler.PLAYER_PING_MAP.put(profile.getName(), connection.getResponseTime());
+                ServerAddress address = ServerAddress.fromString(server.serverIP);
+                NetworkManager manager = NetworkManager.createNetworkManagerAndConnect(InetAddress.getByName(address.getIP()), address.getPort(), false);
 
-                if (!CommonHandler.foundUnnick)
+                manager.setNetHandler(new INetHandlerStatusClient()
                 {
-                    CommonHandler.HYPIXEL_PLAYER_LIST.add(profile.getName());
-                    Set<String> sets = Sets.newHashSet();
-                    sets.addAll(CommonHandler.HYPIXEL_PLAYER_LIST);
-                    CommonHandler.HYPIXEL_PLAYER_LIST.clear();
-                    CommonHandler.HYPIXEL_PLAYER_LIST.addAll(sets);
-                }
+                    private long currentSystemTime = 0L;
+
+                    @Override
+                    public void handleServerInfo(SPacketServerInfo packet)
+                    {
+                        this.currentSystemTime = Minecraft.getSystemTime();
+                        manager.sendPacket(new CPacketPing(this.currentSystemTime));
+                    }
+
+                    @Override
+                    public void handlePong(SPacketPong packet)
+                    {
+                        long i = this.currentSystemTime;
+                        long j = Minecraft.getSystemTime();
+                        CommonHandler.currentServerPing = (int) (j - i);
+                    }
+
+                    @Override
+                    public void onDisconnect(ITextComponent component) {}
+                });
+                manager.sendPacket(new C00Handshake(316, address.getIP(), address.getPort(), EnumConnectionState.STATUS, true));
+                manager.sendPacket(new CPacketServerQuery());
+            }
+            catch (Exception e) {}
+        });
+    }
+
+    private static void getHypixelNickedPlayer(Minecraft mc)
+    {
+        if (InfoUtil.INSTANCE.isHypixel() && mc.currentScreen instanceof GuiEditSign)
+        {
+            GuiEditSign gui = (GuiEditSign) mc.currentScreen;
+
+            if (gui.tileSign != null)
+            {
+                ExtendedConfig.HYPIXEL_NICK_NAME = gui.tileSign.signText[0].getUnformattedText();
+                ExtendedConfig.save();
             }
         }
     }
