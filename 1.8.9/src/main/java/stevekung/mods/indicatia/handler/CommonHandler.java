@@ -3,7 +3,6 @@ package stevekung.mods.indicatia.handler;
 import java.awt.Desktop;
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,7 +38,9 @@ import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
@@ -55,7 +56,6 @@ import net.minecraft.network.status.client.C01PacketPing;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
 import net.minecraft.scoreboard.Team;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
@@ -92,7 +92,7 @@ public class CommonHandler
     public static final GuiDonator donatorGui = new GuiDonator();
     public static int currentServerPing;
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
-    private static int pendingPingTicks;
+    private static int pendingPingTicks = 100;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -130,8 +130,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
-        CommonHandler.getRealTimeServerPing(this.mc);
-
         if (this.mc.thePlayer != null)
         {
             if (event.phase == TickEvent.Phase.START)
@@ -154,6 +152,16 @@ public class CommonHandler
                     this.closeScreenTicks = 0;
                 }
 
+                if (CommonHandler.pendingPingTicks > 0 && this.mc.getCurrentServerData() != null)
+                {
+                    CommonHandler.pendingPingTicks--;
+
+                    if (CommonHandler.pendingPingTicks == 0)
+                    {
+                        CommonHandler.getRealTimeServerPing(this.mc.getCurrentServerData());
+                        CommonHandler.pendingPingTicks = 100;
+                    }
+                }
                 if (IndicatiaMod.isSteveKunG() && CommonHandler.autoClick)
                 {
                     CommonHandler.autoClickTicks++;
@@ -515,6 +523,19 @@ public class CommonHandler
 
     private boolean canRenderName(EntityLivingBase entity)
     {
+        if (entity instanceof EntityLiving)
+        {
+            return this.getDefaultCanRenderName(entity) && (entity.getAlwaysRenderNameTagForRender() || entity.hasCustomName() && entity == this.mc.getRenderManager().pointedEntity);
+        }
+        else if (entity instanceof EntityArmorStand)
+        {
+            return entity.getAlwaysRenderNameTag();
+        }
+        return this.getDefaultCanRenderName(entity);
+    }
+
+    private boolean getDefaultCanRenderName(EntityLivingBase entity)
+    {
         EntityPlayerSP playerSP = this.mc.thePlayer;
 
         if (entity instanceof EntityPlayer && entity != playerSP)
@@ -544,71 +565,42 @@ public class CommonHandler
         return Minecraft.isGuiEnabled() && entity != this.mc.getRenderManager().livingPlayer && !entity.isInvisibleToPlayer(playerSP) && entity.riddenByEntity == null;
     }
 
-    private static void getRealTimeServerPing(Minecraft mc)
+    private static void getRealTimeServerPing(ServerData server)
     {
-        ServerData server = mc.getCurrentServerData();
-
-        if (server != null)
+        CommonHandler.serverPinger.submit(() ->
         {
-            CommonHandler.serverPinger.submit(() ->
+            try
             {
-                try
-                {
-                    CommonHandler.ping(server);
-                    CommonHandler.pendingPingTicks = 32;
-                }
-                catch (Exception e) {}
-            });
-            if (CommonHandler.pendingPingTicks > 0)
-            {
-                CommonHandler.pendingPingTicks--;
+                ServerAddress address = ServerAddress.fromString(server.serverIP);
+                NetworkManager manager = NetworkManager.func_181124_a(InetAddress.getByName(address.getIP()), address.getPort(), false);
 
-                if (CommonHandler.pendingPingTicks == 0)
+                manager.setNetHandler(new INetHandlerStatusClient()
                 {
-                    if (server.pingToServer != -1L)
+                    private long currentSystemTime = 0L;
+
+                    @Override
+                    public void handleServerInfo(S00PacketServerInfo packet)
                     {
-                        CommonHandler.currentServerPing = (int) server.pingToServer;
+                        this.currentSystemTime = Minecraft.getSystemTime();
+                        manager.sendPacket(new C01PacketPing(this.currentSystemTime));
                     }
-                }
+
+                    @Override
+                    public void handlePong(S01PacketPong packet)
+                    {
+                        long i = this.currentSystemTime;
+                        long j = Minecraft.getSystemTime();
+                        CommonHandler.currentServerPing = (int) (j - i);
+                    }
+
+                    @Override
+                    public void onDisconnect(IChatComponent component) {}
+                });
+                manager.sendPacket(new C00Handshake(47, address.getIP(), address.getPort(), EnumConnectionState.STATUS));
+                manager.sendPacket(new C00PacketServerQuery());
             }
-        }
-    }
-
-    private static void ping(ServerData server) throws UnknownHostException
-    {
-        ServerAddress address = ServerAddress.fromString(server.serverIP);
-        NetworkManager manager = NetworkManager.func_181124_a(InetAddress.getByName(address.getIP()), address.getPort(), false);
-
-        manager.setNetHandler(new INetHandlerStatusClient()
-        {
-            private long currentSystemTime = 0L;
-
-            @Override
-            public void handleServerInfo(S00PacketServerInfo packet)
-            {
-                this.currentSystemTime = Minecraft.getSystemTime();
-                manager.sendPacket(new C01PacketPing(this.currentSystemTime));
-            }
-
-            @Override
-            public void handlePong(S01PacketPong packet)
-            {
-                long i = this.currentSystemTime;
-                long j = Minecraft.getSystemTime();
-                server.pingToServer = j - i;
-                manager.closeChannel(new ChatComponentText("Finished"));
-            }
-
-            @Override
-            public void onDisconnect(IChatComponent component) {}
+            catch (Exception e) {}
         });
-
-        try
-        {
-            manager.sendPacket(new C00Handshake(47, address.getIP(), address.getPort(), EnumConnectionState.STATUS));
-            manager.sendPacket(new C00PacketServerQuery());
-        }
-        catch (Throwable throwable) {}
     }
 
     private static void getHypixelNickedPlayer(Minecraft mc)
@@ -620,6 +612,7 @@ public class CommonHandler
             if (gui.tileSign != null)
             {
                 ExtendedConfig.HYPIXEL_NICK_NAME = gui.tileSign.signText[0].getUnformattedText();
+                ExtendedConfig.save();
             }
         }
     }
