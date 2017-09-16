@@ -43,6 +43,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.network.EnumConnectionState;
@@ -53,6 +54,7 @@ import net.minecraft.network.status.client.C00PacketServerQuery;
 import net.minecraft.network.status.client.C01PacketPing;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
@@ -258,7 +260,7 @@ public class CommonHandler
         {
             event.setCanceled(true);
 
-            if (event.renderer.canRenderName(entity))
+            if (this.canRenderName(entity))
             {
                 double d0 = entity.getDistanceSqToEntity(this.mc.getRenderManager().livingPlayer);
                 float f = entity.isSneaking() ? RendererLivingEntity.NAME_TAG_RANGE_SNEAK : RendererLivingEntity.NAME_TAG_RANGE;
@@ -509,6 +511,37 @@ public class CommonHandler
         {
             event.gui.drawString(this.mc.fontRendererObj, "Support Indicatia!", event.gui.width - 120, 8, 65481);
         }
+    }
+
+    private boolean canRenderName(EntityLivingBase entity)
+    {
+        EntityPlayerSP playerSP = this.mc.thePlayer;
+
+        if (entity instanceof EntityPlayer && entity != playerSP)
+        {
+            Team team = entity.getTeam();
+            Team team1 = playerSP.getTeam();
+
+            if (team != null)
+            {
+                Team.EnumVisible visible = team.getNameTagVisibility();
+
+                switch (visible)
+                {
+                case ALWAYS:
+                    return true;
+                case NEVER:
+                    return false;
+                case HIDE_FOR_OTHER_TEAMS:
+                    return team1 == null || team.isSameTeam(team1);
+                case HIDE_FOR_OWN_TEAM:
+                    return team1 == null || !team.isSameTeam(team1);
+                default:
+                    return true;
+                }
+            }
+        }
+        return Minecraft.isGuiEnabled() && entity != this.mc.getRenderManager().livingPlayer && !entity.isInvisibleToPlayer(playerSP) && entity.riddenByEntity == null;
     }
 
     private static void getRealTimeServerPing(Minecraft mc)
