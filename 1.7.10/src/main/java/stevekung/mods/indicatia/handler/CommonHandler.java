@@ -26,7 +26,6 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -70,7 +69,6 @@ public class CommonHandler
     public static final GuiCustomCape customCapeGui = new GuiCustomCape();
     public static final GuiDonator donatorGui = new GuiDonator();
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
-    private static final OldServerPinger pinger = new OldServerPinger();
     public static int currentServerPing;
     private static int pendingPingTicks = 100;
 
