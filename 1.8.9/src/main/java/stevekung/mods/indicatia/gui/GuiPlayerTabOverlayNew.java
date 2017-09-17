@@ -208,9 +208,10 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     @Override
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo info)
     {
+        int ping = info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) ? CommonHandler.currentServerPing : info.getResponseTime();
+
         if (ConfigManager.enableCustomPlayerList)
         {
-            int ping = info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) ? CommonHandler.currentServerPing : info.getResponseTime();
             EnumChatFormatting color = EnumChatFormatting.GREEN;
 
             if (ping >= 200 && ping < 300)
@@ -230,7 +231,37 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         }
         else
         {
-            super.drawPing(x1, x2, y, info);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            this.mc.getTextureManager().bindTexture(icons);
+            int state;
+
+            if (ping < 0)
+            {
+                state = 5;
+            }
+            else if (ping < 150)
+            {
+                state = 0;
+            }
+            else if (ping < 300)
+            {
+                state = 1;
+            }
+            else if (ping < 600)
+            {
+                state = 2;
+            }
+            else if (ping < 1000)
+            {
+                state = 3;
+            }
+            else
+            {
+                state = 4;
+            }
+            this.zLevel += 100.0F;
+            this.drawTexturedModalRect(x2 + x1 - 11, y, 0, 176 + state * 8, 10, 8);
+            this.zLevel -= 100.0F;
         }
     }
 }
