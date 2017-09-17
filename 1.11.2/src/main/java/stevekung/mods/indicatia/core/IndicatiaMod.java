@@ -28,10 +28,7 @@ import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
-import stevekung.mods.indicatia.util.CapeUtil;
-import stevekung.mods.indicatia.util.GameProfileUtil;
-import stevekung.mods.indicatia.util.ModLogger;
-import stevekung.mods.indicatia.util.VersionChecker;
+import stevekung.mods.indicatia.util.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
 public class IndicatiaMod
@@ -52,6 +49,7 @@ public class IndicatiaMod
     public static boolean SHOW_ANNOUNCE_MESSAGE;
     public static boolean FOUND_LATEST;
     public static ColoredFontRenderer coloredFontRenderer;
+    public static JsonUtil json;
 
     static
     {
@@ -62,6 +60,7 @@ public class IndicatiaMod
         catch (Exception e) {}
 
         IndicatiaMod.MC = Minecraft.getMinecraft();
+        IndicatiaMod.json = new JsonUtil();
     }
 
     @EventHandler

@@ -1,8 +1,7 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,7 +28,7 @@ public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLiv
     private float colorG = 1.0F;
     private float colorB = 1.0F;
     private boolean skipRenderGlint;
-    private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.newHashMap();
+    private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = new HashMap<>();
 
     public LayerArmorBaseNew(RenderLivingBase renderer, E entity)
     {

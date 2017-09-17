@@ -99,7 +99,7 @@ public class CommonHandler
 
     public CommonHandler(Minecraft mc)
     {
-        this.json = new JsonUtil();
+        this.json = IndicatiaMod.json;
         this.mc = mc;
     }
 

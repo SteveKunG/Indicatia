@@ -22,7 +22,7 @@ public class ThreadDownloadedCustomCape extends Thread
     public void run()
     {
         URL capeUrl = null;
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         try
         {
