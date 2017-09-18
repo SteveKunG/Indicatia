@@ -79,6 +79,7 @@ public class CommonHandler
     public static int currentServerPing;
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static int pendingPingTicks = 100;
+    private static boolean initLayer = true;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -227,10 +228,14 @@ public class CommonHandler
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event)
     {
-        RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
-        RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-        renderDefault.addLayer(new LayerCustomCape(renderDefault));
-        renderSlim.addLayer(new LayerCustomCape(renderSlim));
+        if (CommonHandler.initLayer)
+        {
+            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
+            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
+            renderDefault.addLayer(new LayerCustomCape(renderDefault));
+            renderSlim.addLayer(new LayerCustomCape(renderSlim));
+            CommonHandler.initLayer = false;
+        }
     }
 
     @SubscribeEvent
