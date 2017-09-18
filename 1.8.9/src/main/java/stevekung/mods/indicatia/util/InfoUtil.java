@@ -3,11 +3,14 @@ package stevekung.mods.indicatia.util;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,7 +47,15 @@ public class InfoUtil
 
     public boolean isHypixel()
     {
-        return IndicatiaMod.MC.getCurrentServerData() != null && (IndicatiaMod.MC.getCurrentServerData().serverIP.toLowerCase().contains("hypixel") || IndicatiaMod.MC.getCurrentServerData().serverIP.contains("209.222.115.42"));
+        ServerData server = IndicatiaMod.MC.getCurrentServerData();
+
+        if (server != null)
+        {
+            Pattern pattern = Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.(?:18|27|8|40|36|33|19|38|16|43|10|46|48|47|39|20|30|23|21|99)))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(server.serverIP);
+            return matcher.find();
+        }
+        return false;
     }
 
     public int getCPS()
