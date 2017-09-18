@@ -31,7 +31,7 @@ public class CommandAutoLogin extends ClientCommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
         Minecraft mc = IndicatiaMod.MC;
         ServerData data = mc.func_147104_D();
         UUID uuid = GameProfileUtil.getUUID();

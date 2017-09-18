@@ -3,12 +3,11 @@ package stevekung.mods.indicatia.gui;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.io.Charsets;
-
-import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -48,7 +47,7 @@ public class GuiFullChangeLog extends GuiScreen
 
         if (this.stringList == null)
         {
-            this.stringList = Lists.newArrayList();
+            this.stringList = new ArrayList<>();
 
             try
             {

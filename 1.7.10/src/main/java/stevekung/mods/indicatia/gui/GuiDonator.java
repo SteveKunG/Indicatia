@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.EnumChatFormatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.handler.HUDRenderHandler;
 import stevekung.mods.indicatia.util.JsonUtil;
 import stevekung.mods.indicatia.util.LangUtil;
@@ -71,7 +72,7 @@ public class GuiDonator extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton button)
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         if (button.enabled)
         {

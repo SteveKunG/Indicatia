@@ -484,7 +484,7 @@ public class HUDRenderHandler
         double distance = entity.getDistanceSqToEntity(this.mc.renderViewEntity);
         String mode = ConfigManager.healthStatusMode;
         boolean flag = mode.equals("disable") ? false : mode.equals("pointed") ? entity == InfoUtil.INSTANCE.extendedPointedEntity : true;
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
         ChatStyle color = halfHealth ? json.red() : halfHealth1 ? json.darkRed() : json.green();
 
         if (distance < range * range)

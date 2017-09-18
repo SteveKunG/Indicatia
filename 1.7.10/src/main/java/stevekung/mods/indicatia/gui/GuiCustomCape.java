@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.*;
 
 public class GuiCustomCape extends GuiScreen
@@ -73,7 +74,7 @@ public class GuiCustomCape extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton button)
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         if (button.enabled)
         {

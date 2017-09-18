@@ -121,7 +121,7 @@ public class GuiCustomTextColorSettings1 extends GuiScreen
             }
             if (button.id == 203)
             {
-                JsonUtil json = new JsonUtil();
+                JsonUtil json = IndicatiaMod.json;
                 FPS_COLOR_R = FPS_COLOR_G = FPS_COLOR_B = FPS_M40_COLOR_G = FPS_26_40_COLOR_R = FPS_26_40_COLOR_G = FPS_L25_COLOR_R = XYZ_COLOR_R = XYZ_COLOR_G = XYZ_COLOR_B = XYZ_VALUE_COLOR_R
                         = XYZ_VALUE_COLOR_G = XYZ_VALUE_COLOR_B = BIOME_COLOR_R = BIOME_COLOR_G = BIOME_COLOR_B = BIOME_VALUE_COLOR_R = BIOME_VALUE_COLOR_G = BIOME_VALUE_COLOR_B = CPS_COLOR_R
                         = CPS_COLOR_G = CPS_COLOR_B = CPS_VALUE_COLOR_R = CPS_VALUE_COLOR_G = CPS_VALUE_COLOR_B = RCPS_COLOR_R = RCPS_COLOR_G = RCPS_COLOR_B = RCPS_VALUE_COLOR_R = RCPS_VALUE_COLOR_G = RCPS_VALUE_COLOR_B

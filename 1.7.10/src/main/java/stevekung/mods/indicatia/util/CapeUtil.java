@@ -2,20 +2,19 @@ package stevekung.mods.indicatia.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Maps;
-
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
 public class CapeUtil
 {
-    public static final Map<String, DynamicTexture> CAPE_TEXTURE = Maps.newHashMap();
+    public static final Map<String, DynamicTexture> CAPE_TEXTURE = new HashMap<>();
     public static final File pngFile = new File(IndicatiaMod.MC.mcDataDir, "custom_cape");
     public static boolean textureDownloaded = true;
 
@@ -29,7 +28,7 @@ public class CapeUtil
 
     public static void loadCapeTexture()
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         if (!CapeUtil.textureDownloaded)
         {

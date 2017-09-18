@@ -7,6 +7,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.HideNameData;
 import stevekung.mods.indicatia.util.JsonUtil;
 
@@ -21,7 +22,7 @@ public class CommandHideName extends ClientCommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         if (args.length < 1)
         {

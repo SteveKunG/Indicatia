@@ -18,7 +18,7 @@ public class ThreadCheckMojangStatus extends Thread
         for (MojangStatusChecker checker : MojangStatusChecker.valuesCached())
         {
             MojangServerStatus status = checker.getServiceStatus();
-            JsonUtil json = new JsonUtil();
+            JsonUtil json = IndicatiaMod.json;
 
             if (this.startup)
             {

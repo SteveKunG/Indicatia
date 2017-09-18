@@ -1,11 +1,11 @@
 package stevekung.mods.indicatia.command;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -47,7 +47,7 @@ public abstract class ClientCommandBase extends CommandBase
     protected static List<String> getListOfStringsMatchingLastWord(String[] stringList, Collection<?> collection)
     {
         String s = stringList[stringList.length - 1];
-        List<String> list = Lists.newArrayList();
+        List<String> list = new ArrayList<>();
 
         if (!collection.isEmpty())
         {

@@ -1,9 +1,8 @@
 package stevekung.mods.indicatia.command;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -13,6 +12,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.profile.ProfileConfigData;
 import stevekung.mods.indicatia.profile.ProfileData;
 import stevekung.mods.indicatia.profile.ProfileData.ProfileSettingData;
@@ -30,7 +30,7 @@ public class CommandProfile extends ClientCommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
         ProfileConfigData configData = new ProfileConfigData();
 
         if (args.length < 1)
@@ -170,7 +170,7 @@ public class CommandProfile extends ClientCommandBase
             if ("load".equalsIgnoreCase(args[0]) || "remove".equalsIgnoreCase(args[0]) || "save".equalsIgnoreCase(args[0]))
             {
                 Collection<ProfileSettingData> collection = RenderProfileConfig.profileData.getProfileList();
-                List<String> list = Lists.newArrayList();
+                List<String> list = new ArrayList<>();
 
                 for (ProfileData.ProfileSettingData data : collection)
                 {

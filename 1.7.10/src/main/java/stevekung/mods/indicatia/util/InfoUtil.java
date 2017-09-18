@@ -211,7 +211,7 @@ public class InfoUtil
 
     public int parseInt(String input, String type)
     {
-        JsonUtil json = new JsonUtil();
+        JsonUtil json = IndicatiaMod.json;
 
         try
         {
