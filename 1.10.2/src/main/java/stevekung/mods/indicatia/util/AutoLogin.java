@@ -1,16 +1,15 @@
 package stevekung.mods.indicatia.util;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Maps;
-
 public class AutoLogin
 {
-    private static final Map<String, AutoLoginData> autoLogin = Maps.newHashMap();
+    private static final Map<String, AutoLoginData> autoLogin = new HashMap<>();
 
     @Nullable
     public AutoLoginData getAutoLogin(String data)
