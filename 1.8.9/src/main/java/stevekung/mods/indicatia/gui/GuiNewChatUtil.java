@@ -27,11 +27,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.GuiDropdownElement.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.util.HideNameData;
 import stevekung.mods.indicatia.util.InfoUtil;
-import stevekung.mods.indicatia.util.JsonUtil;
 
 public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
 {
@@ -279,15 +279,15 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             break;
         case 100:
             this.mc.thePlayer.sendChatMessage("/chat a");
-            this.mc.thePlayer.addChatMessage(new JsonUtil().text("Reset Hypixel Chat"));
+            this.mc.thePlayer.addChatMessage(IndicatiaMod.json.text("Reset Hypixel Chat"));
             break;
         case 101:
             this.mc.thePlayer.sendChatMessage("/chat p");
-            this.mc.thePlayer.addChatMessage(new JsonUtil().text("Set chat mode to Hypixel Party Chat"));
+            this.mc.thePlayer.addChatMessage(IndicatiaMod.json.text("Set chat mode to Hypixel Party Chat"));
             break;
         case 102:
             this.mc.thePlayer.sendChatMessage("/chat g");
-            this.mc.thePlayer.addChatMessage(new JsonUtil().text("Set chat mode to Hypixel Guild Chat"));
+            this.mc.thePlayer.addChatMessage(IndicatiaMod.json.text("Set chat mode to Hypixel Guild Chat"));
             break;
         case 1000:
             this.mc.thePlayer.sendChatMessage("/lobby sw");

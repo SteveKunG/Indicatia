@@ -47,6 +47,7 @@ public class IndicatiaMod
     public static boolean SHOW_ANNOUNCE_MESSAGE;
     public static boolean FOUND_LATEST;
     public static ColoredFontRenderer coloredFontRenderer;
+    public static JsonUtil json;
 
     static
     {
@@ -57,6 +58,7 @@ public class IndicatiaMod
         catch (Exception e) {}
 
         IndicatiaMod.MC = Minecraft.getMinecraft();
+        IndicatiaMod.json = new JsonUtil();
         IndicatiaMod.overrideClientCommandHandler();
     }
 
