@@ -1,3 +1,0 @@
--Added- Added Hide Name Command
--Update- Improved get ping from server for nicked players in Hypixel
--Fixed- Fixed dropdown click sound
