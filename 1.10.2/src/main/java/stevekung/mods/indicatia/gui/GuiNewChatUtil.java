@@ -39,7 +39,6 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     private boolean isDragging;
     private int lastPosX;
     private int lastPosY;
-    private static int gameTypeSelected;
     private GuiDropdownElement lobbyOptions;
 
     // skywars solo
@@ -152,7 +151,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
         {
             boolean clicked = !this.lobbyOptions.dropdownClicked;
 
-            switch (GuiNewChatUtil.gameTypeSelected)
+            switch (ExtendedConfig.PREV_SELECT_DROPDOWN)
             {
             case 0:
                 this.swLobby.visible = clicked;
@@ -355,13 +354,13 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     @Override
     public void onSelectionChanged(GuiDropdownElement dropdown, int selection)
     {
-        GuiNewChatUtil.gameTypeSelected = selection;
+        ExtendedConfig.PREV_SELECT_DROPDOWN = selection;
     }
 
     @Override
     public int getInitialSelection(GuiDropdownElement dropdown)
     {
-        return GuiNewChatUtil.gameTypeSelected;
+        return ExtendedConfig.PREV_SELECT_DROPDOWN;
     }
 
     @Override
