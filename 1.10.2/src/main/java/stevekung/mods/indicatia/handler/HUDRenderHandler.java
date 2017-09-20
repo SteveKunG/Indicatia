@@ -113,6 +113,11 @@ public class HUDRenderHandler
                 if (ConfigManager.enablePing && !this.mc.isSingleplayer())
                 {
                     leftInfo.add(HUDInfo.getPing());
+
+                    if (ConfigManager.enablePingToSecond)
+                    {
+                        leftInfo.add(HUDInfo.getPingToSecond());
+                    }
                 }
                 if (ConfigManager.enableFPS)
                 {

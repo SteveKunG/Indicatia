@@ -47,6 +47,7 @@ public class ConfigManager
     public static boolean enableXYZ;
     public static boolean enableBiome;
     public static boolean enablePing;
+    public static boolean enablePingToSecond;
     public static boolean enableServerIP;
     public static boolean enableServerIPMCVersion;
     public static boolean enableRenderEquippedItem;
@@ -275,6 +276,10 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Ping", true);
         ConfigManager.enablePing = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Ping to Second", false);
+        ConfigManager.enablePingToSecond = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Server IP", true);
