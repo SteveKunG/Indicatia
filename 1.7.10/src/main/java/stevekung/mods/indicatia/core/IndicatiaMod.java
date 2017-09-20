@@ -33,7 +33,7 @@ public class IndicatiaMod
     public static final String MOD_ID = "indicatia";
     public static final int MAJOR_VERSION = 1;
     public static final int MINOR_VERSION = 1;
-    public static final int BUILD_VERSION = 3;
+    public static final int BUILD_VERSION = 4;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     public static final String MC_VERSION = String.valueOf(FMLInjectionData.data()[4]);
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";

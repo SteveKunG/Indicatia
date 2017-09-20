@@ -1,4 +1,5 @@
 -Added- Added Ping to Second configuration
+-Update- Update to support Minecraft 1.12.2
 -Update- Minor improve to Custom Player Tab List
 -Update- Improved Hypixel IP Checker
 -Update- Improved data saving

@@ -1,5 +1,3 @@
--Added- Added Hide Name Command
--Added- Added Render Nametag Fix configuration
--Update- Improved get ping from server
--Fixed- Fixed Chat component conflict
--Fixed- Fixed Client Command Handler loaded too late
+-Added- Added Ping to Second configuration
+-Update- Improved data saving
+-Fixed- Fixed some data not saved

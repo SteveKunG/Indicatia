@@ -12,6 +12,7 @@ run
 # file
 *.launch
 *.txt
+!change_log.txt
 .metadata
 .classpath
 .project

@@ -1,6 +1,6 @@
--Added- Added Hide Name Command
--Added- Added Render Nametag Fix configuration
--Update- Improved get ping from server for nicked players in Hypixel
--Fixed- Fixed Chat component conflict
--Fixed- Fixed Client Command Handler loaded too late
--Fixed- Fixed dropdown click sound
+-Added- Added Ping to Second configuration
+-Update- Minor improve to Custom Player Tab List
+-Update- Improved Hypixel IP Checker
+-Update- Improved data saving
+-Fixed- Fixed huge lag with Custom Cape
+-Fixed- Fixed some data not saved
