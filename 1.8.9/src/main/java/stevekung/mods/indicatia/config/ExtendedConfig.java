@@ -30,6 +30,7 @@ public class ExtendedConfig
     public static int MAX_POTION_DISPLAY = 2;
     public static int POTION_LENGTH_Y_OFFSET = 23;
     public static int POTION_LENGTH_Y_OFFSET_OVERLAP = 45;
+    public static int PREV_SELECT_DROPDOWN;
     public static float CPS_OPACITY = 0.5F;
     public static long SLIME_CHUNK_SEED = 0L;
 
@@ -176,6 +177,7 @@ public class ExtendedConfig
             ExtendedConfig.MAX_POTION_DISPLAY = ExtendedConfig.getInteger(nbt, "MaxPotionDisplay", ExtendedConfig.MAX_POTION_DISPLAY);
             ExtendedConfig.POTION_LENGTH_Y_OFFSET = ExtendedConfig.getInteger(nbt, "PotionLengthYOffset", ExtendedConfig.POTION_LENGTH_Y_OFFSET);
             ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP = ExtendedConfig.getInteger(nbt, "PotionLengthYOffsetOverlap", ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP);
+            ExtendedConfig.PREV_SELECT_DROPDOWN = ExtendedConfig.getInteger(nbt, "PrevSelectDropdown", ExtendedConfig.PREV_SELECT_DROPDOWN);
             ExtendedConfig.CPS_OPACITY = ExtendedConfig.getFloat(nbt, "CpsOpacity", ExtendedConfig.CPS_OPACITY);
             ExtendedConfig.SLIME_CHUNK_SEED = ExtendedConfig.getLong(nbt, "SlimeChunkSeed", ExtendedConfig.SLIME_CHUNK_SEED);
 
@@ -321,6 +323,10 @@ public class ExtendedConfig
             nbt.setInteger("PotionStatusOffset", ExtendedConfig.POTION_STATUS_OFFSET);
             nbt.setInteger("CpsX", ExtendedConfig.CPS_X_OFFSET);
             nbt.setInteger("CpsY", ExtendedConfig.CPS_Y_OFFSET);
+            nbt.setInteger("MaxPotionDisplay", ExtendedConfig.MAX_POTION_DISPLAY);
+            nbt.setInteger("PotionLengthYOffset", ExtendedConfig.POTION_LENGTH_Y_OFFSET);
+            nbt.setInteger("PotionLengthYOffsetOverlap", ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP);
+            nbt.setInteger("PrevSelectDropdown", ExtendedConfig.PREV_SELECT_DROPDOWN);
             nbt.setFloat("CpsOpacity", ExtendedConfig.CPS_OPACITY);
             nbt.setLong("SlimeChunkSeed", ExtendedConfig.SLIME_CHUNK_SEED);
 
