@@ -319,6 +319,9 @@ public class ExtendedConfig
             nbt.setInteger("PotionStatusOffset", ExtendedConfig.POTION_STATUS_OFFSET);
             nbt.setInteger("CpsX", ExtendedConfig.CPS_X_OFFSET);
             nbt.setInteger("CpsY", ExtendedConfig.CPS_Y_OFFSET);
+            nbt.setInteger("MaxPotionDisplay", ExtendedConfig.MAX_POTION_DISPLAY);
+            nbt.setInteger("PotionLengthYOffset", ExtendedConfig.POTION_LENGTH_Y_OFFSET);
+            nbt.setInteger("PotionLengthYOffsetOverlap", ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP);
             nbt.setFloat("CpsOpacity", ExtendedConfig.CPS_OPACITY);
             nbt.setLong("SlimeChunkSeed", ExtendedConfig.SLIME_CHUNK_SEED);
 
