@@ -55,7 +55,6 @@ public class GuiNewChatUtil extends GuiChat
             }
             this.mc.displayGuiScreen((GuiScreen)null);
         }
-        ExtendedConfig.save();
     }
 
     @Override
@@ -87,6 +86,7 @@ public class GuiNewChatUtil extends GuiChat
             if (state == 0 && this.isDragging)
             {
                 this.isDragging = false;
+                ExtendedConfig.save();
             }
         }
         super.mouseMovedOrUp(mouseX, mouseY, state);

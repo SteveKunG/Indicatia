@@ -214,7 +214,6 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             }
             this.mc.displayGuiScreen((GuiScreen)null);
         }
-        ExtendedConfig.save();
     }
 
     @Override
@@ -246,6 +245,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             if (state == 0 && this.isDragging)
             {
                 this.isDragging = false;
+                ExtendedConfig.save();
             }
         }
         super.mouseReleased(mouseX, mouseY, state);
