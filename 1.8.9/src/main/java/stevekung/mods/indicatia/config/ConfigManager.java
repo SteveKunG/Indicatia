@@ -286,7 +286,7 @@ public class ConfigManager
         ConfigManager.enablePing = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Ping to Second", true);
+        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Ping to Second", false);
         ConfigManager.enablePingToSecond = prop.getBoolean();
         propOrder.add(prop.getName());
 
