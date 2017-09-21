@@ -37,24 +37,27 @@ public class BlockhitAnimationHandler
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        event.setCanceled(true);
-
-        if (!this.isZoomed())
+        if (ConfigManager.enableAlternatePlayerModel)
         {
-            if (ConfigManager.enableAlternatePlayerModel)
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(770, 771);
+        }
+        if (ConfigManager.enableBlockhitAnimation)
+        {
+            event.setCanceled(true);
+
+            if (!this.isZoomed())
             {
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(770, 771);
+                this.renderHand(event.partialTicks, event.renderPass);
+                this.mc.entityRenderer.renderWorldDirections(event.partialTicks);
             }
-            this.renderHand(event.partialTicks, event.renderPass);
-            this.mc.entityRenderer.renderWorldDirections(event.partialTicks);
-            if (ConfigManager.enableAlternatePlayerModel)
-            {
-                GlStateManager.disableBlend();
-            }
+        }
+        if (ConfigManager.enableAlternatePlayerModel)
+        {
+            GlStateManager.disableBlend();
         }
     }
 
@@ -91,15 +94,7 @@ public class BlockhitAnimationHandler
         if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectator())
         {
             this.mc.entityRenderer.enableLightmap();
-
-            if (ConfigManager.enableBlockhitAnimation)
-            {
-                this.renderItemInFirstPerson(partialTicks);
-            }
-            else
-            {
-                this.mc.getItemRenderer().renderItemInFirstPerson(partialTicks);
-            }
+            this.renderItemInFirstPerson(partialTicks);
             this.mc.entityRenderer.disableLightmap();
         }
 
