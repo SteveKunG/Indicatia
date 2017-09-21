@@ -1,6 +1,1 @@
--Added- Added Ping to Second configuration
--Update- Minor improve to Custom Player Tab List
--Update- Improved Hypixel IP Checker
--Update- Improved data saving
--Fixed- Fixed huge lag with Custom Cape
--Fixed- Fixed some data not saved
+-Fixed- Fixed RenderHandEvent priority

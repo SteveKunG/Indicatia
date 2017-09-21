@@ -18,13 +18,13 @@ def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
 def mcVersion = '1.10.2'
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-version = "1.1.4"
+version = "1.1.5"
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.10.2-12.18.3.2422"
+    version = "1.10.2-12.18.3.2488"
     runDir = "run"
     mappings = "snapshot_20161111"
     makeObfSourceJar = false
