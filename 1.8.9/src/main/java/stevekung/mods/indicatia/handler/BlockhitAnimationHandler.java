@@ -40,24 +40,24 @@ public class BlockhitAnimationHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        if (ConfigManager.enableAlternatePlayerModel)
-        {
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(770, 771);
-        }
         if (ConfigManager.enableBlockhitAnimation)
         {
             event.setCanceled(true);
 
             if (!this.isZoomed())
             {
+                if (ConfigManager.enableAlternatePlayerModel)
+                {
+                    GlStateManager.enableBlend();
+                    GlStateManager.blendFunc(770, 771);
+                }
                 this.renderHand(event.partialTicks, event.renderPass);
+                if (ConfigManager.enableAlternatePlayerModel)
+                {
+                    GlStateManager.disableBlend();
+                }
                 this.mc.entityRenderer.renderWorldDirections(event.partialTicks);
             }
-        }
-        if (ConfigManager.enableAlternatePlayerModel)
-        {
-            GlStateManager.disableBlend();
         }
     }
 
