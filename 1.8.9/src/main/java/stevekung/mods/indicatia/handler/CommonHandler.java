@@ -434,6 +434,7 @@ public class CommonHandler
                     {
                         String replacedText = unformattedText.replace(dailyText, "").replace("\n", "");
                         CommonHandler.openLink(replacedText);
+                        this.closeScreenTicks = 20;
                     }
                     if (unformattedText.contains(votingText1))
                     {
