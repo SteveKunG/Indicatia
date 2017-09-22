@@ -31,6 +31,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -177,7 +178,7 @@ public class CommonHandler
         {
             event.setCanceled(true);
 
-            if (event.renderer.func_110813_b(entity))
+            if (this.canRenderName(entity))
             {
                 double d0 = entity.getDistanceSqToEntity(RenderManager.instance.livingPlayer);
                 float f = entity.isSneaking() ? RendererLivingEntity.NAME_TAG_RANGE_SNEAK : RendererLivingEntity.NAME_TAG_RANGE;
@@ -340,6 +341,20 @@ public class CommonHandler
         {
             event.gui.drawString(this.mc.fontRenderer, "Support Indicatia!", event.gui.width - 120, 8, 65481);
         }
+    }
+
+    private boolean canRenderName(EntityLivingBase entity)
+    {
+        if (entity instanceof EntityLiving)
+        {
+            return this.getDefaultCanRenderName(entity) && (entity.getAlwaysRenderNameTagForRender() || ((EntityLiving) entity).hasCustomNameTag() && entity == RenderManager.instance.field_147941_i);
+        }
+        return this.getDefaultCanRenderName(entity);
+    }
+
+    private boolean getDefaultCanRenderName(EntityLivingBase entity)
+    {
+        return Minecraft.isGuiEnabled() && entity != RenderManager.instance.livingPlayer && !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entity.riddenByEntity == null;
     }
 
     private static void runAFK(EntityClientPlayerMP player)
