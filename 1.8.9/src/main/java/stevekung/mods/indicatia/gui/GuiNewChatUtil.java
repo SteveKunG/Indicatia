@@ -69,9 +69,11 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     private GuiButton bwFourThree;
     private GuiButton bwFourFour;
 
-    // prototype
-    private GuiButton ptlLobby;
-    private GuiButton ptlMurder;
+    // murder
+    private GuiButton mmLobby;
+    private GuiButton mmClassic;
+    private GuiButton mmAssassins;
+    private GuiButton mmHardcore;
 
     public GuiNewChatUtil() {}
 
@@ -97,7 +99,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
             this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
-            this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 123, 2, "Skywars: Solo", "Skywars: Team", "Skywars Labs: Solo", "Skywars Labs: Team", "Bedwars", "Prototype"));
+            this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 123, 2, "Skywars: Solo", "Skywars: Team", "Skywars Labs: Solo", "Skywars Labs: Team", "Bedwars", "Murder"));
 
             // skywars solo
             this.buttonList.add(this.swLobby = new GuiButton(1000, this.width - 72, 23, 70, 20, "\u00a7eSW Lobby"));
@@ -128,9 +130,11 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(this.bwFourThree = new GuiButton(1016, this.width - 72, 86, 70, 20, "3v3v3v3"));
             this.buttonList.add(this.bwFourFour = new GuiButton(1017, this.width - 72, 107, 70, 20, "4v4v4v4"));
 
-            // prototype
-            this.buttonList.add(this.ptlLobby = new GuiButton(1018, this.width - 72, 23, 70, 20, "\u00a7ePTL Lobby"));
-            this.buttonList.add(this.ptlMurder = new GuiButton(1019, this.width - 72, 44, 70, 20, "Murder"));
+            // murder
+            this.buttonList.add(this.mmLobby = new GuiButton(1018, this.width - 72, 23, 70, 20, "\u00a7eMM Lobby"));
+            this.buttonList.add(this.mmClassic = new GuiButton(1019, this.width - 72, 44, 70, 20, "Classic"));
+            this.buttonList.add(this.mmAssassins = new GuiButton(1020, this.width - 72, 65, 70, 20, "Assassins"));
+            this.buttonList.add(this.mmHardcore = new GuiButton(1021, this.width - 72, 86, 70, 20, "Hardcore"));
 
             for (GuiButton button : this.buttonList)
             {
@@ -185,8 +189,10 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                 this.bwFourFour.visible = clicked;
                 break;
             case 5:
-                this.ptlLobby.visible = clicked;
-                this.ptlMurder.visible = clicked;
+                this.mmLobby.visible = clicked;
+                this.mmClassic.visible = clicked;
+                this.mmAssassins.visible = clicked;
+                this.mmHardcore.visible = clicked;
                 break;
             }
         }
@@ -343,10 +349,16 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.mc.thePlayer.sendChatMessage("/play bedwars_four_four");
             break;
         case 1018:
-            this.mc.thePlayer.sendChatMessage("/lobby ptl");
+            this.mc.thePlayer.sendChatMessage("/lobby mm");
             break;
         case 1019:
-            this.mc.thePlayer.sendChatMessage("/play prototype_murder_mystery");
+            this.mc.thePlayer.sendChatMessage("/play murder_classic");
+            break;
+        case 1020:
+            this.mc.thePlayer.sendChatMessage("/play murder_assassins");
+            break;
+        case 1021:
+            this.mc.thePlayer.sendChatMessage("/play murder_hardcore");
             break;
         }
     }
