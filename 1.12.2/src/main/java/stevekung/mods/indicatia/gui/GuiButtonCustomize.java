@@ -50,8 +50,6 @@ public class GuiButtonCustomize extends GuiButton
         if (this.visible)
         {
             boolean isHover = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            int state = this.getHoverState(isHover);
-
             GlStateManager.disableRescaleNormal();
             RenderHelper.disableStandardItemLighting();
             GlStateManager.disableLighting();
