@@ -1,17 +1,38 @@
 {
-	"pete_music":
-	{
-		"category": "player",
-		"sounds": ["indicatia:pete_music"]
-	},
-    "pete_dance":
-	{
-		"category": "player",
-		"sounds": ["indicatia:pete_dance"]
-	},
-    "inwtrue":
-	{
-		"category": "player",
-		"sounds": ["indicatia:inwtrue"]
-	}
+    "pete_music": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "indicatia:pete_music",
+                "stream": true
+            }
+        ]
+    },
+    "pete_dance": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "indicatia:pete_dance",
+                "stream": true
+            }
+        ]
+    },
+    "inwtrue": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "indicatia:inwtrue",
+                "stream": true
+            }
+        ]
+    },
+    "edm": {
+        "category": "player",
+        "sounds": [
+            {
+                "name": "indicatia:edm",
+                "stream": true
+            }
+        ]
+    }
 }
