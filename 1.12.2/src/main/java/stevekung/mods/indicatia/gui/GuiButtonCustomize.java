@@ -8,7 +8,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -50,9 +49,6 @@ public class GuiButtonCustomize extends GuiButton
         if (this.visible)
         {
             boolean isHover = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            GlStateManager.disableRescaleNormal();
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.disableLighting();
             GlStateManager.disableDepth();
 
             if (this.tooltips != null && !this.tooltips.isEmpty() && isHover)
@@ -106,10 +102,7 @@ public class GuiButtonCustomize extends GuiButton
                 }
                 this.zLevel = 0.0F;
             }
-            GlStateManager.enableLighting();
             GlStateManager.enableDepth();
-            RenderHelper.enableStandardItemLighting();
-            GlStateManager.enableRescaleNormal();
         }
     }
 }
