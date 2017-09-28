@@ -28,6 +28,7 @@ public class ConfigManager
     public static String endGameMessage;
     public static boolean enableRenderInfo;
     public static boolean enableBlockhitAnimation;
+    public static boolean enableAdditionalBlockhitAnimation;
     public static boolean enableOldArmorRender;
     public static boolean enableVersionChecker;
     public static boolean enableAnnounceMessage;
@@ -146,6 +147,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Blockhit Animation", false);
         ConfigManager.enableBlockhitAnimation = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.blockhit_animation");
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Additional Blockhit Animation", false);
+        ConfigManager.enableAdditionalBlockhitAnimation = prop.getBoolean();
+        prop.comment = LangUtil.translate("gui.config.indicatia.additional_blockhit_animation");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Old Armor Render", false);

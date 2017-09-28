@@ -47,6 +47,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
+import net.minecraft.item.EnumAction;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -58,6 +59,7 @@ import net.minecraft.network.status.server.S01PacketPong;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
@@ -94,6 +96,7 @@ public class CommonHandler
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static int pendingPingTicks = 100;
     private static boolean initLayer = true;
+    private static EnumAction[] cachedAction = EnumAction.values();
 
     // AFK Stuff
     public static boolean isAFK;
@@ -176,6 +179,16 @@ public class CommonHandler
                         if (CommonHandler.autoClickTicks % 4 == 0)
                         {
                             this.mc.rightClickMouse();
+                        }
+                    }
+                }
+                for (EnumAction action : CommonHandler.getCachedAction())
+                {
+                    if (action != EnumAction.NONE)
+                    {
+                        if (ConfigManager.enableAdditionalBlockhitAnimation && IndicatiaMod.MC.gameSettings.keyBindAttack.isKeyDown() && IndicatiaMod.MC.thePlayer != null && IndicatiaMod.MC.objectMouseOver != null && IndicatiaMod.MC.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && IndicatiaMod.MC.thePlayer.getCurrentEquippedItem() != null && IndicatiaMod.MC.thePlayer.getCurrentEquippedItem().getItemUseAction() == action)
+                        {
+                            IndicatiaMod.MC.thePlayer.swingItem();
                         }
                     }
                 }
@@ -1046,5 +1059,10 @@ public class CommonHandler
         GlStateManager.disableBlend();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.popMatrix();
+    }
+
+    private static EnumAction[] getCachedAction()
+    {
+        return CommonHandler.cachedAction;
     }
 }

@@ -31,6 +31,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.item.EnumAction;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -39,7 +40,9 @@ import net.minecraft.network.status.client.CPacketPing;
 import net.minecraft.network.status.client.CPacketServerQuery;
 import net.minecraft.network.status.server.SPacketPong;
 import net.minecraft.network.status.server.SPacketServerInfo;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -78,6 +81,7 @@ public class CommonHandler
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static int pendingPingTicks = 100;
     private static boolean initLayer = true;
+    private static EnumAction[] cachedAction = EnumAction.values();
 
     // AFK Stuff
     public static boolean isAFK;
@@ -162,6 +166,16 @@ public class CommonHandler
                         if (CommonHandler.autoClickTicks % 4 == 0)
                         {
                             this.mc.rightClickMouse();
+                        }
+                    }
+                }
+                for (EnumAction action : CommonHandler.getCachedAction())
+                {
+                    if (action != EnumAction.NONE)
+                    {
+                        if (ConfigManager.enableAdditionalBlockhitAnimation && IndicatiaMod.MC.gameSettings.keyBindAttack.isKeyDown() && IndicatiaMod.MC.thePlayer != null && IndicatiaMod.MC.objectMouseOver != null && IndicatiaMod.MC.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && IndicatiaMod.MC.thePlayer.getHeldItemMainhand() != null && IndicatiaMod.MC.thePlayer.getHeldItemMainhand().getItemUseAction() == action)
+                        {
+                            IndicatiaMod.MC.thePlayer.swingArm(EnumHand.MAIN_HAND);
                         }
                     }
                 }
@@ -786,5 +800,10 @@ public class CommonHandler
                 CommonHandler.printAutoGGTicks = 0;
             }
         }
+    }
+
+    private static EnumAction[] getCachedAction()
+    {
+        return CommonHandler.cachedAction;
     }
 }
