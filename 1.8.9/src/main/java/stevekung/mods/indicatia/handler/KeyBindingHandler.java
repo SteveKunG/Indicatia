@@ -14,7 +14,7 @@ public class KeyBindingHandler
 
     public static void init()
     {
-        KeyBindingHandler.KEY_REC_COMMAND = new KeyBindingIU("key.rec_overlay.desc", Keyboard.KEY_F9);
+        KeyBindingHandler.KEY_REC_COMMAND = new KeyBindingIU("key.rec_overlay.desc", Keyboard.KEY_NONE);
         KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBindingIU("key.quick_config.desc", Keyboard.KEY_F4);
         KeyBindingHandler.KEY_DONATOR_GUI = new KeyBindingIU("key.donator_gui.desc", Keyboard.KEY_F6);
         KeyBindingHandler.KEY_CUSTOM_CAPE_GUI = new KeyBindingIU("key.custom_cape_gui.desc", Keyboard.KEY_H);
