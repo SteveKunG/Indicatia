@@ -44,6 +44,7 @@ public class ConfigManager
     public static boolean enableCustomCape;
     public static boolean enableAlternatePlayerModel;
     public static boolean enableRenderNametagFix;
+    public static boolean enableTransparentSkullRender;
 
     // Render Settings
     public static boolean swapRenderInfoToRight;
@@ -213,6 +214,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Render Nametag Fix", true);
         ConfigManager.enableRenderNametagFix = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.render_nametag_fix");
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Transparent Skull Render", false);
+        ConfigManager.enableTransparentSkullRender = prop.getBoolean();
+        prop.comment = LangUtil.translate("gui.config.indicatia.transparent_skull_render");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Version Checker", true);

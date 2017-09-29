@@ -23,10 +23,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.inventory.GuiEditSign;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.model.ModelSkeleton;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.model.ModelZombieVillager;
+import net.minecraft.client.model.*;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
@@ -44,6 +41,7 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -76,6 +74,7 @@ import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.renderer.LayerAllArmor;
 import stevekung.mods.indicatia.renderer.LayerCustomCape;
+import stevekung.mods.indicatia.renderer.LayerCustomHeadNew;
 import stevekung.mods.indicatia.renderer.ModelPlayerNew;
 import stevekung.mods.indicatia.util.*;
 
@@ -258,6 +257,12 @@ public class CommonHandler
         else if (entity instanceof EntityZombie && ((EntityZombie)entity).isVillager())
         {
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderVillager(manager), entity), renderer, entity);
+
+            if (renderer instanceof RenderZombie)
+            {
+                RenderZombie renderZombie = (RenderZombie) renderer;
+                CommonHandler.replaceTransparentHeadLayer(layerLists, renderZombie.zombieVillagerModel.bipedHead);
+            }
         }
         else if (entity instanceof EntityGiantZombie)
         {
@@ -266,10 +271,30 @@ public class CommonHandler
         else if (entity instanceof EntityZombie && !((EntityZombie)entity).isVillager())
         {
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderZombie(manager), entity), renderer, entity);
+
+            if (renderer instanceof RenderBiped)
+            {
+                RenderBiped renderBiped = (RenderBiped) renderer;
+                CommonHandler.replaceTransparentHeadLayer(layerLists, renderBiped.modelBipedMain.bipedHead);
+            }
         }
         else if (entity instanceof EntitySkeleton)
         {
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderSkeleton(manager), entity), renderer, entity);
+
+            if (renderer instanceof RenderBiped)
+            {
+                RenderBiped renderBiped = (RenderBiped) renderer;
+                CommonHandler.replaceTransparentHeadLayer(layerLists, renderBiped.modelBipedMain.bipedHead);
+            }
+        }
+        else if (entity instanceof EntityVillager)
+        {
+            if (renderer instanceof RenderVillager)
+            {
+                RenderVillager renderVillager = (RenderVillager) renderer;
+                CommonHandler.replaceTransparentHeadLayer(layerLists, renderVillager.getMainModel().villagerHead);
+            }
         }
     }
 
@@ -872,6 +897,44 @@ public class CommonHandler
         if (customHeadIndex >= 0)
         {
             layerLists.set(customHeadIndex, new LayerCustomHead(render.getMainModel().bipedHead));
+        }
+    }
+
+    private static void replaceTransparentHeadLayer(List<LayerRenderer> layerLists, ModelRenderer modelRenderer)
+    {
+        int customHeadIndex = -1;
+
+        if (ConfigManager.enableTransparentSkullRender)
+        {
+            for (int i = 0; i < layerLists.size(); i++)
+            {
+                LayerRenderer layer = layerLists.get(i);
+
+                if (layer instanceof LayerCustomHead)
+                {
+                    customHeadIndex = i;
+                }
+            }
+            if (customHeadIndex >= 0)
+            {
+                layerLists.set(customHeadIndex, new LayerCustomHeadNew(modelRenderer));
+            }
+        }
+        else
+        {
+            for (int i = 0; i < layerLists.size(); i++)
+            {
+                LayerRenderer layer = layerLists.get(i);
+
+                if (layer instanceof LayerCustomHeadNew)
+                {
+                    customHeadIndex = i;
+                }
+            }
+            if (customHeadIndex >= 0)
+            {
+                layerLists.set(customHeadIndex, new LayerCustomHead(modelRenderer));
+            }
         }
     }
 

@@ -6,9 +6,12 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,7 +28,9 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
+import stevekung.mods.indicatia.renderer.RenderArmorStandNew;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
+import stevekung.mods.indicatia.renderer.TileEntitySkullRendererNew;
 import stevekung.mods.indicatia.util.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY)
@@ -105,7 +110,10 @@ public class IndicatiaMod
     {
         IndicatiaMod.MC.getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityFishHook.class));
         IndicatiaMod.MC.getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(IndicatiaMod.MC.getRenderManager()));
+        IndicatiaMod.MC.getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityArmorStand.class));
+        IndicatiaMod.MC.getRenderManager().entityRenderMap.put(EntityArmorStand.class, new RenderArmorStandNew(IndicatiaMod.MC.getRenderManager()));
         ModLogger.info("Successfully replacing {}", EntityFishHook.class.getName());
+        ModLogger.info("Successfully replacing {}", EntityArmorStand.class.getName());
     }
 
     @EventHandler
@@ -118,6 +126,8 @@ public class IndicatiaMod
         CapeUtil.loadCapeTextureAtStartup();
         IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(IndicatiaMod.MC.gameSettings, new ResourceLocation("textures/font/ascii.png"), IndicatiaMod.MC.renderEngine, false);
         ((IReloadableResourceManager)IndicatiaMod.MC.getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
+        TileEntityRendererDispatcher.instance.mapSpecialRenderers.entrySet().removeIf(entry -> entry.getKey().equals(TileEntitySkull.class));
+        TileEntityRendererDispatcher.instance.mapSpecialRenderers.put(TileEntitySkull.class, new TileEntitySkullRendererNew());
     }
 
     public static boolean isObfuscatedEnvironment()

@@ -21,6 +21,7 @@ gui.config.indicatia.end_game_title_message=This will check message from Title i
 gui.config.indicatia.end_game_message=This message will be printed to in-game chat when game is end or finished. Disable by leave it blank.
 gui.config.indicatia.render_nametag_fix=Improve Nametag rendering when in the Third Person view.
 gui.config.indicatia.additional_blockhit_animation=When Eating/Blocking/Bowing/Drinking and use left click on the block, your hand will be swing just like in 1.7. (But not start break a block)
+gui.config.indicatia.transparent_skull_render=Same as alternate player model but this is for Skull
 
 # KEY BINDING
 key.indicatia.category=Indicatia
