@@ -11,6 +11,6 @@ before_script:
 
 script:
     - echo 'Setup environment'
-    - ./gradlew setupDecompWorkspace eclipse
+    - ./gradlew setupCiWorkspace
     - echo 'Build'
     - ./gradlew build
