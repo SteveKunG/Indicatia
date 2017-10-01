@@ -23,7 +23,7 @@ group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 
 minecraft {
-    version = "1.12.2-14.23.0.2493"
+    version = "1.12.2-14.23.0.2494"
     runDir = "run"
     mappings = "snapshot_20170624"
     makeObfSourceJar = false
