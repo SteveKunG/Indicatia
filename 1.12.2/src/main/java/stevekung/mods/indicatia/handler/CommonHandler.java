@@ -26,6 +26,7 @@ import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerCape;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
@@ -63,6 +64,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.renderer.LayerAllArmor;
+import stevekung.mods.indicatia.renderer.LayerCapeNew;
 import stevekung.mods.indicatia.renderer.LayerCustomCape;
 import stevekung.mods.indicatia.util.*;
 
@@ -221,6 +223,8 @@ public class CommonHandler
             RenderPlayer renderSlim = manager.getSkinMap().get("slim");
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderDefault, entity), renderer, entity);
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderSlim, entity), renderer, entity);
+            CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
+            CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
         }
         else if (entity instanceof EntityZombieVillager)
         {
@@ -730,6 +734,25 @@ public class CommonHandler
                     });
                 }
             }
+        }
+    }
+
+    private static void replaceCapeLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    {
+        int capeLayerIndex = -1;
+
+        for (int i = 0; i < layerLists.size(); i++)
+        {
+            LayerRenderer layer = layerLists.get(i);
+
+            if (layer instanceof LayerCape)
+            {
+                capeLayerIndex = i;
+            }
+        }
+        if (capeLayerIndex >= 0)
+        {
+            layerLists.set(capeLayerIndex, newLayer);
         }
     }
 
