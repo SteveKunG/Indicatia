@@ -208,7 +208,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     @Override
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo info)
     {
-        int ping = info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) ? CommonHandler.currentServerPing : info.getResponseTime();
+        int ping = info.getGameProfile().getName().contains(CommonHandler.murderAssassinsNick) || info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) ? CommonHandler.currentServerPing : info.getResponseTime();
 
         if (ConfigManager.enableCustomPlayerList)
         {
