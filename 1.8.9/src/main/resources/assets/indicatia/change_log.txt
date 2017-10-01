@@ -1,1 +1,7 @@
+-Added- Added Additional Blockhit Animation config
+-Added- Added Transparent Skull Render config
+-Added- Hypixel Murder assassins nick checker
+-Update- Update Hypixel Quick Game
 -Fixed- Fixed RenderHandEvent priority
+-Fixed- Fixed tooltip overlay rendering
+-Fixed- Fixed Cape rendering - Improve MC-75279

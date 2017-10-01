@@ -1,3 +1,2 @@
--Added- Added Ping to Second configuration
--Update- Improved data saving
--Fixed- Fixed some data not saved
+-Fixed- Fixed Cape rendering - Improve MC-75279
+-Fixed- Fixed canRenderName method
