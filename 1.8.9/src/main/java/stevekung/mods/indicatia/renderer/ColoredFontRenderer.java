@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.renderer;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
@@ -19,6 +21,9 @@ public class ColoredFontRenderer extends FontRenderer
     private int red;
     private int green;
     private int blue;
+    private final String specialUpperChars = "\u0e48\u0e49\u0e4a\u0e4b";
+    private final String upperChars = "\u0e31\u0e34\u0e35\u0e36\u0e37\u0e47\u0e4c\u0e4d\u0e4e" + this.specialUpperChars;
+    private final String lowerChars = "\u0e38\u0e39\u0e3a";
 
     public ColoredFontRenderer(GameSettings gameSettings, ResourceLocation location, TextureManager textureManager, boolean unicode)
     {
@@ -72,9 +77,71 @@ public class ColoredFontRenderer extends FontRenderer
         this.setBidiFlag(IndicatiaMod.MC.getLanguageManager().isCurrentLanguageBidirectional());
     }
 
+    @Override
+    public float func_181559_a(char charac, boolean italic)
+    {
+        float value = Float.NaN;
+
+        if (this.upperChars.indexOf(charac) != -1 || this.lowerChars.indexOf(charac) != -1)
+        {
+            value = this.renderThaiCharacter(charac, italic);
+        }
+        if (Float.isNaN(value))
+        {
+            value = super.func_181559_a(charac, italic);
+        }
+        return value;
+    }
+
+    @Override
+    public int getCharWidth(char charac)
+    {
+        if (this.upperChars.indexOf(charac) != -1 || this.lowerChars.indexOf(charac) != -1)
+        {
+            return 0;
+        }
+        return super.getCharWidth(charac);
+    }
+
     public static String color(int r, int g, int b)
     {
         return String.format("%c%c%c", (char) (ColoredFontRenderer.marker + (r & 255)), (char) (ColoredFontRenderer.marker + (g & 255)), (char) (ColoredFontRenderer.marker + (b & 255)));
+    }
+
+    private float renderThaiCharacter(char charac, boolean italic)
+    {
+        this.loadGlyphTexture(14);
+        float posYShift = 0.0F;
+        float height = 2.99F;
+
+        if (this.lowerChars.indexOf(charac) != -1)
+        {
+            height = 1.99F;
+            posYShift = 6.0F;
+        }
+
+        float heightX2 = height * 2;
+        int rawWidth = this.glyphWidth[charac] & 0xFF;
+        float startTexcoordX = rawWidth >>> 4;
+        float charWidth = (rawWidth & 15) + 1;
+        float texcoordX = charac % 16 * 16 + startTexcoordX;
+        float texcoordY = (charac & 255) / 16 * 16 + posYShift * 2;
+        float texcoordXEnd = charWidth - startTexcoordX - 0.02F;
+        float skew = italic ? 1.0F : 0.0F;
+        float posX = this.posX - ((charWidth - startTexcoordX) / 2.0F + 0.5F);
+        float posY = this.posY + posYShift;
+
+        GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+        GL11.glTexCoord2f(texcoordX / 256.0F, texcoordY / 256.0F);
+        GL11.glVertex3f(posX + skew, posY, 0.0F);
+        GL11.glTexCoord2f(texcoordX / 256.0F, (texcoordY + heightX2) / 256.0F);
+        GL11.glVertex3f(posX - skew, posY + height, 0.0F);
+        GL11.glTexCoord2f((texcoordX + texcoordXEnd) / 256.0F, texcoordY / 256.0F);
+        GL11.glVertex3f(posX + texcoordXEnd / 2.0F + skew, posY, 0.0F);
+        GL11.glTexCoord2f((texcoordX + texcoordXEnd) / 256.0F, (texcoordY + heightX2) / 256.0F);
+        GL11.glVertex3f(posX + texcoordXEnd / 2.0F - skew, posY + height, 0.0F);
+        GL11.glEnd();
+        return 0.0F;
     }
 
     private float renderColoredChar(int charac, float defaultValue)
