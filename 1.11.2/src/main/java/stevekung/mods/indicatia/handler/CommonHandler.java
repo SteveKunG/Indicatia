@@ -71,6 +71,7 @@ public class CommonHandler
 {
     private JsonUtil json;
     private static final Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
+    private static final Pattern murderNickPattern = Pattern.compile("^You will be known as (?<nick>\\w+) during this game!");
     public static GuiPlayerTabOverlayNew overlayPlayerList;
     private final Minecraft mc;
     public static final List<Long> LEFT_CLICK = new ArrayList<>();
@@ -85,6 +86,7 @@ public class CommonHandler
     private static int pendingPingTicks = 100;
     private static boolean initLayer = true;
     private static EnumAction[] cachedAction = EnumAction.values();
+    public static String murderAssassinsNick = "";
 
     // AFK Stuff
     public static boolean isAFK;
@@ -348,6 +350,7 @@ public class CommonHandler
         if (InfoUtil.INSTANCE.isHypixel())
         {
             Matcher nickMatcher = CommonHandler.nickPattern.matcher(unformattedText);
+            Matcher murderNickMatcher = CommonHandler.murderNickPattern.matcher(unformattedText);
 
             if (event.getType() == 0)
             {
@@ -355,6 +358,10 @@ public class CommonHandler
                 {
                     ExtendedConfig.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
                     ExtendedConfig.save();
+                }
+                if (murderNickMatcher.matches())
+                {
+                    CommonHandler.murderAssassinsNick = murderNickMatcher.group("nick");
                 }
                 if (unformattedText.contains("Your nick has been reset!"))
                 {
@@ -371,6 +378,7 @@ public class CommonHandler
                     {
                         String replacedText = unformattedText.replace(dailyText, "").replace("\n", "");
                         CommonHandler.openLink(replacedText);
+                        this.closeScreenTicks = 20;
                     }
                     if (unformattedText.contains(votingText1))
                     {
