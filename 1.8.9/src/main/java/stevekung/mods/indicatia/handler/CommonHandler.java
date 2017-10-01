@@ -31,6 +31,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerCape;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -72,10 +73,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.renderer.LayerAllArmor;
-import stevekung.mods.indicatia.renderer.LayerCustomCape;
-import stevekung.mods.indicatia.renderer.LayerCustomHeadNew;
-import stevekung.mods.indicatia.renderer.ModelPlayerNew;
+import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -231,12 +229,14 @@ public class CommonHandler
                 RenderPlayer render = manager.getSkinMap().get("slim");
                 CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
                 CommonHandler.replaceCustomHeadLayer(layerLists, render);
+                CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(render));
             }
             else
             {
                 RenderPlayer render = manager.getSkinMap().get("default");
                 CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
                 CommonHandler.replaceCustomHeadLayer(layerLists, render);
+                CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(render));
             }
         }
         else if (entity instanceof EntityOtherPlayerMP)
@@ -246,12 +246,14 @@ public class CommonHandler
                 RenderPlayer render = manager.getSkinMap().get("slim");
                 CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
                 CommonHandler.replaceCustomHeadLayer(layerLists, render);
+                CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(render));
             }
             else
             {
                 RenderPlayer render = manager.getSkinMap().get("default");
                 CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(render, entity), renderer, entity);
                 CommonHandler.replaceCustomHeadLayer(layerLists, render);
+                CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(render));
             }
         }
         else if (entity instanceof EntityZombie && ((EntityZombie)entity).isVillager())
@@ -935,6 +937,25 @@ public class CommonHandler
             {
                 layerLists.set(customHeadIndex, new LayerCustomHead(modelRenderer));
             }
+        }
+    }
+
+    private static void replaceCapeLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    {
+        int capeLayerIndex = -1;
+
+        for (int i = 0; i < layerLists.size(); i++)
+        {
+            LayerRenderer layer = layerLists.get(i);
+
+            if (layer instanceof LayerCape)
+            {
+                capeLayerIndex = i;
+            }
+        }
+        if (capeLayerIndex >= 0)
+        {
+            layerLists.set(capeLayerIndex, newLayer);
         }
     }
 

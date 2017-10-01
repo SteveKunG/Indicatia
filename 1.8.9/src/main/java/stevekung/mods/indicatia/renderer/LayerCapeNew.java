@@ -4,20 +4,17 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.config.ConfigManager;
-import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.util.CapeUtil;
-import stevekung.mods.indicatia.util.GameProfileUtil;
 
 @SideOnly(Side.CLIENT)
-public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
+public class LayerCapeNew implements LayerRenderer<AbstractClientPlayer>
 {
-    private RenderPlayer playerRenderer;
+    private final RenderPlayer playerRenderer;
 
-    public LayerCustomCape(RenderPlayer playerRenderer)
+    public LayerCapeNew(RenderPlayer playerRenderer)
     {
         this.playerRenderer = playerRenderer;
     }
@@ -25,18 +22,18 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (ConfigManager.enableCustomCape && entity.getName().equals(GameProfileUtil.getUsername()) && !entity.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtil.CAPE_TEXTURE.isEmpty())
+        if (entity.hasPlayerInfo() && !entity.isInvisible() && entity.isWearing(EnumPlayerModelParts.CAPE) && entity.getLocationCape() != null)
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            CapeUtil.bindCapeTexture();
+            this.playerRenderer.bindTexture(entity.getLocationCape());
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, 0.0F, 0.125F);
             double d0 = entity.prevChasingPosX + (entity.chasingPosX - entity.prevChasingPosX) * partialTicks - (entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks);
             double d1 = entity.prevChasingPosY + (entity.chasingPosY - entity.prevChasingPosY) * partialTicks - (entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks);
             double d2 = entity.prevChasingPosZ + (entity.chasingPosZ - entity.prevChasingPosZ) * partialTicks - (entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks);
             float f = entity.prevRenderYawOffset + (entity.renderYawOffset - entity.prevRenderYawOffset) * partialTicks;
-            double d3 = MathHelper.sin(f * (float)Math.PI / 180.0F);
-            double d4 = -MathHelper.cos(f * (float)Math.PI / 180.0F);
+            double d3 = MathHelper.sin(f * 0.017453292F);
+            double d4 = -MathHelper.cos(f * 0.017453292F);
             float f1 = (float)d1 * 10.0F;
             f1 = MathHelper.clamp_float(f1, -6.0F, 32.0F);
             float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;
