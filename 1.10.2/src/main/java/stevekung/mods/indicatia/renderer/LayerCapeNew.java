@@ -4,23 +4,20 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.config.ConfigManager;
-import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.util.CapeUtil;
-import stevekung.mods.indicatia.util.GameProfileUtil;
 
 @SideOnly(Side.CLIENT)
-public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
+public class LayerCapeNew implements LayerRenderer<AbstractClientPlayer>
 {
     private final RenderPlayer playerRenderer;
 
-    public LayerCustomCape(RenderPlayer playerRenderer)
+    public LayerCapeNew(RenderPlayer playerRenderer)
     {
         this.playerRenderer = playerRenderer;
     }
@@ -28,14 +25,14 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (ConfigManager.enableCustomCape && entity.getName().equals(GameProfileUtil.getUsername()) && !entity.isInvisible() && ExtendedConfig.SHOW_CAPE && !CapeUtil.CAPE_TEXTURE.isEmpty())
+        if (entity.hasPlayerInfo() && !entity.isInvisible() && entity.isWearing(EnumPlayerModelParts.CAPE) && entity.getLocationCape() != null)
         {
             ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
-            if (itemStack == null || itemStack.getItem() != Items.ELYTRA)
+            if (itemStack.getItem() != Items.ELYTRA)
             {
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                CapeUtil.bindCapeTexture();
+                this.playerRenderer.bindTexture(entity.getLocationCape());
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(0.0F, 0.0F, 0.125F);
                 double d0 = entity.prevChasingPosX + (entity.chasingPosX - entity.prevChasingPosX) * partialTicks - (entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks);
