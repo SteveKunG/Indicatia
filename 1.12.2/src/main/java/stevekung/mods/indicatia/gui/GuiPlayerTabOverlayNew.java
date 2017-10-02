@@ -23,9 +23,12 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.handler.CommonHandler;
 import stevekung.mods.indicatia.util.HideNameData;
+import stevekung.mods.indicatia.util.InfoUtil;
 
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 {
+    private static String murderAssassinsNick = "";
+
     public GuiPlayerTabOverlayNew()
     {
         super(IndicatiaMod.MC, IndicatiaMod.MC.ingameGUI);
@@ -174,6 +177,10 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
                             s4 = s4.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
                         }
                     }
+                    if (s4.contains("YOU"))
+                    {
+                        GuiPlayerTabOverlayNew.murderAssassinsNick = TextFormatting.getTextWithoutFormattingCodes(s4).replace("YOU ", "");
+                    }
                     this.mc.fontRenderer.drawStringWithShadow(s4, j2, k2, -1);
                 }
 
@@ -208,7 +215,12 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     @Override
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo info)
     {
-        int ping = info.getGameProfile().getName().contains(CommonHandler.murderAssassinsNick) || info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) ? CommonHandler.currentServerPing : info.getResponseTime();
+        int ping = info.getResponseTime();
+
+        if (InfoUtil.INSTANCE.isHypixel() && (info.getGameProfile().getName().equals(ExtendedConfig.HYPIXEL_NICK_NAME) || info.getGameProfile().getName().equals(GuiPlayerTabOverlayNew.murderAssassinsNick)))
+        {
+            ping = CommonHandler.currentServerPing;
+        }
 
         if (ConfigManager.enableCustomPlayerList)
         {
