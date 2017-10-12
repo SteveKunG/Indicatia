@@ -370,7 +370,7 @@ public class HUDRenderHandler
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
         float range = entity.isSneaking() ? RenderLivingBase.NAME_TAG_RANGE_SNEAK : RenderLivingBase.NAME_TAG_RANGE;
-        double distance = entity.getDistanceSqToEntity(this.mc.getRenderViewEntity());
+        double distance = entity.getDistanceSq(this.mc.getRenderViewEntity());
         String mode = ConfigManager.healthStatusMode;
         boolean flag = mode.equals("disable") ? false : mode.equals("pointed") ? entity == InfoUtil.INSTANCE.extendedPointedEntity : true;
         JsonUtil json = IndicatiaMod.json;

@@ -219,7 +219,7 @@ public class GuiCustomCape extends GuiScreen
         RenderManager manager = mc.getRenderManager();
         manager.setPlayerViewY(180.0F);
         manager.setRenderShadow(false);
-        manager.doRenderEntity(mc.player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
+        manager.renderEntity(mc.player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
         manager.setRenderShadow(true);
         mc.player.renderYawOffset = yawOffset;
         mc.player.rotationYaw = yaw;

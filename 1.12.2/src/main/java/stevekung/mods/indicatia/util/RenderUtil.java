@@ -28,7 +28,7 @@ public class RenderUtil
     {
         Minecraft mc = IndicatiaMod.MC;
         boolean hasName = entityLivingBase.hasCustomName();
-        double distance = entityLivingBase.getDistanceSqToEntity(mc.getRenderManager().renderViewEntity);
+        double distance = entityLivingBase.getDistanceSq(mc.getRenderManager().renderViewEntity);
         int maxDistance = 64;
 
         if (distance <= maxDistance * maxDistance)
