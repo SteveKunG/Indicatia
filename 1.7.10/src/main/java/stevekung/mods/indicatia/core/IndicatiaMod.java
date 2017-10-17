@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.UUID;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -14,6 +15,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -24,6 +26,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.handler.*;
 import stevekung.mods.indicatia.profile.RenderProfileConfig;
 import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
+import stevekung.mods.indicatia.renderer.RenderPlayerNew;
 import stevekung.mods.indicatia.util.*;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, guiFactory = IndicatiaMod.GUI_FACTORY)
@@ -99,6 +102,7 @@ public class IndicatiaMod
         CapeUtil.loadCapeTextureAtStartup();
         IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(IndicatiaMod.MC.gameSettings, new ResourceLocation("textures/font/ascii.png"), IndicatiaMod.MC.renderEngine, false);
         ((IReloadableResourceManager)IndicatiaMod.MC.getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPlayer.class, new RenderPlayerNew());
     }
 
     public static boolean isObfuscatedEnvironment()
