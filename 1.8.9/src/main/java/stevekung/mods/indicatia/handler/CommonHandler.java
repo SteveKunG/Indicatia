@@ -30,10 +30,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.*;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
-import net.minecraft.client.renderer.entity.layers.LayerCape;
-import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -223,6 +220,7 @@ public class CommonHandler
         List<LayerRenderer> layerLists = renderer.layerRenderers;
         EntityLivingBase entity = event.entity;
         RenderManager manager = this.mc.getRenderManager();
+        CommonHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
 
         if (entity == this.mc.thePlayer)
         {
@@ -958,6 +956,25 @@ public class CommonHandler
         if (capeLayerIndex >= 0)
         {
             layerLists.set(capeLayerIndex, newLayer);
+        }
+    }
+
+    private static void replaceArrowLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    {
+        int arrowLayerIndex = -1;
+
+        for (int i = 0; i < layerLists.size(); i++)
+        {
+            LayerRenderer layer = layerLists.get(i);
+
+            if (layer instanceof LayerArrow)
+            {
+                arrowLayerIndex = i;
+            }
+        }
+        if (arrowLayerIndex >= 0)
+        {
+            layerLists.set(arrowLayerIndex, newLayer);
         }
     }
 
