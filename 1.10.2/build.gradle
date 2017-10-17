@@ -13,12 +13,11 @@ plugins {
     id 'com.matthewprenger.cursegradle' version '1.0.9'
 }
 
-def apiJson = file('M:/Modding/indicatia_api_token.json')
-def parsedApi = new groovy.json.JsonSlurper().parseText(apiJson.text)
-def mcVersion = '1.10.2'
+def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
+def mcVersion = project.mc_version
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-version = "1.1.6"
+version = project.version
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,7 +36,7 @@ repositories {
 }
 
 curseforge {
-    apiKey = parsedApi.apiKey
+    apiKey = api.indicatia
     project {
         id = '272146'
         changelog = 'To read full change log use command /inchangelog in-game.'
