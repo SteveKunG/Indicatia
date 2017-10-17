@@ -16,6 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
@@ -23,6 +24,8 @@ import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAutoLogin extends ClientCommandBase
 {
+    private static GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
+
     @Override
     public String getCommandName()
     {
@@ -60,7 +63,7 @@ public class CommandAutoLogin extends ClientCommandBase
                         }
                         IChatComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
-                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid);
+                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid, "");
                         sender.addChatMessage(json.text("Set auto login data for Server: " + data.serverIP));
                         ExtendedConfig.save();
                     }
@@ -114,6 +117,10 @@ public class CommandAutoLogin extends ClientCommandBase
                     }
                 }
             }
+            else if ("function".equalsIgnoreCase(args[0]))
+            {
+                CommandAutoLogin.gui.display();
+            }
             else
             {
                 throw new WrongUsageException("commands.autologin.usage");
@@ -126,7 +133,7 @@ public class CommandAutoLogin extends ClientCommandBase
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list", "function");
         }
         return super.addTabCompletionOptions(sender, args, pos);
     }

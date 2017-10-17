@@ -141,6 +141,8 @@ public class CommonHandler
                 CommonHandler.replacingPlayerModel(this.mc, this.mc.thePlayer);
                 CommonHandler.replacingOthersPlayerModel(this.mc);
                 CommonHandler.getHypixelNickedPlayer(this.mc);
+                AutoLoginFunction.runAutoLoginFunction();
+                AutoLoginFunction.runAutoLoginFunctionTicks(this.mc);
                 CapeUtil.loadCapeTexture();
 
                 if (this.closeScreenTicks > 1)

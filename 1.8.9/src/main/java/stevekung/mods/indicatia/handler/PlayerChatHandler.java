@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatia.util.AutoLoginFunction;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
 
@@ -37,6 +38,7 @@ public class PlayerChatHandler
                 EntityPlayerSP player = (EntityPlayerSP) event.entity;
                 ServerData data = PlayerChatHandler.this.mc.getCurrentServerData();
                 this.runAutoLoginCommand(player, data);
+                this.runAutoLoginFunction(player, data);
                 MinecraftForge.EVENT_BUS.unregister(this);
             }
         }
@@ -50,6 +52,21 @@ public class PlayerChatHandler
                     if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtil.getUUID().equals(login.getUUID()))
                     {
                         player.sendChatMessage(login.getCommand() + Base64Util.decode(login.getValue()));
+                    }
+                }
+            }
+        }
+
+        private void runAutoLoginFunction(EntityPlayerSP player, ServerData data)
+        {
+            if (data != null)
+            {
+                for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+                {
+                    if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtil.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
+                    {
+                        AutoLoginFunction.functionValue = login.getFunction();
+                        AutoLoginFunction.run = true;
                     }
                 }
             }
