@@ -221,7 +221,7 @@ public class HUDRenderHandler
                     }
                 }
 
-                List<String> internalList = null;
+                Object listObj = null;
 
                 if (IndicatiaMod.isSteveKunG())
                 {
@@ -229,13 +229,15 @@ public class HUDRenderHandler
                     {
                         Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
                         Object obj = clazz.getMethod("getInfo").invoke(List.class);
-                        internalList = (List<String>) obj;
+                        listObj = obj;
                     }
                     catch (Exception e) {}
                 }
-                if (internalList != null)
+                if (listObj != null)
                 {
-                    rightInfo.addAll(internalList);
+                    @SuppressWarnings("unchecked")
+                    List<String> info = (List<String>) listObj;
+                    rightInfo.addAll(info);
                 }
 
                 // equipments
