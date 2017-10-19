@@ -123,7 +123,15 @@ public class CommandAutoLogin extends ClientCommandBase
             {
                 if (args.length == 1)
                 {
-                    CommandAutoLogin.gui.display();
+                    if (!mc.isSingleplayer())
+                    {
+                        CommandAutoLogin.gui.display();
+                    }
+                    else
+                    {
+                        sender.addChatMessage(json.text("Cannot use function in singleplayer!").setChatStyle(json.red()));
+                        return;
+                    }
                 }
                 if (args.length == 2)
                 {
@@ -150,6 +158,13 @@ public class CommandAutoLogin extends ClientCommandBase
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list", "function");
+        }
+        if (args.length == 2)
+        {
+            if (args[0].equalsIgnoreCase("function"))
+            {
+                return CommandBase.getListOfStringsMatchingLastWord(args, "help");
+            }
         }
         return super.addTabCompletionOptions(sender, args, pos);
     }
