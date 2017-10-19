@@ -10,21 +10,21 @@ public class AutoLoginFunction
     public static String functionValue = "";
     public static boolean run;
 
+    public static int functionDelay;
+    public static int rightClickDelay;
     public static int forwardTicks;
     public static int forwardAfterCommandTicks;
     public static int commandDelayTicks;
-    public static boolean runRightClick;
-    public static boolean runAfterCmd;
-    public static boolean runSprint;
+    public static boolean useRightClick;
+    public static boolean useSprint;
     public static boolean useRotation;
-    public static String authCommand = "";
+    public static boolean runAfterCmd;
+    public static String command = "";
     public static float pitch;
     public static float yaw;
 
     public static void runAutoLoginFunction()
     {
-        //autologin function forward:140,sprint:true,right_click:true,rotation:true,pitch:0,yaw:0
-        //autologin function forward:10,sprint:true,command:/login$spaceSTeVEKunG_Minecraft,command_delay:30,forward_after:30
         if (AutoLoginFunction.run && !AutoLoginFunction.functionValue.isEmpty())
         {
             String[] functionList = AutoLoginFunction.functionValue.split(",");
@@ -42,7 +42,7 @@ public class AutoLoginFunction
                     if (option.equals("command"))
                     {
                         value = value.replace("$space", "\u0020");
-                        AutoLoginFunction.authCommand = value;
+                        AutoLoginFunction.command = value;
                     }
                     if (option.equals("command_delay"))
                     {
@@ -81,7 +81,7 @@ public class AutoLoginFunction
                     {
                         try
                         {
-                            AutoLoginFunction.runSprint = Boolean.valueOf(value);
+                            AutoLoginFunction.useSprint = Boolean.valueOf(value);
                         }
                         catch (Exception e)
                         {
@@ -92,7 +92,29 @@ public class AutoLoginFunction
                     {
                         try
                         {
-                            AutoLoginFunction.runRightClick = Boolean.valueOf(value);
+                            AutoLoginFunction.useRightClick = Boolean.valueOf(value);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (option.equals("right_click_delay"))
+                    {
+                        try
+                        {
+                            AutoLoginFunction.rightClickDelay = Integer.parseInt(value);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (option.equals("function_delay"))
+                    {
+                        try
+                        {
+                            AutoLoginFunction.functionDelay = Integer.parseInt(value);
                         }
                         catch (Exception e)
                         {
@@ -147,8 +169,8 @@ public class AutoLoginFunction
 
             if (AutoLoginFunction.forwardTicks == 0)
             {
-                AutoLoginFunction.runRightClick = false;
-                AutoLoginFunction.runSprint = false;
+                AutoLoginFunction.useRightClick = false;
+                AutoLoginFunction.useSprint = false;
             }
         }
 
@@ -172,11 +194,18 @@ public class AutoLoginFunction
             mc.thePlayer.rotationYaw = AutoLoginFunction.yaw;
             AutoLoginFunction.useRotation = false;
         }
-        if (AutoLoginFunction.runRightClick)
+        if (AutoLoginFunction.useRightClick)
         {
-            mc.rightClickMouse();
+            if (AutoLoginFunction.rightClickDelay > 0)
+            {
+                AutoLoginFunction.rightClickDelay--;
+            }
+            if (AutoLoginFunction.rightClickDelay == 0 && mc.thePlayer.getCurrentEquippedItem() == null)
+            {
+                mc.rightClickMouse();
+            }
         }
-        if (AutoLoginFunction.runSprint)
+        if (AutoLoginFunction.useSprint)
         {
             mc.thePlayer.setSprinting(true);
         }
@@ -187,7 +216,7 @@ public class AutoLoginFunction
 
             if (AutoLoginFunction.commandDelayTicks == 0)
             {
-                mc.thePlayer.sendChatMessage(AutoLoginFunction.authCommand);
+                mc.thePlayer.sendChatMessage(AutoLoginFunction.command);
                 AutoLoginFunction.commandDelayTicks = -1;
                 AutoLoginFunction.runAfterCmd = true;
             }

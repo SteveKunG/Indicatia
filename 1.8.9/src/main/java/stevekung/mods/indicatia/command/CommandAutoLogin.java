@@ -17,6 +17,7 @@ import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
+import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
@@ -24,7 +25,8 @@ import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAutoLogin extends ClientCommandBase
 {
-    private static GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
+    private static final GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
+    private static final GuiAutoLoginFunctionHelp guiHelp = new GuiAutoLoginFunctionHelp(false);
 
     @Override
     public String getCommandName()
@@ -119,7 +121,21 @@ public class CommandAutoLogin extends ClientCommandBase
             }
             else if ("function".equalsIgnoreCase(args[0]))
             {
-                CommandAutoLogin.gui.display();
+                if (args.length == 1)
+                {
+                    CommandAutoLogin.gui.display();
+                }
+                if (args.length == 2)
+                {
+                    if ("help".equalsIgnoreCase(args[1]))
+                    {
+                        CommandAutoLogin.guiHelp.display();
+                    }
+                    else
+                    {
+                        throw new WrongUsageException("commands.autologin.function.usage");
+                    }
+                }
             }
             else
             {

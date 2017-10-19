@@ -51,9 +51,12 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
                 --this.moveStrafe;
             }
 
-            if (AutoLoginFunction.forwardTicks > 0 || AutoLoginFunction.forwardAfterCommandTicks > 0)
+            if (AutoLoginFunction.functionDelay == 0)
             {
-                this.moveForward++;
+                if (AutoLoginFunction.forwardTicks > 0 || AutoLoginFunction.forwardAfterCommandTicks > 0)
+                {
+                    this.moveForward++;
+                }
             }
 
             if (this.gameSettings.keyBindForward.isKeyDown())

@@ -14,7 +14,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.GameProfileUtil;
+import stevekung.mods.indicatia.util.JsonUtil;
 import stevekung.mods.indicatia.util.LangUtil;
 
 public class GuiAutoLoginFunction extends GuiScreen
@@ -23,9 +25,16 @@ public class GuiAutoLoginFunction extends GuiScreen
     private GuiButton doneBtn;
     private GuiButton cancelBtn;
     private GuiButtonCustomizeTexture helpBtn;
+    private ServerData data;
+
+    public GuiAutoLoginFunction()
+    {
+        this.data = IndicatiaMod.MC.getCurrentServerData();
+    }
 
     public void display()
     {
+        this.data = IndicatiaMod.MC.getCurrentServerData();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -47,6 +56,17 @@ public class GuiAutoLoginFunction extends GuiScreen
         this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 152, this.height / 4 + 100, 150, 20, LangUtil.translate("gui.done")));
         this.buttonList.add(this.cancelBtn = new GuiButton(1, this.width / 2 + 2, this.height / 4 + 100, 150, 20, LangUtil.translate("gui.cancel")));
         this.buttonList.add(this.helpBtn = new GuiButtonCustomizeTexture(2, this.width / 2 + 130, this.height / 4 + 35, this, Arrays.asList("Help"), "help"));
+
+        if (this.data != null)
+        {
+            for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+            {
+                if (this.data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtil.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
+                {
+                    this.inputField.setText(login.getFunction());
+                }
+            }
+        }
     }
 
     @Override
@@ -64,14 +84,15 @@ public class GuiAutoLoginFunction extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        ServerData data = this.mc.getCurrentServerData();
+        JsonUtil json = IndicatiaMod.json;
 
         if (button.id == 0)
         {
-            if (data != null)
+            if (this.data != null)
             {
-                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtil.getUUID() + data.serverIP);
-                ExtendedConfig.loginData.addAutoLogin(data.serverIP, "", "", GameProfileUtil.getUUID(), this.inputField.getText());
+                this.mc.thePlayer.addChatMessage(json.text("Auto Login Function set!"));
+                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtil.getUUID() + this.data.serverIP);
+                ExtendedConfig.loginData.addAutoLogin(this.data.serverIP, "", "", GameProfileUtil.getUUID(), this.inputField.getText());
                 ExtendedConfig.save();
             }
             this.mc.displayGuiScreen((GuiScreen)null);
@@ -79,6 +100,10 @@ public class GuiAutoLoginFunction extends GuiScreen
         if (button.id == 1)
         {
             this.mc.displayGuiScreen((GuiScreen)null);
+        }
+        if (button.id == 2)
+        {
+            this.mc.displayGuiScreen(new GuiAutoLoginFunctionHelp(true));
         }
     }
 
