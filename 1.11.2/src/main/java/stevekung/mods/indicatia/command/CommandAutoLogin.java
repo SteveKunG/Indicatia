@@ -17,6 +17,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
+import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
@@ -24,6 +26,9 @@ import stevekung.mods.indicatia.util.JsonUtil;
 
 public class CommandAutoLogin extends ClientCommandBase
 {
+    private static final GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
+    private static final GuiAutoLoginFunctionHelp guiHelp = new GuiAutoLoginFunctionHelp(false);
+
     @Override
     public String getName()
     {
@@ -61,7 +66,7 @@ public class CommandAutoLogin extends ClientCommandBase
                         }
                         ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
-                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid);
+                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid, "");
                         sender.sendMessage(json.text("Set auto login data for Server: " + data.serverIP));
                         ExtendedConfig.save();
                     }
@@ -115,6 +120,32 @@ public class CommandAutoLogin extends ClientCommandBase
                     }
                 }
             }
+            else if ("function".equalsIgnoreCase(args[0]))
+            {
+                if (args.length == 1)
+                {
+                    if (!mc.isSingleplayer())
+                    {
+                        CommandAutoLogin.gui.display();
+                    }
+                    else
+                    {
+                        sender.sendMessage(json.text("Cannot use function in singleplayer!").setStyle(json.red()));
+                        return;
+                    }
+                }
+                if (args.length == 2)
+                {
+                    if ("help".equalsIgnoreCase(args[1]))
+                    {
+                        CommandAutoLogin.guiHelp.display();
+                    }
+                    else
+                    {
+                        throw new WrongUsageException("commands.autologin.function.usage");
+                    }
+                }
+            }
             else
             {
                 throw new WrongUsageException("commands.autologin.usage");
@@ -127,7 +158,14 @@ public class CommandAutoLogin extends ClientCommandBase
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list", "function");
+        }
+        if (args.length == 2)
+        {
+            if (args[0].equalsIgnoreCase("function"))
+            {
+                return CommandBase.getListOfStringsMatchingLastWord(args, "help");
+            }
         }
         return super.getTabCompletions(server, sender, args, pos);
     }
