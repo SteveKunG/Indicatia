@@ -6,11 +6,13 @@ import com.mojang.authlib.GameProfile;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
@@ -58,7 +60,20 @@ public class LayerCustomHeadNew implements LayerRenderer<EntityLivingBase>
             this.modelRenderer.postRender(0.0625F);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-            if (item == Items.skull)
+            if (item instanceof ItemBlock)
+            {
+                scale = 0.625F;
+                GlStateManager.translate(0.0F, -0.25F, 0.0F);
+                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                GlStateManager.scale(scale, -scale, -scale);
+
+                if (flag)
+                {
+                    GlStateManager.translate(0.0F, 0.1875F, 0.0F);
+                }
+                IndicatiaMod.MC.getItemRenderer().renderItem(entity, itemStack, ItemCameraTransforms.TransformType.HEAD);
+            }
+            else if (item == Items.skull)
             {
                 GlStateManager.scale(1.1875F, -1.1875F, -1.1875F);
 
