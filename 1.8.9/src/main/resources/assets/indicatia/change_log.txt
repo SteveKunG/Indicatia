@@ -2,5 +2,5 @@
 -Fixed- Fixed Thai Character font rendering
 -Fixed- Fixed ping bug in Custom Player List
 -Fixed- Fixed ping always display zero
+-Fixed- Fixed Armor Stand head item rendering
 -Fixed- Fixed Arrow Layer rendering on the player (MC-10135)
--Fixed- Fixed sound loop in GUI (MC-35714)

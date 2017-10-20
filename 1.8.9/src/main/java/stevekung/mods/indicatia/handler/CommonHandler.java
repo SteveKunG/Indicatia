@@ -3,7 +3,10 @@ package stevekung.mods.indicatia.handler;
 import java.awt.Desktop;
 import java.net.InetAddress;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Matcher;
@@ -15,7 +18,6 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -340,31 +342,6 @@ public class CommonHandler
             renderDefault.addLayer(new LayerCustomCape(renderDefault));
             renderSlim.addLayer(new LayerCustomCape(renderSlim));
             CommonHandler.initLayer = false;
-        }
-        if (this.mc.thePlayer != null)
-        {
-            if (event.gui == null)
-            {
-                this.mc.getSoundHandler().sndManager.playingSounds.clear();
-
-                for (String sound : this.pausedChannels)
-                {
-                    this.mc.getSoundHandler().sndManager.sndSystem.play(sound);
-                }
-                this.pausedChannels.clear();
-            }
-            else
-            {
-                if (event.gui.doesGuiPauseGame() && this.mc.isSingleplayer())
-                {
-                    for (Map.Entry<String, ISound> entry : this.mc.getSoundHandler().sndManager.playingSounds.entrySet())
-                    {
-                        String sound = entry.getKey();
-                        this.mc.getSoundHandler().sndManager.sndSystem.pause(sound);
-                        this.pausedChannels.add(sound);
-                    }
-                }
-            }
         }
     }
 
