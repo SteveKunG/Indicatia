@@ -29,7 +29,7 @@ public class InfoUtil
 
     public int getPing()
     {
-        NetworkPlayerInfo info = IndicatiaMod.MC.getNetHandler().getPlayerInfo(GameProfileUtil.getUUID());
+        NetworkPlayerInfo info = IndicatiaMod.MC.getNetHandler().getPlayerInfo(IndicatiaMod.MC.thePlayer.getUniqueID());
 
         if (info != null)
         {
