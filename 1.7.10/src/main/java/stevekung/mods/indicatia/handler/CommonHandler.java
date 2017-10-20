@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -21,6 +23,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
 import io.netty.channel.ChannelOption;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.model.ModelBiped;
@@ -47,6 +50,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -72,6 +76,7 @@ public class CommonHandler
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     public static int currentServerPing;
     private static int pendingPingTicks = 100;
+    private final List<String> pausedChannels = new ArrayList<>();
 
     // AFK Stuff
     public static boolean isAFK;
@@ -188,6 +193,38 @@ public class CommonHandler
                     String name = entity.func_145748_c_().getFormattedText();
                     GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
                     CommonHandler.renderEntityName(this.mc, entity, name, event.x, event.y, event.z);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event)
+    {
+        if (this.mc.thePlayer != null)
+        {
+            if (event.gui == null)
+            {
+                this.mc.getSoundHandler().sndManager.playingSounds.clear();
+
+                for (String sound : this.pausedChannels)
+                {
+                    this.mc.getSoundHandler().sndManager.sndSystem.play(sound);
+                }
+                this.pausedChannels.clear();
+            }
+            else
+            {
+                if (event.gui.doesGuiPauseGame() && this.mc.isSingleplayer())
+                {
+                    for (Object obj : this.mc.getSoundHandler().sndManager.playingSounds.entrySet())
+                    {
+                        @SuppressWarnings("unchecked")
+                        Entry<String, ISound> sound = (Map.Entry<String, ISound>)obj;
+                        String soundName = sound.getKey();
+                        this.mc.getSoundHandler().sndManager.sndSystem.pause(soundName);
+                        this.pausedChannels.add(soundName);
+                    }
                 }
             }
         }
