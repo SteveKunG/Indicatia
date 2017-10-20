@@ -133,8 +133,17 @@ public class CommonHandler
                 CommonHandler.printVersionMessage(this.json, this.mc.thePlayer);
                 CommonHandler.processAutoGG(this.mc);
                 CommonHandler.getHypixelNickedPlayer(this.mc);
+                AutoLoginFunction.runAutoLoginFunction();
                 CapeUtil.loadCapeTexture();
 
+                if (AutoLoginFunction.functionDelay > 0)
+                {
+                    AutoLoginFunction.functionDelay--;
+                }
+                if (AutoLoginFunction.functionDelay == 0)
+                {
+                    AutoLoginFunction.runAutoLoginFunctionTicks(this.mc);
+                }
                 if (this.closeScreenTicks > 1)
                 {
                     --this.closeScreenTicks;

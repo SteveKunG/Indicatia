@@ -54,6 +54,14 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
                 this.rightKeyDown = true;
             }
 
+            if (AutoLoginFunction.functionDelay == 0)
+            {
+                if (AutoLoginFunction.forwardTicks > 0 || AutoLoginFunction.forwardAfterCommandTicks > 0)
+                {
+                    this.moveForward++;
+                }
+            }
+
             if (this.gameSettings.keyBindForward.isKeyDown())
             {
                 ++this.moveForward;
