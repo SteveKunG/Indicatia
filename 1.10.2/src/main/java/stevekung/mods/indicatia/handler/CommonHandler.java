@@ -25,6 +25,7 @@ import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.layers.LayerArrow;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerCape;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -62,6 +63,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.renderer.LayerAllArmor;
+import stevekung.mods.indicatia.renderer.LayerArrowNew;
 import stevekung.mods.indicatia.renderer.LayerCapeNew;
 import stevekung.mods.indicatia.renderer.LayerCustomCape;
 import stevekung.mods.indicatia.util.*;
@@ -222,6 +224,7 @@ public class CommonHandler
         List<LayerRenderer> layerLists = renderer.layerRenderers;
         EntityLivingBase entity = event.getEntity();
         RenderManager manager = this.mc.getRenderManager();
+        CommonHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
 
         if (entity instanceof AbstractClientPlayer)
         {
@@ -760,6 +763,25 @@ public class CommonHandler
         if (capeLayerIndex >= 0)
         {
             layerLists.set(capeLayerIndex, newLayer);
+        }
+    }
+
+    private static void replaceArrowLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    {
+        int arrowLayerIndex = -1;
+
+        for (int i = 0; i < layerLists.size(); i++)
+        {
+            LayerRenderer layer = layerLists.get(i);
+
+            if (layer instanceof LayerArrow)
+            {
+                arrowLayerIndex = i;
+            }
+        }
+        if (arrowLayerIndex >= 0)
+        {
+            layerLists.set(arrowLayerIndex, newLayer);
         }
     }
 
