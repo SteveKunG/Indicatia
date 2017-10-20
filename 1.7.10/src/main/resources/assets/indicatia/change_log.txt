@@ -1,2 +1,2 @@
--Fixed- Fixed Cape rendering - Improve MC-75279
--Fixed- Fixed canRenderName method
+-Added- Added Auto Login Function
+-Fixed- Fixed Thai Character font rendering

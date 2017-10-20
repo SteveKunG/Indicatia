@@ -1,1 +1,5 @@
+-Added- Added Auto Login Function
+-Fixed- Fixed Thai Character font rendering
 -Fixed- Fixed ping bug in Custom Player List
+-Fixed- Fixed ping always display zero
+-Fixed- Fixed Arrow Layer rendering on the player (MC-10135)
