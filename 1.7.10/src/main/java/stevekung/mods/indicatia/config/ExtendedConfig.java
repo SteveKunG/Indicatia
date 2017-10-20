@@ -462,6 +462,7 @@ public class ExtendedConfig
             nbt.setString("CommandName", login.getCommand());
             nbt.setString("Value", login.getValue());
             nbt.setString("UUID", login.getUUID().toString());
+            nbt.setString("Function", login.getFunction());
             list.appendTag(nbt);
         }
         return list;
@@ -472,7 +473,7 @@ public class ExtendedConfig
         for (int i = 0; i < list.tagCount(); ++i)
         {
             NBTTagCompound nbt = list.getCompoundTagAt(i);
-            ExtendedConfig.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), UUID.fromString(nbt.getString("UUID")));
+            ExtendedConfig.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), UUID.fromString(nbt.getString("UUID")), nbt.getString("Function"));
         }
     }
 

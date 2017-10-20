@@ -17,7 +17,7 @@ public class AutoLogin
         return AutoLogin.autoLogin.get(data);
     }
 
-    public AutoLoginData addAutoLogin(String serverIP, String command, String value, UUID uuid)
+    public AutoLoginData addAutoLogin(String serverIP, String command, String value, UUID uuid, String function)
     {
         AutoLoginData login = this.getAutoLogin(uuid.toString() + serverIP);
 
@@ -27,7 +27,7 @@ public class AutoLogin
         }
         else
         {
-            login = new AutoLoginData(serverIP, command, value, uuid);
+            login = new AutoLoginData(serverIP, command, value, uuid, function);
             AutoLogin.autoLogin.put(uuid.toString() + serverIP, login);
             return login;
         }
@@ -49,13 +49,15 @@ public class AutoLogin
         private String command;
         private String value;
         private UUID uuid;
+        private String function = "";
 
-        public AutoLoginData(String serverIP, String command, String value, UUID uuid)
+        public AutoLoginData(String serverIP, String command, String value, UUID uuid, String function)
         {
             this.serverIP = serverIP;
             this.command = command;
             this.value = value;
             this.uuid = uuid;
+            this.function = function;
         }
 
         public String getServerIP()
@@ -76,6 +78,11 @@ public class AutoLogin
         public UUID getUUID()
         {
             return this.uuid;
+        }
+
+        public String getFunction()
+        {
+            return this.function;
         }
     }
 }

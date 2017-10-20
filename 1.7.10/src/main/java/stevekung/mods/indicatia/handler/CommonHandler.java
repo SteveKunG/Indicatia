@@ -122,8 +122,17 @@ public class CommonHandler
                 CommonHandler.runAFK(this.mc.thePlayer);
                 CommonHandler.printVersionMessage(this.json, this.mc.thePlayer);
                 CommonHandler.replacingPlayerModel(this.mc.thePlayer);
+                AutoLoginFunction.runAutoLoginFunction();
                 CapeUtil.loadCapeTexture();
 
+                if (AutoLoginFunction.functionDelay > 0)
+                {
+                    AutoLoginFunction.functionDelay--;
+                }
+                if (AutoLoginFunction.functionDelay == 0)
+                {
+                    AutoLoginFunction.runAutoLoginFunctionTicks(this.mc);
+                }
                 if (CommonHandler.pendingPingTicks > 0 && this.mc.func_147104_D() != null)
                 {
                     CommonHandler.pendingPingTicks--;
