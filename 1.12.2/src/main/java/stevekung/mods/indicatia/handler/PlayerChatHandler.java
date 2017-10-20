@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToSe
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatia.util.AutoLoginFunction;
 import stevekung.mods.indicatia.util.Base64Util;
 import stevekung.mods.indicatia.util.GameProfileUtil;
 
@@ -41,6 +42,7 @@ public class PlayerChatHandler
                 ServerData data = PlayerChatHandler.this.mc.getCurrentServerData();
                 this.runAutoLoginCommand(player, data);
                 this.runRealmsCommand(player);
+                this.runAutoLoginFunction(player, data);
                 MinecraftForge.EVENT_BUS.unregister(this);
             }
         }
@@ -64,6 +66,21 @@ public class PlayerChatHandler
             if (IndicatiaMod.MC.isConnectedToRealms() && Strings.isNotEmpty(ExtendedConfig.REALMS_MESSAGE))
             {
                 player.sendChatMessage(ExtendedConfig.REALMS_MESSAGE);
+            }
+        }
+
+        private void runAutoLoginFunction(EntityPlayerSP player, ServerData data)
+        {
+            if (data != null)
+            {
+                for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+                {
+                    if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtil.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
+                    {
+                        AutoLoginFunction.functionValue = login.getFunction();
+                        AutoLoginFunction.run = true;
+                    }
+                }
             }
         }
     }
