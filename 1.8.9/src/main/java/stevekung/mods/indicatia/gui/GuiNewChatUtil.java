@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -584,7 +583,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                     IChatComponent itextcomponent1 = new ChatComponentTranslation("stats.tooltip.type." + (base.isAchievement() ? "achievement" : "statistic"));
                     itextcomponent1.getChatStyle().setItalic(Boolean.valueOf(true));
                     String s1 = base instanceof Achievement ? ((Achievement)base).getDescription() : null;
-                    List<String> list = Lists.newArrayList(new String[] {itextcomponent.getFormattedText(), itextcomponent1.getFormattedText()});
+                    List<String> list = new ArrayList<>(Arrays.asList(itextcomponent.getFormattedText(), itextcomponent1.getFormattedText()));
 
                     if (s1 != null)
                     {
