@@ -103,7 +103,7 @@ public class HUDRenderHandler
     {
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (ConfigManager.enableRenderInfo && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
+            if (ConfigManager.enableRenderInfo && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null)
             {
                 List<String> leftInfo = new ArrayList<>();
                 List<String> rightInfo = new ArrayList<>();
