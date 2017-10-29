@@ -71,9 +71,9 @@ public class ServerListEntryNormalCustom extends ServerListEntryNormal
 
         if (this.server.serverMOTD.contains("Can\'t connect to server."))
         {
-            ping = TextFormatting.DARK_RED + "(no connection)";
+            ping = TextFormatting.DARK_RED + "Failed to ping...";
         }
-        else if (this.server.pingToServer < 0L)
+        else if (responseTime < 0L)
         {
             ping = TextFormatting.GRAY + "Pinging...";
         }
@@ -94,7 +94,7 @@ public class ServerListEntryNormalCustom extends ServerListEntryNormal
             ping = TextFormatting.GREEN + responseTimeText + "ms";
         }
 
-        String s2 = flag2 ? TextFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo + " " + TextFormatting.GREEN + ping;
+        String s2 = flag2 ? TextFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo + " " + ping;
         int j = this.mc.fontRendererObj.getStringWidth(s2);
         this.mc.fontRendererObj.drawString(s2, x + listWidth - j - 6, y + 1, 8421504);
         String s = null;

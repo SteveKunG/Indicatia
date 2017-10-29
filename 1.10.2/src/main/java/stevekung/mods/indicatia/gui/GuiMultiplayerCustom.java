@@ -13,8 +13,6 @@ public class GuiMultiplayerCustom extends GuiMultiplayer
         super(parentScreen);
     }
 
-    //refreshServerList()XXX
-
     @Override
     public void initGui()
     {
