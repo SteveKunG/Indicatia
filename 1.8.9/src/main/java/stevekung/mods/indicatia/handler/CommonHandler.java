@@ -543,7 +543,24 @@ public class CommonHandler
     }
 
     @SubscribeEvent
-    public void onActionGui(GuiScreenEvent.ActionPerformedEvent.Post event)
+    public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
+    {
+        if (ConfigManager.enableCustomServerSelectionGui)
+        {
+            if (event.gui instanceof GuiMainMenu)
+            {
+                if (event.button.id == 2)
+                {
+                    event.setCanceled(true);
+                    event.button.playPressSound(this.mc.getSoundHandler());
+                    this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPostActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Post event)
     {
         if (event.gui instanceof GuiIngameMenu)
         {
