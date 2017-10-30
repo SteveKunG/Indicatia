@@ -265,6 +265,10 @@ public class CommonHandler
             renderSlim.addLayer(new LayerCustomCape(renderSlim));
             CommonHandler.initLayer = false;
         }
+        if (ConfigManager.enableCustomServerSelectionGui && event.getGui() != null && event.getGui().getClass().equals(GuiMultiplayer.class))
+        {
+            event.setGui(new GuiMultiplayerCustom(new GuiMainMenu()));
+        }
     }
 
     @SubscribeEvent
@@ -444,7 +448,24 @@ public class CommonHandler
     }
 
     @SubscribeEvent
-    public void onActionGui(GuiScreenEvent.ActionPerformedEvent.Post event)
+    public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
+    {
+        if (ConfigManager.enableCustomServerSelectionGui)
+        {
+            if (event.getGui() instanceof GuiMainMenu)
+            {
+                if (event.getButton().id == 2)
+                {
+                    event.setCanceled(true);
+                    event.getButton().playPressSound(this.mc.getSoundHandler());
+                    this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPostActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Post event)
     {
         if (event.getGui() instanceof GuiIngameMenu)
         {
