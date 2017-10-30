@@ -47,6 +47,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -341,6 +342,11 @@ public class CommonHandler
                     event.setCanceled(true);
                     event.button.func_146113_a(this.mc.getSoundHandler());
                     this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                }
+                if (event.button.id == 14)
+                {
+                    event.setCanceled(true);
+                    event.button.func_146113_a(this.mc.getSoundHandler());
                 }
             }
         }

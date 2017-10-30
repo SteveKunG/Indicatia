@@ -559,6 +559,11 @@ public class CommonHandler
                     event.button.playPressSound(this.mc.getSoundHandler());
                     this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
                 }
+                if (event.button.id == 14)
+                {
+                    event.setCanceled(true);
+                    event.button.playPressSound(this.mc.getSoundHandler());
+                }
             }
         }
     }
