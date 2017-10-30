@@ -204,6 +204,15 @@ public class CommonHandler
     }
 
     @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event)
+    {
+        if (ConfigManager.enableCustomServerSelectionGui && event.gui != null && event.gui.getClass().equals(GuiMultiplayer.class))
+        {
+            event.gui = new GuiMultiplayerCustom(new GuiMainMenu());
+        }
+    }
+
+    @SubscribeEvent
     public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
     {
         this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();
