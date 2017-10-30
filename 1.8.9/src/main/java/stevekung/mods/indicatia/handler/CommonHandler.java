@@ -343,6 +343,10 @@ public class CommonHandler
             renderSlim.addLayer(new LayerCustomCape(renderSlim));
             CommonHandler.initLayer = false;
         }
+        if (ConfigManager.enableCustomServerSelectionGui && event.gui != null && event.gui.getClass().equals(GuiMultiplayer.class))
+        {
+            event.gui = new GuiMultiplayerCustom(new GuiMainMenu());
+        }
     }
 
     @SubscribeEvent
