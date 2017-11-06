@@ -212,7 +212,7 @@ public class CommonHandler
         if (ConfigManager.enableCustomMovementHandler)
         {
             // canceled
-            if ((KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown()))
+            if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
             {
                 ++movement.moveForward;
             }
@@ -226,8 +226,8 @@ public class CommonHandler
 
             if (ExtendedConfig.TOGGLE_SNEAK)
             {
-                movement.moveStrafe = (float)((double)movement.moveStrafe * 0.3D);
-                movement.moveForward = (float)((double)movement.moveForward * 0.3D);
+                movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
+                movement.moveForward = (float)(movement.moveForward * 0.3D);
             }
 
             // toggle sprint
