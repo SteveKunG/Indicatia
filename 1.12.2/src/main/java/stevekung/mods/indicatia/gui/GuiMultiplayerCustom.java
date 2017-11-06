@@ -4,10 +4,12 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiMultiplayerCustom extends GuiMultiplayer
@@ -51,5 +53,16 @@ public class GuiMultiplayerCustom extends GuiMultiplayer
     protected void refreshServerList()
     {
         this.mc.displayGuiScreen(new GuiMultiplayerCustom(this.parentScreen));
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        RenderUtil.renderLight(false);
+        ScaledResolution res = new ScaledResolution(this.mc);
+        this.mc.fontRenderer.drawString("Press <SHIFT> for", res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("Press <SHIFT> for") - 2, res.getScaledHeight() - 20, RenderUtil.hexToRgb("#17F9DB"), true);
+        this.mc.fontRenderer.drawString("server version info", res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("server version info") - 2, res.getScaledHeight() - 10, RenderUtil.hexToRgb("#17F9DB"), true);
+        RenderUtil.renderLight(true);
     }
 }
