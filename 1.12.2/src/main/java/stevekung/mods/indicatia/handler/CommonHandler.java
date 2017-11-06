@@ -34,6 +34,7 @@ import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
@@ -44,6 +45,7 @@ import net.minecraft.network.status.client.CPacketServerQuery;
 import net.minecraft.network.status.server.SPacketPong;
 import net.minecraft.network.status.server.SPacketServerInfo;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.MovementInput;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
@@ -196,14 +198,77 @@ public class CommonHandler
                     }
                 }
             }
-            if (!(this.mc.player.movementInput instanceof MovementInputFromOptionsIU))
-            {
-                this.mc.player.movementInput = new MovementInputFromOptionsIU(this.mc.gameSettings);
-            }
             CommonHandler.replaceGui(this.mc, this.mc.currentScreen);
         }
         GuiIngameForge.renderBossHealth = ConfigManager.enableRenderBossHealthStatus;
         GuiIngameForge.renderObjective = ConfigManager.enableRenderScoreboard;
+    }
+
+    @SubscribeEvent
+    public void onInputUpdate(InputUpdateEvent event)
+    {
+        MovementInput movement = event.getMovementInput();
+
+        if (ConfigManager.enableCustomMovementHandler)
+        {
+            // canceled
+            if ((KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown()))
+            {
+                ++movement.moveForward;
+            }
+
+            // auto swim
+            boolean swim = IndicatiaMod.isSteveKunG() && ExtendedConfig.AUTO_SWIM && (this.mc.player.isInWater() || this.mc.player.isInLava()) && !this.mc.player.isSpectator();
+            movement.jump = this.mc.gameSettings.keyBindJump.isKeyDown() || swim;
+
+            // toggle sneak
+            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.TOGGLE_SNEAK;
+
+            if (ExtendedConfig.TOGGLE_SNEAK)
+            {
+                movement.moveStrafe = (float)((double)movement.moveStrafe * 0.3D);
+                movement.moveForward = (float)((double)movement.moveForward * 0.3D);
+            }
+
+            // toggle sprint
+            if (ExtendedConfig.TOGGLE_SPRINT && !this.mc.player.isPotionActive(MobEffects.BLINDNESS) && !ExtendedConfig.TOGGLE_SNEAK)
+            {
+                this.mc.player.setSprinting(true);
+            }
+
+            // afk stuff
+            int afkMoveTick = CommonHandler.afkMoveTicks;
+
+            if (afkMoveTick > 0 && afkMoveTick < 2)
+            {
+                ++movement.moveForward;
+                movement.forwardKeyDown = true;
+            }
+            else if (afkMoveTick > 2 && afkMoveTick < 4)
+            {
+                ++movement.moveStrafe;
+                movement.leftKeyDown = true;
+            }
+            else if (afkMoveTick > 4 && afkMoveTick < 6)
+            {
+                --movement.moveForward;
+                movement.backKeyDown = true;
+            }
+            else if (afkMoveTick > 6 && afkMoveTick < 8)
+            {
+                --movement.moveStrafe;
+                movement.rightKeyDown = true;
+            }
+
+            // auto login function
+            if (AutoLoginFunction.functionDelay == 0)
+            {
+                if (AutoLoginFunction.forwardTicks > 0 || AutoLoginFunction.forwardAfterCommandTicks > 0)
+                {
+                    movement.moveForward++;
+                }
+            }
+        }
     }
 
     @SubscribeEvent
