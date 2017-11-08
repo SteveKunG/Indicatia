@@ -58,6 +58,7 @@ public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLiv
         {
             ItemArmor itemArmor = (ItemArmor)itemStack.getItem();
             T t = this.getModelFromSlot(slot);
+            t = this.getArmorModelHook(entity, itemStack, slot, t);
             t.setModelAttributes(this.renderer.getMainModel());
             t.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
             this.setModelSlotVisible(t, slot, entity);
@@ -161,4 +162,9 @@ public abstract class LayerArmorBaseNew<T extends ModelBase, E extends EntityLiv
     protected abstract void initArmor(E entity);
 
     protected abstract void setModelSlotVisible(T model, int slot, E entity);
+
+    protected T getArmorModelHook(EntityLivingBase entity, ItemStack itemStack, int slot, T model)
+    {
+        return model;
+    }
 }

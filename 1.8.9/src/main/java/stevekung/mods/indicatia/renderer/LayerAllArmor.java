@@ -10,6 +10,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -74,5 +76,11 @@ public class LayerAllArmor<E extends EntityLivingBase> extends LayerArmorBaseNew
             model.bipedLeftLeg.showModel = true;
             break;
         }
+    }
+
+    @Override
+    protected ModelBiped getArmorModelHook(EntityLivingBase entity, ItemStack itemStack, int slot, ModelBiped model)
+    {
+        return ForgeHooksClient.getArmorModel(entity, itemStack, slot, model);
     }
 }
