@@ -86,6 +86,12 @@ public class ExtendedConfig
     public static int XYZ_VALUE_COLOR_R = 255;
     public static int XYZ_VALUE_COLOR_G = 255;
     public static int XYZ_VALUE_COLOR_B = 255;
+    public static int DIRECTION_COLOR_R = 255;
+    public static int DIRECTION_COLOR_G = 255;
+    public static int DIRECTION_COLOR_B = 255;
+    public static int DIRECTION_VALUE_COLOR_R = 255;
+    public static int DIRECTION_VALUE_COLOR_G = 255;
+    public static int DIRECTION_VALUE_COLOR_B = 255;
     public static int BIOME_COLOR_R = 255;
     public static int BIOME_COLOR_G = 255;
     public static int BIOME_COLOR_B = 255;
@@ -234,6 +240,12 @@ public class ExtendedConfig
             ExtendedConfig.XYZ_VALUE_COLOR_R = ExtendedConfig.getInteger(nbt, "XYZValueColorR", ExtendedConfig.XYZ_VALUE_COLOR_R);
             ExtendedConfig.XYZ_VALUE_COLOR_G = ExtendedConfig.getInteger(nbt, "XYZValueColorG", ExtendedConfig.XYZ_VALUE_COLOR_G);
             ExtendedConfig.XYZ_VALUE_COLOR_B = ExtendedConfig.getInteger(nbt, "XYZValueColorB", ExtendedConfig.XYZ_VALUE_COLOR_B);
+            ExtendedConfig.DIRECTION_COLOR_R = ExtendedConfig.getInteger(nbt, "DirectionColorR", ExtendedConfig.DIRECTION_COLOR_R);
+            ExtendedConfig.DIRECTION_COLOR_G = ExtendedConfig.getInteger(nbt, "DirectionColorG", ExtendedConfig.DIRECTION_COLOR_G);
+            ExtendedConfig.DIRECTION_COLOR_B = ExtendedConfig.getInteger(nbt, "DirectionColorB", ExtendedConfig.DIRECTION_COLOR_B);
+            ExtendedConfig.DIRECTION_VALUE_COLOR_R = ExtendedConfig.getInteger(nbt, "DirectionValueColorR", ExtendedConfig.DIRECTION_VALUE_COLOR_R);
+            ExtendedConfig.DIRECTION_VALUE_COLOR_G = ExtendedConfig.getInteger(nbt, "DirectionValueColorG", ExtendedConfig.DIRECTION_VALUE_COLOR_G);
+            ExtendedConfig.DIRECTION_VALUE_COLOR_B = ExtendedConfig.getInteger(nbt, "DirectionValueColorB", ExtendedConfig.DIRECTION_VALUE_COLOR_B);
             ExtendedConfig.BIOME_COLOR_R = ExtendedConfig.getInteger(nbt, "BiomeColorR", ExtendedConfig.BIOME_COLOR_R);
             ExtendedConfig.BIOME_COLOR_G = ExtendedConfig.getInteger(nbt, "BiomeColorG", ExtendedConfig.BIOME_COLOR_G);
             ExtendedConfig.BIOME_COLOR_B = ExtendedConfig.getInteger(nbt, "BiomeColorB", ExtendedConfig.BIOME_COLOR_B);
@@ -384,6 +396,12 @@ public class ExtendedConfig
             nbt.setInteger("XYZValueColorR", ExtendedConfig.XYZ_VALUE_COLOR_R);
             nbt.setInteger("XYZValueColorG", ExtendedConfig.XYZ_VALUE_COLOR_G);
             nbt.setInteger("XYZValueColorB", ExtendedConfig.XYZ_VALUE_COLOR_B);
+            nbt.setInteger("DirectionColorR", ExtendedConfig.DIRECTION_COLOR_R);
+            nbt.setInteger("DirectionColorG", ExtendedConfig.DIRECTION_COLOR_G);
+            nbt.setInteger("DirectionColorB", ExtendedConfig.DIRECTION_COLOR_B);
+            nbt.setInteger("DirectionValueColorR", ExtendedConfig.DIRECTION_VALUE_COLOR_R);
+            nbt.setInteger("DirectionValueColorG", ExtendedConfig.DIRECTION_VALUE_COLOR_G);
+            nbt.setInteger("DirectionValueColorB", ExtendedConfig.DIRECTION_VALUE_COLOR_B);
             nbt.setInteger("BiomeColorR", ExtendedConfig.BIOME_COLOR_R);
             nbt.setInteger("BiomeColorG", ExtendedConfig.BIOME_COLOR_G);
             nbt.setInteger("BiomeColorB", ExtendedConfig.BIOME_COLOR_B);
