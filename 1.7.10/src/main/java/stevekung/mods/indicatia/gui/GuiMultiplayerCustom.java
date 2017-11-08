@@ -6,8 +6,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class GuiMultiplayerCustom extends GuiMultiplayer
@@ -51,5 +53,16 @@ public class GuiMultiplayerCustom extends GuiMultiplayer
     protected void func_146792_q()
     {
         this.mc.displayGuiScreen(new GuiMultiplayerCustom(this.field_146798_g));
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        RenderUtil.renderLight(false);
+        ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+        this.mc.fontRenderer.drawString("Press <SHIFT> for", res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("Press <SHIFT> for") - 2, res.getScaledHeight() - 20, RenderUtil.hexToRgb("#17F9DB"), true);
+        this.mc.fontRenderer.drawString("server version info", res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("server version info") - 2, res.getScaledHeight() - 10, RenderUtil.hexToRgb("#17F9DB"), true);
+        RenderUtil.renderLight(true);
     }
 }

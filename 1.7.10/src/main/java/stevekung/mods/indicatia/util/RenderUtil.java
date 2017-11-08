@@ -151,8 +151,31 @@ public class RenderUtil
         }
     }
 
+    public static void renderLight(boolean enable)
+    {
+        if (enable)
+        {
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL11.GL_LIGHT0);
+            GL11.glEnable(GL11.GL_LIGHT1);
+            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        }
+        else
+        {
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_LIGHT0);
+            GL11.glDisable(GL11.GL_LIGHT1);
+            GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+        }
+    }
+
     public static int rgbToDecimal(int r, int g, int b)
     {
         return b + 256 * g + 65536 * r;
+    }
+
+    public static int hexToRgb(String color)
+    {
+        return RenderUtil.rgbToDecimal(Integer.valueOf(color.substring(1, 3), 16), Integer.valueOf(color.substring(3, 5), 16), Integer.valueOf(color.substring(5, 7), 16));
     }
 }

@@ -31,6 +31,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import stevekung.mods.indicatia.util.ModLogger;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlayerNew extends RenderPlayer
@@ -286,7 +287,7 @@ public class RenderPlayerNew extends RenderPlayer
             for (int j = 0; j < i; ++j)
             {
                 GL11.glPushMatrix();
-                RenderPlayerNew.renderLight(false);
+                RenderUtil.renderLight(false);
                 ModelRenderer modelrenderer = this.mainModel.getRandomModelBox(rand);
                 ModelBox modelbox = (ModelBox)modelrenderer.cubeList.get(rand.nextInt(modelrenderer.cubeList.size()));
                 modelrenderer.postRender(0.0625F);
@@ -312,26 +313,8 @@ public class RenderPlayerNew extends RenderPlayer
                 float f8 = 0.0F;
                 this.renderManager.renderEntityWithPosYaw(arrow, d0, d1, d2, f8, partialTicks);
                 GL11.glPopMatrix();
-                RenderPlayerNew.renderLight(true);
+                RenderUtil.renderLight(true);
             }
-        }
-    }
-
-    private static void renderLight(boolean enable)
-    {
-        if (enable)
-        {
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_LIGHT0);
-            GL11.glEnable(GL11.GL_LIGHT1);
-            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        }
-        else
-        {
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_LIGHT0);
-            GL11.glDisable(GL11.GL_LIGHT1);
-            GL11.glDisable(GL11.GL_COLOR_MATERIAL);
         }
     }
 }

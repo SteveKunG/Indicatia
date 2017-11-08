@@ -3,6 +3,7 @@ package stevekung.mods.indicatia.gui;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -99,7 +100,8 @@ public class ServerListEntryNormalCustom extends ServerListEntryNormal
             ping = EnumChatFormatting.GREEN + responseTimeText + "ms";
         }
 
-        String s2 = flag2 ? EnumChatFormatting.DARK_RED + this.field_148301_e.gameVersion : this.field_148301_e.populationInfo + " " + ping;
+        String info = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ? this.field_148301_e.gameVersion : "Not supported this version!";
+        String s2 = flag2 ? EnumChatFormatting.DARK_RED + info : this.field_148301_e.populationInfo + " " + ping;
         int j = this.field_148300_d.fontRenderer.getStringWidth(s2);
         this.field_148300_d.fontRenderer.drawString(s2, x + listWidth - j - 6, y + 1, 8421504);
         String s = null;
