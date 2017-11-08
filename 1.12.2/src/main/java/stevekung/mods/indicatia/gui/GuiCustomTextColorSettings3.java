@@ -31,15 +31,15 @@ public class GuiCustomTextColorSettings3 extends GuiScreen
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 105, GuiCustomTextColorSliderInt.Options.ARROW_R));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 125, GuiCustomTextColorSliderInt.Options.ARROW_G));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 145, GuiCustomTextColorSliderInt.Options.ARROW_B));
-        /*this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 165, GuiCustomTextColorSliderInt.Options.CPS_R));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 185, GuiCustomTextColorSliderInt.Options.CPS_G));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 205, GuiCustomTextColorSliderInt.Options.CPS_B));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 165, GuiCustomTextColorSliderInt.Options.DIRECTION_R));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 185, GuiCustomTextColorSliderInt.Options.DIRECTION_G));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 210, 205, GuiCustomTextColorSliderInt.Options.DIRECTION_B));
 
         // column 2
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 45, GuiCustomTextColorSliderInt.Options.CPS_VALUE_R));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 65, GuiCustomTextColorSliderInt.Options.CPS_VALUE_G));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 85, GuiCustomTextColorSliderInt.Options.CPS_VALUE_B));
-        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 105, GuiCustomTextColorSliderInt.Options.RCPS_R));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 45, GuiCustomTextColorSliderInt.Options.DIRECTION_VALUE_R));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 65, GuiCustomTextColorSliderInt.Options.DIRECTION_VALUE_G));
+        this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 85, GuiCustomTextColorSliderInt.Options.DIRECTION_VALUE_B));
+        /*this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 105, GuiCustomTextColorSliderInt.Options.RCPS_R));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 125, GuiCustomTextColorSliderInt.Options.RCPS_G));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 145, GuiCustomTextColorSliderInt.Options.RCPS_B));
         this.buttonList.add(new GuiCustomTextColorSliderInt(this.width / 2 - 105, 165, GuiCustomTextColorSliderInt.Options.RCPS_VALUE_R));
