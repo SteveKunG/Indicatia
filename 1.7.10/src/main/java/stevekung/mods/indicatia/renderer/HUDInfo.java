@@ -11,6 +11,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -111,6 +112,59 @@ public class HUDInfo
             ip = ip + "/" + IndicatiaMod.MC_VERSION;
         }
         return ip;
+    }
+
+    public static String renderDirection(Minecraft mc)
+    {
+        Entity entity = mc.renderViewEntity;
+        int yaw = (int)entity.rotationYaw + 22;
+        String direction;
+
+        yaw %= 360;
+
+        if (yaw < 0)
+        {
+            yaw += 360;
+        }
+
+        int facing = yaw / 45;
+
+        if (facing < 0)
+        {
+            facing = 7;
+        }
+
+        switch (facing)
+        {
+        case 0:
+            direction = "South";
+            break;
+        case 1:
+            direction = "South West";
+            break;
+        case 2:
+            direction = "West";
+            break;
+        case 3:
+            direction = "North West";
+            break;
+        case 4:
+            direction = "North";
+            break;
+        case 5:
+            direction = "North East";
+            break;
+        case 6:
+            direction = "East";
+            break;
+        case 7:
+            direction = "South East";
+            break;
+        default:
+            direction = "Unknown";
+            break;
+        }
+        return ColoredFontRenderer.color(ExtendedConfig.DIRECTION_COLOR_R, ExtendedConfig.DIRECTION_COLOR_G, ExtendedConfig.DIRECTION_COLOR_B) + "Direction: " + ColoredFontRenderer.color(ExtendedConfig.DIRECTION_VALUE_COLOR_R, ExtendedConfig.DIRECTION_VALUE_COLOR_G, ExtendedConfig.DIRECTION_VALUE_COLOR_B) + direction;
     }
 
     public static String getCPS()
