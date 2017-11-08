@@ -3,6 +3,8 @@ package stevekung.mods.indicatia.gui;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.client.multiplayer.ServerData;
@@ -94,7 +96,8 @@ public class ServerListEntryNormalCustom extends ServerListEntryNormal
             ping = EnumChatFormatting.GREEN + responseTimeText + "ms";
         }
 
-        String s2 = flag2 ? EnumChatFormatting.DARK_RED + this.field_148301_e.gameVersion : this.field_148301_e.populationInfo + " " + ping;
+        String info = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ? this.field_148301_e.gameVersion : "Not supported this version!";
+        String s2 = flag2 ? EnumChatFormatting.DARK_RED + info : this.field_148301_e.populationInfo + " " + ping;
         int j = this.mc.fontRendererObj.getStringWidth(s2);
         this.mc.fontRendererObj.drawString(s2, x + listWidth - j - 6, y + 1, 8421504);
         String s = null;
