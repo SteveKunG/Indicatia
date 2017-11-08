@@ -51,6 +51,7 @@ public class ConfigManager
     public static boolean swapRenderInfoToRight;
     public static boolean enableFPS;
     public static boolean enableXYZ;
+    public static boolean enableDirection;
     public static boolean enableBiome;
     public static boolean enablePing;
     public static boolean enablePingToSecond;
@@ -294,6 +295,10 @@ public class ConfigManager
 
         prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable XYZ", true);
         ConfigManager.enableXYZ = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Direction", true);
+        ConfigManager.enableDirection = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.RENDER_SETTINGS, "Enable Biome", true);

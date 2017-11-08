@@ -168,6 +168,24 @@ public class GuiCustomTextColorSliderInt extends GuiButton
         case XYZ_VALUE_B:
             ExtendedConfig.XYZ_VALUE_COLOR_B = ivalue;
             break;
+        case DIRECTION_R:
+            ExtendedConfig.DIRECTION_COLOR_R = ivalue;
+            break;
+        case DIRECTION_G:
+            ExtendedConfig.DIRECTION_COLOR_G = ivalue;
+            break;
+        case DIRECTION_B:
+            ExtendedConfig.DIRECTION_COLOR_B = ivalue;
+            break;
+        case DIRECTION_VALUE_R:
+            ExtendedConfig.DIRECTION_VALUE_COLOR_R = ivalue;
+            break;
+        case DIRECTION_VALUE_G:
+            ExtendedConfig.DIRECTION_VALUE_COLOR_G = ivalue;
+            break;
+        case DIRECTION_VALUE_B:
+            ExtendedConfig.DIRECTION_VALUE_COLOR_B = ivalue;
+            break;
         case BIOME_R:
             ExtendedConfig.BIOME_COLOR_R = ivalue;
             break;
@@ -400,6 +418,18 @@ public class GuiCustomTextColorSliderInt extends GuiButton
             return ExtendedConfig.XYZ_VALUE_COLOR_G;
         case XYZ_VALUE_B:
             return ExtendedConfig.XYZ_VALUE_COLOR_B;
+        case DIRECTION_R:
+            return ExtendedConfig.DIRECTION_COLOR_R;
+        case DIRECTION_G:
+            return ExtendedConfig.DIRECTION_COLOR_G;
+        case DIRECTION_B:
+            return ExtendedConfig.DIRECTION_COLOR_B;
+        case DIRECTION_VALUE_R:
+            return ExtendedConfig.DIRECTION_VALUE_COLOR_R;
+        case DIRECTION_VALUE_G:
+            return ExtendedConfig.DIRECTION_VALUE_COLOR_G;
+        case DIRECTION_VALUE_B:
+            return ExtendedConfig.DIRECTION_VALUE_COLOR_B;
         case BIOME_R:
             return ExtendedConfig.BIOME_COLOR_R;
         case BIOME_G:
@@ -551,6 +581,12 @@ public class GuiCustomTextColorSliderInt extends GuiButton
         XYZ_VALUE_R("XYZ Value R"),
         XYZ_VALUE_G("XYZ Value G"),
         XYZ_VALUE_B("XYZ Value B"),
+        DIRECTION_R("Direction R"),
+        DIRECTION_G("Direction G"),
+        DIRECTION_B("Direction B"),
+        DIRECTION_VALUE_R("Direction Value R"),
+        DIRECTION_VALUE_G("Direction Value G"),
+        DIRECTION_VALUE_B("Direction Value B"),
         BIOME_R("Biome R"),
         BIOME_G("Biome G"),
         BIOME_B("Biome B"),
