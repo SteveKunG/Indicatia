@@ -132,6 +132,10 @@ public class HUDRenderHandler
                         leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
                     }
                 }
+                if (ConfigManager.enableDirection)
+                {
+                    leftInfo.add(HUDInfo.renderDirection(this.mc));
+                }
                 if (ConfigManager.enableBiome)
                 {
                     leftInfo.add(HUDInfo.getBiome(this.mc));
