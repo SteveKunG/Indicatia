@@ -12,6 +12,7 @@ import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.util.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
@@ -36,7 +37,7 @@ public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
             for (int j = 0; j < i; ++j)
             {
                 GlStateManager.pushMatrix();
-                LayerArrowNew.renderLight(false);
+                RenderUtil.renderLight(false);
                 ModelRenderer modelrenderer = this.renderer.getMainModel().getRandomModelBox(rand);
                 ModelBox modelbox = modelrenderer.cubeList.get(rand.nextInt(modelrenderer.cubeList.size()));
                 modelrenderer.postRender(0.0625F);
@@ -61,7 +62,7 @@ public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
                 double d2 = 0.0D;
                 this.renderer.getRenderManager().doRenderEntity(arrow, d0, d1, d2, 0.0F, partialTicks, false);
                 GlStateManager.popMatrix();
-                LayerArrowNew.renderLight(true);
+                RenderUtil.renderLight(true);
             }
         }
     }
@@ -70,23 +71,5 @@ public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
     public boolean shouldCombineTextures()
     {
         return false;
-    }
-
-    private static void renderLight(boolean enable)
-    {
-        if (enable)
-        {
-            GlStateManager.enableLighting();
-            GlStateManager.enableLight(0);
-            GlStateManager.enableLight(1);
-            GlStateManager.enableColorMaterial();
-        }
-        else
-        {
-            GlStateManager.disableLighting();
-            GlStateManager.disableLight(0);
-            GlStateManager.disableLight(1);
-            GlStateManager.disableColorMaterial();
-        }
     }
 }
