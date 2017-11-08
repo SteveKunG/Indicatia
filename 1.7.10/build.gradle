@@ -42,7 +42,7 @@ curseforge {
     apiKey = api.indicatia
     project {
         id = '272146'
-        changelog = 'To read full change log use command /inchangelog in-game.'
+        changelog = 'To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/master/' + mcVersion + '/src/main/resources/assets/indicatia/change_log.txt'
         releaseType = 'release'
         addGameVersion mcVersion
         addGameVersion 'Java 8'

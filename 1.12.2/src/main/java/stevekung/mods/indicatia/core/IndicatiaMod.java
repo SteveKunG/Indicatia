@@ -39,11 +39,11 @@ public class IndicatiaMod
     public static final String MOD_ID = "indicatia";
     public static final int MAJOR_VERSION = 1;
     public static final int MINOR_VERSION = 1;
-    public static final int BUILD_VERSION = 6;
+    public static final int BUILD_VERSION = 7;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     public static final String MC_VERSION = String.valueOf(FMLInjectionData.data()[4]);
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";
-    public static final String FORGE_VERSION = "after:forge@[14.21.1.2443,);";
+    public static final String FORGE_VERSION = "after:forge@[14.21.1.2527,);";
     public static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static boolean DEOBFUSCATED;
     public static Minecraft MC;

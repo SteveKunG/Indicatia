@@ -22,7 +22,7 @@ group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 
 minecraft {
-    version = "1.12.2-14.23.0.2531"
+    version = "1.12.2-14.23.0.2532"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
@@ -38,7 +38,7 @@ curseforge {
     apiKey = api.indicatia
     project {
         id = '272146'
-        changelog = 'To read full change log use command /inchangelog in-game.'
+        changelog = 'To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/master/' + mcVersion + '/src/main/resources/assets/indicatia/change_log.txt'
         releaseType = 'release'
         addGameVersion '1.12'
         addGameVersion '1.12.1'

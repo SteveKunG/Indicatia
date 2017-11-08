@@ -1,2 +1,4 @@
--Added- Added Auto Login Function
--Fixed- Fixed Thai Character font rendering
+-Added- Added Custom Multiplayer GUI
+-Update- More performance improved
+-Update- Disable realms button
+-Fixed- Fixed rare crash with Info HUD
