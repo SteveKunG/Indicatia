@@ -121,6 +121,9 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     private GuiButton ptlDuelUHCDouble;
     private GuiButton ptlDuelUHCFour;
 
+    // hide and seek
+    private GuiButton ptlHideAndSeek;
+
     public GuiNewChatUtil() {}
 
     public GuiNewChatUtil(String input)
@@ -145,7 +148,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
             this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
-            this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 123, 2, "Skywars", "Skywars Labs", "Bedwars", "TNT", "Murder Mystery", "Skyclash", "UHC Champions", "Crazy Walls", "Blitz Survival Game", "Speed UHC", "Prototype: Zombies", "Prototype: Duels"));
+            this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 150, 2, "Skywars", "Skywars Labs", "Bedwars", "TNT", "Murder Mystery", "Skyclash", "UHC Champions", "Crazy Walls", "Blitz Survival Game", "Speed UHC", "Prototype: Zombies", "Prototype: Duels", "Prototype: Hide and Seek"));
 
             // skywars
             this.buttonList.add(this.swLobby = new GuiButtonCustomize(1000, this.width - 120, 20, this, Arrays.asList("Skywars Lobby"), "sw", false));
@@ -234,6 +237,9 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(this.ptlDuelUHCSolo = new GuiButtonCustomize(1061, this.width - 36, 41, this, Arrays.asList("UHC 1v1"), "prototype_duels:uhc_duel", true));
             this.buttonList.add(this.ptlDuelUHCDouble = new GuiButtonCustomize(1062, this.width - 99, 62, this, Arrays.asList("UHC 2v2"), "prototype_duels:uhc_doubles", true));
             this.buttonList.add(this.ptlDuelUHCFour = new GuiButtonCustomize(1063, this.width - 78, 62, this, Arrays.asList("UHC 4v4"), "prototype_duels:uhc_four", true));
+
+            // hide and seek
+            this.buttonList.add(this.ptlHideAndSeek = new GuiButtonCustomize(1064, this.width - 99, 20, this, Arrays.asList("Hide and Seek"), "prototype_hide_and_seek", true));
 
             for (GuiButton button : this.buttonList)
             {
@@ -360,6 +366,10 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                 this.ptlDuelUHCSolo.visible = clicked;
                 this.ptlDuelUHCDouble.visible = clicked;
                 this.ptlDuelUHCFour.visible = clicked;
+                break;
+            case 12:
+                this.ptlLobby.visible = clicked;
+                this.ptlHideAndSeek.visible = clicked;
                 break;
             }
         }
