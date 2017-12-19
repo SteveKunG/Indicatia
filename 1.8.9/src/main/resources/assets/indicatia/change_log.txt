@@ -1,6 +1,0 @@
--Added- Added Custom Multiplayer GUI
--Added- Added Direction Info
--Update- More performance improved
--Update- Disable realms button
--Fixed- Fixed missing Forge armor model hook
--Fixed- Fixed rare crash with Info HUD
