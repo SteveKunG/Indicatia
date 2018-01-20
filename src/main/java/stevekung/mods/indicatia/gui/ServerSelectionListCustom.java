@@ -14,7 +14,7 @@ import net.minecraft.client.multiplayer.ServerList;
 public class ServerSelectionListCustom extends ServerSelectionList
 {
     private final GuiMultiplayerCustom owner;
-    private final List serverListInternet = new ArrayList<>();
+    private final List<GuiListExtended.IGuiListEntry> serverListInternet = new ArrayList<>();
 
     public ServerSelectionListCustom(GuiMultiplayerCustom gui, Minecraft mc, int width, int height, int top, int bottom, int slotHeight)
     {
@@ -27,7 +27,7 @@ public class ServerSelectionListCustom extends ServerSelectionList
     {
         if (index < this.serverListInternet.size())
         {
-            return (GuiListExtended.IGuiListEntry)this.serverListInternet.get(index);
+            return this.serverListInternet.get(index);
         }
         else
         {

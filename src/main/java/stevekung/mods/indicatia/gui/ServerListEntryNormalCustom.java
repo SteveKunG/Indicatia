@@ -64,11 +64,11 @@ public class ServerListEntryNormalCustom extends ServerListEntryNormal
         boolean flag1 = this.field_148301_e.field_82821_f < 5;
         boolean flag2 = flag || flag1;
         this.field_148300_d.fontRenderer.drawString(this.field_148301_e.serverName, x + 32 + 3, y + 1, 16777215);
-        List<String> list = this.field_148300_d.fontRenderer.listFormattedStringToWidth(FMLClientHandler.instance().fixDescription(this.field_148301_e.serverMOTD), listWidth - 48 - 2);
+        List list = this.field_148300_d.fontRenderer.listFormattedStringToWidth(FMLClientHandler.instance().fixDescription(this.field_148301_e.serverMOTD), listWidth - 48 - 2);
 
         for (int i = 0; i < Math.min(list.size(), 2); ++i)
         {
-            this.field_148300_d.fontRenderer.drawString(list.get(i), x + 32 + 3, y + 12 + this.field_148300_d.fontRenderer.FONT_HEIGHT * i, 8421504);
+            this.field_148300_d.fontRenderer.drawString((String) list.get(i), x + 32 + 3, y + 12 + this.field_148300_d.fontRenderer.FONT_HEIGHT * i, 8421504);
         }
 
         String ping = "";

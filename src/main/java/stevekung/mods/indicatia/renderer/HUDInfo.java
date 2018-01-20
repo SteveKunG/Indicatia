@@ -529,7 +529,7 @@ public class HUDInfo
             int size = ExtendedConfig.MAX_POTION_DISPLAY;
             int length = ExtendedConfig.POTION_LENGTH_Y_OFFSET;
             int lengthOverlap = ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP;
-            Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+            Collection collection = mc.thePlayer.getActivePotionEffects();
 
             if (ConfigManager.potionStatusHUDPosition.equals("hotbar_left"))
             {
@@ -543,9 +543,9 @@ public class HUDInfo
                         length = lengthOverlap / (collection.size() - 1);
                     }
 
-                    for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
+                    for (Iterator iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
                     {
-                        PotionEffect potioneffect = iterator.next();
+                        PotionEffect potioneffect = (PotionEffect) iterator.next();
                         Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                         String s = Potion.getDurationString(potioneffect);
                         String s1 = LangUtil.translate(potion.getName());
@@ -594,9 +594,9 @@ public class HUDInfo
                         length = lengthOverlap / (collection.size() - 1);
                     }
 
-                    for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
+                    for (Iterator iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
                     {
-                        PotionEffect potioneffect = iterator.next();
+                        PotionEffect potioneffect = (PotionEffect) iterator.next();
                         Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                         String s = Potion.getDurationString(potioneffect);
                         String s1 = LangUtil.translate(potion.getName());
@@ -644,9 +644,9 @@ public class HUDInfo
                         length = lengthOverlap / (collection.size() - 1);
                     }
 
-                    for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
+                    for (Iterator iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
                     {
-                        PotionEffect potioneffect = iterator.next();
+                        PotionEffect potioneffect = (PotionEffect) iterator.next();
                         Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                         String s = Potion.getDurationString(potioneffect);
                         String s1 = LangUtil.translate(potion.getName());
@@ -753,6 +753,7 @@ public class HUDInfo
             GL11.glBlendFunc(770, 771);
             GL11.glDisable(GL11.GL_LIGHTING);
         }
+        GL11.glBlendFunc(770, 771);
     }
 
     static String getInventoryItemCount(InventoryPlayer inventory, ItemStack other)

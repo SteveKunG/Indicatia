@@ -253,12 +253,12 @@ public class InfoUtil
                 Vec3 vec3d2 = vec3d.addVector(vec3d1.xCoord * distance, vec3d1.yCoord * distance, vec3d1.zCoord * distance);
                 this.pointedEntity = null;
                 Vec3 vec3d3 = null;
-                List<Entity> list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.addCoord(vec3d1.xCoord * distance, vec3d1.yCoord * distance, vec3d1.zCoord * distance).expand(1.0F, 1.0F, 1.0F));
+                List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.addCoord(vec3d1.xCoord * distance, vec3d1.yCoord * distance, vec3d1.zCoord * distance).expand(1.0F, 1.0F, 1.0F));
                 double d2 = d1;
 
                 for (int j = 0; j < list.size(); ++j)
                 {
-                    Entity entity1 = list.get(j);
+                    Entity entity1 = (Entity) list.get(j);
                     float size = entity1.getCollisionBorderSize();
                     AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(size, size, size);
                     MovingObjectPosition raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
