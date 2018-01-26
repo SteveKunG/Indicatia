@@ -25,10 +25,7 @@ import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.entity.*;
-import net.minecraft.client.renderer.entity.layers.LayerArrow;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
-import net.minecraft.client.renderer.entity.layers.LayerCape;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
@@ -66,10 +63,7 @@ import stevekung.mods.indicatia.config.ConfigManager;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.renderer.LayerAllArmor;
-import stevekung.mods.indicatia.renderer.LayerArrowNew;
-import stevekung.mods.indicatia.renderer.LayerCapeNew;
-import stevekung.mods.indicatia.renderer.LayerCustomCape;
+import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.util.*;
 
 public class CommonHandler
@@ -302,6 +296,8 @@ public class CommonHandler
             CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderSlim, entity), renderer, entity);
             CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
             CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
+            CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
+            CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
         }
         else if (entity instanceof EntityZombieVillager)
         {
@@ -836,6 +832,28 @@ public class CommonHandler
         if (capeLayerIndex >= 0)
         {
             layerLists.set(capeLayerIndex, newLayer);
+        }
+    }
+
+    private static void replaceElytraLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    {
+        int elytraLayerIndex = -1;
+
+        if (ConfigManager.enableOldArmorRender)
+        {
+            for (int i = 0; i < layerLists.size(); i++)
+            {
+                LayerRenderer layer = layerLists.get(i);
+
+                if (layer instanceof LayerElytra)
+                {
+                    elytraLayerIndex = i;
+                }
+            }
+            if (elytraLayerIndex >= 0)
+            {
+                layerLists.set(elytraLayerIndex, newLayer);
+            }
         }
     }
 
