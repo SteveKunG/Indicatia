@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -23,9 +24,19 @@ public class GuiConfirmDisconnect extends GuiScreen
     {
         if (button.id == 0)
         {
-            this.mc.world.sendQuittingDisconnectingPacket();
-            this.mc.loadWorld(null);
-            this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+            if (this.mc.isConnectedToRealms())
+            {
+                this.mc.world.sendQuittingDisconnectingPacket();
+                this.mc.loadWorld(null);
+                RealmsBridge bridge = new RealmsBridge();
+                bridge.switchToRealms(new GuiMainMenu());
+            }
+            else
+            {
+                this.mc.world.sendQuittingDisconnectingPacket();
+                this.mc.loadWorld(null);
+                this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+            }
         }
         else
         {
