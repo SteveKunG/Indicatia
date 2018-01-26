@@ -457,7 +457,7 @@ public class CommonHandler
                     event.getButton().playPressSound(this.mc.getSoundHandler());
                 }
             }
-            if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu)
+            if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
             {
                 if (event.getButton().id == 1)
                 {
