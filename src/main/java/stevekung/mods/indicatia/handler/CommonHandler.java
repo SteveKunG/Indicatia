@@ -520,7 +520,7 @@ public class CommonHandler
                     this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
                 }
             }
-            if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu)
+            if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
             {
                 if (event.getButton().id == 1)
                 {
