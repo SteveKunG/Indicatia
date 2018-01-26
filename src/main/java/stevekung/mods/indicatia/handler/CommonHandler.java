@@ -1,8 +1,6 @@
 package stevekung.mods.indicatia.handler;
 
-import java.awt.Desktop;
 import java.net.InetAddress;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -318,11 +316,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {
-        if (event.gui instanceof GuiIngameMenu)
-        {
-            event.buttonList.add(new GuiButton(200, event.gui.width - 145, 20, 135, 20, "Paypal"));
-            event.buttonList.add(new GuiButton(201, event.gui.width - 145, 41, 135, 20, "Truemoney"));
-        }
         if (event.gui instanceof GuiMainMenu)
         {
             int height = event.gui.height / 4 + 48;
@@ -355,33 +348,12 @@ public class CommonHandler
     @SubscribeEvent
     public void onPostActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Post event)
     {
-        if (event.gui instanceof GuiIngameMenu)
-        {
-            switch (event.button.id)
-            {
-            case 200:
-                CommonHandler.openLink("https://twitch.streamlabs.com/stevekung");
-                break;
-            case 201:
-                CommonHandler.openLink("https://tipme.in.th/stevekung");
-                break;
-            }
-        }
         if (event.gui instanceof GuiMainMenu)
         {
             if (event.button.id == 200)
             {
                 this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.gui));
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onRenderGui(GuiScreenEvent.DrawScreenEvent.Post event)
-    {
-        if (event.gui instanceof GuiIngameMenu)
-        {
-            event.gui.drawString(this.mc.fontRenderer, "Support Indicatia!", event.gui.width - 120, 8, 65481);
         }
     }
 
@@ -527,20 +499,6 @@ public class CommonHandler
             }
             catch (Exception e) {}
         });
-    }
-
-    private static void openLink(String url)
-    {
-        try
-        {
-            URI uri = new URI(url);
-            Desktop.getDesktop().browse(uri);
-        }
-        catch (Exception e)
-        {
-            ModLogger.info("Couldn't open link {}", url);
-            e.printStackTrace();
-        }
     }
 
     private static void printVersionMessage(JsonUtil json, EntityClientPlayerMP player)
