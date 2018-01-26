@@ -499,11 +499,6 @@ public class CommonHandler
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {
-        if (event.getGui() instanceof GuiIngameMenu)
-        {
-            event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
-            event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 41, 135, 20, "Truemoney"));
-        }
         if (event.getGui() instanceof GuiMainMenu)
         {
             int height = event.getGui().height / 4 + 48;
@@ -525,39 +520,27 @@ public class CommonHandler
                     this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
                 }
             }
+            if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu)
+            {
+                if (event.getButton().id == 1)
+                {
+                    event.setCanceled(true);
+                    this.mc.displayGuiScreen(new GuiConfirmDisconnect());
+                    event.getButton().playPressSound(this.mc.getSoundHandler());
+                }
+            }
         }
     }
 
     @SubscribeEvent
     public void onPostActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Post event)
     {
-        if (event.getGui() instanceof GuiIngameMenu)
-        {
-            switch (event.getButton().id)
-            {
-            case 200:
-                CommonHandler.openLink("https://twitch.streamlabs.com/stevekung");
-                break;
-            case 201:
-                CommonHandler.openLink("https://tipme.in.th/stevekung");
-                break;
-            }
-        }
         if (event.getGui() instanceof GuiMainMenu)
         {
             if (event.getButton().id == 200)
             {
                 this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.getGui()));
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onRenderGui(GuiScreenEvent.DrawScreenEvent.Post event)
-    {
-        if (event.getGui() instanceof GuiIngameMenu)
-        {
-            event.getGui().drawString(this.mc.fontRenderer, "Support Indicatia!", event.getGui().width - 120, 8, 65481);
         }
     }
 
