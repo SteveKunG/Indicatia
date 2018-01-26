@@ -2,8 +2,6 @@ package stevekung.mods.indicatia.handler;
 
 import javax.annotation.Nullable;
 
-import org.lwjgl.util.glu.Project;
-
 import com.google.common.base.MoreObjects;
 
 import net.minecraft.client.Minecraft;
@@ -59,32 +57,6 @@ public class BlockhitAnimationHandler
 
     private void renderHand(float partialTicks, int pass)
     {
-        GlStateManager.clear(256);
-        GlStateManager.matrixMode(5889);
-        GlStateManager.loadIdentity();
-
-        if (this.mc.gameSettings.anaglyph)
-        {
-            GlStateManager.translate(-(pass * 2 - 1) * 0.07F, 0.0F, 0.0F);
-        }
-
-        Project.gluPerspective(this.mc.entityRenderer.getFOVModifier(partialTicks, false), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.mc.entityRenderer.farPlaneDistance * 2.0F);
-        GlStateManager.matrixMode(5888);
-        GlStateManager.loadIdentity();
-
-        if (this.mc.gameSettings.anaglyph)
-        {
-            GlStateManager.translate((pass * 2 - 1) * 0.1F, 0.0F, 0.0F);
-        }
-
-        GlStateManager.pushMatrix();
-        this.mc.entityRenderer.hurtCameraEffect(partialTicks);
-
-        if (this.mc.gameSettings.viewBobbing)
-        {
-            this.mc.entityRenderer.applyBobbing(partialTicks);
-        }
-
         boolean isSleep = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
 
         if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectator())
@@ -92,18 +64,6 @@ public class BlockhitAnimationHandler
             this.mc.entityRenderer.enableLightmap();
             this.renderItemInFirstPerson(partialTicks);
             this.mc.entityRenderer.disableLightmap();
-        }
-
-        GlStateManager.popMatrix();
-
-        if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep)
-        {
-            this.mc.getItemRenderer().renderOverlays(partialTicks);
-            this.mc.entityRenderer.hurtCameraEffect(partialTicks);
-        }
-        if (this.mc.gameSettings.viewBobbing)
-        {
-            this.mc.entityRenderer.applyBobbing(partialTicks);
         }
     }
 
