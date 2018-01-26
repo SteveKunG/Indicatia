@@ -34,10 +34,20 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
-            if (entity.isPlayerInfoSet() && entity.getLocationElytra() != null)
+            if (entity instanceof AbstractClientPlayer)
             {
-                this.renderPlayer.bindTexture(entity.getLocationElytra());
+                AbstractClientPlayer player = (AbstractClientPlayer)entity;
+
+                if (player.isPlayerInfoSet() && player.getLocationElytra() != null)
+                {
+                    this.renderPlayer.bindTexture(player.getLocationElytra());
+                }
+                else
+                {
+                    this.renderPlayer.bindTexture(TEXTURE_ELYTRA);
+                }
             }
             else
             {
@@ -53,6 +63,7 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
             {
                 LayerArmorBase.renderEnchantedGlint(this.renderPlayer, entity, this.modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
             }
+            GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }
     }
