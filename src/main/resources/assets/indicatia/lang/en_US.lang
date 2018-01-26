@@ -16,6 +16,7 @@ gui.config.indicatia.alternate_player_model=This will implement transparent skin
 gui.config.key_code_example.tooltip=Copy this URL and set your custom key code.
 gui.config.indicatia.render_nametag_fix=Improve Nametag rendering when in the Third Person view.
 gui.config.indicatia.custom_server_selection=Show response time as number instead and improved server info.
+gui.config.indicatia.confirm_disconnect_button=This will display confirmation button if you want to disconnect from the server.
 
 # KEY BINDING
 key.indicatia.category=Indicatia

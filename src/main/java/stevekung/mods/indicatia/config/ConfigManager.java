@@ -30,6 +30,7 @@ public class ConfigManager
     public static boolean enableFastChatRender;
     public static boolean enableCustomPlayerList;
     public static boolean enableCustomServerSelectionGui;
+    public static boolean enableConfirmDisconnectButton;
     public static boolean enableChatDepthRender;
     public static boolean enableRenderBossHealthBar;
     public static boolean enableRenderBossHealthStatus;
@@ -137,6 +138,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Custom Server Selection GUI", false);
         ConfigManager.enableCustomServerSelectionGui = prop.getBoolean();
         prop.comment = LangUtil.translate("gui.config.indicatia.custom_server_selection");
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Confirm Disconnect Button", false);
+        ConfigManager.enableConfirmDisconnectButton = prop.getBoolean();
+        prop.comment = LangUtil.translate("gui.config.indicatia.confirm_disconnect_button");
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Chat Depth Render", true);
