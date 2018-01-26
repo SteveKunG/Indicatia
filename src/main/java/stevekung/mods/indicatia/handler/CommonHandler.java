@@ -566,7 +566,7 @@ public class CommonHandler
                 {
                     event.setCanceled(true);
                     this.mc.displayGuiScreen(new GuiConfirmDisconnect());
-                    event.button.func_146113_a(this.mc.getSoundHandler());
+                    event.button.playPressSound(this.mc.getSoundHandler());
                 }
             }
         }
