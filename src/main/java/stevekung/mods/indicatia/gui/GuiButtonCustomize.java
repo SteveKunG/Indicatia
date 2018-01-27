@@ -22,10 +22,11 @@ public class GuiButtonCustomize extends GuiButton
     private final GuiScreen parent;
     private final List<String> tooltips;
     public final String command;
+    private static int buttonId = 1000;
 
-    public GuiButtonCustomize(int buttonID, int xPos, int yPos, GuiScreen parent, List<String> tooltips, String command, boolean isPlay)
+    public GuiButtonCustomize(int xPos, int yPos, GuiScreen parent, List<String> tooltips, String command, boolean isPlay)
     {
-        super(buttonID, xPos, yPos, 20, 20, "");
+        super(buttonId++, xPos, yPos, 20, 20, "");
         this.isPlay = isPlay;
         this.parent = parent;
         this.tooltips = tooltips;
