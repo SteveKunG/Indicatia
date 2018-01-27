@@ -6,7 +6,6 @@ bin
 build
 eclipse
 run
-src/main/java/stevekung/mods/indicatia/internal
 
 # file
 *.launch
