@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.lang.reflect.Method;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelElytra;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -46,12 +49,12 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
                 }
                 else
                 {
-                    this.renderPlayer.bindTexture(TEXTURE_ELYTRA);
+                    LayerElytraNew.renderOptifineElytra(this.renderPlayer, itemStack);
                 }
             }
             else
             {
-                this.renderPlayer.bindTexture(TEXTURE_ELYTRA);
+                LayerElytraNew.renderOptifineElytra(this.renderPlayer, itemStack);
             }
 
             GlStateManager.pushMatrix();
@@ -72,5 +75,29 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
     public boolean shouldCombineTextures()
     {
         return true;
+    }
+
+    private static void renderOptifineElytra(RenderPlayer renderPlayer, ItemStack itemStack)
+    {
+        ResourceLocation elytraTexture = TEXTURE_ELYTRA;
+
+        try
+        {
+            Class<?> configClass = Class.forName("Config");
+            Class<?> customItemsClass = Class.forName("CustomItems");
+            Method customItemsMethod = configClass.getDeclaredMethod("isCustomItems");
+            Method getCustomElytraTextureMethod = customItemsClass.getDeclaredMethod("getCustomElytraTexture", ItemStack.class, ResourceLocation.class);
+            boolean isCustomItems = (boolean) customItemsMethod.invoke(null);
+
+            if (FMLClientHandler.instance().hasOptifine())
+            {
+                if (isCustomItems)
+                {
+                    elytraTexture = (ResourceLocation) getCustomElytraTextureMethod.invoke(null, itemStack, elytraTexture);
+                }
+            }
+        }
+        catch (Exception e) {}
+        renderPlayer.bindTexture(elytraTexture);
     }
 }
