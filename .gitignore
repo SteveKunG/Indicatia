@@ -7,7 +7,7 @@ build
 eclipse
 run
 src/main/java/stevekung/mods/indicatia/internal
-src/main/resource/assets/indicatia/sounds
+src/main/resources/assets/indicatia/sounds
 
 # file
 *.launch
