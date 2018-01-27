@@ -19,6 +19,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -32,7 +33,7 @@ import stevekung.mods.indicatia.renderer.ColoredFontRenderer;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.util.*;
 
-@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY, acceptedMinecraftVersions = "[1.12,1.12.1]")
+@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.FORGE_VERSION, clientSideOnly = true, guiFactory = IndicatiaMod.GUI_FACTORY, acceptedMinecraftVersions = "[1.12,1.12.1]", certificateFingerprint = IndicatiaMod.CERTIFICATE)
 public class IndicatiaMod
 {
     public static final String NAME = "Indicatia";
@@ -45,6 +46,7 @@ public class IndicatiaMod
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";
     public static final String FORGE_VERSION = "after:forge@[14.21.1.2527,);";
     public static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
+    public static final String CERTIFICATE = "@FINGERPRINT@";
     private static boolean DEOBFUSCATED;
     public static Minecraft MC;
     public static boolean CHECK_NO_CONNECTION;
@@ -145,6 +147,19 @@ public class IndicatiaMod
         CapeUtil.loadCapeTextureAtStartup();
         IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(IndicatiaMod.MC.gameSettings, new ResourceLocation("textures/font/ascii.png"), IndicatiaMod.MC.renderEngine, false);
         ((IReloadableResourceManager)IndicatiaMod.MC.getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
+    }
+
+    @EventHandler
+    public void onFingerprintViolation(FMLFingerprintViolationEvent event)
+    {
+        if (IndicatiaMod.isObfuscatedEnvironment())
+        {
+            ModLogger.info("Development environment detected! Ignore certificate check.");
+        }
+        else
+        {
+            throw new RuntimeException("Invalid fingerprint detected! This version will NOT be supported by the author!");
+        }
     }
 
     public static boolean isObfuscatedEnvironment()

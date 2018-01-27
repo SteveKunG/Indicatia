@@ -38,7 +38,7 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
 
             if (entity instanceof AbstractClientPlayer)
             {
-                AbstractClientPlayer player = (AbstractClientPlayer)entity;
+                AbstractClientPlayer player = entity;
 
                 if (player.isPlayerInfoSet() && player.getLocationElytra() != null)
                 {

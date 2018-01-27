@@ -509,25 +509,22 @@ public class CommonHandler
     @SubscribeEvent
     public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
     {
-        if (ConfigManager.enableCustomServerSelectionGui)
+        if (event.getGui() instanceof GuiMainMenu)
         {
-            if (event.getGui() instanceof GuiMainMenu)
+            if (ConfigManager.enableCustomServerSelectionGui && event.getButton().id == 2)
             {
-                if (event.getButton().id == 2)
-                {
-                    event.setCanceled(true);
-                    event.getButton().playPressSound(this.mc.getSoundHandler());
-                    this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
-                }
+                event.setCanceled(true);
+                event.getButton().playPressSound(this.mc.getSoundHandler());
+                this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
             }
-            if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
+        }
+        if (ConfigManager.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
+        {
+            if (event.getButton().id == 1)
             {
-                if (event.getButton().id == 1)
-                {
-                    event.setCanceled(true);
-                    this.mc.displayGuiScreen(new GuiConfirmDisconnect());
-                    event.getButton().playPressSound(this.mc.getSoundHandler());
-                }
+                event.setCanceled(true);
+                this.mc.displayGuiScreen(new GuiConfirmDisconnect());
+                event.getButton().playPressSound(this.mc.getSoundHandler());
             }
         }
     }
