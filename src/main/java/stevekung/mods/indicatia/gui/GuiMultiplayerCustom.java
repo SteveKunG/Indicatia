@@ -64,5 +64,6 @@ public class GuiMultiplayerCustom extends GuiMultiplayer
         this.mc.fontRenderer.drawString("Press <SHIFT> for", res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("Press <SHIFT> for") - 2, res.getScaledHeight() - 20, RenderUtil.hexToRgb("#17F9DB"), true);
         this.mc.fontRenderer.drawString("server version info", res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("server version info") - 2, res.getScaledHeight() - 10, RenderUtil.hexToRgb("#17F9DB"), true);
         RenderUtil.renderLight(true);
+        RenderUtil.renderLight(false);
     }
 }

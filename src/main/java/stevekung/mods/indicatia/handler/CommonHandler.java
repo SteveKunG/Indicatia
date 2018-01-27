@@ -326,21 +326,18 @@ public class CommonHandler
     @SubscribeEvent
     public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
     {
-        if (ConfigManager.enableCustomServerSelectionGui)
+        if (event.gui instanceof GuiMainMenu)
         {
-            if (event.gui instanceof GuiMainMenu)
+            if (ConfigManager.enableCustomServerSelectionGui && event.button.id == 2)
             {
-                if (event.button.id == 2)
-                {
-                    event.setCanceled(true);
-                    event.button.func_146113_a(this.mc.getSoundHandler());
-                    this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
-                }
-                if (event.button.id == 14)
-                {
-                    event.setCanceled(true);
-                    event.button.func_146113_a(this.mc.getSoundHandler());
-                }
+                event.setCanceled(true);
+                event.button.func_146113_a(this.mc.getSoundHandler());
+                this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+            }
+            if (event.button.id == 14)
+            {
+                event.setCanceled(true);
+                event.button.func_146113_a(this.mc.getSoundHandler());
             }
             if (ConfigManager.enableConfirmDisconnectButton && event.gui instanceof GuiIngameMenu && !this.mc.isSingleplayer())
             {
