@@ -10,9 +10,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -32,18 +30,34 @@ public class CommandEntityDetector extends ClientCommandBase
     {
         JsonUtil json = IndicatiaMod.json;
 
-        if (args.length == 1)
+        if (args.length < 1)
         {
-            String input = args[0];
-            EntityPlayer player = sender.getEntityWorld().getPlayerEntityByName(input);
-            String entityName = EntityList.getTranslationName(new ResourceLocation(input));
+            throw new WrongUsageException("commands.entitydetect.usage");
+        }
+        else
+        {
+            if ("entity".equalsIgnoreCase(args[0]))
+            {
+                if (args.length == 1)
+                {
+                    throw new WrongUsageException("commands.entitydetect.entity.usage");
+                }
 
-            if (input.equals(entityName))
-            {
-                ExtendedConfig.ENTITY_DETECT_TYPE = entityName;
+                String input = args[1];
+                sender.sendMessage(json.text("Detecting entity: " + input));
+                ExtendedConfig.ENTITY_DETECT_TYPE = input;
+                ExtendedConfig.save();
+
             }
-            else if (player != null && input.equals(player.getName()))
+            else if ("player".equalsIgnoreCase(args[0]))
             {
+                if (args.length == 1)
+                {
+                    throw new WrongUsageException("commands.entitydetect.player.usage");
+                }
+
+                String input = args[1];
+
                 if (GameProfileUtil.getUsername().equalsIgnoreCase(input))
                 {
                     sender.sendMessage(json.text("Cannot set entity detector type to yourself!").setStyle(json.red()));
@@ -51,18 +65,28 @@ public class CommandEntityDetector extends ClientCommandBase
                 }
                 else
                 {
-                    ExtendedConfig.ENTITY_DETECT_TYPE = player.getName();
+                    sender.sendMessage(json.text("Detecting player name: " + input));
+                    ExtendedConfig.ENTITY_DETECT_TYPE = input;
+                    ExtendedConfig.save();
                 }
+            }
+            else if ("all".equalsIgnoreCase(args[0]) || "only_mob".equalsIgnoreCase(args[0]) || "only_creature".equalsIgnoreCase(args[0]) || "only_non_mob".equalsIgnoreCase(args[0]) || "only_player".equalsIgnoreCase(args[0]) || "only_mob".equalsIgnoreCase(args[0]))
+            {
+                sender.sendMessage(json.text(args[0].equalsIgnoreCase("all") ? "Set detect to all" : "Set detecting only: " + args[0]));
+                ExtendedConfig.ENTITY_DETECT_TYPE = args[0];
+                ExtendedConfig.save();
+            }
+            else if ("reset".equalsIgnoreCase(args[0]))
+            {
+                sender.sendMessage(json.text("Reset entity detector"));
+                ExtendedConfig.ENTITY_DETECT_TYPE = "";
+                ExtendedConfig.save();
             }
             else
             {
-                ExtendedConfig.ENTITY_DETECT_TYPE = input.equalsIgnoreCase("reset") ? "" : input;
+                throw new WrongUsageException("commands.entitydetect.usage");
             }
-            sender.sendMessage(json.text("Set entity detector type to " + input));
-            ExtendedConfig.save();
-            return;
         }
-        throw new WrongUsageException("commands.entitydetect.usage");
     }
 
     @Override
@@ -70,30 +94,31 @@ public class CommandEntityDetector extends ClientCommandBase
     {
         NetHandlerPlayClient connection = IndicatiaMod.MC.player.connection;
         List<NetworkPlayerInfo> playerInfo = new ArrayList<>(connection.getPlayerInfoMap());
-        List<String> entityList = new ArrayList<>();
+        playerInfo.removeIf(entry -> entry.getGameProfile().getName().equalsIgnoreCase(GameProfileUtil.getUsername()));
 
-        for (ResourceLocation resource : EntityList.getEntityNameList())
-        {
-            entityList.add(resource.toString());
-        }
-
-        entityList.add("all");
-        entityList.add("only_mob");
-        entityList.add("only_creature");
-        entityList.add("only_non_mob");
-        entityList.add("only_player");
-        entityList.add("reset");
-
-        for (int i = 0; i < playerInfo.size(); ++i)
-        {
-            if (i < playerInfo.size())
-            {
-                entityList.add(playerInfo.get(i).getGameProfile().getName().replace(GameProfileUtil.getUsername(), ""));
-            }
-        }
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, entityList);
+            return CommandBase.getListOfStringsMatchingLastWord(args, "entity", "player", "all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset");
+        }
+        if (args.length == 2)
+        {
+            if (args[0].equalsIgnoreCase("entity"))
+            {
+                return CommandBase.getListOfStringsMatchingLastWord(args, EntityList.getEntityNameList());
+            }
+            if (args[0].equalsIgnoreCase("player"))
+            {
+                List<String> playerList = new ArrayList<>();
+
+                for (int i = 0; i < playerInfo.size(); ++i)
+                {
+                    if (i < playerInfo.size())
+                    {
+                        playerList.add(playerInfo.get(i).getGameProfile().getName());
+                    }
+                }
+                return CommandBase.getListOfStringsMatchingLastWord(args, playerList);
+            }
         }
         return super.getTabCompletions(server, sender, args, pos);
     }

@@ -60,7 +60,9 @@ commands.hidename.usage=/inhidename <add|remove> <name>
 
 # INTERAL STUFF!
 key.auto_swim.desc=Auto Swim
-commands.entitydetect.usage=/entitydetect <all|only_mob|only_creature|only_non_mob|only_player|reset|internal_list...>
+commands.entitydetect.usage=/entitydetect <entity|player|all|only_mob|only_creature|only_non_mob|only_player|reset>
+commands.entitydetect.entity.usage=/entitydetect entity <entity...>
+commands.entitydetect.player.usage=/entitydetect player <player...>
 commands.autoclick.usage=/autoclick <start|stop|mode...>
 commands.autoclick.mode.usage=/autoclick mode <left|right>
 commands.indicatia.autoswim.usage=/indicatia auto_swim <enable|disable|mode>
