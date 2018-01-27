@@ -1,22 +1,15 @@
 # folder
-bin
 .settings
 .gradle
 .gradle_data
+bin
 build
 eclipse
 run
-src/main/java/net/minecraft/
 src/main/java/stevekung/mods/indicatia/internal
 
 # file
 *.launch
-*.txt
-!change_log.txt
 .metadata
 .classpath
 .project
-gradle-wrapper.jar
-gradle-wrapper.properties
-gradlew.bat
-gradlew
