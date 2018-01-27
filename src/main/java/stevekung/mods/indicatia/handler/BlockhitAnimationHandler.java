@@ -50,20 +50,15 @@ public class BlockhitAnimationHandler
 
             if (!this.isZoomed())
             {
-                this.renderHand(event.getPartialTicks(), event.getRenderPass());
+                boolean isSleep = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
+
+                if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectator())
+                {
+                    this.mc.entityRenderer.enableLightmap();
+                    this.renderItemInFirstPerson(event.getPartialTicks());
+                    this.mc.entityRenderer.disableLightmap();
+                }
             }
-        }
-    }
-
-    private void renderHand(float partialTicks, int pass)
-    {
-        boolean isSleep = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
-
-        if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectator())
-        {
-            this.mc.entityRenderer.enableLightmap();
-            this.renderItemInFirstPerson(partialTicks);
-            this.mc.entityRenderer.disableLightmap();
         }
     }
 
