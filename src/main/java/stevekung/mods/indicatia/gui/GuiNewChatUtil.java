@@ -46,9 +46,11 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     private GuiButton swSoloTNT;
     private GuiButton swSoloRush;
     private GuiButton swSoloSlime;
+    private GuiButton swSoloLucky;
     private GuiButton swTeamTNT;
     private GuiButton swTeamRush;
     private GuiButton swTeamSlime;
+    private GuiButton swTeamLucky;
 
     // bedwars
     private GuiButton bwLobby;
@@ -69,8 +71,9 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
     private GuiButton mmLobby;
     private GuiButton mmClassic;
     private GuiButton mmAssassins;
-    private GuiButton mmHardcore;
+    private GuiButton mmShowdown;
     private GuiButton mmInfection;
+    private GuiButton mmHideAndSeek;
 
     // skyclash
     private GuiButton scLobby;
@@ -152,96 +155,99 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 150, 2, "Skywars", "Skywars Labs", "Bedwars", "TNT", "Murder Mystery", "Skyclash", "UHC Champions", "Crazy Walls", "Blitz Survival Game", "Speed UHC", "Prototype: Zombies", "Prototype: Duels", "Prototype: Hide and Seek"));
 
             // skywars
-            this.buttonList.add(this.swLobby = new GuiButtonCustomize(1000, this.width - 120, 20, this, Arrays.asList("Skywars Lobby"), "sw", false));
-            this.buttonList.add(this.swSoloNormal = new GuiButtonCustomize(1001, this.width - 99, 20, this, Arrays.asList("Solo Normal"), "solo_normal", true));
-            this.buttonList.add(this.swSoloInsane = new GuiButtonCustomize(1002, this.width - 78, 20, this, Arrays.asList("Solo Insane"), "solo_insane", true));
-            this.buttonList.add(this.swRankedMode = new GuiButtonCustomize(1003, this.width - 57, 20, this, Arrays.asList("Ranked Mode"), "ranked_normal", true));
-            this.buttonList.add(this.swTeamNormal = new GuiButtonCustomize(1004, this.width - 36, 20, this, Arrays.asList("Team Normal"), "teams_normal", true));
-            this.buttonList.add(this.swTeamInsane = new GuiButtonCustomize(1005, this.width - 99, 41, this, Arrays.asList("Team Insane"), "teams_insane", true));
-            this.buttonList.add(this.swMegaMode = new GuiButtonCustomize(1006, this.width - 78, 41, this, Arrays.asList("Mega Mode"), "mega_normal", true));
+            this.buttonList.add(this.swLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Skywars Lobby"), "sw", false));
+            this.buttonList.add(this.swSoloNormal = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo Normal"), "solo_normal", true));
+            this.buttonList.add(this.swSoloInsane = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Solo Insane"), "solo_insane", true));
+            this.buttonList.add(this.swRankedMode = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Ranked Mode"), "ranked_normal", true));
+            this.buttonList.add(this.swTeamNormal = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("Team Normal"), "teams_normal", true));
+            this.buttonList.add(this.swTeamInsane = new GuiButtonCustomize(this.width - 99, 41, this, Arrays.asList("Team Insane"), "teams_insane", true));
+            this.buttonList.add(this.swMegaMode = new GuiButtonCustomize(this.width - 78, 41, this, Arrays.asList("Mega Mode"), "mega_normal", true));
 
             // skywars labs
-            this.buttonList.add(this.swSoloTNT = new GuiButtonCustomize(1007, this.width - 99, 20, this, Arrays.asList("Solo TNT"), "solo_insane_tnt_madness", true));
-            this.buttonList.add(this.swSoloRush = new GuiButtonCustomize(1008, this.width - 78, 20, this, Arrays.asList("Solo Rush"), "solo_insane_rush", true));
-            this.buttonList.add(this.swSoloSlime = new GuiButtonCustomize(1009, this.width - 57, 20, this, Arrays.asList("Solo Slime"), "solo_insane_slime", true));
-            this.buttonList.add(this.swTeamTNT = new GuiButtonCustomize(1010, this.width - 36, 20, this, Arrays.asList("Team TNT"), "teams_insane_tnt_madness", true));
-            this.buttonList.add(this.swTeamRush = new GuiButtonCustomize(1011, this.width - 99, 41, this, Arrays.asList("Team Rush"), "teams_insane_rush", true));
-            this.buttonList.add(this.swTeamSlime = new GuiButtonCustomize(1012, this.width - 78, 41, this, Arrays.asList("Team Slime"), "teams_insane_slime", true));
+            this.buttonList.add(this.swSoloTNT = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo TNT"), "solo_insane_tnt_madness", true));
+            this.buttonList.add(this.swSoloRush = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Solo Rush"), "solo_insane_rush", true));
+            this.buttonList.add(this.swSoloSlime = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Solo Slime"), "solo_insane_slime", true));
+            this.buttonList.add(this.swSoloLucky = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("Solo Lucky"), "solo_insane_lucky", true));
+            this.buttonList.add(this.swTeamTNT = new GuiButtonCustomize(this.width - 99, 41, this, Arrays.asList("Team TNT"), "teams_insane_tnt_madness", true));
+            this.buttonList.add(this.swTeamRush = new GuiButtonCustomize(this.width - 78, 41, this, Arrays.asList("Team Rush"), "teams_insane_rush", true));
+            this.buttonList.add(this.swTeamSlime = new GuiButtonCustomize(this.width - 57, 41, this, Arrays.asList("Team Slime"), "teams_insane_slime", true));
+            this.buttonList.add(this.swTeamLucky = new GuiButtonCustomize(this.width - 36, 41, this, Arrays.asList("Team Lucky"), "teams_insane_lucky", true));
 
             // bedwars
-            this.buttonList.add(this.bwLobby = new GuiButtonCustomize(1013, this.width - 120, 20, this, Arrays.asList("Bedwars Lobby"), "bw", false));
-            this.buttonList.add(this.bwEightOne = new GuiButtonCustomize(1014, this.width - 99, 20, this, Arrays.asList("Solo"), "bedwars_eight_one", true));
-            this.buttonList.add(this.bwEightTwo = new GuiButtonCustomize(1015, this.width - 78, 20, this, Arrays.asList("Doubles"), "bedwars_eight_two", true));
-            this.buttonList.add(this.bwFourThree = new GuiButtonCustomize(1016, this.width - 57, 20, this, Arrays.asList("3v3v3v3"), "bedwars_four_three", true));
-            this.buttonList.add(this.bwFourFour = new GuiButtonCustomize(1017, this.width - 36, 20, this, Arrays.asList("4v4v4v4"), "bedwars_four_four", true));
+            this.buttonList.add(this.bwLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Bedwars Lobby"), "bw", false));
+            this.buttonList.add(this.bwEightOne = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo"), "bedwars_eight_one", true));
+            this.buttonList.add(this.bwEightTwo = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Doubles"), "bedwars_eight_two", true));
+            this.buttonList.add(this.bwFourThree = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("3v3v3v3"), "bedwars_four_three", true));
+            this.buttonList.add(this.bwFourFour = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("4v4v4v4"), "bedwars_four_four", true));
 
             // tnt
-            this.buttonList.add(this.tntLobby = new GuiButtonCustomize(1018, this.width - 120, 20, this, Arrays.asList("TNT Lobby"), "tnt", false));
-            this.buttonList.add(this.tntRun = new GuiButtonCustomize(1019, this.width - 99, 20, this, Arrays.asList("TNT Run"), "tnt_tntrun", true));
-            this.buttonList.add(this.tntPvpRun = new GuiButtonCustomize(1020, this.width - 78, 20, this, Arrays.asList("PVP Run"), "tnt_pvprun", true));
-            this.buttonList.add(this.tntBowSpleef = new GuiButtonCustomize(1021, this.width - 57, 20, this, Arrays.asList("Bow Spleef"), "tnt_bowspleef", true));
-            this.buttonList.add(this.tntTag = new GuiButtonCustomize(1022, this.width - 36, 20, this, Arrays.asList("TNT Tag"), "tnt_tntag", true));
-            this.buttonList.add(this.tntWizard = new GuiButtonCustomize(1023, this.width - 99, 41, this, Arrays.asList("Wizards"), "tnt_capture", true));
+            this.buttonList.add(this.tntLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("TNT Lobby"), "tnt", false));
+            this.buttonList.add(this.tntRun = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("TNT Run"), "tnt_tntrun", true));
+            this.buttonList.add(this.tntPvpRun = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("PVP Run"), "tnt_pvprun", true));
+            this.buttonList.add(this.tntBowSpleef = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Bow Spleef"), "tnt_bowspleef", true));
+            this.buttonList.add(this.tntTag = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("TNT Tag"), "tnt_tntag", true));
+            this.buttonList.add(this.tntWizard = new GuiButtonCustomize(this.width - 99, 41, this, Arrays.asList("Wizards"), "tnt_capture", true));
 
             // murder
-            this.buttonList.add(this.mmLobby = new GuiButtonCustomize(1024, this.width - 120, 20, this, Arrays.asList("Murder Mystery Lobby"), "mm", false));
-            this.buttonList.add(this.mmClassic = new GuiButtonCustomize(1025, this.width - 99, 20, this, Arrays.asList("Classic"), "murder_classic", true));
-            this.buttonList.add(this.mmAssassins = new GuiButtonCustomize(1026, this.width - 78, 20, this, Arrays.asList("Assassins"), "murder_assassins", true));
-            this.buttonList.add(this.mmHardcore = new GuiButtonCustomize(1027, this.width - 57, 20, this, Arrays.asList("Hardcore"), "murder_hardcore", true));
-            this.buttonList.add(this.mmInfection = new GuiButtonCustomize(1065, this.width - 36, 20, this, Arrays.asList("Infection"), "murder_infection", true));
+            this.buttonList.add(this.mmLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Murder Mystery Lobby"), "mm", false));
+            this.buttonList.add(this.mmClassic = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Classic"), "murder_classic", true));
+            this.buttonList.add(this.mmAssassins = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Assassins"), "murder_assassins", true));
+            this.buttonList.add(this.mmShowdown = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Showdown"), "murder_showdown", true));
+            this.buttonList.add(this.mmInfection = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("Infection"), "murder_infection", true));
+            this.buttonList.add(this.mmHideAndSeek = new GuiButtonCustomize(this.width - 99, 41, this, Arrays.asList("Hide And Seek"), "murder_hide_and_seek", true));
 
             // skyclash
-            this.buttonList.add(this.scLobby = new GuiButtonCustomize(1028, this.width - 120, 20, this, Arrays.asList("Skyclash Lobby"), "sc", false));
-            this.buttonList.add(this.scSolo = new GuiButtonCustomize(1029, this.width - 99, 20, this, Arrays.asList("Solo"), "skyclash_solo", true));
-            this.buttonList.add(this.scDouble = new GuiButtonCustomize(1030, this.width - 78, 20, this, Arrays.asList("Doubles"), "skyclash_doubles", true));
-            this.buttonList.add(this.scTeam = new GuiButtonCustomize(1031, this.width - 57, 20, this, Arrays.asList("Team War"), "skyclash_team_war", true));
+            this.buttonList.add(this.scLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Skyclash Lobby"), "sc", false));
+            this.buttonList.add(this.scSolo = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo"), "skyclash_solo", true));
+            this.buttonList.add(this.scDouble = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Doubles"), "skyclash_doubles", true));
+            this.buttonList.add(this.scTeam = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Team War"), "skyclash_team_war", true));
 
             // uhc
-            this.buttonList.add(this.uhcLobby = new GuiButtonCustomize(1032, this.width - 120, 20, this, Arrays.asList("UHC Lobby"), "uhc", false));
-            this.buttonList.add(this.uhcSolo = new GuiButtonCustomize(1033, this.width - 99, 20, this, Arrays.asList("Solo"), "uhc_solo", true));
-            this.buttonList.add(this.uhcTeam = new GuiButtonCustomize(1034, this.width - 78, 20, this, Arrays.asList("Teams"), "uhc_teams", true));
+            this.buttonList.add(this.uhcLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("UHC Lobby"), "uhc", false));
+            this.buttonList.add(this.uhcSolo = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo"), "uhc_solo", true));
+            this.buttonList.add(this.uhcTeam = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Teams"), "uhc_teams", true));
 
             // crazy walls
-            this.buttonList.add(this.cwLobby = new GuiButtonCustomize(1035, this.width - 120, 20, this, Arrays.asList("Crazy Walls Lobby"), "cw", false));
-            this.buttonList.add(this.cwSolo = new GuiButtonCustomize(1036, this.width - 99, 20, this, Arrays.asList("Solo"), "crazy_walls_solo", true));
-            this.buttonList.add(this.cwTeam = new GuiButtonCustomize(1037, this.width - 78, 20, this, Arrays.asList("Teams"), "crazy_walls_teams", true));
+            this.buttonList.add(this.cwLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Crazy Walls Lobby"), "cw", false));
+            this.buttonList.add(this.cwSolo = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo"), "crazy_walls_solo", true));
+            this.buttonList.add(this.cwTeam = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Teams"), "crazy_walls_teams", true));
 
             // survival game
-            this.buttonList.add(this.sgLobby = new GuiButtonCustomize(1038, this.width - 120, 20, this, Arrays.asList("Blitz Surival Game Lobby"), "sg", false));
-            this.buttonList.add(this.sgSolo = new GuiButtonCustomize(1039, this.width - 99, 20, this, Arrays.asList("Solo"), "blitz_solo_normal", true));
-            this.buttonList.add(this.sgSoloNoKit = new GuiButtonCustomize(1040, this.width - 78, 20, this, Arrays.asList("Solo (No Kits)"), "blitz_solo_nokits", true));
-            this.buttonList.add(this.sgTeam = new GuiButtonCustomize(1041, this.width - 57, 20, this, Arrays.asList("Team"), "blitz_teams_normal", true));
+            this.buttonList.add(this.sgLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Blitz Surival Game Lobby"), "sg", false));
+            this.buttonList.add(this.sgSolo = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo"), "blitz_solo_normal", true));
+            this.buttonList.add(this.sgSoloNoKit = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Solo (No Kits)"), "blitz_solo_nokits", true));
+            this.buttonList.add(this.sgTeam = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Team"), "blitz_teams_normal", true));
 
             // speed uhc
-            this.buttonList.add(this.suhcLobby = new GuiButtonCustomize(1042, this.width - 120, 20, this, Arrays.asList("Speed UHC Lobby"), "suhc", false));
-            this.buttonList.add(this.suhcSolo = new GuiButtonCustomize(1043, this.width - 99, 20, this, Arrays.asList("Solo"), "speed_solo_normal", true));
-            this.buttonList.add(this.suhcSoloInsane = new GuiButtonCustomize(1044, this.width - 78, 20, this, Arrays.asList("Solo Insane"), "speed_solo_insane", true));
-            this.buttonList.add(this.suhcTeam = new GuiButtonCustomize(1045, this.width - 57, 20, this, Arrays.asList("Team"), "speed_team_normal", true));
-            this.buttonList.add(this.suhcTeamInsane = new GuiButtonCustomize(1046, this.width - 36, 20, this, Arrays.asList("Team Insane"), "speed_team_insane", true));
+            this.buttonList.add(this.suhcLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Speed UHC Lobby"), "suhc", false));
+            this.buttonList.add(this.suhcSolo = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Solo"), "speed_solo_normal", true));
+            this.buttonList.add(this.suhcSoloInsane = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Solo Insane"), "speed_solo_insane", true));
+            this.buttonList.add(this.suhcTeam = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Team"), "speed_team_normal", true));
+            this.buttonList.add(this.suhcTeamInsane = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("Team Insane"), "speed_team_insane", true));
 
             // prototype zombies
-            this.buttonList.add(this.ptlLobby = new GuiButtonCustomize(1047, this.width - 120, 20, this, Arrays.asList("Prototype Lobby"), "ptl", false));
-            this.buttonList.add(this.ptlStoryNormal = new GuiButtonCustomize(1048, this.width - 99, 20, this, Arrays.asList("Story Normal"), "prototype_zombies_story_normal", true));
-            this.buttonList.add(this.ptlStoryHard = new GuiButtonCustomize(1049, this.width - 78, 20, this, Arrays.asList("Story Hard"), "prototype_zombies_story_hard", true));
-            this.buttonList.add(this.ptlStoryRip = new GuiButtonCustomize(1050, this.width - 57, 20, this, Arrays.asList("Story RIP"), "prototype_zombies_story_rip", true));
-            this.buttonList.add(this.ptlEndlessNormal = new GuiButtonCustomize(1051, this.width - 36, 20, this, Arrays.asList("Endless Normal"), "prototype_zombies_endless_normal", true));
-            this.buttonList.add(this.ptlEndlessHard = new GuiButtonCustomize(1052, this.width - 99, 41, this, Arrays.asList("Endless Hard"), "prototype_zombies_endless_hard", true));
-            this.buttonList.add(this.ptlEndlessRip = new GuiButtonCustomize(1053, this.width - 78, 41, this, Arrays.asList("Endless RIP"), "prototype_zombies_endless_rip", true));
+            this.buttonList.add(this.ptlLobby = new GuiButtonCustomize(this.width - 120, 20, this, Arrays.asList("Prototype Lobby"), "ptl", false));
+            this.buttonList.add(this.ptlStoryNormal = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Story Normal"), "prototype_zombies_story_normal", true));
+            this.buttonList.add(this.ptlStoryHard = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Story Hard"), "prototype_zombies_story_hard", true));
+            this.buttonList.add(this.ptlStoryRip = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Story RIP"), "prototype_zombies_story_rip", true));
+            this.buttonList.add(this.ptlEndlessNormal = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("Endless Normal"), "prototype_zombies_endless_normal", true));
+            this.buttonList.add(this.ptlEndlessHard = new GuiButtonCustomize(this.width - 99, 41, this, Arrays.asList("Endless Hard"), "prototype_zombies_endless_hard", true));
+            this.buttonList.add(this.ptlEndlessRip = new GuiButtonCustomize(this.width - 78, 41, this, Arrays.asList("Endless RIP"), "prototype_zombies_endless_rip", true));
 
             // prototype duels
-            this.buttonList.add(this.ptlDuelClassic = new GuiButtonCustomize(1054, this.width - 99, 20, this, Arrays.asList("Classic"), "prototype_duels:classic_duel", true));
-            this.buttonList.add(this.ptlDuelBow = new GuiButtonCustomize(1055, this.width - 78, 20, this, Arrays.asList("Bow"), "prototype_duels:bow_duel", true));
-            this.buttonList.add(this.ptlDuelPotion = new GuiButtonCustomize(1056, this.width - 57, 20, this, Arrays.asList("Potion"), "prototype_duels:potion_duel", true));
-            this.buttonList.add(this.ptlDuelOP = new GuiButtonCustomize(1057, this.width - 36, 20, this, Arrays.asList("OP"), "prototype_duels:op_duel", true));
-            this.buttonList.add(this.ptlDuelMegawallsSolo = new GuiButtonCustomize(1058, this.width - 99, 41, this, Arrays.asList("Megawalls 1v1"), "prototype_duels:mw_duel", true));
-            this.buttonList.add(this.ptlDuelMegawallsDouble = new GuiButtonCustomize(1059, this.width - 78, 41, this, Arrays.asList("Megawalls 2v2"), "prototype_duels:mw_doubles", true));
-            this.buttonList.add(this.ptlDuelMegawallsFour = new GuiButtonCustomize(1060, this.width - 57, 41, this, Arrays.asList("Megawalls 4v4"), "prototype_duels:mw_four", true));
-            this.buttonList.add(this.ptlDuelUHCSolo = new GuiButtonCustomize(1061, this.width - 36, 41, this, Arrays.asList("UHC 1v1"), "prototype_duels:uhc_duel", true));
-            this.buttonList.add(this.ptlDuelUHCDouble = new GuiButtonCustomize(1062, this.width - 99, 62, this, Arrays.asList("UHC 2v2"), "prototype_duels:uhc_doubles", true));
-            this.buttonList.add(this.ptlDuelUHCFour = new GuiButtonCustomize(1063, this.width - 78, 62, this, Arrays.asList("UHC 4v4"), "prototype_duels:uhc_four", true));
+            this.buttonList.add(this.ptlDuelClassic = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Classic"), "prototype_duels:classic_duel", true));
+            this.buttonList.add(this.ptlDuelBow = new GuiButtonCustomize(this.width - 78, 20, this, Arrays.asList("Bow"), "prototype_duels:bow_duel", true));
+            this.buttonList.add(this.ptlDuelPotion = new GuiButtonCustomize(this.width - 57, 20, this, Arrays.asList("Potion"), "prototype_duels:potion_duel", true));
+            this.buttonList.add(this.ptlDuelOP = new GuiButtonCustomize(this.width - 36, 20, this, Arrays.asList("OP"), "prototype_duels:op_duel", true));
+            this.buttonList.add(this.ptlDuelMegawallsSolo = new GuiButtonCustomize(this.width - 99, 41, this, Arrays.asList("Megawalls 1v1"), "prototype_duels:mw_duel", true));
+            this.buttonList.add(this.ptlDuelMegawallsDouble = new GuiButtonCustomize(this.width - 78, 41, this, Arrays.asList("Megawalls 2v2"), "prototype_duels:mw_doubles", true));
+            this.buttonList.add(this.ptlDuelMegawallsFour = new GuiButtonCustomize(this.width - 57, 41, this, Arrays.asList("Megawalls 4v4"), "prototype_duels:mw_four", true));
+            this.buttonList.add(this.ptlDuelUHCSolo = new GuiButtonCustomize(this.width - 36, 41, this, Arrays.asList("UHC 1v1"), "prototype_duels:uhc_duel", true));
+            this.buttonList.add(this.ptlDuelUHCDouble = new GuiButtonCustomize(this.width - 99, 62, this, Arrays.asList("UHC 2v2"), "prototype_duels:uhc_doubles", true));
+            this.buttonList.add(this.ptlDuelUHCFour = new GuiButtonCustomize(this.width - 78, 62, this, Arrays.asList("UHC 4v4"), "prototype_duels:uhc_four", true));
 
             // hide and seek
-            this.buttonList.add(this.ptlHideAndSeek = new GuiButtonCustomize(1064, this.width - 99, 20, this, Arrays.asList("Hide and Seek"), "prototype_hide_and_seek", true));
+            this.buttonList.add(this.ptlHideAndSeek = new GuiButtonCustomize(this.width - 99, 20, this, Arrays.asList("Hide and Seek"), "prototype_hide_and_seek", true));
 
             for (GuiButton button : this.buttonList)
             {
@@ -293,9 +299,11 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                 this.swSoloTNT.visible = clicked;
                 this.swSoloRush.visible = clicked;
                 this.swSoloSlime.visible = clicked;
+                this.swSoloLucky.visible = clicked;
                 this.swTeamTNT.visible = clicked;
                 this.swTeamRush.visible = clicked;
                 this.swTeamSlime.visible = clicked;
+                this.swTeamLucky.visible = clicked;
                 break;
             case 2:
                 this.bwLobby.visible = clicked;
@@ -316,8 +324,9 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                 this.mmLobby.visible = clicked;
                 this.mmClassic.visible = clicked;
                 this.mmAssassins.visible = clicked;
-                this.mmHardcore.visible = clicked;
+                this.mmShowdown.visible = clicked;
                 this.mmInfection.visible = clicked;
+                this.mmHideAndSeek.visible = clicked;
                 break;
             case 5:
                 this.scLobby.visible = clicked;
