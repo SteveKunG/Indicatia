@@ -23,6 +23,7 @@ public class GuiDonator extends GuiScreen
     private GuiButton resetBtn;
     private static EnumChatFormatting[] values = EnumChatFormatting.values();
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

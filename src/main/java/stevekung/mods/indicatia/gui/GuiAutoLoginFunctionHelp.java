@@ -38,6 +38,7 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

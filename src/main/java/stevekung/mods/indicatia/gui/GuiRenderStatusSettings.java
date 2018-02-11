@@ -25,6 +25,7 @@ public class GuiRenderStatusSettings extends GuiScreen
         IndicatiaMod.MC.displayGuiScreen(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

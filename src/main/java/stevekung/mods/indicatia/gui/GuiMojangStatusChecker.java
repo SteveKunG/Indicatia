@@ -25,6 +25,7 @@ public class GuiMojangStatusChecker extends GuiScreen
         this.lastScreen = lastScreen;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

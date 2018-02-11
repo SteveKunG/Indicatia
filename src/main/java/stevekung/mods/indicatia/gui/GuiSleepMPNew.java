@@ -10,6 +10,7 @@ import stevekung.mods.indicatia.util.LangUtil;
 @SideOnly(Side.CLIENT)
 public class GuiSleepMPNew extends GuiNewChatUtil
 {
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

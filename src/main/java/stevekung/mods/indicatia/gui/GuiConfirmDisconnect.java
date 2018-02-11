@@ -11,6 +11,7 @@ import net.minecraft.client.resources.I18n;
 @SideOnly(Side.CLIENT)
 public class GuiConfirmDisconnect extends GuiScreen
 {
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

@@ -39,6 +39,7 @@ public class GuiFullChangeLog extends GuiScreen
         IndicatiaMod.unregisterForgeEvent(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

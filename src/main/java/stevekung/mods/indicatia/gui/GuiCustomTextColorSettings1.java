@@ -31,6 +31,7 @@ public class GuiCustomTextColorSettings1 extends GuiScreen
         IndicatiaMod.MC.displayGuiScreen(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

@@ -25,6 +25,7 @@ public class GuiCustomCape extends GuiScreen
     private int capeOption;
     private int prevCapeOption;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

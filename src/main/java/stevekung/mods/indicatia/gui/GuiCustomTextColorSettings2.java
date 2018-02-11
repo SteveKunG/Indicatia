@@ -13,6 +13,7 @@ public class GuiCustomTextColorSettings2 extends GuiScreen
     private GuiButton nextButton;
     private GuiButton prevButton;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

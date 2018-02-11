@@ -313,6 +313,7 @@ public class CommonHandler
         }
     }
 
+    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {

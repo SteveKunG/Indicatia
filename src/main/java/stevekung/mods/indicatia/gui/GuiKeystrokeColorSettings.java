@@ -18,6 +18,7 @@ public class GuiKeystrokeColorSettings extends GuiScreen
     private GuiButton sprintRainbow;
     private GuiButton sneakRainbow;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

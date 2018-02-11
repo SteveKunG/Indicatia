@@ -21,6 +21,7 @@ public class GuiNewChatUtil extends GuiChat
         super(input);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {
