@@ -47,7 +47,6 @@ public class CommandEntityDetector extends ClientCommandBase
                 sender.sendMessage(json.text("Detecting entity: " + input));
                 ExtendedConfig.ENTITY_DETECT_TYPE = input;
                 ExtendedConfig.save();
-
             }
             else if ("player".equalsIgnoreCase(args[0]))
             {

@@ -18,8 +18,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -91,19 +89,7 @@ public class RenderUtil
                 }
                 if (entity.getEntityString() != null)
                 {
-                    if (entity.getEntityString().contains("armor_stand"))
-                    {
-                        if (entity instanceof EntityArmorStand)
-                        {
-                            EntityArmorStand armor = (EntityArmorStand) entity;
-
-                            if (armor.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == Items.SKULL)
-                            {
-                                entity.setGlowing(ExtendedConfig.ENTITY_DETECT_TYPE.equals(entity.getEntityString()));
-                            }
-                        }
-                    }
-
+                    entity.setGlowing(ExtendedConfig.ENTITY_DETECT_TYPE.equals(entity.getEntityString()));
                 }
                 if (ExtendedConfig.ENTITY_DETECT_TYPE.equals("all"))
                 {
