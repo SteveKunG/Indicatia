@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -22,6 +23,17 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
     private static final ResourceLocation TEXTURE_ELYTRA = new ResourceLocation("textures/entity/elytra.png");
     private final RenderPlayer renderPlayer;
     private final ModelElytra modelElytra = new ModelElytra();
+    private static Method renderRainbowArmor;
+
+    static
+    {
+        try
+        {
+            Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
+            LayerElytraNew.renderRainbowArmor = clazz.getMethod("renderRainbowArmor", Entity.class);
+        }
+        catch (Exception e) {}
+    }
 
     public LayerElytraNew(RenderPlayer renderPlayer)
     {
@@ -59,6 +71,13 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
 
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, 0.0F, 0.125F);
+
+            try
+            {
+                LayerElytraNew.renderRainbowArmor.invoke(null, entity);
+            }
+            catch (Exception e) {}
+
             this.modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
             this.modelElytra.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
