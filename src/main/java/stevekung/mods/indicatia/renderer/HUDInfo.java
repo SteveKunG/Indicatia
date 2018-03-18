@@ -1,11 +1,17 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.google.common.collect.Ordering;
+import com.mojang.realmsclient.RealmsMainScreen;
+import com.mojang.realmsclient.dto.RealmsServer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiScreenRealmsProxy;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +23,7 @@ import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.realms.RealmsScreen;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatia.config.ConfigManager;
@@ -106,6 +113,50 @@ public class HUDInfo
             ip = ip + "/" + IndicatiaMod.MC_VERSION;
         }
         return ip;
+    }
+
+    public static String getRealmName(Minecraft mc)
+    {
+        String text = "Realms Server";
+        GuiScreen screen = mc.getConnection().guiScreenServer;
+        GuiScreenRealmsProxy screenProxy = (GuiScreenRealmsProxy) screen;
+        RealmsScreen realmsScreen = screenProxy.getProxy();
+
+        if (!(realmsScreen instanceof RealmsMainScreen))
+        {
+            return text;
+        }
+
+        RealmsMainScreen realmsMainScreen = (RealmsMainScreen) realmsScreen;
+        RealmsServer realmsServer = null;
+
+        try
+        {
+            Field selectedServerId = realmsMainScreen.getClass().getDeclaredField("selectedServerId");
+            selectedServerId.setAccessible(true);
+
+            if (!selectedServerId.getType().equals(long.class))
+            {
+                return text;
+            }
+
+            long id = selectedServerId.getLong(realmsMainScreen);
+            Method findServer = realmsMainScreen.getClass().getDeclaredMethod("findServer", long.class);
+            findServer.setAccessible(true);
+            Object obj = findServer.invoke(realmsMainScreen, id);
+
+            if (!(obj instanceof RealmsServer))
+            {
+                return text;
+            }
+            realmsServer = (RealmsServer) obj;
+        }
+        catch (Exception e)
+        {
+            return text;
+        }
+        String name = ColoredFontRenderer.color(ExtendedConfig.IP_COLOR_R, ExtendedConfig.IP_COLOR_G, ExtendedConfig.IP_COLOR_B) + "Realms: " + "" + ColoredFontRenderer.color(ExtendedConfig.IP_VALUE_COLOR_R, ExtendedConfig.IP_VALUE_COLOR_G, ExtendedConfig.IP_VALUE_COLOR_B) + realmsServer.getName();
+        return name;
     }
 
     public static String renderDirection(Minecraft mc)

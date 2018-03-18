@@ -119,9 +119,16 @@ public class HUDRenderHandler
                         leftInfo.add(HUDInfo.getPingToSecond());
                     }
                 }
-                if (ConfigManager.enableServerIP && this.mc.getCurrentServerData() != null && !this.mc.isSingleplayer())
+                if (ConfigManager.enableServerIP && !this.mc.isSingleplayer())
                 {
-                    leftInfo.add(HUDInfo.getServerIP(this.mc));
+                    if (this.mc.isConnectedToRealms())
+                    {
+                        leftInfo.add(HUDInfo.getRealmName(this.mc));
+                    }
+                    if (this.mc.getCurrentServerData() != null)
+                    {
+                        leftInfo.add(HUDInfo.getServerIP(this.mc));
+                    }
                 }
                 if (ConfigManager.enableFPS)
                 {
