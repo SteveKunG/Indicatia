@@ -38,29 +38,30 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     public void renderPlayerlist(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
         List<NetworkPlayerInfo> list = GuiPlayerTabOverlay.ENTRY_ORDERING.sortedCopy(this.mc.thePlayer.connection.getPlayerInfoMap());
-        int i = 0;
+        int listWidth = 0;
         int j = 0;
 
         for (NetworkPlayerInfo info : list)
         {
-            int k = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(info));
-            i = Math.max(i, k);
+            int pingWidth = ConfigManager.enableCustomPlayerList ? this.mc.fontRendererObj.getStringWidth(String.valueOf(info.getResponseTime())) : 0;
+            int stringWidth = this.mc.fontRendererObj.getStringWidth(this.getPlayerName(info) + pingWidth);
+            listWidth = Math.max(listWidth, stringWidth);
 
             if (scoreObjective != null && scoreObjective.getRenderType() != IScoreCriteria.EnumRenderType.HEARTS)
             {
-                k = this.mc.fontRendererObj.getStringWidth(" " + scoreboard.getOrCreateScore(info.getGameProfile().getName(), scoreObjective).getScorePoints());
-                j = Math.max(j, k);
+                stringWidth = this.mc.fontRendererObj.getStringWidth(" " + scoreboard.getOrCreateScore(info.getGameProfile().getName(), scoreObjective).getScorePoints());
+                j = Math.max(j, stringWidth);
             }
         }
 
         list = list.subList(0, Math.min(list.size(), 80));
-        int l3 = list.size();
-        int i4 = l3;
-        int j4;
+        int playerListSize = list.size();
+        int playerCount = playerListSize;
+        int columnSize;
 
-        for (j4 = 1; i4 > 20; i4 = (l3 + j4 - 1) / j4)
+        for (columnSize = 1; playerCount > 20; playerCount = (playerListSize + columnSize - 1) / columnSize)
         {
-            ++j4;
+            ++columnSize;
         }
 
         boolean flag = this.mc.isIntegratedServerRunning() || this.mc.getConnection().getNetworkManager().isEncrypted();
@@ -82,10 +83,10 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             l = 0;
         }
 
-        int i1 = Math.min(j4 * ((flag ? 9 : 0) + i + l + 13), width - 50) / j4;
-        int j1 = width / 2 - (i1 * j4 + (j4 - 1) * 5) / 2;
-        int k1 = 10;
-        int l1 = i1 * j4 + (j4 - 1) * 5;
+        int i1 = Math.min(columnSize * ((flag ? 9 : 0) + listWidth + l + 13), width - 50) / columnSize;
+        int j1 = width / 2 - (i1 * columnSize + (columnSize - 1) * 5) / 2;
+        int yOffset = 10;
+        int l1 = i1 * columnSize + (columnSize - 1) * 5;
         List<String> list1 = null;
         ITextComponent header = this.mc.ingameGUI.getTabList().header;
         ITextComponent footer = this.mc.ingameGUI.getTabList().footer;
@@ -114,25 +115,25 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
         if (list1 != null)
         {
-            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+            Gui.drawRect(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + list1.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 
             for (String s2 : list1)
             {
                 int i2 = this.mc.fontRendererObj.getStringWidth(s2);
-                this.mc.fontRendererObj.drawStringWithShadow(s2, width / 2 - i2 / 2, k1, -1);
-                k1 += this.mc.fontRendererObj.FONT_HEIGHT;
+                this.mc.fontRendererObj.drawStringWithShadow(s2, width / 2 - i2 / 2, yOffset, -1);
+                yOffset += this.mc.fontRendererObj.FONT_HEIGHT;
             }
-            ++k1;
+            ++yOffset;
         }
 
-        Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
+        Gui.drawRect(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + playerCount * 9, Integer.MIN_VALUE);
 
-        for (int k4 = 0; k4 < l3; ++k4)
+        for (int k4 = 0; k4 < playerListSize; ++k4)
         {
-            int l4 = k4 / i4;
-            int i5 = k4 % i4;
+            int l4 = k4 / playerCount;
+            int i5 = k4 % playerCount;
             int j2 = j1 + l4 * i1 + l4 * 5;
-            int k2 = k1 + i5 * 9;
+            int k2 = yOffset + i5 * 9;
             Gui.drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlpha();
@@ -186,7 +187,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
                 if (scoreObjective != null && networkplayerinfo1.getGameType() != GameType.SPECTATOR)
                 {
-                    int k5 = j2 + i + 1;
+                    int k5 = j2 + listWidth + 1;
                     int l5 = k5 + l;
 
                     if (l5 - k5 > 5)
@@ -200,14 +201,14 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
         if (list2 != null)
         {
-            k1 = k1 + i4 * 9 + 1;
-            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+            yOffset = yOffset + playerCount * 9 + 1;
+            Gui.drawRect(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + list2.size() * this.mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 
             for (String s3 : list2)
             {
                 int j5 = this.mc.fontRendererObj.getStringWidth(s3);
-                this.mc.fontRendererObj.drawStringWithShadow(s3, width / 2 - j5 / 2, k1, -1);
-                k1 += this.mc.fontRendererObj.FONT_HEIGHT;
+                this.mc.fontRendererObj.drawStringWithShadow(s3, width / 2 - j5 / 2, yOffset, -1);
+                yOffset += this.mc.fontRendererObj.FONT_HEIGHT;
             }
         }
     }

@@ -80,6 +80,7 @@ public class CommonHandler
     private static int pendingPingTicks = 100;
     private static boolean initLayer = true;
     private static EnumAction[] cachedAction = EnumAction.values();
+    private int clickCount;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -459,8 +460,33 @@ public class CommonHandler
             if (event.getButton().id == 1)
             {
                 event.setCanceled(true);
-                this.mc.displayGuiScreen(new GuiConfirmDisconnect());
                 event.getButton().playPressSound(this.mc.getSoundHandler());
+
+                if (ConfigManager.confirmDisconnectMode.equalsIgnoreCase("gui"))
+                {
+                    this.mc.displayGuiScreen(new GuiConfirmDisconnect());
+                }
+                else
+                {
+                    this.clickCount++;
+                    event.getButton().displayString = TextFormatting.RED + "Click again to Disconnect";
+
+                    if (this.clickCount == 2)
+                    {
+                        this.mc.theWorld.sendQuittingDisconnectingPacket();
+                        this.mc.loadWorld(null);
+                        this.clickCount = 0;
+
+                        if (ConfigManager.enableCustomServerSelectionGui)
+                        {
+                            this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                        }
+                        else
+                        {
+                            this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                        }
+                    }
+                }
             }
         }
     }
@@ -682,7 +708,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerBipedArmor)
+                if (layer.getClass().equals(LayerBipedArmor.class))
                 {
                     armorLayerIndex = i;
                 }
@@ -698,7 +724,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerAllArmor)
+                if (layer.getClass().equals(LayerAllArmor.class))
                 {
                     armorLayerIndex = i;
                 }
@@ -757,7 +783,7 @@ public class CommonHandler
         {
             LayerRenderer layer = layerLists.get(i);
 
-            if (layer instanceof LayerCape)
+            if (layer.getClass().equals(LayerCape.class))
             {
                 capeLayerIndex = i;
             }
@@ -778,7 +804,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerElytra)
+                if (layer.getClass().equals(LayerElytra.class))
                 {
                     elytraLayerIndex = i;
                 }
@@ -798,7 +824,7 @@ public class CommonHandler
         {
             LayerRenderer layer = layerLists.get(i);
 
-            if (layer instanceof LayerArrow)
+            if (layer.getClass().equals(LayerArrow.class))
             {
                 arrowLayerIndex = i;
             }
