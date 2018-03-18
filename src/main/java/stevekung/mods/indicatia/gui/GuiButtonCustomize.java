@@ -1,8 +1,5 @@
 package stevekung.mods.indicatia.gui;
 
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -20,16 +17,18 @@ public class GuiButtonCustomize extends GuiButton
     private static final ResourceLocation play = new ResourceLocation("indicatia:textures/gui/play_icon.png");
     private final boolean isPlay;
     private final GuiScreen parent;
-    private final List<String> tooltips;
+    private final String tooltips;
     public final String command;
+    public String group;
     private static int buttonId = 1000;
 
-    public GuiButtonCustomize(int xPos, int yPos, GuiScreen parent, List<String> tooltips, String command, boolean isPlay)
+    public GuiButtonCustomize(int xPos, int yPos, GuiScreen parent, String tooltips, String command, String group, boolean isPlay)
     {
         super(buttonId++, xPos, yPos, 20, 20, "");
         this.isPlay = isPlay;
         this.parent = parent;
         this.tooltips = tooltips;
+        this.group = group;
         this.command = isPlay ? "/play " + command : "/lobby " + command;
     }
 
@@ -52,58 +51,39 @@ public class GuiButtonCustomize extends GuiButton
             boolean isHover = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             GlStateManager.disableDepth();
 
-            if (this.tooltips != null && !this.tooltips.isEmpty() && isHover)
+            if (isHover)
             {
                 int k = 0;
-                Iterator<String> iterator = this.tooltips.iterator();
-
-                while (iterator.hasNext())
-                {
-                    String s = iterator.next();
-                    int l = IndicatiaMod.MC.fontRenderer.getStringWidth(s);
-
-                    if (l > k)
-                    {
-                        k = l;
-                    }
-                }
-
+                int l = IndicatiaMod.MC.fontRenderer.getStringWidth(this.tooltips);
+                k = l;
                 int i1 = mouseX + 12;
                 int j1 = mouseY - 12;
                 int k1 = 8;
-
-                if (this.tooltips.size() > 1)
-                {
-                    k1 += (this.tooltips.size() - 1) * 10;
-                }
-                if (i1 + k > this.parent.width)
-                {
-                    i1 -= 28 + k;
-                }
-
-                this.zLevel = 300.0F;
                 int l1 = -267386864;
-                this.drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
-                this.drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
-                this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
-                this.drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
-                this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
                 int i2 = 1347420415;
-                int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-                this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-                this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-                this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
-                this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+                int i3 = i2 & 16711422;
+                int i4 = i2 & -16777216;
+                int j2 = i3 >> 1 | i4;
 
-                for (int k2 = 0; k2 < this.tooltips.size(); ++k2)
-                {
-                    String s1 = this.tooltips.get(k2);
-                    IndicatiaMod.MC.fontRenderer.drawStringWithShadow(s1, i1, j1, -1);
-                    j1 += 10;
-                }
-                this.zLevel = 0.0F;
+            if (i1 + k > this.parent.width)
+            {
+                i1 -= 28 + k;
             }
+
+            this.zLevel = 300.0F;
+            this.drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+            this.drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+            this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+            this.drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+            this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+            this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+            this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+            this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+            this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+            IndicatiaMod.MC.fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
+            this.zLevel = 0.0F;
             GlStateManager.enableDepth();
+            }
         }
     }
 }

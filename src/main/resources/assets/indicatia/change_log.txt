@@ -1,6 +1,9 @@
--Added- Added Custom Multiplayer GUI
--Added- Added Direction Info
--Update- More performance improved
--Update- Improve movement handler
--Fixed- Fixed missing Forge armor model hook
--Fixed- Fixed rare crash with Info HUD
+-Added- Added Jar Signing
+-Added- Added More Hypixel Minigames
+-Added- Added Confirm Disconnect Mode
+-Added- Added Confirm Disconnect Button
+-Update- Improve old render layer of Armor, Cape, etc.
+-Fixed- Fixed condition and Multiplayer GUI rendering
+-Fixed- Fixed prevent access to realm button
+-Fixed- Fixed player list column width when Enable Custom Player List
+-Remove- Removed Deprecated Mojang Services
