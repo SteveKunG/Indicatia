@@ -1,4 +1,5 @@
 -Added- Added Jar Signing
+-Added- Added More Hypixel Minigames
 -Added- Added Confirm Disconnect Mode
 -Added- Added Confirm Disconnect Button
 -Update- Improve old render layer of Armor, Cape, etc.
