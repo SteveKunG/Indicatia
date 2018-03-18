@@ -830,7 +830,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerBipedArmor)
+                if (layer.getClass().equals(LayerBipedArmor.class))
                 {
                     armorLayerIndex = i;
                 }
@@ -846,7 +846,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerAllArmor)
+                if (layer.getClass().equals(LayerAllArmor.class))
                 {
                     armorLayerIndex = i;
                 }
@@ -905,7 +905,7 @@ public class CommonHandler
         {
             LayerRenderer layer = layerLists.get(i);
 
-            if (layer instanceof LayerCustomHead)
+            if (layer.getClass().equals(LayerCustomHead.class))
             {
                 customHeadIndex = i;
             }
@@ -926,7 +926,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerCustomHead)
+                if (layer.getClass().equals(LayerCustomHead.class))
                 {
                     customHeadIndex = i;
                 }
@@ -942,7 +942,7 @@ public class CommonHandler
             {
                 LayerRenderer layer = layerLists.get(i);
 
-                if (layer instanceof LayerCustomHeadNew)
+                if (layer.getClass().equals(LayerCustomHeadNew.class))
                 {
                     customHeadIndex = i;
                 }
@@ -962,7 +962,7 @@ public class CommonHandler
         {
             LayerRenderer layer = layerLists.get(i);
 
-            if (layer instanceof LayerCape)
+            if (layer.getClass().equals(LayerCape.class))
             {
                 capeLayerIndex = i;
             }
@@ -981,7 +981,7 @@ public class CommonHandler
         {
             LayerRenderer layer = layerLists.get(i);
 
-            if (layer instanceof LayerArrow)
+            if (layer.getClass().equals(LayerArrow.class))
             {
                 arrowLayerIndex = i;
             }
