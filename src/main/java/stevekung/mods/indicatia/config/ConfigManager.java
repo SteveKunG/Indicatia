@@ -23,6 +23,7 @@ public class ConfigManager
 
     // Main Settings
     public static int afkMessageTime;
+    public static String confirmDisconnectMode;
     public static boolean enableRenderInfo;
     public static boolean enableVersionChecker;
     public static boolean enableAnnounceMessage;
@@ -123,6 +124,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "AFK Message Time (minute)", 5);
         prop.setMinValue(1).setMaxValue(60).setConfigEntryClass(NumberSliderEntry.class);
         ConfigManager.afkMessageTime = prop.getInt();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Confirm Disconnect Mode", "gui");
+        prop.setValidValues(new String[] { "gui", "click_again" });
+        ConfigManager.confirmDisconnectMode = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Enable Fast Chat Render", false);

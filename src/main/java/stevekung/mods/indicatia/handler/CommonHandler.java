@@ -71,7 +71,7 @@ public class CommonHandler
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     public static int currentServerPing;
     private static int pendingPingTicks = 100;
-    private final List<String> pausedChannels = new ArrayList<>();
+    private int clickCount;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -340,13 +340,38 @@ public class CommonHandler
                 event.setCanceled(true);
                 event.button.func_146113_a(this.mc.getSoundHandler());
             }
-            if (ConfigManager.enableConfirmDisconnectButton && event.gui instanceof GuiIngameMenu && !this.mc.isSingleplayer())
+        }
+        if (ConfigManager.enableConfirmDisconnectButton && event.gui instanceof GuiIngameMenu && !this.mc.isSingleplayer())
+        {
+            if (event.button.id == 1)
             {
-                if (event.button.id == 1)
+                event.setCanceled(true);
+                event.button.func_146113_a(this.mc.getSoundHandler());
+
+                if (ConfigManager.confirmDisconnectMode.equalsIgnoreCase("gui"))
                 {
-                    event.setCanceled(true);
                     this.mc.displayGuiScreen(new GuiConfirmDisconnect());
-                    event.button.func_146113_a(this.mc.getSoundHandler());
+                }
+                else
+                {
+                    this.clickCount++;
+                    event.button.displayString = EnumChatFormatting.RED + "Click again to Disconnect";
+
+                    if (this.clickCount == 2)
+                    {
+                        this.mc.theWorld.sendQuittingDisconnectingPacket();
+                        this.mc.loadWorld(null);
+                        this.clickCount = 0;
+
+                        if (ConfigManager.enableCustomServerSelectionGui)
+                        {
+                            this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                        }
+                        else
+                        {
+                            this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                        }
+                    }
                 }
             }
         }
