@@ -12,11 +12,9 @@ public enum MojangStatusChecker
 {
     MAIN_WEBSITE("Main Website", "minecraft.net"),
     MC_SESSION_SERVER("Minecraft Session Server", "session.minecraft.net"),
-    MC_SKINS_SERVER("Minecraft Skins Server", "skins.minecraft.net"),
     TEXTURES_SERVICE("Minecraft Textures Service", "textures.minecraft.net"),
     MOJANG_ACCOUNT_SERVICE("Mojang Account Service", "account.mojang.com"),
     MOJANG_SESSION_SERVER("Mojang Session Server", "sessionserver.mojang.com"),
-    MOJANG_AUTHENTICATION_SERVICE("Mojang Authentication Service", "auth.mojang.com"),
     MOJANG_AUTHENTICATION_SERVER("Mojang Authentication Server", "authserver.mojang.com"),
     MOJANG_PUBLIC_API("Mojang Public API", "api.mojang.com"),
     MOJANG_MAIN_WEBSITE("Mojang Main Website", "mojang.com");

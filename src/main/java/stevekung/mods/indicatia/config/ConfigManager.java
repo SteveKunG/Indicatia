@@ -26,6 +26,7 @@ public class ConfigManager
     public static int endGameTitleTime;
     public static String endGameTitleMessage;
     public static String endGameMessage;
+    public static String confirmDisconnectMode;
     public static boolean enableRenderInfo;
     public static boolean enableBlockhitAnimation;
     public static boolean enableAdditionalBlockhitAnimation;
@@ -136,6 +137,11 @@ public class ConfigManager
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Message Time (game tick)", 20);
         prop.setMinValue(20).setMaxValue(100).setConfigEntryClass(NumberSliderEntry.class);
         ConfigManager.endGameTitleTime = prop.getInt();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "Confirm Disconnect Mode", "gui");
+        prop.setValidValues(new String[] { "gui", "click_again" });
+        ConfigManager.confirmDisconnectMode = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.getProperty(ConfigManager.MAIN_SETTINGS, "End Game Title Message", "you lose,you win,game end,victory");

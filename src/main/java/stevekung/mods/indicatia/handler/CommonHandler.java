@@ -91,7 +91,7 @@ public class CommonHandler
     private static int pendingPingTicks = 100;
     private static boolean initLayer = true;
     private static EnumAction[] cachedAction = EnumAction.values();
-    private final List<String> pausedChannels = new ArrayList<>();
+    private int clickCount;
 
     // AFK Stuff
     public static boolean isAFK;
@@ -563,8 +563,33 @@ public class CommonHandler
             if (event.button.id == 1)
             {
                 event.setCanceled(true);
-                this.mc.displayGuiScreen(new GuiConfirmDisconnect());
                 event.button.playPressSound(this.mc.getSoundHandler());
+
+                if (ConfigManager.confirmDisconnectMode.equalsIgnoreCase("gui"))
+                {
+                    this.mc.displayGuiScreen(new GuiConfirmDisconnect());
+                }
+                else
+                {
+                    this.clickCount++;
+                    event.button.displayString = EnumChatFormatting.RED + "Click again to Disconnect";
+
+                    if (this.clickCount == 2)
+                    {
+                        this.mc.theWorld.sendQuittingDisconnectingPacket();
+                        this.mc.loadWorld(null);
+                        this.clickCount = 0;
+
+                        if (ConfigManager.enableCustomServerSelectionGui)
+                        {
+                            this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                        }
+                        else
+                        {
+                            this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                        }
+                    }
+                }
             }
         }
     }
