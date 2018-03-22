@@ -44,7 +44,7 @@ public class IndicatiaMod
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     public static final String MC_VERSION = String.valueOf(FMLInjectionData.data()[4]);
     public static final String GUI_FACTORY = "stevekung.mods.indicatia.config.ConfigGuiFactory";
-    public static final String FORGE_VERSION = "after:forge@[14.21.1.2527,);";
+    public static final String FORGE_VERSION = "after:forge@[14.23.2.2611,);";
     public static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     public static final String CERTIFICATE = "@FINGERPRINT@";
     private static boolean DEOBFUSCATED;
