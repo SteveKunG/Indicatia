@@ -69,6 +69,6 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public boolean shouldCombineTextures()
     {
-        return false;
+        return true;
     }
 }
