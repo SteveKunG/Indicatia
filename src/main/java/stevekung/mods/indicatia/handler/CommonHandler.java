@@ -41,6 +41,7 @@ import net.minecraft.network.status.client.CPacketPing;
 import net.minecraft.network.status.client.CPacketServerQuery;
 import net.minecraft.network.status.server.SPacketPong;
 import net.minecraft.network.status.server.SPacketServerInfo;
+import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.StringUtils;
@@ -219,7 +220,7 @@ public class CommonHandler
             // toggle sneak
             movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.TOGGLE_SNEAK;
 
-            if (IndicatiaMod.isSteveKunG() && ExtendedConfig.TOGGLE_SNEAK)
+            if (!IndicatiaMod.isSteveKunG() && ExtendedConfig.TOGGLE_SNEAK)
             {
                 movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
                 movement.moveForward = (float)(movement.moveForward * 0.3D);
@@ -537,18 +538,28 @@ public class CommonHandler
 
                     if (this.clickCount == 2)
                     {
-                        this.mc.world.sendQuittingDisconnectingPacket();
-                        this.mc.loadWorld(null);
-                        this.clickCount = 0;
-
-                        if (ConfigManager.enableCustomServerSelectionGui)
+                        if (this.mc.isConnectedToRealms())
                         {
-                            this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                            this.mc.world.sendQuittingDisconnectingPacket();
+                            this.mc.loadWorld(null);
+                            RealmsBridge bridge = new RealmsBridge();
+                            bridge.switchToRealms(new GuiMainMenu());
                         }
                         else
                         {
-                            this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                            this.mc.world.sendQuittingDisconnectingPacket();
+                            this.mc.loadWorld(null);
+
+                            if (ConfigManager.enableCustomServerSelectionGui)
+                            {
+                                this.mc.displayGuiScreen(new GuiMultiplayerCustom(new GuiMainMenu()));
+                            }
+                            else
+                            {
+                                this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                            }
                         }
+                        this.clickCount = 0;
                     }
                 }
             }

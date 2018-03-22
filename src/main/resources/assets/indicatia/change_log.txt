@@ -4,6 +4,5 @@
 -Added- Added Confirm Disconnect Button
 -Update- Improve old render layer of Armor, Cape, etc.
 -Fixed- Fixed condition and Multiplayer GUI rendering
--Fixed- Fixed prevent access to realm button
 -Fixed- Fixed player list column width when Enable Custom Player List
 -Remove- Removed Deprecated Mojang Services
