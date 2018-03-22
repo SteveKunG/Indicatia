@@ -51,6 +51,10 @@ jar
     {
         excludes.addAll(project.ext.internalFiles)
     }
+    else
+    {
+        classifier = 'DEV'
+    }
 }
 
 curseforge {
@@ -59,8 +63,6 @@ curseforge {
         id = '272146'
         changelog = 'To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/master/' + mcVersion + '/src/main/resources/assets/indicatia/change_log.txt'
         releaseType = 'release'
-        addGameVersion '1.12'
-        addGameVersion '1.12.1'
         addGameVersion mcVersion
 
         mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
