@@ -294,8 +294,8 @@ public class CommonHandler
         {
             RenderPlayer renderDefault = manager.getSkinMap().get("default");
             RenderPlayer renderSlim = manager.getSkinMap().get("slim");
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderDefault, entity), renderer, entity);
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(renderSlim, entity), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
             CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
             CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
             CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
@@ -303,19 +303,19 @@ public class CommonHandler
         }
         else if (entity instanceof EntityZombieVillager)
         {
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderZombieVillager(manager), entity), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager)), renderer, entity);
         }
         else if (entity instanceof EntityGiantZombie)
         {
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderGiantZombie(manager, 6.0F), entity), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F)), renderer, entity);
         }
         else if (entity instanceof EntityZombie && !(entity instanceof EntityZombieVillager))
         {
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderZombie(manager), entity), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager)), renderer, entity);
         }
         else if (entity instanceof AbstractSkeleton)
         {
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor<>(new RenderSkeleton(manager), entity), renderer, entity);
+            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager)), renderer, entity);
         }
     }
 

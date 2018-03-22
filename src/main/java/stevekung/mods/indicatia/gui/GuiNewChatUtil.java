@@ -55,12 +55,13 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
         10 - Skyclash
         11 - TNT
         12 - Murder Mystery
-        13 - Duels
-        14 - Survival Games
-        15 - Smash Heroes
-        16 - Prototype: Zombies
-        17 - Prototype: Hide and Seek
-        18 - Prototype: Battle Royale
+        13 - Duels: Solo
+        14 - Duels: Doubles
+        15 - Survival Games
+        16 - Smash Heroes
+        17 - Prototype: Zombies
+        18 - Prototype: Hide and Seek
+        19 - Prototype: Battle Royale
      */
     @Override
     public void initGui()
@@ -89,7 +90,8 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             list.add("Skyclash");
             list.add("TNT");
             list.add("Murder Mystery");
-            list.add("Duels");
+            list.add("Duels: Solo");
+            list.add("Duels: Doubles");
             list.add("Survival Games");
             list.add("Smash Heroes");
             list.add("Prototype: Zombies");
@@ -181,19 +183,30 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Team", "speed_team_normal", "speed_uhc", true));
             this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Team Insane", "speed_team_insane", "speed_uhc", true));
 
-            // duels
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Duels Lobby", "duels", "duels", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo Classic", "duels_classic_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Solo Skywars", "duels_sw_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Solo Bow", "duels_bow_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Solo UHC", "duels_uhc_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Solo No Debuffs", "duels_potion_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Solo Combo", "duels_combo_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "Solo Potion", "duels_potion_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "Solo OP", "duels_op_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 62, this, "Solo Mega Walls", "duels_mw_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 62, this, "Solo Blitz", "duels_blitz_duel", "duels", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 62, this, "Solo Bow Spleef", "duels_bowspleef_duel", "duels", true));
+            // duels solo
+            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Duels Lobby", "duels", "duels_solo", false));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Classic", "duels_classic_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Skywars", "duels_sw_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Bow", "duels_bow_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "UHC", "duels_uhc_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "No Debuffs", "duels_potion_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Combo", "duels_combo_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "Potion", "duels_potion_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "OP", "duels_op_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 62, this, "Mega Walls", "duels_mw_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 62, this, "Blitz", "duels_blitz_duel", "duels_solo", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 62, this, "Bow Spleef", "duels_bowspleef_duel", "duels_solo", true));
+
+            // duels double
+            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Duels Lobby", "duels", "duels_double", false));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Skywars", "duels_sw_doubles", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Doubles UHC", "duels_uhc_doubles", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Teams UHC", "duels_uhc_four", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "OP", "duels_op_doubles", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Doubles Mega Walls", "duels_mw_doubles", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Teams Mega Walls", "duels_mw_four", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "UHC Tournament", "duels_uhc_tournament", "duels_double", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "SW Tournament", "duels_sw_tournament", "duels_double", true));
 
             // classic games
             this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Classic Lobby", "classic", "classic", false));
@@ -362,36 +375,42 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                         }
                         break;
                     case 12:
-                        if (buttonCustom.group.equalsIgnoreCase("duels"))
+                        if (buttonCustom.group.equalsIgnoreCase("duels_solo"))
                         {
                             buttonCustom.visible = clicked;
                         }
                         break;
                     case 13:
-                        if (buttonCustom.group.equalsIgnoreCase("survival_game"))
+                        if (buttonCustom.group.equalsIgnoreCase("duels_double"))
                         {
                             buttonCustom.visible = clicked;
                         }
                         break;
                     case 14:
-                        if (buttonCustom.group.equalsIgnoreCase("smash_heroes"))
+                        if (buttonCustom.group.equalsIgnoreCase("survival_game"))
                         {
                             buttonCustom.visible = clicked;
                         }
                         break;
                     case 15:
-                        if (buttonCustom.group.equalsIgnoreCase("prototype_zombie"))
+                        if (buttonCustom.group.equalsIgnoreCase("smash_heroes"))
                         {
                             buttonCustom.visible = clicked;
                         }
                         break;
                     case 16:
-                        if (buttonCustom.group.equalsIgnoreCase("prototype_hide_and_seek"))
+                        if (buttonCustom.group.equalsIgnoreCase("prototype_zombie"))
                         {
                             buttonCustom.visible = clicked;
                         }
                         break;
                     case 17:
+                        if (buttonCustom.group.equalsIgnoreCase("prototype_hide_and_seek"))
+                        {
+                            buttonCustom.visible = clicked;
+                        }
+                        break;
+                    case 18:
                         if (buttonCustom.group.equalsIgnoreCase("prototype_battle_royale"))
                         {
                             buttonCustom.visible = clicked;
