@@ -47,7 +47,7 @@ public class CommandAFK extends ClientCommandBase
 
                     if (ConfigManager.enableAFKMessage)
                     {
-                        IndicatiaMod.MC.player.sendChatMessage("I'm back! AFK Time is : " + StringUtils.ticksToElapsedTime(CommonHandler.afkTicks) + " minutes");
+                        IndicatiaMod.MC.player.sendChatMessage("I'm back from " + CommonHandler.afkReason + "! AFK Time is : " + StringUtils.ticksToElapsedTime(CommonHandler.afkTicks) + " minutes");
                     }
                 }
                 else
