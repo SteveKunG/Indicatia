@@ -1,6 +1,8 @@
 package stevekung.mods.indicatia.command;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandException;
@@ -19,7 +21,8 @@ public class CommandPingAll extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        Collection<NetworkPlayerInfo> infolist = IndicatiaMod.MC.player.connection.getPlayerInfoMap();
+        List<NetworkPlayerInfo> infolist = new ArrayList<>(IndicatiaMod.MC.player.connection.getPlayerInfoMap());
+        Collections.sort(infolist, (info1, info2) -> Integer.compare(info2.getResponseTime(), info1.getResponseTime()));
 
         for (NetworkPlayerInfo info : infolist)
         {
