@@ -31,6 +31,7 @@ import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
 import net.minecraft.network.EnumConnectionState;
@@ -204,6 +205,7 @@ public class CommonHandler
     public void onInputUpdate(InputUpdateEvent event)
     {
         MovementInput movement = event.getMovementInput();
+        EntityPlayer player = event.getEntityPlayer();
 
         if (ConfigManager.enableCustomMovementHandler)
         {
@@ -214,7 +216,7 @@ public class CommonHandler
             }
 
             // auto swim
-            boolean swim = IndicatiaMod.isSteveKunG() && ExtendedConfig.AUTO_SWIM && (this.mc.player.isInWater() || this.mc.player.isInLava()) && !this.mc.player.isSpectator();
+            boolean swim = IndicatiaMod.isSteveKunG() && ExtendedConfig.AUTO_SWIM && (player.isInWater() || player.isInLava()) && !player.isSpectator();
             movement.jump = this.mc.gameSettings.keyBindJump.isKeyDown() || swim;
 
             // toggle sneak
@@ -227,9 +229,9 @@ public class CommonHandler
             }
 
             // toggle sprint
-            if (ExtendedConfig.TOGGLE_SPRINT && !this.mc.player.isPotionActive(MobEffects.BLINDNESS) && !ExtendedConfig.TOGGLE_SNEAK)
+            if (ExtendedConfig.TOGGLE_SPRINT && !player.isPotionActive(MobEffects.BLINDNESS) && !ExtendedConfig.TOGGLE_SNEAK)
             {
-                this.mc.player.setSprinting(true);
+                player.setSprinting(true);
             }
 
             // afk stuff
