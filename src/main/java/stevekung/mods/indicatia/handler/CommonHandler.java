@@ -218,7 +218,7 @@ public class CommonHandler
             movement.jump = this.mc.gameSettings.keyBindJump.isKeyDown() || swim;
 
             // toggle sneak
-            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.TOGGLE_SNEAK;
+            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.TOGGLE_SNEAK && !event.getEntityPlayer().isSpectator();
 
             if (!IndicatiaMod.isSteveKunG() && ExtendedConfig.TOGGLE_SNEAK)
             {
