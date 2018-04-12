@@ -1,2 +1,2 @@
-set GRADLE_USER_HOME=M:\Modding\.gradle_data_1.11
-gradlew build curseforge
+set GRADLE_USER_HOME=M:\Modding\Indicatia\1.12.2\.gradle_data
+gradlew buildJar curseforge

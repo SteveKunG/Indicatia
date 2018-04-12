@@ -1,8 +1,2 @@
--Added- Added Jar Signing
--Added- Added More Hypixel Minigames
--Added- Added Confirm Disconnect Mode
--Added- Added Confirm Disconnect Button
--Update- Improve old render layer of Armor, Cape, etc.
--Fixed- Fixed condition and Multiplayer GUI rendering
--Fixed- Fixed player list column width when Enable Custom Player List
--Remove- Removed Deprecated Mojang Services
+-Added- Added Hypixel The Bridge minigame
+-Fixed- Fixed stupid crash

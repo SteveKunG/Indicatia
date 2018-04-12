@@ -62,6 +62,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
         17 - Prototype: Zombies
         18 - Prototype: Hide and Seek
         19 - Prototype: Battle Royale
+        20 - Prototype: The Bridge
      */
     @Override
     public void initGui()
@@ -97,6 +98,7 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             list.add("Prototype: Zombies");
             list.add("Prototype: Hide and Seek");
             list.add("Prototype: Battle Royale");
+            list.add("Prototype: The Bridge");
 
             String[] array = list.toArray(new String[0]);
 
@@ -260,6 +262,12 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
             this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Doubles", "prototype_royale:doubles", "prototype_battle_royale", true));
             this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Squad", "prototype_royale:squad", "prototype_battle_royale", true));
 
+            // prototype the bridge
+            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Prototype Lobby", "ptl", "prototype_the_bridge", false));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "1v1", "prototype_bridge_1v1", "prototype_the_bridge", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "2v2", "prototype_bridge_2v2", "prototype_the_bridge", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "4v4", "prototype_bridge_4v4", "prototype_the_bridge", true));
+
             for (GuiButton button : this.buttonList)
             {
                 if (!button.getClass().equals(GuiDropdownElement.class) && !(button.id >= 0 && button.id <= 102))
@@ -412,6 +420,12 @@ public class GuiNewChatUtil extends GuiChat implements IDropboxCallback
                         break;
                     case 18:
                         if (buttonCustom.group.equalsIgnoreCase("prototype_battle_royale"))
+                        {
+                            buttonCustom.visible = clicked;
+                        }
+                        break;
+                    case 19:
+                        if (buttonCustom.group.equalsIgnoreCase("prototype_the_bridge"))
                         {
                             buttonCustom.visible = clicked;
                         }
