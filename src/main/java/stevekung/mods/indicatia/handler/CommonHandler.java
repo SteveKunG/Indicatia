@@ -294,14 +294,22 @@ public class CommonHandler
 
         if (entity instanceof AbstractClientPlayer)
         {
-            RenderPlayer renderDefault = manager.getSkinMap().get("default");
-            RenderPlayer renderSlim = manager.getSkinMap().get("slim");
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
-            CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
-            CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
-            CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
-            CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
-            CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
+            AbstractClientPlayer player = (AbstractClientPlayer) entity;
+
+            if (player.getSkinType().equals("default"))
+            {
+                RenderPlayer renderDefault = manager.getSkinMap().get("default");
+                CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
+                CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
+                CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
+            }
+            else
+            {
+                RenderPlayer renderSlim = manager.getSkinMap().get("slim");
+                CommonHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
+                CommonHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
+                CommonHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
+            }
         }
         else if (entity instanceof EntityZombieVillager)
         {
