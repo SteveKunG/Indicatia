@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.net.URI;
 
 import net.minecraftforge.common.MinecraftForge;
-import stevekung.mods.indicatia.utils.ModLogger;
 
 public class CommonUtils
 {
