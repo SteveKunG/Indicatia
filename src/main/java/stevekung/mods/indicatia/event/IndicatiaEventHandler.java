@@ -85,7 +85,8 @@ public class IndicatiaEventHandler
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static int pendingPingTicks = 100;
     private static boolean initLayer = true;
-    private int clickCount;
+    private int disconnectClickCount;
+    private int disconnectClickCooldown;
 
     public static boolean isAFK;
     public static String afkMode = "idle";
@@ -122,6 +123,36 @@ public class IndicatiaEventHandler
                 if (AutoLoginFunction.functionDelay == 0)
                 {
                     AutoLoginFunction.runAutoLoginFunctionTicks(this.mc);
+                }
+                if (this.disconnectClickCooldown > 0)
+                {
+                    this.disconnectClickCooldown--;
+                }
+                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof GuiIngameMenu)
+                {
+                    if (ConfigManagerIN.indicatia_general.enableConfirmDisconnectButton && !this.mc.isSingleplayer())
+                    {
+                        this.mc.currentScreen.buttonList.forEach(button ->
+                        {
+                            if (button.id == 1 && ConfigManagerIN.indicatia_general.confirmDisconnectMode == ConfigManagerIN.General.DisconnectMode.CLICK)
+                            {
+                                if (this.disconnectClickCooldown < 60)
+                                {
+                                    button.displayString = TextFormatting.RED + LangUtils.translate("message.confirm_disconnect") + " in " + this.disconnectClickCooldown / 20 + "...";
+                                }
+                                if (this.disconnectClickCooldown == 0)
+                                {
+                                    button.displayString = LangUtils.translate("menu.disconnect");
+                                    this.disconnectClickCount = 0;
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    this.disconnectClickCount = 0;
+                    this.disconnectClickCooldown = 0;
                 }
 
                 if (IndicatiaEventHandler.pendingPingTicks > 0 && this.mc.getCurrentServerData() != null)
@@ -429,10 +460,14 @@ public class IndicatiaEventHandler
                 }
                 else
                 {
-                    this.clickCount++;
+                    this.disconnectClickCount++;
                     event.getButton().displayString = TextFormatting.RED + LangUtils.translate("message.confirm_disconnect");
 
-                    if (this.clickCount == 2)
+                    if (this.disconnectClickCount == 1)
+                    {
+                        this.disconnectClickCooldown = 100;
+                    }
+                    if (this.disconnectClickCount == 2)
                     {
                         if (this.mc.isConnectedToRealms())
                         {
@@ -455,14 +490,10 @@ public class IndicatiaEventHandler
                                 this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                             }
                         }
-                        this.clickCount = 0;
+                        this.disconnectClickCount = 0;
                     }
                 }
             }
-        }
-        if (!(event.getGui() instanceof GuiIngameMenu))
-        {
-            this.clickCount = 0;
         }
     }
 
