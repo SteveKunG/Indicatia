@@ -10,9 +10,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
+import stevekung.mods.stevekunglib.util.CommonUtils;
 import stevekung.mods.stevekunglib.util.GameProfileUtils;
 
 public class ChatMessageEventHandler
@@ -42,7 +42,7 @@ public class ChatMessageEventHandler
                 this.runAutoLoginCommand(player, data);
                 this.runRealmsCommand(player);
                 this.runAutoLoginFunction(player, data);
-                MinecraftForge.EVENT_BUS.unregister(this);
+                CommonUtils.unregisterEventHandler(this);
             }
         }
 
@@ -50,13 +50,13 @@ public class ChatMessageEventHandler
         {
             if (data != null)
             {
-                for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+                ExtendedConfig.loginData.getAutoLoginList().forEach(login ->
                 {
                     if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()))
                     {
                         player.sendChatMessage(login.getCommand() + Base64Utils.decode(login.getValue()));
                     }
-                }
+                });
             }
         }
 
@@ -72,14 +72,14 @@ public class ChatMessageEventHandler
         {
             if (data != null)
             {
-                for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+                ExtendedConfig.loginData.getAutoLoginList().forEach(login ->
                 {
                     if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
                     {
                         AutoLoginFunction.functionValue = login.getFunction();
                         AutoLoginFunction.run = true;
                     }
-                }
+                });
             }
         }
     }

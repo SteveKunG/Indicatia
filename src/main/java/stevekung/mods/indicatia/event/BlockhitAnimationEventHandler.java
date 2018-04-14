@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.event;
 
+import java.util.Arrays;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.MoreObjects;
@@ -33,13 +35,10 @@ public class BlockhitAnimationEventHandler
     {
         this.mc = Minecraft.getMinecraft();
 
-        for (KeyBinding key : this.mc.gameSettings.keyBindings)
+        Arrays.stream(this.mc.gameSettings.keyBindings).filter(key -> key.getKeyDescription().contains("of.key.zoom")).forEach(key ->
         {
-            if (key.getKeyDescription().contains("of.key.zoom"))
-            {
-                this.zoomKey = key;
-            }
-        }
+            this.zoomKey = key;
+        });
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

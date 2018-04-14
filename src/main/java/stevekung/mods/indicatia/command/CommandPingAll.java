@@ -23,12 +23,12 @@ public class CommandPingAll extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        List<NetworkPlayerInfo> infolist = new ArrayList<>(Minecraft.getMinecraft().player.connection.getPlayerInfoMap());
-        Collections.sort(infolist, (info1, info2) -> Integer.compare(info2.getResponseTime(), info1.getResponseTime()));
+        List<NetworkPlayerInfo> infoList = new ArrayList<>(Minecraft.getMinecraft().player.connection.getPlayerInfoMap());
+        Collections.sort(infoList, (info1, info2) -> Integer.compare(info2.getResponseTime(), info1.getResponseTime()));
 
-        for (NetworkPlayerInfo info : infolist)
+        infoList.forEach(info ->
         {
             Minecraft.getMinecraft().player.sendChatMessage(info.getGameProfile().getName() + ": " + LangUtils.translate("message.ping") + " " + info.getResponseTime());
-        }
+        });
     }
 }

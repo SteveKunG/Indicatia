@@ -121,10 +121,10 @@ public class CommandAutoLogin extends ClientCommandBase
                     component.getStyle().setColor(TextFormatting.DARK_GREEN);
                     sender.sendMessage(component);
 
-                    for (AutoLoginData loginData : collection)
+                    collection.forEach(loginData ->
                     {
                         sender.sendMessage(new TextComponentTranslation("commands.autologin.list.entry", loginData.getServerIP(), loginData.getUUID()));
-                    }
+                    });
                 }
             }
             else if ("function".equalsIgnoreCase(args[0]))

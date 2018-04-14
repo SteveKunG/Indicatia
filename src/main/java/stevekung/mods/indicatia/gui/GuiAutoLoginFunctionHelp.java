@@ -8,9 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import stevekung.mods.stevekunglib.util.CommonUtils;
 import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class GuiAutoLoginFunctionHelp extends GuiScreen
@@ -29,14 +29,14 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
 
     public void display()
     {
-        MinecraftForge.EVENT_BUS.register(this);
+        CommonUtils.registerEventHandler(this);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         Minecraft.getMinecraft().displayGuiScreen(this);
-        MinecraftForge.EVENT_BUS.unregister(this);
+        CommonUtils.unregisterEventHandler(this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.gui.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -9,7 +10,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.config.ExtendedConfig.Options;
 import stevekung.mods.stevekunglib.util.ColorUtils;
 
 @SideOnly(Side.CLIENT)
@@ -25,11 +25,11 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
         this.parent = parent;
         this.centerListVertically = false;
 
-        for (Options exoptions : options)
+        Arrays.stream(options).forEach(option ->
         {
-            GuiTextFieldExtended button = this.createButton(this.width / 2 + 40, 0, exoptions);
-            this.options.add(new GuiConfigTextFieldRowList.Row(exoptions.getTranslation(), button));
-        }
+            GuiTextFieldExtended button = this.createButton(this.width / 2 + 40, 0, option);
+            this.options.add(new GuiConfigTextFieldRowList.Row(option.getTranslation(), button));
+        });
     }
 
     private GuiTextFieldExtended createButton(int x, int y, ExtendedConfig.Options options)
@@ -81,26 +81,17 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
 
     public void saveCurrentValue()
     {
-        for (Row row : this.options)
-        {
-            row.saveCurrentValue();
-        }
+        this.options.forEach(row -> row.saveCurrentValue());
     }
 
     public void mouseClickedText(int mouseX, int mouseY, int mouseEvent)
     {
-        for (Row row : this.options)
-        {
-            row.mouseClicked(mouseX, mouseY, mouseEvent);
-        }
+        this.options.forEach(row -> row.mouseClicked(mouseX, mouseY, mouseEvent));
     }
 
     public void updateCursorCounter()
     {
-        for (Row row : this.options)
-        {
-            row.updateCursorCounter();
-        }
+        this.options.forEach(row -> row.updateCursorCounter());
     }
 
     public void textboxKeyTyped(char typedChar, int keyCode)
@@ -111,10 +102,7 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
             ExtendedConfig.save();
             this.mc.displayGuiScreen(this.parent);
         }
-        for (Row row : this.options)
-        {
-            row.textboxKeyTyped(typedChar, keyCode);
-        }
+        this.options.forEach(row -> row.textboxKeyTyped(typedChar, keyCode));
     }
 
     @SideOnly(Side.CLIENT)

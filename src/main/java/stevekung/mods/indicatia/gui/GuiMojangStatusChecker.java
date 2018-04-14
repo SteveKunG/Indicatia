@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.gui;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -65,11 +66,11 @@ public class GuiMojangStatusChecker extends GuiScreen
             {
                 try
                 {
-                    for (MojangStatusChecker checker : MojangStatusChecker.valuesCached())
+                    Arrays.stream(MojangStatusChecker.values).forEach(checker ->
                     {
                         MojangServerStatus status = checker.getServiceStatus();
                         GuiMojangStatusChecker.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
-                    }
+                    });
                     this.refreshButton.enabled = true;
                     this.doneButton.enabled = true;
                 }

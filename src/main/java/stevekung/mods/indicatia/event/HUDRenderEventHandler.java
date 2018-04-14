@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -203,11 +204,11 @@ public class HUDRenderEventHandler
 
                     if (ExtendedConfig.tpsAllDims)
                     {
-                        for (Integer dimensionIds : DimensionManager.getIDs())
+                        Arrays.stream(DimensionManager.getIDs()).forEach(dimensionIds ->
                         {
                             double dimensionTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimensionIds)) * 1.0E-6D;
                             leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).provider.getDimensionType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
-                        }
+                        });
                     }
                     else
                     {

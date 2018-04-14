@@ -13,7 +13,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.utils.AutoLogin;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.ModLogger;
 import stevekung.mods.stevekunglib.util.LangUtils;
@@ -484,16 +483,16 @@ public class ExtendedConfig
     {
         NBTTagList list = new NBTTagList();
 
-        for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+        ExtendedConfig.loginData.getAutoLoginList().forEach(data ->
         {
             NBTTagCompound nbt = new NBTTagCompound();
-            nbt.setString("ServerIP", login.getServerIP());
-            nbt.setString("CommandName", login.getCommand());
-            nbt.setString("Value", login.getValue());
-            nbt.setString("UUID", login.getUUID().toString());
-            nbt.setString("Function", login.getFunction());
+            nbt.setString("ServerIP", data.getServerIP());
+            nbt.setString("CommandName", data.getCommand());
+            nbt.setString("Value", data.getValue());
+            nbt.setString("UUID", data.getUUID().toString());
+            nbt.setString("Function", data.getFunction());
             list.appendTag(nbt);
-        }
+        });
         return list;
     }
 

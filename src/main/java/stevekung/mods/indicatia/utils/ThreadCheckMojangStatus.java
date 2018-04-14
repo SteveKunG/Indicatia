@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.utils;
 
+import java.util.Arrays;
+
 import net.minecraft.client.Minecraft;
 import stevekung.mods.stevekunglib.util.JsonUtils;
 
@@ -13,10 +15,10 @@ public class ThreadCheckMojangStatus extends Thread
     @Override
     public void run()
     {
-        for (MojangStatusChecker checker : MojangStatusChecker.valuesCached())
+        Arrays.stream(MojangStatusChecker.values).forEach(checker ->
         {
             MojangServerStatus status = checker.getServiceStatus();
             Minecraft.getMinecraft().player.sendMessage(JsonUtils.create(checker.getName() + ": ").appendSibling(JsonUtils.create(status.getColor() + status.getStatus())));
-        }
+        });
     }
 }

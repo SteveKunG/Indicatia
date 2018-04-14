@@ -22,17 +22,12 @@ public enum MojangStatusChecker
 
     private String name;
     private String serviceURL;
-    private static MojangStatusChecker[] values = MojangStatusChecker.values();
+    public static final MojangStatusChecker[] values = MojangStatusChecker.values();
 
     private MojangStatusChecker(String name, String serviceURL)
     {
         this.name = name;
         this.serviceURL = serviceURL;
-    }
-
-    public static MojangStatusChecker[] valuesCached()
-    {
-        return MojangStatusChecker.values;
     }
 
     public String getName()

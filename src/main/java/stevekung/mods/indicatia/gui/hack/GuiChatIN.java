@@ -267,13 +267,13 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "2v2", "prototype_bridge_2v2", "prototype_the_bridge", true));
             this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "4v4", "prototype_bridge_4v4", "prototype_the_bridge", true));
 
-            for (GuiButton button : this.buttonList)
+            this.buttonList.forEach(button ->
             {
                 if (!button.getClass().equals(GuiDropdownElement.class) && !(button.id >= 0 && button.id <= 102))
                 {
                     button.visible = false;
                 }
-            }
+            });
         }
     }
 
@@ -282,14 +282,14 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        for (GuiButton button : this.buttonList)
+        this.buttonList.forEach(button ->
         {
             if (button instanceof GuiButtonCustomize)
             {
                 GuiButtonCustomize customButton = (GuiButtonCustomize) button;
                 customButton.drawRegion(mouseX, mouseY);
             }
-        }
+        });
     }
 
     @Override
@@ -301,7 +301,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
         {
             boolean clicked = !this.lobbyOptions.dropdownClicked;
 
-            for (GuiButton button : this.buttonList)
+            this.buttonList.forEach(button ->
             {
                 if (button instanceof GuiButtonCustomize)
                 {
@@ -431,7 +431,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                         break;
                     }
                 }
-            }
+            });
         }
     }
 

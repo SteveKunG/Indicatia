@@ -181,7 +181,7 @@ public class CommandProfile extends ClientCommandBase
                     translation.getStyle().setColor(TextFormatting.DARK_GREEN);
                     sender.sendMessage(translation);
 
-                    for (File file : collection)
+                    collection.forEach(file ->
                     {
                         String name = file.getName();
                         String realName = name.replace(".dat", "");
@@ -191,7 +191,7 @@ public class CommandProfile extends ClientCommandBase
                         {
                             sender.sendMessage(new TextComponentTranslation("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translate("commands.inprofile.current_profile") : ""));
                         }
-                    }
+                    });
                 }
             }
             else

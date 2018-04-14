@@ -2,6 +2,7 @@ package stevekung.mods.indicatia.event;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -134,7 +135,7 @@ public class IndicatiaEventHandler
                     }
                 }
 
-                for (EnumAction action : CachedEnum.actionValues)
+                Arrays.stream(CachedEnum.actionValues).forEach(action ->
                 {
                     if (action != EnumAction.NONE)
                     {
@@ -143,7 +144,7 @@ public class IndicatiaEventHandler
                             Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
                         }
                     }
-                }
+                });
             }
             IndicatiaEventHandler.replaceGui(this.mc, this.mc.currentScreen);
         }
@@ -769,13 +770,13 @@ public class IndicatiaEventHandler
             }
             if (!IndicatiaMod.showAnnounceMessage && !IndicatiaMod.noConnection)
             {
-                for (String log : IndicatiaMod.checker.getAnnounceMessage())
+                IndicatiaMod.checker.getAnnounceMessage().forEach(log ->
                 {
                     if (ConfigManagerIN.indicatia_general.enableAnnounceMessage)
                     {
                         player.sendMessage(JsonUtils.create(log).setStyle(JsonUtils.style().setColor(TextFormatting.GRAY)));
                     }
-                }
+                });
                 player.sendMessage(JsonUtils.create("To read Indicatia full change log. Use /inchangelog command!").setStyle(JsonUtils.gray().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.showAnnounceMessage = true;
             }
@@ -794,7 +795,7 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.printAutoGGTicks++;
         }
 
-        for (String message : ConfigManagerIN.indicatia_general.endGameTitleMessage.split(","))
+        Arrays.stream(ConfigManagerIN.indicatia_general.endGameTitleMessage.split(",")).forEach(message ->
         {
             String messageToLower = TextFormatting.getTextWithoutFormattingCodes(message).toLowerCase();
             String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(mc.ingameGUI.displayedTitle).toLowerCase();
@@ -805,6 +806,6 @@ public class IndicatiaEventHandler
                 IndicatiaEventHandler.printAutoGG = false;
                 IndicatiaEventHandler.printAutoGGTicks = 0;
             }
-        }
+        });
     }
 }

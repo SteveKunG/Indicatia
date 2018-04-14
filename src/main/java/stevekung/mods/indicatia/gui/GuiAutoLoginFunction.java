@@ -10,11 +10,10 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
+import stevekung.mods.stevekunglib.util.CommonUtils;
 import stevekung.mods.stevekunglib.util.GameProfileUtils;
 import stevekung.mods.stevekunglib.util.JsonUtils;
 import stevekung.mods.stevekunglib.util.LangUtils;
@@ -35,14 +34,14 @@ public class GuiAutoLoginFunction extends GuiScreen
     public void display()
     {
         this.data = Minecraft.getMinecraft().getCurrentServerData();
-        MinecraftForge.EVENT_BUS.register(this);
+        CommonUtils.registerEventHandler(this);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         Minecraft.getMinecraft().displayGuiScreen(this);
-        MinecraftForge.EVENT_BUS.unregister(this);
+        CommonUtils.unregisterEventHandler(this);
     }
 
     @Override
@@ -59,13 +58,13 @@ public class GuiAutoLoginFunction extends GuiScreen
 
         if (this.data != null)
         {
-            for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
+            ExtendedConfig.loginData.getAutoLoginList().forEach(login ->
             {
                 if (this.data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
                 {
                     this.inputField.setText(login.getFunction());
                 }
-            }
+            });
         }
     }
 

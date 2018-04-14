@@ -25,10 +25,10 @@ public class GuiBossOverlayNew extends GuiBossOverlay
             int i = scaledresolution.getScaledWidth();
             int j = 12;
 
-            for (BossInfoClient bossinfolerping : this.client.ingameGUI.getBossOverlay().mapBossInfos.values())
+            for (BossInfoClient bossInfo : this.client.ingameGUI.getBossOverlay().mapBossInfos.values())
             {
                 int k = i / 2 - 91;
-                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossinfolerping, k, j, 10 + this.client.fontRenderer.FONT_HEIGHT);
+                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossInfo, k, j, 10 + this.client.fontRenderer.FONT_HEIGHT);
 
                 if (!event.isCanceled())
                 {
@@ -36,9 +36,9 @@ public class GuiBossOverlayNew extends GuiBossOverlay
                     {
                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                         this.client.getTextureManager().bindTexture(GuiBossOverlay.GUI_BARS_TEXTURES);
-                        this.render(k, j, bossinfolerping);
+                        this.render(k, j, bossInfo);
                     }
-                    String s = bossinfolerping.getName().getFormattedText();
+                    String s = bossInfo.getName().getFormattedText();
                     this.client.fontRenderer.drawStringWithShadow(s, i / 2 - this.client.fontRenderer.getStringWidth(s) / 2, j - 9, 16777215);
                 }
 
