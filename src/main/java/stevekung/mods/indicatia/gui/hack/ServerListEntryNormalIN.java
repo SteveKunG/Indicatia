@@ -133,7 +133,7 @@ public class ServerListEntryNormalIN extends ServerListEntryNormal
         int i1 = mouseX - x;
         int j1 = mouseY - y;
 
-        String tooltip = FMLClientHandler.instance().enhanceServerListEntry(this, this.server, x, listWidth, y, i1, j1);
+        String tooltip = FMLClientHandler.instance().enhanceServerListEntry(this, this.server, x + 3, listWidth - 5, y, i1, j1);
 
         if (tooltip != null)
         {

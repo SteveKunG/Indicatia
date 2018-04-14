@@ -42,7 +42,7 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
     @Override
     public void initGui()
     {
-        this.buttonList.add(this.backBtn = new GuiButton(0, this.width / 2 - 100, this.res.getScaledHeight() - 60, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done")));
+        this.buttonList.add(this.backBtn = new GuiButton(0, this.width / 2 - 100, this.height - 38, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done")));
         this.functionList.clear();
         this.functionList.add(new StringFunction("Movement", null));
         this.functionList.add(new StringFunction("forward:<tick> ", "Move Forward"));

@@ -18,7 +18,7 @@ public class GuiFunctionHelpSlot extends GuiSlot
 
     public GuiFunctionHelpSlot(GuiAutoLoginFunctionHelp guiAutoLoginFunctionHelp, List<StringFunction> functionList, int width, int height)
     {
-        super(Minecraft.getMinecraft(), width, height, 32, height - 64, 13);
+        super(Minecraft.getMinecraft(), width, height, 32, height - 48, 13);
         this.stringList = functionList;
         this.parent = guiAutoLoginFunctionHelp;
         this.setShowSelectionBox(false);

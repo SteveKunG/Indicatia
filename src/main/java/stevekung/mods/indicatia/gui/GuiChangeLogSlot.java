@@ -26,7 +26,7 @@ public class GuiChangeLogSlot extends GuiSlot
 
     public GuiChangeLogSlot(GuiFullChangeLog parent, List<String> stringList, int width, int height, boolean texture)
     {
-        super(Minecraft.getMinecraft(), width, height, 32, height - 64, 13);
+        super(Minecraft.getMinecraft(), width, height, 32, height - 48, 13);
         this.stringList = stringList;
         this.parent = parent;
         this.textureType = texture;

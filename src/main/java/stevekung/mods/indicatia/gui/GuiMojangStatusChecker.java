@@ -30,9 +30,10 @@ public class GuiMojangStatusChecker extends GuiScreen
     @Override
     public void initGui()
     {
-        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 4 + 168, LangUtils.translate("gui.done")));
-        this.buttonList.add(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 4 + 145, 100, 20, LangUtils.translate("message.refresh")));
-        this.buttonList.add(this.checkButton = new GuiButton(202, this.width / 2 - 101, this.height / 4 + 145, 100, 20, LangUtils.translate("message.check")));
+        GuiMojangStatusChecker.statusList.clear();
+        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, LangUtils.translate("gui.done")));
+        this.buttonList.add(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 6 + 145, 100, 20, LangUtils.translate("message.refresh")));
+        this.buttonList.add(this.checkButton = new GuiButton(202, this.width / 2 - 101, this.height / 6 + 145, 100, 20, LangUtils.translate("message.check")));
         this.refreshButton.enabled = false;
     }
 
@@ -41,22 +42,22 @@ public class GuiMojangStatusChecker extends GuiScreen
     {
         if (this.doneButton.enabled && keyCode == 1)
         {
-            this.mc.displayGuiScreen(null);
             GuiMojangStatusChecker.statusList.clear();
+            this.mc.displayGuiScreen(null);
         }
     }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
+        GuiMojangStatusChecker.statusList.clear();
+
         if (button.id == 200)
         {
             this.mc.displayGuiScreen(this.lastScreen);
-            GuiMojangStatusChecker.statusList.clear();
         }
         if (button.id == 201)
         {
-            GuiMojangStatusChecker.statusList.clear();
             this.checkButton.enabled = true;
             this.refreshButton.enabled = false;
         }
