@@ -32,12 +32,6 @@ public class GuiRenderPreview extends GuiScreen
     }
 
     @Override
-    public void updateScreen()
-    {
-
-    }
-
-    @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
         if (keyCode == 1)
