@@ -16,6 +16,7 @@ plugins {
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
 def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").text)
 def mcVersion = project.mc_version
+def hasInternal = project.hasProperty("internal")
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
@@ -50,20 +51,19 @@ repositories {
 }
 
 ext.finalJar = "build/libs/" + "Indicatia-" + mcVersion + "-" + version + ".jar"
+ext.extraJar = "build/libs/" + "IndicatiaExtra-" + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'pack.mcmeta', 'META-INF/indicatia_at.cfg']
 ext.internalFiles = ['stevekung/mods/indicatia_extra/**', 'assets/indicatia_extra/**', 'META-INF/indicatia_extra_at.cfg']
+ext.apiFiles = ['micdoodle8/**', 'stevekung/mods/stevekunglib/**']
 
 jar
 {
-    if (!project.hasProperty("internal"))
+    if (!hasInternal)
     {
         excludes.addAll(project.ext.internalFiles)
     }
-    else
-    {
-        classifier = 'DEV'
-    }
+    excludes.addAll(project.ext.apiFiles)
 }
 
 curseforge {
@@ -86,29 +86,21 @@ task buildJar(type: SignJar, dependsOn: "processJar") {
     alias = keystore.alias
     storePass = keystore.keystore_pass
     keyPass = keystore.keystore_pass
-    inputFile = project.ext.finalJar
-    outputFile = project.ext.finalJar
+    inputFile = hasInternal ? project.ext.extraJar : project.ext.finalJar
+    outputFile = hasInternal ? project.ext.extraJar : project.ext.finalJar
 }
 
 // processing jar
 task processJar(type: Jar, dependsOn: "rePackAllJar") {
     outputs.upToDateWhen { false }
-    baseName = "Indicatia-" + mcVersion
+    baseName = (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion
 
     from(zipTree(project.ext.coreJar)) {
-        includes.addAll(project.ext.coreFiles)
+        includes.addAll(hasInternal ? project.ext.internalFiles : project.ext.coreFiles)
     }
     manifest {
-        if (!project.hasProperty("internal"))
-        {
-            attributes.put("FMLAT", "indicatia_at.cfg")
-            attributes.put("FMLCorePluginContainsFMLMod", "true")
-        }
-        else
-        {
-            attributes.put("FMLAT", "indicatia_extra_at.cfg")
-            attributes.put("FMLCorePluginContainsFMLMod", "true")
-        }
+        attributes.put("FMLAT", hasInternal ? "indicatia_extra_at.cfg" : "indicatia_at.cfg")
+        attributes.put("FMLCorePluginContainsFMLMod", "true")
     }
 }
 
@@ -129,7 +121,7 @@ task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
     manifest {
-        attributes.put("FMLAT", "indicatia_at.cfg")
+        attributes.put("FMLAT", hasInternal ? "indicatia_extra_at.cfg" : "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")
     }
 }
