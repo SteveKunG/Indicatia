@@ -6,12 +6,12 @@ bin
 build
 eclipse
 run
-src/main/java/stevekung/mods/indicatia_extra
-src/main/resources/assets/indicatia_extra
+src/main/java/stevekung/mods/indicatia/extra
+src/main/resources/assets/indicatia/sounds
 
 # file
 *.launch
 .metadata
 .classpath
 .project
-indicatia_extra_at.cfg
+sounds.json

@@ -50,11 +50,10 @@ repositories {
     }
 }
 
-ext.finalJar = "build/libs/" + "Indicatia-" + mcVersion + "-" + version + ".jar"
-ext.extraJar = "build/libs/" + "IndicatiaExtra-" + mcVersion + "-" + version + ".jar"
+ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'pack.mcmeta', 'META-INF/indicatia_at.cfg']
-ext.internalFiles = ['stevekung/mods/indicatia_extra/**', 'assets/indicatia_extra/**', 'META-INF/indicatia_extra_at.cfg']
+ext.internalFiles = ['stevekung/mods/indicatia/extra/**', 'assets/indicatia/sounds/**', 'sounds.json']
 ext.apiFiles = ['micdoodle8/**', 'stevekung/mods/stevekunglib/**']
 
 jar
@@ -86,20 +85,28 @@ task buildJar(type: SignJar, dependsOn: "processJar") {
     alias = keystore.alias
     storePass = keystore.keystore_pass
     keyPass = keystore.keystore_pass
-    inputFile = hasInternal ? project.ext.extraJar : project.ext.finalJar
-    outputFile = hasInternal ? project.ext.extraJar : project.ext.finalJar
+    inputFile = project.ext.finalJar
+    outputFile = project.ext.finalJar
 }
 
 // processing jar
 task processJar(type: Jar, dependsOn: "rePackAllJar") {
     outputs.upToDateWhen { false }
-    baseName = (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion
+
+    if (hasInternal)
+    {
+        baseName = "IndicatiaExtra-" + mcVersion
+    }
+    else
+    {
+        baseName = "Indicatia-" + mcVersion
+    }
 
     from(zipTree(project.ext.coreJar)) {
-        includes.addAll(hasInternal ? project.ext.internalFiles : project.ext.coreFiles)
+        includes.addAll(project.ext.coreFiles)
     }
     manifest {
-        attributes.put("FMLAT", hasInternal ? "indicatia_extra_at.cfg" : "indicatia_at.cfg")
+        attributes.put("FMLAT", "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")
     }
 }
@@ -121,7 +128,7 @@ task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
     manifest {
-        attributes.put("FMLAT", hasInternal ? "indicatia_extra_at.cfg" : "indicatia_at.cfg")
+        attributes.put("FMLAT", "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")
     }
 }

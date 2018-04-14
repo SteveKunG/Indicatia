@@ -2,6 +2,7 @@ package stevekung.mods.indicatia.core;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +44,7 @@ import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
 import stevekung.mods.stevekunglib.util.ClientUtils;
 import stevekung.mods.stevekunglib.util.CommonUtils;
+import stevekung.mods.stevekunglib.util.GameProfileUtils;
 import stevekung.mods.stevekunglib.util.VersionChecker;
 import stevekung.mods.stevekunglib.util.client.ColoredFontRenderer;
 
@@ -68,6 +70,7 @@ public class IndicatiaMod
     public static final File profile = new File(ExtendedConfig.indicatiaDir, "profile.txt");
     public static final VersionChecker checker = new VersionChecker(MOD_ID, VERSION, MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION);
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
+    private static final List<String> allowedUUID = new ArrayList<>();
 
     static
     {
@@ -76,7 +79,11 @@ public class IndicatiaMod
             IndicatiaMod.isDevelopment = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
         }
         catch (Exception e) {}
+
         IndicatiaMod.initProfileFile();
+        IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
+        IndicatiaMod.allowedUUID.add("dbd9f8ed-0101-4cd3-8300-782a775c0225");
+        IndicatiaMod.allowedUUID.add("2cd88ad0-89b1-4ca7-907e-78066fe36b08");
     }
 
     @EventHandler
@@ -90,6 +97,15 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
         CommonUtils.registerEventHandler(new ChatMessageEventHandler());
 
+        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
+        {
+            try
+            {
+                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
+                clazz.getMethod("init").invoke(null);
+            }
+            catch (Exception e) {}
+        }
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {
             ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));
