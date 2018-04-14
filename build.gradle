@@ -24,7 +24,7 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.12.2-14.23.2.2632"
+    version = "1.12.2-14.23.3.2661"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
@@ -42,7 +42,7 @@ repositories {
 ext.finalJar = "build/libs/" + "Indicatia-" + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'META-INF/indicatia_at.cfg']
-ext.internalFiles = ['stevekung/mods/indicatia/internal/**', 'assets/indicatia/sounds.json', 'assets/indicatia/sounds/**']
+ext.internalFiles = ['stevekung/mods/indicatia_extra/**', 'assets/indicatia_extra/**']
 
 jar
 {
