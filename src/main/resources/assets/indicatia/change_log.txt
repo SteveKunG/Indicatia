@@ -1,3 +1,5 @@
 -Added- Added New Extended Config GUI
 -Update- Improve profile settings
--Fixed- Fixed more issues
+-Update- Improve Click to Disconnect Button
+-Fixed- More bug fixes
+-Fixed- More GUI fixes
