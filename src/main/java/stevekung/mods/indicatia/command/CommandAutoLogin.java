@@ -16,19 +16,17 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp;
-import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatia.util.Base64Util;
-import stevekung.mods.indicatia.util.GameProfileUtil;
-import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatia.utils.Base64Utils;
+import stevekung.mods.stevekunglib.util.ClientCommandBase;
+import stevekung.mods.stevekunglib.util.GameProfileUtils;
+import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class CommandAutoLogin extends ClientCommandBase
 {
-    private static final GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
-    private static final GuiAutoLoginFunctionHelp guiHelp = new GuiAutoLoginFunctionHelp(false);
-
     @Override
     public String getName()
     {
@@ -38,10 +36,9 @@ public class CommandAutoLogin extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = IndicatiaMod.json;
-        Minecraft mc = IndicatiaMod.MC;
+        Minecraft mc = Minecraft.getMinecraft();
         ServerData data = mc.getCurrentServerData();
-        UUID uuid = GameProfileUtil.getUUID();
+        UUID uuid = GameProfileUtils.getUUID();
 
         if (args.length < 1)
         {
@@ -61,24 +58,24 @@ public class CommandAutoLogin extends ClientCommandBase
                     {
                         if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                         {
-                            sender.sendMessage(json.text("An auto login data already set for Username: " + uuid.toString() + "!").setStyle(json.red()));
+                            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_already_add")).setStyle(JsonUtils.red()));
                             return;
                         }
                         ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
-                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Util.encode(value), uuid, "");
-                        sender.sendMessage(json.text("Set auto login data for Server: " + data.serverIP));
+                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), uuid, "");
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_set")));
                         ExtendedConfig.save();
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.sendMessage(json.text("Cannot add auto login data in singleplayer!").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
                     return;
                 }
                 else if (mc.isConnectedToRealms())
                 {
-                    sender.sendMessage(json.text("Cannot add auto login data in realms server!").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
                     return;
                 }
             }
@@ -91,22 +88,22 @@ public class CommandAutoLogin extends ClientCommandBase
                         if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                         {
                             ExtendedConfig.loginData.removeAutoLogin(uuid + data.serverIP);
-                            sender.sendMessage(json.text("Remove auto login data from Username: " + uuid.toString()));
+                            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_remove")));
                         }
                         else
                         {
-                            sender.sendMessage(json.text("No auto login data was set for Username: " + uuid.toString() + "!").setStyle(json.red()));
+                            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_not_set")).setStyle(JsonUtils.red()));
                         }
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.sendMessage(json.text("Cannot remove auto login data in singleplayer!").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
                     return;
                 }
                 else if (mc.isConnectedToRealms())
                 {
-                    sender.sendMessage(json.text("Cannot remove auto login data in realms server!").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
                     return;
                 }
             }
@@ -134,13 +131,19 @@ public class CommandAutoLogin extends ClientCommandBase
             {
                 if (args.length == 1)
                 {
-                    if (!mc.isSingleplayer())
+                    if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
                     {
-                        CommandAutoLogin.gui.display();
+                        GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
+                        gui.display();
                     }
-                    else
+                    else if (mc.isSingleplayer())
                     {
-                        sender.sendMessage(json.text("Cannot use function in singleplayer!").setStyle(json.red()));
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
+                        return;
+                    }
+                    else if (mc.isConnectedToRealms())
+                    {
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
                         return;
                     }
                 }
@@ -148,7 +151,8 @@ public class CommandAutoLogin extends ClientCommandBase
                 {
                     if ("help".equalsIgnoreCase(args[1]))
                     {
-                        CommandAutoLogin.guiHelp.display();
+                        GuiAutoLoginFunctionHelp gui = new GuiAutoLoginFunctionHelp(false);
+                        gui.display();
                     }
                     else
                     {

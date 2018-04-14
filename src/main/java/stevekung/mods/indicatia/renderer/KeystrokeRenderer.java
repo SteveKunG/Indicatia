@@ -9,25 +9,27 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import stevekung.mods.indicatia.config.ConfigManager;
+import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.KeystrokePosition;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.InfoUtil;
-import stevekung.mods.indicatia.util.RenderUtil;
+import stevekung.mods.indicatia.utils.InfoUtils;
+import stevekung.mods.indicatia.utils.RenderUtil;
+import stevekung.mods.stevekunglib.util.ColorUtils;
 
 public class KeystrokeRenderer
 {
-    public static void init(Minecraft mc)
+    public static void render(Minecraft mc)
     {
         ScaledResolution res = new ScaledResolution(mc);
-        KeystrokeRenderer.renderStyleNormal(mc, res.getScaledWidth());
+        KeystrokeRenderer.renderDefaultStyle(mc, res.getScaledWidth());
     }
 
-    private static void renderStyleNormal(Minecraft mc, int width)
+    private static void renderDefaultStyle(Minecraft mc, int width)
     {
-        width = ConfigManager.keystrokePosition.equals("left") ? 96 : width;
+        width = KeystrokePosition.getById(ExtendedConfig.keystrokePosition).equalsIgnoreCase("left") ? 96 : width;
         int widthSquare = 80;
-        int heightSquare = 48 + ExtendedConfig.KEYSTROKE_Y_OFFSET;
+        int heightSquare = 48 + ExtendedConfig.keystrokeYOffset;
         boolean nullScreen = mc.currentScreen == null;
         boolean wDown = nullScreen && Keyboard.isKeyDown(Keyboard.KEY_W);
         boolean aDown = nullScreen && Keyboard.isKeyDown(Keyboard.KEY_A);
@@ -43,9 +45,6 @@ public class KeystrokeRenderer
         float red = (rainbow >> 16 & 255) / 255.0F;
         float green = (rainbow >> 8 & 255) / 255.0F;
         float blue = (rainbow & 255) / 255.0F;
-        float r = 0;
-        float g = 0;
-        float b = 0;
 
         GlStateManager.enableBlend();
         GlStateManager.disableDepth();
@@ -56,81 +55,65 @@ public class KeystrokeRenderer
         Gui.drawModalRectWithCustomSizedTexture(width - widthSquare - 4, heightSquare + 24, aDown ? 24 : 0, 0, 24, 24, 48, 24);
         Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 20, heightSquare + 24, sDown ? 24 : 0, 0, 24, 24, 48, 24);
         Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 44, heightSquare + 24, dDown ? 24 : 0, 0, 24, 24, 48, 24);
-        r = ExtendedConfig.KEYSTROKE_WASD_RED;
-        g = ExtendedConfig.KEYSTROKE_WASD_GREEN;
-        b = ExtendedConfig.KEYSTROKE_WASD_BLUE;
-        useRainbow = ExtendedConfig.KEYSTROKE_WASD_RAINBOW;
-        mc.fontRenderer.drawString("W", width - widthSquare + 29.0625F, heightSquare + 9, wDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRenderer.drawString("A", width - widthSquare + 5.0625F, heightSquare + 32, aDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRenderer.drawString("S", width - widthSquare + 29.0625F, heightSquare + 32, sDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-        mc.fontRenderer.drawString("D", width - widthSquare + 53.0625F, heightSquare + 32, dDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+        useRainbow = ExtendedConfig.keystrokeWASDRainbow;
+        mc.fontRenderer.drawString("W", width - widthSquare + 29.0625F, heightSquare + 9, wDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeWASDColor).to32Bit(), false);
+        mc.fontRenderer.drawString("A", width - widthSquare + 5.0625F, heightSquare + 32, aDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeWASDColor).to32Bit(), false);
+        mc.fontRenderer.drawString("S", width - widthSquare + 29.0625F, heightSquare + 32, sDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeWASDColor).to32Bit(), false);
+        mc.fontRenderer.drawString("D", width - widthSquare + 53.0625F, heightSquare + 32, dDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeWASDColor).to32Bit(), false);
 
-        if (ConfigManager.enableKeystrokeLMBRMB)
+        if (ExtendedConfig.keystrokeMouse)
         {
             RenderUtil.bindKeystrokeTexture("mouse_square");
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare - 4, heightSquare - 12, lmbDown ? 24 : 0, 0, 24, 36, 48, 36);
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 44, heightSquare - 12, rmbDown ? 24 : 0, 0, 24, 36, 48, 36);
-            r = ExtendedConfig.KEYSTROKE_LMBRMB_RED;
-            g = ExtendedConfig.KEYSTROKE_LMBRMB_GREEN;
-            b = ExtendedConfig.KEYSTROKE_LMBRMB_BLUE;
-            useRainbow = ExtendedConfig.KEYSTROKE_LMBRMB_RAINBOW;
-            mc.fontRenderer.drawString("LMB", width - widthSquare - 0.5625F, heightSquare - 4, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
-            mc.fontRenderer.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), false);
+            useRainbow = ExtendedConfig.keystrokeMouseButtonRainbow;
+            mc.fontRenderer.drawString("LMB", width - widthSquare - 0.5625F, heightSquare - 4, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeMouseButtonColor).to32Bit(), false);
+            mc.fontRenderer.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeMouseButtonColor).to32Bit(), false);
 
-            r = ExtendedConfig.KEYSTROKE_CPS_RED;
-            g = ExtendedConfig.KEYSTROKE_CPS_GREEN;
-            b = ExtendedConfig.KEYSTROKE_CPS_BLUE;
-            useRainbow = ExtendedConfig.KEYSTROKE_CPS_RAINBOW;
-
+            useRainbow = ExtendedConfig.keystrokeCPSRainbow;
             IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
 
-            if (ConfigManager.enableCPS && ExtendedConfig.CPS_POSITION.equalsIgnoreCase("keystroke"))
+            if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
-                String cps = "CPS:" + InfoUtil.INSTANCE.getCPS();
+                String cps = "CPS:" + InfoUtils.INSTANCE.getCPS();
                 int smallFontWidth = IndicatiaMod.coloredFontRenderer.getStringWidth(cps);
-                IndicatiaMod.coloredFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), lmbDown ? false : true);
+                IndicatiaMod.coloredFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
             }
-            if (ConfigManager.enableRCPS && ExtendedConfig.CPS_POSITION.equalsIgnoreCase("keystroke"))
+
+            useRainbow = ExtendedConfig.keystrokeRCPSRainbow;
+
+            if (ExtendedConfig.rcps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
-                String rcps = "RCPS:" + InfoUtil.INSTANCE.getRCPS();
+                String rcps = "RCPS:" + InfoUtils.INSTANCE.getRCPS();
                 int smallFontWidth = IndicatiaMod.coloredFontRenderer.getStringWidth(rcps);
-                IndicatiaMod.coloredFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : RenderUtil.to32BitColor(255, (int)r, (int)g, (int)b), rmbDown ? false : true);
+                IndicatiaMod.coloredFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
             }
             IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
         }
-        if (ConfigManager.enableKeystrokeSprintSneak)
+        if (ExtendedConfig.keystrokeSprintSneak)
         {
             RenderUtil.bindKeystrokeTexture("button_square_2");
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 2, heightSquare + 48, sprintDown ? 20 : 0, 0, 20, 20, 40, 20);
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 22, heightSquare + 48, sneakDown ? 20 : 0, 0, 20, 20, 40, 20);
 
             RenderUtil.bindKeystrokeTexture("sprint");
-            r = ExtendedConfig.KEYSTROKE_SPRINT_RED / 255.0F;
-            g = ExtendedConfig.KEYSTROKE_SPRINT_GREEN / 255.0F;
-            b = ExtendedConfig.KEYSTROKE_SPRINT_BLUE / 255.0F;
-            useRainbow = ExtendedConfig.KEYSTROKE_SPRINT_RAINBOW;
-            GlStateManager.color(useRainbow ? red : r, useRainbow ? green : g, useRainbow ? blue : b);
+            useRainbow = ExtendedConfig.keystrokeSprintRainbow;
+            GlStateManager.color(useRainbow ? red : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSprintColor).floatRed(), useRainbow ? green : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSprintColor).floatGreen(), useRainbow ? blue : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSprintColor).floatBlue());
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 2, heightSquare + 48, sprintDown ? 0 : 20, 0, 20, 20, 40, 20);
 
             RenderUtil.bindKeystrokeTexture("sneak");
-            r = ExtendedConfig.KEYSTROKE_SNEAK_RED / 255.0F;
-            g = ExtendedConfig.KEYSTROKE_SNEAK_GREEN / 255.0F;
-            b = ExtendedConfig.KEYSTROKE_SNEAK_BLUE / 255.0F;
-            useRainbow = ExtendedConfig.KEYSTROKE_SNEAK_RAINBOW;
-            GlStateManager.color(useRainbow ? red : r, useRainbow ? green : g, useRainbow ? blue : b);
+            useRainbow = ExtendedConfig.keystrokeSneakRainbow;
+            GlStateManager.color(useRainbow ? red : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSneakColor).floatRed(), useRainbow ? green : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSneakColor).floatGreen(), useRainbow ? blue : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSneakColor).floatBlue());
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 22, heightSquare + 48, sneakDown ? 0 : 20, 0, 20, 20, 40, 20);
         }
-        if (ConfigManager.enableKeystrokeBlocking)
+        if (ExtendedConfig.keystrokeBlocking)
         {
             RenderUtil.bindKeystrokeTexture("button_square_2");
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 42, heightSquare + 48, blockDown ? 20 : 0, 0, 20, 20, 40, 20);
 
             RenderUtil.bindKeystrokeTexture("block");
-            r = ExtendedConfig.KEYSTROKE_BLOCK_RED / 255.0F;
-            g = ExtendedConfig.KEYSTROKE_BLOCK_GREEN / 255.0F;
-            b = ExtendedConfig.KEYSTROKE_BLOCK_BLUE / 255.0F;
-            useRainbow = ExtendedConfig.KEYSTROKE_BLOCK_RAINBOW;
-            GlStateManager.color(useRainbow ? red : r, useRainbow ? green : g, useRainbow ? blue : b);
+            useRainbow = ExtendedConfig.keystrokeBlockingRainbow;
+            GlStateManager.color(useRainbow ? red : ColorUtils.stringToRGB(ExtendedConfig.keystrokeBlockingColor).floatRed(), useRainbow ? green : ColorUtils.stringToRGB(ExtendedConfig.keystrokeBlockingColor).floatGreen(), useRainbow ? blue : ColorUtils.stringToRGB(ExtendedConfig.keystrokeBlockingColor).floatBlue());
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 42, heightSquare + 48, blockDown ? 0 : 20, 0, 20, 20, 40, 20);
         }
         GlStateManager.disableBlend();

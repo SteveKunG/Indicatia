@@ -4,11 +4,10 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import stevekung.mods.indicatia.gui.GuiFullChangeLog;
+import stevekung.mods.stevekunglib.util.ClientCommandBase;
 
 public class CommandChangeLog extends ClientCommandBase
 {
-    private static final GuiFullChangeLog gui = new GuiFullChangeLog();
-
     @Override
     public String getName()
     {
@@ -18,6 +17,7 @@ public class CommandChangeLog extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        CommandChangeLog.gui.display();
+        GuiFullChangeLog gui = new GuiFullChangeLog();
+        gui.display();
     }
 }

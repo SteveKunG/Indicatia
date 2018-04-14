@@ -1,2 +1,3 @@
--Added- Added Hypixel The Bridge minigame
--Fixed- Fixed stupid crash
+-Added- Added New Extended Config GUI
+-Update- Improve profile settings
+-Fixed- Fixed more issues

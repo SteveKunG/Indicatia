@@ -4,27 +4,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.LangUtil;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class GuiAutoLoginFunctionHelp extends GuiScreen
 {
-    private GuiButton backBtn;
     private final boolean inGui;
-    private List<StringFunction> functionList = new ArrayList<>();
+    private final List<StringFunction> functionList = new ArrayList<>();
+    private GuiButton backBtn;
     private ScaledResolution res;
     private GuiFunctionHelpSlot functionHelpSlot;
 
     public GuiAutoLoginFunctionHelp(boolean inGui)
     {
         this.inGui = inGui;
-        this.res = new ScaledResolution(IndicatiaMod.MC);
+        this.res = new ScaledResolution(Minecraft.getMinecraft());
     }
 
     public void display()
@@ -35,14 +35,14 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        IndicatiaMod.MC.displayGuiScreen(this);
+        Minecraft.getMinecraft().displayGuiScreen(this);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     @Override
     public void initGui()
     {
-        this.buttonList.add(this.backBtn = new GuiButton(0, this.width / 2 - 100, this.res.getScaledHeight() - 60, this.inGui ? LangUtil.translate("gui.back") : LangUtil.translate("gui.done")));
+        this.buttonList.add(this.backBtn = new GuiButton(0, this.width / 2 - 100, this.res.getScaledHeight() - 60, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done")));
         this.functionList.clear();
         this.functionList.add(new StringFunction("Movement", null));
         this.functionList.add(new StringFunction("forward:<tick> ", "Move Forward"));
@@ -63,7 +63,7 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
         this.functionList.add(new StringFunction("right_click_delay:<tick> ", "Delay before use right click"));
         this.functionList.add(new StringFunction("function_delay:<tick> ", "Delay before run function"));
 
-        this.functionHelpSlot = new GuiFunctionHelpSlot(this.mc, this, this.functionList, this.width, this.height);
+        this.functionHelpSlot = new GuiFunctionHelpSlot(this, this.functionList, this.width, this.height);
         this.functionHelpSlot.registerScrollButtons(1, 1);
     }
 

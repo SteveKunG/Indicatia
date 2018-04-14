@@ -5,8 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.RenderUtil;
+import stevekung.mods.stevekunglib.util.ColorUtils;
 
 public class GuiDropdownElement extends GuiButton
 {
@@ -25,7 +24,7 @@ public class GuiDropdownElement extends GuiButton
 
         for (String text : optionList)
         {
-            largestString = Math.max(largestString, IndicatiaMod.MC.fontRenderer.getStringWidth(text));
+            largestString = Math.max(largestString, Minecraft.getMinecraft().fontRenderer.getStringWidth(text));
         }
         this.width = largestString + 8 + 15;
     }
@@ -47,27 +46,27 @@ public class GuiDropdownElement extends GuiButton
         {
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            Gui.drawRect(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height), RenderUtil.to32BitColor(255, 0, 0, 0));
-            Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height) - 1, RenderUtil.to32BitColor(255, hoverColor, hoverColor, hoverColor));
-            Gui.drawRect(this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, RenderUtil.to32BitColor(255, 0, 0, 0));
-            Gui.drawRect(this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, RenderUtil.to32BitColor(255, 150, 150, 150));
+            Gui.drawRect(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height), ColorUtils.to32BitColor(255, 0, 0, 0));
+            Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.optionStrings.length : this.height) - 1, ColorUtils.to32BitColor(255, hoverColor, hoverColor, hoverColor));
+            Gui.drawRect(this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtils.to32BitColor(255, 0, 0, 0));
+            Gui.drawRect(this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtils.to32BitColor(255, 150, 150, 150));
 
             if (this.dropdownClicked && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.optionStrings.length)
             {
                 int hoverPos = (mouseY - this.y) / this.height;
-                Gui.drawRect(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, RenderUtil.to32BitColor(255, 180, 180, 180));
+                Gui.drawRect(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32BitColor(255, 180, 180, 180));
             }
 
             if (this.dropdownClicked)
             {
                 for (int i = 0; i < this.optionStrings.length; i++)
                 {
-                    mc.fontRenderer.drawStringWithShadow(this.optionStrings[i], this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.optionStrings[i]) / 2, this.y + (this.height - 6) / 2 + this.height * i, RenderUtil.to32BitColor(255, 255, 255, 255));
+                    mc.fontRenderer.drawStringWithShadow(this.optionStrings[i], this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.optionStrings[i]) / 2, this.y + (this.height - 6) / 2 + this.height * i, ColorUtils.to32BitColor(255, 255, 255, 255));
                 }
             }
             else
             {
-                mc.fontRenderer.drawStringWithShadow(this.optionStrings[this.selectedOption], this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.optionStrings[this.selectedOption]) / 2, this.y + (this.height - 6) / 2, RenderUtil.to32BitColor(255, 255, 255, 255));
+                mc.fontRenderer.drawStringWithShadow(this.optionStrings[this.selectedOption], this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.optionStrings[this.selectedOption]) / 2, this.y + (this.height - 6) / 2, ColorUtils.to32BitColor(255, 255, 255, 255));
             }
             mc.renderEngine.bindTexture(GuiDropdownElement.texture);
             Gui.drawModalRectWithCustomSizedTexture(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);

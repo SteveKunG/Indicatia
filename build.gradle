@@ -18,6 +18,16 @@ def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").
 def mcVersion = project.mc_version
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+
+sourceSets.main {
+    java {
+        srcDirs = ['src/main/java', 'src/api/java']
+    }
+    resources {
+        srcDirs = ['src/main/resources', 'src/api/resources']
+    }
+}
+
 version = project.version
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
@@ -41,7 +51,7 @@ repositories {
 
 ext.finalJar = "build/libs/" + "Indicatia-" + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'META-INF/indicatia_at.cfg']
+ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'pack.mcmeta', 'META-INF/indicatia_at.cfg']
 ext.internalFiles = ['stevekung/mods/indicatia_extra/**', 'assets/indicatia_extra/**']
 
 jar

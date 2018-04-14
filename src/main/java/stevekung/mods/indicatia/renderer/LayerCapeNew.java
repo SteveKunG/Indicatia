@@ -1,12 +1,9 @@
 package stevekung.mods.indicatia.renderer;
 
-import java.lang.reflect.Method;
-
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -19,17 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class LayerCapeNew implements LayerRenderer<AbstractClientPlayer>
 {
     private final RenderPlayer playerRenderer;
-    private static Method renderRainbowArmor;
-
-    static
-    {
-        try
-        {
-            Class<?> clazz = Class.forName("stevekung.mods.indicatia.internal.InternalEventHandler");
-            LayerCapeNew.renderRainbowArmor = clazz.getMethod("renderRainbowArmor", Entity.class);
-        }
-        catch (Exception e) {}
-    }
 
     public LayerCapeNew(RenderPlayer playerRenderer)
     {
@@ -79,13 +65,6 @@ public class LayerCapeNew implements LayerRenderer<AbstractClientPlayer>
                 GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
                 GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-
-                try
-                {
-                    LayerCapeNew.renderRainbowArmor.invoke(null, entity);
-                }
-                catch (Exception e) {}
-
                 this.playerRenderer.getMainModel().renderCape(0.0625F);
                 GlStateManager.popMatrix();
             }

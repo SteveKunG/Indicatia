@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -13,11 +14,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatia.util.GameProfileUtil;
-import stevekung.mods.indicatia.util.JsonUtil;
-import stevekung.mods.indicatia.util.LangUtil;
+import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
+import stevekung.mods.stevekunglib.util.GameProfileUtils;
+import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class GuiAutoLoginFunction extends GuiScreen
 {
@@ -29,19 +29,19 @@ public class GuiAutoLoginFunction extends GuiScreen
 
     public GuiAutoLoginFunction()
     {
-        this.data = IndicatiaMod.MC.getCurrentServerData();
+        this.data = Minecraft.getMinecraft().getCurrentServerData();
     }
 
     public void display()
     {
-        this.data = IndicatiaMod.MC.getCurrentServerData();
+        this.data = Minecraft.getMinecraft().getCurrentServerData();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        IndicatiaMod.MC.displayGuiScreen(this);
+        Minecraft.getMinecraft().displayGuiScreen(this);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
@@ -53,15 +53,15 @@ public class GuiAutoLoginFunction extends GuiScreen
         this.inputField.setMaxStringLength(32767);
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
-        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 152, this.height / 4 + 100, 150, 20, LangUtil.translate("gui.done")));
-        this.buttonList.add(this.cancelBtn = new GuiButton(1, this.width / 2 + 2, this.height / 4 + 100, 150, 20, LangUtil.translate("gui.cancel")));
-        this.buttonList.add(this.helpBtn = new GuiButtonCustomizeTexture(2, this.width / 2 + 130, this.height / 4 + 35, this, Arrays.asList("Help"), "help"));
+        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 152, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.done")));
+        this.buttonList.add(this.cancelBtn = new GuiButton(1, this.width / 2 + 2, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.cancel")));
+        this.buttonList.add(this.helpBtn = new GuiButtonCustomizeTexture(2, this.width / 2 + 130, this.height / 4 + 35, this, Arrays.asList(LangUtils.translate("message.help")), "help"));
 
         if (this.data != null)
         {
             for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
             {
-                if (this.data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtil.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
+                if (this.data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
                 {
                     this.inputField.setText(login.getFunction());
                 }
@@ -84,15 +84,13 @@ public class GuiAutoLoginFunction extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        JsonUtil json = IndicatiaMod.json;
-
         if (button.id == 0)
         {
             if (this.data != null)
             {
-                this.mc.player.sendMessage(json.text("Auto Login Function set!"));
-                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtil.getUUID() + this.data.serverIP);
-                ExtendedConfig.loginData.addAutoLogin(this.data.serverIP, "", "", GameProfileUtil.getUUID(), this.inputField.getText());
+                this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_function_set")));
+                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + this.data.serverIP);
+                ExtendedConfig.loginData.addAutoLogin(this.data.serverIP, "", "", GameProfileUtils.getUUID(), this.inputField.getText());
                 ExtendedConfig.save();
             }
             this.mc.displayGuiScreen((GuiScreen)null);

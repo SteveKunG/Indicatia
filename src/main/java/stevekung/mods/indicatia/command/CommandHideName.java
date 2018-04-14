@@ -9,9 +9,10 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.HideNameData;
-import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.indicatia.utils.HideNameData;
+import stevekung.mods.stevekunglib.util.ClientCommandBase;
+import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class CommandHideName extends ClientCommandBase
 {
@@ -24,8 +25,6 @@ public class CommandHideName extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = IndicatiaMod.json;
-
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.hidename.usage");
@@ -38,14 +37,17 @@ public class CommandHideName extends ClientCommandBase
                 {
                     throw new WrongUsageException("commands.hidename.usage");
                 }
-                if (!HideNameData.getHideNameList().contains(args[1]))
+
+                String name = args[1];
+
+                if (!HideNameData.getHideNameList().contains(name))
                 {
-                    HideNameData.getHideNameList().add(args[1]);
+                    HideNameData.getHideNameList().add(name);
                     ExtendedConfig.save();
                 }
                 else
                 {
-                    sender.sendMessage(json.text(args[1] + " is already added!").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.hidename_already_add")).setStyle(JsonUtils.red()));
                 }
             }
             else if ("remove".equalsIgnoreCase(args[0]))
@@ -54,14 +56,17 @@ public class CommandHideName extends ClientCommandBase
                 {
                     throw new WrongUsageException("commands.hidename.usage");
                 }
-                if (HideNameData.getHideNameList().contains(args[1]))
+
+                String name = args[1];
+
+                if (HideNameData.getHideNameList().contains(name))
                 {
-                    HideNameData.getHideNameList().remove(args[1]);
+                    HideNameData.getHideNameList().remove(name);
                     ExtendedConfig.save();
                 }
                 else
                 {
-                    sender.sendMessage(json.text(args[1] + " is already removed!").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.hidename_remove")).setStyle(JsonUtils.red()));
                 }
             }
             else

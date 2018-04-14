@@ -2,18 +2,20 @@ package stevekung.mods.indicatia.command;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import stevekung.mods.indicatia.config.ConfigManager;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.handler.CommonHandler;
-import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.indicatia.config.ConfigManagerIN;
+import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.stevekunglib.util.ClientCommandBase;
+import stevekung.mods.stevekunglib.util.CommonUtils;
+import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class CommandAFK extends ClientCommandBase
 {
@@ -26,8 +28,6 @@ public class CommandAFK extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = IndicatiaMod.json;
-
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.afk.usage");
@@ -40,29 +40,29 @@ public class CommandAFK extends ClientCommandBase
                 {
                     throw new WrongUsageException("commands.afk.usage");
                 }
-                if (CommonHandler.isAFK)
+                if (IndicatiaEventHandler.isAFK)
                 {
-                    CommonHandler.isAFK = false;
-                    CommonHandler.afkMoveTicks = 0;
+                    IndicatiaEventHandler.isAFK = false;
+                    IndicatiaEventHandler.afkMoveTicks = 0;
 
-                    if (ConfigManager.enableAFKMessage)
+                    if (ConfigManagerIN.indicatia_general.enableAFKMessage)
                     {
-                        IndicatiaMod.MC.player.sendChatMessage("I'm back from " + CommonHandler.afkReason + "! AFK Time is : " + StringUtils.ticksToElapsedTime(CommonHandler.afkTicks) + " minutes");
+                        Minecraft.getMinecraft().player.sendChatMessage(LangUtils.translate("message.stop_afk", IndicatiaEventHandler.afkReason, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)));
                     }
                 }
                 else
                 {
-                    sender.sendMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.afk_not_in_use")).setStyle(JsonUtils.red()));
                 }
             }
             else if ("start".equalsIgnoreCase(args[0]))
             {
-                if (!CommonHandler.isAFK)
+                if (!IndicatiaEventHandler.isAFK)
                 {
                     ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 1);
                     String reason = component.createCopy().getUnformattedText();
-                    CommonHandler.isAFK = true;
-                    CommonHandler.afkReason = reason;
+                    IndicatiaEventHandler.isAFK = true;
+                    IndicatiaEventHandler.afkReason = reason;
 
                     if (reason.isEmpty())
                     {
@@ -70,19 +70,19 @@ public class CommandAFK extends ClientCommandBase
                     }
                     else
                     {
-                        reason = ", Reason : " + reason;
+                        reason = ", " + LangUtils.translate("message.afk_reason") + " : " + reason;
                     }
 
-                    String message = "AFK for now";
+                    String message = LangUtils.translate("message.afk_for_now");
 
-                    if (ConfigManager.enableAFKMessage)
+                    if (ConfigManagerIN.indicatia_general.enableAFKMessage)
                     {
-                        IndicatiaMod.MC.player.sendChatMessage(message + reason);
+                        Minecraft.getMinecraft().player.sendChatMessage(message + reason);
                     }
                 }
                 else
                 {
-                    sender.sendMessage(json.text("You have already start /afk command").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.afk_in_use")).setStyle(JsonUtils.red()));
                 }
             }
             else if ("change_reason".equalsIgnoreCase(args[0]))
@@ -92,16 +92,16 @@ public class CommandAFK extends ClientCommandBase
                     throw new WrongUsageException("commands.afk.usage");
                 }
 
-                if (CommonHandler.isAFK)
+                if (IndicatiaEventHandler.isAFK)
                 {
-                    String oldReason = CommonHandler.afkReason;
+                    String oldReason = IndicatiaEventHandler.afkReason;
                     String newReason = ClientCommandBase.getChatComponentFromNthArg(args, 1).createCopy().getUnformattedText();
-                    CommonHandler.afkReason = newReason;
-                    sender.sendMessage(json.text("Change AFK Reason from " + oldReason + " to " + newReason));
+                    IndicatiaEventHandler.afkReason = newReason;
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.change_reason", oldReason, newReason)));
                 }
                 else
                 {
-                    sender.sendMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.afk_not_in_use")).setStyle(JsonUtils.red()));
                 }
             }
             else if ("mode".equalsIgnoreCase(args[0]))
@@ -113,24 +113,24 @@ public class CommandAFK extends ClientCommandBase
 
                 if ("idle".equalsIgnoreCase(args[1]))
                 {
-                    CommonHandler.afkMode = "idle";
-                    CommonHandler.afkMoveTicks = 0;
-                    sender.sendMessage(json.text("Set AFK mode to idle"));
+                    IndicatiaEventHandler.afkMode = "idle";
+                    IndicatiaEventHandler.afkMoveTicks = 0;
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_afk_mode", IndicatiaEventHandler.afkMode)));
                 }
                 else if ("move".equalsIgnoreCase(args[1]))
                 {
-                    CommonHandler.afkMode = "move";
-                    sender.sendMessage(json.text("Set AFK mode to move"));
+                    IndicatiaEventHandler.afkMode = "move";
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_afk_mode", IndicatiaEventHandler.afkMode)));
                 }
                 else if ("360".equalsIgnoreCase(args[1]))
                 {
-                    CommonHandler.afkMode = "360";
-                    sender.sendMessage(json.text("Set AFK mode to 360"));
+                    IndicatiaEventHandler.afkMode = "360";
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_afk_mode", IndicatiaEventHandler.afkMode)));
                 }
                 else if ("360_move".equalsIgnoreCase(args[1]))
                 {
-                    CommonHandler.afkMode = "360_move";
-                    sender.sendMessage(json.text("Set AFK mode to 360 and move"));
+                    IndicatiaEventHandler.afkMode = "360_move";
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_afk_mode", IndicatiaEventHandler.afkMode)));
                 }
                 else
                 {

@@ -24,9 +24,9 @@ public class GuiChangeLogSlot extends GuiSlot
     private static final ResourceLocation ANDESITE = new ResourceLocation("textures/blocks/stone_andesite_smooth.png");
     private static final ResourceLocation BACKGROUND = new ResourceLocation("indicatia:textures/gui/black.png");
 
-    public GuiChangeLogSlot(Minecraft mc, GuiFullChangeLog parent, List<String> stringList, int width, int height, boolean texture)
+    public GuiChangeLogSlot(GuiFullChangeLog parent, List<String> stringList, int width, int height, boolean texture)
     {
-        super(mc, width, height, 32, height - 64, 13);
+        super(Minecraft.getMinecraft(), width, height, 32, height - 64, 13);
         this.stringList = stringList;
         this.parent = parent;
         this.textureType = texture;

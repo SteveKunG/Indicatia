@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
@@ -18,8 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.LangUtil;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiFullChangeLog extends GuiScreen
@@ -36,7 +36,7 @@ public class GuiFullChangeLog extends GuiScreen
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        IndicatiaMod.MC.displayGuiScreen(this);
+        Minecraft.getMinecraft().displayGuiScreen(this);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
@@ -44,7 +44,7 @@ public class GuiFullChangeLog extends GuiScreen
     public void initGui()
     {
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + 120, LangUtil.translate("gui.done")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + 120, LangUtils.translate("gui.done")));
 
         if (this.stringList == null)
         {
@@ -69,7 +69,7 @@ public class GuiFullChangeLog extends GuiScreen
             }
             catch (Exception e) {}
         }
-        this.changeLogSlot = new GuiChangeLogSlot(this.mc, this, this.stringList, this.width, this.height, this.rand.nextBoolean());
+        this.changeLogSlot = new GuiChangeLogSlot(this, this.stringList, this.width, this.height, this.rand.nextBoolean());
         this.changeLogSlot.registerScrollButtons(1, 1);
     }
 

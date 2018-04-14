@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonCustomize extends GuiButton
@@ -54,7 +53,7 @@ public class GuiButtonCustomize extends GuiButton
             if (isHover)
             {
                 int k = 0;
-                int l = IndicatiaMod.MC.fontRenderer.getStringWidth(this.tooltips);
+                int l = Minecraft.getMinecraft().fontRenderer.getStringWidth(this.tooltips);
                 k = l;
                 int i1 = mouseX + 12;
                 int j1 = mouseY - 12;
@@ -80,7 +79,7 @@ public class GuiButtonCustomize extends GuiButton
             this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
             this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
             this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
-            IndicatiaMod.MC.fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
+            Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
             this.zLevel = 0.0F;
             GlStateManager.enableDepth();
             }

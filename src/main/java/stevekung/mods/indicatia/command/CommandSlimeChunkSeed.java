@@ -7,8 +7,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.util.JsonUtil;
+import stevekung.mods.stevekunglib.util.ClientCommandBase;
+import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class CommandSlimeChunkSeed extends ClientCommandBase
 {
@@ -21,8 +22,6 @@ public class CommandSlimeChunkSeed extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        JsonUtil json = IndicatiaMod.json;
-
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.slimeseed.usage");
@@ -39,14 +38,14 @@ public class CommandSlimeChunkSeed extends ClientCommandBase
 
                     if (longSeed != 0L)
                     {
-                        ExtendedConfig.SLIME_CHUNK_SEED = longSeed;
-                        sender.sendMessage(json.text("Set slime chunk seed to " + longSeed));
+                        ExtendedConfig.slimeChunkSeed = longSeed;
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_slime_seed", longSeed)));
                     }
                 }
                 catch (NumberFormatException e)
                 {
-                    ExtendedConfig.SLIME_CHUNK_SEED = seed.hashCode();
-                    sender.sendMessage(json.text("Set slime chunk seed to " + seed.hashCode()));
+                    ExtendedConfig.slimeChunkSeed = seed.hashCode();
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_slime_seed", seed.hashCode())));
                 }
             }
             ExtendedConfig.save();

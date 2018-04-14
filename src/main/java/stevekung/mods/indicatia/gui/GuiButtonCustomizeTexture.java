@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonCustomizeTexture extends GuiButton
@@ -55,7 +54,7 @@ public class GuiButtonCustomizeTexture extends GuiButton
                 while (iterator.hasNext())
                 {
                     String s = iterator.next();
-                    int l = IndicatiaMod.MC.fontRenderer.getStringWidth(s);
+                    int l = Minecraft.getMinecraft().fontRenderer.getStringWidth(s);
 
                     if (l > k)
                     {
@@ -93,7 +92,7 @@ public class GuiButtonCustomizeTexture extends GuiButton
                 for (int k2 = 0; k2 < this.tooltips.size(); ++k2)
                 {
                     String s1 = this.tooltips.get(k2);
-                    IndicatiaMod.MC.fontRenderer.drawStringWithShadow(s1, i1, j1, -1);
+                    Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(s1, i1, j1, -1);
                     j1 += 10;
                 }
                 this.zLevel = 0.0F;

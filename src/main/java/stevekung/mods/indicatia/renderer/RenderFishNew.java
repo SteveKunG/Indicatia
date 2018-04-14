@@ -1,5 +1,6 @@
 package stevekung.mods.indicatia.renderer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -16,7 +17,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @SideOnly(Side.CLIENT)
 public class RenderFishNew extends Render<EntityFishHook>
@@ -86,7 +86,7 @@ public class RenderFishNew extends Render<EntityFishHook>
             double d7;
             double dz = 0.0D;
 
-            if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == IndicatiaMod.MC.player)
+            if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == Minecraft.getMinecraft().player)
             {
                 float f10 = this.renderManager.options.fovSetting;
                 f10 = f10 / 100.0F;

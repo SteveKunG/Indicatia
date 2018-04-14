@@ -12,7 +12,7 @@ import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.util.RenderUtil;
+import stevekung.mods.stevekunglib.util.RenderUtils;
 
 @SideOnly(Side.CLIENT)
 public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
@@ -37,7 +37,7 @@ public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
             for (int j = 0; j < i; ++j)
             {
                 GlStateManager.pushMatrix();
-                RenderUtil.renderLight(false);
+                RenderUtils.disableLighting();
                 ModelRenderer modelrenderer = this.renderer.getMainModel().getRandomModelBox(rand);
                 ModelBox modelbox = modelrenderer.cubeList.get(rand.nextInt(modelrenderer.cubeList.size()));
                 modelrenderer.postRender(0.0625F);
@@ -62,7 +62,7 @@ public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
                 double d2 = 0.0D;
                 this.renderer.getRenderManager().renderEntity(arrow, d0, d1, d2, 0.0F, partialTicks, false);
                 GlStateManager.popMatrix();
-                RenderUtil.renderLight(true);
+                RenderUtils.enableLighting();
             }
         }
     }

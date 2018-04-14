@@ -6,8 +6,8 @@ bin
 build
 eclipse
 run
-src/main/java/stevekung/mods/indicatia/internal
-src/main/resources/assets/indicatia/sounds
+src/main/java/stevekung/mods/indicatia_extra
+src/main/resources/assets/indicatia_extra
 
 # file
 *.launch

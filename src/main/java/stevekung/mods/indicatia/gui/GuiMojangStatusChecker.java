@@ -6,16 +6,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.util.MojangServerStatus;
-import stevekung.mods.indicatia.util.MojangStatusChecker;
+import stevekung.mods.indicatia.utils.MojangServerStatus;
+import stevekung.mods.indicatia.utils.MojangStatusChecker;
+import stevekung.mods.stevekunglib.util.LangUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiMojangStatusChecker extends GuiScreen
 {
-    private static List<String> statusList = new CopyOnWriteArrayList<>();
+    private static final List<String> statusList = new CopyOnWriteArrayList<>();
     private final GuiScreen lastScreen;
     private GuiButton doneButton;
     private GuiButton checkButton;
@@ -29,9 +29,9 @@ public class GuiMojangStatusChecker extends GuiScreen
     @Override
     public void initGui()
     {
-        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 4 + 168, I18n.format("gui.done")));
-        this.buttonList.add(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 4 + 145, 100, 20, "Refresh"));
-        this.buttonList.add(this.checkButton = new GuiButton(202, this.width / 2 - 101, this.height / 4 + 145, 100, 20, "Check"));
+        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 4 + 168, LangUtils.translate("gui.done")));
+        this.buttonList.add(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 4 + 145, 100, 20, LangUtils.translate("message.refresh")));
+        this.buttonList.add(this.checkButton = new GuiButton(202, this.width / 2 - 101, this.height / 4 + 145, 100, 20, LangUtils.translate("message.check")));
         this.refreshButton.enabled = false;
     }
 
