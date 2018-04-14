@@ -1,1 +1,1 @@
-ALL RIGHTS RESERVED - 2017 SteveKunG / Wasinthorn Suksri
+ALL RIGHTS RESERVED - © SteveKunG (Wasinthorn Suksri) 2018

@@ -5,12 +5,12 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.0.9'
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.0.10'
     }
 }
 
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.0.9'
+    id 'com.matthewprenger.cursegradle' version '1.0.10'
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
@@ -52,7 +52,7 @@ repositories {
 ext.finalJar = "build/libs/" + "Indicatia-" + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'pack.mcmeta', 'META-INF/indicatia_at.cfg']
-ext.internalFiles = ['stevekung/mods/indicatia_extra/**', 'assets/indicatia_extra/**']
+ext.internalFiles = ['stevekung/mods/indicatia_extra/**', 'assets/indicatia_extra/**', 'META-INF/indicatia_extra_at.cfg']
 
 jar
 {
@@ -99,8 +99,16 @@ task processJar(type: Jar, dependsOn: "rePackAllJar") {
         includes.addAll(project.ext.coreFiles)
     }
     manifest {
-        attributes.put("FMLAT", "indicatia_at.cfg")
-        attributes.put("FMLCorePluginContainsFMLMod", "true")
+        if (!project.hasProperty("internal"))
+        {
+            attributes.put("FMLAT", "indicatia_at.cfg")
+            attributes.put("FMLCorePluginContainsFMLMod", "true")
+        }
+        else
+        {
+            attributes.put("FMLAT", "indicatia_extra_at.cfg")
+            attributes.put("FMLCorePluginContainsFMLMod", "true")
+        }
     }
 }
 

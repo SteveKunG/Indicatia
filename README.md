@@ -4,8 +4,8 @@ Indicatia
 ==============
 Indicatia Repository
 
-Simple in-game info and utility!
+Simple in-game info and utilities!
 
 License
 ==============
-LICENSE: https://github.com/SteveKunG/Indicatia/blob/master/LICENSE.md
+LICENSE: https://github.com/SteveKunG/Indicatia/blob/1.13/LICENSE.md
