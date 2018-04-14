@@ -63,6 +63,7 @@ public class GuiRenderPreview extends GuiScreen
             List<String> leftInfo = new LinkedList<>();
             List<String> rightInfo = new LinkedList<>();
             MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+            HUDInfo.renderVerticalEquippedItems(this.mc);
 
             // left info
             if (!this.mc.isSingleplayer())

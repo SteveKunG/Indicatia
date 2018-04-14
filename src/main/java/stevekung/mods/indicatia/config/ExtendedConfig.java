@@ -12,6 +12,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.ModLogger;
@@ -627,6 +628,10 @@ public class ExtendedConfig
 
     public void setOptionValue(ExtendedConfig.Options options, int value)
     {
+        if (options == ExtendedConfig.Options.PREVIEW)
+        {
+            GuiExtendedConfig.preview = !GuiExtendedConfig.preview;
+        }
         if (options == ExtendedConfig.Options.SWAP_INFO_POS)
         {
             ExtendedConfig.swapRenderInfo = !ExtendedConfig.swapRenderInfo;
@@ -1065,6 +1070,8 @@ public class ExtendedConfig
     {
         switch (options)
         {
+        case PREVIEW:
+            return GuiExtendedConfig.preview;
         case SWAP_INFO_POS:
             return ExtendedConfig.swapRenderInfo;
         case FPS:
@@ -1255,6 +1262,8 @@ public class ExtendedConfig
     @SideOnly(Side.CLIENT)
     public static enum Options
     {
+        PREVIEW(false, true),
+
         SWAP_INFO_POS(false, true),
         HEALTH_STATUS(false, false),
         KEYSTROKE_POSITION(false, false),

@@ -88,7 +88,7 @@ public class CommandProfile extends ClientCommandBase
                 ExtendedConfig.setCurrentProfile(name);
                 ExtendedConfig.saveProfileFile(name);
                 ExtendedConfig.load();
-                sender.sendMessage(JsonUtils.create(LangUtils.translate("message.load_profile")));
+                sender.sendMessage(JsonUtils.create(LangUtils.translate("message.load_profile", name)));
                 ExtendedConfig.save(name); // save current settings
             }
             else if ("save".equalsIgnoreCase(args[0]))

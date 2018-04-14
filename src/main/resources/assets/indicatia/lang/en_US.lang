@@ -26,6 +26,7 @@ extended_config.custom_color.title=Custom Color Settings...
 extended_config.offset.title=Offset Settings...
 extended_config.keystroke_custom_color.title=Keystroke Custom Color
 extended_config.render_info_custom_color.title=Render Info Custom Color
+preview.extended_config=Preview
 swap_info_pos.extended_config=Swap Render Info
 custom_cape.extended_config=Custom Cape
 health_status.extended_config=Health Status

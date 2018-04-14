@@ -20,6 +20,7 @@ import stevekung.mods.stevekunglib.util.LangUtils;
 public class GuiExtendedConfig extends GuiScreen
 {
     private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
+    public static boolean preview = false;
 
     static
     {
@@ -51,6 +52,7 @@ public class GuiExtendedConfig extends GuiScreen
     @Override
     public void initGui()
     {
+        GuiExtendedConfig.preview = false;
         int i = 0;
 
         for (ExtendedConfig.Options options : OPTIONS)
@@ -69,6 +71,7 @@ public class GuiExtendedConfig extends GuiScreen
         this.buttonList.add(new GuiButton(100, this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title")));
         this.buttonList.add(new GuiButton(101, this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title")));
         this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title")));
+        this.buttonList.add(new GuiConfigButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done")));
     }
 
@@ -89,11 +92,11 @@ public class GuiExtendedConfig extends GuiScreen
         {
             ExtendedConfig.save();
 
-            if (button.id < 100 && button instanceof GuiConfigButton)
+            if ((button.id < 100 || button.id == 103) && button instanceof GuiConfigButton)
             {
                 ExtendedConfig.Options options = ((GuiConfigButton)button).getOption();
                 ExtendedConfig.instance.setOptionValue(options, 1);
-                button.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(button.id));
+                button.displayString = ExtendedConfig.instance.getKeyBinding(button.id == 103 ? ExtendedConfig.Options.PREVIEW : ExtendedConfig.Options.byOrdinal(button.id));
             }
             if (button.id == 100)
             {
@@ -117,7 +120,10 @@ public class GuiExtendedConfig extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
+        if (!GuiExtendedConfig.preview)
+        {
+            this.drawDefaultBackground();
+        }
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.main.title") + " : " + LangUtils.translate("extended_config.current_profile.info", TextFormatting.YELLOW + ExtendedConfig.currentProfile + TextFormatting.RESET), this.width / 2, 10, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
