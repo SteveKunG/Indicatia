@@ -72,7 +72,7 @@ public class ColorUtils
         float alpha;
         boolean error;
 
-        RGB(float red, float green, float blue, float alpha)
+        public RGB(float red, float green, float blue, float alpha)
         {
             this.red = red;
             this.green = green;
