@@ -131,6 +131,10 @@ public class GuiConfigButtonRowList extends GuiListExtended
                         this.buttonA.playPressSound(this.mc.getSoundHandler());
                     }
                 }
+                if (this.buttonA instanceof GuiConfigSlider)
+                {
+                    this.buttonA.playPressSound(this.mc.getSoundHandler());
+                }
                 return true;
             }
             else if (this.buttonB != null && this.buttonB.mousePressed(this.mc, mouseX, mouseY))
@@ -146,6 +150,10 @@ public class GuiConfigButtonRowList extends GuiListExtended
                         this.buttonB.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.buttonB.id));
                         this.buttonB.playPressSound(this.mc.getSoundHandler());
                     }
+                }
+                if (this.buttonB instanceof GuiConfigSlider)
+                {
+                    this.buttonB.playPressSound(this.mc.getSoundHandler());
                 }
                 return true;
             }

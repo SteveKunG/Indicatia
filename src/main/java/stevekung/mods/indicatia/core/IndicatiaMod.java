@@ -84,6 +84,7 @@ public class IndicatiaMod
         IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
         IndicatiaMod.allowedUUID.add("dbd9f8ed-0101-4cd3-8300-782a775c0225");
         IndicatiaMod.allowedUUID.add("2cd88ad0-89b1-4ca7-907e-78066fe36b08");
+        IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
     }
 
     @EventHandler

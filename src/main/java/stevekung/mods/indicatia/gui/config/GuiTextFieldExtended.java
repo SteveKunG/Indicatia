@@ -16,7 +16,7 @@ public class GuiTextFieldExtended extends GuiTextField
         super(id, Minecraft.getMinecraft().fontRenderer, x, y, width, 20);
         this.options = options;
         this.setEnabled(true);
-        this.setMaxStringLength(11);
+        this.setMaxStringLength(13);
     }
 
     public ExtendedConfig.Options getOption()
