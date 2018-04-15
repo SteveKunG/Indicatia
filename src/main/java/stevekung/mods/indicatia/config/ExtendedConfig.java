@@ -16,6 +16,7 @@ import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.stevekunglib.util.GameProfileUtils;
 import stevekung.mods.stevekunglib.util.LangUtils;
 
 public class ExtendedConfig
@@ -24,7 +25,8 @@ public class ExtendedConfig
     public static final AutoLogin loginData = new AutoLogin();
     private static final String defaultWhite = "255,255,255";
     public static final File indicatiaDir = new File(Minecraft.getMinecraft().mcDataDir, "indicatia");
-    public static final File defaultConfig = new File(indicatiaDir, "default.dat");
+    public static final File userDir = new File(indicatiaDir, GameProfileUtils.getUUID().toString());
+    public static final File defaultConfig = new File(userDir, "default.dat");
     public static String currentProfile = "";
     private static final String[] HEALTH_STATUS = new String[] {"indicatia.disabled", "health_status.always", "health_status.pointed"};
     private static final String[] POSITION = new String[] {"indicatia.left", "indicatia.right"};
@@ -167,7 +169,7 @@ public class ExtendedConfig
 
     public static void setCurrentProfile(String profileName)
     {
-        ExtendedConfig.file = new File(indicatiaDir, profileName + ".dat");
+        ExtendedConfig.file = new File(userDir, profileName + ".dat");
         currentProfile = profileName;
     }
 
@@ -460,14 +462,14 @@ public class ExtendedConfig
             nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
             nbt.setTag("HideNameList", HideNameData.save());
 
-            CompressedStreamTools.safeWrite(nbt, !profileName.equalsIgnoreCase("default") ? new File(indicatiaDir, profileName + ".dat") : ExtendedConfig.file);
+            CompressedStreamTools.safeWrite(nbt, !profileName.equalsIgnoreCase("default") ? new File(userDir, profileName + ".dat") : ExtendedConfig.file);
         }
         catch (Exception e) {}
     }
 
     public static void saveProfileFile(String profileName)
     {
-        File profile = new File(ExtendedConfig.indicatiaDir, "profile.txt");
+        File profile = new File(ExtendedConfig.userDir, "profile.txt");
 
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {

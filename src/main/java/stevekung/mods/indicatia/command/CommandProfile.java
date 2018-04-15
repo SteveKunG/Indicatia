@@ -49,7 +49,7 @@ public class CommandProfile extends ClientCommandBase
                     return;
                 }
 
-                for (File file : ExtendedConfig.indicatiaDir.listFiles())
+                for (File file : ExtendedConfig.userDir.listFiles())
                 {
                     if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
                     {
@@ -76,7 +76,7 @@ public class CommandProfile extends ClientCommandBase
 
                 String name = args[1];
 
-                for (File file : ExtendedConfig.indicatiaDir.listFiles())
+                for (File file : ExtendedConfig.userDir.listFiles())
                 {
                     if (file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
                     {
@@ -101,7 +101,7 @@ public class CommandProfile extends ClientCommandBase
                 String name = args[1];
                 boolean exist = false;
 
-                for (File file : ExtendedConfig.indicatiaDir.listFiles())
+                for (File file : ExtendedConfig.userDir.listFiles())
                 {
                     if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
                     {
@@ -136,7 +136,7 @@ public class CommandProfile extends ClientCommandBase
 
                 boolean exist = false;
 
-                for (File file : ExtendedConfig.indicatiaDir.listFiles())
+                for (File file : ExtendedConfig.userDir.listFiles())
                 {
                     if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
                     {
@@ -146,7 +146,7 @@ public class CommandProfile extends ClientCommandBase
 
                 if (exist)
                 {
-                    File toDel = new File(ExtendedConfig.indicatiaDir, name + ".dat");
+                    File toDel = new File(ExtendedConfig.userDir, name + ".dat");
                     toDel.delete();
                     ExtendedConfig.setCurrentProfile("default");
                     ExtendedConfig.load();
@@ -159,7 +159,7 @@ public class CommandProfile extends ClientCommandBase
             }
             else if ("list".equalsIgnoreCase(args[0]))
             {
-                Collection<File> collection = new ArrayList<>(Arrays.asList(ExtendedConfig.indicatiaDir.listFiles()));
+                Collection<File> collection = new ArrayList<>(Arrays.asList(ExtendedConfig.userDir.listFiles()));
 
                 if (collection.isEmpty())
                 {
@@ -212,11 +212,11 @@ public class CommandProfile extends ClientCommandBase
         {
             if ("load".equalsIgnoreCase(args[0]) || "remove".equalsIgnoreCase(args[0]) || "save".equalsIgnoreCase(args[0]))
             {
-                if (ExtendedConfig.indicatiaDir.exists())
+                if (ExtendedConfig.userDir.exists())
                 {
                     List<String> list = new LinkedList<>();
 
-                    for (File file : ExtendedConfig.indicatiaDir.listFiles())
+                    for (File file : ExtendedConfig.userDir.listFiles())
                     {
                         String name = file.getName();
 

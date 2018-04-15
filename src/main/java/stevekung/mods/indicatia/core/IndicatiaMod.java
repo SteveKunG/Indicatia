@@ -67,7 +67,7 @@ public class IndicatiaMod
     public static boolean foundLatest;
     public static boolean showAnnounceMessage;
     public static ColoredFontRenderer coloredFontRenderer;
-    public static final File profile = new File(ExtendedConfig.indicatiaDir, "profile.txt");
+    public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     public static final VersionChecker checker = new VersionChecker(MOD_ID, VERSION, MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION);
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
     private static final List<String> allowedUUID = new ArrayList<>();
@@ -229,8 +229,12 @@ public class IndicatiaMod
         {
             ExtendedConfig.indicatiaDir.mkdirs();
         }
+        if (!ExtendedConfig.userDir.exists())
+        {
+            ExtendedConfig.userDir.mkdirs();
+        }
 
-        File profile = new File(ExtendedConfig.indicatiaDir, "profile.txt");
+        File profile = new File(ExtendedConfig.userDir, "profile.txt");
 
         if (!profile.exists())
         {
