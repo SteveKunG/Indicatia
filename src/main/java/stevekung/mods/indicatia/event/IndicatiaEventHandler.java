@@ -147,7 +147,8 @@ public class IndicatiaEventHandler
                             {
                                 if (this.disconnectClickCooldown < 60)
                                 {
-                                    button.displayString = TextFormatting.RED + LangUtils.translate("message.confirm_disconnect") + " in " + this.disconnectClickCooldown / 20 + "...";
+                                    int cooldownSec = 1 + this.disconnectClickCooldown / 20;
+                                    button.displayString = TextFormatting.RED + LangUtils.translate("message.confirm_disconnect") + " in " + cooldownSec + "...";
                                 }
                                 if (this.disconnectClickCooldown == 0)
                                 {
