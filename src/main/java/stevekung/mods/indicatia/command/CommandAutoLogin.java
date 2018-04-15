@@ -40,6 +40,17 @@ public class CommandAutoLogin extends ClientCommandBase
         ServerData data = mc.getCurrentServerData();
         UUID uuid = GameProfileUtils.getUUID();
 
+        if (mc.isSingleplayer())
+        {
+            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
+            return;
+        }
+        else if (mc.isConnectedToRealms())
+        {
+            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
+            return;
+        }
+
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.autologin.usage");
@@ -52,59 +63,33 @@ public class CommandAutoLogin extends ClientCommandBase
                 {
                     throw new WrongUsageException("commands.autologin.usage");
                 }
-                if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
+                if (data != null)
                 {
-                    if (data != null)
+                    if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                     {
-                        if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
-                        {
-                            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_already_add")).setStyle(JsonUtils.red()));
-                            return;
-                        }
-                        ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
-                        String value = component.createCopy().getUnformattedText();
-                        ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), uuid, "");
-                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_set")));
-                        ExtendedConfig.save();
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_already_add")).setStyle(JsonUtils.red()));
+                        return;
                     }
-                }
-                else if (mc.isSingleplayer())
-                {
-                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
-                    return;
-                }
-                else if (mc.isConnectedToRealms())
-                {
-                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
-                    return;
+                    ITextComponent component = ClientCommandBase.getChatComponentFromNthArg(args, 2);
+                    String value = component.createCopy().getUnformattedText();
+                    ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), uuid, "");
+                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_set")));
+                    ExtendedConfig.save();
                 }
             }
             else if ("remove".equalsIgnoreCase(args[0]))
             {
-                if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
+                if (data != null)
                 {
-                    if (data != null)
+                    if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
                     {
-                        if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
-                        {
-                            ExtendedConfig.loginData.removeAutoLogin(uuid + data.serverIP);
-                            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_remove")));
-                        }
-                        else
-                        {
-                            sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_not_set")).setStyle(JsonUtils.red()));
-                        }
+                        ExtendedConfig.loginData.removeAutoLogin(uuid + data.serverIP);
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_remove")));
                     }
-                }
-                else if (mc.isSingleplayer())
-                {
-                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
-                    return;
-                }
-                else if (mc.isConnectedToRealms())
-                {
-                    sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
-                    return;
+                    else
+                    {
+                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_not_set")).setStyle(JsonUtils.red()));
+                    }
                 }
             }
             else if ("list".equalsIgnoreCase(args[0]))
@@ -131,21 +116,8 @@ public class CommandAutoLogin extends ClientCommandBase
             {
                 if (args.length == 1)
                 {
-                    if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
-                    {
-                        GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
-                        gui.display();
-                    }
-                    else if (mc.isSingleplayer())
-                    {
-                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));
-                        return;
-                    }
-                    else if (mc.isConnectedToRealms())
-                    {
-                        sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_realms")).setStyle(JsonUtils.red()));
-                        return;
-                    }
+                    GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
+                    gui.display();
                 }
                 if (args.length == 2)
                 {
@@ -170,6 +142,10 @@ public class CommandAutoLogin extends ClientCommandBase
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
+        if (Minecraft.getMinecraft().isSingleplayer() || Minecraft.getMinecraft().isConnectedToRealms())
+        {
+            return super.getTabCompletions(server, sender, args, pos);
+        }
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list", "function");
