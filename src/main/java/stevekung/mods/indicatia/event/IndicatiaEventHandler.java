@@ -803,7 +803,7 @@ public class IndicatiaEventHandler
             {
                 IndicatiaMod.checker.getAnnounceMessage().forEach(log ->
                 {
-                        player.sendMessage(JsonUtils.create(log).setStyle(JsonUtils.style().setColor(TextFormatting.GRAY)));
+                    player.sendMessage(JsonUtils.create(log).setStyle(JsonUtils.style().setColor(TextFormatting.GRAY)));
                 });
                 player.sendMessage(JsonUtils.create("To read Indicatia full change log. Use /inchangelog command!").setStyle(JsonUtils.gray().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.showAnnounceMessage = true;
