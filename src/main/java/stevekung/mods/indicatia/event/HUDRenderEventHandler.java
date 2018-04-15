@@ -31,6 +31,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import stevekung.mods.indicatia.config.*;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
@@ -64,6 +65,11 @@ public class HUDRenderEventHandler
     {
         this.mc = Minecraft.getMinecraft();
         this.overlayBoss = new GuiBossOverlayNew();
+    }
+
+    @SubscribeEvent
+    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
+    {
         this.overlayPlayerList = new GuiPlayerTabOverlayNew();
     }
 
@@ -346,21 +352,18 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
         {
-            if (this.overlayPlayerList != null)
-            {
-                event.setCanceled(true);
-                ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-                NetHandlerPlayClient handler = this.mc.player.connection;
+            event.setCanceled(true);
+            ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
+            NetHandlerPlayClient handler = this.mc.player.connection;
 
-                if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
-                {
-                    this.overlayPlayerList.updatePlayerList(true);
-                    this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
-                }
-                else
-                {
-                    this.overlayPlayerList.updatePlayerList(false);
-                }
+            if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
+            {
+                this.overlayPlayerList.updatePlayerList(true);
+                this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
+            }
+            else
+            {
+                this.overlayPlayerList.updatePlayerList(false);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
