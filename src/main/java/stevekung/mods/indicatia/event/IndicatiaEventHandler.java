@@ -799,14 +799,11 @@ public class IndicatiaEventHandler
                 VersionChecker.createFoundLatestMessage(player, IndicatiaMod.NAME, IndicatiaMod.URL);
                 IndicatiaMod.foundLatest = true;
             }
-            if (!IndicatiaMod.showAnnounceMessage && !IndicatiaMod.noConnection)
+            if (ConfigManagerIN.indicatia_general.enableAnnounceMessage && !IndicatiaMod.showAnnounceMessage && !IndicatiaMod.noConnection)
             {
                 IndicatiaMod.checker.getAnnounceMessage().forEach(log ->
                 {
-                    if (ConfigManagerIN.indicatia_general.enableAnnounceMessage)
-                    {
                         player.sendMessage(JsonUtils.create(log).setStyle(JsonUtils.style().setColor(TextFormatting.GRAY)));
-                    }
                 });
                 player.sendMessage(JsonUtils.create("To read Indicatia full change log. Use /inchangelog command!").setStyle(JsonUtils.gray().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
                 IndicatiaMod.showAnnounceMessage = true;
