@@ -1,4 +1,5 @@
 -Added- Added New Extended Config GUI
+-Added- Added /autofish command
 -Update- Improve profile settings
 -Update- Improve Click to Disconnect Button
 -Fixed- More bug fixes

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -31,6 +32,8 @@ import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -40,9 +43,11 @@ import net.minecraft.network.status.client.CPacketServerQuery;
 import net.minecraft.network.status.server.SPacketPong;
 import net.minecraft.network.status.server.SPacketServerInfo;
 import net.minecraft.realms.RealmsBridge;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
@@ -97,6 +102,9 @@ public class IndicatiaEventHandler
     private static boolean printAutoGG;
     private static int printAutoGGTicks;
 
+    public static boolean autoFish;
+    public static int autoFishTick;
+
     public IndicatiaEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
@@ -113,6 +121,7 @@ public class IndicatiaEventHandler
                 IndicatiaEventHandler.printVersionMessage(this.mc.player);
                 IndicatiaEventHandler.processAutoGG(this.mc);
                 IndicatiaEventHandler.getHypixelNickedPlayer(this.mc);
+                IndicatiaEventHandler.processAutoFish(this.mc);
                 AutoLoginFunction.runAutoLoginFunction();
                 CapeUtils.loadCapeTexture();
 
@@ -644,6 +653,12 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.afkMode = "idle";
             ModLogger.info("Stopping AFK Command");
         }
+        if (IndicatiaEventHandler.autoFish)
+        {
+            IndicatiaEventHandler.autoFish = false;
+            IndicatiaEventHandler.autoFishTick = 0;
+            ModLogger.info("Stopping Autofish Command");
+        }
     }
 
     private static void replaceArmorLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer, RenderLivingBase render, EntityLivingBase entity)
@@ -835,5 +850,74 @@ public class IndicatiaEventHandler
                 IndicatiaEventHandler.printAutoGGTicks = 0;
             }
         });
+    }
+
+    private static void processAutoFish(Minecraft mc)
+    {
+        if (IndicatiaEventHandler.autoFish)
+        {
+            ++IndicatiaEventHandler.autoFishTick;
+            IndicatiaEventHandler.autoFishTick %= 4;
+
+            if (mc.objectMouseOver != null && mc.world != null && mc.playerController != null && mc.entityRenderer != null)
+            {
+                if (IndicatiaEventHandler.autoFishTick % 4 == 0)
+                {
+                    for (EnumHand hand : CachedEnum.handValues)
+                    {
+                        boolean mainHand = mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod;
+                        boolean offHand = mc.player.getHeldItemOffhand().getItem() instanceof ItemFishingRod;
+
+                        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod)
+                        {
+                            offHand = false;
+                        }
+
+                        if (mainHand || offHand)
+                        {
+                            ItemStack held = mc.player.getHeldItem(hand);
+
+                            if (mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK)
+                            {
+                                BlockPos pos = mc.objectMouseOver.getBlockPos();
+
+                                if (mc.world.getBlockState(pos).getMaterial() != Material.AIR)
+                                {
+                                    int count = held.getCount();
+                                    EnumActionResult result = mc.playerController.processRightClickBlock(mc.player, mc.world, pos, mc.objectMouseOver.sideHit, mc.objectMouseOver.hitVec, hand);
+
+                                    if (result == EnumActionResult.SUCCESS)
+                                    {
+                                        mc.player.swingArm(hand);
+
+                                        if (!held.isEmpty() && (held.getCount() != count || mc.playerController.isInCreativeMode()))
+                                        {
+                                            mc.entityRenderer.itemRenderer.resetEquippedProgress(hand);
+                                        }
+                                        return;
+                                    }
+                                }
+                            }
+                            if (!held.isEmpty() && mc.playerController.processRightClick(mc.player, mc.world, hand) == EnumActionResult.SUCCESS)
+                            {
+                                mc.entityRenderer.itemRenderer.resetEquippedProgress(hand);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            IndicatiaEventHandler.autoFish = false;
+                            IndicatiaEventHandler.autoFishTick = 0;
+                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.must_hold_fishing_rod")));
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            IndicatiaEventHandler.autoFishTick = 0;
+        }
     }
 }

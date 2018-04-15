@@ -123,6 +123,7 @@ public class IndicatiaMod
         ClientUtils.registerCommand(new CommandRealmsMessage());
         ClientUtils.registerCommand(new CommandHideName());
         ClientUtils.registerCommand(new CommandPingAll());
+        ClientUtils.registerCommand(new CommandAutoFish());
     }
 
     @EventHandler

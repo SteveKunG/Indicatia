@@ -188,6 +188,7 @@ commands.indicatia.togglesneak.mode.usage=/indicatia toggle_sneak mode <key_bind
 commands.slimeseed.usage=/slimeseed <seed>
 commands.realmsmsg.usage=/realmsmsg <message...>
 commands.hidename.usage=/inhidename <add|remove> <name>
+commands.autofish.usage=/autofish <enable|disable>
 
 # MESSAGE
 message.stop_afk=I'm back from %s! AFK Time is : %s minutes
@@ -239,3 +240,9 @@ message.reset_donator_file_path=Reset donator file path
 message.example=Example
 message.reset_cps=Reset CPS
 message.preview=Preview
+message.auto_fish_enabled=Enabled Autofish
+message.auto_fish_disabled=Disabled Autofish
+message.not_held_fishing_rod=You are not held a Fishing Rod!
+message.already_start_autofish=Already start Autofish!
+message.not_start_autofish=You didn't start using /autofish command!
+message.must_hold_fishing_rod=You must hold a Fishing Rod while AFK!
