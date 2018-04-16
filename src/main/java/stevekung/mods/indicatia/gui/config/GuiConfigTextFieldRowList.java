@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,12 +28,13 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
 
         Arrays.stream(options).forEach(option ->
         {
-            GuiTextFieldExtended button = this.createButton(this.width / 2 + 40, 0, option);
-            this.options.add(new GuiConfigTextFieldRowList.Row(option.getTranslation(), button));
+            int buttonWidth = option.isBoolean() ? width / 2 - 80 : this.width / 2 + 40;
+            Gui gui = this.createButton(buttonWidth, 0, option);
+            this.options.add(new GuiConfigTextFieldRowList.Row(option.getTranslation(), gui));
         });
     }
 
-    private GuiTextFieldExtended createButton(int x, int y, ExtendedConfig.Options options)
+    private Gui createButton(int x, int y, ExtendedConfig.Options options)
     {
         if (options == null)
         {
@@ -40,7 +42,8 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
         }
         else
         {
-            return new GuiTextFieldExtended(options.getOrdinal(), x, y, 80, options);
+            int i = options.getOrdinal();
+            return options.isBoolean() ? new GuiConfigButton(i, x, y, 160, options, ExtendedConfig.instance.getKeyBinding(options)) : new GuiTextFieldExtended(i, x, y, 80, options);
         }
     }
 
@@ -53,7 +56,7 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
     @Override
     protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY)
     {
-        boolean flag = mouseX >= this.options.get(slotIndex).getTextField().x && mouseX < this.options.get(slotIndex).getTextField().x + this.options.get(slotIndex).getTextField().width && mouseY >= this.options.get(slotIndex).getTextField().y && mouseY < this.options.get(slotIndex).getTextField().y + this.options.get(slotIndex).getTextField().height;
+        boolean flag = this.options.get(slotIndex).getTextField() != null && mouseX >= this.options.get(slotIndex).getTextField().x && mouseX < this.options.get(slotIndex).getTextField().x + this.options.get(slotIndex).getTextField().width && mouseY >= this.options.get(slotIndex).getTextField().y && mouseY < this.options.get(slotIndex).getTextField().y + this.options.get(slotIndex).getTextField().height;
 
         if (flag)
         {
@@ -109,75 +112,120 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
     public static class Row implements GuiListExtended.IGuiListEntry
     {
         private final Minecraft mc = Minecraft.getMinecraft();
-        private final GuiTextFieldExtended textField;
+        private final Gui gui;
         private final String name;
 
-        public Row(String name, GuiTextFieldExtended textField)
+        public Row(String name, Gui gui)
         {
-            this.textField = textField;
+            this.gui = gui;
             this.name = name;
-            this.textField.setText(ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.textField.getId())));
+
+            if (this.gui instanceof GuiTextFieldExtended)
+            {
+                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
+                text.setText(ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(text.getId())));
+            }
         }
 
         @Override
         public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            if (this.textField != null)
+            if (this.gui != null)
             {
-                this.textField.y = y;
-                this.textField.drawTextBox();
-                this.mc.fontRenderer.drawString(this.name, x + 64, y + 5, ColorUtils.rgbToDecimal(255, 255, 255));
+                if (this.gui instanceof GuiTextFieldExtended)
+                {
+                    GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
+                    text.y = y;
+                    text.drawTextBox();
+                    this.mc.fontRenderer.drawString(this.name, x + 64, y + 5, ColorUtils.rgbToDecimal(255, 255, 255));
+                }
+                if (this.gui instanceof GuiConfigButton)
+                {
+                    GuiConfigButton button = (GuiConfigButton)this.gui;
+                    button.y = y;
+                    button.drawButton(this.mc, mouseX, mouseY, partialTicks);
+                }
             }
         }
 
         @Override
         public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
         {
+            if (this.gui != null && this.gui instanceof GuiConfigButton)
+            {
+                GuiConfigButton button = (GuiConfigButton)this.gui;
+
+                if (button.mousePressed(this.mc, mouseX, mouseY))
+                {
+                    if (mouseEvent == 0)
+                    {
+                        ExtendedConfig.instance.setOptionValue(button.getOption(), 1);
+                        button.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(button.id));
+                        button.playPressSound(this.mc.getSoundHandler());
+                    }
+                }
+                return true;
+            }
             return false;
         }
 
         @Override
-        public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {}
+        public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY)
+        {
+            if (this.gui != null && this.gui instanceof GuiConfigButton)
+            {
+                GuiConfigButton button = (GuiConfigButton)this.gui;
+                button.mouseReleased(x, y);
+            }
+        }
 
         @Override
         public void updatePosition(int slotIndex, int x, int y, float partialTicks) {}
 
         public void saveCurrentValue()
         {
-            if (this.textField != null)
+            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
             {
-                ExtendedConfig.instance.setOptionStringValue(this.textField.getOption(), this.textField.getText());
-                ColorUtils.stringToRGB(this.textField.getText(), true, this.textField.getOption().getTranslation());
+                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
+                ExtendedConfig.instance.setOptionStringValue(text.getOption(), text.getText());
+                ColorUtils.stringToRGB(text.getText(), true, text.getOption().getTranslation());
             }
         }
 
         public void mouseClicked(int mouseX, int mouseY, int mouseEvent)
         {
-            if (this.textField != null)
+            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
             {
-                this.textField.mouseClicked(mouseX, mouseY, mouseEvent);
+                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
+                text.mouseClicked(mouseX, mouseY, mouseEvent);
             }
         }
 
         public void updateCursorCounter()
         {
-            if (this.textField != null)
+            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
             {
-                this.textField.updateCursorCounter();
+                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
+                text.updateCursorCounter();
             }
         }
 
         public void textboxKeyTyped(char typedChar, int keyCode)
         {
-            if (this.textField != null)
+            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
             {
-                this.textField.textboxKeyTyped(typedChar, keyCode);
+                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
+                text.textboxKeyTyped(typedChar, keyCode);
             }
         }
 
         public GuiTextFieldExtended getTextField()
         {
-            return this.textField;
+            if (this.gui instanceof GuiTextFieldExtended)
+            {
+                return (GuiTextFieldExtended) this.gui;
+            }
+            return null;
         }
     }
 }

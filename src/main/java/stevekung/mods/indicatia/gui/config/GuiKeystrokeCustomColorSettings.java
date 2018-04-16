@@ -32,6 +32,14 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
         OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_BLOCKING_COLOR);
         OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_CPS_COLOR);
         OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_RCPS_COLOR);
+
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_WASD_RAINBOW);
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_RAINBOW);
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_SPRINT_RAINBOW);
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_SNEAK_RAINBOW);
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_BLOCKING_RAINBOW);
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_CPS_RAINBOW);
+        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_RCPS_RAINBOW);
     }
 
     public GuiKeystrokeCustomColorSettings(GuiScreen parent)
@@ -86,6 +94,7 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
+        this.optionsRowList.mouseClicked(mouseX, mouseY, mouseButton);
         this.optionsRowList.mouseClickedText(mouseX, mouseY, mouseButton);
     }
 
