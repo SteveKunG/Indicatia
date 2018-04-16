@@ -156,7 +156,8 @@ public class ExtendedConfig
     public static String toggleSneakUseMode = "command";
     public static int cpsCustomXOffset = 3;
     public static int cpsCustomYOffset = 2;
-    public static int selectedHypixelMinigame;
+    public static int selectedHypixelMinigame = 0;
+    public static int hypixelMinigameScrollPos = 0;
     public static long slimeChunkSeed = 0L;
     public static String topDonatorFilePath = "";
     public static String recentDonatorFilePath = "";
@@ -304,6 +305,7 @@ public class ExtendedConfig
             ExtendedConfig.cpsCustomXOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
             ExtendedConfig.cpsCustomYOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
             ExtendedConfig.selectedHypixelMinigame = ExtendedConfig.getInteger(nbt, "SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
+            ExtendedConfig.hypixelMinigameScrollPos = ExtendedConfig.getInteger(nbt, "HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
             ExtendedConfig.slimeChunkSeed = ExtendedConfig.getLong(nbt, "SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
             ExtendedConfig.topDonatorFilePath = ExtendedConfig.getString(nbt, "TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
             ExtendedConfig.recentDonatorFilePath = ExtendedConfig.getString(nbt, "RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
@@ -451,6 +453,7 @@ public class ExtendedConfig
             nbt.setInteger("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
             nbt.setInteger("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
             nbt.setInteger("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
+            nbt.setInteger("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
             nbt.setLong("SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
             nbt.setString("TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
             nbt.setString("RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);

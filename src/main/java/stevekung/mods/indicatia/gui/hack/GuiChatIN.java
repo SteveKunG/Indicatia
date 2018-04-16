@@ -2,7 +2,11 @@ package stevekung.mods.indicatia.gui.hack;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -20,8 +24,8 @@ import net.minecraft.util.text.event.HoverEvent;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiButtonCustomize;
-import stevekung.mods.indicatia.gui.GuiDropdownElement;
-import stevekung.mods.indicatia.gui.GuiDropdownElement.IDropboxCallback;
+import stevekung.mods.indicatia.gui.GuiDropdownMinigames;
+import stevekung.mods.indicatia.gui.GuiDropdownMinigames.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -33,7 +37,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
     private boolean isDragging;
     private int lastPosX;
     private int lastPosY;
-    private GuiDropdownElement lobbyOptions;
+    private GuiDropdownMinigames dropdown;
 
     public GuiChatIN() {}
 
@@ -99,13 +103,15 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             list.add("Prototype: Battle Royale");
             list.add("Prototype: The Bridge");
 
-            String[] array = list.toArray(new String[0]);
+            String max = Collections.max(list, Comparator.comparing(text -> text.length()));
+            int length = this.mc.fontRenderer.getStringWidth(max) + 25;
 
             // hypixel
             this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
             this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
-            this.buttonList.add(this.lobbyOptions = new GuiDropdownElement(this, this.width - 150, 2, array));
+            this.buttonList.add(this.dropdown = new GuiDropdownMinigames(this, this.width - length, 2, list));
+            this.dropdown.width = length;
 
             // skywars
             this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Skywars Lobby", "sw", "skywars", false));
@@ -269,7 +275,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
 
             this.buttonList.forEach(button ->
             {
-                if (!button.getClass().equals(GuiDropdownElement.class) && !(button.id >= 0 && button.id <= 102))
+                if (!button.getClass().equals(GuiDropdownMinigames.class) && !(button.id >= 0 && button.id <= 102))
                 {
                     button.visible = false;
                 }
@@ -299,7 +305,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
 
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            boolean clicked = !this.lobbyOptions.dropdownClicked;
+            boolean clicked = !this.dropdown.dropdownClicked;
 
             this.buttonList.forEach(button ->
             {
@@ -545,14 +551,14 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
     }
 
     @Override
-    public void onSelectionChanged(GuiDropdownElement dropdown, int selection)
+    public void onSelectionChanged(GuiDropdownMinigames dropdown, int selection)
     {
         ExtendedConfig.selectedHypixelMinigame = selection;
         ExtendedConfig.save();
     }
 
     @Override
-    public int getInitialSelection(GuiDropdownElement dropdown)
+    public int getInitialSelection(GuiDropdownMinigames dropdown)
     {
         return ExtendedConfig.selectedHypixelMinigame;
     }
@@ -627,6 +633,51 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 this.drawHoveringText(this.mc.fontRenderer.listFormattedStringToWidth(hover.getValue().getFormattedText(), Math.max(this.width / 2, 200)), mouseX, mouseY);
             }
             GlStateManager.disableLighting();
+        }
+    }
+
+    @Override
+    public void onGuiClosed()
+    {
+        ExtendedConfig.save();
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException
+    {
+        int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
+        int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+
+        if (this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
+        {
+            int i = Mouse.getEventDWheel();
+
+            if (i != 0)
+            {
+                if (i > 1)
+                {
+                    i = -1;
+                }
+                if (i < -1)
+                {
+                    i = 1;
+                }
+                if (isCtrlKeyDown())
+                {
+                    i *= 7;
+                }
+                this.dropdown.scroll(i);
+            }
+            if (Mouse.getEventButtonState())
+            {
+                // hacked mouse clicked :D
+                int event = Mouse.getEventButton();
+                this.mouseClicked(mouseX, mouseY, event);
+            }
+        }
+        else
+        {
+            super.handleMouseInput();
         }
     }
 }

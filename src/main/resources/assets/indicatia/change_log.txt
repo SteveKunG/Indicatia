@@ -1,5 +1,6 @@
 -Added- Added New Extended Config GUI
 -Added- Added /autofish command
+-Added- Added mouse scroll support for Hypixel Minigame list
 -Update- Improve profile settings
 -Update- Improve Click to Disconnect Button
 -Fixed- More bug fixes
