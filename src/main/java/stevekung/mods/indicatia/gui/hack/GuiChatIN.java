@@ -648,7 +648,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
         int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
         int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
 
-        if (this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
+        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
         {
             int i = Mouse.getEventDWheel();
 
