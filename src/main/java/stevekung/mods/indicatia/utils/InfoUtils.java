@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import net.minecraft.client.Minecraft;
@@ -15,10 +14,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
@@ -155,110 +151,6 @@ public class InfoUtils
         return rnd.nextInt(10) == 0;
     }
 
-    public int getAlternatePotionHUDTextColor(Potion potion)
-    {
-        int color = 0;
-
-        if (potion == MobEffects.ABSORPTION)
-        {
-            color = ColorUtils.rgbToDecimal(247, 219, 21);
-        }
-        else if (potion == MobEffects.REGENERATION)
-        {
-            color = ColorUtils.rgbToDecimal(244, 120, 226);
-        }
-        else if (potion == MobEffects.STRENGTH)
-        {
-            color = ColorUtils.rgbToDecimal(179, 55, 55);
-        }
-        else if (potion == MobEffects.SPEED)
-        {
-            color = ColorUtils.rgbToDecimal(120, 201, 224);
-        }
-        else if (potion == MobEffects.FIRE_RESISTANCE)
-        {
-            color = ColorUtils.rgbToDecimal(233, 157, 73);
-        }
-        else if (potion == MobEffects.RESISTANCE)
-        {
-            color = ColorUtils.rgbToDecimal(137, 140, 154);
-        }
-        else if (potion == MobEffects.JUMP_BOOST)
-        {
-            color = ColorUtils.rgbToDecimal(33, 251, 75);
-        }
-        else if (potion == MobEffects.NIGHT_VISION)
-        {
-            color = ColorUtils.rgbToDecimal(97, 97, 224);
-        }
-        else if (potion == MobEffects.WATER_BREATHING)
-        {
-            color = ColorUtils.rgbToDecimal(79, 122, 202);
-        }
-        else if (potion == MobEffects.SLOWNESS)
-        {
-            color = ColorUtils.rgbToDecimal(103, 123, 146);
-        }
-        else if (potion == MobEffects.HASTE)
-        {
-            color = ColorUtils.rgbToDecimal(182, 169, 80);
-        }
-        else if (potion == MobEffects.MINING_FATIGUE)
-        {
-            color = ColorUtils.rgbToDecimal(90, 81, 29);
-        }
-        else if (potion == MobEffects.NAUSEA)
-        {
-            color = ColorUtils.rgbToDecimal(125, 43, 108);
-        }
-        else if (potion == MobEffects.INVISIBILITY)
-        {
-            color = ColorUtils.rgbToDecimal(139, 142, 156);
-        }
-        else if (potion == MobEffects.BLINDNESS)
-        {
-            color = ColorUtils.rgbToDecimal(90, 90, 90);
-        }
-        else if (potion == MobEffects.HUNGER)
-        {
-            color = ColorUtils.rgbToDecimal(99, 133, 92);
-        }
-        else if (potion == MobEffects.WEAKNESS)
-        {
-            color = ColorUtils.rgbToDecimal(102, 108, 102);
-        }
-        else if (potion == MobEffects.POISON)
-        {
-            color = ColorUtils.rgbToDecimal(81, 152, 50);
-        }
-        else if (potion == MobEffects.WITHER)
-        {
-            color = ColorUtils.rgbToDecimal(105, 84, 80);
-        }
-        else if (potion == MobEffects.HEALTH_BOOST)
-        {
-            color = ColorUtils.rgbToDecimal(245, 124, 35);
-        }
-        else if (potion == MobEffects.GLOWING)
-        {
-            color = ColorUtils.rgbToDecimal(146, 158, 96);
-        }
-        else if (potion == MobEffects.LEVITATION)
-        {
-            color = ColorUtils.rgbToDecimal(204, 252, 252);
-        }
-        else if (potion == MobEffects.LUCK)
-        {
-            color = ColorUtils.rgbToDecimal(50, 151, 0);
-        }
-        else if (potion == MobEffects.UNLUCK)
-        {
-            color = ColorUtils.rgbToDecimal(190, 162, 76);
-        }
-        //TODO 1.13 slow falling, conduit power
-        return color;
-    }
-
     public void processMouseOverEntity(Minecraft mc)
     {
         Entity entity = mc.getRenderViewEntity();
@@ -296,7 +188,7 @@ public class InfoUtils
                 Vec3d vec3d2 = vec3d.addVector(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
                 this.pointedEntity = null;
                 Vec3d vec3d3 = null;
-                List<Entity> list = mc.world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, (Predicate<Entity>) entry -> entry != null && entry.canBeCollidedWith()));
+                List<Entity> list = mc.world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, entry -> entry != null && entry.canBeCollidedWith()));
                 double d2 = d1;
 
                 for (int j = 0; j < list.size(); ++j)
@@ -340,7 +232,7 @@ public class InfoUtils
                 if (this.pointedEntity != null && flag && vec3d.distanceTo(vec3d3) > distance)
                 {
                     this.pointedEntity = null;
-                    mc.objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
+                    mc.objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, null, new BlockPos(vec3d3));
                 }
                 if (this.pointedEntity != null && (d2 < d1 || mc.objectMouseOver == null))
                 {
