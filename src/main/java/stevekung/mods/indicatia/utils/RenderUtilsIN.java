@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.stevekunglib.util.RenderUtils;
 
-public class RenderUtil
+public class RenderUtilsIN
 {
     public static void renderEntityHealth(EntityLivingBase entityLivingBase, String text, double x, double y, double z)
     {

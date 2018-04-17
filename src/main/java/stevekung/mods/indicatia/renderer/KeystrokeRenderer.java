@@ -14,7 +14,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.KeystrokePosition;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.indicatia.utils.RenderUtil;
+import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekunglib.util.ColorUtils;
 
 public class KeystrokeRenderer
@@ -50,7 +50,7 @@ public class KeystrokeRenderer
         GlStateManager.disableDepth();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-        RenderUtil.bindKeystrokeTexture("key_square");
+        RenderUtilsIN.bindKeystrokeTexture("key_square");
         Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 20, heightSquare, wDown ? 24 : 0, 0, 24, 24, 48, 24);
         Gui.drawModalRectWithCustomSizedTexture(width - widthSquare - 4, heightSquare + 24, aDown ? 24 : 0, 0, 24, 24, 48, 24);
         Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 20, heightSquare + 24, sDown ? 24 : 0, 0, 24, 24, 48, 24);
@@ -63,7 +63,7 @@ public class KeystrokeRenderer
 
         if (ExtendedConfig.keystrokeMouse)
         {
-            RenderUtil.bindKeystrokeTexture("mouse_square");
+            RenderUtilsIN.bindKeystrokeTexture("mouse_square");
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare - 4, heightSquare - 12, lmbDown ? 24 : 0, 0, 24, 36, 48, 36);
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 44, heightSquare - 12, rmbDown ? 24 : 0, 0, 24, 36, 48, 36);
             useRainbow = ExtendedConfig.keystrokeMouseButtonRainbow;
@@ -92,26 +92,26 @@ public class KeystrokeRenderer
         }
         if (ExtendedConfig.keystrokeSprintSneak)
         {
-            RenderUtil.bindKeystrokeTexture("button_square_2");
+            RenderUtilsIN.bindKeystrokeTexture("button_square_2");
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 2, heightSquare + 48, sprintDown ? 20 : 0, 0, 20, 20, 40, 20);
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 22, heightSquare + 48, sneakDown ? 20 : 0, 0, 20, 20, 40, 20);
 
-            RenderUtil.bindKeystrokeTexture("sprint");
+            RenderUtilsIN.bindKeystrokeTexture("sprint");
             useRainbow = ExtendedConfig.keystrokeSprintRainbow;
             GlStateManager.color(useRainbow ? red : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSprintColor).floatRed(), useRainbow ? green : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSprintColor).floatGreen(), useRainbow ? blue : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSprintColor).floatBlue());
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 2, heightSquare + 48, sprintDown ? 0 : 20, 0, 20, 20, 40, 20);
 
-            RenderUtil.bindKeystrokeTexture("sneak");
+            RenderUtilsIN.bindKeystrokeTexture("sneak");
             useRainbow = ExtendedConfig.keystrokeSneakRainbow;
             GlStateManager.color(useRainbow ? red : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSneakColor).floatRed(), useRainbow ? green : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSneakColor).floatGreen(), useRainbow ? blue : ColorUtils.stringToRGB(ExtendedConfig.keystrokeSneakColor).floatBlue());
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 22, heightSquare + 48, sneakDown ? 0 : 20, 0, 20, 20, 40, 20);
         }
         if (ExtendedConfig.keystrokeBlocking)
         {
-            RenderUtil.bindKeystrokeTexture("button_square_2");
+            RenderUtilsIN.bindKeystrokeTexture("button_square_2");
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 42, heightSquare + 48, blockDown ? 20 : 0, 0, 20, 20, 40, 20);
 
-            RenderUtil.bindKeystrokeTexture("block");
+            RenderUtilsIN.bindKeystrokeTexture("block");
             useRainbow = ExtendedConfig.keystrokeBlockingRainbow;
             GlStateManager.color(useRainbow ? red : ColorUtils.stringToRGB(ExtendedConfig.keystrokeBlockingColor).floatRed(), useRainbow ? green : ColorUtils.stringToRGB(ExtendedConfig.keystrokeBlockingColor).floatGreen(), useRainbow ? blue : ColorUtils.stringToRGB(ExtendedConfig.keystrokeBlockingColor).floatBlue());
             Gui.drawModalRectWithCustomSizedTexture(width - widthSquare + 42, heightSquare + 48, blockDown ? 0 : 20, 0, 20, 20, 40, 20);

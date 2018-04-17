@@ -41,7 +41,7 @@ import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.indicatia.utils.RenderUtil;
+import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekunglib.util.ColorUtils;
 import stevekung.mods.stevekunglib.util.JsonUtils;
 
@@ -345,7 +345,7 @@ public class HUDRenderEventHandler
                 if (ConfigManagerIN.indicatia_general.enableRenderInfo && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
                 {
                     String rcps = ExtendedConfig.rcps ? " " + HUDInfo.getRCPS() : "";
-                    RenderUtil.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, ExtendedConfig.cpsOpacity / 100.0F);
+                    RenderUtilsIN.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, ExtendedConfig.cpsOpacity / 100.0F);
                     this.mc.fontRenderer.drawString(HUDInfo.getCPS() + rcps, ExtendedConfig.cpsCustomXOffset + 2, ExtendedConfig.cpsCustomYOffset + 2, 16777215, true);
                 }
             }
@@ -420,7 +420,7 @@ public class HUDRenderEventHandler
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand) && !InfoUtils.INSTANCE.isHypixel())
             {
                 String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
-                RenderUtil.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
+                RenderUtilsIN.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
             }
         }
     }
