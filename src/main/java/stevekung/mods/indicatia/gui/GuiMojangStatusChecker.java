@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.utils.MojangServerStatus;
 import stevekung.mods.indicatia.utils.MojangStatusChecker;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiMojangStatusChecker extends GuiScreen

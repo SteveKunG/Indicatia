@@ -29,8 +29,8 @@ import stevekung.mods.indicatia.gui.GuiDropdownMinigames.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekunglib.util.JsonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class GuiChatIN extends GuiChat implements IDropboxCallback
 {

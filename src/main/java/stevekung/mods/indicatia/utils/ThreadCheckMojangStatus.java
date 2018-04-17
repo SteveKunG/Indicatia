@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.utils;
 import java.util.Arrays;
 
 import net.minecraft.client.Minecraft;
-import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class ThreadCheckMojangStatus extends Thread
 {

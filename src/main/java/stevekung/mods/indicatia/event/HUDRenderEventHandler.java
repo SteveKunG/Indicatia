@@ -42,8 +42,8 @@ import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
-import stevekung.mods.stevekunglib.util.ColorUtils;
-import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class HUDRenderEventHandler
 {

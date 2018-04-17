@@ -12,8 +12,8 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToSe
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
-import stevekung.mods.stevekunglib.util.CommonUtils;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.CommonUtils;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 
 public class ChatMessageEventHandler
 {

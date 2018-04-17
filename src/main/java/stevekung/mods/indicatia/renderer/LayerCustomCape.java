@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 
 @SideOnly(Side.CLIENT)
 public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>

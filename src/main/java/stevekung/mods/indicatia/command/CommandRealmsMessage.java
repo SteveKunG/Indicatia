@@ -6,9 +6,9 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.ClientCommandBase;
-import stevekung.mods.stevekunglib.util.JsonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.ClientCommandBase;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class CommandRealmsMessage extends ClientCommandBase
 {

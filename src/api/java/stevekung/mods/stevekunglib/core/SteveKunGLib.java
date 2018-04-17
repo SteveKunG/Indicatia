@@ -9,8 +9,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import stevekung.mods.stevekunglib.client.event.ClientEventHandler;
-import stevekung.mods.stevekunglib.util.ClientUtils;
-import stevekung.mods.stevekunglib.util.CommonUtils;
+import stevekung.mods.stevekunglib.utils.ClientUtils;
+import stevekung.mods.stevekunglib.utils.CommonUtils;
 
 @Mod(modid = SteveKunGLib.MODID, name = SteveKunGLib.NAME, version = SteveKunGLib.VERSION, dependencies = SteveKunGLib.FORGE_VERSION, updateJSON = SteveKunGLib.JSON_URL, acceptableRemoteVersions = "*")
 public class SteveKunGLib

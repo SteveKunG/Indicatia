@@ -19,7 +19,7 @@ import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class GuiRenderPreview extends GuiScreen
 {

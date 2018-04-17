@@ -13,10 +13,10 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.CommonUtils;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
-import stevekung.mods.stevekunglib.util.JsonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.CommonUtils;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class GuiAutoLoginFunction extends GuiScreen
 {

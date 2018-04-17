@@ -10,8 +10,8 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
-import stevekung.mods.stevekunglib.util.JsonUtils;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class CapeUtils
 {

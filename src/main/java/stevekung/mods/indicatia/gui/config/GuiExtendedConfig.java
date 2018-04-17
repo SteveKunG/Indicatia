@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.CommonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.CommonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiExtendedConfig extends GuiScreen

@@ -78,7 +78,7 @@ import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.stevekunglib.util.*;
+import stevekung.mods.stevekunglib.utils.*;
 
 public class IndicatiaEventHandler
 {

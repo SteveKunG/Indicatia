@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class GuiDropdownMinigames extends GuiButton
 {

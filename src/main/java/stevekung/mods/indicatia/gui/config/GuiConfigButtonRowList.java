@@ -10,7 +10,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.GuiUtils;
+import stevekung.mods.stevekunglib.utils.GuiUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiConfigButtonRowList extends GuiListExtended

@@ -12,9 +12,9 @@ import net.minecraft.item.ItemFishingRod;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekunglib.util.ClientCommandBase;
-import stevekung.mods.stevekunglib.util.JsonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.ClientCommandBase;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class CommandAutoFish extends ClientCommandBase
 {

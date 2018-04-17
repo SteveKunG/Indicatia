@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiConfigTextFieldRowList extends GuiListExtended

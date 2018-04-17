@@ -20,10 +20,10 @@ import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp;
 import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.Base64Utils;
-import stevekung.mods.stevekunglib.util.ClientCommandBase;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
-import stevekung.mods.stevekunglib.util.JsonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.ClientCommandBase;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class CommandAutoLogin extends ClientCommandBase
 {

@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.integration;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 import net.minecraft.client.Minecraft;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class GalacticraftPlanetTime
 {

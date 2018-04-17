@@ -16,9 +16,9 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.ThreadDownloadedCustomCape;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
-import stevekung.mods.stevekunglib.util.JsonUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class GuiCustomCape extends GuiScreen
 {

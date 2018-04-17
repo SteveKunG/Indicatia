@@ -9,8 +9,8 @@ import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.stevekunglib.util.ColorUtils;
-import stevekung.mods.stevekunglib.util.RenderUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
+import stevekung.mods.stevekunglib.utils.RenderUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiMultiplayerIN extends GuiMultiplayer

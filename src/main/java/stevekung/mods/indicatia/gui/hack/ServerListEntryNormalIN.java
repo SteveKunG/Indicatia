@@ -11,7 +11,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.stevekunglib.util.ClientUtils;
+import stevekung.mods.stevekunglib.utils.ClientUtils;
 
 @SideOnly(Side.CLIENT)
 public class ServerListEntryNormalIN extends ServerListEntryNormal

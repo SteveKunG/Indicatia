@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import stevekung.mods.stevekunglib.util.RenderUtils;
+import stevekung.mods.stevekunglib.utils.RenderUtils;
 
 public class RenderUtilsIN
 {

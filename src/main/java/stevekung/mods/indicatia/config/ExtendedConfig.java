@@ -16,8 +16,8 @@ import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.stevekunglib.util.GameProfileUtils;
-import stevekung.mods.stevekunglib.util.LangUtils;
+import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class ExtendedConfig
 {

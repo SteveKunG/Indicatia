@@ -15,7 +15,7 @@ import stevekung.mods.indicatia.config.KeystrokePosition;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class KeystrokeRenderer
 {

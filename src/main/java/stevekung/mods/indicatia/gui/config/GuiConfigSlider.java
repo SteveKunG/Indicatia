@@ -10,8 +10,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.util.LangUtils;
-import stevekung.mods.stevekunglib.util.RenderUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekunglib.utils.RenderUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiConfigSlider extends GuiButton

@@ -18,7 +18,7 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class InfoUtils
 {

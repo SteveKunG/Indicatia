@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import stevekung.mods.indicatia.config.EnumEquipment;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.stevekunglib.util.ColorUtils;
+import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class HorizontalEquipment
 {
