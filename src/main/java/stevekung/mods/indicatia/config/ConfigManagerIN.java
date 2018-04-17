@@ -23,11 +23,11 @@ public class ConfigManagerIN
         @Config.RangeInt(min = 20, max = 100)
         public int endGameTitleTime = 20;
 
-        @Config.Comment("gui.config.indicatia.end_game_title_message")
+        @Config.Comment("This will check message from Title if equal to it. Split text by \",\" Example: Goodbye,You Died")
         @Config.Name(value = "End Game Title Message")
         public String endGameTitleMessage = "you lose,you win,game end,victory";
 
-        @Config.Comment("gui.config.indicatia.end_game_message")
+        @Config.Comment("This message will be printed to in-game chat when game is ending or finished. Disable by leave it blank.")
         @Config.Name(value = "End Game Message")
         public String endGameMessage = "";
 
@@ -37,20 +37,20 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable Render Info")
         public boolean enableRenderInfo = true;
 
-        @Config.Comment("gui.config.indicatia.blockhit_animation")
+        @Config.Comment("Improve smooth hand action animation from 1.7.")
         @Config.Name(value = "Enable Blockhit Animation")
         public boolean enableBlockhitAnimation = false;
 
-        @Config.Comment("gui.config.indicatia.additional_blockhit_animation")
+        @Config.Comment("When Eating/Blocking/Bowing/Drinking and use left click on the block, your hand will be swing just like in 1.7. (But not start break a block!)")
         @Config.Name(value = "Enable Additional Blockhit Animation")
         public boolean enableAdditionalBlockhitAnimation = false;
 
-        @Config.Comment("gui.config.indicatia.old_fish_render")
+        @Config.Comment("Replacing vanilla fishing line and fishing rod model rendering.")
         @Config.Name(value = "Enable Fishing Rod Old Render")
         @Config.RequiresMcRestart
         public boolean enableFishingRodOldRender = false;
 
-        @Config.Comment("gui.config.indicatia.old_armor_render")
+        @Config.Comment("This will using old armor hurt effect render. (red overlay)")
         @Config.Name(value = "Enable Old Armor Render")
         public boolean enableOldArmorRender = false;
 
@@ -63,29 +63,29 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable AFK Message")
         public boolean enableAFKMessage = true;
 
-        @Config.Comment("gui.config.indicatia.fast_chat")
+        @Config.Comment("Disable chat background rendering.")
         @Config.Name(value = "Enable Fast Chat Render")
         public boolean enableFastChatRender = false;
 
-        @Config.Comment("gui.config.indicatia.custom_player_list")
+        @Config.Comment("Show response time as number instead.")
         @Config.Name(value = "Enable Custom Player List")
         public boolean enableCustomPlayerList = false;
 
-        @Config.Comment("gui.config.indicatia.custom_server_selection")
+        @Config.Comment("Show response time as number instead and improved server info.")
         @Config.Name(value = "Enable Custom Server Selection GUI")
         public boolean enableCustomServerSelectionGui = false;
 
-        @Config.Comment("gui.config.indicatia.confirm_disconnect_button")
+        @Config.Comment("This will display confirmation button if you want to disconnect from the server.")
         @Config.Name(value = "Enable Confirm Disconnect Button")
         public boolean enableConfirmDisconnectButton = false;
 
-        @Config.Comment("gui.config.indicatia.chat_depth_render")
+        @Config.Comment("Fix chat rendering if equipment icons is over Chat GUI.")
         @Config.Name(value = "Enable Fix Chat Depth Render")
         public boolean enableFixChatDepthRender = true;
 
-        @Config.Comment("gui.config.indicatia.potion_hud")
-        @Config.Name(value = "Enable Ingame Potion HUD")
-        public boolean enableIngamePotionHUD = true;
+        @Config.Comment("Show Vanilla Potion HUD in-game.")
+        @Config.Name(value = "Enable Vanilla Potion HUD")
+        public boolean enableVanillaPotionHUD = true;
 
         @Config.Name(value = "Enable Boss Health Bar")
         public boolean enableRenderBossHealthBar = true;
@@ -96,11 +96,11 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable Scoreboard Sidebar Render")
         public boolean enableRenderScoreboard = true;
 
-        @Config.Comment("gui.config.indicatia.custom_movement_handler")
+        @Config.Comment("Allowed control by custom player movement (Toggle Sprint/Sneak, AFK Stuff).")
         @Config.Name(value = "Enable Custom Movement Handler")
         public boolean enableCustomMovementHandler = true;
 
-        @Config.Comment("gui.config.indicatia.custom_cape")
+        @Config.Comment("Allowed to use Custom Cape by upload your Custom Cape texture to any website.")
         @Config.Name(value = "Enable Custom Cape")
         public boolean enableCustomCape = false;
 

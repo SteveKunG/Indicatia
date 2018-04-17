@@ -2,22 +2,6 @@
 indicatia_general=General Settings
 indicatia_donation=Donation Settings
 
-# CONFIG DESCRIPTION
-gui.config.indicatia.blockhit_animation=Improve smooth hand action animation from 1.7.
-gui.config.indicatia.old_fish_render=Replacing vanilla fishing line and fishing rod model rendering.
-gui.config.indicatia.fast_chat=Disable chat background rendering.
-gui.config.indicatia.custom_player_list=Show response time as number instead.
-gui.config.indicatia.chat_depth_render=Fix chat rendering if equipment icons is over Chat GUI.
-gui.config.indicatia.potion_hud=Show Potion HUD in-game.
-gui.config.indicatia.custom_movement_handler=Allow handled by custom player movement (Toggle Sprint/Sneak, AFK Stuff).
-gui.config.indicatia.custom_cape=Allowed to use Custom Cape by upload your Custom Cape texture to any website.
-gui.config.indicatia.old_armor_render=This will using old armor hurt effect render. (red overlay)
-gui.config.indicatia.end_game_title_message=This will check message from Title if equal to it. Split text by "," Example: Goodbye,You Died
-gui.config.indicatia.end_game_message=This message will be printed to in-game chat when game is end or finished. Disable by leave it blank.
-gui.config.indicatia.additional_blockhit_animation=When Eating/Blocking/Bowing/Drinking and use left click on the block, your hand will be swing just like in 1.7. (But not start break a block)
-gui.config.indicatia.custom_server_selection=Show response time as number instead and improved server info.
-gui.config.indicatia.confirm_disconnect_button=This will display confirmation button if you want to disconnect from the server.
-
 # EXTENDED CONFIG
 extended_config.main.title=Extended Config
 extended_config.custom_color.title=Custom Color Settings

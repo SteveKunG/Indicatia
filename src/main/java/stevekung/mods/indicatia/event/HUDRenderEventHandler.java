@@ -386,7 +386,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!ConfigManagerIN.indicatia_general.enableIngamePotionHUD || this.mc.currentScreen instanceof GuiRenderPreview)
+            if (!ConfigManagerIN.indicatia_general.enableVanillaPotionHUD || this.mc.currentScreen instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
             }
