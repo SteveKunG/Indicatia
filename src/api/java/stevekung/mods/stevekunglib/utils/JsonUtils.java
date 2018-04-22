@@ -14,7 +14,7 @@ public class JsonUtils
 {
     public static ITextComponent rawTextToJson(String raw)
     {
-        ITextComponent json = create("null ").setStyle(red());
+        ITextComponent json = create("Cannot parse json format! ").setStyle(red());
 
         try
         {
