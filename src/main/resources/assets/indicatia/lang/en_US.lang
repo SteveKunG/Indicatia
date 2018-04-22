@@ -8,6 +8,7 @@ extended_config.custom_color.title=Custom Color Settings
 extended_config.render_info.title=Render Info Settings...
 extended_config.custom_color.title=Custom Color Settings...
 extended_config.offset.title=Offset Settings...
+extended_config.hypixel.title=Hypixel Settings...
 extended_config.keystroke_custom_color.title=Keystroke Custom Color
 extended_config.render_info_custom_color.title=Render Info Custom Color
 preview.extended_config=Preview
@@ -109,6 +110,7 @@ keystroke_sneak_rainbow.extended_config=Keystroke Sneak Rainbow
 keystroke_blocking_rainbow.extended_config=Keystroke Blocking Rainbow
 keystroke_cps_rainbow.extended_config=Keystroke CPS Rainbow
 keystroke_rcps_rainbow.extended_config=Keystroke RCPS Rainbow
+right_click_add_party.extended_config=Right Click to Add Party
 
 # EXTENDED CONFIG INFO
 extended_config.render_info.tps.info=This will show overall Server TPS to testing performance. (Only works with client)

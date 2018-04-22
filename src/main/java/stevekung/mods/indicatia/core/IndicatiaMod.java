@@ -34,10 +34,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.event.BlockhitAnimationEventHandler;
-import stevekung.mods.indicatia.event.ChatMessageEventHandler;
-import stevekung.mods.indicatia.event.HUDRenderEventHandler;
-import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.indicatia.event.*;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
@@ -95,6 +92,7 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
         CommonUtils.registerEventHandler(new ChatMessageEventHandler());
+        CommonUtils.registerEventHandler(new HypixelEventHandler());
 
         if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
         {

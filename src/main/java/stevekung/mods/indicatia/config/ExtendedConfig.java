@@ -156,15 +156,18 @@ public class ExtendedConfig
     public static String toggleSneakUseMode = "command";
     public static int cpsCustomXOffset = 3;
     public static int cpsCustomYOffset = 2;
-    public static int selectedHypixelMinigame = 0;
-    public static int hypixelMinigameScrollPos = 0;
     public static long slimeChunkSeed = 0L;
     public static String topDonatorFilePath = "";
     public static String recentDonatorFilePath = "";
     public static String topDonatorText = "";
     public static String recentDonatorText = "";
-    public static String hypixelNickName = "";
     public static String realmsMessage = "";
+
+    // Hypixel
+    public static boolean rightClickToAddParty = false;
+    public static String hypixelNickName = "";
+    public static int selectedHypixelMinigame = 0;
+    public static int hypixelMinigameScrollPos = 0;
 
     private ExtendedConfig() {}
 
@@ -304,15 +307,18 @@ public class ExtendedConfig
             ExtendedConfig.toggleSneakUseMode = ExtendedConfig.getString(nbt, "ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
             ExtendedConfig.cpsCustomXOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
             ExtendedConfig.cpsCustomYOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
-            ExtendedConfig.selectedHypixelMinigame = ExtendedConfig.getInteger(nbt, "SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
-            ExtendedConfig.hypixelMinigameScrollPos = ExtendedConfig.getInteger(nbt, "HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
             ExtendedConfig.slimeChunkSeed = ExtendedConfig.getLong(nbt, "SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
             ExtendedConfig.topDonatorFilePath = ExtendedConfig.getString(nbt, "TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
             ExtendedConfig.recentDonatorFilePath = ExtendedConfig.getString(nbt, "RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
             ExtendedConfig.topDonatorText = ExtendedConfig.getString(nbt, "TopDonatorText", ExtendedConfig.topDonatorText);
             ExtendedConfig.recentDonatorText = ExtendedConfig.getString(nbt, "RecentDonatorText", ExtendedConfig.recentDonatorText);
-            ExtendedConfig.hypixelNickName = ExtendedConfig.getString(nbt, "HypixelNickName", ExtendedConfig.hypixelNickName);
             ExtendedConfig.realmsMessage = ExtendedConfig.getString(nbt, "RealmsMessage", ExtendedConfig.realmsMessage);
+
+            // Hypixel
+            ExtendedConfig.rightClickToAddParty = ExtendedConfig.getBoolean(nbt, "RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
+            ExtendedConfig.hypixelNickName = ExtendedConfig.getString(nbt, "HypixelNickName", ExtendedConfig.hypixelNickName);
+            ExtendedConfig.selectedHypixelMinigame = ExtendedConfig.getInteger(nbt, "SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
+            ExtendedConfig.hypixelMinigameScrollPos = ExtendedConfig.getInteger(nbt, "HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
 
             ExtendedConfig.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
             HideNameData.load(nbt.getTagList("HideNameList", 10));
@@ -452,15 +458,18 @@ public class ExtendedConfig
             nbt.setString("ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
             nbt.setInteger("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
             nbt.setInteger("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
-            nbt.setInteger("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
-            nbt.setInteger("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
             nbt.setLong("SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
             nbt.setString("TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
             nbt.setString("RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
             nbt.setString("TopDonatorText", ExtendedConfig.topDonatorText);
             nbt.setString("RecentDonatorText", ExtendedConfig.recentDonatorText);
-            nbt.setString("HypixelNickName", ExtendedConfig.hypixelNickName);
             nbt.setString("RealmsMessage", ExtendedConfig.realmsMessage);
+
+            // Hypixel
+            nbt.setBoolean("RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
+            nbt.setString("HypixelNickName", ExtendedConfig.hypixelNickName);
+            nbt.setInteger("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
+            nbt.setInteger("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
 
             nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
             nbt.setTag("HideNameList", HideNameData.save());
@@ -806,6 +815,11 @@ public class ExtendedConfig
         {
             ExtendedConfig.keystrokeRCPSRainbow = !ExtendedConfig.keystrokeRCPSRainbow;
         }
+
+        if (options == ExtendedConfig.Options.RIGHT_CLICK_ADD_PARTY)
+        {
+            ExtendedConfig.rightClickToAddParty = !ExtendedConfig.rightClickToAddParty;
+        }
     }
 
     public void setOptionFloatValue(ExtendedConfig.Options options, float value)
@@ -1143,6 +1157,9 @@ public class ExtendedConfig
             return ExtendedConfig.keystrokeCPSRainbow;
         case KEYSTROKE_RCPS_RAINBOW:
             return ExtendedConfig.keystrokeRCPSRainbow;
+
+        case RIGHT_CLICK_ADD_PARTY:
+            return ExtendedConfig.rightClickToAddParty;
         default:
             return false;
         }
@@ -1371,6 +1388,8 @@ public class ExtendedConfig
         KEYSTROKE_BLOCKING_RAINBOW(false, true),
         KEYSTROKE_CPS_RAINBOW(false, true),
         KEYSTROKE_RCPS_RAINBOW(false, true),
+
+        RIGHT_CLICK_ADD_PARTY(false, true),
         ;
 
         private final boolean isFloat;

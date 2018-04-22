@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -16,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
@@ -49,7 +46,6 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -82,7 +78,6 @@ import stevekung.mods.stevekunglib.utils.*;
 
 public class IndicatiaEventHandler
 {
-    private static final Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
     private Minecraft mc;
     public static final List<Long> LEFT_CLICK = new ArrayList<>();
     public static final List<Long> RIGHT_CLICK = new ArrayList<>();
@@ -120,7 +115,6 @@ public class IndicatiaEventHandler
                 IndicatiaEventHandler.runAFK(this.mc.player);
                 IndicatiaEventHandler.printVersionMessage(this.mc.player);
                 IndicatiaEventHandler.processAutoGG(this.mc);
-                IndicatiaEventHandler.getHypixelNickedPlayer(this.mc);
                 IndicatiaEventHandler.processAutoFish(this.mc);
                 AutoLoginFunction.runAutoLoginFunction();
                 CapeUtils.loadCapeTexture();
@@ -410,30 +404,7 @@ public class IndicatiaEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onClientChatReceived(ClientChatReceivedEvent event)
-    {
-        String unformattedText = event.getMessage().getUnformattedText();
 
-        if (InfoUtils.INSTANCE.isHypixel())
-        {
-            Matcher nickMatcher = IndicatiaEventHandler.nickPattern.matcher(unformattedText);
-
-            if (event.getType() == ChatType.CHAT)
-            {
-                if (nickMatcher.matches())
-                {
-                    ExtendedConfig.hypixelNickName = nickMatcher.group("nick");
-                    ExtendedConfig.save();
-                }
-                if (unformattedText.contains("Your nick has been reset!"))
-                {
-                    ExtendedConfig.hypixelNickName = "";
-                    ExtendedConfig.save();
-                }
-            }
-        }
-    }
 
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
@@ -555,20 +526,6 @@ public class IndicatiaEventHandler
             }
             catch (Exception e) {}
         });
-    }
-
-    private static void getHypixelNickedPlayer(Minecraft mc)
-    {
-        if (InfoUtils.INSTANCE.isHypixel() && mc.currentScreen instanceof GuiEditSign)
-        {
-            GuiEditSign gui = (GuiEditSign) mc.currentScreen;
-
-            if (gui.tileSign != null)
-            {
-                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getUnformattedText();
-                ExtendedConfig.save();
-            }
-        }
     }
 
     private static void runAFK(EntityPlayerSP player)

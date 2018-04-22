@@ -71,7 +71,9 @@ public class GuiExtendedConfig extends GuiScreen
         this.buttonList.add(new GuiButton(100, this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title")));
         this.buttonList.add(new GuiButton(101, this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title")));
         this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title")));
-        this.buttonList.add(new GuiConfigButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
+        this.buttonList.add(new GuiButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title")));
+
+        this.buttonList.add(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done")));
     }
 
@@ -92,11 +94,11 @@ public class GuiExtendedConfig extends GuiScreen
         {
             ExtendedConfig.save();
 
-            if ((button.id < 100 || button.id == 103) && button instanceof GuiConfigButton)
+            if ((button.id < 100 || button.id == 150) && button instanceof GuiConfigButton)
             {
                 ExtendedConfig.Options options = ((GuiConfigButton)button).getOption();
                 ExtendedConfig.instance.setOptionValue(options, 1);
-                button.displayString = ExtendedConfig.instance.getKeyBinding(button.id == 103 ? ExtendedConfig.Options.PREVIEW : ExtendedConfig.Options.byOrdinal(button.id));
+                button.displayString = ExtendedConfig.instance.getKeyBinding(button.id == 150 ? ExtendedConfig.Options.PREVIEW : ExtendedConfig.Options.byOrdinal(button.id));
             }
             if (button.id == 100)
             {
@@ -109,6 +111,10 @@ public class GuiExtendedConfig extends GuiScreen
             if (button.id == 102)
             {
                 this.mc.displayGuiScreen(new GuiOffsetSettings(this));
+            }
+            if (button.id == 103)
+            {
+                this.mc.displayGuiScreen(new GuiHypixelSettings(this));
             }
             if (button.id == 200)
             {
