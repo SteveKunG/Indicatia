@@ -83,6 +83,7 @@ public class IndicatiaMod
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
+        IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
     }
 
     @EventHandler
@@ -93,7 +94,6 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(this);
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
-        CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
         CommonUtils.registerEventHandler(new ChatMessageEventHandler());
 
         if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
@@ -128,6 +128,7 @@ public class IndicatiaMod
     public void init(FMLInitializationEvent event)
     {
         IndicatiaMod.loadProfileOption();
+        CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
 
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {

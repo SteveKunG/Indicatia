@@ -9,7 +9,6 @@ import com.google.common.base.MoreObjects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.settings.KeyBinding;
@@ -31,12 +30,10 @@ public class BlockhitAnimationEventHandler
 {
     private Minecraft mc;
     private KeyBinding zoomKey;
-    private ItemRenderer itemRenderer;
 
     public BlockhitAnimationEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
-        this.itemRenderer = this.mc.getItemRenderer();
 
         Arrays.stream(this.mc.gameSettings.keyBindings).filter(key -> key.getKeyDescription().contains("of.key.zoom")).forEach(key ->
         {
@@ -92,22 +89,22 @@ public class BlockhitAnimationEventHandler
             }
         }
 
-        this.itemRenderer.rotateArroundXAndY(pitch, yaw);
-        this.itemRenderer.setLightmap();
-        this.itemRenderer.rotateArm(partialTicks);
+        this.mc.getItemRenderer().rotateArroundXAndY(pitch, yaw);
+        this.mc.getItemRenderer().setLightmap();
+        this.mc.getItemRenderer().rotateArm(partialTicks);
         GlStateManager.enableRescaleNormal();
 
         if (mainHand)
         {
             float mainHandSwing = hand == EnumHand.MAIN_HAND ? swingProgress : 0.0F;
-            float equipProgress = 1.0F - (this.itemRenderer.prevEquippedProgressMainHand + (this.itemRenderer.equippedProgressMainHand - this.itemRenderer.prevEquippedProgressMainHand) * partialTicks);
-            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.MAIN_HAND, mainHandSwing, this.itemRenderer.itemStackMainHand, equipProgress);
+            float equipProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgressMainHand + (this.mc.getItemRenderer().equippedProgressMainHand - this.mc.getItemRenderer().prevEquippedProgressMainHand) * partialTicks);
+            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.MAIN_HAND, mainHandSwing, this.mc.getItemRenderer().itemStackMainHand, equipProgress);
         }
         if (offHand)
         {
             float offHandSwing = hand == EnumHand.OFF_HAND ? swingProgress : 0.0F;
-            float equipProgress = 1.0F - (this.itemRenderer.prevEquippedProgressOffHand + (this.itemRenderer.equippedProgressOffHand - this.itemRenderer.prevEquippedProgressOffHand) * partialTicks);
-            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.OFF_HAND, offHandSwing, this.itemRenderer.itemStackOffHand, equipProgress);
+            float equipProgress = 1.0F - (this.mc.getItemRenderer().prevEquippedProgressOffHand + (this.mc.getItemRenderer().equippedProgressOffHand - this.mc.getItemRenderer().prevEquippedProgressOffHand) * partialTicks);
+            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.OFF_HAND, offHandSwing, this.mc.getItemRenderer().itemStackOffHand, equipProgress);
         }
         GlStateManager.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
@@ -123,18 +120,18 @@ public class BlockhitAnimationEventHandler
         {
             if (mainHand && !player.isInvisible())
             {
-                this.itemRenderer.renderArmFirstPerson(equipProgress, swingProgress, handSide);
+                this.mc.getItemRenderer().renderArmFirstPerson(equipProgress, swingProgress, handSide);
             }
         }
         else if (itemStack.getItem() instanceof ItemMap)
         {
-            if (mainHand && this.itemRenderer.itemStackOffHand.isEmpty())
+            if (mainHand && this.mc.getItemRenderer().itemStackOffHand.isEmpty())
             {
-                this.itemRenderer.renderMapFirstPerson(rotationPitch, equipProgress, swingProgress);
+                this.mc.getItemRenderer().renderMapFirstPerson(rotationPitch, equipProgress, swingProgress);
             }
             else
             {
-                this.itemRenderer.renderMapFirstPersonSide(equipProgress, handSide, swingProgress, itemStack);
+                this.mc.getItemRenderer().renderMapFirstPersonSide(equipProgress, handSide, swingProgress, itemStack);
             }
         }
         else
@@ -150,21 +147,21 @@ public class BlockhitAnimationEventHandler
                 switch (itemStack.getItemUseAction())
                 {
                 case NONE:
-                    this.itemRenderer.transformSideFirstPerson(handSide, equipProgress);
+                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
                     this.swingHandOldAnimation(equipProgress, f, f1);
                     break;
                 case EAT:
                 case DRINK:
-                    this.itemRenderer.transformEatFirstPerson(partialTicks, handSide, itemStack);
-                    this.itemRenderer.transformSideFirstPerson(handSide, equipProgress);
+                    this.mc.getItemRenderer().transformEatFirstPerson(partialTicks, handSide, itemStack);
+                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
                     this.swingHandOldAnimation(equipProgress, f, f1);
                     break;
                 case BLOCK:
-                    this.itemRenderer.transformSideFirstPerson(handSide, equipProgress);
+                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
                     this.swingHandOldAnimation(equipProgress, f, f1);
                     break;
                 case BOW:
-                    this.itemRenderer.transformSideFirstPerson(handSide, equipProgress);
+                    this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
                     this.swingHandOldAnimation(equipProgress, f, f1);
                     GlStateManager.translate(handType * -0.2785682F, 0.18344387F, 0.15731531F);
                     GlStateManager.rotate(-13.935F, 1.0F, 0.0F, 0.0F);
@@ -197,10 +194,10 @@ public class BlockhitAnimationEventHandler
                 float f2 = -0.2F * MathHelper.sin(swingProgress * (float)Math.PI);
                 int i = rightSide ? 1 : -1;
                 GlStateManager.translate(i * f, f1, f2);
-                this.itemRenderer.transformSideFirstPerson(handSide, equipProgress);
-                this.itemRenderer.transformFirstPerson(handSide, swingProgress);
+                this.mc.getItemRenderer().transformSideFirstPerson(handSide, equipProgress);
+                this.mc.getItemRenderer().transformFirstPerson(handSide, swingProgress);
             }
-            this.itemRenderer.renderItemSide(player, itemStack, rightSide ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, !rightSide);
+            this.mc.getItemRenderer().renderItemSide(player, itemStack, rightSide ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND, !rightSide);
         }
         GlStateManager.popMatrix();
     }
