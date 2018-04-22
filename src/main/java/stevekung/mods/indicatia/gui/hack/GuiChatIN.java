@@ -272,6 +272,8 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "1v1", "prototype_bridge_1v1", "prototype_the_bridge", true));
             this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "2v2", "prototype_bridge_2v2", "prototype_the_bridge", true));
             this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "4v4", "prototype_bridge_4v4", "prototype_the_bridge", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "2v2v2v2", "prototype_bridge_2v2v2v2", "prototype_the_bridge", true));
+            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "3v3v3v3", "prototype_bridge_3v3v3v3", "prototype_the_bridge", true));
 
             this.buttonList.forEach(button ->
             {
