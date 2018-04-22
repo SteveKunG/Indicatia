@@ -9,4 +9,9 @@ public class KeyBindingIU extends KeyBinding
     {
         super(description, new KeyConflictContextHandler(), keyModifier, keyCode, "key.indicatia.category");
     }
+
+    public KeyBindingIU(String description, int keyCode)
+    {
+        super(description, keyCode, "key.indicatia.category");
+    }
 }

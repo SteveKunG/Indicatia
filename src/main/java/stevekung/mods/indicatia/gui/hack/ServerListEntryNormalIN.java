@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,6 +17,9 @@ import stevekung.mods.stevekunglib.utils.ClientUtils;
 @SideOnly(Side.CLIENT)
 public class ServerListEntryNormalIN extends ServerListEntryNormal
 {
+    private static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
+    private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");
+    
     protected ServerListEntryNormalIN(GuiMultiplayerIN gui, ServerData data)
     {
         super(gui, data);

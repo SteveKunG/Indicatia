@@ -27,12 +27,14 @@ import stevekung.mods.indicatia.utils.InfoUtils;
 
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 {
+    private Minecraft mc;
     private static String murderAssassinsNick = "";
 
     //TODO 1.13 player overlay fix?
     public GuiPlayerTabOverlayNew()
     {
         super(Minecraft.getMinecraft(), Minecraft.getMinecraft().ingameGUI);
+        this.mc = Minecraft.getMinecraft();
     }
 
     @Override
