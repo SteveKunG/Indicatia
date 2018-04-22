@@ -114,7 +114,22 @@ public class GuiRenderInfoSettings extends GuiScreen
         this.drawDefaultBackground();
         this.optionsRowList.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.render_info.title"), this.width / 2, 5, 16777215);
-        this.drawCenteredString(this.fontRenderer, TextFormatting.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
+
+        if (GuiConfigButtonRowList.comment != null)
+        {
+            List<String> wrappedLine = this.fontRenderer.listFormattedStringToWidth(GuiConfigButtonRowList.comment, 250);
+            int y = 15;
+
+            for (String text : wrappedLine)
+            {
+                this.drawCenteredString(this.fontRenderer, TextFormatting.GREEN + text, this.width / 2, y, 16777215);
+                y += this.fontRenderer.FONT_HEIGHT;
+            }
+        }
+        else
+        {
+            this.drawCenteredString(this.fontRenderer, TextFormatting.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
+        }
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

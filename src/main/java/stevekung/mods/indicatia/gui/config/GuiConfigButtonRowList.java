@@ -10,12 +10,12 @@ import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.GuiUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiConfigButtonRowList extends GuiListExtended
 {
     private final List<GuiConfigButtonRowList.Row> options = new ArrayList<>();
+    public static String comment = null;
 
     public GuiConfigButtonRowList(int width, int height, int top, int bottom, int slotHeight, ExtendedConfig.Options[] options)
     {
@@ -75,8 +75,6 @@ public class GuiConfigButtonRowList extends GuiListExtended
         private final Minecraft mc = Minecraft.getMinecraft();
         private final GuiButton buttonA;
         private final GuiButton buttonB;
-        private boolean isSelected;
-
         public Row(GuiButton buttonA, GuiButton buttonB)
         {
             this.buttonA = buttonA;
@@ -86,31 +84,15 @@ public class GuiConfigButtonRowList extends GuiListExtended
         @Override
         public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            if (this.buttonB != null)
-            {
-                this.buttonB.y = y;
-                this.buttonB.drawButton(this.mc, mouseX, mouseY, partialTicks);
-
-                if (this.buttonB instanceof GuiConfigButton)
-                {
-                    if (this.isHoveredButton(this.buttonB, mouseX, mouseY))
-                    {
-                        GuiUtils.drawHoveringSingleTextInGUI(((GuiConfigButton)this.buttonB).getComment(), mouseX, mouseY - 10);
-                    }
-                }
-            }
             if (this.buttonA != null)
             {
                 this.buttonA.y = y;
                 this.buttonA.drawButton(this.mc, mouseX, mouseY, partialTicks);
-
-                if (this.buttonA instanceof GuiConfigButton)
-                {
-                    if (this.isHoveredButton(this.buttonA, mouseX, mouseY))
-                    {
-                        GuiUtils.drawHoveringSingleTextInGUI(((GuiConfigButton)this.buttonA).getComment(), mouseX, mouseY - 10);
-                    }
-                }
+            }
+            if (this.buttonB != null)
+            {
+                this.buttonB.y = y;
+                this.buttonB.drawButton(this.mc, mouseX, mouseY, partialTicks);
             }
         }
 
@@ -122,7 +104,11 @@ public class GuiConfigButtonRowList extends GuiListExtended
                 if (this.buttonA instanceof GuiConfigButton)
                 {
                     String comment = ((GuiConfigButton)this.buttonA).getComment();
-                    this.isSelected = mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment);
+
+                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
+                    {
+                        GuiConfigButtonRowList.comment = comment;
+                    }
 
                     if (mouseEvent == 0)
                     {
@@ -142,7 +128,11 @@ public class GuiConfigButtonRowList extends GuiListExtended
                 if (this.buttonB instanceof GuiConfigButton)
                 {
                     String comment = ((GuiConfigButton)this.buttonB).getComment();
-                    this.isSelected = mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment);
+
+                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
+                    {
+                        GuiConfigButtonRowList.comment = comment;
+                    }
 
                     if (mouseEvent == 0)
                     {
@@ -168,22 +158,17 @@ public class GuiConfigButtonRowList extends GuiListExtended
         {
             if (this.buttonA != null)
             {
-                this.isSelected = false;
+                GuiConfigButtonRowList.comment = null;
                 this.buttonA.mouseReleased(x, y);
             }
             if (this.buttonB != null)
             {
-                this.isSelected = false;
+                GuiConfigButtonRowList.comment = null;
                 this.buttonB.mouseReleased(x, y);
             }
         }
 
         @Override
         public void updatePosition(int slotIndex, int x, int y, float partialTicks) {}
-
-        private boolean isHoveredButton(GuiButton button, int mouseX, int mouseY)
-        {
-            return this.isSelected && mouseX >= button.x && mouseY >= button.y && mouseX < button.x + button.width && mouseY < button.y + button.height;
-        }
     }
 }
