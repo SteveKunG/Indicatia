@@ -19,7 +19,7 @@ public class ServerListEntryNormalIN extends ServerListEntryNormal
 {
     private static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
     private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");
-    
+
     protected ServerListEntryNormalIN(GuiMultiplayerIN gui, ServerData data)
     {
         super(gui, data);

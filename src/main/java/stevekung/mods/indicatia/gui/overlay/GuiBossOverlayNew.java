@@ -14,7 +14,7 @@ public class GuiBossOverlayNew extends GuiBossOverlay
 {
     private Minecraft mc;
     private static final ResourceLocation GUI_BARS_TEXTURES = new ResourceLocation("textures/gui/bars.png");
-    
+
     public GuiBossOverlayNew()
     {
         super(Minecraft.getMinecraft());

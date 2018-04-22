@@ -17,7 +17,7 @@ import stevekung.mods.indicatia.utils.HideNameData;
 public class GuiNewChatFast extends GuiNewChat
 {
     private Minecraft mc;
-    
+
     public GuiNewChatFast()
     {
         super(Minecraft.getMinecraft());
