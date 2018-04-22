@@ -89,7 +89,7 @@ public class GuiFullChangeLog extends GuiScreen
     {
         if (button.id == 0)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
     }
 
@@ -98,7 +98,7 @@ public class GuiFullChangeLog extends GuiScreen
     {
         if (keyCode == 1 || keyCode == 28)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
     }
 

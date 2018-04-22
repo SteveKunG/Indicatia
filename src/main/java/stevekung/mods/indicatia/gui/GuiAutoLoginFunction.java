@@ -92,11 +92,11 @@ public class GuiAutoLoginFunction extends GuiScreen
                 ExtendedConfig.loginData.addAutoLogin(this.data.serverIP, "", "", GameProfileUtils.getUUID(), this.inputField.getText());
                 ExtendedConfig.save();
             }
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
         if (button.id == 1)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.displayGuiScreen(null);
         }
         if (button.id == 2)
         {

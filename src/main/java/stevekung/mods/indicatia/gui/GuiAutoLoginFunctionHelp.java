@@ -89,7 +89,7 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
             }
             else
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
         }
     }

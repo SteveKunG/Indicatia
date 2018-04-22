@@ -90,11 +90,11 @@ public class GuiDonator extends GuiScreen
                 ExtendedConfig.topDonatorText = this.convertString(this.topDonateTextInput.getText());
                 ExtendedConfig.recentDonatorText = this.convertString(this.recentDonateTextInput.getText());
                 ExtendedConfig.save();
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
             if (button.id == 1)
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
             if (button.id == 2)
             {

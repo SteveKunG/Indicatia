@@ -89,20 +89,20 @@ public class GuiCustomCape extends GuiScreen
                     thread.start();
                     this.mc.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + this.inputField.getText()));
                 }
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
             if (button.id == 1)
             {
                 this.capeOption = this.prevCapeOption;
                 this.saveCapeOption();
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
             if (button.id == 2)
             {
                 CapeUtils.CAPE_TEXTURE.remove(GameProfileUtils.getUsername());
                 this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_current_cape")));
                 CapeUtils.pngFile.delete();
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
             if (button.id == 3)
             {

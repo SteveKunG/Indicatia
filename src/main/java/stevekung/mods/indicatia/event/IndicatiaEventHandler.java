@@ -595,7 +595,7 @@ public class IndicatiaEventHandler
             }
             if (currentScreen instanceof GuiSleepMPIN && !mc.player.isPlayerSleeping())
             {
-                mc.displayGuiScreen((GuiScreen)null);
+                mc.displayGuiScreen(null);
             }
         }
     }
