@@ -170,16 +170,16 @@ public class IndicatiaEventHandler
                     }
                 }
 
-                Arrays.stream(CachedEnum.actionValues).forEach(action ->
+                for (EnumAction action : CachedEnum.actionValues)
                 {
                     if (action != EnumAction.NONE)
                     {
-                        if (ConfigManagerIN.indicatia_general.enableAdditionalBlockhitAnimation && Minecraft.getMinecraft().gameSettings.keyBindAttack.isKeyDown() && Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && !Minecraft.getMinecraft().player.getHeldItemMainhand().isEmpty() && Minecraft.getMinecraft().player.getHeldItemMainhand().getItemUseAction() == action)
+                        if (ConfigManagerIN.indicatia_general.enableAdditionalBlockhitAnimation && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.player != null && this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getItemUseAction() == action)
                         {
-                            Minecraft.getMinecraft().player.swingArm(EnumHand.MAIN_HAND);
+                            this.mc.player.swingArm(EnumHand.MAIN_HAND);
                         }
                     }
-                });
+                }
             }
             IndicatiaEventHandler.replaceGui(this.mc, this.mc.currentScreen);
         }
