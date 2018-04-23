@@ -79,7 +79,11 @@ public class HypixelEventHandler
             if (gui.tileSign != null)
             {
                 ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getUnformattedText();
-                ExtendedConfig.save();
+
+                if (mc.player.ticksExisted % 40 == 0)
+                {
+                    ExtendedConfig.save();
+                }
             }
         }
     }
