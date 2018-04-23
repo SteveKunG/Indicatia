@@ -8,7 +8,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
@@ -25,7 +25,7 @@ public class ChatMessageEventHandler
     }
 
     @SubscribeEvent
-    public void onClientConnectedToServer(ClientConnectedToServerEvent event)
+    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
     {
         this.mc.addScheduledTask(() -> { MinecraftForge.EVENT_BUS.register(new PlayerSendMessageHandler()); });
     }

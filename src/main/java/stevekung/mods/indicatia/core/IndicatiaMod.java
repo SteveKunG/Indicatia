@@ -39,10 +39,7 @@ import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.stevekunglib.utils.ClientUtils;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
-import stevekung.mods.stevekunglib.utils.VersionChecker;
+import stevekung.mods.stevekunglib.utils.*;
 import stevekung.mods.stevekunglib.utils.client.ColoredFontRenderer;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, clientSideOnly = true, certificateFingerprint = IndicatiaMod.CERTIFICATE)
@@ -65,6 +62,7 @@ public class IndicatiaMod
     public static boolean showAnnounceMessage;
     public static ColoredFontRenderer coloredFontRenderer;
     public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
+    public static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static final VersionChecker checker = new VersionChecker(MOD_ID, VERSION, MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION);
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
     private static final List<String> allowedUUID = new ArrayList<>();
@@ -77,6 +75,12 @@ public class IndicatiaMod
         }
         catch (Exception e) {}
 
+        if (IndicatiaMod.resetFlag.exists())
+        {
+            ExtendedConfig.defaultConfig.delete();
+            IndicatiaMod.resetFlag.delete();
+            ModLogger.info("Reset default config");
+        }
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
@@ -246,6 +250,21 @@ public class IndicatiaMod
                 ModLogger.error("Failed to save profile");
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void saveResetFlag()
+    {
+        ClientUtils.printClientMessage(LangUtils.translate("message.reset_config_flag"));
+
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(resetFlag), StandardCharsets.UTF_8)))
+        {
+            writer.println("reset");
+        }
+        catch (IOException e)
+        {
+            ModLogger.error("Failed to save reset flag");
+            e.printStackTrace();
         }
     }
 }

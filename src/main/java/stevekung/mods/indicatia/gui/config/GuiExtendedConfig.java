@@ -7,12 +7,15 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.stevekunglib.utils.ClientUtils;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
@@ -21,6 +24,8 @@ public class GuiExtendedConfig extends GuiScreen
 {
     private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
     public static boolean preview = false;
+    private GuiButton resetButton;
+    private GuiButton doneButton;
 
     static
     {
@@ -74,7 +79,44 @@ public class GuiExtendedConfig extends GuiScreen
         this.buttonList.add(new GuiButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title")));
 
         this.buttonList.add(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done")));
+        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done")));
+        this.buttonList.add(this.resetButton = new GuiButton(201, this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config")));
+        this.resetButton.visible = false;
+    }
+
+    @Override
+    public void updateScreen()
+    {
+        boolean shift = ClientUtils.isShiftKeyDown();
+
+        if (shift)
+        {
+            this.doneButton.width = 100;
+            this.doneButton.x = this.width / 2 - 105;
+            this.resetButton.visible = true;
+        }
+        else
+        {
+            this.doneButton.width = 200;
+            this.doneButton.x = this.width / 2 - 100;
+            this.resetButton.visible = false;
+        }
+    }
+
+    @Override
+    public void confirmClicked(boolean result, int id)
+    {
+        super.confirmClicked(result, id);
+
+        if (result)
+        {
+            IndicatiaMod.saveResetFlag();
+            this.mc.displayGuiScreen(null);
+        }
+        else
+        {
+            this.mc.displayGuiScreen(this);
+        }
     }
 
     @Override
@@ -116,9 +158,13 @@ public class GuiExtendedConfig extends GuiScreen
             {
                 this.mc.displayGuiScreen(new GuiHypixelSettings(this));
             }
-            if (button.id == 200)
+            if (button.id == this.doneButton.id)
             {
                 this.mc.displayGuiScreen(null);
+            }
+            if (button.id == this.resetButton.id)
+            {
+                this.mc.displayGuiScreen(new GuiYesNo(this, LangUtils.translate("message.reset_config_confirm"), "", 201));
             }
         }
     }

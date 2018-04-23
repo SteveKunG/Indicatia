@@ -79,12 +79,12 @@ public class BlockhitAnimationEventHandler
 
         if (player.isHandActive())
         {
-            ItemStack itemstack = player.getActiveItemStack();
+            ItemStack itemStack = player.getActiveItemStack();
 
-            if (!itemstack.isEmpty() && itemstack.getItem() == Items.BOW)
+            if (!itemStack.isEmpty() && itemStack.getItem() == Items.BOW)
             {
-                EnumHand enumhand1 = player.getActiveHand();
-                mainHand = enumhand1 == EnumHand.MAIN_HAND;
+                EnumHand activeHand = player.getActiveHand();
+                mainHand = activeHand == EnumHand.MAIN_HAND;
                 offHand = !mainHand;
             }
         }
