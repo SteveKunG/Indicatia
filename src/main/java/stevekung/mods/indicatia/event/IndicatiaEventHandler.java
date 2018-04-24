@@ -204,7 +204,7 @@ public class IndicatiaEventHandler
             // toggle sneak
             movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.toggleSneak && !event.getEntityPlayer().isSpectator();
 
-            if (ExtendedConfig.toggleSneak)
+            if (ExtendedConfig.toggleSneak && !player.isSpectator() && !player.isCreative())
             {
                 movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
                 movement.moveForward = (float)(movement.moveForward * 0.3D);
