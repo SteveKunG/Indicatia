@@ -27,6 +27,7 @@ import stevekung.mods.indicatia.gui.GuiDropdownMinigames;
 import stevekung.mods.indicatia.gui.GuiDropdownMinigames.IDropboxCallback;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.HideNameData;
+import stevekung.mods.indicatia.utils.HypixelMinigameGroup;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -37,6 +38,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
     private int lastPosX;
     private int lastPosY;
     private GuiDropdownMinigames dropdown;
+    private int prevSelect = -1;
 
     public GuiChatIN() {}
 
@@ -45,243 +47,11 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
         super(input);
     }
 
-    /*
-        1 - Classic Games
-        2 - Arcade
-        3 - Build Battle
-        4 - UHC Champions
-        5 - Speed UHC
-        6 - Crazy Walls
-        7 - Skywars
-        8 - Skywars Lab
-        9 - Bedwars
-        10 - Skyclash
-        11 - TNT
-        12 - Murder Mystery
-        13 - Duels: Solo
-        14 - Duels: Doubles
-        15 - Survival Games
-        16 - Smash Heroes
-        17 - Prototype: Zombies
-        18 - Prototype: Hide and Seek
-        19 - Prototype: Battle Royale
-        20 - Prototype: The Bridge
-     */
     @Override
     public void initGui()
     {
         super.initGui();
-        boolean enableCPS = ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom");
-
-        if (enableCPS)
-        {
-            this.buttonList.add(new GuiButton(0, this.width - 63, this.height - 35, 60, 20, LangUtils.translate("message.reset_cps")));
-        }
-        if (InfoUtils.INSTANCE.isHypixel())
-        {
-            List<String> list = new ArrayList<>();
-
-            list.add("Classic Games");
-            list.add("Arcade");
-            list.add("Build Battle");
-            list.add("UHC Champions");
-            list.add("Speed UHC");
-            list.add("Crazy Walls");
-            list.add("Skywars");
-            list.add("Skywars Lab");
-            list.add("Bedwars");
-            list.add("Skyclash");
-            list.add("TNT");
-            list.add("Murder Mystery");
-            list.add("Duels: Solo");
-            list.add("Duels: Doubles");
-            list.add("Survival Games");
-            list.add("Smash Heroes");
-            list.add("Prototype: Zombies");
-            list.add("Prototype: Hide and Seek");
-            list.add("Prototype: Battle Royale");
-            list.add("Prototype: The Bridge");
-
-            String max = Collections.max(list, Comparator.comparing(text -> text.length()));
-            int length = this.mc.fontRenderer.getStringWidth(max) + 25;
-
-            // hypixel
-            this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
-            this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
-            this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
-            this.buttonList.add(this.dropdown = new GuiDropdownMinigames(this, this.width - length, 2, list));
-            this.dropdown.width = length;
-
-            // skywars
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Skywars Lobby", "sw", "skywars", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo Normal", "solo_normal", "skywars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Solo Insane", "solo_insane", "skywars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Ranked Mode", "ranked_normal", "skywars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Team Normal", "teams_normal", "skywars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Team Insane", "teams_insane", "skywars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Mega Mode", "mega_normal", "skywars", true));
-
-            // skywars labs
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Skywars Lobby", "sw", "skywars_lab", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo TNT", "solo_insane_tnt_madness", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Solo Rush", "solo_insane_rush", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Solo Slime", "solo_insane_slime", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Solo Lucky", "solo_insane_lucky", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Team TNT", "teams_insane_tnt_madness", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Team Rush", "teams_insane_rush", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "Team Slime", "teams_insane_slime", "skywars_lab", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "Team Lucky", "teams_insane_lucky", "skywars_lab", true));
-
-            // bedwars
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Bedwars Lobby", "bw", "bedwars", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "bedwars_eight_one", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Doubles", "bedwars_eight_two", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "3v3v3v3", "bedwars_four_three", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "4v4v4v4", "bedwars_four_four", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Solo Capture", "bedwars_capture_solo", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Party Capture", "bedwars_capture_party", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "4v4v4v4 Beta", "bedwars_four_four_beta", "bedwars", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "Doubles Beta", "bedwars_eight_two_beta", "bedwars", true));
-
-            // tnt
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "TNT Lobby", "tnt", "tnt", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "TNT Run", "tnt_tntrun", "tnt", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "PVP Run", "tnt_pvprun", "tnt", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Bow Spleef", "tnt_bowspleef", "tnt", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "TNT Tag", "tnt_tntag", "tnt", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Wizards", "tnt_capture", "tnt", true));
-
-            // murder
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Murder Mystery Lobby", "mm", "murder", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Classic", "murder_classic", "murder", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Assassins", "murder_assassins", "murder", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Showdown", "murder_showdown", "murder", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Infection", "murder_infection", "murder", true));
-
-            // skyclash
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Skyclash Lobby", "sc", "skyclash", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "skyclash_solo", "skyclash", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Doubles", "skyclash_doubles", "skyclash", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Team War", "skyclash_team_war", "skyclash", true));
-
-            // uhc
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "UHC Lobby", "uhc", "uhc", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "uhc_solo", "uhc", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Teams", "uhc_teams", "uhc", true));
-
-            // crazy walls
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Crazy Walls Lobby", "cw", "crazy_walls", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "crazy_walls_solo", "crazy_walls", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Teams", "crazy_walls_teams", "crazy_walls", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Solo Lucky", "crazy_walls_solo_chaos", "crazy_walls", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Teams Lucky", "crazy_walls_team_chaos", "crazy_walls", true));
-
-            // survival game
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Blitz Surival Game Lobby", "sg", "survival_game", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "blitz_solo_normal", "survival_game", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Solo (No Kits)", "blitz_solo_nokits", "survival_game", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Team", "blitz_teams_normal", "survival_game", true));
-
-            // speed uhc
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Speed UHC Lobby", "suhc", "speed_uhc", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "speed_solo_normal", "speed_uhc", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Solo Insane", "speed_solo_insane", "speed_uhc", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Team", "speed_team_normal", "speed_uhc", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Team Insane", "speed_team_insane", "speed_uhc", true));
-
-            // duels solo
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Duels Lobby", "duels", "duels_solo", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Classic", "duels_classic_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Skywars", "duels_sw_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Bow", "duels_bow_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "UHC", "duels_uhc_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "No Debuffs", "duels_potion_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Combo", "duels_combo_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "Potion", "duels_potion_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "OP", "duels_op_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 62, this, "Mega Walls", "duels_mw_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 62, this, "Blitz", "duels_blitz_duel", "duels_solo", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 62, this, "Bow Spleef", "duels_bowspleef_duel", "duels_solo", true));
-
-            // duels double
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Duels Lobby", "duels", "duels_double", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Skywars", "duels_sw_doubles", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Doubles UHC", "duels_uhc_doubles", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Teams UHC", "duels_uhc_four", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "OP", "duels_op_doubles", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Doubles Mega Walls", "duels_mw_doubles", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Teams Mega Walls", "duels_mw_four", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "UHC Tournament", "duels_uhc_tournament", "duels_double", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "SW Tournament", "duels_sw_tournament", "duels_double", true));
-
-            // classic games
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Classic Lobby", "classic", "classic", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "VampireZ", "vampirez", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Paintball", "paintball", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Walls", "walls_normal", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Turbo Kart Racers", "tkr", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Quakecraft Solo Mode", "quake_solo", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Quakecraft Teams Mode", "quake_teams", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 41, this, "Arena 1v1 Mode", "arena_1v1", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 41, this, "Arena 2v2 Mode", "arena_2v2", "classic", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 62, this, "Arena 4v4 Mode", "arena_4v4", "classic", true));
-
-            // build battle
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Build Battle Lobby", "bb", "build_battle", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "build_battle_solo_normal", "build_battle", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Teams", "build_battle_teams_normal", "build_battle", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Pro", "build_battle_solo_pro", "build_battle", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Guess the Build", "build_battle_guess_the_build", "build_battle", true));
-
-            // arcade
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Arcade Lobby", "arcade", "arcade", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Mini Walls", "arcade_mini_walls", "arcade", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Football", "arcade_soccer", "arcade", true));
-
-            // smash heroes
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Smash Heroes Lobby", "sh", "smash_heroes", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo 1v1v1v1", "super_smash_solo_normal", "smash_heroes", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Teams 2v2", "super_smash_2v2_normal", "smash_heroes", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Teams 2v2v2", "super_smash_teams_normal", "smash_heroes", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "1v1 Mode", "super_smash_1v1_normal", "smash_heroes", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Friends 1v1v1v1", "super_smash_friends_normal", "smash_heroes", true));
-
-            // prototype zombies
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Prototype Lobby", "ptl", "prototype_zombie", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Story Normal", "prototype_zombies_story_normal", "prototype_zombie", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Story Hard", "prototype_zombies_story_hard", "prototype_zombie", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Story RIP", "prototype_zombies_story_rip", "prototype_zombie", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "Endless Normal", "prototype_zombies_endless_normal", "prototype_zombie", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "Endless Hard", "prototype_zombies_endless_hard", "prototype_zombie", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 41, this, "Endless RIP", "prototype_zombies_endless_rip", "prototype_zombie", true));
-
-            // prototype hide and seek
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Prototype Lobby", "ptl", "prototype_hide_and_seek", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Prop Hunt", "prototype_hide_and_seek_party_pooper", "prototype_hide_and_seek", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Party Pooper", "prototype_hide_and_seek_prop_hunt", "prototype_hide_and_seek", true));
-
-            // prototype battle royale
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Prototype Lobby", "ptl", "prototype_battle_royale", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "prototype_royale:solo", "prototype_battle_royale", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Doubles", "prototype_royale:doubles", "prototype_battle_royale", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "Squad", "prototype_royale:squad", "prototype_battle_royale", true));
-
-            // prototype the bridge
-            this.buttonList.add(new GuiButtonCustomize(this.width - 120, 20, this, "Prototype Lobby", "ptl", "prototype_the_bridge", false));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "1v1", "prototype_bridge_1v1", "prototype_the_bridge", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "2v2", "prototype_bridge_2v2", "prototype_the_bridge", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 57, 20, this, "4v4", "prototype_bridge_4v4", "prototype_the_bridge", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 36, 20, this, "2v2v2v2", "prototype_bridge_2v2v2v2", "prototype_the_bridge", true));
-            this.buttonList.add(new GuiButtonCustomize(this.width - 99, 41, this, "3v3v3v3", "prototype_bridge_3v3v3v3", "prototype_the_bridge", true));
-
-            this.buttonList.forEach(button ->
-            {
-                if (!button.getClass().equals(GuiDropdownMinigames.class) && !(button.id >= 0 && button.id <= 102))
-                {
-                    button.visible = false;
-                }
-            });
-        }
+        this.updateButton();
     }
 
     @Override
@@ -306,6 +76,12 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
 
         if (InfoUtils.INSTANCE.isHypixel())
         {
+            if (this.prevSelect != ExtendedConfig.selectedHypixelMinigame)
+            {
+                this.updateButton();
+                this.prevSelect = ExtendedConfig.selectedHypixelMinigame;
+            }
+
             boolean clicked = !this.dropdown.dropdownClicked;
 
             this.buttonList.forEach(button ->
@@ -313,130 +89,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 if (button instanceof GuiButtonCustomize)
                 {
                     GuiButtonCustomize buttonCustom = (GuiButtonCustomize) button;
-
-                    switch (ExtendedConfig.selectedHypixelMinigame)
-                    {
-                    case 0:
-                        if (buttonCustom.group.equalsIgnoreCase("classic"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 1:
-                        if (buttonCustom.group.equalsIgnoreCase("arcade"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 2:
-                        if (buttonCustom.group.equalsIgnoreCase("build_battle"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 3:
-                        if (buttonCustom.group.equalsIgnoreCase("uhc"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 4:
-                        if (buttonCustom.group.equalsIgnoreCase("speed_uhc"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 5:
-                        if (buttonCustom.group.equalsIgnoreCase("crazy_walls"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 6:
-                        if (buttonCustom.group.equalsIgnoreCase("skywars"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 7:
-                        if (buttonCustom.group.equalsIgnoreCase("skywars_lab"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 8:
-                        if (buttonCustom.group.equalsIgnoreCase("bedwars"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 9:
-                        if (buttonCustom.group.equalsIgnoreCase("skyclash"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 10:
-                        if (buttonCustom.group.equalsIgnoreCase("tnt"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 11:
-                        if (buttonCustom.group.equalsIgnoreCase("murder"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 12:
-                        if (buttonCustom.group.equalsIgnoreCase("duels_solo"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 13:
-                        if (buttonCustom.group.equalsIgnoreCase("duels_double"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 14:
-                        if (buttonCustom.group.equalsIgnoreCase("survival_game"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 15:
-                        if (buttonCustom.group.equalsIgnoreCase("smash_heroes"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 16:
-                        if (buttonCustom.group.equalsIgnoreCase("prototype_zombie"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 17:
-                        if (buttonCustom.group.equalsIgnoreCase("prototype_hide_and_seek"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 18:
-                        if (buttonCustom.group.equalsIgnoreCase("prototype_battle_royale"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    case 19:
-                        if (buttonCustom.group.equalsIgnoreCase("prototype_the_bridge"))
-                        {
-                            buttonCustom.visible = clicked;
-                        }
-                        break;
-                    }
+                    buttonCustom.visible = clicked && ExtendedConfig.selectedHypixelMinigame == buttonCustom.group.ordinal();
                 }
             });
         }
@@ -680,5 +333,271 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
         {
             super.handleMouseInput();
         }
+    }
+
+    private void updateButton()
+    {
+        this.buttonList.clear();
+        boolean enableCPS = ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom");
+
+        if (enableCPS)
+        {
+            this.buttonList.add(new GuiButton(0, this.width - 63, this.height - 35, 60, 20, LangUtils.translate("message.reset_cps")));
+        }
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            List<String> list = new ArrayList<>();
+
+            for (HypixelMinigameGroup group : HypixelMinigameGroup.values)
+            {
+                list.add(group.getName());
+            }
+
+            String max = Collections.max(list, Comparator.comparing(text -> text.length()));
+            int length = this.mc.fontRenderer.getStringWidth(max) + 25;
+
+            // hypixel chat
+            this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
+            this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
+            this.buttonList.add(new GuiButton(102, this.width - 63, enableCPS ? this.height - 98 : this.height - 77, 60, 20, "Guild Chat"));
+            this.buttonList.add(this.dropdown = new GuiDropdownMinigames(this, this.width - length, 2, list));
+            this.dropdown.width = length;
+            this.prevSelect = ExtendedConfig.selectedHypixelMinigame;
+
+            List<GuiButtonCustomize> gameBtn = new ArrayList<>();
+            int xPos2 = this.width - 99;
+
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.MAIN.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Main Lobby", "main", HypixelMinigameGroup.MAIN, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Housing", "/home", HypixelMinigameGroup.MAIN, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Limbo", "/achat \u00A7", HypixelMinigameGroup.MAIN, false));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.ARCADE.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Arcade Lobby", "arcade", HypixelMinigameGroup.ARCADE, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Mini Walls", "arcade_mini_walls", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Football", "arcade_soccer", HypixelMinigameGroup.ARCADE, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.CLASSIC_GAMES.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Classic Lobby", "classic", HypixelMinigameGroup.CLASSIC_GAMES, false));
+                gameBtn.add(new GuiButtonCustomize(this, "VampireZ", "vampirez", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Paintball", "paintball", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "The Walls", "walls", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Turbo Kart Racers", "tkr", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Quakecraft Solo", "quake_solo", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Quakecraft Teams", "quake_teams", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Arena 1v1", "arena_1v1", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Arena 2v2", "arena_2v2", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Arena 4v4", "arena_4v4", HypixelMinigameGroup.CLASSIC_GAMES, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.BEDWARS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Bedwars Lobby", "bw", HypixelMinigameGroup.BEDWARS, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "bedwars_eight_one", HypixelMinigameGroup.BEDWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "bedwars_eight_two", HypixelMinigameGroup.BEDWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "3v3v3v3", "bedwars_four_three", HypixelMinigameGroup.BEDWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "4v4v4v4", "bedwars_four_four", HypixelMinigameGroup.BEDWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Capture", "bedwars_capture_solo", HypixelMinigameGroup.BEDWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Party Capture", "bedwars_capture_party", HypixelMinigameGroup.BEDWARS, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.BUILD_BATTLE.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Build Battle Lobby", "bb", HypixelMinigameGroup.BUILD_BATTLE, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "build_battle_solo_normal", HypixelMinigameGroup.BUILD_BATTLE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams", "build_battle_teams_normal", HypixelMinigameGroup.BUILD_BATTLE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Pro", "build_battle_solo_pro", HypixelMinigameGroup.BUILD_BATTLE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Guess the Build", "build_battle_guess_the_build", HypixelMinigameGroup.BUILD_BATTLE, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.COPS_AND_CRIMS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Cops and Crims Lobby", "cnc", HypixelMinigameGroup.COPS_AND_CRIMS, false));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.CRAZY_WALLS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Crazy Walls Lobby", "cw", HypixelMinigameGroup.CRAZY_WALLS, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "crazy_walls_solo", HypixelMinigameGroup.CRAZY_WALLS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams", "crazy_walls_team", HypixelMinigameGroup.CRAZY_WALLS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Lucky", "crazy_walls_solo_chaos", HypixelMinigameGroup.CRAZY_WALLS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams Lucky", "crazy_walls_team_chaos", HypixelMinigameGroup.CRAZY_WALLS, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.DUELS_SOLO.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Duels Lobby", "duels", HypixelMinigameGroup.DUELS_SOLO, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Classic", "duels_classic_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Skywars", "duels_sw_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Bow", "duels_bow_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "UHC", "duels_uhc_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "No Debuffs", "duels_potion_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Combo", "duels_combo_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Potion", "duels_potion_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "OP", "duels_op_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Mega Walls", "duels_mw_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Blitz", "duels_blitz_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Bow Spleef", "duels_bowspleef_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.DUELS_DOUBLES.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Duels Lobby", "duels", HypixelMinigameGroup.DUELS_DOUBLES, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Skywars", "duels_sw_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles UHC", "duels_uhc_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams UHC", "duels_uhc_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "OP", "duels_op_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Mega Walls", "duels_mw_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams Mega Walls", "duels_mw_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "UHC Tournament", "duels_uhc_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "SW Tournament", "duels_sw_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.MEGA_WALLS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Mega Walls Lobby", "mw", HypixelMinigameGroup.MEGA_WALLS, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Standard", "mw_standard", HypixelMinigameGroup.MEGA_WALLS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Face Off", "mw_face_off", HypixelMinigameGroup.MEGA_WALLS, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.MURDER_MYSTERY.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Murder Mystery Lobby", "mm", HypixelMinigameGroup.MURDER_MYSTERY, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Classic", "murder_classic", HypixelMinigameGroup.MURDER_MYSTERY, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Assassins", "murder_assassins", HypixelMinigameGroup.MURDER_MYSTERY, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Showdown", "murder_showdown", HypixelMinigameGroup.MURDER_MYSTERY, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Infection", "murder_infection", HypixelMinigameGroup.MURDER_MYSTERY, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SKYCLASH.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Skyclash Lobby", "sc", HypixelMinigameGroup.SKYCLASH, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "skyclash_solo", HypixelMinigameGroup.SKYCLASH, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "skyclash_doubles", HypixelMinigameGroup.SKYCLASH, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team War", "skyclash_team_war", HypixelMinigameGroup.SKYCLASH, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SKYWARS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Skywars Lobby", "sw", HypixelMinigameGroup.SKYWARS, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Normal", "solo_normal", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Insane", "solo_insane", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Ranked Mode", "ranked_normal", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Normal", "teams_normal", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Insane", "teams_insane", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Mega Mode", "mega_normal", HypixelMinigameGroup.SKYWARS, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SKYWARS_LAB.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Skywars Lobby", "sw", HypixelMinigameGroup.SKYWARS_LAB, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo TNT", "solo_insane_tnt_madness", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Rush", "solo_insane_rush", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Slime", "solo_insane_slime", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Lucky", "solo_insane_lucky", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team TNT", "teams_insane_tnt_madness", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Rush", "teams_insane_rush", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Slime", "teams_insane_slime", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Lucky", "teams_insane_lucky", HypixelMinigameGroup.SKYWARS_LAB, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SMASH_HEROES.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Smash Heroes Lobby", "sh", HypixelMinigameGroup.SMASH_HEROES, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo 1v1v1v1", "super_smash_solo_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams 2v2", "super_smash_2v2_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams 2v2v2", "super_smash_teams_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "1v1 Mode", "super_smash_1v1_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Friends 1v1v1v1", "super_smash_friends_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SPEED_UHC.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Speed UHC Lobby", "suhc", HypixelMinigameGroup.SPEED_UHC, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "speed_solo_normal", HypixelMinigameGroup.SPEED_UHC, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo Insane", "speed_solo_insane", HypixelMinigameGroup.SPEED_UHC, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team", "speed_team_normal", HypixelMinigameGroup.SPEED_UHC, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Insane", "speed_team_insane", HypixelMinigameGroup.SPEED_UHC, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SURVIVAL_GAMES.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Blitz Surival Game Lobby", "sg", HypixelMinigameGroup.SURVIVAL_GAMES, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "blitz_solo_normal", HypixelMinigameGroup.SURVIVAL_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo (No Kits)", "blitz_solo_nokits", HypixelMinigameGroup.SURVIVAL_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team", "blitz_teams_normal", HypixelMinigameGroup.SURVIVAL_GAMES, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.TNT.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "TNT Lobby", "tnt", HypixelMinigameGroup.TNT, false));
+                gameBtn.add(new GuiButtonCustomize(this, "TNT Run", "tnt_tntrun", HypixelMinigameGroup.TNT, true));
+                gameBtn.add(new GuiButtonCustomize(this, "PvP Run", "tnt_pvprun", HypixelMinigameGroup.TNT, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Bow Spleef", "tnt_bowspleef", HypixelMinigameGroup.TNT, true));
+                gameBtn.add(new GuiButtonCustomize(this, "TNT Tag", "tnt_tntag", HypixelMinigameGroup.TNT, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Wizards", "tnt_capture", HypixelMinigameGroup.TNT, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.UHC_CHAMPIONS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "UHC Champions Lobby", "uhc", HypixelMinigameGroup.UHC_CHAMPIONS, false));
+                //this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "uhc_solo", "uhc", true));TODO
+                //this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Teams", "uhc_teams", "uhc", true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.WARLORDS.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Warlords Lobby", "wl", HypixelMinigameGroup.WARLORDS, false));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "prototype_royale:solo", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "prototype_royale:doubles", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Squad", "prototype_royale:squad", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Prop Hunt", "prototype_hide_and_seek_party_pooper", HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Party Pooper", "prototype_hide_and_seek_prop_hunt", HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, false));
+                gameBtn.add(new GuiButtonCustomize(this, "1v1", "prototype_bridge_1v1", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "2v2", "prototype_bridge_2v2", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "4v4", "prototype_bridge_4v4", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "2v2v2v2", "prototype_bridge_2v2v2v2", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "3v3v3v3", "prototype_bridge_3v3v3v3", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
+            }
+            if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_ZOMBIES.ordinal())
+            {
+                gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Story Normal", "prototype_zombies_story_normal", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Story Hard", "prototype_zombies_story_hard", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Story RIP", "prototype_zombies_story_rip", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Endless Normal", "prototype_zombies_endless_normal", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Endless Hard", "prototype_zombies_endless_hard", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Endless RIP", "prototype_zombies_endless_rip", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
+            }
+
+            for (int i = 0; i < gameBtn.size(); i++)
+            {
+                GuiButtonCustomize button = gameBtn.get(i);
+
+                if (i <= 6)
+                {
+                    button.x += 21 * i;
+                }
+                if (i >= 6 && i <= 11)
+                {
+                    button.x = xPos2 - 136;
+                    button.x += 21 * i;
+                    button.y = 41;
+                }
+                if (i >= 11)
+                {
+                    button.x = xPos2 - 241;
+                    button.x += 21 * i;
+                    button.y = 62;
+                }
+                this.buttonList.add(button);
+            }
+        }
+
+        this.buttonList.forEach(button ->
+        {
+            if (!button.getClass().equals(GuiDropdownMinigames.class) && !(button.id >= 0 && button.id <= 102))
+            {
+                button.visible = false;
+            }
+        });
     }
 }

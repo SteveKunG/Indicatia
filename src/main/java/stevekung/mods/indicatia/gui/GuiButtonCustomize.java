@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.utils.HypixelMinigameGroup;
 
 @SideOnly(Side.CLIENT)
 public class GuiButtonCustomize extends GuiButton
@@ -17,18 +18,18 @@ public class GuiButtonCustomize extends GuiButton
     private final boolean isPlay;
     private final GuiScreen parent;
     private final String tooltips;
-    public final String command;
-    public String group;
+    public String command;
+    public HypixelMinigameGroup group;
     private static int buttonId = 1000;
 
-    public GuiButtonCustomize(int xPos, int yPos, GuiScreen parent, String tooltips, String command, String group, boolean isPlay)
+    public GuiButtonCustomize(GuiScreen parent, String tooltips, String command, HypixelMinigameGroup group, boolean isPlay)
     {
-        super(buttonId++, xPos, yPos, 20, 20, "");
+        super(buttonId++, parent.width - 130, 20, 20, 20, "");
         this.isPlay = isPlay;
         this.parent = parent;
         this.tooltips = tooltips;
         this.group = group;
-        this.command = isPlay ? "/play " + command : "/lobby " + command;
+        this.command = command.startsWith("/") ? command : isPlay ? "/play " + command : "/lobby " + command;
     }
 
     @Override

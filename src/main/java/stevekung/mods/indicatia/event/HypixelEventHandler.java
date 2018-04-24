@@ -48,6 +48,11 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onClientChatReceived(ClientChatReceivedEvent event)
     {
+        if (event.getMessage() == null)
+        {
+            return;
+        }
+
         String unformattedText = event.getMessage().getUnformattedText();
 
         if (InfoUtils.INSTANCE.isHypixel())
@@ -56,6 +61,10 @@ public class HypixelEventHandler
 
             if (event.getType() == ChatType.CHAT)
             {
+                if (unformattedText.contains("Illegal characters in chat"))
+                {
+                    event.setMessage(null);
+                }
                 if (nickMatcher.matches())
                 {
                     ExtendedConfig.hypixelNickName = nickMatcher.group("nick");
