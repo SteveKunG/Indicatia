@@ -3,6 +3,9 @@ package stevekung.mods.stevekunglib.utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import stevekung.mods.stevekunglib.config.ConfigManagerLib;
+import stevekung.mods.stevekunglib.core.SteveKunGLib;
+
 public class ModLogger
 {
     private static final Logger LOG = LogManager.getLogger("SteveKunG's Lib");
@@ -25,7 +28,7 @@ public class ModLogger
 
     public static void debug(String message)
     {
-        //        if (ConfigManagerMP.enableDebug || MorePlanetsCore.isObfuscatedEnvironment())
+        if (ConfigManagerLib.stevekung_lib_general.enableDebugLog || SteveKunGLib.isDevelopment)
         {
             ModLogger.LOG_DEBUG.info(message);
         }
@@ -48,7 +51,7 @@ public class ModLogger
 
     public static void debug(String message, Object... obj)
     {
-        //        if (ConfigManagerMP.enableDebug || MorePlanetsCore.isObfuscatedEnvironment())
+        if (ConfigManagerLib.stevekung_lib_general.enableDebugLog || SteveKunGLib.isDevelopment)
         {
             ModLogger.LOG_DEBUG.info(message, obj);
         }
