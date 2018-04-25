@@ -124,6 +124,7 @@ public class IndicatiaMod
         ClientUtils.registerCommand(new CommandHideName());
         ClientUtils.registerCommand(new CommandPingAll());
         ClientUtils.registerCommand(new CommandAutoFish());
+        ClientUtils.registerCommand(new CommandSwedenTime());
     }
 
     @EventHandler
