@@ -169,4 +169,10 @@ public class VersionChecker implements Runnable
         player.sendMessage(JsonUtils.create("New version of ").appendSibling(JsonUtils.create(modName).setStyle(JsonUtils.style().setColor(TextFormatting.AQUA)).appendSibling(JsonUtils.create(" is available ").setStyle(JsonUtils.white()).appendSibling(JsonUtils.create("v" + instance.getLatestVersion().replace("[" + ForgeVersion.mcVersion + "]=", "")).setStyle(JsonUtils.style().setColor(TextFormatting.GREEN)).appendSibling(JsonUtils.create(" for ").setStyle(JsonUtils.white()).appendSibling(JsonUtils.create("MC-" + ForgeVersion.mcVersion).setStyle(JsonUtils.style().setColor(TextFormatting.BLUE))))))));
         player.sendMessage(JsonUtils.create("Download Link ").setStyle(JsonUtils.style().setColor(TextFormatting.YELLOW)).appendSibling(JsonUtils.create("[CLICK HERE]").setStyle(JsonUtils.style().setColor(TextFormatting.RED).setHoverEvent(JsonUtils.hover(HoverEvent.Action.SHOW_TEXT, JsonUtils.create("Click Here!").setStyle(JsonUtils.style().setColor(TextFormatting.AQUA)))).setClickEvent(JsonUtils.click(ClickEvent.Action.OPEN_URL, url)))));
     }
+
+    public static void createFailedToCheckMessage(EntityPlayerSP player, String exception)
+    {
+        player.sendMessage(JsonUtils.create("Unable to check latest version, Please check your internet connection").setStyle(JsonUtils.red()));
+        player.sendMessage(JsonUtils.create(exception).setStyle(JsonUtils.red()));
+    }
 }

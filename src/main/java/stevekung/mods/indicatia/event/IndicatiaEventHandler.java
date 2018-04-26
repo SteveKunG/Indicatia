@@ -771,8 +771,7 @@ public class IndicatiaEventHandler
         {
             if (!IndicatiaMod.noConnection && IndicatiaMod.checker.noConnection())
             {
-                player.sendMessage(JsonUtils.create("Unable to check latest version, Please check your internet connection").setStyle(JsonUtils.red()));
-                player.sendMessage(JsonUtils.create(IndicatiaMod.checker.getExceptionMessage()).setStyle(JsonUtils.red()));
+                VersionChecker.createFailedToCheckMessage(player, IndicatiaMod.checker.getExceptionMessage());
                 IndicatiaMod.noConnection = true;
                 return;
             }
