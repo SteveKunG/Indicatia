@@ -19,17 +19,13 @@ public class ConfigManagerIN
         @Config.RangeInt(min = 1, max = 60)
         public int afkMessageTime = 5;
 
-        @Config.Name(value = "End Game Message Time (ticks)")
+        @Config.Name(value = "Auto GG Message Delay (ticks)")
         @Config.RangeInt(min = 20, max = 100)
-        public int endGameTitleTime = 20;
-
-        @Config.Comment("This will check message from Title if equal to it. Split text by \",\" Example: Goodbye,You Died")
-        @Config.Name(value = "End Game Title Message")
-        public String endGameTitleMessage = "you lose,you win,game end,victory";
+        public int autoGGDelay = 20;
 
         @Config.Comment("This message will be printed to in-game chat when game is ending or finished. Disable by leave it blank.")
-        @Config.Name(value = "End Game Message")
-        public String endGameMessage = "";
+        @Config.Name(value = "Auto GG Message")
+        public String autoGGMessage = "";
 
         @Config.Name(value = "Confirm Disconnect Mode")
         public DisconnectMode confirmDisconnectMode = DisconnectMode.GUI;

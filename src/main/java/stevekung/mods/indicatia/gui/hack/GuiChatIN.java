@@ -1,10 +1,7 @@
 package stevekung.mods.indicatia.gui.hack;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import org.lwjgl.input.Mouse;
 
@@ -348,10 +345,10 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
         {
             List<String> list = new ArrayList<>();
 
-            for (HypixelMinigameGroup group : HypixelMinigameGroup.values)
+            Arrays.asList(HypixelMinigameGroup.values).forEach(group ->
             {
                 list.add(group.getName());
-            }
+            });
 
             String max = Collections.max(list, Comparator.comparing(text -> text.length()));
             int length = this.mc.fontRenderer.getStringWidth(max) + 25;
@@ -436,6 +433,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Mega Walls", "duels_mw_duel", HypixelMinigameGroup.DUELS_SOLO, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Blitz", "duels_blitz_duel", HypixelMinigameGroup.DUELS_SOLO, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Bow Spleef", "duels_bowspleef_duel", HypixelMinigameGroup.DUELS_SOLO, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Sumo", "duels_sumo_duel", HypixelMinigameGroup.DUELS_SOLO, true));
             }
             if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.DUELS_DOUBLES.ordinal())
             {
@@ -448,6 +446,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Teams Mega Walls", "duels_mw_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "UHC Tournament", "duels_uhc_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "SW Tournament", "duels_sw_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Sumo Tournament", "duels_sumo_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
             }
             if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.MEGA_WALLS.ordinal())
             {

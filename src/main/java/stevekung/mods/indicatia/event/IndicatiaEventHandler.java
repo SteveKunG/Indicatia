@@ -2,7 +2,6 @@ package stevekung.mods.indicatia.event;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -94,8 +93,8 @@ public class IndicatiaEventHandler
     public static int afkMoveTicks;
     public static int afkTicks;
 
-    private static boolean printAutoGG;
-    private static int printAutoGGTicks;
+    static boolean printAutoGG;
+    static int printAutoGGTicks;
 
     public static boolean autoFish;
     public static int autoFishTick;
@@ -114,11 +113,21 @@ public class IndicatiaEventHandler
             {
                 IndicatiaEventHandler.runAFK(this.mc.player);
                 IndicatiaEventHandler.printVersionMessage(this.mc.player);
-                IndicatiaEventHandler.processAutoGG(this.mc);
                 IndicatiaEventHandler.processAutoFish(this.mc);
                 AutoLoginFunction.runAutoLoginFunction();
                 CapeUtils.loadCapeTexture();
 
+                if (IndicatiaEventHandler.printAutoGG && IndicatiaEventHandler.printAutoGGTicks < ConfigManagerIN.indicatia_general.autoGGDelay)
+                {
+                    IndicatiaEventHandler.printAutoGGTicks++;
+
+                    if (IndicatiaEventHandler.printAutoGGTicks == ConfigManagerIN.indicatia_general.autoGGDelay)
+                    {
+                        this.mc.player.sendChatMessage(ConfigManagerIN.indicatia_general.autoGGMessage);
+                        IndicatiaEventHandler.printAutoGG = false;
+                        IndicatiaEventHandler.printAutoGGTicks = 0;
+                    }
+                }
                 if (AutoLoginFunction.functionDelay > 0)
                 {
                     AutoLoginFunction.functionDelay--;
@@ -782,32 +791,6 @@ public class IndicatiaEventHandler
                 IndicatiaMod.showAnnounceMessage = true;
             }
         }
-    }
-
-    private static void processAutoGG(Minecraft mc)
-    {
-        if (mc.ingameGUI.displayedTitle.isEmpty() && !ConfigManagerIN.indicatia_general.endGameMessage.isEmpty())
-        {
-            IndicatiaEventHandler.printAutoGG = true;
-            IndicatiaEventHandler.printAutoGGTicks = 0;
-        }
-        if (IndicatiaEventHandler.printAutoGG && IndicatiaEventHandler.printAutoGGTicks < ConfigManagerIN.indicatia_general.endGameTitleTime)
-        {
-            IndicatiaEventHandler.printAutoGGTicks++;
-        }
-
-        Arrays.stream(ConfigManagerIN.indicatia_general.endGameTitleMessage.split(",")).forEach(message ->
-        {
-            String messageToLower = TextFormatting.getTextWithoutFormattingCodes(message).toLowerCase();
-            String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(mc.ingameGUI.displayedTitle).toLowerCase();
-
-            if (displayTitleMessage.contains(messageToLower) && IndicatiaEventHandler.printAutoGGTicks == ConfigManagerIN.indicatia_general.endGameTitleTime)
-            {
-                mc.player.sendChatMessage(ConfigManagerIN.indicatia_general.endGameMessage);
-                IndicatiaEventHandler.printAutoGG = false;
-                IndicatiaEventHandler.printAutoGGTicks = 0;
-            }
-        });
     }
 
     private static void processAutoFish(Minecraft mc)
