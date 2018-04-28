@@ -443,7 +443,6 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Teams UHC", "duels_uhc_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "OP", "duels_op_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Doubles Mega Walls", "duels_mw_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams Mega Walls", "duels_mw_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "UHC Tournament", "duels_uhc_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "SW Tournament", "duels_sw_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Sumo Tournament", "duels_sumo_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
@@ -527,8 +526,6 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.UHC_CHAMPIONS.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "UHC Champions Lobby", "uhc", HypixelMinigameGroup.UHC_CHAMPIONS, false));
-                //this.buttonList.add(new GuiButtonCustomize(this.width - 99, 20, this, "Solo", "uhc_solo", "uhc", true));TODO
-                //this.buttonList.add(new GuiButtonCustomize(this.width - 78, 20, this, "Teams", "uhc_teams", "uhc", true));
             }
             if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.WARLORDS.ordinal())
             {
