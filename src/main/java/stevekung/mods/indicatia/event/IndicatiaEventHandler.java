@@ -204,8 +204,8 @@ public class IndicatiaEventHandler
 
         if (ConfigManagerIN.indicatia_general.enableCustomMovementHandler)
         {
-            // canceled
-            if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+            // canceled turn back
+            if (ExtendedConfig.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
             {
                 ++movement.moveForward;
             }
