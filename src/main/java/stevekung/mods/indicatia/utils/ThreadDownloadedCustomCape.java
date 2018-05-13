@@ -6,7 +6,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.client.Minecraft;
+import stevekung.mods.stevekunglib.utils.ClientUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class ThreadDownloadedCustomCape extends Thread
@@ -33,20 +33,12 @@ public class ThreadDownloadedCustomCape extends Thread
         catch (MalformedURLException e)
         {
             e.printStackTrace();
-
-            if (Minecraft.getMinecraft().player != null)
-            {
-                Minecraft.getMinecraft().player.sendMessage(JsonUtils.create("Missing protocol or wrong Image URL format, must be .png!").setStyle(JsonUtils.red()));
-            }
+            ClientUtils.printClientMessage(JsonUtils.create("Missing protocol or wrong Image URL format, must be .png!").setStyle(JsonUtils.red()));
         }
         catch (IOException e)
         {
             e.printStackTrace();
-
-            if (Minecraft.getMinecraft().player != null)
-            {
-                Minecraft.getMinecraft().player.sendMessage(JsonUtils.create("Cannot read image from URL/No internet connection!").setStyle(JsonUtils.red()));
-            }
+            ClientUtils.printClientMessage(JsonUtils.create("Cannot read image from URL/No internet connection!").setStyle(JsonUtils.red()));
         }
     }
 }

@@ -34,6 +34,7 @@ public class LayerCapeNew implements LayerRenderer<AbstractClientPlayer>
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 this.playerRenderer.bindTexture(entity.getLocationCape());
                 GlStateManager.pushMatrix();
+                GlStateManager.enableRescaleNormal();
                 GlStateManager.translate(0.0F, 0.0F, 0.125F);
                 double d0 = entity.prevChasingPosX + (entity.chasingPosX - entity.prevChasingPosX) * partialTicks - (entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks);
                 double d1 = entity.prevChasingPosY + (entity.chasingPosY - entity.prevChasingPosY) * partialTicks - (entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks);

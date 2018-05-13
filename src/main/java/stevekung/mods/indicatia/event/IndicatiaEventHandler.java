@@ -183,7 +183,7 @@ public class IndicatiaEventHandler
                 {
                     if (action != EnumAction.NONE)
                     {
-                        if (ConfigManagerIN.indicatia_general.enableAdditionalBlockhitAnimation && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.player != null && this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getItemUseAction() == action)
+                        if (ConfigManagerIN.indicatia_general.enableAdditionalBlockhitAnimation && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getItemUseAction() == action)
                         {
                             this.mc.player.swingArm(EnumHand.MAIN_HAND);
                         }
@@ -265,11 +265,11 @@ public class IndicatiaEventHandler
     {
         if (event.getButton() == 0 && event.isButtonstate())
         {
-            IndicatiaEventHandler.LEFT_CLICK.add(Long.valueOf(System.currentTimeMillis()));
+            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
         }
         if (event.getButton() == 1 && event.isButtonstate())
         {
-            IndicatiaEventHandler.RIGHT_CLICK.add(Long.valueOf(System.currentTimeMillis()));
+            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
         }
     }
 

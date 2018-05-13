@@ -682,8 +682,9 @@ public class HUDInfo
                     if (showIcon)
                     {
                         mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-                        int i1 = potion.getStatusIconIndex();
-                        mc.ingameGUI.drawTexturedModalRect(xPotion + 12, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+                        int index = potion.getStatusIconIndex();
+                        mc.ingameGUI.drawTexturedModalRect(xPotion + 12, yPotion + 6, 0 + index % 8 * 18, 198 + index / 8 * 18, 18, 18);
+                        potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, 1.0F);
                     }
 
                     if (potioneffect.getAmplifier() == 1)
@@ -732,8 +733,9 @@ public class HUDInfo
                     if (showIcon)
                     {
                         mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-                        int i1 = potion.getStatusIconIndex();
-                        mc.ingameGUI.drawTexturedModalRect(xPotion + 24, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+                        int index = potion.getStatusIconIndex();
+                        mc.ingameGUI.drawTexturedModalRect(xPotion + 24, yPotion + 6, 0 + index % 8 * 18, 198 + index / 8 * 18, 18, 18);
+                        potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, 1.0F);
                     }
 
                     if (potioneffect.getAmplifier() == 1)
@@ -781,8 +783,9 @@ public class HUDInfo
                     if (showIcon)
                     {
                         mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-                        int i1 = potion.getStatusIconIndex();
-                        mc.ingameGUI.drawTexturedModalRect(right ? xPotion + 12 : xPotion + 28, yPotion + 6, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+                        int index = potion.getStatusIconIndex();
+                        mc.ingameGUI.drawTexturedModalRect(right ? xPotion + 12 : xPotion + 28, yPotion + 6, 0 + index % 8 * 18, 198 + index / 8 * 18, 18, 18);
+                        potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, 1.0F);
                     }
 
                     if (potioneffect.getAmplifier() == 1)

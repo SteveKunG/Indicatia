@@ -36,6 +36,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
             {
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 CapeUtils.bindCapeTexture();
+                GlStateManager.enableRescaleNormal();
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(0.0F, 0.0F, 0.125F);
                 double d0 = entity.prevChasingPosX + (entity.chasingPosX - entity.prevChasingPosX) * partialTicks - (entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks);
