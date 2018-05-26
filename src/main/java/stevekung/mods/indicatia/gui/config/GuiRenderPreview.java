@@ -47,7 +47,7 @@ public class GuiRenderPreview extends GuiScreen
         if (this.type.equals("offset"))
         {
             KeystrokeRenderer.render(this.mc);
-            HUDInfo.renderPotionStatusHUD(this.mc);
+            HUDInfo.renderPotionHUD(this.mc);
 
             if (EnumEquipment.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
             {

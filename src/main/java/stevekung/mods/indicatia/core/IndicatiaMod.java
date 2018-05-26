@@ -135,7 +135,7 @@ public class IndicatiaMod
 
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {
-            Minecraft.getMinecraft().getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityFishHook.class));
+            Minecraft.getMinecraft().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
             Minecraft.getMinecraft().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getMinecraft().getRenderManager()));
             ModLogger.info("Successfully replacing {}", EntityFishHook.class.getName());
         }

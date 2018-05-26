@@ -274,7 +274,6 @@ public class IndicatiaEventHandler
     public void onPreRenderLiving(RenderLivingEvent.Pre event)
     {
         RenderLivingBase renderer = event.getRenderer();
-        @SuppressWarnings("unchecked")
         List<LayerRenderer> layerLists = renderer.layerRenderers;
         EntityLivingBase entity = event.getEntity();
         RenderManager manager = this.mc.getRenderManager();

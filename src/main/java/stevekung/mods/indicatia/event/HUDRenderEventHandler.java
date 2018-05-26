@@ -287,7 +287,7 @@ public class HUDRenderEventHandler
 
                 if (ExtendedConfig.potionHUD)
                 {
-                    HUDInfo.renderPotionStatusHUD(this.mc);
+                    HUDInfo.renderPotionHUD(this.mc);
                 }
 
                 // left info
