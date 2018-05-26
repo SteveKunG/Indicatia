@@ -10,13 +10,14 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class CapeUtils
 {
     public static final Map<String, DynamicTexture> CAPE_TEXTURE = new HashMap<>();
-    public static final File pngFile = new File(Minecraft.getMinecraft().mcDataDir, "custom_cape");
+    public static final File pngFile = new File(ExtendedConfig.userDir, "custom_cape");
     public static boolean textureDownloaded = true;
 
     public static void bindCapeTexture()
