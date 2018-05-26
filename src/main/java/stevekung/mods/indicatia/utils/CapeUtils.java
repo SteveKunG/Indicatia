@@ -2,8 +2,6 @@ package stevekung.mods.indicatia.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -11,20 +9,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class CapeUtils
 {
-    public static final Map<String, DynamicTexture> CAPE_TEXTURE = new HashMap<>();
-    public static final File pngFile = new File(ExtendedConfig.userDir, "custom_cape");
+    public static DynamicTexture CAPE_TEXTURE;
+    public static final File texture = new File(ExtendedConfig.userDir, "custom_cape");
     public static boolean textureDownloaded = true;
 
     public static void bindCapeTexture()
     {
-        if (CapeUtils.CAPE_TEXTURE.get(GameProfileUtils.getUsername()) != null)
+        if (CapeUtils.CAPE_TEXTURE != null)
         {
-            GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.get(GameProfileUtils.getUsername()).getGlTextureId());
+            GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.getGlTextureId());
         }
     }
 
@@ -32,11 +29,11 @@ public class CapeUtils
     {
         if (!CapeUtils.textureDownloaded)
         {
-            if (CapeUtils.pngFile.exists())
+            if (CapeUtils.texture.exists())
             {
                 try
                 {
-                    CapeUtils.CAPE_TEXTURE.put(GameProfileUtils.getUsername(), new DynamicTexture(ImageIO.read(CapeUtils.pngFile)));
+                    CapeUtils.CAPE_TEXTURE = new DynamicTexture(ImageIO.read(CapeUtils.texture));
                     Minecraft.getMinecraft().player.sendMessage(JsonUtils.create("New custom cape texture successfully downloaded").setStyle(JsonUtils.green()));
                 }
                 catch (IOException e)
@@ -50,12 +47,12 @@ public class CapeUtils
 
     public static void loadCapeTextureAtStartup()
     {
-        if (CapeUtils.pngFile.exists())
+        if (CapeUtils.texture.exists())
         {
             try
             {
-                CapeUtils.CAPE_TEXTURE.put(GameProfileUtils.getUsername(), new DynamicTexture(ImageIO.read(CapeUtils.pngFile)));
-                ModLogger.info("Found downloaded custom cape file {}", CapeUtils.pngFile.getPath());
+                CapeUtils.CAPE_TEXTURE = new DynamicTexture(ImageIO.read(CapeUtils.texture));
+                ModLogger.info("Found downloaded custom cape file {}", CapeUtils.texture.getPath());
             }
             catch (IOException e)
             {

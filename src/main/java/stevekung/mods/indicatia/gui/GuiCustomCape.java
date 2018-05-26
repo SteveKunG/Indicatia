@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.ThreadDownloadedCustomCape;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
@@ -42,7 +41,7 @@ public class GuiCustomCape extends GuiScreen
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("message.reset_cape")));
-        this.resetBtn.enabled = CapeUtils.pngFile.exists();
+        this.resetBtn.enabled = CapeUtils.texture.exists();
 
         if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.showCustomCape)
         {
@@ -65,7 +64,7 @@ public class GuiCustomCape extends GuiScreen
     public void updateScreen()
     {
         this.doneBtn.enabled = !this.inputField.getText().isEmpty() || this.prevCapeOption != this.capeOption;
-        this.resetBtn.enabled = CapeUtils.pngFile.exists();
+        this.resetBtn.enabled = CapeUtils.texture.exists();
         this.setTextForCapeOption();
         this.inputField.updateCursorCounter();
     }
@@ -99,9 +98,9 @@ public class GuiCustomCape extends GuiScreen
             }
             if (button.id == 2)
             {
-                CapeUtils.CAPE_TEXTURE.remove(GameProfileUtils.getUsername());
+                CapeUtils.CAPE_TEXTURE = null;
                 this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_current_cape")));
-                CapeUtils.pngFile.delete();
+                CapeUtils.texture.delete();
                 this.mc.displayGuiScreen(null);
             }
             if (button.id == 3)
@@ -178,26 +177,20 @@ public class GuiCustomCape extends GuiScreen
         {
             ExtendedConfig.showCustomCape = false;
             this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
-            this.mc.gameSettings.sendSettingsToServer();
-            this.mc.gameSettings.saveOptions();
-            ExtendedConfig.save();
         }
         if (this.capeOption == 1)
         {
             ExtendedConfig.showCustomCape = true;
             this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
-            this.mc.gameSettings.sendSettingsToServer();
-            this.mc.gameSettings.saveOptions();
-            ExtendedConfig.save();
         }
         if (this.capeOption == 2)
         {
             ExtendedConfig.showCustomCape = false;
             this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
-            this.mc.gameSettings.sendSettingsToServer();
-            this.mc.gameSettings.saveOptions();
-            ExtendedConfig.save();
         }
+        this.mc.gameSettings.sendSettingsToServer();
+        this.mc.gameSettings.saveOptions();
+        ExtendedConfig.save();
     }
 
     private static void renderPlayer(Minecraft mc, int width, int height)
@@ -209,7 +202,7 @@ public class GuiCustomCape extends GuiScreen
         float scale = 40.0F + height / 8 - 28;
         RenderHelper.enableStandardItemLighting();
         GlStateManager.pushMatrix();
-        GlStateManager.translate(width / 2 - 50, height / 6 + 80, 256.0F);
+        GlStateManager.translate(width / 2 - 50, height / 6 + 85, 256.0F);
         GlStateManager.scale(-scale, scale, scale);
         GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);

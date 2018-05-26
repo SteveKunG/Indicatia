@@ -27,7 +27,7 @@ public class ThreadDownloadedCustomCape extends Thread
         try
         {
             capeUrl = new URL(this.url);
-            ImageIO.write(ImageIO.read(capeUrl), "png", CapeUtils.pngFile);
+            ImageIO.write(ImageIO.read(capeUrl), "png", CapeUtils.texture);
             CapeUtils.textureDownloaded = false;
         }
         catch (MalformedURLException e)

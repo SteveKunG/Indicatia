@@ -28,7 +28,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (ConfigManagerIN.indicatia_general.enableCustomCape && entity.getName().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && !CapeUtils.CAPE_TEXTURE.isEmpty())
+        if (ConfigManagerIN.indicatia_general.enableCustomCape && entity.getName().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
         {
             ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
