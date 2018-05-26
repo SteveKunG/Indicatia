@@ -36,7 +36,7 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.12.2-14.23.3.2678"
+    version = "1.12.2-14.23.4.2703"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
