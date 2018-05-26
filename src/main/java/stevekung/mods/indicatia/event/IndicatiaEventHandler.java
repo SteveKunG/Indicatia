@@ -376,7 +376,7 @@ public class IndicatiaEventHandler
         }
         if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
         {
-        	GuiExtendedConfig config = new GuiExtendedConfig();
+            GuiExtendedConfig config = new GuiExtendedConfig();
             this.mc.displayGuiScreen(config);
         }
         if (KeyBindingHandler.KEY_REC_OVERLAY.isKeyDown())
