@@ -50,10 +50,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -63,6 +59,7 @@ import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
+import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.gui.hack.GuiChatIN;
 import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.indicatia.gui.hack.GuiNewChatFast;
@@ -380,10 +377,8 @@ public class IndicatiaEventHandler
         }
         if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
         {
-            ModContainer parentContainer = Loader.instance().getIndexedModList().get(IndicatiaMod.MOD_ID);
-            IModGuiFactory guiFactory = FMLClientHandler.instance().getGuiFactoryFor(parentContainer);
-            GuiScreen newScreen = guiFactory.createConfigGui(null);
-            this.mc.displayGuiScreen(newScreen);
+        	GuiExtendedConfig config = new GuiExtendedConfig();
+            this.mc.displayGuiScreen(config);
         }
         if (KeyBindingHandler.KEY_REC_OVERLAY.isKeyDown())
         {
