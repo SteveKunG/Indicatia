@@ -140,11 +140,11 @@ public class JsonUtils
     {
         if (src != null)
         {
-            JsonUtils.toJson(src, src.getClass(), writer);
+            toJson(src, src.getClass(), writer);
         }
         else
         {
-            JsonUtils.toJson(JsonNull.INSTANCE, writer);
+            toJson(JsonNull.INSTANCE, writer);
         }
     }
 
@@ -153,7 +153,7 @@ public class JsonUtils
         try
         {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonWriter jsonWriter = JsonUtils.newJsonWriter(Streams.writerForAppendable(writer));
+            JsonWriter jsonWriter = newJsonWriter(Streams.writerForAppendable(writer));
             gson.toJson(src, typeOfSrc, jsonWriter);
         }
         catch (IOException e)
