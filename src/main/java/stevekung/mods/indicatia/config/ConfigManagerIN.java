@@ -53,8 +53,8 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable Version Checker")
         public boolean enableVersionChecker = true;
 
-        @Config.Name(value = "Enable Announce Message")
-        public boolean enableAnnounceMessage = true;
+        @Config.Name(value = "Enable In-Game Change Log")
+        public boolean enableChangeLogInGame = true;
 
         @Config.Name(value = "Enable AFK Message")
         public boolean enableAFKMessage = true;

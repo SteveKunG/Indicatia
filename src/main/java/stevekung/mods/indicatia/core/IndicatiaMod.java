@@ -25,6 +25,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -42,28 +43,29 @@ import stevekung.mods.indicatia.utils.ModLogger;
 import stevekung.mods.stevekunglib.utils.*;
 import stevekung.mods.stevekunglib.utils.client.ColoredFontRenderer;
 
-@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, clientSideOnly = true, certificateFingerprint = IndicatiaMod.CERTIFICATE)
+@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, updateJSON = IndicatiaMod.JSON_URL, clientSideOnly = true, certificateFingerprint = IndicatiaMod.CERTIFICATE)
 public class IndicatiaMod
 {
-    public static final String NAME = "Indicatia";
+    protected static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
-    public static final int MAJOR_VERSION = 2;
-    public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 0;
+    private static final int MAJOR_VERSION = 2;
+    private static final int MINOR_VERSION = 0;
+    private static final int BUILD_VERSION = 0;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
-    public static final String FORGE_VERSION = "after:forge@[14.23.4.2703,);";
+    private static final String FORGE_VERSION = "after:forge@[14.23.4.2703,);";
     protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.0.0,); " + IndicatiaMod.FORGE_VERSION;
-    public static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
+    private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
+    protected static final String JSON_URL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json";
     protected static final String CERTIFICATE = "@FINGERPRINT@";
 
+    @Instance(IndicatiaMod.MOD_ID)
+    public static IndicatiaMod INSTANCE;
+
     public static boolean isDevelopment;
-    public static boolean noConnection;
-    public static boolean foundLatest;
-    public static boolean showAnnounceMessage;
     public static ColoredFontRenderer coloredFontRenderer;
     public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     public static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
-    public static final VersionChecker checker = new VersionChecker(MOD_ID, VERSION, MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION);
+    public static VersionChecker CHECKER;
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
     private static final List<String> allowedUUID = new ArrayList<>();
 
@@ -125,6 +127,13 @@ public class IndicatiaMod
         ClientUtils.registerCommand(new CommandPingAll());
         ClientUtils.registerCommand(new CommandAutoFish());
         ClientUtils.registerCommand(new CommandSwedenTime());
+
+        IndicatiaMod.CHECKER = new VersionChecker(IndicatiaMod.INSTANCE, IndicatiaMod.NAME, IndicatiaMod.URL, "inchangelog");
+
+        if (ConfigManagerIN.indicatia_general.enableVersionChecker)
+        {
+            IndicatiaMod.CHECKER.startCheck();
+        }
     }
 
     @EventHandler
@@ -144,13 +153,14 @@ public class IndicatiaMod
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        if (ConfigManagerIN.indicatia_general.enableVersionChecker)
-        {
-            IndicatiaMod.checker.startCheck();
-        }
         CapeUtils.loadCapeTextureAtStartup();
         IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, false);
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
+
+        if (ConfigManagerIN.indicatia_general.enableVersionChecker)
+        {
+            IndicatiaMod.CHECKER.startCheckIfFailed();
+        }
     }
 
     @EventHandler

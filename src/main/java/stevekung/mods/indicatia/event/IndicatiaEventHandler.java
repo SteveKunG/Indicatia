@@ -47,7 +47,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -70,7 +69,10 @@ import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.stevekunglib.utils.*;
+import stevekung.mods.stevekunglib.utils.CachedEnum;
+import stevekung.mods.stevekunglib.utils.ClientUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class IndicatiaEventHandler
 {
@@ -83,6 +85,7 @@ public class IndicatiaEventHandler
     private static boolean initLayer = true;
     private int disconnectClickCount;
     private int disconnectClickCooldown;
+    private boolean initVersionCheck;
 
     public static boolean isAFK;
     public static String afkMode = "idle";
@@ -106,10 +109,21 @@ public class IndicatiaEventHandler
     {
         if (this.mc.player != null)
         {
+            if (!this.initVersionCheck)
+            {
+                if (ConfigManagerIN.indicatia_general.enableVersionChecker)
+                {
+                    IndicatiaMod.CHECKER.printInfo(this.mc.player);
+                }
+                if (ConfigManagerIN.indicatia_general.enableChangeLogInGame)
+                {
+                    IndicatiaMod.CHECKER.printChangeLog(this.mc.player);
+                }
+                this.initVersionCheck = true;
+            }
             if (event.phase == TickEvent.Phase.START)
             {
                 IndicatiaEventHandler.runAFK(this.mc.player);
-                IndicatiaEventHandler.printVersionMessage(this.mc.player);
                 IndicatiaEventHandler.processAutoFish(this.mc);
                 AutoLoginFunction.runAutoLoginFunction();
                 CapeUtils.loadCapeTexture();
@@ -756,33 +770,6 @@ public class IndicatiaEventHandler
         if (arrowLayerIndex >= 0)
         {
             layerLists.set(arrowLayerIndex, newLayer);
-        }
-    }
-
-    private static void printVersionMessage(EntityPlayerSP player)
-    {
-        if (ConfigManagerIN.indicatia_general.enableVersionChecker)
-        {
-            if (!IndicatiaMod.noConnection && IndicatiaMod.checker.noConnection())
-            {
-                VersionChecker.createFailedToCheckMessage(player, IndicatiaMod.checker.getExceptionMessage());
-                IndicatiaMod.noConnection = true;
-                return;
-            }
-            if (!IndicatiaMod.foundLatest && !IndicatiaMod.noConnection && IndicatiaMod.checker.isLatestVersion())
-            {
-                VersionChecker.createFoundLatestMessage(player, IndicatiaMod.NAME, IndicatiaMod.URL);
-                IndicatiaMod.foundLatest = true;
-            }
-            if (ConfigManagerIN.indicatia_general.enableAnnounceMessage && !IndicatiaMod.showAnnounceMessage && !IndicatiaMod.noConnection)
-            {
-                IndicatiaMod.checker.getAnnounceMessage().forEach(log ->
-                {
-                    player.sendMessage(JsonUtils.create(log).setStyle(JsonUtils.style().setColor(TextFormatting.GRAY)));
-                });
-                player.sendMessage(JsonUtils.create("To read Indicatia full change log. Use /inchangelog command!").setStyle(JsonUtils.gray().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/inchangelog"))));
-                IndicatiaMod.showAnnounceMessage = true;
-            }
         }
     }
 
