@@ -111,6 +111,8 @@ public class IndicatiaEventHandler
         {
             if (!this.initVersionCheck)
             {
+                IndicatiaMod.CHECKER.startCheckIfFailed();
+
                 if (ConfigManagerIN.indicatia_general.enableVersionChecker)
                 {
                     IndicatiaMod.CHECKER.printInfo(this.mc.player);

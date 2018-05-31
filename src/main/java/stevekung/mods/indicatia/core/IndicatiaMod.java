@@ -156,11 +156,6 @@ public class IndicatiaMod
         CapeUtils.loadCapeTextureAtStartup();
         IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, false);
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
-
-        if (ConfigManagerIN.indicatia_general.enableVersionChecker)
-        {
-            IndicatiaMod.CHECKER.startCheckIfFailed();
-        }
     }
 
     @EventHandler
