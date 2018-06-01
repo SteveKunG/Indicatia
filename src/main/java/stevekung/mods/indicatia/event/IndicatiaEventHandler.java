@@ -69,10 +69,10 @@ import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
-import stevekung.mods.stevekunglib.utils.CachedEnum;
-import stevekung.mods.stevekunglib.utils.ClientUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+import stevekung.mods.stevekunglib.utils.enums.CachedEnum;
 
 public class IndicatiaEventHandler
 {

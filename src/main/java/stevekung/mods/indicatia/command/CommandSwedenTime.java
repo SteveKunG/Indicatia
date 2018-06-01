@@ -8,8 +8,8 @@ import java.util.TimeZone;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import stevekung.mods.stevekunglib.utils.ClientCommandBase;
-import stevekung.mods.stevekunglib.utils.ClientUtils;
+import stevekung.mods.stevekunglib.utils.client.ClientCommandBase;
+import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
 public class CommandSwedenTime extends ClientCommandBase
 {

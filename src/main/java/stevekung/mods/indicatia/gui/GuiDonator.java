@@ -10,9 +10,9 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.HUDRenderEventHandler;
-import stevekung.mods.stevekunglib.utils.CachedEnum;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekunglib.utils.enums.CachedEnum;
 
 public class GuiDonator extends GuiScreen
 {

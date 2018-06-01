@@ -6,8 +6,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import stevekung.mods.stevekunglib.utils.ClientUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
 public class ThreadDownloadedCustomCape extends Thread
 {

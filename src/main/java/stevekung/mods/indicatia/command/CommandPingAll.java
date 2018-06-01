@@ -9,8 +9,8 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import stevekung.mods.stevekunglib.utils.ClientCommandBase;
 import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekunglib.utils.client.ClientCommandBase;
 
 public class CommandPingAll extends ClientCommandBase
 {

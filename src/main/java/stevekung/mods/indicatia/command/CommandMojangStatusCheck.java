@@ -4,7 +4,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import stevekung.mods.indicatia.utils.ThreadCheckMojangStatus;
-import stevekung.mods.stevekunglib.utils.ClientCommandBase;
+import stevekung.mods.stevekunglib.utils.client.ClientCommandBase;
 
 public class CommandMojangStatusCheck extends ClientCommandBase
 {
