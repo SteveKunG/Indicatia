@@ -33,7 +33,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import stevekung.mods.indicatia.config.*;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
 import stevekung.mods.indicatia.gui.overlay.GuiBossOverlayNew;
 import stevekung.mods.indicatia.gui.overlay.GuiPlayerTabOverlayNew;
@@ -295,13 +294,13 @@ public class HUDRenderEventHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = leftInfo.get(i);
-                    float fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - IndicatiaMod.coloredFontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
-                        IndicatiaMod.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
+                        ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
                     }
                 }
 
@@ -310,13 +309,13 @@ public class HUDRenderEventHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = rightInfo.get(i);
-                    float fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - IndicatiaMod.coloredFontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
-                        IndicatiaMod.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
+                        ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
                     }
                 }
             }
@@ -330,7 +329,7 @@ public class HUDRenderEventHandler
                 {
                     color = 16733525;
                 }
-                IndicatiaMod.coloredFontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - IndicatiaMod.coloredFontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                ColorUtils.coloredFontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
             }
 
             if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)

@@ -14,7 +14,6 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import stevekung.mods.indicatia.config.EnumEquipment;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
@@ -144,13 +143,13 @@ public class GuiRenderPreview extends GuiScreen
             {
                 ScaledResolution res = new ScaledResolution(this.mc);
                 String string = leftInfo.get(i);
-                float fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 1;
+                float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = res.getScaledWidth() - 2 - IndicatiaMod.coloredFontRenderer.getStringWidth(string);
+                float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    IndicatiaMod.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
+                    ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
                 }
             }
 
@@ -159,13 +158,13 @@ public class GuiRenderPreview extends GuiScreen
             {
                 ScaledResolution res = new ScaledResolution(this.mc);
                 String string = rightInfo.get(i);
-                float fontHeight = IndicatiaMod.coloredFontRenderer.FONT_HEIGHT + 1;
+                float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = res.getScaledWidth() - 2 - IndicatiaMod.coloredFontRenderer.getStringWidth(string);
+                float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    IndicatiaMod.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
+                    ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
                 }
             }
         }

@@ -6,7 +6,6 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import stevekung.mods.indicatia.config.EnumEquipment;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 
 public class HorizontalEquipment
@@ -33,15 +32,15 @@ public class HorizontalEquipment
     {
         boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        IndicatiaMod.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215, true);
+        ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215, true);
 
         if (this.itemStack.getItem() instanceof ItemBow)
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getMinecraft().player.inventory);
             GlStateManager.disableDepth();
-            IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
-            IndicatiaMod.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
-            IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
+            ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
+            ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
+            ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
             GlStateManager.enableDepth();
         }
     }

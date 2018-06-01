@@ -11,7 +11,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 import stevekung.mods.stevekunglib.utils.ColorUtils.RGB;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -163,7 +162,7 @@ public class GuiRenderInfoCustomColorSettings extends GuiScreen
             {
                 ExtendedConfig.Options options = this.optionsRowList.getListEntry(i).getTextField().getOption();
                 RGB rgb = ColorUtils.stringToRGB(this.optionsRowList.getListEntry(i).getTextField().getText());
-                this.drawCenteredString(IndicatiaMod.coloredFontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
+                this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
             }
             if (this.optionsRowList.selected == -1)
             {

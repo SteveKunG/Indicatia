@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.KeystrokePosition;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
@@ -71,13 +70,13 @@ public class KeystrokeRenderer
             mc.fontRenderer.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeMouseButtonColor).to32Bit(), false);
 
             useRainbow = ExtendedConfig.keystrokeCPSRainbow;
-            IndicatiaMod.coloredFontRenderer.setUnicodeFlag(true);
+            ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
 
             if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
                 String cps = "CPS:" + InfoUtils.INSTANCE.getCPS();
-                int smallFontWidth = IndicatiaMod.coloredFontRenderer.getStringWidth(cps);
-                IndicatiaMod.coloredFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
+                int smallFontWidth = ColorUtils.coloredFontRenderer.getStringWidth(cps);
+                ColorUtils.coloredFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
             }
 
             useRainbow = ExtendedConfig.keystrokeRCPSRainbow;
@@ -85,10 +84,10 @@ public class KeystrokeRenderer
             if (ExtendedConfig.rcps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
                 String rcps = "RCPS:" + InfoUtils.INSTANCE.getRCPS();
-                int smallFontWidth = IndicatiaMod.coloredFontRenderer.getStringWidth(rcps);
-                IndicatiaMod.coloredFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
+                int smallFontWidth = ColorUtils.coloredFontRenderer.getStringWidth(rcps);
+                ColorUtils.coloredFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
             }
-            IndicatiaMod.coloredFontRenderer.setUnicodeFlag(false);
+            ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
         }
         if (ExtendedConfig.keystrokeSprintSneak)
         {

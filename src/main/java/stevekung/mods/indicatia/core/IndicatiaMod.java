@@ -11,13 +11,11 @@ import org.apache.commons.io.IOUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Items;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -41,7 +39,6 @@ import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.ModLogger;
 import stevekung.mods.stevekunglib.utils.*;
-import stevekung.mods.stevekunglib.utils.client.ColoredFontRenderer;
 
 @Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, updateJSON = IndicatiaMod.JSON_URL, clientSideOnly = true, certificateFingerprint = IndicatiaMod.CERTIFICATE)
 public class IndicatiaMod
@@ -62,7 +59,6 @@ public class IndicatiaMod
     public static IndicatiaMod INSTANCE;
 
     public static boolean isDevelopment;
-    public static ColoredFontRenderer coloredFontRenderer;
     public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     public static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static VersionChecker CHECKER;
@@ -154,8 +150,6 @@ public class IndicatiaMod
     public void postInit(FMLPostInitializationEvent event)
     {
         CapeUtils.loadCapeTextureAtStartup();
-        IndicatiaMod.coloredFontRenderer = new ColoredFontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, false);
-        ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(IndicatiaMod.coloredFontRenderer);
     }
 
     @EventHandler
