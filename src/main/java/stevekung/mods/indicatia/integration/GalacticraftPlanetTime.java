@@ -17,7 +17,11 @@ public class GalacticraftPlanetTime
         WorldProviderSpace space = (WorldProviderSpace) mc.world.provider;
         long dayLength = space.getDayLength();
 
-        if (dayLength == 0L)
+        if (dayLength >= 1L && dayLength <= 24L)
+        {
+            return ColorUtils.stringToRGB(ExtendedConfig.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.gameTimeValueColor).toColoredFont() + "Fastest Day-Night Cycle";
+        }
+        else if (dayLength == 0L)
         {
             return ColorUtils.stringToRGB(ExtendedConfig.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.gameTimeValueColor).toColoredFont() + "No Day-Night Cycle";
         }
