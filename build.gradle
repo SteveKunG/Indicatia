@@ -17,7 +17,6 @@ def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text
 def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").text)
 def mcVersion = project.mc_version
 def hasInternal = project.hasProperty("internal")
-def extractApi = project.hasProperty("extractApi")
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
@@ -36,7 +35,7 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    version = "1.12.2-14.23.4.2703"
+    version = "1.12.2-14.23.4.2708"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
@@ -52,27 +51,19 @@ repositories {
     }
 }
 
-ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : extractApi ? "SteveKunG's-Lib-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
+ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'pack.mcmeta', 'META-INF/indicatia_at.cfg']
 ext.internalFiles = ['stevekung/mods/indicatia/extra/**', 'assets/indicatia/sounds/**', 'sounds.json']
 ext.apiFiles = ['micdoodle8/**', 'stevekung/mods/stevekunglib/**', 'META-INF/stevekunglib_at.cfg']
-ext.extractApiFiles = ['stevekung/mods/stevekunglib/**', 'META-INF/stevekunglib_at.cfg']
 
 jar
 {
-    if (!extractApi)
+    if (!hasInternal)
     {
-        if (!hasInternal)
-        {
-            excludes.addAll(project.ext.internalFiles)
-        }
-        excludes.addAll(project.ext.apiFiles)
+        excludes.addAll(project.ext.internalFiles)
     }
-    else
-    {
-        includes.addAll(project.ext.extractApiFiles)
-    }
+    excludes.addAll(project.ext.apiFiles)
 }
 
 curseforge {
@@ -107,27 +98,16 @@ task processJar(type: Jar, dependsOn: "rePackAllJar") {
     {
         baseName = "IndicatiaExtra-" + mcVersion
     }
-    else if (extractApi)
-    {
-        baseName = "SteveKunG's-Lib-" + mcVersion
-    }
     else
     {
         baseName = "Indicatia-" + mcVersion
     }
 
     from(zipTree(project.ext.coreJar)) {
-        if (extractApi)
-        {
-            includes.addAll(project.ext.extractApiFiles)
-        }
-        else
-        {
-            includes.addAll(project.ext.coreFiles)
-        }
+        includes.addAll(project.ext.coreFiles)
     }
     manifest {
-        attributes.put("FMLAT", extractApi ? "stevekunglib_at.cfg" : "indicatia_at.cfg")
+        attributes.put("FMLAT", "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")
     }
 }
