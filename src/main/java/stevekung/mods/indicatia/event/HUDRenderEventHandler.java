@@ -199,7 +199,7 @@ public class HUDRenderEventHandler
                 // server tps
                 if (ExtendedConfig.tps && server != null)
                 {
-                    int dimension = this.mc.player.dimension;
+                    int dimension = 0;
                     double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
                     double overworldTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
                     double tps = Math.min(1000.0D / overallTPS, 20);
@@ -210,12 +210,14 @@ public class HUDRenderEventHandler
                     {
                         for (Integer dimensionIds : DimensionManager.getIDs())
                         {
-                            if (dimensionIds == null)
+                            long[] values = server.worldTickTimes.get(dimensionIds);
+                            
+                            if (values == null)
                             {
-                                ModLogger.error("Got null Dimension ID {}! Skipped TPS from dimension", dimensionIds);
+                                ModLogger.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
                                 return;
                             }
-                            double dimensionTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimensionIds)) * 1.0E-6D;
+                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
                             leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).provider.getDimensionType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
                         }
                     }

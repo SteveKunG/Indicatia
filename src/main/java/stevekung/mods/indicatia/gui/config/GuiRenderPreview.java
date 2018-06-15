@@ -1,7 +1,6 @@
 package stevekung.mods.indicatia.gui.config;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -119,11 +118,11 @@ public class GuiRenderPreview extends GuiScreen
 
                 leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
 
-                Arrays.stream(DimensionManager.getIDs()).forEach(dimensionIds ->
+                for (Integer dimensionIds : DimensionManager.getIDs())
                 {
                     double dimensionTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimensionIds)) * 1.0E-6D;
                     leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).provider.getDimensionType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
-                });
+                }
                 leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
             }
 
