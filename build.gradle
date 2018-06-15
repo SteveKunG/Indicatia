@@ -4,13 +4,13 @@ buildscript {
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.0.10'
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.10"
     }
 }
 
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.0.10'
+    id "com.matthewprenger.cursegradle" version "1.0.10"
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
@@ -18,14 +18,14 @@ def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").
 def mcVersion = project.mc_version
 def hasInternal = project.hasProperty("internal")
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "net.minecraftforge.gradle.forge"
 
 sourceSets.main {
     java {
-        srcDirs = ['src/main/java', 'src/api/java']
+        srcDirs = ["src/main/java", "src/api/java", "dependencies/main/java"]
     }
     resources {
-        srcDirs = ['src/main/resources', 'src/api/resources']
+        srcDirs = ["src/main/resources", "dependencies/main/resources"]
     }
 }
 
@@ -40,7 +40,7 @@ minecraft {
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
 
-    replace '@FINGERPRINT@', keystore.sha1
+    replace "@FINGERPRINT@", keystore.sha1
     replaceIn "IndicatiaMod.java"
 }
 
@@ -53,9 +53,9 @@ repositories {
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ['stevekung/mods/indicatia/**', 'assets/indicatia/**', 'license.txt', 'pack.mcmeta', 'META-INF/indicatia_at.cfg']
-ext.internalFiles = ['stevekung/mods/indicatia/extra/**', 'assets/indicatia/sounds/**', 'sounds.json']
-ext.apiFiles = ['micdoodle8/**', 'stevekung/mods/stevekunglib/**', 'META-INF/stevekunglib_at.cfg']
+ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "license.txt", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
+ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "sounds.json"]
+ext.apiFiles = ["micdoodle8/**", "stevekung/mods/stevekunglib/**", "META-INF/stevekunglib_at.cfg"]
 
 jar
 {
@@ -69,12 +69,12 @@ jar
 curseforge {
     apiKey = api.indicatia
     project {
-        id = '272146'
-        changelog = 'To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/' + mcVersion + '/src/main/resources/assets/indicatia/change_log.txt'
-        releaseType = 'release'
+        id = "272146"
+        changelog = "To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/" + mcVersion + "/src/main/resources/assets/indicatia/change_log.txt"
+        releaseType = "release"
         addGameVersion mcVersion
 
-        mainArtifact(file('build/libs/Indicatia-' + mcVersion + '-' + version + '.jar')) {
+        mainArtifact(file("build/libs/Indicatia-" + mcVersion + "-" + version + ".jar")) {
             displayName = "Indicatia-" + mcVersion + "-" + version
         }
     }
@@ -113,22 +113,22 @@ task processJar(type: Jar, dependsOn: "rePackAllJar") {
 }
 
 task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {
-    from 'temporary'
+    from "temporary"
 }
 
 task copyModFiles(type: Copy, dependsOn: "reobfJar") {
     from(zipTree(project.ext.coreJar))
-    into 'temporary'
+    into "temporary"
 }
 
 task deleteTemporary(type: Delete) {
-    delete 'temporary'
+    delete "temporary"
 }
 
 task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
     excludes.addAll(project.ext.apiFiles)
-    classifier = 'deobf'
+    classifier = "deobf"
     manifest {
         attributes.put("FMLAT", "indicatia_at.cfg")
         attributes.put("FMLCorePluginContainsFMLMod", "true")

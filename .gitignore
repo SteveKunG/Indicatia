@@ -4,6 +4,7 @@
 .gradle_data
 bin
 build
+dependencies
 eclipse
 run
 src/main/java/stevekung/mods/indicatia/extra
