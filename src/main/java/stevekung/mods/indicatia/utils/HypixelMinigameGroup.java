@@ -24,6 +24,7 @@ public enum HypixelMinigameGroup
     WARLORDS("Warlords"),
     PROTOTYPE_BATTLE_ROYALE("Prototype: Battle Royale"),
     PROTOTYPE_HIDE_AND_SEEK("Prototype: Hide and Seek"),
+    PROTOTYPE_KOTH("Prototype: King of the Hills"),
     PROTOTYPE_THE_BRIDGE("Prototype: The Bridge"),
     PROTOTYPE_ZOMBIES("Prototype: Zombies"),
     ;
