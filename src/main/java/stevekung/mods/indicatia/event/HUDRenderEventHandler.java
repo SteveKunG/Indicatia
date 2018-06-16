@@ -211,7 +211,7 @@ public class HUDRenderEventHandler
                         for (Integer dimensionIds : DimensionManager.getIDs())
                         {
                             long[] values = server.worldTickTimes.get(dimensionIds);
-                            
+
                             if (values == null)
                             {
                                 ModLogger.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
