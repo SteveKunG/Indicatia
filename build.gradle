@@ -71,8 +71,8 @@ curseforge {
     project {
         id = "272146"
         changelog = "To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/" + mcVersion + "/src/main/resources/assets/indicatia/change_log.txt"
-        changelogType = markdown
-        releaseType = "release"
+        changelogType = "markdown"
+        releaseType = "beta"
         addGameVersion mcVersion
 
         mainArtifact(file("build/libs/Indicatia-" + mcVersion + "-" + version + ".jar")) {
