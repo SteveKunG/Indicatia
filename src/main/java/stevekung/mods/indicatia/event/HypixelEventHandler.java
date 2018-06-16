@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.InfoUtils;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 public class HypixelEventHandler
 {
@@ -65,9 +66,13 @@ public class HypixelEventHandler
 
             if (event.getType() == ChatType.CHAT)
             {
-                if (unformattedText.contains("Illegal characters in chat"))
+                if (unformattedText.contains("Illegal characters in chat") || unformattedText.contains("A kick occurred in your connection, so you have been routed to limbo!"))
                 {
                     event.setMessage(null);
+                }
+                if (unformattedText.contains("You were spawned in Limbo."))
+                {
+                    event.setMessage(JsonUtils.create("You were spawned in Limbo.").setStyle(JsonUtils.green()));
                 }
                 if (nickMatcher.matches())
                 {
