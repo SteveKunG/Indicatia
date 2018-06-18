@@ -54,7 +54,7 @@ repositories {
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "license.txt", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
-ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "sounds.json"]
+ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
 ext.apiFiles = ["micdoodle8/**"]
 
 jar
