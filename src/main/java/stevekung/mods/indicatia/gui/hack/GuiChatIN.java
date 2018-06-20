@@ -528,6 +528,9 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.UHC_CHAMPIONS.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "UHC Champions Lobby", "uhc", HypixelMinigameGroup.UHC_CHAMPIONS, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Solo", "uhc_solo", HypixelMinigameGroup.UHC_CHAMPIONS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Teams", "uhc_teams", HypixelMinigameGroup.UHC_CHAMPIONS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Event", "uhc_event", HypixelMinigameGroup.UHC_CHAMPIONS, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.WARLORDS.ordinal())
             {
