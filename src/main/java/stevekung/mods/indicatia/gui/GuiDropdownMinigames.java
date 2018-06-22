@@ -39,6 +39,11 @@ public class GuiDropdownMinigames extends GuiButton
         if (this.selectedMinigame == -1)
         {
             this.selectedMinigame = this.parentClass.getInitialSelection(this);
+
+            if (this.selectedMinigame > this.minigameLists.size())
+            {
+                this.selectedMinigame = 0;
+            }
         }
         if (this.visible)
         {

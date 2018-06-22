@@ -373,8 +373,26 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.ARCADE.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Arcade Lobby", "arcade", HypixelMinigameGroup.ARCADE, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Party Games 1", "arcade_party_games_1", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Party Games 2", "arcade_party_games_2", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Party Games 3", "arcade_party_games_3", HypixelMinigameGroup.ARCADE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Mini Walls", "arcade_mini_walls", HypixelMinigameGroup.ARCADE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Football", "arcade_soccer", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Hole in the Wall", "arcade_hole_in_the_wall", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Bounty Hunters", "arcade_bounty_hunters", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Pixel Painters", "arcade_pixel_painters", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Dragon Wars", "arcade_dragon_wars", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Ender Spleef", "arcade_ender_spleef", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Galaxy Wars", "arcade_starwars", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Throw Out", "arcade_throw_out", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Creeper Attack", "arcade_creeper_attack", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Farm Hunt", "arcade_farm_hunt", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Hypixel Says", "arcade_simon_says", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Blocking Dead", "arcade_day_one", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Zombies: Dead End", "arcade_zombies_dead_end", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Zombies: Bad Blood", "arcade_zombies_bad_blood", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "H&S: Prop Hunt", "arcade_hide_and_seek_prop_hunt", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "H&S: Party Pooper", "arcade_hide_and_seek_party_pooper", HypixelMinigameGroup.ARCADE, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.CLASSIC_GAMES.ordinal())
             {
@@ -543,12 +561,6 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Doubles", "prototype_royale:doubles", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Squad", "prototype_royale:squad", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
             }
-            else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK.ordinal())
-            {
-                gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK, false));
-                gameBtn.add(new GuiButtonCustomize(this, "Prop Hunt", "prototype_hide_and_seek_party_pooper", HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Party Pooper", "prototype_hide_and_seek_prop_hunt", HypixelMinigameGroup.PROTOTYPE_HIDE_AND_SEEK, true));
-            }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_KOTH.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_KOTH, false));
@@ -563,16 +575,6 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "4v4", "prototype_bridge_4v4", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "2v2v2v2", "prototype_bridge_2v2v2v2", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "3v3v3v3", "prototype_bridge_3v3v3v3", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
-            }
-            else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_ZOMBIES.ordinal())
-            {
-                gameBtn.add(new GuiButtonCustomize(this, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, false));
-                gameBtn.add(new GuiButtonCustomize(this, "Story Normal", "prototype_zombies_story_normal", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Story Hard", "prototype_zombies_story_hard", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Story RIP", "prototype_zombies_story_rip", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Endless Normal", "prototype_zombies_endless_normal", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Endless Hard", "prototype_zombies_endless_hard", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Endless RIP", "prototype_zombies_endless_rip", HypixelMinigameGroup.PROTOTYPE_ZOMBIES, true));
             }
 
             for (int i = 0; i < gameBtn.size(); i++)
@@ -589,11 +591,23 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                     button.x += 21 * i;
                     button.y = 41;
                 }
-                if (i >= 11)
+                if (i >= 11 && i <= 15)
                 {
                     button.x = xPos2 - 241;
                     button.x += 21 * i;
                     button.y = 62;
+                }
+                if (i >= 16 && i <= 21)
+                {
+                    button.x = xPos2 - 346;
+                    button.x += 21 * i;
+                    button.y = 83;
+                }
+                if (i >= 21)
+                {
+                    button.x = xPos2 - 451;
+                    button.x += 21 * i;
+                    button.y = 104;
                 }
                 this.buttonList.add(button);
             }

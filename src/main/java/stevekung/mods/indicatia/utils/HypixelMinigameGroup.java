@@ -23,10 +23,8 @@ public enum HypixelMinigameGroup
     UHC_CHAMPIONS("UHC Champions"),
     WARLORDS("Warlords"),
     PROTOTYPE_BATTLE_ROYALE("Prototype: Battle Royale"),
-    PROTOTYPE_HIDE_AND_SEEK("Prototype: Hide and Seek"),
     PROTOTYPE_KOTH("Prototype: King of the Hills"),
     PROTOTYPE_THE_BRIDGE("Prototype: The Bridge"),
-    PROTOTYPE_ZOMBIES("Prototype: Zombies"),
     ;
 
     public static final HypixelMinigameGroup[] values = HypixelMinigameGroup.values();
