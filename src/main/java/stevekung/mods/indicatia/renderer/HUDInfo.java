@@ -745,7 +745,7 @@ public class HUDInfo
             return itemStack.getMaxDamage() - itemStack.getItemDamage() + "/" + itemStack.getMaxDamage();
         case "percent":
             return HUDInfo.calculateItemDurabilityPercent(itemStack) + "%";
-        case "damage":
+        case "only_damage":
             return String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage());
         case "none":
             return "";
