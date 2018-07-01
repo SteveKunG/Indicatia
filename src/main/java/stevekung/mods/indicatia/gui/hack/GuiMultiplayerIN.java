@@ -64,8 +64,8 @@ public class GuiMultiplayerIN extends GuiMultiplayer
         ScaledResolution res = new ScaledResolution(this.mc);
         String info1 = "Press <SHIFT> for";
         String info2 = "server version info";
-        this.mc.fontRenderer.drawString(info1, res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(info1), 3, ColorUtils.hexToRgb("#17F9DB"), true);
-        this.mc.fontRenderer.drawString(info2, res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(info2), 3 + this.mc.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRgb("#17F9DB"), true);
+        this.mc.fontRenderer.drawString(info1, 4, 3, ColorUtils.hexToRgb("#17F9DB"), true);
+        this.mc.fontRenderer.drawString(info2, 4, 3 + this.mc.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRgb("#17F9DB"), true);
         RenderUtils.enableLighting();
     }
 }
