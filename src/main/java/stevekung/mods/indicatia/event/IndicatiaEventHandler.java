@@ -423,8 +423,6 @@ public class IndicatiaEventHandler
         }
     }
 
-
-
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {

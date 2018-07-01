@@ -474,9 +474,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
-                ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
-                ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
+                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
@@ -605,9 +603,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
-                ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
-                ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
+                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
@@ -622,9 +618,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
-                ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
-                ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
+                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
