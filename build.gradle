@@ -5,12 +5,12 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.10"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.11"
     }
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.10"
+    id "com.matthewprenger.cursegradle" version "1.0.11"
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
@@ -32,10 +32,10 @@ sourceSets.main {
 version = project.version
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
-    version = "1.12.2-14.23.4.2708"
+    version = "1.12.2-14.23.4.2725"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
@@ -70,7 +70,7 @@ curseforge {
     apiKey = api.indicatia
     project {
         id = "272146"
-        changelog = "To read full change log use command /inchangelog in-game.\n\n or follow this link: https://raw.githubusercontent.com/SteveKunG/Indicatia/" + mcVersion + "/src/main/resources/assets/indicatia/change_log.txt"
+        changelog = ""
         changelogType = "markdown"
         releaseType = "beta"
         addGameVersion mcVersion
