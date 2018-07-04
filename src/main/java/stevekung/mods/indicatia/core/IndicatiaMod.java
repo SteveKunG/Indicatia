@@ -116,7 +116,6 @@ public class IndicatiaMod
         }
 
         ClientUtils.registerCommand(new CommandMojangStatusCheck());
-        ClientUtils.registerCommand(new CommandChangeLog());
         ClientUtils.registerCommand(new CommandAutoLogin());
         ClientUtils.registerCommand(new CommandSlimeChunkSeed());
         ClientUtils.registerCommand(new CommandAFK());
@@ -128,7 +127,7 @@ public class IndicatiaMod
         ClientUtils.registerCommand(new CommandAutoFish());
         ClientUtils.registerCommand(new CommandSwedenTime());
 
-        IndicatiaMod.CHECKER = new VersionChecker(IndicatiaMod.INSTANCE, IndicatiaMod.NAME, IndicatiaMod.URL, "inchangelog");
+        IndicatiaMod.CHECKER = new VersionChecker(IndicatiaMod.INSTANCE, IndicatiaMod.NAME, IndicatiaMod.URL);
 
         if (ConfigManagerIN.indicatia_general.enableVersionChecker)
         {

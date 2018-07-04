@@ -117,10 +117,6 @@ public class IndicatiaEventHandler
                 {
                     IndicatiaMod.CHECKER.printInfo(this.mc.player);
                 }
-                if (ConfigManagerIN.indicatia_general.enableChangeLogInGame)
-                {
-                    IndicatiaMod.CHECKER.printChangeLog(this.mc.player);
-                }
                 this.initVersionCheck = true;
             }
             if (event.phase == TickEvent.Phase.START)
