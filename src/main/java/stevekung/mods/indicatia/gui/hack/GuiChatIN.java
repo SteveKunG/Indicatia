@@ -429,6 +429,10 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.COPS_AND_CRIMS.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Cops and Crims Lobby", "cnc", HypixelMinigameGroup.COPS_AND_CRIMS, false));
+                gameBtn.add(new GuiButtonCustomize(this, "Defusal", "mcgo_normal", HypixelMinigameGroup.COPS_AND_CRIMS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Deathmatch", "mcgo_deathmatch", HypixelMinigameGroup.COPS_AND_CRIMS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Defusal Party", "mcgo_normal_party", HypixelMinigameGroup.COPS_AND_CRIMS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Team Deathmatch Party", "mcgo_deathmatch_party", HypixelMinigameGroup.COPS_AND_CRIMS, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.CRAZY_WALLS.ordinal())
             {
