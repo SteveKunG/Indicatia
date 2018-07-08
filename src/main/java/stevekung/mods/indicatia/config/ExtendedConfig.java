@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
-import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
@@ -323,7 +323,7 @@ public class ExtendedConfig
             ExtendedConfig.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
             HideNameData.load(nbt.getTagList("HideNameList", 10));
 
-            ModLogger.info("Loading extended config {}", ExtendedConfig.file.getPath());
+            LoggerIN.info("Loading extended config {}", ExtendedConfig.file.getPath());
         }
         catch (Exception e) {}
     }
@@ -486,11 +486,11 @@ public class ExtendedConfig
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {
             writer.println("profile:" + profileName);
-            ModLogger.info("Saving profile name!");
+            LoggerIN.info("Saving profile name!");
         }
         catch (IOException e)
         {
-            ModLogger.error("Failed to save profiles", (Throwable)e);
+            LoggerIN.error("Failed to save profiles", (Throwable)e);
         }
     }
 

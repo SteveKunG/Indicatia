@@ -37,7 +37,7 @@ import stevekung.mods.indicatia.event.*;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
-import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -81,12 +81,13 @@ public class IndicatiaMod
         {
             ExtendedConfig.defaultConfig.delete();
             IndicatiaMod.resetFlag.delete();
-            ModLogger.info("Reset default config");
+            LoggerIN.info("Reset default config");
         }
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
         IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
+        IndicatiaMod.allowedUUID.add("4675476a-46e5-45ee-89a5-010dc02996d9");
     }
 
     @EventHandler
@@ -112,7 +113,7 @@ public class IndicatiaMod
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {
             ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));
-            ModLogger.info("Successfully replacing vanilla Fishing Rod item model");
+            LoggerIN.info("Successfully replacing vanilla Fishing Rod item model");
         }
 
         ClientUtils.registerCommand(new CommandMojangStatusCheck());
@@ -145,7 +146,7 @@ public class IndicatiaMod
         {
             Minecraft.getMinecraft().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
             Minecraft.getMinecraft().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getMinecraft().getRenderManager()));
-            ModLogger.info("Successfully replacing {}", EntityFishHook.class.getName());
+            LoggerIN.info("Successfully replacing {}", EntityFishHook.class.getName());
         }
     }
 
@@ -160,7 +161,7 @@ public class IndicatiaMod
     {
         if (IndicatiaMod.isDevelopment)
         {
-            ModLogger.info("Development environment detected! Ignore certificate check.");
+            LoggerIN.info("Development environment detected! Ignore certificate check.");
         }
         else
         {
@@ -196,7 +197,7 @@ public class IndicatiaMod
         }
         if (!ExtendedConfig.defaultConfig.exists())
         {
-            ModLogger.info("Initializing created default Indicatia profile...");
+            LoggerIN.info("Initializing created default Indicatia profile...");
             ExtendedConfig.setCurrentProfile("default");
             ExtendedConfig.save();
         }
@@ -221,7 +222,7 @@ public class IndicatiaMod
 
             if ("profile".equals(property))
             {
-                ModLogger.info("Loaded current profile by name '{}'", key);
+                LoggerIN.info("Loaded current profile by name '{}'", key);
                 ExtendedConfig.setCurrentProfile(key);
                 ExtendedConfig.load();
             }
@@ -246,11 +247,11 @@ public class IndicatiaMod
             try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
             {
                 writer.println("profile:default");
-                ModLogger.info("Creating profile option at {}", profile.getPath());
+                LoggerIN.info("Creating profile option at {}", profile.getPath());
             }
             catch (IOException e)
             {
-                ModLogger.error("Failed to save profile");
+                LoggerIN.error("Failed to save profile");
                 e.printStackTrace();
             }
         }
@@ -266,7 +267,7 @@ public class IndicatiaMod
         }
         catch (IOException e)
         {
-            ModLogger.error("Failed to save reset flag");
+            LoggerIN.error("Failed to save reset flag");
             e.printStackTrace();
         }
     }

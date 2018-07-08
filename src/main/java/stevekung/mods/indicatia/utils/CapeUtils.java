@@ -52,7 +52,7 @@ public class CapeUtils
             try
             {
                 CapeUtils.CAPE_TEXTURE = new DynamicTexture(ImageIO.read(CapeUtils.texture));
-                ModLogger.info("Found downloaded custom cape file {}", CapeUtils.texture.getPath());
+                LoggerIN.info("Found downloaded custom cape file {}", CapeUtils.texture.getPath());
             }
             catch (IOException e)
             {

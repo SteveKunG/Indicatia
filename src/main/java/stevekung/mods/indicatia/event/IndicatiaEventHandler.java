@@ -68,7 +68,7 @@ import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
@@ -622,13 +622,13 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.afkTicks = 0;
             IndicatiaEventHandler.afkMoveTicks = 0;
             IndicatiaEventHandler.afkMode = "idle";
-            ModLogger.info("Stopping AFK Command");
+            LoggerIN.info("Stopping AFK Command");
         }
         if (IndicatiaEventHandler.autoFish)
         {
             IndicatiaEventHandler.autoFish = false;
             IndicatiaEventHandler.autoFishTick = 0;
-            ModLogger.info("Stopping Autofish Command");
+            LoggerIN.info("Stopping Autofish Command");
         }
     }
 

@@ -38,7 +38,7 @@ import stevekung.mods.indicatia.gui.overlay.GuiPlayerTabOverlayNew;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.indicatia.utils.ModLogger;
+import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
@@ -214,7 +214,7 @@ public class HUDRenderEventHandler
 
                             if (values == null)
                             {
-                                ModLogger.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
+                                LoggerIN.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
                                 return;
                             }
                             double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
@@ -454,7 +454,7 @@ public class HUDRenderEventHandler
             }
             catch (Exception e)
             {
-                ModLogger.error("Couldn't read text file from path {}", file.getPath());
+                LoggerIN.error("Couldn't read text file from path {}", file.getPath());
                 e.printStackTrace();
                 HUDRenderEventHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
             }
@@ -486,7 +486,7 @@ public class HUDRenderEventHandler
             }
             catch (Exception e)
             {
-                ModLogger.error("Couldn't read text file from path {}", file.getPath());
+                LoggerIN.error("Couldn't read text file from path {}", file.getPath());
                 e.printStackTrace();
                 HUDRenderEventHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
             }
