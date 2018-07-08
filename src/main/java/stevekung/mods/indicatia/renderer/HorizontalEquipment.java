@@ -38,9 +38,7 @@ public class HorizontalEquipment
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getMinecraft().player.inventory);
             GlStateManager.disableDepth();
-            ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
-            ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
-            ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
+            ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
             GlStateManager.enableDepth();
         }
     }

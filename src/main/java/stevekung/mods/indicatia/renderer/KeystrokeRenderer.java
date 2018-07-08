@@ -70,13 +70,12 @@ public class KeystrokeRenderer
             mc.fontRenderer.drawString("RMB", width - widthSquare + 47.5625F, heightSquare - 4, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeMouseButtonColor).to32Bit(), false);
 
             useRainbow = ExtendedConfig.keystrokeCPSRainbow;
-            ColorUtils.coloredFontRenderer.setUnicodeFlag(true);
 
             if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
                 String cps = "CPS:" + InfoUtils.INSTANCE.getCPS();
-                int smallFontWidth = ColorUtils.coloredFontRenderer.getStringWidth(cps);
-                ColorUtils.coloredFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
+                int smallFontWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(cps);
+                ColorUtils.coloredFontRendererUnicode.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
             }
 
             useRainbow = ExtendedConfig.keystrokeRCPSRainbow;
@@ -84,10 +83,9 @@ public class KeystrokeRenderer
             if (ExtendedConfig.rcps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
                 String rcps = "RCPS:" + InfoUtils.INSTANCE.getRCPS();
-                int smallFontWidth = ColorUtils.coloredFontRenderer.getStringWidth(rcps);
-                ColorUtils.coloredFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
+                int smallFontWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(rcps);
+                ColorUtils.coloredFontRendererUnicode.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
             }
-            ColorUtils.coloredFontRenderer.setUnicodeFlag(false);
         }
         if (ExtendedConfig.keystrokeSprintSneak)
         {

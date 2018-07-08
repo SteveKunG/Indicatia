@@ -460,7 +460,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
-                float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                float xOffset = isRightSide ? res.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
                 ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
             }
         }
@@ -474,7 +474,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
+                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - ColorUtils.coloredFontRendererUnicode.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
@@ -577,7 +577,7 @@ public class HUDInfo
         for (int i = 0; i < leftItemStatusList.size(); ++i)
         {
             String string = leftItemStatusList.get(i);
-            int stringWidth = mc.fontRenderer.getStringWidth(string);
+            int stringWidth = ColorUtils.coloredFontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 36;
             ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
@@ -596,7 +596,7 @@ public class HUDInfo
         for (int i = 0; i < leftArrowCountList.size(); ++i)
         {
             String string = leftArrowCountList.get(i);
-            int stringWidth = mc.fontRenderer.getStringWidth(string);
+            int stringWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 90 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 32;
 
