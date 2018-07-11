@@ -235,27 +235,30 @@ public class IndicatiaEventHandler
             }
 
             // afk stuff
-            int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
+            if (!IndicatiaEventHandler.afkMode.equals("360"))
+            {
+                int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
 
-            if (afkMoveTick > 0 && afkMoveTick < 2)
-            {
-                ++movement.moveForward;
-                movement.forwardKeyDown = true;
-            }
-            else if (afkMoveTick > 2 && afkMoveTick < 4)
-            {
-                ++movement.moveStrafe;
-                movement.leftKeyDown = true;
-            }
-            else if (afkMoveTick > 4 && afkMoveTick < 6)
-            {
-                --movement.moveForward;
-                movement.backKeyDown = true;
-            }
-            else if (afkMoveTick > 6 && afkMoveTick < 8)
-            {
-                --movement.moveStrafe;
-                movement.rightKeyDown = true;
+                if (afkMoveTick > 0 && afkMoveTick < 2)
+                {
+                    ++movement.moveForward;
+                    movement.forwardKeyDown = true;
+                }
+                else if (afkMoveTick > 2 && afkMoveTick < 4)
+                {
+                    ++movement.moveStrafe;
+                    movement.leftKeyDown = true;
+                }
+                else if (afkMoveTick > 4 && afkMoveTick < 6)
+                {
+                    --movement.moveForward;
+                    movement.backKeyDown = true;
+                }
+                else if (afkMoveTick > 6 && afkMoveTick < 8)
+                {
+                    --movement.moveStrafe;
+                    movement.rightKeyDown = true;
+                }
             }
 
             // auto login function
