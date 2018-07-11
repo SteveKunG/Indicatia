@@ -51,7 +51,7 @@ public class IndicatiaMod
     public static final String MOD_ID = "indicatia";
     private static final int MAJOR_VERSION = 1;
     private static final int MINOR_VERSION = 2;
-    private static final int BUILD_VERSION = 1;
+    private static final int BUILD_VERSION = 2;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     private static final String FORGE_VERSION = "after:forge@[14.23.4.2705,);";
     protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.0.1,); " + IndicatiaMod.FORGE_VERSION;
