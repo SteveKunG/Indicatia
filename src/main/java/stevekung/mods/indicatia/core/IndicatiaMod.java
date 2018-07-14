@@ -67,6 +67,7 @@ public class IndicatiaMod
     public static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static VersionChecker CHECKER;
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
+    public static final boolean isYoutubeChatLoaded = Loader.isModLoaded("youtube_chat");
     private static final List<String> allowedUUID = new ArrayList<>();
 
     static

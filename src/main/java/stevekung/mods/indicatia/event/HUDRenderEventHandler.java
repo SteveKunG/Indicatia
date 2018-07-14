@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import stevekung.mods.indicatia.config.*;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
 import stevekung.mods.indicatia.gui.overlay.GuiBossOverlayNew;
 import stevekung.mods.indicatia.gui.overlay.GuiPlayerTabOverlayNew;
@@ -58,6 +59,20 @@ public class HUDRenderEventHandler
     private static String recentDonatorName = "";
     private static String recentDonatorCount = "";
     public static final DecimalFormat tpsFormat = new DecimalFormat("########0.00");
+    public static String currentLiveViewCount = "";
+
+    static
+    {
+        try
+        {
+            Class<?> clazz = Class.forName("stevekung.mods.ytchat.utils.YouTubeChatService");
+            HUDRenderEventHandler.currentLiveViewCount = (String)clazz.getField("currentLiveViewCount").get(null);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     public HUDRenderEventHandler()
     {
@@ -268,6 +283,10 @@ public class HUDRenderEventHandler
                         String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
                         rightInfo.add(text + HUDRenderEventHandler.recentDonator);
                     }
+                }
+                if (IndicatiaMod.isYoutubeChatLoaded && !HUDRenderEventHandler.currentLiveViewCount.isEmpty())
+                {
+                    rightInfo.add(HUDRenderEventHandler.currentLiveViewCount);
                 }
 
                 // equipments
