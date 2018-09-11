@@ -391,6 +391,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Blocking Dead", "arcade_day_one", HypixelMinigameGroup.ARCADE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Zombies: Dead End", "arcade_zombies_dead_end", HypixelMinigameGroup.ARCADE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Zombies: Bad Blood", "arcade_zombies_bad_blood", HypixelMinigameGroup.ARCADE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Zombies: Alien Arcadium", "arcade_zombies_alien_arcadium", HypixelMinigameGroup.ARCADE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "H&S: Prop Hunt", "arcade_hide_and_seek_prop_hunt", HypixelMinigameGroup.ARCADE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "H&S: Party Pooper", "arcade_hide_and_seek_party_pooper", HypixelMinigameGroup.ARCADE, true));
             }
@@ -402,7 +403,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "The Walls", "walls", HypixelMinigameGroup.CLASSIC_GAMES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Turbo Kart Racers", "tkr", HypixelMinigameGroup.CLASSIC_GAMES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Quakecraft Solo", "quake_solo", HypixelMinigameGroup.CLASSIC_GAMES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Quakecraft Teams", "quake_teams", HypixelMinigameGroup.CLASSIC_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Quakecraft Doubles", "quake_teams", HypixelMinigameGroup.CLASSIC_GAMES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Arena 1v1", "arena_1v1", HypixelMinigameGroup.CLASSIC_GAMES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Arena 2v2", "arena_2v2", HypixelMinigameGroup.CLASSIC_GAMES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Arena 4v4", "arena_4v4", HypixelMinigameGroup.CLASSIC_GAMES, true));
@@ -422,7 +423,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Build Battle Lobby", "bb", HypixelMinigameGroup.BUILD_BATTLE, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo", "build_battle_solo_normal", HypixelMinigameGroup.BUILD_BATTLE, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams", "build_battle_teams_normal", HypixelMinigameGroup.BUILD_BATTLE, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "build_battle_teams_normal", HypixelMinigameGroup.BUILD_BATTLE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Pro", "build_battle_solo_pro", HypixelMinigameGroup.BUILD_BATTLE, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Guess the Build", "build_battle_guess_the_build", HypixelMinigameGroup.BUILD_BATTLE, true));
             }
@@ -430,17 +431,17 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Cops and Crims Lobby", "cnc", HypixelMinigameGroup.COPS_AND_CRIMS, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Defusal", "mcgo_normal", HypixelMinigameGroup.COPS_AND_CRIMS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Deathmatch", "mcgo_deathmatch", HypixelMinigameGroup.COPS_AND_CRIMS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Deathmatch", "mcgo_deathmatch", HypixelMinigameGroup.COPS_AND_CRIMS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Defusal Party", "mcgo_normal_party", HypixelMinigameGroup.COPS_AND_CRIMS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Deathmatch Party", "mcgo_deathmatch_party", HypixelMinigameGroup.COPS_AND_CRIMS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Deathmatch Party", "mcgo_deathmatch_party", HypixelMinigameGroup.COPS_AND_CRIMS, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.CRAZY_WALLS.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Crazy Walls Lobby", "cw", HypixelMinigameGroup.CRAZY_WALLS, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo", "crazy_walls_solo", HypixelMinigameGroup.CRAZY_WALLS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams", "crazy_walls_team", HypixelMinigameGroup.CRAZY_WALLS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "crazy_walls_team", HypixelMinigameGroup.CRAZY_WALLS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Lucky", "crazy_walls_solo_chaos", HypixelMinigameGroup.CRAZY_WALLS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams Lucky", "crazy_walls_team_chaos", HypixelMinigameGroup.CRAZY_WALLS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Lucky", "crazy_walls_team_chaos", HypixelMinigameGroup.CRAZY_WALLS, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.DUELS_SOLO.ordinal())
             {
@@ -463,7 +464,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Duels Lobby", "duels", HypixelMinigameGroup.DUELS_DOUBLES, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Skywars", "duels_sw_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Doubles UHC", "duels_uhc_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams UHC", "duels_uhc_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles UHC", "duels_uhc_four", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "OP", "duels_op_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Doubles Mega Walls", "duels_mw_doubles", HypixelMinigameGroup.DUELS_DOUBLES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "UHC Tournament", "duels_uhc_tournament", HypixelMinigameGroup.DUELS_DOUBLES, true));
@@ -489,7 +490,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Skyclash Lobby", "sc", HypixelMinigameGroup.SKYCLASH, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo", "skyclash_solo", HypixelMinigameGroup.SKYCLASH, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Doubles", "skyclash_doubles", HypixelMinigameGroup.SKYCLASH, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team War", "skyclash_team_war", HypixelMinigameGroup.SKYCLASH, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles War", "skyclash_team_war", HypixelMinigameGroup.SKYCLASH, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SKYWARS.ordinal())
             {
@@ -497,8 +498,8 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Normal", "solo_normal", HypixelMinigameGroup.SKYWARS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Insane", "solo_insane", HypixelMinigameGroup.SKYWARS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Ranked Mode", "ranked_normal", HypixelMinigameGroup.SKYWARS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Normal", "teams_normal", HypixelMinigameGroup.SKYWARS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Insane", "teams_insane", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Normal", "teams_normal", HypixelMinigameGroup.SKYWARS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Insane", "teams_insane", HypixelMinigameGroup.SKYWARS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Mega Doubles", "mega_doubles", HypixelMinigameGroup.SKYWARS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Hunters vs Beasts", "solo_insane_hunters_vs_beasts", HypixelMinigameGroup.SKYWARS, true));
             }
@@ -509,17 +510,17 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Rush", "solo_insane_rush", HypixelMinigameGroup.SKYWARS_LAB, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Slime", "solo_insane_slime", HypixelMinigameGroup.SKYWARS_LAB, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Lucky", "solo_insane_lucky", HypixelMinigameGroup.SKYWARS_LAB, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team TNT", "teams_insane_tnt_madness", HypixelMinigameGroup.SKYWARS_LAB, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Rush", "teams_insane_rush", HypixelMinigameGroup.SKYWARS_LAB, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Slime", "teams_insane_slime", HypixelMinigameGroup.SKYWARS_LAB, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Lucky", "teams_insane_lucky", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles TNT", "teams_insane_tnt_madness", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Rush", "teams_insane_rush", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Slime", "teams_insane_slime", HypixelMinigameGroup.SKYWARS_LAB, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Lucky", "teams_insane_lucky", HypixelMinigameGroup.SKYWARS_LAB, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SMASH_HEROES.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Smash Heroes Lobby", "sh", HypixelMinigameGroup.SMASH_HEROES, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo 1v1v1v1", "super_smash_solo_normal", HypixelMinigameGroup.SMASH_HEROES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams 2v2", "super_smash_2v2_normal", HypixelMinigameGroup.SMASH_HEROES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams 2v2v2", "super_smash_teams_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles 2v2", "super_smash_2v2_normal", HypixelMinigameGroup.SMASH_HEROES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles 2v2v2", "super_smash_teams_normal", HypixelMinigameGroup.SMASH_HEROES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "1v1 Mode", "super_smash_1v1_normal", HypixelMinigameGroup.SMASH_HEROES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Friends 1v1v1v1", "super_smash_friends_normal", HypixelMinigameGroup.SMASH_HEROES, true));
             }
@@ -528,15 +529,15 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
                 gameBtn.add(new GuiButtonCustomize(this, "Speed UHC Lobby", "suhc", HypixelMinigameGroup.SPEED_UHC, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo", "speed_solo_normal", HypixelMinigameGroup.SPEED_UHC, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo Insane", "speed_solo_insane", HypixelMinigameGroup.SPEED_UHC, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team", "speed_team_normal", HypixelMinigameGroup.SPEED_UHC, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team Insane", "speed_team_insane", HypixelMinigameGroup.SPEED_UHC, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "speed_team_normal", HypixelMinigameGroup.SPEED_UHC, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles Insane", "speed_team_insane", HypixelMinigameGroup.SPEED_UHC, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.SURVIVAL_GAMES.ordinal())
             {
                 gameBtn.add(new GuiButtonCustomize(this, "Blitz Surival Game Lobby", "sg", HypixelMinigameGroup.SURVIVAL_GAMES, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo", "blitz_solo_normal", HypixelMinigameGroup.SURVIVAL_GAMES, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo (No Kits)", "blitz_solo_nokits", HypixelMinigameGroup.SURVIVAL_GAMES, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Team", "blitz_teams_normal", HypixelMinigameGroup.SURVIVAL_GAMES, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "blitz_teams_normal", HypixelMinigameGroup.SURVIVAL_GAMES, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.TNT.ordinal())
             {
@@ -551,7 +552,7 @@ public class GuiChatIN extends GuiChat implements IDropboxCallback
             {
                 gameBtn.add(new GuiButtonCustomize(this, "UHC Champions Lobby", "uhc", HypixelMinigameGroup.UHC_CHAMPIONS, false));
                 gameBtn.add(new GuiButtonCustomize(this, "Solo", "uhc_solo", HypixelMinigameGroup.UHC_CHAMPIONS, true));
-                gameBtn.add(new GuiButtonCustomize(this, "Teams", "uhc_teams", HypixelMinigameGroup.UHC_CHAMPIONS, true));
+                gameBtn.add(new GuiButtonCustomize(this, "Doubles", "uhc_teams", HypixelMinigameGroup.UHC_CHAMPIONS, true));
                 gameBtn.add(new GuiButtonCustomize(this, "Event", "uhc_event", HypixelMinigameGroup.UHC_CHAMPIONS, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.WARLORDS.ordinal())
