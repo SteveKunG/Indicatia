@@ -10,7 +10,7 @@ buildscript {
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.11"
+    id "com.matthewprenger.cursegradle" version "1.1.0"
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
@@ -35,7 +35,7 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
-    version = "1.12.2-14.23.4.2725"
+    version = "1.12.2-14.23.4.2760"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
