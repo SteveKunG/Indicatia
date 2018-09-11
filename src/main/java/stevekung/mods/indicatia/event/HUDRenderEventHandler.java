@@ -61,19 +61,6 @@ public class HUDRenderEventHandler
     public static final DecimalFormat tpsFormat = new DecimalFormat("########0.00");
     public static String currentLiveViewCount = "";
 
-    static
-    {
-        try
-        {
-            Class<?> clazz = Class.forName("stevekung.mods.ytchat.utils.YouTubeChatService");
-            HUDRenderEventHandler.currentLiveViewCount = (String)clazz.getField("currentLiveViewCount").get(null);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     public HUDRenderEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
@@ -118,6 +105,19 @@ public class HUDRenderEventHandler
             else
             {
                 HUDRenderEventHandler.recentDonator = "";
+            }
+
+            if (IndicatiaMod.isYoutubeChatLoaded)
+            {
+                try
+                {
+                    Class<?> clazz = Class.forName("stevekung.mods.ytchat.utils.YouTubeChatService");
+                    HUDRenderEventHandler.currentLiveViewCount = (String)clazz.getField("currentLiveViewCount").get(null);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }
