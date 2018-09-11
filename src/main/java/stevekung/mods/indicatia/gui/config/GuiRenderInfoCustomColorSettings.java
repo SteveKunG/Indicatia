@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 import stevekung.mods.stevekunglib.utils.ColorUtils.RGB;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -44,6 +45,11 @@ public class GuiRenderInfoCustomColorSettings extends GuiScreen
         OPTIONS.add(ExtendedConfig.Options.GAME_WEATHER_COLOR);
         OPTIONS.add(ExtendedConfig.Options.MOON_PHASE_COLOR);
 
+        if (IndicatiaMod.isYoutubeChatLoaded)
+        {
+            OPTIONS.add(ExtendedConfig.Options.YTCHAT_VIEW_COUNT_COLOR);
+        }
+
         OPTIONS.add(ExtendedConfig.Options.FPS_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.Options.FPS_26_AND_40_COLOR);
         OPTIONS.add(ExtendedConfig.Options.FPS_LOW_25_COLOR);
@@ -66,6 +72,11 @@ public class GuiRenderInfoCustomColorSettings extends GuiScreen
         OPTIONS.add(ExtendedConfig.Options.GAME_TIME_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.Options.GAME_WEATHER_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.Options.MOON_PHASE_VALUE_COLOR);
+
+        if (IndicatiaMod.isYoutubeChatLoaded)
+        {
+            OPTIONS.add(ExtendedConfig.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR);
+        }
     }
 
     public GuiRenderInfoCustomColorSettings(GuiScreen parent)

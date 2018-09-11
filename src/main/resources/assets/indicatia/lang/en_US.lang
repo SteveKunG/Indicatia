@@ -113,6 +113,10 @@ keystroke_cps_rainbow.extended_config=Keystroke CPS Rainbow
 keystroke_rcps_rainbow.extended_config=Keystroke RCPS Rainbow
 right_click_add_party.extended_config=Right Click to Add Party
 
+# YOUTUBE CHAT
+ytchat_view_count_color.extended_config=[YTChat] View Count Color
+ytchat_view_count_value_color.extended_config=[YTChat] View Count Value Color
+
 # EXTENDED CONFIG INFO
 extended_config.render_info.tps.info=This will show overall Server TPS to testing performance. (Only works with client)
 extended_config.render_info.tps_all_dims.info=This will show TPS each dimension if available. 

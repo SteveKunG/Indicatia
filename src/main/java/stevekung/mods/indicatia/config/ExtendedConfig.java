@@ -109,6 +109,7 @@ public class ExtendedConfig
     public static String gameTimeColor = defaultWhite;
     public static String gameWeatherColor = defaultWhite;
     public static String moonPhaseColor = defaultWhite;
+    public static String ytChatViewCountColor = defaultWhite;
 
     // Custom Color : Value
     public static String fpsValueColor = "85,255,85";
@@ -133,6 +134,7 @@ public class ExtendedConfig
     public static String gameTimeValueColor = defaultWhite;
     public static String gameWeatherValueColor = defaultWhite;
     public static String moonPhaseValueColor = defaultWhite;
+    public static String ytChatViewCountValueColor = defaultWhite;
 
     // Custom Color : Keystroke
     public static String keystrokeWASDColor = defaultWhite;
@@ -261,6 +263,7 @@ public class ExtendedConfig
             ExtendedConfig.gameTimeColor = ExtendedConfig.getString(nbt, "GameTimeColor", ExtendedConfig.gameTimeColor);
             ExtendedConfig.gameWeatherColor = ExtendedConfig.getString(nbt, "GameWeatherColor", ExtendedConfig.gameWeatherColor);
             ExtendedConfig.moonPhaseColor = ExtendedConfig.getString(nbt, "MoonPhaseColor", ExtendedConfig.moonPhaseColor);
+            ExtendedConfig.ytChatViewCountColor = ExtendedConfig.getString(nbt, "YTChatViewCountColor", ExtendedConfig.ytChatViewCountColor);
 
             // Custom Color : Value
             ExtendedConfig.fpsValueColor = ExtendedConfig.getString(nbt, "FPSValueColor", ExtendedConfig.fpsValueColor);
@@ -285,6 +288,7 @@ public class ExtendedConfig
             ExtendedConfig.gameTimeValueColor = ExtendedConfig.getString(nbt, "GameTimeValueColor", ExtendedConfig.gameTimeValueColor);
             ExtendedConfig.gameWeatherValueColor = ExtendedConfig.getString(nbt, "GameWeatherValueColor", ExtendedConfig.gameWeatherValueColor);
             ExtendedConfig.moonPhaseValueColor = ExtendedConfig.getString(nbt, "MoonPhaseValueColor", ExtendedConfig.moonPhaseValueColor);
+            ExtendedConfig.ytChatViewCountValueColor = ExtendedConfig.getString(nbt, "YTChatViewCountValueColor", ExtendedConfig.ytChatViewCountValueColor);
 
             // Custom Color : Keystroke
             ExtendedConfig.keystrokeWASDColor = ExtendedConfig.getString(nbt, "KeystrokeWASDColor", ExtendedConfig.keystrokeWASDColor);
@@ -932,6 +936,10 @@ public class ExtendedConfig
         {
             ExtendedConfig.moonPhaseColor = value;
         }
+        if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_COLOR)
+        {
+            ExtendedConfig.ytChatViewCountColor = value;
+        }
 
         if (options == ExtendedConfig.Options.FPS_VALUE_COLOR)
         {
@@ -1020,6 +1028,10 @@ public class ExtendedConfig
         if (options == ExtendedConfig.Options.MOON_PHASE_VALUE_COLOR)
         {
             ExtendedConfig.moonPhaseValueColor = value;
+        }
+        if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR)
+        {
+            ExtendedConfig.ytChatViewCountValueColor = value;
         }
 
         if (options == ExtendedConfig.Options.KEYSTROKE_WASD_COLOR)
@@ -1207,6 +1219,8 @@ public class ExtendedConfig
             return ExtendedConfig.gameWeatherColor;
         case MOON_PHASE_COLOR:
             return ExtendedConfig.moonPhaseColor;
+        case YTCHAT_VIEW_COUNT_COLOR:
+            return ExtendedConfig.ytChatViewCountColor;
 
         case FPS_VALUE_COLOR:
             return ExtendedConfig.fpsValueColor;
@@ -1252,6 +1266,8 @@ public class ExtendedConfig
             return ExtendedConfig.gameWeatherValueColor;
         case MOON_PHASE_VALUE_COLOR:
             return ExtendedConfig.moonPhaseValueColor;
+        case YTCHAT_VIEW_COUNT_VALUE_COLOR:
+            return ExtendedConfig.ytChatViewCountValueColor;
 
         case KEYSTROKE_WASD_COLOR:
             return ExtendedConfig.keystrokeWASDColor;
@@ -1350,6 +1366,7 @@ public class ExtendedConfig
         GAME_TIME_COLOR(false, false, true),
         GAME_WEATHER_COLOR(false, false, true),
         MOON_PHASE_COLOR(false, false, true),
+        YTCHAT_VIEW_COUNT_COLOR(false, false, true),
 
         FPS_VALUE_COLOR(false, false, true),
         FPS_26_AND_40_COLOR(false, false, true),
@@ -1373,6 +1390,7 @@ public class ExtendedConfig
         GAME_TIME_VALUE_COLOR(false, false, true),
         GAME_WEATHER_VALUE_COLOR(false, false, true),
         MOON_PHASE_VALUE_COLOR(false, false, true),
+        YTCHAT_VIEW_COUNT_VALUE_COLOR(false, false, true),
 
         KEYSTROKE_WASD_COLOR(false, false, true),
         KEYSTROKE_MOUSE_BUTTON_COLOR(false, false, true),

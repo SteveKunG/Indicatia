@@ -116,7 +116,7 @@ public class HUDRenderEventHandler
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    HUDRenderEventHandler.currentLiveViewCount = TextFormatting.RED + "unavailable";
                 }
             }
         }
@@ -286,7 +286,7 @@ public class HUDRenderEventHandler
                 }
                 if (IndicatiaMod.isYoutubeChatLoaded && !HUDRenderEventHandler.currentLiveViewCount.isEmpty())
                 {
-                    rightInfo.add(HUDRenderEventHandler.currentLiveViewCount);
+                    rightInfo.add(ColorUtils.stringToRGB(ExtendedConfig.ytChatViewCountColor).toColoredFont() + "Current watched: " + ColorUtils.stringToRGB(ExtendedConfig.ytChatViewCountValueColor).toColoredFont() + HUDRenderEventHandler.currentLiveViewCount);
                 }
 
                 // equipments
