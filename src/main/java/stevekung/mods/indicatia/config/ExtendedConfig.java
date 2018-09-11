@@ -650,177 +650,177 @@ public class ExtendedConfig
         {
             GuiExtendedConfig.preview = !GuiExtendedConfig.preview;
         }
-        if (options == ExtendedConfig.Options.SWAP_INFO_POS)
+        else if (options == ExtendedConfig.Options.SWAP_INFO_POS)
         {
             ExtendedConfig.swapRenderInfo = !ExtendedConfig.swapRenderInfo;
         }
-        if (options == ExtendedConfig.Options.HEALTH_STATUS)
+        else if (options == ExtendedConfig.Options.HEALTH_STATUS)
         {
             ExtendedConfig.healthStatusMode = (ExtendedConfig.healthStatusMode + value) % 3;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_POSITION)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_POSITION)
         {
             ExtendedConfig.keystrokePosition = (ExtendedConfig.keystrokePosition + value) % 2;
         }
-        if (options == ExtendedConfig.Options.EQUIPMENT_ORDERING)
+        else if (options == ExtendedConfig.Options.EQUIPMENT_ORDERING)
         {
             ExtendedConfig.equipmentOrdering = (ExtendedConfig.equipmentOrdering + value) % 2;
         }
-        if (options == ExtendedConfig.Options.EQUIPMENT_DIRECTION)
+        else if (options == ExtendedConfig.Options.EQUIPMENT_DIRECTION)
         {
             ExtendedConfig.equipmentDirection = (ExtendedConfig.equipmentDirection + value) % 2;
         }
-        if (options == ExtendedConfig.Options.EQUIPMENT_STATUS)
+        else if (options == ExtendedConfig.Options.EQUIPMENT_STATUS)
         {
             ExtendedConfig.equipmentStatus = (ExtendedConfig.equipmentStatus + value) % 4;
         }
-        if (options == ExtendedConfig.Options.EQUIPMENT_POSITION)
+        else if (options == ExtendedConfig.Options.EQUIPMENT_POSITION)
         {
             ExtendedConfig.equipmentPosition = (ExtendedConfig.equipmentPosition + value) % 3;
         }
-        if (options == ExtendedConfig.Options.POTION_HUD_STYLE)
+        else if (options == ExtendedConfig.Options.POTION_HUD_STYLE)
         {
             ExtendedConfig.potionHUDStyle = (ExtendedConfig.potionHUDStyle + value) % 2;
         }
-        if (options == ExtendedConfig.Options.POTION_HUD_POSITION)
+        else if (options == ExtendedConfig.Options.POTION_HUD_POSITION)
         {
             ExtendedConfig.potionHUDPosition = (ExtendedConfig.potionHUDPosition + value) % 4;
         }
-        if (options == ExtendedConfig.Options.CPS_POSITION)
+        else if (options == ExtendedConfig.Options.CPS_POSITION)
         {
             ExtendedConfig.cpsPosition = (ExtendedConfig.cpsPosition + value) % 4;
         }
 
-        if (options == ExtendedConfig.Options.FPS)
+        else if (options == ExtendedConfig.Options.FPS)
         {
             ExtendedConfig.fps = !ExtendedConfig.fps;
         }
-        if (options == ExtendedConfig.Options.XYZ)
+        else if (options == ExtendedConfig.Options.XYZ)
         {
             ExtendedConfig.xyz = !ExtendedConfig.xyz;
         }
-        if (options == ExtendedConfig.Options.DIRECTION)
+        else if (options == ExtendedConfig.Options.DIRECTION)
         {
             ExtendedConfig.direction = !ExtendedConfig.direction;
         }
-        if (options == ExtendedConfig.Options.BIOME)
+        else if (options == ExtendedConfig.Options.BIOME)
         {
             ExtendedConfig.biome = !ExtendedConfig.biome;
         }
-        if (options == ExtendedConfig.Options.PING)
+        else if (options == ExtendedConfig.Options.PING)
         {
             ExtendedConfig.ping = !ExtendedConfig.ping;
         }
-        if (options == ExtendedConfig.Options.PING_TO_SECOND)
+        else if (options == ExtendedConfig.Options.PING_TO_SECOND)
         {
             ExtendedConfig.pingToSecond = !ExtendedConfig.pingToSecond;
         }
-        if (options == ExtendedConfig.Options.SERVER_IP)
+        else if (options == ExtendedConfig.Options.SERVER_IP)
         {
             ExtendedConfig.serverIP = !ExtendedConfig.serverIP;
         }
-        if (options == ExtendedConfig.Options.SERVER_IP_MC)
+        else if (options == ExtendedConfig.Options.SERVER_IP_MC)
         {
             ExtendedConfig.serverIPMCVersion = !ExtendedConfig.serverIPMCVersion;
         }
-        if (options == ExtendedConfig.Options.EQUIPMENT_HUD)
+        else if (options == ExtendedConfig.Options.EQUIPMENT_HUD)
         {
             ExtendedConfig.equipmentHUD = !ExtendedConfig.equipmentHUD;
         }
-        if (options == ExtendedConfig.Options.POTION_HUD)
+        else if (options == ExtendedConfig.Options.POTION_HUD)
         {
             ExtendedConfig.potionHUD = !ExtendedConfig.potionHUD;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE)
+        else if (options == ExtendedConfig.Options.KEYSTROKE)
         {
             ExtendedConfig.keystroke = !ExtendedConfig.keystroke;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_LRMB)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_LRMB)
         {
             ExtendedConfig.keystrokeMouse = !ExtendedConfig.keystrokeMouse;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_SS)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_SS)
         {
             ExtendedConfig.keystrokeSprintSneak = !ExtendedConfig.keystrokeSprintSneak;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING)
         {
             ExtendedConfig.keystrokeBlocking = !ExtendedConfig.keystrokeBlocking;
         }
-        if (options == ExtendedConfig.Options.CPS)
+        else if (options == ExtendedConfig.Options.CPS)
         {
             ExtendedConfig.cps = !ExtendedConfig.cps;
         }
-        if (options == ExtendedConfig.Options.RCPS)
+        else if (options == ExtendedConfig.Options.RCPS)
         {
             ExtendedConfig.rcps = !ExtendedConfig.rcps;
         }
-        if (options == ExtendedConfig.Options.SLIME_CHUNK)
+        else if (options == ExtendedConfig.Options.SLIME_CHUNK)
         {
             ExtendedConfig.slimeChunkFinder = !ExtendedConfig.slimeChunkFinder;
         }
-        if (options == ExtendedConfig.Options.REAL_TIME)
+        else if (options == ExtendedConfig.Options.REAL_TIME)
         {
             ExtendedConfig.realTime = !ExtendedConfig.realTime;
         }
-        if (options == ExtendedConfig.Options.GAME_TIME)
+        else if (options == ExtendedConfig.Options.GAME_TIME)
         {
             ExtendedConfig.gameTime = !ExtendedConfig.gameTime;
         }
-        if (options == ExtendedConfig.Options.GAME_WEATHER)
+        else if (options == ExtendedConfig.Options.GAME_WEATHER)
         {
             ExtendedConfig.gameWeather = !ExtendedConfig.gameWeather;
         }
-        if (options == ExtendedConfig.Options.MOON_PHASE)
+        else if (options == ExtendedConfig.Options.MOON_PHASE)
         {
             ExtendedConfig.moonPhase = !ExtendedConfig.moonPhase;
         }
-        if (options == ExtendedConfig.Options.POTION_ICON)
+        else if (options == ExtendedConfig.Options.POTION_ICON)
         {
             ExtendedConfig.potionHUDIcon = !ExtendedConfig.potionHUDIcon;
         }
-        if (options == ExtendedConfig.Options.TPS)
+        else if (options == ExtendedConfig.Options.TPS)
         {
             ExtendedConfig.tps = !ExtendedConfig.tps;
         }
-        if (options == ExtendedConfig.Options.TPS_ALL_DIMS)
+        else if (options == ExtendedConfig.Options.TPS_ALL_DIMS)
         {
             ExtendedConfig.tpsAllDims = !ExtendedConfig.tpsAllDims;
         }
-        if (options == ExtendedConfig.Options.ALTERNATE_POTION_COLOR)
+        else if (options == ExtendedConfig.Options.ALTERNATE_POTION_COLOR)
         {
             ExtendedConfig.alternatePotionHUDTextColor = !ExtendedConfig.alternatePotionHUDTextColor;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_WASD_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_WASD_RAINBOW)
         {
             ExtendedConfig.keystrokeWASDRainbow = !ExtendedConfig.keystrokeWASDRainbow;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_RAINBOW)
         {
             ExtendedConfig.keystrokeMouseButtonRainbow = !ExtendedConfig.keystrokeMouseButtonRainbow;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_SPRINT_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_SPRINT_RAINBOW)
         {
             ExtendedConfig.keystrokeSprintRainbow = !ExtendedConfig.keystrokeSprintRainbow;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_SNEAK_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_SNEAK_RAINBOW)
         {
             ExtendedConfig.keystrokeSneakRainbow = !ExtendedConfig.keystrokeSneakRainbow;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING_RAINBOW)
         {
             ExtendedConfig.keystrokeBlockingRainbow = !ExtendedConfig.keystrokeBlockingRainbow;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_CPS_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_CPS_RAINBOW)
         {
             ExtendedConfig.keystrokeCPSRainbow = !ExtendedConfig.keystrokeCPSRainbow;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_RCPS_RAINBOW)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_RCPS_RAINBOW)
         {
             ExtendedConfig.keystrokeRCPSRainbow = !ExtendedConfig.keystrokeRCPSRainbow;
         }
 
-        if (options == ExtendedConfig.Options.RIGHT_CLICK_ADD_PARTY)
+        else if (options == ExtendedConfig.Options.RIGHT_CLICK_ADD_PARTY)
         {
             ExtendedConfig.rightClickToAddParty = !ExtendedConfig.rightClickToAddParty;
         }
@@ -832,27 +832,27 @@ public class ExtendedConfig
         {
             ExtendedConfig.armorHUDYOffset = (int) value;
         }
-        if (options == ExtendedConfig.Options.POTION_HUD_Y)
+        else if (options == ExtendedConfig.Options.POTION_HUD_Y)
         {
             ExtendedConfig.potionHUDYOffset = (int) value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_Y)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_Y)
         {
             ExtendedConfig.keystrokeYOffset = (int) value;
         }
-        if (options == ExtendedConfig.Options.MAXIMUM_POTION_DISPLAY)
+        else if (options == ExtendedConfig.Options.MAXIMUM_POTION_DISPLAY)
         {
             ExtendedConfig.maximumPotionDisplay = (int) value;
         }
-        if (options == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET)
+        else if (options == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET)
         {
             ExtendedConfig.potionLengthYOffset = (int) value;
         }
-        if (options == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
+        else if (options == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
         {
             ExtendedConfig.potionLengthYOffsetOverlap = (int) value;
         }
-        if (options == ExtendedConfig.Options.CPS_OPACITY)
+        else if (options == ExtendedConfig.Options.CPS_OPACITY)
         {
             ExtendedConfig.cpsOpacity = value;
         }
@@ -864,201 +864,201 @@ public class ExtendedConfig
         {
             ExtendedConfig.fpsColor = value;
         }
-        if (options == ExtendedConfig.Options.XYZ_COLOR)
+        else if (options == ExtendedConfig.Options.XYZ_COLOR)
         {
             ExtendedConfig.xyzColor = value;
         }
-        if (options == ExtendedConfig.Options.BIOME_COLOR)
+        else if (options == ExtendedConfig.Options.BIOME_COLOR)
         {
             ExtendedConfig.biomeColor = value;
         }
-        if (options == ExtendedConfig.Options.DIRECTION_COLOR)
+        else if (options == ExtendedConfig.Options.DIRECTION_COLOR)
         {
             ExtendedConfig.directionColor = value;
         }
-        if (options == ExtendedConfig.Options.PING_COLOR)
+        else if (options == ExtendedConfig.Options.PING_COLOR)
         {
             ExtendedConfig.pingColor = value;
         }
-        if (options == ExtendedConfig.Options.PING_TO_SECOND_COLOR)
+        else if (options == ExtendedConfig.Options.PING_TO_SECOND_COLOR)
         {
             ExtendedConfig.pingToSecondColor = value;
         }
-        if (options == ExtendedConfig.Options.SERVER_IP_COLOR)
+        else if (options == ExtendedConfig.Options.SERVER_IP_COLOR)
         {
             ExtendedConfig.serverIPColor = value;
         }
-        if (options == ExtendedConfig.Options.EQUIPMENT_STATUS_COLOR)
+        else if (options == ExtendedConfig.Options.EQUIPMENT_STATUS_COLOR)
         {
             ExtendedConfig.equipmentStatusColor = value;
         }
-        if (options == ExtendedConfig.Options.ARROW_COUNT_COLOR)
+        else if (options == ExtendedConfig.Options.ARROW_COUNT_COLOR)
         {
             ExtendedConfig.arrowCountColor = value;
         }
-        if (options == ExtendedConfig.Options.CPS_COLOR)
+        else if (options == ExtendedConfig.Options.CPS_COLOR)
         {
             ExtendedConfig.cpsColor = value;
         }
-        if (options == ExtendedConfig.Options.RCPS_COLOR)
+        else if (options == ExtendedConfig.Options.RCPS_COLOR)
         {
             ExtendedConfig.rcpsColor = value;
         }
-        if (options == ExtendedConfig.Options.SLIME_CHUNK_COLOR)
+        else if (options == ExtendedConfig.Options.SLIME_CHUNK_COLOR)
         {
             ExtendedConfig.slimeChunkColor = value;
         }
-        if (options == ExtendedConfig.Options.TOP_DONATOR_NAME_COLOR)
+        else if (options == ExtendedConfig.Options.TOP_DONATOR_NAME_COLOR)
         {
             ExtendedConfig.topDonatorNameColor = value;
         }
-        if (options == ExtendedConfig.Options.RECENT_DONATOR_NAME_COLOR)
+        else if (options == ExtendedConfig.Options.RECENT_DONATOR_NAME_COLOR)
         {
             ExtendedConfig.recentDonatorNameColor = value;
         }
-        if (options == ExtendedConfig.Options.TPS_COLOR)
+        else if (options == ExtendedConfig.Options.TPS_COLOR)
         {
             ExtendedConfig.tpsColor = value;
         }
-        if (options == ExtendedConfig.Options.REAL_TIME_COLOR)
+        else if (options == ExtendedConfig.Options.REAL_TIME_COLOR)
         {
             ExtendedConfig.realTimeColor = value;
         }
-        if (options == ExtendedConfig.Options.GAME_TIME_COLOR)
+        else if (options == ExtendedConfig.Options.GAME_TIME_COLOR)
         {
             ExtendedConfig.gameTimeColor = value;
         }
-        if (options == ExtendedConfig.Options.GAME_WEATHER_COLOR)
+        else if (options == ExtendedConfig.Options.GAME_WEATHER_COLOR)
         {
             ExtendedConfig.gameWeatherColor = value;
         }
-        if (options == ExtendedConfig.Options.MOON_PHASE_COLOR)
+        else if (options == ExtendedConfig.Options.MOON_PHASE_COLOR)
         {
             ExtendedConfig.moonPhaseColor = value;
         }
-        if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_COLOR)
+        else if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_COLOR)
         {
             ExtendedConfig.ytChatViewCountColor = value;
         }
 
-        if (options == ExtendedConfig.Options.FPS_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.FPS_VALUE_COLOR)
         {
             ExtendedConfig.fpsValueColor = value;
         }
-        if (options == ExtendedConfig.Options.FPS_26_AND_40_COLOR)
+        else if (options == ExtendedConfig.Options.FPS_26_AND_40_COLOR)
         {
             ExtendedConfig.fps26And49Color = value;
         }
-        if (options == ExtendedConfig.Options.FPS_LOW_25_COLOR)
+        else if (options == ExtendedConfig.Options.FPS_LOW_25_COLOR)
         {
             ExtendedConfig.fpsLow25Color = value;
         }
-        if (options == ExtendedConfig.Options.XYZ_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.XYZ_VALUE_COLOR)
         {
             ExtendedConfig.xyzValueColor = value;
         }
-        if (options == ExtendedConfig.Options.DIRECTION_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.DIRECTION_VALUE_COLOR)
         {
             ExtendedConfig.directionValueColor = value;
         }
-        if (options == ExtendedConfig.Options.BIOME_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.BIOME_VALUE_COLOR)
         {
             ExtendedConfig.biomeValueColor = value;
         }
-        if (options == ExtendedConfig.Options.PING_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.PING_VALUE_COLOR)
         {
             ExtendedConfig.pingValueColor = value;
         }
-        if (options == ExtendedConfig.Options.PING_200_AND_300_COLOR)
+        else if (options == ExtendedConfig.Options.PING_200_AND_300_COLOR)
         {
             ExtendedConfig.ping200And300Color = value;
         }
-        if (options == ExtendedConfig.Options.PING_300_AND_500_COLOR)
+        else if (options == ExtendedConfig.Options.PING_300_AND_500_COLOR)
         {
             ExtendedConfig.ping300And500Color = value;
         }
-        if (options == ExtendedConfig.Options.PING_MAX_500_COLOR)
+        else if (options == ExtendedConfig.Options.PING_MAX_500_COLOR)
         {
             ExtendedConfig.pingMax500Color = value;
         }
-        if (options == ExtendedConfig.Options.SERVER_IP_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.SERVER_IP_VALUE_COLOR)
         {
             ExtendedConfig.serverIPValueColor = value;
         }
-        if (options == ExtendedConfig.Options.CPS_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.CPS_VALUE_COLOR)
         {
             ExtendedConfig.cpsValueColor = value;
         }
-        if (options == ExtendedConfig.Options.RCPS_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.RCPS_VALUE_COLOR)
         {
             ExtendedConfig.rcpsValueColor = value;
         }
-        if (options == ExtendedConfig.Options.SLIME_CHUNK_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.SLIME_CHUNK_VALUE_COLOR)
         {
             ExtendedConfig.slimeChunkValueColor = value;
         }
-        if (options == ExtendedConfig.Options.TOP_DONATOR_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.TOP_DONATOR_VALUE_COLOR)
         {
             ExtendedConfig.topDonatorValueColor = value;
         }
-        if (options == ExtendedConfig.Options.RECENT_DONATOR_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.RECENT_DONATOR_VALUE_COLOR)
         {
             ExtendedConfig.recentDonatorValueColor = value;
         }
-        if (options == ExtendedConfig.Options.TPS_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.TPS_VALUE_COLOR)
         {
             ExtendedConfig.tpsValueColor = value;
         }
-        if (options == ExtendedConfig.Options.REAL_TIME_HHMMSS_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.REAL_TIME_HHMMSS_VALUE_COLOR)
         {
             ExtendedConfig.realTimeHHMMSSValueColor = value;
         }
-        if (options == ExtendedConfig.Options.REAL_TIME_DDMMYY_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.REAL_TIME_DDMMYY_VALUE_COLOR)
         {
             ExtendedConfig.realTimeDDMMYYValueColor = value;
         }
-        if (options == ExtendedConfig.Options.GAME_TIME_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.GAME_TIME_VALUE_COLOR)
         {
             ExtendedConfig.gameTimeValueColor = value;
         }
-        if (options == ExtendedConfig.Options.GAME_WEATHER_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.GAME_WEATHER_VALUE_COLOR)
         {
             ExtendedConfig.gameWeatherValueColor = value;
         }
-        if (options == ExtendedConfig.Options.MOON_PHASE_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.MOON_PHASE_VALUE_COLOR)
         {
             ExtendedConfig.moonPhaseValueColor = value;
         }
-        if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR)
+        else if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR)
         {
             ExtendedConfig.ytChatViewCountValueColor = value;
         }
 
-        if (options == ExtendedConfig.Options.KEYSTROKE_WASD_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_WASD_COLOR)
         {
             ExtendedConfig.keystrokeWASDColor = value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_COLOR)
         {
             ExtendedConfig.keystrokeMouseButtonColor = value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_SPRINT_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_SPRINT_COLOR)
         {
             ExtendedConfig.keystrokeSprintColor = value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_SNEAK_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_SNEAK_COLOR)
         {
             ExtendedConfig.keystrokeSneakColor = value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING_COLOR)
         {
             ExtendedConfig.keystrokeBlockingColor = value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_CPS_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_CPS_COLOR)
         {
             ExtendedConfig.keystrokeCPSColor = value;
         }
-        if (options == ExtendedConfig.Options.KEYSTROKE_RCPS_COLOR)
+        else if (options == ExtendedConfig.Options.KEYSTROKE_RCPS_COLOR)
         {
             ExtendedConfig.keystrokeRCPSColor = value;
         }
@@ -1070,27 +1070,27 @@ public class ExtendedConfig
         {
             return ExtendedConfig.armorHUDYOffset;
         }
-        if (settingOption == ExtendedConfig.Options.POTION_HUD_Y)
+        else if (settingOption == ExtendedConfig.Options.POTION_HUD_Y)
         {
             return ExtendedConfig.potionHUDYOffset;
         }
-        if (settingOption == ExtendedConfig.Options.KEYSTROKE_Y)
+        else if (settingOption == ExtendedConfig.Options.KEYSTROKE_Y)
         {
             return ExtendedConfig.keystrokeYOffset;
         }
-        if (settingOption == ExtendedConfig.Options.MAXIMUM_POTION_DISPLAY)
+        else if (settingOption == ExtendedConfig.Options.MAXIMUM_POTION_DISPLAY)
         {
             return ExtendedConfig.maximumPotionDisplay;
         }
-        if (settingOption == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET)
+        else if (settingOption == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET)
         {
             return ExtendedConfig.potionLengthYOffset;
         }
-        if (settingOption == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
+        else if (settingOption == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
         {
             return ExtendedConfig.potionLengthYOffsetOverlap;
         }
-        if (settingOption == ExtendedConfig.Options.CPS_OPACITY)
+        else if (settingOption == ExtendedConfig.Options.CPS_OPACITY)
         {
             return ExtendedConfig.cpsOpacity;
         }

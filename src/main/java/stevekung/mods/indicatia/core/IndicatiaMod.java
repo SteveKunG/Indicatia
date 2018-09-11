@@ -236,7 +236,7 @@ public class IndicatiaMod
         {
             ExtendedConfig.indicatiaDir.mkdirs();
         }
-        if (!ExtendedConfig.userDir.exists())
+        else if (!ExtendedConfig.userDir.exists())
         {
             ExtendedConfig.userDir.mkdirs();
         }

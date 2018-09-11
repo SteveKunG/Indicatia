@@ -152,14 +152,14 @@ public class CommandIndicatia extends ClientCommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "toggle_sprint", "toggle_sneak", "gui");
         }
-        if (args.length == 2)
+        else if (args.length == 2)
         {
             if (args[0].equalsIgnoreCase("toggle_sprint") || args[0].equalsIgnoreCase("toggle_sneak"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable", "mode");
             }
         }
-        if (args.length == 3)
+        else if (args.length == 3)
         {
             if ((args[0].equalsIgnoreCase("toggle_sprint") || args[0].equalsIgnoreCase("toggle_sneak")) && args[1].equalsIgnoreCase("mode"))
             {

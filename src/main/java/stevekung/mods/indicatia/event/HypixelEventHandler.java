@@ -70,18 +70,19 @@ public class HypixelEventHandler
                 {
                     event.setMessage(null);
                 }
-                if (unformattedText.contains("You were spawned in Limbo."))
+                else if (unformattedText.contains("You were spawned in Limbo."))
                 {
                     event.setMessage(JsonUtils.create("You were spawned in Limbo.").setStyle(JsonUtils.green()));
                 }
+                else if (unformattedText.contains("Your nick has been reset!"))
+                {
+                    ExtendedConfig.hypixelNickName = "";
+                    ExtendedConfig.save();
+                }
+
                 if (nickMatcher.matches())
                 {
                     ExtendedConfig.hypixelNickName = nickMatcher.group("nick");
-                    ExtendedConfig.save();
-                }
-                if (unformattedText.contains("Your nick has been reset!"))
-                {
-                    ExtendedConfig.hypixelNickName = "";
                     ExtendedConfig.save();
                 }
 

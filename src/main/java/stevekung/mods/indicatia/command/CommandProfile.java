@@ -208,7 +208,7 @@ public class CommandProfile extends ClientCommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "load", "save", "remove", "list");
         }
-        if (args.length == 2)
+        else if (args.length == 2)
         {
             if ("load".equalsIgnoreCase(args[0]) || "remove".equalsIgnoreCase(args[0]) || "save".equalsIgnoreCase(args[0]))
             {

@@ -119,7 +119,7 @@ public class CommandAutoLogin extends ClientCommandBase
                     GuiAutoLoginFunction gui = new GuiAutoLoginFunction();
                     gui.display();
                 }
-                if (args.length == 2)
+                else if (args.length == 2)
                 {
                     if ("help".equalsIgnoreCase(args[1]))
                     {
@@ -146,11 +146,12 @@ public class CommandAutoLogin extends ClientCommandBase
         {
             return super.getTabCompletions(server, sender, args, pos);
         }
+
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list", "function");
         }
-        if (args.length == 2)
+        else if (args.length == 2)
         {
             if (args[0].equalsIgnoreCase("function"))
             {

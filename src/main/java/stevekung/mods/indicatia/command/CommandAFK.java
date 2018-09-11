@@ -151,7 +151,7 @@ public class CommandAFK extends ClientCommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "start", "stop", "mode", "change_reason");
         }
-        if (args.length == 2)
+        else if (args.length == 2)
         {
             if (args[0].equalsIgnoreCase("mode"))
             {

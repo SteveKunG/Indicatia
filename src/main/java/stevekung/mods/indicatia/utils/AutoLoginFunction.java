@@ -44,7 +44,7 @@ public class AutoLoginFunction
                         value = value.replace("$space", "\u0020");
                         AutoLoginFunction.command = value;
                     }
-                    if (option.equals("command_delay"))
+                    else if (option.equals("command_delay"))
                     {
                         try
                         {
@@ -55,7 +55,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("forward"))
+                    else if (option.equals("forward"))
                     {
                         try
                         {
@@ -66,7 +66,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("forward_after"))
+                    else if (option.equals("forward_after"))
                     {
                         try
                         {
@@ -77,7 +77,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("sprint"))
+                    else if (option.equals("sprint"))
                     {
                         try
                         {
@@ -88,7 +88,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("right_click"))
+                    else if (option.equals("right_click"))
                     {
                         try
                         {
@@ -99,7 +99,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("right_click_delay"))
+                    else if (option.equals("right_click_delay"))
                     {
                         try
                         {
@@ -110,7 +110,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("function_delay"))
+                    else if (option.equals("function_delay"))
                     {
                         try
                         {
@@ -121,7 +121,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("rotation"))
+                    else if (option.equals("rotation"))
                     {
                         try
                         {
@@ -132,7 +132,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("pitch"))
+                    else if (option.equals("pitch"))
                     {
                         try
                         {
@@ -143,7 +143,7 @@ public class AutoLoginFunction
                             e.printStackTrace();
                         }
                     }
-                    if (option.equals("yaw"))
+                    else if (option.equals("yaw"))
                     {
                         try
                         {
