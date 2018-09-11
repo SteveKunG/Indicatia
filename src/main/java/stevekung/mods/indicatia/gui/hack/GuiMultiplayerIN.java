@@ -61,7 +61,6 @@ public class GuiMultiplayerIN extends GuiMultiplayer
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
         RenderUtils.disableLighting();
-        ScaledResolution res = new ScaledResolution(this.mc);
         String info1 = "Press <SHIFT> for";
         String info2 = "server version info";
         this.mc.fontRenderer.drawString(info1, 4, 3, ColorUtils.hexToRgb("#17F9DB"), true);
