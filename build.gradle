@@ -22,7 +22,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 
 sourceSets.main {
     java {
-        srcDirs = ["src/main/java", "src/api/java", "dependencies/main/java"]
+        srcDirs = ["src/main/java", "dependencies/main/java"]
     }
     resources {
         srcDirs = ["src/main/resources", "dependencies/main/resources"]
