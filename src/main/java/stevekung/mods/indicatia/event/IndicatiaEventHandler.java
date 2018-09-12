@@ -12,7 +12,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.model.ModelSkeleton;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.model.ModelZombieVillager;
@@ -59,10 +61,8 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
-import stevekung.mods.indicatia.gui.hack.GuiChatIN;
 import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.indicatia.gui.hack.GuiNewChatFast;
-import stevekung.mods.indicatia.gui.hack.GuiSleepMPIN;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
@@ -199,7 +199,6 @@ public class IndicatiaEventHandler
                     }
                 }
             }
-            IndicatiaEventHandler.replaceGui(this.mc, this.mc.currentScreen);
         }
         GuiIngameForge.renderBossHealth = ConfigManagerIN.indicatia_general.enableRenderBossHealthStatus;
         GuiIngameForge.renderObjective = ConfigManagerIN.indicatia_general.enableRenderScoreboard;
@@ -384,11 +383,6 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onPressKey(InputEvent.KeyInputEvent event)
     {
-        if (this.mc.currentScreen == null && this.mc.gameSettings.keyBindCommand.isPressed())
-        {
-            GuiChatIN chatGuiSlash = new GuiChatIN("/");
-            this.mc.displayGuiScreen(chatGuiSlash);
-        }
         if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
         {
             GuiExtendedConfig config = new GuiExtendedConfig();
@@ -592,27 +586,6 @@ public class IndicatiaEventHandler
         else
         {
             IndicatiaEventHandler.afkTicks = 0;
-        }
-    }
-
-    private static void replaceGui(Minecraft mc, GuiScreen currentScreen)
-    {
-        if (currentScreen != null)
-        {
-            if (currentScreen instanceof GuiChat && !(currentScreen instanceof GuiChatIN || currentScreen instanceof GuiSleepMP))
-            {
-                GuiChatIN chatGui = new GuiChatIN();
-                mc.displayGuiScreen(chatGui);
-            }
-            if (currentScreen instanceof GuiSleepMP && !(currentScreen instanceof GuiSleepMPIN))
-            {
-                GuiSleepMPIN sleepGui = new GuiSleepMPIN();
-                mc.displayGuiScreen(sleepGui);
-            }
-            if (currentScreen instanceof GuiSleepMPIN && !mc.player.isPlayerSleeping())
-            {
-                mc.displayGuiScreen(null);
-            }
         }
     }
 

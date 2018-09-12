@@ -34,10 +34,12 @@ import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.*;
+import stevekung.mods.indicatia.gui.hack.GuiIndicatiaChat;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
+import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -155,6 +157,7 @@ public class IndicatiaMod
     public void postInit(FMLPostInitializationEvent event)
     {
         CapeUtils.loadCapeTextureAtStartup();
+        GuiChatRegistry.register(new GuiIndicatiaChat());
     }
 
     @EventHandler

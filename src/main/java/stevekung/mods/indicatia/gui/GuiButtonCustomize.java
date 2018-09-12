@@ -3,7 +3,6 @@ package stevekung.mods.indicatia.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,17 +15,17 @@ public class GuiButtonCustomize extends GuiButton
     private static final ResourceLocation main = new ResourceLocation("indicatia:textures/gui/main_lobby.png");
     private static final ResourceLocation play = new ResourceLocation("indicatia:textures/gui/play_icon.png");
     private final boolean isPlay;
-    private final GuiScreen parent;
+    private final int parentWidth;
     private final String tooltips;
     public String command;
     public HypixelMinigameGroup group;
     private static int buttonId = 1000;
 
-    public GuiButtonCustomize(GuiScreen parent, String tooltips, String command, HypixelMinigameGroup group, boolean isPlay)
+    public GuiButtonCustomize(int parentWidth, String tooltips, String command, HypixelMinigameGroup group, boolean isPlay)
     {
-        super(buttonId++, parent.width - 130, 20, 20, 20, "");
+        super(buttonId++, parentWidth - 130, 20, 20, 20, "");
         this.isPlay = isPlay;
-        this.parent = parent;
+        this.parentWidth = parentWidth;
         this.tooltips = tooltips;
         this.group = group;
         this.command = command.startsWith("/") ? command : isPlay ? "/play " + command : "/lobby " + command;
@@ -65,7 +64,7 @@ public class GuiButtonCustomize extends GuiButton
                 int i4 = i2 & -16777216;
                 int j2 = i3 >> 1 | i4;
 
-            if (i1 + k > this.parent.width)
+            if (i1 + k > this.parentWidth)
             {
                 i1 -= 28 + k;
             }
