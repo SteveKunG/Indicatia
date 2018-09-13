@@ -75,6 +75,10 @@ curseforge {
         releaseType = "beta"
         addGameVersion mcVersion
 
+        afterEvaluate { //TODO Temp fix
+            gameVersionStrings.remove('Java 9')
+        }
+
         mainArtifact(file("build/libs/Indicatia-" + mcVersion + "-" + version + ".jar")) {
             displayName = "Indicatia-" + mcVersion + "-" + version
             relations {
