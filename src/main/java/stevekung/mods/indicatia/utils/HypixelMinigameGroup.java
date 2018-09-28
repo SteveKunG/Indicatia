@@ -22,7 +22,7 @@ public enum HypixelMinigameGroup
     TNT("TNT Games"),
     UHC_CHAMPIONS("UHC Champions"),
     WARLORDS("Warlords"),
-    PROTOTYPE_BATTLE_ROYALE("Prototype: Battle Royale"),
+    PROTOTYPE_CAPTURE_THE_WOOL("Prototype: Capture The Wool"),
     PROTOTYPE_KOTH("Prototype: King of the Hills"),
     PROTOTYPE_THE_BRIDGE("Prototype: The Bridge"),
     ;

@@ -467,12 +467,10 @@ public class GuiIndicatiaChat implements IGuiChat, IEntityHoverChat, IDropboxCal
             {
                 gameBtn.add(new GuiButtonCustomize(width, "Warlords Lobby", "wl", HypixelMinigameGroup.WARLORDS, false));
             }
-            else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE.ordinal())
+            else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_CAPTURE_THE_WOOL.ordinal())
             {
-                gameBtn.add(new GuiButtonCustomize(width, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, false));
-                gameBtn.add(new GuiButtonCustomize(width, "Solo", "prototype_royale:solo", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
-                gameBtn.add(new GuiButtonCustomize(width, "Doubles", "prototype_royale:doubles", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
-                gameBtn.add(new GuiButtonCustomize(width, "Squad", "prototype_royale:squad", HypixelMinigameGroup.PROTOTYPE_BATTLE_ROYALE, true));
+                gameBtn.add(new GuiButtonCustomize(width, "Prototype Lobby", "ptl", HypixelMinigameGroup.PROTOTYPE_CAPTURE_THE_WOOL, false));
+                gameBtn.add(new GuiButtonCustomize(width, "Capture The Wool", "prototype_pvp_ctw", HypixelMinigameGroup.PROTOTYPE_CAPTURE_THE_WOOL, true));
             }
             else if (ExtendedConfig.selectedHypixelMinigame == HypixelMinigameGroup.PROTOTYPE_KOTH.ordinal())
             {
