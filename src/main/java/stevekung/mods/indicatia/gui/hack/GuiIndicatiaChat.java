@@ -486,6 +486,7 @@ public class GuiIndicatiaChat implements IGuiChat, IEntityHoverChat, IDropboxCal
                 gameBtn.add(new GuiButtonCustomize(width, "4v4", "prototype_bridge_4v4", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
                 gameBtn.add(new GuiButtonCustomize(width, "2v2v2v2", "prototype_bridge_2v2v2v2", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
                 gameBtn.add(new GuiButtonCustomize(width, "3v3v3v3", "prototype_bridge_3v3v3v3", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
+                gameBtn.add(new GuiButtonCustomize(width, "Bridge Tournament", "duels_bridge_tournament", HypixelMinigameGroup.PROTOTYPE_THE_BRIDGE, true));
             }
 
             for (int i = 0; i < gameBtn.size(); i++)
