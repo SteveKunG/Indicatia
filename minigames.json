@@ -1,7 +1,6 @@
 {
     "minigames": [
         {
-            "group": "main",
             "name": "Main",
             "commands": [
                 {
@@ -22,7 +21,6 @@
             ]
         },
         {
-            "group": "arcade",
             "name": "Arcade Games",
             "commands": [
                 {
@@ -138,7 +136,6 @@
             ]
         },
         {
-            "group": "bedwars",
             "name": "Bedwars",
             "commands": [
                 {
@@ -184,7 +181,6 @@
             ]
         },
         {
-            "group": "build_battle",
             "name": "Build Battle",
             "commands": [
                 {
@@ -215,7 +211,6 @@
             ]
         },
         {
-            "group": "classic_games",
             "name": "Classic Games",
             "commands": [
                 {
@@ -271,7 +266,6 @@
             ]
         },
         {
-            "group": "cops_and_crims",
             "name": "Cops and Crims",
             "commands": [
                 {
@@ -302,7 +296,6 @@
             ]
         },
         {
-            "group": "crazy_walls",
             "name": "Crazy Walls",
             "commands": [
                 {
@@ -333,7 +326,6 @@
             ]
         },
         {
-            "group": "duels_solo",
             "name": "Duels: Solo",
             "commands": [
                 {
@@ -399,7 +391,6 @@
             ]
         },
         {
-            "group": "duels_doubles",
             "name": "Duels: Doubles",
             "commands": [
                 {
@@ -450,7 +441,6 @@
             ]
         },
         {
-            "group": "mega_walls",
             "name": "Mega Walls",
             "commands": [
                 {
@@ -471,7 +461,6 @@
             ]
         },
         {
-            "group": "murder_mystery",
             "name": "Murder Mystery",
             "commands": [
                 {
@@ -502,7 +491,6 @@
             ]
         },
         {
-            "group": "skyclash",
             "name": "Skyclash",
             "commands": [
                 {
@@ -528,7 +516,6 @@
             ]
         },
         {
-            "group": "skywars",
             "name": "Skywars",
             "commands": [
                 {
@@ -569,6 +556,291 @@
                 {
                     "name": "Hunters vs Beasts",
                     "command": "solo_insane_hunters_vs_beasts",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Skywars Lab",
+            "commands": [
+                {
+                    "name": "Skywars Lobby",
+                    "command": "sw",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo TNT",
+                    "command": "solo_insane_tnt_madness",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Rush",
+                    "command": "solo_insane_rush",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Slime",
+                    "command": "solo_insane_slime",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Lucky",
+                    "command": "solo_insane_lucky",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles TNT",
+                    "command": "teams_insane_tnt_madness",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Rush",
+                    "command": "teams_insane_rush",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Slime",
+                    "command": "teams_insane_slime",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Lucky",
+                    "command": "teams_insane_lucky",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Smash Heroes",
+            "commands": [
+                {
+                    "name": "Smash Heroes Lobby",
+                    "command": "sh",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo 1v1v1v1",
+                    "command": "super_smash_solo_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles 2v2",
+                    "command": "super_smash_2v2_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles 2v2v2",
+                    "command": "super_smash_teams_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "1v1 Mode",
+                    "command": "super_smash_1v1_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Friends 1v1v1v1",
+                    "command": "super_smash_friends_normal",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Speed UHC",
+            "commands": [
+                {
+                    "name": "Speed UHC Lobby",
+                    "command": "suhc",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "speed_solo_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Insane",
+                    "command": "speed_solo_insane",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "speed_team_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Insane",
+                    "command": "speed_team_insane",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Blitz Survival Games",
+            "commands": [
+                {
+                    "name": "Blitz Survival Games Lobby",
+                    "command": "sg",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "blitz_solo_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo (No Kits)",
+                    "command": "blitz_solo_nokits",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "blitz_teams_normal",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "TNT Games",
+            "commands": [
+                {
+                    "name": "TNT Lobby",
+                    "command": "tnt",
+                    "minigame": false
+                },
+                {
+                    "name": "TNT Run",
+                    "command": "tnt_tntrun",
+                    "minigame": true
+                },
+                {
+                    "name": "PvP Run",
+                    "command": "tnt_pvprun",
+                    "minigame": true
+                },
+                {
+                    "name": "Bow Spleef",
+                    "command": "tnt_bowspleef",
+                    "minigame": true
+                },
+                {
+                    "name": "TNT Tag",
+                    "command": "tnt_tntag",
+                    "minigame": true
+                },
+                {
+                    "name": "Wizards",
+                    "command": "tnt_capture",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "UHC Champions",
+            "commands": [
+                {
+                    "name": "UHC Champions Lobby",
+                    "command": "uhc",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "uhc_solo",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "uhc_teams",
+                    "minigame": true
+                },
+                {
+                    "name": "Event",
+                    "command": "uhc_event",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Warlords",
+            "commands": [
+                {
+                    "name": "Warlords Lobby",
+                    "command": "wl",
+                    "minigame": false
+                }
+            ]
+        },
+        {
+            "name": "Prototype: Capture The Wool",
+            "commands": [
+                {
+                    "name": "Prototype Lobby",
+                    "command": "ptl",
+                    "minigame": false
+                },
+                {
+                    "name": "Capture The Wool",
+                    "command": "prototype_pvp_ctw",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Prototype: King of the Hills",
+            "commands": [
+                {
+                    "name": "Prototype Lobby",
+                    "command": "ptl",
+                    "minigame": false
+                },
+                {
+                    "name": "6v6",
+                    "command": "prototype_koth_two_team",
+                    "minigame": true
+                },
+                {
+                    "name": "3v3v3v3",
+                    "command": "prototype_koth_four_team",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "name": "Prototype: The Bridge",
+            "commands": [
+                {
+                    "name": "Prototype Lobby",
+                    "command": "ptl",
+                    "minigame": false
+                },
+                {
+                    "name": "1v1",
+                    "command": "prototype_bridge_1v1",
+                    "minigame": true
+                },
+                {
+                    "name": "2v2",
+                    "command": "prototype_bridge_2v2",
+                    "minigame": true
+                },
+                {
+                    "name": "4v4",
+                    "command": "prototype_bridge_4v4",
+                    "minigame": true
+                },
+                {
+                    "name": "2v2v2v2",
+                    "command": "prototype_bridge_2v2v2v2",
+                    "minigame": true
+                },
+                {
+                    "name": "3v3v3v3",
+                    "command": "prototype_bridge_3v3v3v3",
+                    "minigame": true
+                },
+                {
+                    "name": "Bridge Tournament",
+                    "command": "duels_bridge_tournament",
                     "minigame": true
                 }
             ]
