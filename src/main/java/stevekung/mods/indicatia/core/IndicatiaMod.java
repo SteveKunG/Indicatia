@@ -39,6 +39,7 @@ import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
+import stevekung.mods.indicatia.utils.ThreadMinigameData;
 import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
@@ -158,6 +159,7 @@ public class IndicatiaMod
     {
         CapeUtils.loadCapeTextureAtStartup();
         GuiChatRegistry.register(new GuiIndicatiaChat());
+        new ThreadMinigameData().run();
     }
 
     @EventHandler

@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "Limbo",
-                    "command": "/achat \\u00A7",
+                    "command": "/achat §",
                     "minigame": false
                 }
             ]
