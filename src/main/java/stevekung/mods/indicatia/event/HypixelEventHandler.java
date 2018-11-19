@@ -66,7 +66,7 @@ public class HypixelEventHandler
 
             if (event.getType() == ChatType.CHAT)
             {
-                if (unformattedText.contains("Illegal characters in chat") || unformattedText.contains("A kick occurred in your connection, so you have been routed to limbo!"))
+                if (unformattedText.contains("Illegal characters in chat") || unformattedText.contains("A kick occurred in your connection, so you have been routed to limbo!") || unformattedText.contains("A kick occurred in your connection, so you were put in the"))
                 {
                     event.setMessage(null);
                 }

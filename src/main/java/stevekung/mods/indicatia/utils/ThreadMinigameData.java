@@ -1,10 +1,10 @@
 package stevekung.mods.indicatia.utils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class ThreadMinigameData extends Thread
         {
             URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/1.13-pre/minigames.json");
             URLConnection connection = url.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(in);
             JsonObject jsonObj = element.getAsJsonObject();
@@ -54,9 +54,11 @@ public class ThreadMinigameData extends Thread
                 MinigameData.addMinigameData(new MinigameData(name, minigameCommandList));
             }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
+            LoggerIN.error("Could not getting minigames data from GitHub!");
+            MinigameData.addMinigameData(new MinigameData("null", new ArrayList<>()));
         }
     }
 }
