@@ -1,0 +1,42 @@
+[
+    {
+        "name": "main",
+        "commands": [
+            {
+                "display_name": "Main Lobby",
+                "command": "main",
+                "minigame": false
+            },
+            {
+                "display_name": "Main Lobby",
+                "command": "/home",
+                "minigame": false
+            },
+            {
+                "display_name": "Main Lobby",
+                "command": "/achat \\u00A7",
+                "minigame": false
+            }
+        ]
+    },
+    {
+        "name": "arcade",
+        "commands": [
+            {
+                "display_name": "Arcade",
+                "command": "arcade",
+                "minigame": false
+            },
+            {
+                "display_name": "Party Games 1",
+                "command": "arcade_party_games_1",
+                "minigame": true
+            },
+            {
+                "display_name": "Party Games 1",
+                "command": "arcade_party_games_1",
+                "minigame": true
+            }
+        ]
+    }
+]
