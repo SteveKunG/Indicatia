@@ -9,12 +9,12 @@
                     "minigame": false
                 },
                 {
-                    "display_name": "Main Lobby",
+                    "display_name": "Housing",
                     "command": "/home",
                     "minigame": false
                 },
                 {
-                    "display_name": "Main Lobby",
+                    "display_name": "Limbo",
                     "command": "/achat \\u00A7",
                     "minigame": false
                 }
