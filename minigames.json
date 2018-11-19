@@ -1,41 +1,574 @@
 {
     "minigames": [
         {
-            "name": "main",
+            "group": "main",
+            "name": "Main",
             "commands": [
                 {
-                    "display_name": "Main Lobby",
+                    "name": "Main Lobby",
                     "command": "main",
                     "minigame": false
                 },
                 {
-                    "display_name": "Housing",
+                    "name": "Housing",
                     "command": "/home",
                     "minigame": false
                 },
                 {
-                    "display_name": "Limbo",
+                    "name": "Limbo",
                     "command": "/achat \\u00A7",
                     "minigame": false
                 }
             ]
         },
         {
-            "name": "arcade",
+            "group": "arcade",
+            "name": "Arcade Games",
             "commands": [
                 {
-                    "display_name": "Arcade",
+                    "name": "Arcade",
                     "command": "arcade",
                     "minigame": false
                 },
                 {
-                    "display_name": "Party Games 1",
+                    "name": "Party Games 1",
                     "command": "arcade_party_games_1",
                     "minigame": true
                 },
                 {
-                    "display_name": "Party Games 1",
-                    "command": "arcade_party_games_1",
+                    "name": "Party Games 2",
+                    "command": "arcade_party_games_2",
+                    "minigame": true
+                },
+                {
+                    "name": "Party Games 3",
+                    "command": "arcade_party_games_3",
+                    "minigame": true
+                },
+                {
+                    "name": "Mini Walls",
+                    "command": "arcade_mini_walls",
+                    "minigame": true
+                },
+                {
+                    "name": "Football",
+                    "command": "arcade_soccer",
+                    "minigame": true
+                },
+                {
+                    "name": "Hole in the Wall",
+                    "command": "arcade_hole_in_the_wall",
+                    "minigame": true
+                },
+                {
+                    "name": "Bounty Hunters",
+                    "command": "arcade_bounty_hunters",
+                    "minigame": true
+                },
+                {
+                    "name": "Pixel Painters",
+                    "command": "arcade_pixel_painters",
+                    "minigame": true
+                },
+                {
+                    "name": "Dragon Wars",
+                    "command": "arcade_dragon_wars",
+                    "minigame": true
+                },
+                {
+                    "name": "Ender Spleef",
+                    "command": "arcade_ender_spleef",
+                    "minigame": true
+                },
+                {
+                    "name": "Galaxy Wars",
+                    "command": "arcade_starwars",
+                    "minigame": true
+                },
+                {
+                    "name": "Throw Out",
+                    "command": "arcade_throw_out",
+                    "minigame": true
+                },
+                {
+                    "name": "Creeper Attack",
+                    "command": "arcade_creeper_attack",
+                    "minigame": true
+                },
+                {
+                    "name": "Farm Hunt",
+                    "command": "arcade_farm_hunt",
+                    "minigame": true
+                },
+                {
+                    "name": "Hypixel Says",
+                    "command": "arcade_simon_says",
+                    "minigame": true
+                },
+                {
+                    "name": "Blocking Dead",
+                    "command": "arcade_day_one",
+                    "minigame": true
+                },
+                {
+                    "name": "Zombies: Dead End",
+                    "command": "arcade_zombies_dead_end",
+                    "minigame": true
+                },
+                {
+                    "name": "Zombies: Bad Blood",
+                    "command": "arcade_zombies_bad_blood",
+                    "minigame": true
+                },
+                {
+                    "name": "Zombies: Alien Arcadium",
+                    "command": "arcade_zombies_alien_arcadium",
+                    "minigame": true
+                },
+                {
+                    "name": "H&S: Prop Hunt",
+                    "command": "arcade_hide_and_seek_prop_hunt",
+                    "minigame": true
+                },
+                {
+                    "name": "H&S: Party Pooper",
+                    "command": "arcade_hide_and_seek_party_pooper",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "bedwars",
+            "name": "Bedwars",
+            "commands": [
+                {
+                    "name": "Bedwars Lobby",
+                    "command": "bw",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "bedwars_eight_one",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "bedwars_eight_two",
+                    "minigame": true
+                },
+                {
+                    "name": "3v3v3v3",
+                    "command": "bedwars_four_three",
+                    "minigame": true
+                },
+                {
+                    "name": "4v4v4v4",
+                    "command": "bedwars_four_four",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Capture",
+                    "command": "bedwars_capture_solo",
+                    "minigame": true
+                },
+                {
+                    "name": "Party Capture",
+                    "command": "bedwars_capture_party",
+                    "minigame": true
+                },
+                {
+                    "name": "Castle",
+                    "command": "bedwars_castle",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "build_battle",
+            "name": "Build Battle",
+            "commands": [
+                {
+                    "name": "Build Battle Lobby",
+                    "command": "bb",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "build_battle_solo_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "build_battle_teams_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Pro",
+                    "command": "build_battle_solo_pro",
+                    "minigame": true
+                },
+                {
+                    "name": "Guess the Build",
+                    "command": "build_battle_guess_the_build",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "classic_games",
+            "name": "Classic Games",
+            "commands": [
+                {
+                    "name": "Bedwars Lobby",
+                    "command": "classic",
+                    "minigame": false
+                },
+                {
+                    "name": "VampireZ",
+                    "command": "vampirez",
+                    "minigame": true
+                },
+                {
+                    "name": "Paintball",
+                    "command": "paintball",
+                    "minigame": true
+                },
+                {
+                    "name": "The Walls",
+                    "command": "walls",
+                    "minigame": true
+                },
+                {
+                    "name": "Turbo Kart Racers",
+                    "command": "tkr",
+                    "minigame": true
+                },
+                {
+                    "name": "Quakecraft Solo",
+                    "command": "quake_solo",
+                    "minigame": true
+                },
+                {
+                    "name": "Quakecraft Doubles",
+                    "command": "quake_teams",
+                    "minigame": true
+                },
+                {
+                    "name": "Arena 1v1",
+                    "command": "arena_1v1",
+                    "minigame": true
+                },
+                {
+                    "name": "Arena 2v2",
+                    "command": "arena_2v2",
+                    "minigame": true
+                },
+                {
+                    "name": "Arena 4v4",
+                    "command": "arena_4v4",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "cops_and_crims",
+            "name": "Cops and Crims",
+            "commands": [
+                {
+                    "name": "Cops and Crims Lobby",
+                    "command": "cnc",
+                    "minigame": false
+                },
+                {
+                    "name": "Defusal",
+                    "command": "mcgo_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Deathmatch",
+                    "command": "mcgo_deathmatch",
+                    "minigame": true
+                },
+                {
+                    "name": "Defusal Party",
+                    "command": "mcgo_normal_party",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Deathmatch Party",
+                    "command": "mcgo_deathmatch_party",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "crazy_walls",
+            "name": "Crazy Walls",
+            "commands": [
+                {
+                    "name": "Crazy Walls Lobby",
+                    "command": "cw",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "crazy_walls_solo",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "crazy_walls_team",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Lucky",
+                    "command": "crazy_walls_solo_chaos",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Lucky",
+                    "command": "crazy_walls_team_chaos",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "duels_solo",
+            "name": "Duels: Solo",
+            "commands": [
+                {
+                    "name": "Duels Lobby",
+                    "command": "duels",
+                    "minigame": false
+                },
+                {
+                    "name": "Classic",
+                    "command": "duels_classic_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Skywars",
+                    "command": "duels_sw_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Bow",
+                    "command": "duels_bow_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "UHC",
+                    "command": "duels_uhc_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Potion",
+                    "command": "duels_potion_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Combo",
+                    "command": "duels_combo_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "OP",
+                    "command": "duels_op_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Mega Walls",
+                    "command": "duels_mw_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Blitz",
+                    "command": "duels_blitz_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Bow Spleef",
+                    "command": "duels_bowspleef_duel",
+                    "minigame": true
+                },
+                {
+                    "name": "Sumo",
+                    "command": "duels_sumo_duel",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "duels_doubles",
+            "name": "Duels: Doubles",
+            "commands": [
+                {
+                    "name": "Duels Lobby",
+                    "command": "duels",
+                    "minigame": false
+                },
+                {
+                    "name": "Skywars",
+                    "command": "duels_sw_doubles",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles UHC",
+                    "command": "duels_uhc_doubles",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles UHC",
+                    "command": "duels_uhc_four",
+                    "minigame": true
+                },
+                {
+                    "name": "OP",
+                    "command": "duels_op_doubles",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Mega Walls",
+                    "command": "duels_mw_doubles",
+                    "minigame": true
+                },
+                {
+                    "name": "UHC Tournament",
+                    "command": "duels_uhc_tournament",
+                    "minigame": true
+                },
+                {
+                    "name": "SW Tournament",
+                    "command": "duels_sw_tournament",
+                    "minigame": true
+                },
+                {
+                    "name": "Sumo Tournament",
+                    "command": "duels_sumo_tournament",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "mega_walls",
+            "name": "Mega Walls",
+            "commands": [
+                {
+                    "name": "Mega Walls Lobby",
+                    "command": "mw",
+                    "minigame": false
+                },
+                {
+                    "name": "Standard",
+                    "command": "mw_standard",
+                    "minigame": true
+                },
+                {
+                    "name": "Face Off",
+                    "command": "mw_face_off",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "murder_mystery",
+            "name": "Murder Mystery",
+            "commands": [
+                {
+                    "name": "Murder Mystery Lobby",
+                    "command": "mm",
+                    "minigame": false
+                },
+                {
+                    "name": "Classic",
+                    "command": "murder_classic",
+                    "minigame": true
+                },
+                {
+                    "name": "Assassins",
+                    "command": "murder_assassins",
+                    "minigame": true
+                },
+                {
+                    "name": "Showdown",
+                    "command": "murder_showdown",
+                    "minigame": true
+                },
+                {
+                    "name": "Infection",
+                    "command": "murder_infection",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "skyclash",
+            "name": "Skyclash",
+            "commands": [
+                {
+                    "name": "Skyclash Lobby",
+                    "command": "sc",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo",
+                    "command": "skyclash_solo",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles",
+                    "command": "skyclash_doubles",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles War",
+                    "command": "skyclash_team_war",
+                    "minigame": true
+                }
+            ]
+        },
+        {
+            "group": "skywars",
+            "name": "Skywars",
+            "commands": [
+                {
+                    "name": "Skywars Lobby",
+                    "command": "sw",
+                    "minigame": false
+                },
+                {
+                    "name": "Solo Normal",
+                    "command": "solo_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Solo Insane",
+                    "command": "solo_insane",
+                    "minigame": true
+                },
+                {
+                    "name": "Ranked Mode",
+                    "command": "ranked_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Normal",
+                    "command": "teams_normal",
+                    "minigame": true
+                },
+                {
+                    "name": "Doubles Insane",
+                    "command": "teams_insane",
+                    "minigame": true
+                },
+                {
+                    "name": "Mega Doubles",
+                    "command": "mega_doubles",
+                    "minigame": true
+                },
+                {
+                    "name": "Hunters vs Beasts",
+                    "command": "solo_insane_hunters_vs_beasts",
                     "minigame": true
                 }
             ]
