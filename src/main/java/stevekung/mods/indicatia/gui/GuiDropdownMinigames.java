@@ -1,6 +1,5 @@
 package stevekung.mods.indicatia.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -16,15 +15,24 @@ public class GuiDropdownMinigames extends GuiButton
     private static final ResourceLocation texture = new ResourceLocation("indicatia:textures/gui/dropdown.png");
     public boolean dropdownClicked;
     public int selectedMinigame = -1;
-    private List<String> minigameLists = new ArrayList<>();
+    private final List<String> minigameLists;
     private final IDropboxCallback parentClass;
-    private int displayLength = 6;
+    private int displayLength;
 
     public GuiDropdownMinigames(IDropboxCallback parentClass, int x, int y, List<String> minigameLists)
     {
         super(0, x, y, 15, 15, "");
         this.parentClass = parentClass;
         this.minigameLists = minigameLists;
+
+        if (this.minigameLists.size() == 1)
+        {
+            this.displayLength = 1;
+        }
+        else
+        {
+            this.displayLength = 6;
+        }
     }
 
     @Override
@@ -55,7 +63,7 @@ public class GuiDropdownMinigames extends GuiButton
             Gui.drawRect(this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtils.to32BitColor(255, 0, 0, 0));
             Gui.drawRect(this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtils.to32BitColor(255, 150, 150, 150));
 
-            if (this.dropdownClicked && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
+            if (this.displayLength > 1 && this.dropdownClicked && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
             {
                 int hoverPos = (mouseY - this.y) / this.height;
                 Gui.drawRect(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32BitColor(255, 180, 180, 180));
@@ -86,6 +94,10 @@ public class GuiDropdownMinigames extends GuiButton
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
     {
+        if (this.displayLength == 1)
+        {
+            return false;
+        }
         if (!this.dropdownClicked)
         {
             if (this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)

@@ -614,7 +614,7 @@
         "commands": [
             {
                 "name": "Smash Heroes Lobby",
-                "command": "sh",
+                "command": "smash",
                 "minigame": false
             },
             {
