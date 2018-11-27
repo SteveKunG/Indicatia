@@ -290,34 +290,27 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
             {
                 GuiButtonCustomize button = gameBtn.get(i);
 
-                if (i <= 6)
-                {
-                    button.x += 21 * i;
-                }
-                if (i >= 6 && i <= 11)
+                if (i >= 6 && i <= 10)
                 {
                     button.x = xPos2 - 136;
-                    button.x += 21 * i;
                     button.y = 41;
                 }
-                if (i >= 11 && i <= 15)
+                else if (i >= 11 && i <= 15)
                 {
                     button.x = xPos2 - 241;
-                    button.x += 21 * i;
                     button.y = 62;
                 }
-                if (i >= 16 && i <= 21)
+                else if (i >= 16 && i <= 20)
                 {
                     button.x = xPos2 - 346;
-                    button.x += 21 * i;
                     button.y = 83;
                 }
-                if (i >= 21)
+                else if (i >= 21)
                 {
                     button.x = xPos2 - 451;
-                    button.x += 21 * i;
                     button.y = 104;
                 }
+                button.x += 21 * i;
                 buttonList.add(button);
             }
         }
