@@ -131,6 +131,11 @@
                 "name": "H&S: Party Pooper",
                 "command": "arcade_hide_and_seek_party_pooper",
                 "minigame": true
+            },
+            {
+                "name": "Hypixel Sports",
+                "command": "arcade_hypixel_sports",
+                "minigame": true
             }
         ]
     },
