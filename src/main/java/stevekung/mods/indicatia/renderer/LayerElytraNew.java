@@ -84,7 +84,7 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
         try
         {
             Class<?> configClass = Class.forName("Config");
-            Class<?> customItemsClass = Class.forName("CustomItems");
+            Class<?> customItemsClass = Class.forName("net.optifine.CustomItems");
             Method customItemsMethod = configClass.getDeclaredMethod("isCustomItems");
             Method getCustomElytraTextureMethod = customItemsClass.getDeclaredMethod("getCustomElytraTexture", ItemStack.class, ResourceLocation.class);
             boolean isCustomItems = (boolean) customItemsMethod.invoke(null);
