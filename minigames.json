@@ -136,6 +136,11 @@
                 "name": "Hypixel Sports",
                 "command": "arcade_hypixel_sports",
                 "minigame": true
+            },
+            {
+                "name": "Grinch Simulator",
+                "command": "arcade_grinch_simulator",
+                "minigame": true
             }
         ]
     },
