@@ -81,23 +81,23 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
     {
         ResourceLocation elytraTexture = TEXTURE_ELYTRA;
 
-        try
+        if (FMLClientHandler.instance().hasOptifine())
         {
-            Class<?> configClass = Class.forName("Config");
-            Class<?> customItemsClass = Class.forName("net.optifine.CustomItems");
-            Method customItemsMethod = configClass.getDeclaredMethod("isCustomItems");
-            Method getCustomElytraTextureMethod = customItemsClass.getDeclaredMethod("getCustomElytraTexture", ItemStack.class, ResourceLocation.class);
-            boolean isCustomItems = (boolean) customItemsMethod.invoke(null);
-
-            if (FMLClientHandler.instance().hasOptifine())
+            try
             {
+                Class<?> configClass = Class.forName("Config");
+                Class<?> customItemsClass = Class.forName("net.optifine.CustomItems");
+                Method customItemsMethod = configClass.getDeclaredMethod("isCustomItems");
+                Method getCustomElytraTextureMethod = customItemsClass.getDeclaredMethod("getCustomElytraTexture", ItemStack.class, ResourceLocation.class);
+                boolean isCustomItems = (boolean) customItemsMethod.invoke(null);
+
                 if (isCustomItems)
                 {
                     elytraTexture = (ResourceLocation) getCustomElytraTextureMethod.invoke(null, itemStack, elytraTexture);
                 }
             }
+            catch (Exception e) {}
         }
-        catch (Exception e) {}
         renderPlayer.bindTexture(elytraTexture);
     }
 }
