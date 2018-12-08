@@ -25,6 +25,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.realms.RealmsScreen;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.ForgeVersion;
 import stevekung.mods.indicatia.config.EnumEquipment;
@@ -626,7 +627,6 @@ public class HUDInfo
 
     public static void renderPotionHUD(Minecraft mc)
     {
-        GlStateManager.enableBlend();
         boolean iconAndTime = EnumPotionStatus.Style.getById(ExtendedConfig.potionHUDStyle).equalsIgnoreCase("icon_and_time");
         boolean right = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition).equalsIgnoreCase("right");
         boolean showIcon = ExtendedConfig.potionHUDIcon;
@@ -664,14 +664,24 @@ public class HUDInfo
 
             for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
             {
+                float alpha = 1.0F;
                 Potion potion = potioneffect.getPotion();
                 String s = Potion.getPotionDurationString(potioneffect, 1.0F);
                 String s1 = LangUtils.translate(potion.getName());
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+                if (!potioneffect.getIsAmbient() && potioneffect.getDuration() <= 200)
+                {
+                    int j1 = 10 - potioneffect.getDuration() / 20;
+                    alpha = MathHelper.clamp(potioneffect.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(potioneffect.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                }
+
+                GlStateManager.enableBlend();
+                GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 
                 if (showIcon)
                 {
                     mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
+                    potion.renderHUDEffect(potioneffect, mc.ingameGUI, xPotion, yPotion, mc.ingameGUI.zLevel, alpha);
                     int index = potion.getStatusIconIndex();
 
                     if (potionPos.equalsIgnoreCase("hotbar_left"))
@@ -686,7 +696,6 @@ public class HUDInfo
                     {
                         mc.ingameGUI.drawTexturedModalRect(right ? xPotion + 12 : xPotion + 28, yPotion + 6, index % 8 * 18, 198 + index / 8 * 18, 18, 18);
                     }
-                    potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, 1.0F);
                 }
 
                 if (potioneffect.getAmplifier() == 1)
