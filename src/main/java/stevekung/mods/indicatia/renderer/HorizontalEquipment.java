@@ -16,7 +16,7 @@ public class HorizontalEquipment
     private int itemDamageWidth;
     private String itemDamage = "";
 
-    public HorizontalEquipment(ItemStack itemStack, boolean isArmor)
+    HorizontalEquipment(ItemStack itemStack, boolean isArmor)
     {
         this.itemStack = itemStack;
         this.isArmor = isArmor;
@@ -32,31 +32,31 @@ public class HorizontalEquipment
     {
         boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215, true);
+        ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
         if (this.itemStack.getItem() instanceof ItemBow)
         {
-            int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getMinecraft().player.inventory);
-            GlStateManager.disableDepth();
-            ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
-            GlStateManager.enableDepth();
+            int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getInstance().player.inventory);
+            GlStateManager.disableDepthTest();
+            ColorUtils.coloredFontRendererUnicode.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
+            GlStateManager.enableDepthTest();
         }
     }
 
     private void initSize()
     {
-        String itemCount = HUDInfo.getInventoryItemCount(Minecraft.getMinecraft().player.inventory, this.itemStack);
+        String itemCount = HUDInfo.getInventoryItemCount(Minecraft.getInstance().player.inventory, this.itemStack);
 
         if (this.isArmor)
         {
-            this.itemDamage = this.itemStack.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
+            this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
         else
         {
             String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
-            this.itemDamage = this.itemStack.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
+            this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
-        this.itemDamageWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(this.itemDamage);
+        this.itemDamageWidth = Minecraft.getInstance().fontRenderer.getStringWidth(this.itemDamage);
         this.width = 20 + this.itemDamageWidth;
     }
 }

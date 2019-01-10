@@ -1,18 +1,11 @@
 package stevekung.mods.indicatia.renderer;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.DateFormat;
-import java.util.*;
-
 import com.google.common.collect.Ordering;
 import com.mojang.realmsclient.RealmsMainScreen;
 import com.mojang.realmsclient.dto.RealmsServer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenRealmsProxy;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -23,11 +16,12 @@ import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionUtil;
 import net.minecraft.realms.RealmsScreen;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.ForgeVersion;
 import stevekung.mods.indicatia.config.EnumEquipment;
 import stevekung.mods.indicatia.config.EnumPotionStatus;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -36,6 +30,11 @@ import stevekung.mods.indicatia.integration.GalacticraftPlanetTime;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.util.*;
 
 public class HUDInfo
 {
@@ -57,7 +56,7 @@ public class HUDInfo
 
     public static String getXYZ(Minecraft mc)
     {
-        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
+        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
@@ -67,7 +66,7 @@ public class HUDInfo
 
     public static String getOverworldXYZFromNether(Minecraft mc)
     {
-        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
+        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
@@ -76,24 +75,18 @@ public class HUDInfo
 
     public static String getBiome(Minecraft mc)
     {
-        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-        Chunk chunk = mc.world.getChunkFromBlockCoords(pos);
+        BlockPos blockPos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+        Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
 
-        if (mc.world.isBlockLoaded(pos) && pos.getY() >= 0 && pos.getY() < 256)
+        if (worldChunk.isEmpty())
         {
-            if (!chunk.isEmpty())
-            {
-                String biomeName = chunk.getBiome(pos, mc.world.getBiomeProvider()).getBiomeName().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-                return ColorUtils.stringToRGB(ExtendedConfig.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.biomeValueColor).toColoredFont() + biomeName;
-            }
-            else
-            {
-                return "Waiting for chunk...";
-            }
+            return "Waiting for chunk...";
         }
         else
         {
-            return "Outside of world...";
+            String biomeName = worldChunk.getBiome(blockPos).getDisplayName().getFormattedText().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+            return ColorUtils.stringToRGB(ExtendedConfig.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.biomeValueColor).toColoredFont() + biomeName;
         }
     }
 
@@ -115,7 +108,7 @@ public class HUDInfo
 
         if (ExtendedConfig.serverIPMCVersion)
         {
-            ip = ip + "/" + ForgeVersion.mcVersion;
+            ip = ip + "/" + mc.getVersion();
         }
         return ip;
     }
@@ -123,7 +116,8 @@ public class HUDInfo
     public static String getRealmName(Minecraft mc)
     {
         String text = "Realms Server";
-        GuiScreen screen = mc.getConnection().guiScreenServer;
+//        GuiScreen screen = mc.getConnection().guiScreenServer;TODO
+        GuiScreen screen = mc.currentScreen;
         GuiScreenRealmsProxy screenProxy = (GuiScreenRealmsProxy) screen;
         RealmsScreen realmsScreen = screenProxy.getProxy();
 
@@ -133,7 +127,7 @@ public class HUDInfo
         }
 
         RealmsMainScreen realmsMainScreen = (RealmsMainScreen) realmsScreen;
-        RealmsServer realmsServer = null;
+        RealmsServer realmsServer;
 
         try
         {
@@ -154,14 +148,13 @@ public class HUDInfo
             {
                 return text;
             }
-            realmsServer = (RealmsServer) obj;
+            realmsServer = (RealmsServer)obj;
         }
         catch (Exception e)
         {
             return text;
         }
-        String name = ColorUtils.stringToRGB(ExtendedConfig.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.serverIPValueColor).toColoredFont() + realmsServer.getName();
-        return name;
+        return ColorUtils.stringToRGB(ExtendedConfig.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.serverIPValueColor).toColoredFont() + realmsServer.getName();
     }
 
     public static String renderDirection(Minecraft mc)
@@ -243,12 +236,12 @@ public class HUDInfo
 
         try
         {
-            Class<?> worldProvider = mc.player.world.provider.getClass();
+            Class<?> worldProvider = mc.player.world.dimension.getClass();
             Class<?> spaceWorld = Class.forName("micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace");
             isSpace = IndicatiaMod.isGalacticraftLoaded && spaceWorld.isAssignableFrom(worldProvider);
         }
         catch (Exception e) {}
-        return isSpace ? GalacticraftPlanetTime.getTime(mc) : InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getWorldTime() % 24000);
+        return isSpace ? GalacticraftPlanetTime.getTime(mc) : InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getGameTime() % 24000);
     }
 
     public static String getGameWeather(Minecraft mc)
@@ -260,7 +253,6 @@ public class HUDInfo
     public static void renderHorizontalEquippedItems(Minecraft mc)
     {
         String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.equipmentOrdering);
-        ScaledResolution res = new ScaledResolution(mc);
         boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         int baseXOffset = 2;
         int baseYOffset = ExtendedConfig.armorHUDYOffset;
@@ -287,7 +279,7 @@ public class HUDInfo
             {
                 if (!mc.player.inventory.armorInventory.get(i).isEmpty())
                 {
-                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isItemStackDamageable()));
+                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isDamageable()));
                 }
             }
             break;
@@ -296,7 +288,7 @@ public class HUDInfo
             {
                 if (!mc.player.inventory.armorInventory.get(i).isEmpty())
                 {
-                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isItemStackDamageable()));
+                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isDamageable()));
                 }
             }
             if (!mainHandItem.isEmpty())
@@ -316,7 +308,7 @@ public class HUDInfo
         }
         for (HorizontalEquipment equipment : element)
         {
-            int xBaseRight = res.getScaledWidth() - rightWidth - baseXOffset;
+            int xBaseRight = mc.mainWindow.getScaledWidth() - rightWidth - baseXOffset;
             equipment.render(isRightSide ? xBaseRight + prevX + equipment.getWidth() : baseXOffset + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
@@ -329,9 +321,8 @@ public class HUDInfo
         List<ItemStack> itemStackList = new LinkedList<>();
         List<String> itemStatusList = new LinkedList<>();
         List<String> arrowCountList = new LinkedList<>();
-        ScaledResolution res = new ScaledResolution(mc);
         boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
-        int baseXOffset = isRightSide ? res.getScaledWidth() - 18 : 2;
+        int baseXOffset = isRightSide ? mc.mainWindow.getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
@@ -344,7 +335,7 @@ public class HUDInfo
             {
                 itemStackList.add(mainHandItem);
                 String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-                itemStatusList.add(mainHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
+                itemStatusList.add(mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
                 if (mainHandItem.getItem() == Items.BOW)
                 {
@@ -359,7 +350,7 @@ public class HUDInfo
             {
                 itemStackList.add(offHandItem);
                 String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, offHandItem);
-                itemStatusList.add(offHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
+                itemStatusList.add(offHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
 
                 if (offHandItem.getItem() == Items.BOW)
                 {
@@ -382,7 +373,7 @@ public class HUDInfo
                 {
                     String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                     itemStackList.add(mc.player.inventory.armorInventory.get(i));
-                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
+                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                     arrowCountList.add(""); // dummy bow arrow count list size
                 }
             }
@@ -394,7 +385,7 @@ public class HUDInfo
                 {
                     String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                     itemStackList.add(mc.player.inventory.armorInventory.get(i));
-                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
+                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                     arrowCountList.add(""); // dummy bow arrow count list size
                 }
             }
@@ -408,7 +399,7 @@ public class HUDInfo
             {
                 itemStackList.add(mainHandItem);
                 String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-                itemStatusList.add(mainHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
+                itemStatusList.add(mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
                 if (mainHandItem.getItem() == Items.BOW)
                 {
@@ -423,7 +414,7 @@ public class HUDInfo
             {
                 itemStackList.add(offHandItem);
                 String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, offHandItem);
-                itemStatusList.add(offHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
+                itemStatusList.add(offHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
 
                 if (offHandItem.getItem() == Items.BOW)
                 {
@@ -461,8 +452,8 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
-                float xOffset = isRightSide ? res.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
-                ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+                float xOffset = isRightSide ? mc.mainWindow.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
             }
         }
 
@@ -474,9 +465,9 @@ public class HUDInfo
 
             if (!string.isEmpty())
             {
-                GlStateManager.disableDepth();
-                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - ColorUtils.coloredFontRendererUnicode.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
-                GlStateManager.enableDepth();
+                GlStateManager.disableDepthTest();
+                ColorUtils.coloredFontRendererUnicode.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? mc.mainWindow.getScaledWidth() - ColorUtils.coloredFontRendererUnicode.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215);
+                GlStateManager.enableDepthTest();
             }
         }
     }
@@ -489,7 +480,6 @@ public class HUDInfo
         List<ItemStack> rightItemStackList = new LinkedList<>();
         List<String> rightItemStatusList = new LinkedList<>();
         List<String> rightArrowCountList = new LinkedList<>();
-        ScaledResolution res = new ScaledResolution(mc);
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.player.inventory);
@@ -501,7 +491,7 @@ public class HUDInfo
             {
                 String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                 leftItemStackList.add(mc.player.inventory.armorInventory.get(i));
-                leftItemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
+                leftItemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                 leftArrowCountList.add(""); // dummy bow arrow count list size
             }
         }
@@ -512,7 +502,7 @@ public class HUDInfo
             {
                 String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
                 rightItemStackList.add(mc.player.inventory.armorInventory.get(i));
-                rightItemStatusList.add(mc.player.inventory.armorInventory.get(i).isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
+                rightItemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
                 rightArrowCountList.add(""); // dummy bow arrow count list size
             }
         }
@@ -521,7 +511,7 @@ public class HUDInfo
         {
             leftItemStackList.add(mainHandItem);
             String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-            leftItemStatusList.add(mainHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
+            leftItemStatusList.add(mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
             if (mainHandItem.getItem() == Items.BOW)
             {
@@ -536,7 +526,7 @@ public class HUDInfo
         {
             rightItemStackList.add(offHandItem);
             String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, offHandItem);
-            rightItemStatusList.add(offHandItem.isItemStackDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
+            rightItemStatusList.add(offHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
 
             if (offHandItem.getItem() == Items.BOW)
             {
@@ -555,8 +545,8 @@ public class HUDInfo
 
             if (!leftItemStackList.isEmpty())
             {
-                int baseXOffset = res.getScaledWidth() / 2 - 91 - 20;
-                int yOffset = res.getScaledHeight() - 16 * i - 40;
+                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 - 91 - 20;
+                int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 40;
                 HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
             }
         }
@@ -568,8 +558,8 @@ public class HUDInfo
 
             if (!rightItemStackList.isEmpty())
             {
-                int baseXOffset = res.getScaledWidth() / 2 + 95;
-                int yOffset = res.getScaledHeight() - 16 * i - 40;
+                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 + 95;
+                int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 40;
                 HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
             }
         }
@@ -579,18 +569,18 @@ public class HUDInfo
         {
             String string = leftItemStatusList.get(i);
             int stringWidth = ColorUtils.coloredFontRenderer.getStringWidth(string);
-            float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
-            int yOffset = res.getScaledHeight() - 16 * i - 36;
-            ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+            float xOffset = mc.mainWindow.getScaledWidth() / 2 - 114 - stringWidth;
+            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 36;
+            ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
         }
 
         // right durability/item count stuff
         for (int i = 0; i < rightItemStatusList.size(); ++i)
         {
             String string = rightItemStatusList.get(i);
-            float xOffset = res.getScaledWidth() / 2 + 114;
-            int yOffset = res.getScaledHeight() - 16 * i - 36;
-            ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+            float xOffset = mc.mainWindow.getScaledWidth() / 2 + 114;
+            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 36;
+            ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
         }
 
         // left arrow count stuff
@@ -598,14 +588,14 @@ public class HUDInfo
         {
             String string = leftArrowCountList.get(i);
             int stringWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(string);
-            float xOffset = res.getScaledWidth() / 2 - 90 - stringWidth;
-            int yOffset = res.getScaledHeight() - 16 * i - 32;
+            float xOffset = mc.mainWindow.getScaledWidth() / 2 - 90 - stringWidth;
+            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 32;
 
             if (!string.isEmpty())
             {
-                GlStateManager.disableDepth();
-                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
-                GlStateManager.enableDepth();
+                GlStateManager.disableDepthTest();
+                ColorUtils.coloredFontRendererUnicode.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+                GlStateManager.enableDepthTest();
             }
         }
 
@@ -613,14 +603,14 @@ public class HUDInfo
         for (int i = 0; i < rightArrowCountList.size(); ++i)
         {
             String string = rightArrowCountList.get(i);
-            float xOffset = res.getScaledWidth() / 2 + 104;
-            int yOffset = res.getScaledHeight() - 16 * i - 32;
+            float xOffset = mc.mainWindow.getScaledWidth() / 2 + 104;
+            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 32;
 
             if (!string.isEmpty())
             {
-                GlStateManager.disableDepth();
-                ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
-                GlStateManager.enableDepth();
+                GlStateManager.disableDepthTest();
+                ColorUtils.coloredFontRendererUnicode.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+                GlStateManager.enableDepthTest();
             }
         }
     }
@@ -631,7 +621,6 @@ public class HUDInfo
         boolean right = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition).equalsIgnoreCase("right");
         boolean showIcon = ExtendedConfig.potionHUDIcon;
         String potionPos = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition);
-        ScaledResolution scaledRes = new ScaledResolution(mc);
         int size = ExtendedConfig.maximumPotionDisplay;
         int length = ExtendedConfig.potionLengthYOffset;
         int lengthOverlap = ExtendedConfig.potionLengthYOffsetOverlap;
@@ -641,18 +630,18 @@ public class HUDInfo
 
         if (potionPos.equalsIgnoreCase("hotbar_left"))
         {
-            xPotion = scaledRes.getScaledWidth() / 2 - 91 - 35;
-            yPotion = scaledRes.getScaledHeight() - 46;
+            xPotion = mc.mainWindow.getScaledWidth() / 2 - 91 - 35;
+            yPotion = mc.mainWindow.getScaledHeight() - 46;
         }
         else if (potionPos.equalsIgnoreCase("hotbar_right"))
         {
-            xPotion = scaledRes.getScaledWidth() / 2 + 91 - 20;
-            yPotion = scaledRes.getScaledHeight() - 42;
+            xPotion = mc.mainWindow.getScaledWidth() / 2 + 91 - 20;
+            yPotion = mc.mainWindow.getScaledHeight() - 42;
         }
         else
         {
-            xPotion = right ? scaledRes.getScaledWidth() - 32 : -24;
-            yPotion = scaledRes.getScaledHeight() - 220 + ExtendedConfig.potionHUDYOffset + 90;
+            xPotion = right ? mc.mainWindow.getScaledWidth() - 32 : -24;
+            yPotion = mc.mainWindow.getScaledHeight() - 220 + ExtendedConfig.potionHUDYOffset + 90;
         }
 
         if (!collection.isEmpty())
@@ -666,22 +655,23 @@ public class HUDInfo
             {
                 float alpha = 1.0F;
                 Potion potion = potioneffect.getPotion();
-                String s = Potion.getPotionDurationString(potioneffect, 1.0F);
+                String s = PotionUtil.getPotionDurationString(potioneffect, 1.0F);
                 String s1 = LangUtils.translate(potion.getName());
 
-                if (!potioneffect.getIsAmbient() && potioneffect.getDuration() <= 200)
+                if (!potioneffect.isAmbient() && potioneffect.getDuration() <= 200)
                 {
                     int j1 = 10 - potioneffect.getDuration() / 20;
                     alpha = MathHelper.clamp(potioneffect.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(potioneffect.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
                 }
 
                 GlStateManager.enableBlend();
-                GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+                GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 
                 if (showIcon)
                 {
                     mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-                    potion.renderHUDEffect(potioneffect, mc.ingameGUI, xPotion, yPotion, mc.ingameGUI.zLevel, alpha);
+                    //potion.renderHUDEffect(potioneffect, mc.ingameGUI, xPotion, yPotion, mc.ingameGUI.zLevel, alpha);TODO
+                    potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, alpha);
                     int index = potion.getStatusIconIndex();
 
                     if (potionPos.equalsIgnoreCase("hotbar_left"))
@@ -718,25 +708,25 @@ public class HUDInfo
                 {
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                 }
                 else if (potionPos.equalsIgnoreCase("hotbar_right"))
                 {
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                 }
                 else
                 {
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                 }
                 yPotion -= length;
             }
@@ -751,11 +741,11 @@ public class HUDInfo
         {
         case "damage_and_max_damage":
         default:
-            return itemStack.getMaxDamage() - itemStack.getItemDamage() + "/" + itemStack.getMaxDamage();
+            return itemStack.getMaxDamage() - itemStack.getDamage() + "/" + itemStack.getMaxDamage();
         case "percent":
             return HUDInfo.calculateItemDurabilityPercent(itemStack) + "%";
         case "only_damage":
-            return String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage());
+            return String.valueOf(itemStack.getMaxDamage() - itemStack.getDamage());
         case "none":
             return "";
         }
@@ -763,7 +753,7 @@ public class HUDInfo
 
     private static int calculateItemDurabilityPercent(ItemStack itemStack)
     {
-        return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getItemDamage() * 100 / itemStack.getMaxDamage();
+        return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getDamage() * 100 / itemStack.getMaxDamage();
     }
 
     private static String getResponseTimeColor(int responseTime)
@@ -791,13 +781,13 @@ public class HUDInfo
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
+        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
+        Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(itemStack, x, y);
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableBlend();
         RenderHelper.disableStandardItemLighting();
 
-        if (itemStack.isItemStackDamageable())
+        if (itemStack.isDamageable())
         {
             RenderHelper.enableGUIStandardItemLighting();
             GlStateManager.disableLighting();
@@ -805,7 +795,7 @@ public class HUDInfo
             GlStateManager.enableColorMaterial();
             GlStateManager.disableLighting();
             GlStateManager.enableCull();
-            Minecraft.getMinecraft().getRenderItem().renderItemOverlays(ColorUtils.coloredFontRenderer, itemStack, x, y);
+            Minecraft.getInstance().getItemRenderer().renderItemOverlays(ColorUtils.coloredFontRenderer, itemStack, x, y);
             GlStateManager.blendFunc(770, 771);
             GlStateManager.disableLighting();
         }
@@ -819,7 +809,7 @@ public class HUDInfo
         {
             ItemStack playerItems = inventory.getStackInSlot(i);
 
-            if (!playerItems.isEmpty() && playerItems.getItem() == other.getItem() && playerItems.getItemDamage() == other.getItemDamage() && ItemStack.areItemStackTagsEqual(playerItems, other))
+            if (!playerItems.isEmpty() && playerItems.getItem() == other.getItem() && playerItems.getDamage() == other.getDamage() && ItemStack.areItemStackTagsEqual(playerItems, other))
             {
                 count += playerItems.getCount();
             }
@@ -845,7 +835,7 @@ public class HUDInfo
 
     static String getItemStackCount(ItemStack itemStack, int count)
     {
-        return count == 0 || count == 1 || count == 1 && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Unbreakable") ? "" : String.valueOf(count);
+        return count == 0 || count == 1 || count == 1 && itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(count);
     }
 
     static String getArrowStackCount(int count)

@@ -1,17 +1,14 @@
 package stevekung.mods.indicatia.config;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
+import com.google.common.base.Strings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
@@ -19,12 +16,16 @@ import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 public class ExtendedConfig
 {
     public static final ExtendedConfig instance = new ExtendedConfig();
     public static final AutoLogin loginData = new AutoLogin();
     private static final String defaultWhite = "255,255,255";
-    public static final File indicatiaDir = new File(Minecraft.getMinecraft().mcDataDir, "indicatia");
+    public static final File indicatiaDir = new File(Minecraft.getInstance().gameDir, "indicatia");
     public static final File userDir = new File(indicatiaDir, GameProfileUtils.getUUID().toString());
     public static final File defaultConfig = new File(userDir, "default.dat");
     public static String currentProfile = "";
@@ -79,7 +80,7 @@ public class ExtendedConfig
     public static int potionHUDStyle = 0;
     public static int potionHUDPosition = 0;
     public static int cpsPosition = 2;
-    public static float cpsOpacity = 50.0F;
+    public static double cpsOpacity = 50.0D;
 
     // Offset
     public static int keystrokeYOffset = 0;
@@ -229,7 +230,7 @@ public class ExtendedConfig
             ExtendedConfig.potionHUDStyle = ExtendedConfig.getInteger(nbt, "PotionHUDStyle", ExtendedConfig.potionHUDStyle);
             ExtendedConfig.potionHUDPosition = ExtendedConfig.getInteger(nbt, "PotionHUDPosition", ExtendedConfig.potionHUDPosition);
             ExtendedConfig.cpsPosition = ExtendedConfig.getInteger(nbt, "CPSPosition", ExtendedConfig.cpsPosition);
-            ExtendedConfig.cpsOpacity = ExtendedConfig.getFloat(nbt, "CPSOpacity", ExtendedConfig.cpsOpacity);
+            ExtendedConfig.cpsOpacity = ExtendedConfig.getDouble(nbt, "CPSOpacity", ExtendedConfig.cpsOpacity);
 
             // Movement
             ExtendedConfig.toggleSprint = ExtendedConfig.getBoolean(nbt, "ToggleSprint", ExtendedConfig.toggleSprint);
@@ -324,8 +325,8 @@ public class ExtendedConfig
             ExtendedConfig.selectedHypixelMinigame = ExtendedConfig.getInteger(nbt, "SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
             ExtendedConfig.hypixelMinigameScrollPos = ExtendedConfig.getInteger(nbt, "HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
 
-            ExtendedConfig.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
-            HideNameData.load(nbt.getTagList("HideNameList", 10));
+            ExtendedConfig.readAutoLoginData(nbt.getList("AutoLoginData", 10));
+            HideNameData.load(nbt.getList("HideNameList", 10));
 
             LoggerIN.info("Loading extended config {}", ExtendedConfig.file.getPath());
         }
@@ -373,28 +374,28 @@ public class ExtendedConfig
             // Main
             nbt.setBoolean("ShowCustomCape", ExtendedConfig.showCustomCape);
             nbt.setBoolean("SwapRenderInfo", ExtendedConfig.swapRenderInfo);
-            nbt.setInteger("HealthStatusMode", ExtendedConfig.healthStatusMode);
-            nbt.setInteger("KeystrokePosition", ExtendedConfig.keystrokePosition);
-            nbt.setInteger("EquipmentOrdering", ExtendedConfig.equipmentOrdering);
-            nbt.setInteger("EquipmentDirection", ExtendedConfig.equipmentDirection);
-            nbt.setInteger("EquipmentStatus", ExtendedConfig.equipmentStatus);
-            nbt.setInteger("EquipmentPosition", ExtendedConfig.equipmentPosition);
-            nbt.setInteger("PotionHUDStyle", ExtendedConfig.potionHUDStyle);
-            nbt.setInteger("PotionHUDPosition", ExtendedConfig.potionHUDPosition);
-            nbt.setInteger("CPSPosition", ExtendedConfig.cpsPosition);
-            nbt.setFloat("CPSOpacity", ExtendedConfig.cpsOpacity);
+            nbt.setInt("HealthStatusMode", ExtendedConfig.healthStatusMode);
+            nbt.setInt("KeystrokePosition", ExtendedConfig.keystrokePosition);
+            nbt.setInt("EquipmentOrdering", ExtendedConfig.equipmentOrdering);
+            nbt.setInt("EquipmentDirection", ExtendedConfig.equipmentDirection);
+            nbt.setInt("EquipmentStatus", ExtendedConfig.equipmentStatus);
+            nbt.setInt("EquipmentPosition", ExtendedConfig.equipmentPosition);
+            nbt.setInt("PotionHUDStyle", ExtendedConfig.potionHUDStyle);
+            nbt.setInt("PotionHUDPosition", ExtendedConfig.potionHUDPosition);
+            nbt.setInt("CPSPosition", ExtendedConfig.cpsPosition);
+            nbt.setDouble("CPSOpacity", ExtendedConfig.cpsOpacity);
 
             // Movement
             nbt.setBoolean("ToggleSprint", ExtendedConfig.toggleSprint);
             nbt.setBoolean("ToggleSneak", ExtendedConfig.toggleSneak);
 
             // Offset
-            nbt.setInteger("KeystrokeYOffset", ExtendedConfig.keystrokeYOffset);
-            nbt.setInteger("ArmorHUDYOffset", ExtendedConfig.armorHUDYOffset);
-            nbt.setInteger("PotionHUDYOffset", ExtendedConfig.potionHUDYOffset);
-            nbt.setInteger("MaximumPotionDisplay", ExtendedConfig.maximumPotionDisplay);
-            nbt.setInteger("PotionLengthYOffset", ExtendedConfig.potionLengthYOffset);
-            nbt.setInteger("PotionLengthYOffsetOverlap", ExtendedConfig.potionLengthYOffsetOverlap);
+            nbt.setInt("KeystrokeYOffset", ExtendedConfig.keystrokeYOffset);
+            nbt.setInt("ArmorHUDYOffset", ExtendedConfig.armorHUDYOffset);
+            nbt.setInt("PotionHUDYOffset", ExtendedConfig.potionHUDYOffset);
+            nbt.setInt("MaximumPotionDisplay", ExtendedConfig.maximumPotionDisplay);
+            nbt.setInt("PotionLengthYOffset", ExtendedConfig.potionLengthYOffset);
+            nbt.setInt("PotionLengthYOffsetOverlap", ExtendedConfig.potionLengthYOffsetOverlap);
 
             // Custom Color
             nbt.setString("FPSColor", ExtendedConfig.fpsColor);
@@ -460,8 +461,8 @@ public class ExtendedConfig
             // Misc
             nbt.setString("ToggleSprintUseMode", ExtendedConfig.toggleSprintUseMode);
             nbt.setString("ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
-            nbt.setInteger("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
-            nbt.setInteger("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
+            nbt.setInt("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
+            nbt.setInt("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
             nbt.setLong("SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
             nbt.setString("TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
             nbt.setString("RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
@@ -472,8 +473,8 @@ public class ExtendedConfig
             // Hypixel
             nbt.setBoolean("RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
             nbt.setString("HypixelNickName", ExtendedConfig.hypixelNickName);
-            nbt.setInteger("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
-            nbt.setInteger("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
+            nbt.setInt("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
+            nbt.setInt("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
 
             nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
             nbt.setTag("HideNameList", HideNameData.save());
@@ -510,23 +511,23 @@ public class ExtendedConfig
             nbt.setString("Value", data.getValue());
             nbt.setString("UUID", data.getUUID().toString());
             nbt.setString("Function", data.getFunction());
-            list.appendTag(nbt);
+            list.add(nbt);
         });
         return list;
     }
 
     private static void readAutoLoginData(NBTTagList list)
     {
-        for (int i = 0; i < list.tagCount(); ++i)
+        for (int i = 0; i < list.size(); ++i)
         {
-            NBTTagCompound nbt = list.getCompoundTagAt(i);
+            NBTTagCompound nbt = list.getCompound(i);
             ExtendedConfig.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), UUID.fromString(nbt.getString("UUID")), nbt.getString("Function"));
         }
     }
 
     private static boolean getBoolean(NBTTagCompound nbt, String key, boolean defaultValue)
     {
-        if (nbt.hasKey(key, 99))
+        if (nbt.contains(key, 99))
         {
             return nbt.getBoolean(key);
         }
@@ -538,9 +539,9 @@ public class ExtendedConfig
 
     private static int getInteger(NBTTagCompound nbt, String key, int defaultValue)
     {
-        if (nbt.hasKey(key, 99))
+        if (nbt.contains(key, 99))
         {
-            return nbt.getInteger(key);
+            return nbt.getInt(key);
         }
         else
         {
@@ -548,11 +549,11 @@ public class ExtendedConfig
         }
     }
 
-    private static float getFloat(NBTTagCompound nbt, String key, float defaultValue)
+    private static double getDouble(NBTTagCompound nbt, String key, double defaultValue)
     {
-        if (nbt.hasKey(key, 99))
+        if (nbt.contains(key, 99))
         {
-            return nbt.getFloat(key);
+            return nbt.getDouble(key);
         }
         else
         {
@@ -562,7 +563,7 @@ public class ExtendedConfig
 
     private static String getString(NBTTagCompound nbt, String key, String defaultValue)
     {
-        if (nbt.hasKey(key, 8))
+        if (nbt.contains(key, 8))
         {
             return nbt.getString(key);
         }
@@ -574,7 +575,7 @@ public class ExtendedConfig
 
     private static long getLong(NBTTagCompound nbt, String key, long defaultValue)
     {
-        if (nbt.hasKey(key, 99))
+        if (nbt.contains(key, 99))
         {
             return nbt.getLong(key);
         }
@@ -588,9 +589,9 @@ public class ExtendedConfig
     {
         String name = LangUtils.translate(options.getTranslation()) + ": ";
 
-        if (options.isFloat())
+        if (options.isDouble())
         {
-            float value = this.getOptionFloatValue(options);
+            double value = this.getOptionDoubleValue(options);
             return name + (int)value;
         }
         else if (options.isBoolean())
@@ -826,7 +827,7 @@ public class ExtendedConfig
         }
     }
 
-    public void setOptionFloatValue(ExtendedConfig.Options options, float value)
+    public void setOptionDoubleValue(ExtendedConfig.Options options, double value)
     {
         if (options == ExtendedConfig.Options.ARMOR_HUD_Y)
         {
@@ -1064,7 +1065,7 @@ public class ExtendedConfig
         }
     }
 
-    public float getOptionFloatValue(ExtendedConfig.Options settingOption)
+    public double getOptionDoubleValue(ExtendedConfig.Options settingOption)
     {
         if (settingOption == ExtendedConfig.Options.ARMOR_HUD_Y)
         {
@@ -1097,7 +1098,7 @@ public class ExtendedConfig
         return 0.0F;
     }
 
-    public boolean getOptionOrdinalValue(ExtendedConfig.Options options)
+    private boolean getOptionOrdinalValue(ExtendedConfig.Options options)
     {
         switch (options)
         {
@@ -1177,7 +1178,7 @@ public class ExtendedConfig
         }
     }
 
-    public String getOptionStringValue(ExtendedConfig.Options options)
+    private String getOptionStringValue(ExtendedConfig.Options options)
     {
         switch (options)
         {
@@ -1297,8 +1298,8 @@ public class ExtendedConfig
         return LangUtils.translate(strArray[index]);
     }
 
-    @SideOnly(Side.CLIENT)
-    public static enum Options
+    @OnlyIn(Dist.CLIENT)
+    public enum Options
     {
         PREVIEW(false, true),
 
@@ -1410,13 +1411,13 @@ public class ExtendedConfig
         RIGHT_CLICK_ADD_PARTY(false, true),
         ;
 
-        private final boolean isFloat;
+        private final boolean isDouble;
         private final boolean isBoolean;
-        private final float valueStep;
+        private final double valueStep;
         private boolean isTextbox;
         private String comment;
-        private float valueMin;
-        private float valueMax;
+        private double valueMin;
+        private double valueMax;
         private static final Options[] values = Options.values();
 
         public static Options byOrdinal(int ordinal)
@@ -1431,29 +1432,29 @@ public class ExtendedConfig
             return null;
         }
 
-        private Options(boolean isFloat, boolean isBoolean)
+        Options(boolean isDouble, boolean isBoolean)
         {
-            this(isFloat, isBoolean, false, null, 0.0F, 1.0F, 0.0F);
+            this(isDouble, isBoolean, false, null, 0.0F, 1.0F, 0.0F);
         }
 
-        private Options(boolean isFloat, boolean isBoolean, float valMin, float valMax, float valStep)
+        Options(boolean isDouble, boolean isBoolean, double valMin, double valMax, double valStep)
         {
-            this(isFloat, isBoolean, false, null, valMin, valMax, valStep);
+            this(isDouble, isBoolean, false, null, valMin, valMax, valStep);
         }
 
-        private Options(boolean isFloat, boolean isBoolean, boolean isTextbox)
+        Options(boolean isDouble, boolean isBoolean, boolean isTextbox)
         {
-            this(isFloat, isBoolean, isTextbox, null, 0.0F, 1.0F, 0.0F);
+            this(isDouble, isBoolean, isTextbox, null, 0.0F, 1.0F, 0.0F);
         }
 
-        private Options(boolean isFloat, boolean isBoolean, boolean isTextbox, String comment)
+        Options(boolean isDouble, boolean isBoolean, boolean isTextbox, String comment)
         {
-            this(isFloat, isBoolean, isTextbox, comment, 0.0F, 1.0F, 0.0F);
+            this(isDouble, isBoolean, isTextbox, comment, 0.0F, 1.0F, 0.0F);
         }
 
-        private Options(boolean isFloat, boolean isBoolean, boolean isTextbox, String comment, float valMin, float valMax, float valStep)
+        Options(boolean isDouble, boolean isBoolean, boolean isTextbox, String comment, double valMin, double valMax, double valStep)
         {
-            this.isFloat = isFloat;
+            this.isDouble = isDouble;
             this.isBoolean = isBoolean;
             this.isTextbox = isTextbox;
             this.comment = comment;
@@ -1462,9 +1463,9 @@ public class ExtendedConfig
             this.valueStep = valStep;
         }
 
-        public boolean isFloat()
+        public boolean isDouble()
         {
-            return this.isFloat;
+            return this.isDouble;
         }
 
         public boolean isBoolean()
@@ -1489,41 +1490,26 @@ public class ExtendedConfig
 
         public String getComment()
         {
-            return LangUtils.translate(this.comment);
+            return Strings.isNullOrEmpty(this.comment) ? "" : LangUtils.translate(this.comment);
         }
 
-        public float getValueMin()
-        {
-            return this.valueMin;
-        }
-
-        public float getValueMax()
-        {
-            return this.valueMax;
-        }
-
-        public void setValueMax(float value)
-        {
-            this.valueMax = value;
-        }
-
-        public float normalizeValue(float value)
+        public double normalizeValue(double value)
         {
             return MathHelper.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
         }
 
-        public float denormalizeValue(float value)
+        public double denormalizeValue(double value)
         {
             return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
         }
 
-        public float snapToStepClamp(float value)
+        public double snapToStepClamp(double value)
         {
             value = this.snapToStep(value);
             return MathHelper.clamp(value, this.valueMin, this.valueMax);
         }
 
-        private float snapToStep(float value)
+        private double snapToStep(double value)
         {
             if (this.valueStep > 0.0F)
             {

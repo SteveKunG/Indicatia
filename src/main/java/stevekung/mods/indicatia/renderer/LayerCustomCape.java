@@ -8,14 +8,14 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
 {
     private final RenderPlayer playerRenderer;
@@ -26,19 +26,19 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     }
 
     @Override
-    public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (ConfigManagerIN.indicatia_general.enableCustomCape && entity.getName().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
+        if (ConfigManagerIN.indicatia_general.enableCustomCape && entity.getName().getUnformattedComponentText().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
         {
             ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
             if (itemStack.isEmpty() || itemStack.getItem() != Items.ELYTRA)
             {
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 CapeUtils.bindCapeTexture();
                 GlStateManager.enableRescaleNormal();
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(0.0F, 0.0F, 0.125F);
+                GlStateManager.translatef(0.0F, 0.0F, 0.125F);
                 double d0 = entity.prevChasingPosX + (entity.chasingPosX - entity.prevChasingPosX) * partialTicks - (entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks);
                 double d1 = entity.prevChasingPosY + (entity.chasingPosY - entity.prevChasingPosY) * partialTicks - (entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks);
                 double d2 = entity.prevChasingPosZ + (entity.chasingPosZ - entity.prevChasingPosZ) * partialTicks - (entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks);
@@ -63,12 +63,12 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
                 if (entity.isSneaking())
                 {
                     f1 += 25.0F;
-                    GlStateManager.translate(0.0F, 0.145F, -0.015F);
+                    GlStateManager.translatef(0.0F, 0.145F, -0.015F);
                 }
-                GlStateManager.rotate(6.0F + f2 / 2.0F + f1, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
-                GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
-                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotatef(6.0F + f2 / 2.0F + f1, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
+                GlStateManager.rotatef(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotatef(180.0F, 0.0F, 1.0F, 0.0F);
                 this.playerRenderer.getMainModel().renderCape(0.0625F);
                 GlStateManager.popMatrix();
             }

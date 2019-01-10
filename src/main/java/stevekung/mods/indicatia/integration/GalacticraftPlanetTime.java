@@ -9,12 +9,12 @@ public class GalacticraftPlanetTime
 {
     public static String getTime(Minecraft mc)
     {
-        if (!(mc.world.provider instanceof WorldProviderSpace))
+        if (!(mc.world.dimension instanceof WorldProviderSpace))
         {
             return null;
         }
 
-        WorldProviderSpace space = (WorldProviderSpace) mc.world.provider;
+        WorldProviderSpace space = (WorldProviderSpace) mc.world.dimension;
         long dayLength = space.getDayLength();
 
         if (dayLength >= 1L && dayLength <= 24L)

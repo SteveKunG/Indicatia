@@ -97,7 +97,7 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable Custom Cape")
         public boolean enableCustomCape = false;
 
-        public static enum DisconnectMode
+        public enum DisconnectMode
         {
             GUI, CLICK
         }
@@ -112,7 +112,7 @@ public class ConfigManagerIN
         @Config.Name(value = "Read File Interval")
         public int readFileInterval = 200;
 
-        public static enum DonatorMessagePos
+        public enum DonatorMessagePos
         {
             LEFT, RIGHT
         }

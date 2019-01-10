@@ -5,10 +5,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiButtonCustomize extends GuiButton
 {
     private static final ResourceLocation main = new ResourceLocation("indicatia:textures/gui/main_lobby.png");
@@ -29,12 +29,18 @@ public class GuiButtonCustomize extends GuiButton
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+    public void onClick(double mouseX, double mouseZ)
+    {
+        Minecraft.getInstance().player.sendChatMessage(this.command);
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         if (this.visible)
         {
-            mc.getTextureManager().bindTexture(this.isPlay ? GuiButtonCustomize.play : GuiButtonCustomize.main);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            Minecraft.getInstance().getTextureManager().bindTexture(this.isPlay ? GuiButtonCustomize.play : GuiButtonCustomize.main);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             Gui.drawModalRectWithCustomSizedTexture(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
@@ -45,13 +51,11 @@ public class GuiButtonCustomize extends GuiButton
         if (this.visible)
         {
             boolean isHover = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            GlStateManager.disableDepth();
+            GlStateManager.disableDepthTest();
 
             if (isHover)
             {
-                int k = 0;
-                int l = Minecraft.getMinecraft().fontRenderer.getStringWidth(this.tooltips);
-                k = l;
+                int k = Minecraft.getInstance().fontRenderer.getStringWidth(this.tooltips);
                 int i1 = mouseX + 12;
                 int j1 = mouseY - 12;
                 int k1 = 8;
@@ -76,9 +80,9 @@ public class GuiButtonCustomize extends GuiButton
             this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
             this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
             this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
-            Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
+            Minecraft.getInstance().fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
             this.zLevel = 0.0F;
-            GlStateManager.enableDepth();
+            GlStateManager.enableDepthTest();
             }
         }
     }

@@ -1,30 +1,27 @@
 package stevekung.mods.indicatia.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiAutoLoginFunctionHelp extends GuiScreen
 {
     private final boolean inGui;
     private final List<StringFunction> functionList = new ArrayList<>();
-    private GuiButton backBtn;
-    private ScaledResolution res;
     private GuiFunctionHelpSlot functionHelpSlot;
 
-    public GuiAutoLoginFunctionHelp(boolean inGui)
+    GuiAutoLoginFunctionHelp(boolean inGui)
     {
         this.inGui = inGui;
-        this.res = new ScaledResolution(Minecraft.getMinecraft());
     }
 
     public void display()
@@ -35,14 +32,28 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        Minecraft.getInstance().displayGuiScreen(this);
         CommonUtils.unregisterEventHandler(this);
     }
 
     @Override
     public void initGui()
     {
-        this.buttonList.add(this.backBtn = new GuiButton(0, this.width / 2 - 100, this.height - 38, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done")));
+        this.addButton(new GuiButton(0, this.width / 2 - 100, this.height - 38, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                if (GuiAutoLoginFunctionHelp.this.inGui)
+                {
+                    GuiAutoLoginFunctionHelp.this.mc.displayGuiScreen(new GuiAutoLoginFunction());
+                }
+                else
+                {
+                    GuiAutoLoginFunctionHelp.this.mc.displayGuiScreen(null);
+                }
+            }
+        });
         this.functionList.clear();
         this.functionList.add(new StringFunction("Movement", null));
         this.functionList.add(new StringFunction("forward:<tick> ", "Move Forward"));
@@ -64,38 +75,18 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
         this.functionList.add(new StringFunction("function_delay:<tick> ", "Delay before run function"));
 
         this.functionHelpSlot = new GuiFunctionHelpSlot(this, this.functionList, this.width, this.height);
-        this.functionHelpSlot.registerScrollButtons(1, 1);
+        this.children.add(this.functionHelpSlot);
     }
 
     @Override
-    public void handleMouseInput() throws IOException
+    @Nullable
+    public IGuiEventListener getFocused()
     {
-        super.handleMouseInput();
-
-        if (this.functionHelpSlot != null)
-        {
-            this.functionHelpSlot.handleMouseInput();
-        }
+        return this.functionHelpSlot;
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException
-    {
-        if (button.id == 0)
-        {
-            if (this.inGui)
-            {
-                this.mc.displayGuiScreen(new GuiAutoLoginFunction());
-            }
-            else
-            {
-                this.mc.displayGuiScreen(null);
-            }
-        }
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, "Auto Login Function", this.width / 2, 20, 16777215);
@@ -104,7 +95,7 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
         {
             this.functionHelpSlot.drawScreen(mouseX, mouseY, partialTicks);
         }
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override

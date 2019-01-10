@@ -1,10 +1,11 @@
 buildscript {
     repositories {
-        jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
+        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.1.2"
     }
 }
@@ -14,11 +15,11 @@ plugins {
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
-def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").text)
 def mcVersion = project.mc_version
 def hasInternal = project.hasProperty("internal")
 
-apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "eclipse"
 
 sourceSets.main {
     java {
@@ -33,15 +34,20 @@ version = project.version
 group = "stevekung.mods.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = "UTF-8"
 
 minecraft {
-    version = "1.12.2-14.23.5.2796"
-    runDir = "run"
-    mappings = "snapshot_20171003"
-    makeObfSourceJar = false
+    mappings channel: "snapshot", version: "20180921-1.13"
 
-    replace "@FINGERPRINT@", keystore.sha1
-    replaceIn "IndicatiaMod.java"
+    runs {
+        client = {
+            workingDirectory project.file("run").canonicalPath
+            source sourceSets.main
+        }
+        server = {
+            workingDirectory project.file("run").canonicalPath
+        }
+    }
 }
 
 repositories {
@@ -51,9 +57,13 @@ repositories {
     }
 }
 
+dependencies {
+    minecraft "net.minecraftforge.test:forge:1.13-24.0.64-1.13-pre"
+}
+
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "license.txt", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
+ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "META_INF/mods.toml", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
 ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
 ext.apiFiles = ["micdoodle8/**"]
 
@@ -82,16 +92,6 @@ curseforge {
             }
         }
     }
-}
-
-// signing jar first
-task buildJar(type: SignJar, dependsOn: "processJar") {
-    keyStore = keystore.keystore_path
-    alias = keystore.alias
-    storePass = keystore.keystore_pass
-    keyPass = keystore.keystore_pass
-    inputFile = project.ext.finalJar
-    outputFile = project.ext.finalJar
 }
 
 // processing jar
@@ -139,4 +139,4 @@ task buildDeobfJar(type: Jar) {
     }
 }
 
-buildJar.finalizedBy(deleteTemporary)
+build.dependsOn(processJar)

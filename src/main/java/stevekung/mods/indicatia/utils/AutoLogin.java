@@ -1,11 +1,10 @@
 package stevekung.mods.indicatia.utils;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
 
 public class AutoLogin
 {
@@ -17,7 +16,7 @@ public class AutoLogin
         return AutoLogin.autoLogin.get(data);
     }
 
-    public AutoLoginData addAutoLogin(String serverIP, String command, String value, UUID uuid, String function)
+    public void addAutoLogin(String serverIP, String command, String value, UUID uuid, String function)
     {
         AutoLoginData login = this.getAutoLogin(uuid.toString() + serverIP);
 
@@ -29,7 +28,6 @@ public class AutoLogin
         {
             login = new AutoLoginData(serverIP, command, value, uuid, function);
             AutoLogin.autoLogin.put(uuid.toString() + serverIP, login);
-            return login;
         }
     }
 
@@ -49,9 +47,9 @@ public class AutoLogin
         private String command;
         private String value;
         private UUID uuid;
-        private String function = "";
+        private String function;
 
-        public AutoLoginData(String serverIP, String command, String value, UUID uuid, String function)
+        AutoLoginData(String serverIP, String command, String value, UUID uuid, String function)
         {
             this.serverIP = serverIP;
             this.command = command;

@@ -2,7 +2,7 @@ package stevekung.mods.indicatia.config;
 
 public class EnumPotionStatus
 {
-    public static enum Style
+    public enum Style
     {
         DEFAULT, ICON_AND_TIME;
 
@@ -14,7 +14,7 @@ public class EnumPotionStatus
         }
     }
 
-    public static enum Position
+    public enum Position
     {
         LEFT, RIGHT, HOTBAR_LEFT, HOTBAR_RIGHT;
 

@@ -15,10 +15,10 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderFishNew extends Render<EntityFishHook>
 {
     private static final ResourceLocation FISH_PARTICLES = new ResourceLocation("textures/particle/particles.png");
@@ -36,14 +36,14 @@ public class RenderFishNew extends Render<EntityFishHook>
         if (player != null && !this.renderOutlines)
         {
             GlStateManager.pushMatrix();
-            GlStateManager.translate((float)x, (float)y, (float)z);
+            GlStateManager.translatef((float)x, (float)y, (float)z);
             GlStateManager.enableRescaleNormal();
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
             this.bindEntityTexture(entity);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
-            GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate((this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotatef((this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
             if (this.renderOutlines)
             {
@@ -86,9 +86,9 @@ public class RenderFishNew extends Render<EntityFishHook>
             double d7;
             double dz = 0.0D;
 
-            if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == Minecraft.getMinecraft().player)
+            if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == Minecraft.getInstance().player)
             {
-                float f10 = this.renderManager.options.fovSetting;
+                double f10 = this.renderManager.options.fovSetting;
                 f10 = f10 / 100.0F;
                 Vec3d vec3d = new Vec3d(k * -0.5D * f10, 0.025D * f10, 0.65D);
                 vec3d = vec3d.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * 0.017453292F);

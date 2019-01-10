@@ -1,13 +1,5 @@
 package stevekung.mods.indicatia.utils;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.google.common.base.Predicates;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -20,6 +12,11 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 
+import java.util.List;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class InfoUtils
 {
     public static final InfoUtils INSTANCE = new InfoUtils();
@@ -30,7 +27,7 @@ public class InfoUtils
 
     public int getPing()
     {
-        NetworkPlayerInfo info = Minecraft.getMinecraft().getConnection().getPlayerInfo(Minecraft.getMinecraft().player.getUniqueID());
+        NetworkPlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(Minecraft.getInstance().player.getUniqueID());
 
         if (info != null)
         {
@@ -48,7 +45,7 @@ public class InfoUtils
 
     public boolean isHypixel()
     {
-        ServerData server = Minecraft.getMinecraft().getCurrentServerData();
+        ServerData server = Minecraft.getInstance().getCurrentServerData();
 
         if (server != null)
         {
@@ -61,29 +58,13 @@ public class InfoUtils
 
     public int getCPS()
     {
-        Iterator<Long> iterator = IndicatiaEventHandler.LEFT_CLICK.iterator();
-
-        while (iterator.hasNext())
-        {
-            if (iterator.next().longValue() < System.currentTimeMillis() - 1000L)
-            {
-                iterator.remove();
-            }
-        }
+        IndicatiaEventHandler.LEFT_CLICK.removeIf(cps -> cps < System.currentTimeMillis() - 1000L);
         return IndicatiaEventHandler.LEFT_CLICK.size();
     }
 
     public int getRCPS()
     {
-        Iterator<Long> iterator = IndicatiaEventHandler.RIGHT_CLICK.iterator();
-
-        while (iterator.hasNext())
-        {
-            if (iterator.next().longValue() < System.currentTimeMillis() - 1000L)
-            {
-                iterator.remove();
-            }
-        }
+        IndicatiaEventHandler.RIGHT_CLICK.removeIf(rcps -> rcps < System.currentTimeMillis() - 1000L);
         return IndicatiaEventHandler.RIGHT_CLICK.size();
     }
 
@@ -109,7 +90,7 @@ public class InfoUtils
     public String getMoonPhase(Minecraft mc)
     {
         int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
-        int phase = moonPhaseFactors[mc.world.provider.getMoonPhase(mc.world.getWorldTime())];
+        int phase = moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getGameTime())];
         String status;
 
         switch (phase)
@@ -159,22 +140,14 @@ public class InfoUtils
         if (entity != null && mc.world != null)
         {
             this.extendedPointedEntity = null;
-            mc.objectMouseOver = entity.rayTrace(distance, mc.getRenderPartialTicks());
-            Vec3d vec3d = entity.getPositionEyes(mc.getRenderPartialTicks());
+            mc.objectMouseOver = entity.rayTrace(distance, mc.getRenderPartialTicks(), RayTraceFluidMode.NEVER);
+            Vec3d vec3d = entity.getEyePosition(mc.getRenderPartialTicks());
             boolean flag = false;
             double d1 = distance;
 
-            if (mc.playerController.extendedReach())
+            if (!mc.playerController.extendedReach())
             {
-                d1 = distance;
-                distance = d1;
-            }
-            else
-            {
-                if (distance > distance)
-                {
-                    flag = true;
-                }
+                flag = true;
             }
 
             if (mc.objectMouseOver != null)
@@ -183,16 +156,15 @@ public class InfoUtils
             }
 
             Vec3d vec3d1 = entity.getLook(1.0F);
-            Vec3d vec3d2 = vec3d.addVector(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
+            Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
             this.pointedEntity = null;
             Vec3d vec3d3 = null;
-            List<Entity> list = mc.world.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().expand(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance).grow(1.0D, 1.0D, 1.0D), Predicates.and(EntitySelectors.NOT_SPECTATING, entry -> entry != null && entry.canBeCollidedWith()));
+            List<Entity> list = mc.world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().expand(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance).grow(1.0D, 1.0D, 1.0D), EntitySelectors.NOT_SPECTATING.and(Entity::canBeCollidedWith));
             double d2 = d1;
 
-            for (int j = 0; j < list.size(); ++j)
+            for (Entity entity1 : list)
             {
-                Entity entity1 = list.get(j);
-                AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(entity1.getCollisionBorderSize());
+                AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(entity1.getCollisionBorderSize());
                 RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 
                 if (axisalignedbb.contains(vec3d))

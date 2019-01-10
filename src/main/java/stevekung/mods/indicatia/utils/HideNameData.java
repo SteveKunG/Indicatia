@@ -22,7 +22,7 @@ public class HideNameData
             {
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setString(String.valueOf(i), name);
-                list.appendTag(tag);
+                list.add(tag);
             }
         }
         return list;
@@ -30,9 +30,9 @@ public class HideNameData
 
     public static void load(NBTTagList list)
     {
-        for (int i = 0; i < list.tagCount(); i++)
+        for (int i = 0; i < list.size(); i++)
         {
-            NBTTagCompound tag = list.getCompoundTagAt(i);
+            NBTTagCompound tag = list.getCompound(i);
             String name = tag.getString(String.valueOf(i));
             HideNameData.stringList.add(i, name);
         }

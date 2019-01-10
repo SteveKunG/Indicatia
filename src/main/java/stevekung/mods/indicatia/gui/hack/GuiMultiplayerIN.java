@@ -1,17 +1,15 @@
 package stevekung.mods.indicatia.gui.hack;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 import stevekung.mods.stevekunglib.utils.client.RenderUtils;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiMultiplayerIN extends GuiMultiplayer
 {
     public GuiMultiplayerIN(GuiScreen parent)
@@ -22,8 +20,7 @@ public class GuiMultiplayerIN extends GuiMultiplayer
     @Override
     public void initGui()
     {
-        Keyboard.enableRepeatEvents(true);
-        this.buttonList.clear();
+        this.mc.keyboardListener.enableRepeatEvents(true);
 
         if (this.initialized)
         {
@@ -50,20 +47,20 @@ public class GuiMultiplayerIN extends GuiMultiplayer
     }
 
     @Override
-    protected void refreshServerList()
+    public void refreshServerList()
     {
         this.mc.displayGuiScreen(new GuiMultiplayerIN(this.parentScreen));
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
         RenderUtils.disableLighting();
         String info1 = "Press <SHIFT> for";
         String info2 = "server version info";
-        this.mc.fontRenderer.drawString(info1, 4, 3, ColorUtils.hexToRgb("#17F9DB"), true);
-        this.mc.fontRenderer.drawString(info2, 4, 3 + this.mc.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRgb("#17F9DB"), true);
+        this.mc.fontRenderer.drawStringWithShadow(info1, 4, 3, ColorUtils.hexToRgb("#17F9DB"));
+        this.mc.fontRenderer.drawStringWithShadow(info2, 4, 3 + this.mc.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRgb("#17F9DB"));
         RenderUtils.enableLighting();
     }
 }

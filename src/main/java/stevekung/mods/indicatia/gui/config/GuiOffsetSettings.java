@@ -1,17 +1,18 @@
 package stevekung.mods.indicatia.gui.config;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
-@SideOnly(Side.CLIENT)
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
+@OnlyIn(Dist.CLIENT)
 public class GuiOffsetSettings extends GuiScreen
 {
     private final GuiScreen parent;
@@ -28,7 +29,7 @@ public class GuiOffsetSettings extends GuiScreen
         OPTIONS.add(ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP);
     }
 
-    public GuiOffsetSettings(GuiScreen parent)
+    GuiOffsetSettings(GuiScreen parent)
     {
         this.parent = parent;
     }
@@ -36,70 +37,51 @@ public class GuiOffsetSettings extends GuiScreen
     @Override
     public void initGui()
     {
-        this.buttonList.clear();
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done")));
-        this.buttonList.add(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("message.preview")));
+        this.addButton(new GuiButton(200, this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiOffsetSettings.this.mc.displayGuiScreen(GuiOffsetSettings.this.parent);
+            }
+        });
+        this.addButton(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("message.preview"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiOffsetSettings.this.mc.displayGuiScreen(new GuiRenderPreview(GuiOffsetSettings.this, "offset"));
+            }
+        });
 
         ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
         options = OPTIONS.toArray(options);
         this.optionsRowList = new GuiConfigButtonRowList(this.width, this.height, 32, this.height - 32, 25, options);
+        this.children.add(this.optionsRowList);
     }
 
+    @Nullable
     @Override
-    public void handleMouseInput() throws IOException
+    public IGuiEventListener getFocused()
     {
-        super.handleMouseInput();
-        this.optionsRowList.handleMouseInput();
+        return this.optionsRowList;
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException
+    public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
     {
-        if (keyCode == 1)
-        {
-            ExtendedConfig.save();
-        }
-        super.keyTyped(typedChar, keyCode);
+        ExtendedConfig.save();
+        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
-    {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-        this.optionsRowList.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state)
-    {
-        super.mouseReleased(mouseX, mouseY, state);
-        this.optionsRowList.mouseReleased(mouseX, mouseY, state);
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button) throws IOException
-    {
-        if (button.enabled)
-        {
-            ExtendedConfig.save();
-
-            if (button.id == 200)
-            {
-                this.mc.displayGuiScreen(this.parent);
-            }
-            if (button.id == 201)
-            {
-                this.mc.displayGuiScreen(new GuiRenderPreview(this, "offset"));
-            }
-        }
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
         this.optionsRowList.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.offset.title"), this.width / 2, 5, 16777215);
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 }

@@ -12,7 +12,7 @@ public enum MojangServerStatus
     private String status;
     private TextFormatting color;
 
-    private MojangServerStatus(String status, TextFormatting color)
+    MojangServerStatus(String status, TextFormatting color)
     {
         this.status = status;
         this.color = color;

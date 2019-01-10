@@ -1,7 +1,5 @@
 package stevekung.mods.indicatia.gui;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -10,11 +8,13 @@ import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 
+import java.util.List;
+
 public class GuiDropdownMinigames extends GuiButton
 {
     private static final ResourceLocation texture = new ResourceLocation("indicatia:textures/gui/dropdown.png");
     public boolean dropdownClicked;
-    public int selectedMinigame = -1;
+    private int selectedMinigame = -1;
     private final List<String> minigameLists;
     private final IDropboxCallback parentClass;
     private int displayLength;
@@ -36,8 +36,9 @@ public class GuiDropdownMinigames extends GuiButton
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
+        Minecraft mc = Minecraft.getInstance();
         int hoverColor = 150;
 
         if (!this.dropdownClicked && this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)
@@ -56,7 +57,7 @@ public class GuiDropdownMinigames extends GuiButton
         if (this.visible)
         {
             GlStateManager.pushMatrix();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             Gui.drawRect(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height), ColorUtils.to32BitColor(255, 0, 0, 0));
             Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height) - 1, ColorUtils.to32BitColor(255, hoverColor, hoverColor, hoverColor));
@@ -85,14 +86,14 @@ public class GuiDropdownMinigames extends GuiButton
                     }
                 }
             }
-            mc.renderEngine.bindTexture(GuiDropdownMinigames.texture);
+            mc.getTextureManager().bindTexture(GuiDropdownMinigames.texture);
             Gui.drawModalRectWithCustomSizedTexture(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
             GlStateManager.popMatrix();
         }
     }
 
     @Override
-    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseEvent)
     {
         if (this.displayLength == 1)
         {
@@ -110,8 +111,8 @@ public class GuiDropdownMinigames extends GuiButton
         {
             if (this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
             {
-                int optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.hypixelMinigameScrollPos;
-                this.selectedMinigame = optionClicked % this.minigameLists.size();
+                double optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.hypixelMinigameScrollPos;
+                this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
                 return true;

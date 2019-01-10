@@ -1,9 +1,5 @@
 package stevekung.mods.indicatia.gui;
 
-import java.io.IOException;
-
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -20,14 +16,12 @@ public class GuiDonator extends GuiScreen
     private GuiTextField recentDonateInput;
     private GuiTextField topDonateTextInput;
     private GuiTextField recentDonateTextInput;
-    private GuiButton doneBtn;
-    private GuiButton cancelBtn;
     private GuiButton resetBtn;
 
     @Override
     public void initGui()
     {
-        Keyboard.enableRepeatEvents(true);
+        this.mc.keyboardListener.enableRepeatEvents(true);
         this.topDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 60, 220, 20);
         this.topDonateInput.setMaxStringLength(32767);
         this.topDonateInput.setCanLoseFocus(true);
@@ -48,101 +42,81 @@ public class GuiDonator extends GuiScreen
         this.recentDonateTextInput.setCanLoseFocus(true);
         this.recentDonateTextInput.setText(ExtendedConfig.recentDonatorText.replace("\u00a7", "&"));
 
-        this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height - 38, 100, 20, LangUtils.translate("gui.done")));
-        this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel")));
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("message.reset_path")));
+        this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height - 38, 100, 20, LangUtils.translate("gui.done"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                if (!ExtendedConfig.topDonatorFilePath.equals(GuiDonator.this.topDonateInput.getText()))
+                {
+                    GuiDonator.this.mc.player.sendMessage(JsonUtils.create("Set top donator file path to " + GuiDonator.this.topDonateInput.getText()));
+                }
+                if (!ExtendedConfig.recentDonatorFilePath.equals(GuiDonator.this.recentDonateInput.getText()))
+                {
+                    GuiDonator.this.mc.player.sendMessage(JsonUtils.create("Set recent donator file path to " + GuiDonator.this.recentDonateInput.getText()));
+                }
+                ExtendedConfig.topDonatorFilePath = GuiDonator.this.topDonateInput.getText().replace("" + '\u0022', "");
+                ExtendedConfig.recentDonatorFilePath = GuiDonator.this.recentDonateInput.getText().replace("" + '\u0022', "");
+                ExtendedConfig.topDonatorText = GuiDonator.this.convertString(GuiDonator.this.topDonateTextInput.getText());
+                ExtendedConfig.recentDonatorText = GuiDonator.this.convertString(GuiDonator.this.recentDonateTextInput.getText());
+                ExtendedConfig.save();
+                GuiDonator.this.mc.displayGuiScreen(null);
+            }
+        });
+        this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                GuiDonator.this.mc.displayGuiScreen(null);
+            }
+        });
+        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("message.reset_path"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                GuiDonator.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_donator_file_path")));
+                ExtendedConfig.topDonatorFilePath = "";
+                ExtendedConfig.recentDonatorFilePath = "";
+                HUDRenderEventHandler.topDonator = "";
+                HUDRenderEventHandler.recentDonator = "";
+                GuiDonator.this.topDonateInput.setText("");
+                GuiDonator.this.recentDonateInput.setText("");
+                ExtendedConfig.save();
+            }
+        });
         this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
     }
 
     @Override
-    public void updateScreen()
+    public void tick()
     {
         this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
-        this.topDonateInput.updateCursorCounter();
-        this.recentDonateInput.updateCursorCounter();
-        this.topDonateTextInput.updateCursorCounter();
-        this.recentDonateTextInput.updateCursorCounter();
+        this.topDonateInput.tick();
+        this.recentDonateInput.tick();
+        this.topDonateTextInput.tick();
+        this.recentDonateTextInput.tick();
     }
 
     @Override
     public void onGuiClosed()
     {
-        Keyboard.enableRepeatEvents(false);
+        this.mc.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
     {
-        if (button.enabled)
-        {
-            if (button.id == 0)
-            {
-                if (!ExtendedConfig.topDonatorFilePath.equals(this.topDonateInput.getText()))
-                {
-                    this.mc.player.sendMessage(JsonUtils.create("Set top donator file path to " + this.topDonateInput.getText()));
-                }
-                if (!ExtendedConfig.recentDonatorFilePath.equals(this.recentDonateInput.getText()))
-                {
-                    this.mc.player.sendMessage(JsonUtils.create("Set recent donator file path to " + this.recentDonateInput.getText()));
-                }
-                ExtendedConfig.topDonatorFilePath = this.topDonateInput.getText().replace("" + '\u0022', "");
-                ExtendedConfig.recentDonatorFilePath = this.recentDonateInput.getText().replace("" + '\u0022', "");
-                ExtendedConfig.topDonatorText = this.convertString(this.topDonateTextInput.getText());
-                ExtendedConfig.recentDonatorText = this.convertString(this.recentDonateTextInput.getText());
-                ExtendedConfig.save();
-                this.mc.displayGuiScreen(null);
-            }
-            if (button.id == 1)
-            {
-                this.mc.displayGuiScreen(null);
-            }
-            if (button.id == 2)
-            {
-                this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_donator_file_path")));
-                ExtendedConfig.topDonatorFilePath = "";
-                ExtendedConfig.recentDonatorFilePath = "";
-                HUDRenderEventHandler.topDonator = "";
-                HUDRenderEventHandler.recentDonator = "";
-                this.topDonateInput.setText("");
-                this.recentDonateInput.setText("");
-                ExtendedConfig.save();
-            }
-        }
-    }
-
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException
-    {
-        this.topDonateInput.textboxKeyTyped(typedChar, keyCode);
-        this.recentDonateInput.textboxKeyTyped(typedChar, keyCode);
-        this.topDonateTextInput.textboxKeyTyped(typedChar, keyCode);
-        this.recentDonateTextInput.textboxKeyTyped(typedChar, keyCode);
-
-        if (keyCode != 28 && keyCode != 156)
-        {
-            if (keyCode == 1)
-            {
-                this.actionPerformed(this.cancelBtn);
-            }
-        }
-        else
-        {
-            this.actionPerformed(this.doneBtn);
-        }
-    }
-
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
-    {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
         this.topDonateInput.mouseClicked(mouseX, mouseY, mouseButton);
         this.recentDonateInput.mouseClicked(mouseX, mouseY, mouseButton);
         this.topDonateTextInput.mouseClicked(mouseX, mouseY, mouseButton);
         this.recentDonateTextInput.mouseClicked(mouseX, mouseY, mouseButton);
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, "Donator Message Settings", this.width / 2, 20, 16777215);
@@ -153,11 +127,11 @@ public class GuiDonator extends GuiScreen
         this.drawString(this.fontRenderer, "Recent Donate Text:", this.width / 2 - 185, 140, 10526880);
         this.drawCenteredString(this.fontRenderer, TextFormatting.RESET + "Top Donate Text: " + this.convertString(this.topDonateTextInput.getText()), this.width / 2, 170, 10526880);
         this.drawCenteredString(this.fontRenderer, TextFormatting.RESET + "Recent Donate Text: " + this.convertString(this.recentDonateTextInput.getText()), this.width / 2, 185, 10526880);
-        this.topDonateInput.drawTextBox();
-        this.recentDonateInput.drawTextBox();
-        this.topDonateTextInput.drawTextBox();
-        this.recentDonateTextInput.drawTextBox();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.topDonateInput.drawTextField(mouseX, mouseY, partialTicks);
+        this.recentDonateInput.drawTextField(mouseX, mouseY, partialTicks);
+        this.topDonateTextInput.drawTextField(mouseX, mouseY, partialTicks);
+        this.recentDonateTextInput.drawTextField(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override

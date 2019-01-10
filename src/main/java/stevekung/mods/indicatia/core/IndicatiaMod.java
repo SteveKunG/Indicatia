@@ -1,35 +1,22 @@
 package stevekung.mods.indicatia.core;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.settings.GameSettings;
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Items;
-import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.ModMetadata;
-import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
+import org.apache.commons.io.IOUtils;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -47,40 +34,28 @@ import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.VersionChecker;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
-@Mod(modid = IndicatiaMod.MOD_ID, name = IndicatiaMod.NAME, version = IndicatiaMod.VERSION, dependencies = IndicatiaMod.DEPENDENCIES, updateJSON = IndicatiaMod.JSON_URL, clientSideOnly = true, certificateFingerprint = IndicatiaMod.CERTIFICATE)
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+@Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod
 {
-    protected static final String NAME = "Indicatia";
+    private static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
-    private static final int MAJOR_VERSION = 1;
-    private static final int MINOR_VERSION = 2;
-    private static final int BUILD_VERSION = 5;
-    public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
-    private static final String FORGE_VERSION = "after:forge@[14.23.5.2768,);";
-    protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.0.5,); " + IndicatiaMod.FORGE_VERSION;
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
-    protected static final String JSON_URL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json";
-    protected static final String CERTIFICATE = "@FINGERPRINT@";
-
-    @Instance(IndicatiaMod.MOD_ID)
-    public static IndicatiaMod INSTANCE;
-
-    public static boolean isDevelopment;
-    public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
-    public static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
+    private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
+    private static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static VersionChecker CHECKER;
-    public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
-    public static final boolean isYoutubeChatLoaded = Loader.isModLoaded("youtube_chat");
+    public static boolean isGalacticraftLoaded;
+    public static boolean isYoutubeChatLoaded;
+    public static boolean isOptiFineLoaded;
     private static final List<String> allowedUUID = new ArrayList<>();
 
     static
     {
-        try
-        {
-            IndicatiaMod.isDevelopment = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
-        }
-        catch (Exception e) {}
-
         if (IndicatiaMod.resetFlag.exists())
         {
             ExtendedConfig.defaultConfig.delete();
@@ -94,16 +69,26 @@ public class IndicatiaMod
         IndicatiaMod.allowedUUID.add("4675476a-46e5-45ee-89a5-010dc02996d9");
     }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
+    public IndicatiaMod()
     {
-        IndicatiaMod.init(event.getModMetadata());
+        FMLModLoadingContext.get().getModEventBus().addListener(this::preInit);
+        FMLModLoadingContext.get().getModEventBus().addListener(this::init);
+        FMLModLoadingContext.get().getModEventBus().addListener(this::postInit);
+        MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
+
+        IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
+        IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
+        IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
+    }
+
+    private void preInit(FMLPreInitializationEvent event)
+    {
         KeyBindingHandler.init();
-        CommonUtils.registerEventHandler(this);
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
         CommonUtils.registerEventHandler(new ChatMessageEventHandler());
         CommonUtils.registerEventHandler(new HypixelEventHandler());
+        CommonUtils.registerEventHandler(this);
 
         if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
         {
@@ -116,23 +101,11 @@ public class IndicatiaMod
         }
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {
-            ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));
+            //ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));TODO
             LoggerIN.info("Successfully replacing vanilla Fishing Rod item model");
         }
 
-        ClientUtils.registerCommand(new CommandMojangStatusCheck());
-        ClientUtils.registerCommand(new CommandAutoLogin());
-        ClientUtils.registerCommand(new CommandSlimeChunkSeed());
-        ClientUtils.registerCommand(new CommandAFK());
-        ClientUtils.registerCommand(new CommandIndicatia());
-        ClientUtils.registerCommand(new CommandProfile());
-        ClientUtils.registerCommand(new CommandRealmsMessage());
-        ClientUtils.registerCommand(new CommandHideName());
-        ClientUtils.registerCommand(new CommandPingAll());
-        ClientUtils.registerCommand(new CommandAutoFish());
-        ClientUtils.registerCommand(new CommandSwedenTime());
-
-        IndicatiaMod.CHECKER = new VersionChecker(IndicatiaMod.INSTANCE, IndicatiaMod.NAME, IndicatiaMod.URL);
+        IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
 
         if (ConfigManagerIN.indicatia_general.enableVersionChecker)
         {
@@ -140,39 +113,40 @@ public class IndicatiaMod
         }
     }
 
-    @EventHandler
-    public void init(FMLInitializationEvent event)
+    private void init(FMLInitializationEvent event)
     {
         IndicatiaMod.loadProfileOption();
         CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
 
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {
-            Minecraft.getMinecraft().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
-            Minecraft.getMinecraft().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getMinecraft().getRenderManager()));
+            Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
+            Minecraft.getInstance().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
             LoggerIN.info("Successfully replacing {}", EntityFishHook.class.getName());
         }
     }
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
+    private void postInit(FMLPostInitializationEvent event)
     {
         CapeUtils.loadCapeTextureAtStartup();
         GuiChatRegistry.register(new GuiIndicatiaChat());
         new ThreadMinigameData().run();
     }
 
-    @EventHandler
-    public void onFingerprintViolation(FMLFingerprintViolationEvent event)
+    private void serverStarting(FMLServerStartingEvent event)
     {
-        if (IndicatiaMod.isDevelopment)
-        {
-            LoggerIN.info("Development environment detected! Ignore certificate check.");
-        }
-        else
-        {
-            throw new RuntimeException("Invalid fingerprint detected! This version will NOT be supported by the author!");
-        }
+        CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
+        MojangStatusCheckCommand.register(dispatcher);
+        SetSlimeChunkSeedCommand.register(dispatcher);
+        AFKCommand.register(dispatcher);
+        IndicatiaCommand.register(dispatcher);
+        ProfileCommand.register(dispatcher);
+        PingAllCommand.register(dispatcher);
+        AutoFishCommand.register(dispatcher);
+        SwedenTimeCommand.register(dispatcher);
+        HideNameCommand.register(dispatcher);
+        AutoLoginCommand.register(dispatcher);
+        LoggerIN.info("Registering client side commands");
     }
 
     @SubscribeEvent
@@ -180,19 +154,8 @@ public class IndicatiaMod
     {
         if (event.getModID().equals(IndicatiaMod.MOD_ID))
         {
-            ConfigManager.sync(IndicatiaMod.MOD_ID, Config.Type.INSTANCE);
+            //ConfigManager.sync(IndicatiaMod.MOD_ID, Config.Type.INSTANCE);TODO
         }
-    }
-
-    private static void init(ModMetadata info)
-    {
-        info.autogenerated = false;
-        info.modId = IndicatiaMod.MOD_ID;
-        info.name = IndicatiaMod.NAME;
-        info.version = IndicatiaMod.VERSION;
-        info.description = "Simple in-game info and utilities!";
-        info.url = IndicatiaMod.URL;
-        info.authorList = Arrays.asList("SteveKunG");
     }
 
     private static void loadProfileOption()
@@ -222,7 +185,7 @@ public class IndicatiaMod
         }
         catch (Exception e) {}
 
-        nbt.getKeySet().forEach(property ->
+        nbt.keySet().forEach(property ->
         {
             String key = nbt.getString(property);
 
@@ -241,7 +204,7 @@ public class IndicatiaMod
         {
             ExtendedConfig.indicatiaDir.mkdirs();
         }
-        else if (!ExtendedConfig.userDir.exists())
+        if (!ExtendedConfig.userDir.exists())
         {
             ExtendedConfig.userDir.mkdirs();
         }

@@ -1,19 +1,17 @@
 package stevekung.mods.indicatia.gui.config;
 
-import java.io.IOException;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiCustomColorSettings extends GuiScreen
 {
     private final GuiScreen parent;
 
-    public GuiCustomColorSettings(GuiScreen parent)
+    GuiCustomColorSettings(GuiScreen parent)
     {
         this.parent = parent;
     }
@@ -21,36 +19,37 @@ public class GuiCustomColorSettings extends GuiScreen
     @Override
     public void initGui()
     {
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.render_info_custom_color.title")));
-        this.buttonList.add(new GuiButton(101, this.width / 2 + 10, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.keystroke_custom_color.title")));
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, LangUtils.translate("gui.done")));
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button) throws IOException
-    {
-        if (button.enabled)
+        this.addButton(new GuiButton(100, this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.render_info_custom_color.title"))
         {
-            if (button.id == 100)
+            @Override
+            public void onClick(double mouseX, double mouseZ)
             {
-                this.mc.displayGuiScreen(new GuiRenderInfoCustomColorSettings(this));
+                GuiCustomColorSettings.this.mc.displayGuiScreen(new GuiRenderInfoCustomColorSettings(GuiCustomColorSettings.this));
             }
-            if (button.id == 101)
+        });
+        this.addButton(new GuiButton(101, this.width / 2 + 10, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.keystroke_custom_color.title"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
             {
-                this.mc.displayGuiScreen(new GuiKeystrokeCustomColorSettings(this));
+                GuiCustomColorSettings.this.mc.displayGuiScreen(new GuiKeystrokeCustomColorSettings(GuiCustomColorSettings.this));
             }
-            if (button.id == 200)
+        });
+        this.addButton(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, LangUtils.translate("gui.done"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
             {
-                this.mc.displayGuiScreen(this.parent);
+                GuiCustomColorSettings.this.mc.displayGuiScreen(GuiCustomColorSettings.this.parent);
             }
-        }
+        });
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.custom_color.title"), this.width / 2, 15, 16777215);
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 }

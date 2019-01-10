@@ -1,18 +1,8 @@
 package stevekung.mods.indicatia.gui.hack;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -28,11 +18,17 @@ import stevekung.mods.stevekunglib.client.gui.IEntityHoverChat;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 {
     private boolean isDragging;
-    private int lastPosX;
-    private int lastPosY;
+    private double lastPosX;
+    private double lastPosY;
     private GuiDropdownMinigames dropdown;
     private int prevSelect = -1;
 
@@ -80,14 +76,14 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton)
+    public void mouseClicked(double mouseX, double mouseY, int mouseButton)
     {
         if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom"))
         {
             String space = ExtendedConfig.rcps ? " " : "";
             int minX = ExtendedConfig.cpsCustomXOffset;
             int minY = ExtendedConfig.cpsCustomYOffset;
-            int maxX = ExtendedConfig.cpsCustomXOffset + Minecraft.getMinecraft().fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
+            int maxX = ExtendedConfig.cpsCustomXOffset + Minecraft.getInstance().fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
             int maxY = ExtendedConfig.cpsCustomYOffset + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)
@@ -100,7 +96,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int state)
+    public void mouseReleased(double mouseX, double mouseY, int state)
     {
         if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom"))
         {
@@ -113,7 +109,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick)
+    public void mouseClickMove(double mouseX, double mouseY, int clickedMouseButton, long timeSinceLastClick)
     {
         if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom"))
         {
@@ -127,42 +123,9 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
         }
     }
 
-    @Override
-    public void actionPerformed(GuiButton button)
+    @Override public void actionPerformed(GuiButton button)//TODO
     {
-        EntityPlayerSP player = Minecraft.getMinecraft().player;
 
-        if (button instanceof GuiButtonCustomize)
-        {
-            GuiButtonCustomize buttomCustom = (GuiButtonCustomize) button;
-
-            if (button.id == buttomCustom.id)
-            {
-                player.sendChatMessage(buttomCustom.command);
-            }
-        }
-
-        switch (button.id)
-        {
-        case 0:
-            ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-            ExtendedConfig.cpsCustomXOffset = res.getScaledWidth() / 2 - (ExtendedConfig.rcps ? 36 : 16);
-            ExtendedConfig.cpsCustomYOffset = res.getScaledHeight() / 2 - 5;
-            ExtendedConfig.save();
-            break;
-        case 100:
-            player.sendChatMessage("/chat a");
-            player.sendMessage(JsonUtils.create("Reset Hypixel Chat"));
-            break;
-        case 101:
-            player.sendChatMessage("/chat p");
-            player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Party Chat"));
-            break;
-        case 102:
-            player.sendChatMessage("/chat g");
-            player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Guild Chat"));
-            break;
-        }
     }
 
     @Override
@@ -187,37 +150,37 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     @Override
     public void handleMouseInput(int width, int height) throws IOException
     {
-        Minecraft mc = Minecraft.getMinecraft();
-        int mouseX = Mouse.getEventX() * width / mc.displayWidth;
-        int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-
-        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
-        {
-            int i = Mouse.getEventDWheel();
-
-            if (i != 0)
-            {
-                if (i > 1)
-                {
-                    i = -1;
-                }
-                if (i < -1)
-                {
-                    i = 1;
-                }
-                if (GuiScreen.isCtrlKeyDown())
-                {
-                    i *= 7;
-                }
-                this.dropdown.scroll(i);
-            }
-            if (Mouse.getEventButtonState())
-            {
-                // hacked mouse clicked :D
-                int event = Mouse.getEventButton();
-                this.mouseClicked(mouseX, mouseY, event);
-            }
-        }
+//        Minecraft mc = Minecraft.getInstance();TODO
+//        int mouseX = Mouse.getEventX() * width / mc.displayWidth;
+//        int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+//
+//        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
+//        {
+//            int i = Mouse.getEventDWheel();
+//
+//            if (i != 0)
+//            {
+//                if (i > 1)
+//                {
+//                    i = -1;
+//                }
+//                if (i < -1)
+//                {
+//                    i = 1;
+//                }
+//                if (GuiScreen.isCtrlKeyDown())
+//                {
+//                    i *= 7;
+//                }
+//                this.dropdown.scroll(i);
+//            }
+//            if (Mouse.getEventButtonState())
+//            {
+//                // hacked mouse clicked :D
+//                int event = Mouse.getEventButton();
+//                this.mouseClicked(mouseX, mouseY, event);
+//            }
+//        }
     }
 
     @Override
@@ -244,13 +207,22 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
     private void updateButton(List<GuiButton> buttonList, int width, int height)
     {
-        Minecraft mc = Minecraft.getMinecraft();
-        buttonList.clear();
+        Minecraft mc = Minecraft.getInstance();
+        EntityPlayerSP player = mc.player;
         boolean enableCPS = ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom");
 
         if (enableCPS)
         {
-            buttonList.add(new GuiButton(0, width - 63, height - 35, 60, 20, LangUtils.translate("message.reset_cps")));
+            buttonList.add(new GuiButton(0, width - 63, height - 35, 60, 20, LangUtils.translate("message.reset_cps"))
+            {
+                @Override
+                public void onClick(double mouseX, double mouseZ)
+                {
+                    ExtendedConfig.cpsCustomXOffset = mc.mainWindow.getScaledWidth() / 2 - (ExtendedConfig.rcps ? 36 : 16);
+                    ExtendedConfig.cpsCustomYOffset = mc.mainWindow.getScaledHeight() / 2 - 5;
+                    ExtendedConfig.save();
+                }
+            });
         }
         if (InfoUtils.INSTANCE.isHypixel())
         {
@@ -261,13 +233,37 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
                 list.add(data.getName());
             }
 
-            String max = Collections.max(list, Comparator.comparing(text -> text.length()));
+            String max = Collections.max(list, Comparator.comparing(String::length));
             int length = mc.fontRenderer.getStringWidth(max) + 32;
 
             // hypixel chat
-            buttonList.add(new GuiButton(100, width - 63, enableCPS ? height - 56 : height - 35, 60, 20, "Reset Chat"));
-            buttonList.add(new GuiButton(101, width - 63, enableCPS ? height - 77 : height - 56, 60, 20, "Party Chat"));
-            buttonList.add(new GuiButton(102, width - 63, enableCPS ? height - 98 : height - 77, 60, 20, "Guild Chat"));
+            buttonList.add(new GuiButton(100, width - 63, enableCPS ? height - 56 : height - 35, 60, 20, "Reset Chat")
+            {
+                @Override
+                public void onClick(double mouseX, double mouseZ)
+                {
+                    player.sendChatMessage("/chat a");
+                    player.sendMessage(JsonUtils.create("Reset Hypixel Chat"));
+                }
+            });
+            buttonList.add(new GuiButton(101, width - 63, enableCPS ? height - 77 : height - 56, 60, 20, "Party Chat")
+            {
+                @Override
+                public void onClick(double mouseX, double mouseZ)
+                {
+                    player.sendChatMessage("/chat p");
+                    player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Party Chat"));
+                }
+            });
+            buttonList.add(new GuiButton(102, width - 63, enableCPS ? height - 98 : height - 77, 60, 20, "Guild Chat")
+            {
+                @Override
+                public void onClick(double mouseX, double mouseZ)
+                {
+                    player.sendChatMessage("/chat g");
+                    player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Guild Chat"));
+                }
+            });
             buttonList.add(this.dropdown = new GuiDropdownMinigames(this, width - length, 2, list));
             this.dropdown.width = length;
             this.prevSelect = ExtendedConfig.selectedHypixelMinigame;

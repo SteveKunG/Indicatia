@@ -1,24 +1,24 @@
 package stevekung.mods.indicatia.gui;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp.StringFunction;
 
-@SideOnly(Side.CLIENT)
+import java.util.List;
+
+@OnlyIn(Dist.CLIENT)
 public class GuiFunctionHelpSlot extends GuiSlot
 {
     private List<StringFunction> stringList;
     private GuiAutoLoginFunctionHelp parent;
 
-    public GuiFunctionHelpSlot(GuiAutoLoginFunctionHelp guiAutoLoginFunctionHelp, List<StringFunction> functionList, int width, int height)
+    GuiFunctionHelpSlot(GuiAutoLoginFunctionHelp guiAutoLoginFunctionHelp, List<StringFunction> functionList, int width, int height)
     {
-        super(Minecraft.getMinecraft(), width, height, 32, height - 48, 13);
+        super(Minecraft.getInstance(), width, height, 32, height - 48, 13);
         this.stringList = functionList;
         this.parent = guiAutoLoginFunctionHelp;
         this.setShowSelectionBox(false);
@@ -29,9 +29,6 @@ public class GuiFunctionHelpSlot extends GuiSlot
     {
         return this.stringList.size();
     }
-
-    @Override
-    protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {}
 
     @Override
     protected boolean isSelected(int slotIndex)

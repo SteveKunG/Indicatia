@@ -1,21 +1,25 @@
 package stevekung.mods.indicatia.utils;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.texture.NativeImage;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class CapeUtils
 {
     public static DynamicTexture CAPE_TEXTURE;
     public static final File texture = new File(ExtendedConfig.userDir, "custom_cape");
-    public static boolean textureDownloaded = true;
+    static boolean textureDownloaded = true;
 
     public static void bindCapeTexture()
     {
@@ -33,8 +37,8 @@ public class CapeUtils
             {
                 try
                 {
-                    CapeUtils.CAPE_TEXTURE = new DynamicTexture(ImageIO.read(CapeUtils.texture));
-                    Minecraft.getMinecraft().player.sendMessage(JsonUtils.create("New custom cape texture successfully downloaded").setStyle(JsonUtils.green()));
+                    CapeUtils.readCapeTexture();
+                    Minecraft.getInstance().player.sendMessage(JsonUtils.create("New custom cape texture successfully downloaded").setStyle(JsonUtils.green()));
                 }
                 catch (IOException e)
                 {
@@ -51,7 +55,7 @@ public class CapeUtils
         {
             try
             {
-                CapeUtils.CAPE_TEXTURE = new DynamicTexture(ImageIO.read(CapeUtils.texture));
+                CapeUtils.readCapeTexture();
                 LoggerIN.info("Found downloaded custom cape file {}", CapeUtils.texture.getPath());
             }
             catch (IOException e)
@@ -59,5 +63,13 @@ public class CapeUtils
                 e.printStackTrace();
             }
         }
+    }
+
+    private static void readCapeTexture() throws IOException
+    {
+        BufferedImage image = ImageIO.read(CapeUtils.texture);
+        byte[] buffer = ((DataBufferByte)(image).getRaster().getDataBuffer()).getData();
+        InputStream inputStream = new ByteArrayInputStream(buffer);
+        CapeUtils.CAPE_TEXTURE = new DynamicTexture(NativeImage.read(NativeImage.PixelFormat.RGBA, inputStream));
     }
 }

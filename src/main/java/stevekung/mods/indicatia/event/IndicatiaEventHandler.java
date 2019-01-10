@@ -1,13 +1,6 @@
 package stevekung.mods.indicatia.event;
 
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
-
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -15,13 +8,13 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.model.ModelSkeleton;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.*;
+import net.minecraft.client.renderer.entity.model.ModelSkeleton;
+import net.minecraft.client.renderer.entity.model.ModelZombie;
+import net.minecraft.client.renderer.entity.model.ModelZombieVillager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
@@ -34,37 +27,36 @@ import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumConnectionState;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.handshake.client.C00Handshake;
+import net.minecraft.network.handshake.client.CPacketHandshake;
 import net.minecraft.network.status.INetHandlerStatusClient;
 import net.minecraft.network.status.client.CPacketPing;
 import net.minecraft.network.status.client.CPacketServerQuery;
 import net.minecraft.network.status.server.SPacketPong;
 import net.minecraft.network.status.server.SPacketServerInfo;
 import net.minecraft.realms.RealmsBridge;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.MovementInput;
-import net.minecraft.util.StringUtils;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.network.NetworkEvent;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
-import stevekung.mods.indicatia.gui.hack.GuiNewChatFast;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.*;
+import stevekung.mods.indicatia.renderer.LayerAllArmor;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -73,6 +65,13 @@ import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 import stevekung.mods.stevekunglib.utils.enums.CachedEnum;
+
+import javax.annotation.Nonnull;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class IndicatiaEventHandler
 {
@@ -97,11 +96,11 @@ public class IndicatiaEventHandler
     static int printAutoGGTicks;
 
     public static boolean autoFish;
-    public static int autoFishTick;
+    private static int autoFishTick;
 
     public IndicatiaEventHandler()
     {
-        this.mc = Minecraft.getMinecraft();
+        this.mc = Minecraft.getInstance();
     }
 
     @SubscribeEvent
@@ -153,7 +152,7 @@ public class IndicatiaEventHandler
                 {
                     if (ConfigManagerIN.indicatia_general.enableConfirmDisconnectButton && !this.mc.isSingleplayer())
                     {
-                        this.mc.currentScreen.buttonList.forEach(button ->
+                        this.mc.currentScreen.buttons.forEach(button ->
                         {
                             if (button.id == 1 && ConfigManagerIN.indicatia_general.confirmDisconnectMode == ConfigManagerIN.General.DisconnectMode.CLICK)
                             {
@@ -192,7 +191,7 @@ public class IndicatiaEventHandler
                 {
                     if (action != EnumAction.NONE)
                     {
-                        if (ConfigManagerIN.indicatia_general.enableAdditionalBlockhitAnimation && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getItemUseAction() == action)
+                        if (ConfigManagerIN.indicatia_general.enableAdditionalBlockhitAnimation && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.type == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getUseAction() == action)
                         {
                             this.mc.player.swingArm(EnumHand.MAIN_HAND);
                         }
@@ -271,63 +270,63 @@ public class IndicatiaEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onMouseClick(MouseEvent event)
-    {
-        if (event.getButton() == 0 && event.isButtonstate())
-        {
-            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
-        }
-        if (event.getButton() == 1 && event.isButtonstate())
-        {
-            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
-        }
-    }
+//    @SubscribeEvent
+//    public void onMouseClick(MouseEvent event)TODO
+//    {
+//        if (event.getButton() == 0 && event.isButtonstate())
+//        {
+//            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
+//        }
+//        if (event.getButton() == 1 && event.isButtonstate())
+//        {
+//            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
+//        }
+//    }
 
     @SubscribeEvent
     public void onPreRenderLiving(RenderLivingEvent.Pre event)
     {
         RenderLivingBase renderer = event.getRenderer();
-        List<LayerRenderer> layerLists = renderer.layerRenderers;
-        EntityLivingBase entity = event.getEntity();
-        RenderManager manager = this.mc.getRenderManager();
-        IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
-
-        if (entity instanceof AbstractClientPlayer)
-        {
-            AbstractClientPlayer player = (AbstractClientPlayer) entity;
-
-            if (player.getSkinType().equals("default"))
-            {
-                RenderPlayer renderDefault = manager.getSkinMap().get("default");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
-            }
-            else
-            {
-                RenderPlayer renderSlim = manager.getSkinMap().get("slim");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
-            }
-        }
-        else if (entity instanceof EntityZombieVillager)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager)), renderer, entity);
-        }
-        else if (entity instanceof EntityGiantZombie)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F)), renderer, entity);
-        }
-        else if (entity instanceof EntityZombie && !(entity instanceof EntityZombieVillager))
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager)), renderer, entity);
-        }
-        else if (entity instanceof AbstractSkeleton)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager)), renderer, entity);
-        }
+//        List<LayerRenderer> layerLists = renderer.layerRenderers;
+//        EntityLivingBase entity = event.getEntity();
+//        RenderManager manager = this.mc.getRenderManager();
+//        IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
+//
+//        if (entity instanceof AbstractClientPlayer)
+//        {
+//            AbstractClientPlayer player = (AbstractClientPlayer) entity;
+//
+//            if (player.getSkinType().equals("default"))
+//            {
+//                RenderPlayer renderDefault = manager.getSkinMap().get("default");
+//                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
+//                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
+//                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
+//            }
+//            else
+//            {
+//                RenderPlayer renderSlim = manager.getSkinMap().get("slim");
+//                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
+//                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
+//                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
+//            }
+//        }
+//        else if (entity instanceof EntityZombieVillager)
+//        {
+//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager)), renderer, entity);
+//        }
+//        else if (entity instanceof EntityGiantZombie)
+//        {
+//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F)), renderer, entity);
+//        }
+//        else if (entity instanceof EntityZombie)
+//        {
+//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager)), renderer, entity);
+//        }
+//        else if (entity instanceof AbstractSkeleton)
+//        {
+//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager)), renderer, entity);
+//        }
     }
 
     @SubscribeEvent
@@ -335,10 +334,10 @@ public class IndicatiaEventHandler
     {
         if (IndicatiaEventHandler.initLayer)
         {
-            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
-            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-            renderDefault.addLayer(new LayerCustomCape(renderDefault));
-            renderSlim.addLayer(new LayerCustomCape(renderSlim));
+//            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");TODO
+//            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
+//            renderDefault.addLayer(new LayerCustomCape(renderDefault));
+//            renderSlim.addLayer(new LayerCustomCape(renderSlim));
             IndicatiaEventHandler.initLayer = false;
         }
         if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui && event.getGui() != null && event.getGui().getClass().equals(GuiMultiplayer.class))
@@ -348,16 +347,16 @@ public class IndicatiaEventHandler
     }
 
     @SubscribeEvent
-    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
+    public void onClientConnectedToServer(NetworkEvent.ClientCustomPayloadLoginEvent event)
     {
-        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();
+        //this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();TODO
     }
 
-    @SubscribeEvent
-    public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
-    {
-        IndicatiaEventHandler.stopCommandTicks();
-    }
+//    @SubscribeEvent TODO
+//    public void onDisconnectedFromServerEvent(NetworkEvent.ClientDisconnectionFromServerEvent event)
+//    {
+//        IndicatiaEventHandler.stopCommandTicks();
+//    }
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event)
@@ -422,7 +421,7 @@ public class IndicatiaEventHandler
         if (event.getGui() instanceof GuiMainMenu)
         {
             int height = event.getGui().height / 4 + 48;
-            event.getButtonList().add(new GuiButtonMojangStatus(200, event.getGui().width / 2 - 124, height + 63));
+            event.addButton(new GuiButtonMojangStatus(200, event.getGui().width / 2 - 124, height + 63));
         }
     }
 
@@ -514,24 +513,24 @@ public class IndicatiaEventHandler
                     private long currentSystemTime = 0L;
 
                     @Override
-                    public void handleServerInfo(SPacketServerInfo packet)
+                    public void handleServerInfo(@Nonnull SPacketServerInfo packet)
                     {
-                        this.currentSystemTime = Minecraft.getSystemTime();
+                        this.currentSystemTime = Util.milliTime();
                         manager.sendPacket(new CPacketPing(this.currentSystemTime));
                     }
 
                     @Override
-                    public void handlePong(SPacketPong packet)
+                    public void handlePong(@Nonnull SPacketPong packet)
                     {
                         long i = this.currentSystemTime;
-                        long j = Minecraft.getSystemTime();
+                        long j = Util.milliTime();
                         IndicatiaEventHandler.currentServerPing = (int) (j - i);
                     }
 
                     @Override
-                    public void onDisconnect(ITextComponent component) {}
+                    public void onDisconnect(@Nonnull ITextComponent component) {}
                 });
-                manager.sendPacket(new C00Handshake(address.getIP(), address.getPort(), EnumConnectionState.STATUS, true));
+                manager.sendPacket(new CPacketHandshake(address.getIP(), address.getPort(), EnumConnectionState.STATUS));
                 manager.sendPacket(new CPacketServerQuery());
             }
             catch (Exception e) {}
@@ -562,25 +561,24 @@ public class IndicatiaEventHandler
                 }
             }
 
-            if (IndicatiaEventHandler.afkMode.equals("idle"))
+            switch (IndicatiaEventHandler.afkMode)
             {
-                player.turn(angle, angle);
-            }
-            else if (IndicatiaEventHandler.afkMode.equals("360"))
-            {
-                player.turn(1.0F, 0.0F);
-            }
-            else if (IndicatiaEventHandler.afkMode.equals("360_move"))
-            {
-                player.turn(1.0F, 0.0F);
+            case "idle":
+                player.rotateTowards(angle, angle);
+                break;
+            case "360":
+                player.rotateTowards(1.0F, 0.0F);
+                break;
+            case "360_move":
+                player.rotateTowards(1.0F, 0.0F);
                 IndicatiaEventHandler.afkMoveTicks++;
                 IndicatiaEventHandler.afkMoveTicks %= 8;
-            }
-            else
-            {
-                player.turn(angle, angle);
+                break;
+            case "move":
+                player.rotateTowards(angle, angle);
                 IndicatiaEventHandler.afkMoveTicks++;
                 IndicatiaEventHandler.afkMoveTicks %= 8;
+                break;
             }
         }
         else
@@ -770,7 +768,7 @@ public class IndicatiaEventHandler
                         {
                             ItemStack held = mc.player.getHeldItem(hand);
 
-                            if (mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK)
+                            if (mc.objectMouseOver.type == RayTraceResult.Type.BLOCK)
                             {
                                 BlockPos pos = mc.objectMouseOver.getBlockPos();
 
@@ -813,4 +811,60 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.autoFishTick = 0;
         }
     }
+
+    /*public void rightClickMouse(Minecraft mc) TODO
+    {
+        if (!this.playerController.getIsHittingBlock()) {
+            this.rightClickDelayTimer = 4;
+            if (!this.player.isRowingBoat()) {
+                if (this.objectMouseOver == null) {
+                    LOGGER.warn("Null returned as 'hitResult', this shouldn't happen!");
+                }
+
+                for(EnumHand enumhand : EnumHand.values()) {
+                    ItemStack itemstack = this.player.getHeldItem(enumhand);
+                    if (this.objectMouseOver != null) {
+                        switch(this.objectMouseOver.type) {
+                        case ENTITY:
+                            if (this.playerController.interactWithEntity(this.player, this.objectMouseOver.entity, this.objectMouseOver, enumhand) == EnumActionResult.SUCCESS) {
+                                return;
+                            }
+
+                            if (this.playerController.interactWithEntity(this.player, this.objectMouseOver.entity, enumhand) == EnumActionResult.SUCCESS) {
+                                return;
+                            }
+                            break;
+                        case BLOCK:
+                            BlockPos blockpos = this.objectMouseOver.getBlockPos();
+                            if (!this.world.getBlockState(blockpos).isAir()) {
+                                int i = itemstack.getCount();
+                                EnumActionResult enumactionresult = this.playerController.processRightClickBlock(this.player, this.world, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec, enumhand);
+                                if (enumactionresult == EnumActionResult.SUCCESS) {
+                                    this.player.swingArm(enumhand);
+                                    if (!itemstack.isEmpty() && (itemstack.getCount() != i || this.playerController.isInCreativeMode())) {
+                                        this.entityRenderer.itemRenderer.resetEquippedProgress(enumhand);
+                                    }
+
+                                    return;
+                                }
+
+                                if (enumactionresult == EnumActionResult.FAIL) {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    if (itemstack.isEmpty() && (this.objectMouseOver == null || this.objectMouseOver.type == RayTraceResult.Type.MISS))
+                        net.minecraftforge.common.ForgeHooks.onEmptyClick(this.player, enumhand);
+
+                    if (!itemstack.isEmpty() && this.playerController.processRightClick(this.player, this.world, enumhand) == EnumActionResult.SUCCESS) {
+                        this.entityRenderer.itemRenderer.resetEquippedProgress(enumhand);
+                        return;
+                    }
+                }
+
+            }
+        }
+    }*/
 }

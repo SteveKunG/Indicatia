@@ -1,0 +1,28 @@
+package stevekung.mods.indicatia.command;
+
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+public class SwedenTimeCommand
+{
+    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    {
+        dispatcher.register(Commands.literal("swedentime").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> SwedenTimeCommand.checkTime()));
+    }
+
+    private static int checkTime()
+    {
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Stockholm"));
+        ClientUtils.printClientMessage("Current Sweden Time is : " + dateFormat.format(date));
+        return 0;
+    }
+}

@@ -1,22 +1,22 @@
 package stevekung.mods.indicatia.renderer;
 
-import java.lang.reflect.Method;
-
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelElytra;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.ModelElytra;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 
-@SideOnly(Side.CLIENT)
+import java.lang.reflect.Method;
+
+@OnlyIn(Dist.CLIENT)
 public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
 {
     private static final ResourceLocation TEXTURE_ELYTRA = new ResourceLocation("textures/entity/elytra.png");
@@ -29,28 +29,19 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
     }
 
     @Override
-    public void doRenderLayer(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 
         if (itemStack.getItem() == Items.ELYTRA)
         {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
-            if (entity instanceof AbstractClientPlayer)
+            if (entity.isPlayerInfoSet() && entity.getLocationElytra() != null)
             {
-                AbstractClientPlayer player = entity;
-
-                if (player.isPlayerInfoSet() && player.getLocationElytra() != null)
-                {
-                    this.renderPlayer.bindTexture(player.getLocationElytra());
-                }
-                else
-                {
-                    LayerElytraNew.renderOptifineElytra(this.renderPlayer, itemStack);
-                }
+                this.renderPlayer.bindTexture(entity.getLocationElytra());
             }
             else
             {
@@ -58,11 +49,11 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
             }
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate(0.0F, 0.0F, 0.125F);
+            GlStateManager.translatef(0.0F, 0.0F, 0.125F);
             this.modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
             this.modelElytra.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
-            if (itemStack.isItemEnchanted())
+            if (itemStack.isEnchanted())
             {
                 LayerArmorBase.renderEnchantedGlint(this.renderPlayer, entity, this.modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
             }
@@ -81,7 +72,7 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
     {
         ResourceLocation elytraTexture = TEXTURE_ELYTRA;
 
-        if (FMLClientHandler.instance().hasOptifine())
+        if (IndicatiaMod.isOptiFineLoaded)
         {
             try
             {

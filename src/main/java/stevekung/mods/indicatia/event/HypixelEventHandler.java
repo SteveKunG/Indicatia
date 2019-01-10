@@ -1,23 +1,24 @@
 package stevekung.mods.indicatia.event;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HypixelEventHandler
 {
@@ -26,7 +27,7 @@ public class HypixelEventHandler
 
     public HypixelEventHandler()
     {
-        this.mc = Minecraft.getMinecraft();
+        this.mc = Minecraft.getInstance();
     }
 
     @SubscribeEvent
@@ -41,14 +42,14 @@ public class HypixelEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onMouseClick(MouseEvent event)
-    {
-        if (event.getButton() == 1 && event.isButtonstate() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
-        {
-            HypixelEventHandler.rightClickAddParty(this.mc);
-        }
-    }
+//    @SubscribeEvent
+//    public void onMouseClick(MouseEvent event)TODO
+//    {
+//        if (event.getButton() == 1 && event.isButtonstate() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
+//        {
+//            HypixelEventHandler.rightClickAddParty(this.mc);
+//        }
+//    }
 
     @SubscribeEvent
     public void onClientChatReceived(ClientChatReceivedEvent event)
@@ -58,7 +59,7 @@ public class HypixelEventHandler
             return;
         }
 
-        String unformattedText = event.getMessage().getUnformattedText();
+        String unformattedText = event.getMessage().getString();
 
         if (InfoUtils.INSTANCE.isHypixel())
         {
@@ -108,8 +109,8 @@ public class HypixelEventHandler
 
                 message.forEach(text ->
                 {
-                    String messageToLower = TextFormatting.getTextWithoutFormattingCodes(text).toLowerCase();
-                    String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(unformattedText).toLowerCase();
+                    String messageToLower = Objects.requireNonNull(TextFormatting.getTextWithoutFormattingCodes(text)).toLowerCase();
+                    String displayTitleMessage = Objects.requireNonNull(TextFormatting.getTextWithoutFormattingCodes(unformattedText)).toLowerCase();
 
                     if (displayTitleMessage.contains(messageToLower) && !ConfigManagerIN.indicatia_general.autoGGMessage.isEmpty() && !IndicatiaEventHandler.printAutoGG)
                     {
@@ -128,7 +129,7 @@ public class HypixelEventHandler
 
             if (gui.tileSign != null)
             {
-                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getUnformattedText();
+                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getString();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {
@@ -140,17 +141,12 @@ public class HypixelEventHandler
 
     private static void rightClickAddParty(Minecraft mc)
     {
-        if (mc.objectMouseOver != null)
+        if (mc.objectMouseOver != null && mc.objectMouseOver.type == RayTraceResult.Type.ENTITY)
         {
-            switch (mc.objectMouseOver.typeOfHit)
+            if (mc.player.getHeldItemMainhand().isEmpty() && mc.objectMouseOver.entity instanceof EntityOtherPlayerMP)
             {
-            case ENTITY:
-            default:
-                if (mc.player.getHeldItemMainhand().isEmpty() && mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP)
-                {
-                    EntityOtherPlayerMP player = (EntityOtherPlayerMP) mc.objectMouseOver.entityHit;
-                    mc.player.sendChatMessage("/p " + player.getName());
-                }
+                EntityOtherPlayerMP player = (EntityOtherPlayerMP) mc.objectMouseOver.entity;
+                mc.player.sendChatMessage("/p " + player.getName());
             }
         }
     }

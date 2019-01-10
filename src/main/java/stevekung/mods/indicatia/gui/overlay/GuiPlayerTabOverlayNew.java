@@ -1,11 +1,6 @@
 package stevekung.mods.indicatia.gui.overlay;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
@@ -25,6 +20,9 @@ import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 {
     private Minecraft mc;
@@ -33,8 +31,8 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     //TODO 1.13 player overlay fix?
     public GuiPlayerTabOverlayNew()
     {
-        super(Minecraft.getMinecraft(), Minecraft.getMinecraft().ingameGUI);
-        this.mc = Minecraft.getMinecraft();
+        super(Minecraft.getInstance(), Minecraft.getInstance().ingameGUI);
+        this.mc = Minecraft.getInstance();
     }
 
     @Override
@@ -47,7 +45,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         for (NetworkPlayerInfo info : list)
         {
             int pingWidth = ConfigManagerIN.indicatia_general.enableCustomPlayerList ? this.mc.fontRenderer.getStringWidth(String.valueOf(info.getResponseTime())) : 0;
-            int stringWidth = this.mc.fontRenderer.getStringWidth(this.getPlayerName(info) + pingWidth);
+            int stringWidth = this.mc.fontRenderer.getStringWidth(this.getDisplayName(info).getFormattedText() + pingWidth);
             listWidth = Math.max(listWidth, stringWidth);
 
             if (scoreObjective != null && scoreObjective.getRenderType() != IScoreCriteria.EnumRenderType.HEARTS)
@@ -138,10 +136,10 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             int j2 = j1 + l4 * i1 + l4 * 5;
             int k2 = yOffset + i5 * 9;
             Gui.drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.enableAlpha();
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.enableAlphaTest();
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
             if (k4 < list.size())
             {
@@ -166,7 +164,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
                     j2 += 9;
                 }
 
-                String s4 = this.getPlayerName(networkplayerinfo1);
+                String s4 = this.getDisplayName(networkplayerinfo1).getFormattedText();
 
                 if (networkplayerinfo1.getGameType() == GameType.SPECTATOR)
                 {
@@ -243,11 +241,11 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
                 color = TextFormatting.DARK_RED;
             }
             String pingText = String.valueOf(ping);
-            this.mc.fontRenderer.drawString(color + pingText, x1 + x2 - this.mc.fontRenderer.getStringWidth(pingText), y + 0.5F, 0, true);
+            this.mc.fontRenderer.drawStringWithShadow(color + pingText, x1 + x2 - this.mc.fontRenderer.getStringWidth(pingText), y + 0.5F, 0);
         }
         else
         {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(ICONS);
             int state;
 

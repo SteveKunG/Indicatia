@@ -1,14 +1,13 @@
 package stevekung.mods.indicatia.event;
 
-import org.apache.logging.log4j.util.Strings;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.network.NetworkEvent;
+import org.apache.logging.log4j.util.Strings;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
@@ -21,13 +20,13 @@ public class ChatMessageEventHandler
 
     public ChatMessageEventHandler()
     {
-        this.mc = Minecraft.getMinecraft();
+        this.mc = Minecraft.getInstance();
     }
 
     @SubscribeEvent
-    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
+    public void onClientConnectedToServer(NetworkEvent.ClientCustomPayloadLoginEvent event)
     {
-        this.mc.addScheduledTask(() -> { MinecraftForge.EVENT_BUS.register(new PlayerSendMessageHandler()); });
+        this.mc.addScheduledTask(() -> MinecraftForge.EVENT_BUS.register(new PlayerSendMessageHandler()));
     }
 
     public class PlayerSendMessageHandler
@@ -41,7 +40,7 @@ public class ChatMessageEventHandler
                 ServerData data = ChatMessageEventHandler.this.mc.getCurrentServerData();
                 this.runAutoLoginCommand(player, data);
                 this.runRealmsCommand(player);
-                this.runAutoLoginFunction(player, data);
+                this.runAutoLoginFunction(data);
                 CommonUtils.unregisterEventHandler(this);
             }
         }
@@ -62,13 +61,13 @@ public class ChatMessageEventHandler
 
         private void runRealmsCommand(EntityPlayerSP player)
         {
-            if (Minecraft.getMinecraft().isConnectedToRealms() && Strings.isNotEmpty(ExtendedConfig.realmsMessage))
+            if (Minecraft.getInstance().isConnectedToRealms() && Strings.isNotEmpty(ExtendedConfig.realmsMessage))
             {
                 player.sendChatMessage(ExtendedConfig.realmsMessage);
             }
         }
 
-        private void runAutoLoginFunction(EntityPlayerSP player, ServerData data)
+        private void runAutoLoginFunction(ServerData data)
         {
             if (data != null)
             {

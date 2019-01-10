@@ -1,25 +1,20 @@
 package stevekung.mods.indicatia.gui.config;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
-@SideOnly(Side.CLIENT)
+import java.util.ArrayList;
+import java.util.List;
+
+@OnlyIn(Dist.CLIENT)
 public class GuiExtendedConfig extends GuiScreen
 {
     private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
@@ -42,18 +37,6 @@ public class GuiExtendedConfig extends GuiScreen
         OPTIONS.add(ExtendedConfig.Options.CPS_OPACITY);
     }
 
-    public void display()
-    {
-        CommonUtils.registerEventHandler(this);
-    }
-
-    @SubscribeEvent
-    public void onClientTick(ClientTickEvent event)
-    {
-        CommonUtils.unregisterEventHandler(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
-    }
-
     @Override
     public void initGui()
     {
@@ -62,30 +45,95 @@ public class GuiExtendedConfig extends GuiScreen
 
         for (ExtendedConfig.Options options : OPTIONS)
         {
-            if (options.isFloat())
+            if (options.isDouble())
             {
-                this.buttonList.add(new GuiConfigSlider(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160, options));
+                this.addButton(new GuiConfigSlider(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160, options));
             }
             else
             {
-                GuiConfigButton button = new GuiConfigButton(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160, options, ExtendedConfig.instance.getKeyBinding(options));
-                this.buttonList.add(button);
+                GuiConfigButton button = new GuiConfigButton(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160, options, ExtendedConfig.instance.getKeyBinding(options))
+                {
+                    @Override
+                    public void onClick(double mouseX, double mouseY)
+                    {
+                        ExtendedConfig.instance.setOptionValue(options, 1);
+                        this.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.id));
+                        ExtendedConfig.save();
+                    }
+                };
+                this.addButton(button);
             }
             ++i;
         }
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title")));
-        this.buttonList.add(new GuiButton(101, this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title")));
-        this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title")));
-        this.buttonList.add(new GuiButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title")));
+        this.addButton(new GuiButton(100, this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiRenderInfoSettings(GuiExtendedConfig.this));
+            }
+        });
+        this.addButton(new GuiButton(101, this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiCustomColorSettings(GuiExtendedConfig.this));
+            }
+        });
+        this.addButton(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiOffsetSettings(GuiExtendedConfig.this));
+            }
+        });
+        this.addButton(new GuiButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiHypixelSettings(GuiExtendedConfig.this));
+            }
+        });
 
-        this.buttonList.add(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
-        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done")));
-        this.buttonList.add(this.resetButton = new GuiButton(201, this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config")));
+        this.addButton(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseY)
+            {
+                ExtendedConfig.instance.setOptionValue(ExtendedConfig.Options.PREVIEW, 1);
+                this.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW);
+            }
+        });
+        this.addButton(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiExtendedConfig.this.mc.displayGuiScreen(null);
+            }
+        });
+        this.addButton(this.resetButton = new GuiButton(201, this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config"))
+        {
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                ExtendedConfig.save();
+                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiYesNo(GuiExtendedConfig.this, LangUtils.translate("message.reset_config_confirm"), "", 201));
+            }
+        });
         this.resetButton.visible = false;
     }
 
     @Override
-    public void updateScreen()
+    public void tick()
     {
         boolean shift = ClientUtils.isShiftKeyDown();
 
@@ -104,9 +152,9 @@ public class GuiExtendedConfig extends GuiScreen
     }
 
     @Override
-    public void confirmClicked(boolean result, int id)
+    public void confirmResult(boolean result, int id)
     {
-        super.confirmClicked(result, id);
+        super.confirmResult(result, id);
 
         if (result)
         {
@@ -120,63 +168,20 @@ public class GuiExtendedConfig extends GuiScreen
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException
+    public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
     {
-        if (keyCode == 1)
-        {
-            ExtendedConfig.save();
-        }
-        super.keyTyped(typedChar, keyCode);
+        ExtendedConfig.save();
+        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException
-    {
-        if (button.enabled)
-        {
-            ExtendedConfig.save();
-
-            if ((button.id < 100 || button.id == 150) && button instanceof GuiConfigButton)
-            {
-                ExtendedConfig.Options options = ((GuiConfigButton)button).getOption();
-                ExtendedConfig.instance.setOptionValue(options, 1);
-                button.displayString = ExtendedConfig.instance.getKeyBinding(button.id == 150 ? ExtendedConfig.Options.PREVIEW : ExtendedConfig.Options.byOrdinal(button.id));
-            }
-            if (button.id == 100)
-            {
-                this.mc.displayGuiScreen(new GuiRenderInfoSettings(this));
-            }
-            if (button.id == 101)
-            {
-                this.mc.displayGuiScreen(new GuiCustomColorSettings(this));
-            }
-            if (button.id == 102)
-            {
-                this.mc.displayGuiScreen(new GuiOffsetSettings(this));
-            }
-            if (button.id == 103)
-            {
-                this.mc.displayGuiScreen(new GuiHypixelSettings(this));
-            }
-            if (button.id == this.doneButton.id)
-            {
-                this.mc.displayGuiScreen(null);
-            }
-            if (button.id == this.resetButton.id)
-            {
-                this.mc.displayGuiScreen(new GuiYesNo(this, LangUtils.translate("message.reset_config_confirm"), "", 201));
-            }
-        }
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         if (!GuiExtendedConfig.preview)
         {
             this.drawDefaultBackground();
         }
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.main.title") + " : " + LangUtils.translate("extended_config.current_profile.info", TextFormatting.YELLOW + ExtendedConfig.currentProfile + TextFormatting.RESET), this.width / 2, 10, 16777215);
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 }

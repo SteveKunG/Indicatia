@@ -1,18 +1,18 @@
 package stevekung.mods.indicatia.gui.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
-@SideOnly(Side.CLIENT)
-public class GuiConfigButton extends GuiButton
+import java.util.ArrayList;
+import java.util.List;
+
+@OnlyIn(Dist.CLIENT)
+public abstract class GuiConfigButton extends GuiButton
 {
     private static final List<String> SMALL_TEXT = new ArrayList<>();
     private final ExtendedConfig.Options options;
@@ -29,18 +29,13 @@ public class GuiConfigButton extends GuiButton
         SMALL_TEXT.add("indicatia.hotbar_right");
     }
 
-    public GuiConfigButton(int id, int x, int y, String text)
-    {
-        this(id, x, y, 150, null, text);
-    }
-
-    public GuiConfigButton(int id, int x, int y, int width, ExtendedConfig.Options options, String text)
+    GuiConfigButton(int id, int x, int y, int width, ExtendedConfig.Options options, String text)
     {
         super(id, x, y, width, 20, text);
         this.options = options;
     }
 
-    public GuiConfigButton(int id, int x, int y, int width, ExtendedConfig.Options options, String text, String comment)
+    GuiConfigButton(int id, int x, int y, int width, ExtendedConfig.Options options, String text, String comment)
     {
         super(id, x, y, width, 20, text);
         this.options = options;
@@ -48,25 +43,34 @@ public class GuiConfigButton extends GuiButton
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks)
+    public void onClick(double mouseX, double mouseZ)
+    {
+        ExtendedConfig.save();
+        ExtendedConfig.instance.setOptionValue(this.options, 1);
+        this.displayString = ExtendedConfig.instance.getKeyBinding(this.id == 150 ? ExtendedConfig.Options.PREVIEW : ExtendedConfig.Options.byOrdinal(this.id));
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         if (this.visible)
         {
+            Minecraft mc = Minecraft.getInstance();
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             int state = this.getHoverState(this.hovered);
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             this.drawTexturedModalRect(this.x, this.y, 0, 46 + state * 20, this.width / 2, this.height);
             this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + state * 20, this.width / 2, this.height);
-            this.mouseDragged(mc, mouseX, mouseY);
+            this.renderBg(mc, mouseX, mouseY);
             int color = 14737632;
 
-            if (this.packedFGColour != 0)
+            if (this.packedFGColor != 0)
             {
-                color = this.packedFGColour;
+                color = this.packedFGColor;
             }
             else
             {
@@ -84,14 +88,14 @@ public class GuiConfigButton extends GuiButton
 
             if (smallText)
             {
-                mc.fontRenderer.setUnicodeFlag(true);
+                //                mc.fontRenderer.setUnicodeFlag(true);TODO
             }
 
             this.drawCenteredString(mc.fontRenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
 
             if (smallText)
             {
-                mc.fontRenderer.setUnicodeFlag(mc.getLanguageManager().isCurrentLocaleUnicode() || mc.gameSettings.forceUnicodeFont);
+                //                mc.fontRenderer.setUnicodeFlag(mc.getLanguageManager().isCurrentLocaleUnicode() || mc.gameSettings.forceUnicodeFont);
             }
         }
     }
@@ -101,7 +105,7 @@ public class GuiConfigButton extends GuiButton
         return this.options;
     }
 
-    public String getComment()
+    String getComment()
     {
         return this.comment;
     }

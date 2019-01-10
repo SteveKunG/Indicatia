@@ -1,38 +1,35 @@
 package stevekung.mods.indicatia.gui.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Strings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.util.StringUtils;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 
-@SideOnly(Side.CLIENT)
-public class GuiConfigButtonRowList extends GuiListExtended
+@OnlyIn(Dist.CLIENT)
+public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowList.Row>
 {
-    private final List<GuiConfigButtonRowList.Row> options = new ArrayList<>();
-    public static String comment = null;
+    static String comment = null;
 
-    public GuiConfigButtonRowList(int width, int height, int top, int bottom, int slotHeight, ExtendedConfig.Options[] options)
+    GuiConfigButtonRowList(int width, int height, int top, int bottom, int slotHeight, ExtendedConfig.Options[] options)
     {
-        super(Minecraft.getMinecraft(), width, height, top, bottom, slotHeight);
+        super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
         this.centerListVertically = false;
 
         for (int i = 0; i < options.length; i += 2)
         {
             ExtendedConfig.Options exoptions = options[i];
             ExtendedConfig.Options exoptions1 = i < options.length - 1 ? options[i + 1] : null;
-            GuiButton button = this.createButton(width / 2 - 165, 0, exoptions);
-            GuiButton button1 = this.createButton(width / 2 - 160 + 160, 0, exoptions1);
-            this.options.add(new GuiConfigButtonRowList.Row(button, button1));
+            GuiButton button = GuiConfigButtonRowList.createButton(width / 2 - 165, exoptions);
+            GuiButton button1 = GuiConfigButtonRowList.createButton(width / 2 - 160 + 160, exoptions1);
+            this.addEntry(new GuiConfigButtonRowList.Row(button, button1));
         }
     }
 
-    private GuiButton createButton(int x, int y, ExtendedConfig.Options options)
+    private static GuiButton createButton(int x, ExtendedConfig.Options options)
     {
         if (options == null)
         {
@@ -41,20 +38,55 @@ public class GuiConfigButtonRowList extends GuiListExtended
         else
         {
             int i = options.getOrdinal();
-            return options.isFloat() ? new GuiConfigSlider(i, x, y, 160, options) : options.getComment() != null ? new GuiConfigButton(i, x, y, 160, options, ExtendedConfig.instance.getKeyBinding(options), options.getComment()) : new GuiConfigButton(i, x, y, 160, options, ExtendedConfig.instance.getKeyBinding(options));
+
+            GuiConfigButton button1 = new GuiConfigButton(i, x, 0, 160, options, ExtendedConfig.instance.getKeyBinding(options), options.getComment())
+            {
+                @Override
+                public void onClick(double mouseX, double mouseY)
+                {
+                    ExtendedConfig.instance.setOptionValue(options, 1);
+                    this.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.id));
+                    ExtendedConfig.save();
+                }
+
+                @Override
+                public boolean mouseClicked(double mouseX, double mouseY, int mouseEvent)
+                {
+                    String comment = this.getComment();
+
+                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
+                    {
+                        GuiConfigButtonRowList.comment = comment;
+                        return true;
+                    }
+                    return super.mouseClicked(mouseX, mouseY, mouseEvent);
+                }
+            };
+            GuiConfigButton button2 = new GuiConfigButton(i, x, 0, 160, options, ExtendedConfig.instance.getKeyBinding(options))
+            {
+                @Override
+                public void onClick(double mouseX, double mouseY)
+                {
+                    ExtendedConfig.instance.setOptionValue(options, 1);
+                    this.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.id));
+                    ExtendedConfig.save();
+                }
+
+                @Override
+                public boolean mouseClicked(double mouseX, double mouseY, int mouseEvent)
+                {
+                    String comment = this.getComment();
+
+                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
+                    {
+                        GuiConfigButtonRowList.comment = comment;
+                        return true;
+                    }
+                    return super.mouseClicked(mouseX, mouseY, mouseEvent);
+                }
+            };
+            return options.isDouble() ? new GuiConfigSlider(i, x, 0, 160, options) : Strings.isNullOrEmpty(options.getComment()) ? button1 : button2;
         }
-    }
-
-    @Override
-    public GuiConfigButtonRowList.Row getListEntry(int index)
-    {
-        return this.options.get(index);
-    }
-
-    @Override
-    protected int getSize()
-    {
-        return this.options.size();
     }
 
     @Override
@@ -69,106 +101,53 @@ public class GuiConfigButtonRowList extends GuiListExtended
         return super.getScrollBarX() + 40;
     }
 
-    @SideOnly(Side.CLIENT)
-    public static class Row implements GuiListExtended.IGuiListEntry
+    @OnlyIn(Dist.CLIENT)
+    public static class Row extends GuiListExtended.IGuiListEntry<Row>
     {
-        private final Minecraft mc = Minecraft.getMinecraft();
         private final GuiButton buttonA;
         private final GuiButton buttonB;
-        public Row(GuiButton buttonA, GuiButton buttonB)
+
+        Row(GuiButton buttonA, GuiButton buttonB)
         {
             this.buttonA = buttonA;
             this.buttonB = buttonB;
         }
 
         @Override
-        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void drawEntry(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
             if (this.buttonA != null)
             {
-                this.buttonA.y = y;
-                this.buttonA.drawButton(this.mc, mouseX, mouseY, partialTicks);
+                this.buttonA.y = this.getY();
+                this.buttonA.render(mouseX, mouseY, partialTicks);
             }
             if (this.buttonB != null)
             {
-                this.buttonB.y = y;
-                this.buttonB.drawButton(this.mc, mouseX, mouseY, partialTicks);
+                this.buttonB.y = this.getY();
+                this.buttonB.render(mouseX, mouseY, partialTicks);
             }
         }
 
         @Override
-        public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
+        public boolean mouseClicked(double mouseX, double mouseY, int mouseEvent)
         {
-            if (this.buttonA.mousePressed(this.mc, mouseX, mouseY))
+            if (this.buttonA.mouseClicked(mouseX, mouseY, mouseEvent))
             {
-                if (this.buttonA instanceof GuiConfigButton)
-                {
-                    String comment = ((GuiConfigButton)this.buttonA).getComment();
-
-                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
-                    {
-                        GuiConfigButtonRowList.comment = comment;
-                    }
-
-                    if (mouseEvent == 0)
-                    {
-                        ExtendedConfig.instance.setOptionValue(((GuiConfigButton)this.buttonA).getOption(), 1);
-                        this.buttonA.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.buttonA.id));
-                        this.buttonA.playPressSound(this.mc.getSoundHandler());
-                    }
-                }
-                if (this.buttonA instanceof GuiConfigSlider)
-                {
-                    this.buttonA.playPressSound(this.mc.getSoundHandler());
-                }
                 return true;
             }
-            else if (this.buttonB != null && this.buttonB.mousePressed(this.mc, mouseX, mouseY))
-            {
-                if (this.buttonB instanceof GuiConfigButton)
-                {
-                    String comment = ((GuiConfigButton)this.buttonB).getComment();
-
-                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
-                    {
-                        GuiConfigButtonRowList.comment = comment;
-                    }
-
-                    if (mouseEvent == 0)
-                    {
-                        ExtendedConfig.instance.setOptionValue(((GuiConfigButton)this.buttonB).getOption(), 1);
-                        this.buttonB.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.buttonB.id));
-                        this.buttonB.playPressSound(this.mc.getSoundHandler());
-                    }
-                }
-                if (this.buttonB instanceof GuiConfigSlider)
-                {
-                    this.buttonB.playPressSound(this.mc.getSoundHandler());
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return this.buttonB != null && this.buttonB.mouseClicked(mouseX, mouseY, mouseEvent);
         }
 
         @Override
-        public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY)
+        public boolean mouseReleased(double x, double y, int mouseEvent)
         {
-            if (this.buttonA != null)
-            {
-                GuiConfigButtonRowList.comment = null;
-                this.buttonA.mouseReleased(x, y);
-            }
-            if (this.buttonB != null)
-            {
-                GuiConfigButtonRowList.comment = null;
-                this.buttonB.mouseReleased(x, y);
-            }
+            GuiConfigButtonRowList.comment = null;
+            boolean flag = this.buttonA != null && this.buttonA.mouseReleased(x, y, mouseEvent);
+            boolean flag1 = this.buttonB != null && this.buttonB.mouseReleased(x, y, mouseEvent);
+            return flag || flag1;
         }
 
         @Override
-        public void updatePosition(int slotIndex, int x, int y, float partialTicks) {}
+        public void func_195000_a(float partialTicks) {} //TODO updatePosition
     }
 }

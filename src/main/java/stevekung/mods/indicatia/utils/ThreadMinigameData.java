@@ -49,11 +49,7 @@ public class ThreadMinigameData extends Thread
                     String minigameCommand = command.get("command").getAsString();
                     boolean isMinigame = command.get("minigame").getAsBoolean();
                     minigameCommandList.add(new MinigameCommand(displayName, minigameCommand, isMinigame));
-
-                    minigameCommandList.sort((minigame1, minigame2) ->
-                    {
-                        return new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build();
-                    });
+                    minigameCommandList.sort((minigame1, minigame2) -> new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build());
                 }
 
                 MinigameData.addMinigameData(new MinigameData(name, minigameCommandList));

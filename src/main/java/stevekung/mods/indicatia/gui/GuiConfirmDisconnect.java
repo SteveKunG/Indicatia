@@ -2,60 +2,61 @@ package stevekung.mods.indicatia.gui;
 
 import net.minecraft.client.gui.*;
 import net.minecraft.realms.RealmsBridge;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiConfirmDisconnect extends GuiScreen
 {
     @Override
     public void initGui()
     {
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.yes")));
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.no")));
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button)
-    {
-        if (button.id == 0)
+        this.addButton(new GuiButton(0, this.width / 2 - 155, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.yes"))
         {
-            if (this.mc.isConnectedToRealms())
+            @Override
+            public void onClick(double mouseX, double mouseZ)
             {
-                this.mc.world.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld(null);
-                RealmsBridge bridge = new RealmsBridge();
-                bridge.switchToRealms(new GuiMainMenu());
-            }
-            else
-            {
-                this.mc.world.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld(null);
-
-                if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui)
+                if (GuiConfirmDisconnect.this.mc.isConnectedToRealms())
                 {
-                    this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
+                    GuiConfirmDisconnect.this.mc.world.sendQuittingDisconnectingPacket();
+                    GuiConfirmDisconnect.this.mc.loadWorld(null);
+                    RealmsBridge bridge = new RealmsBridge();
+                    bridge.switchToRealms(new GuiMainMenu());
                 }
                 else
                 {
-                    this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                    GuiConfirmDisconnect.this.mc.world.sendQuittingDisconnectingPacket();
+                    GuiConfirmDisconnect.this.mc.loadWorld(null);
+
+                    if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui)
+                    {
+                        GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
+                    }
+                    else
+                    {
+                        GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                    }
                 }
             }
-        }
-        else
+        });
+        this.addButton(new GuiButton(1, this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.no"))
         {
-            this.mc.displayGuiScreen(new GuiIngameMenu());
-        }
+            @Override
+            public void onClick(double mouseX, double mouseZ)
+            {
+                GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiIngameMenu());
+            }
+        });
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("message.want_disconnect"), this.width / 2, 70, 16777215);
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
     }
 }
