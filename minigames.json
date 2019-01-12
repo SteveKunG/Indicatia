@@ -795,6 +795,26 @@
         ]
     },
     {
+        "name": "Prototype: Tower Wars",
+        "commands": [
+            {
+                "name": "Prototype Lobby",
+                "command": "ptl",
+                "minigame": false
+            },
+            {
+                "name": "Tower Wars Solo",
+                "command": "prototype_towerwars_solo",
+                "minigame": true
+            },
+            {
+                "name": "Tower Wars Team",
+                "command": "prototype_towerwars_team_of_two",
+                "minigame": true
+            }
+        ]
+    },
+    {
         "name": "Prototype: King of the Hills",
         "commands": [
             {
