@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.client.ClientHooks;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
 import java.net.UnknownHostException;
@@ -65,8 +66,7 @@ public class ServerListEntryNormalIN extends ServerListEntryNormal
         boolean flag1 = this.server.version < 340;
         boolean flag2 = flag || flag1;
         this.mc.fontRenderer.drawString(this.server.serverName, x + 32 + 3, y + 1, 16777215);
-//        List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(FMLClientHandler.instance().fixDescription(this.server.serverMOTD), entryWidth - 48 - 2);TODO
-        List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(this.server.serverMOTD, entryWidth - 32 - 2);
+        List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(ClientHooks.fixDescription(this.server.serverMOTD), entryWidth - 48 - 2);
 
         for (int i = 0; i < Math.min(list.size(), 2); ++i)
         {
@@ -140,8 +140,7 @@ public class ServerListEntryNormalIN extends ServerListEntryNormal
         int i1 = mouseX - x;
         int j1 = mouseY - y;
 
-//        String tooltip = FMLClientHandler.instance().enhanceServerListEntry(this, this.server, x + 3, entryWidth - 5, y, i1, j1);
-        String tooltip = this.server.pingToServer + "ms";//TODO
+        String tooltip = ClientHooks.enhanceServerListEntry(this, this.server, x + 3, entryWidth - 5, y, i1, j1);
 
         if (tooltip != null)
         {
