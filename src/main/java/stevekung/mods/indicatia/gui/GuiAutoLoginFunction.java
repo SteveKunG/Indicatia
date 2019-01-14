@@ -18,7 +18,7 @@ public class GuiAutoLoginFunction extends GuiScreen
     private GuiButtonCustomizeTexture helpBtn;
     private ServerData data;
 
-    GuiAutoLoginFunction()
+    public GuiAutoLoginFunction()
     {
         this.data = Minecraft.getInstance().getCurrentServerData();
     }
