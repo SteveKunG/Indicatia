@@ -27,7 +27,7 @@ public class AutoLoginCommand
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
         dispatcher.register(Commands.literal("autologin").requires(requirement -> requirement.hasPermissionLevel(0))
-                .then(Commands.literal("add").then(Commands.argument("command", StringArgumentType.word()).then(Commands.argument("object", MessageArgument.message())).executes(requirement -> AutoLoginCommand.addLoginData(requirement.getSource(), StringArgumentType.getString(requirement, "command"), MessageArgument.getMessage(requirement, "object")))))
+                .then(Commands.literal("add").then(Commands.argument("command", StringArgumentType.word()).then(Commands.argument("object", MessageArgument.message()).executes(requirement -> AutoLoginCommand.addLoginData(requirement.getSource(), StringArgumentType.getString(requirement, "command"), MessageArgument.getMessage(requirement, "object"))))))
                 .then(Commands.literal("remove").executes(requirement -> AutoLoginCommand.removeLoginData(requirement.getSource())))
                 .then(Commands.literal("list").executes(requirement -> AutoLoginCommand.getLoginDataList(requirement.getSource())))
                 .then(Commands.literal("function").executes(requirement -> AutoLoginCommand.addAutoLoginFunction())));
@@ -38,6 +38,15 @@ public class AutoLoginCommand
         Minecraft mc = Minecraft.getInstance();
         ServerData data = mc.getCurrentServerData();
         UUID uuid = GameProfileUtils.getUUID();
+
+        if (mc.isSingleplayer())
+        {
+            throw new CommandException(LangUtils.translateComponent("message.auto_login_singleplayer").setStyle(JsonUtils.red()));
+        }
+        else if (mc.isConnectedToRealms())
+        {
+            throw new CommandException(LangUtils.translateComponent("message.auto_login_realms").setStyle(JsonUtils.red()));
+        }
 
         if (data != null)
         {
@@ -58,6 +67,15 @@ public class AutoLoginCommand
         Minecraft mc = Minecraft.getInstance();
         ServerData data = mc.getCurrentServerData();
         UUID uuid = GameProfileUtils.getUUID();
+
+        if (mc.isSingleplayer())
+        {
+            throw new CommandException(LangUtils.translateComponent("message.auto_login_singleplayer").setStyle(JsonUtils.red()));
+        }
+        else if (mc.isConnectedToRealms())
+        {
+            throw new CommandException(LangUtils.translateComponent("message.auto_login_realms").setStyle(JsonUtils.red()));
+        }
 
         if (data != null)
         {
@@ -80,7 +98,7 @@ public class AutoLoginCommand
 
         if (collection.isEmpty())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.autologin.list.empty"));
+            throw new CommandException(LangUtils.translateComponent("commands.autologin.list.empty").setStyle(JsonUtils.red()));
         }
         else
         {
@@ -94,7 +112,17 @@ public class AutoLoginCommand
 
     private static int addAutoLoginFunction()
     {
-        Minecraft.getInstance().addScheduledTask(() -> Minecraft.getInstance().displayGuiScreen(new GuiAutoLoginFunction()));
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.isSingleplayer())
+        {
+            throw new CommandException(LangUtils.translateComponent("message.auto_login_singleplayer").setStyle(JsonUtils.red()));
+        }
+        else if (mc.isConnectedToRealms())
+        {
+            throw new CommandException(LangUtils.translateComponent("message.auto_login_realms").setStyle(JsonUtils.red()));
+        }
+        mc.addScheduledTask(() -> mc.displayGuiScreen(new GuiAutoLoginFunction()));
         return 0;
     }
 }
