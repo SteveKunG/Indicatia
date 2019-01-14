@@ -1,12 +1,8 @@
 package stevekung.mods.indicatia.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
 import javax.annotation.Nullable;
@@ -22,18 +18,6 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
     GuiAutoLoginFunctionHelp(boolean inGui)
     {
         this.inGui = inGui;
-    }
-
-    public void display()
-    {
-        CommonUtils.registerEventHandler(this);
-    }
-
-    @SubscribeEvent
-    public void onClientTick(ClientTickEvent event)
-    {
-        Minecraft.getInstance().displayGuiScreen(this);
-        CommonUtils.unregisterEventHandler(this);
     }
 
     @Override

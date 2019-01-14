@@ -51,7 +51,7 @@ public class GuiExtendedConfig extends GuiScreen
             }
             else
             {
-                GuiConfigButton button = new GuiConfigButton(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160, options, ExtendedConfig.instance.getKeyBinding(options))
+                GuiConfigButton button = new GuiConfigButton(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160, ExtendedConfig.instance.getKeyBinding(options))
                 {
                     @Override
                     public void onClick(double mouseX, double mouseY)
@@ -102,7 +102,7 @@ public class GuiExtendedConfig extends GuiScreen
             }
         });
 
-        this.addButton(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW))
+        this.addButton(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW))
         {
             @Override
             public void onClick(double mouseX, double mouseY)

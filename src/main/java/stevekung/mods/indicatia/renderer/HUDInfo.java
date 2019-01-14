@@ -116,8 +116,7 @@ public class HUDInfo
     public static String getRealmName(Minecraft mc)
     {
         String text = "Realms Server";
-//        GuiScreen screen = mc.getConnection().guiScreenServer;TODO
-        GuiScreen screen = mc.currentScreen;
+        GuiScreen screen = mc.getConnection().guiScreenServer;
         GuiScreenRealmsProxy screenProxy = (GuiScreenRealmsProxy) screen;
         RealmsScreen realmsScreen = screenProxy.getProxy();
 
@@ -625,8 +624,8 @@ public class HUDInfo
         int length = ExtendedConfig.potionLengthYOffset;
         int lengthOverlap = ExtendedConfig.potionLengthYOffsetOverlap;
         Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
-        int xPotion = 0;
-        int yPotion = 0;
+        int xPotion;
+        int yPotion;
 
         if (potionPos.equalsIgnoreCase("hotbar_left"))
         {
@@ -703,30 +702,38 @@ public class HUDInfo
 
                 int stringwidth1 = ColorUtils.coloredFontRenderer.getStringWidth(s);
                 int stringwidth2 = ColorUtils.coloredFontRenderer.getStringWidth(s1);
+                int yOffset = iconAndTime ? 11 : 16;
 
                 if (potionPos.equalsIgnoreCase("hotbar_left"))
                 {
+                    int xOffset = showIcon ? 8 : 28;
+
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, xPotion + xOffset - stringwidth2, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, xPotion + xOffset - stringwidth1, yPotion + yOffset, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                 }
                 else if (potionPos.equalsIgnoreCase("hotbar_right"))
                 {
+                    int xOffset = showIcon ? 46 : 28;
+
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, xPotion + xOffset, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, xPotion + xOffset, yPotion + yOffset, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                 }
                 else
                 {
+                    int leftXOffset = showIcon ? 50 : 28;
+                    int rightXOffset = showIcon ? 8 : 28;
+
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
                 }
                 yPotion -= length;
             }

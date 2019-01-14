@@ -5,10 +5,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -21,22 +18,9 @@ public class GuiAutoLoginFunction extends GuiScreen
     private GuiButtonCustomizeTexture helpBtn;
     private ServerData data;
 
-    public GuiAutoLoginFunction()
+    GuiAutoLoginFunction()
     {
         this.data = Minecraft.getInstance().getCurrentServerData();
-    }
-
-    public void display()
-    {
-        this.data = Minecraft.getInstance().getCurrentServerData();
-        CommonUtils.registerEventHandler(this);
-    }
-
-    @SubscribeEvent
-    public void onClientTick(ClientTickEvent event)
-    {
-        Minecraft.getInstance().displayGuiScreen(this);
-        CommonUtils.unregisterEventHandler(this);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package stevekung.mods.indicatia.event;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -10,7 +9,7 @@ import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.entity.model.ModelSkeleton;
 import net.minecraft.client.renderer.entity.model.ModelZombie;
@@ -44,11 +43,11 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -56,7 +55,7 @@ import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.LayerAllArmor;
+import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -93,7 +92,7 @@ public class IndicatiaEventHandler
     public static int afkTicks;
 
     static boolean printAutoGG;
-    static int printAutoGGTicks;
+    private static int printAutoGGTicks;
 
     public static boolean autoFish;
     private static int autoFishTick;
@@ -270,74 +269,74 @@ public class IndicatiaEventHandler
         }
     }
 
-//    @SubscribeEvent
-//    public void onMouseClick(MouseEvent event)TODO
-//    {
-//        if (event.getButton() == 0 && event.isButtonstate())
-//        {
-//            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
-//        }
-//        if (event.getButton() == 1 && event.isButtonstate())
-//        {
-//            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
-//        }
-//    }
+    //    @SubscribeEvent
+    //    public void onMouseClick(MouseEvent event)TODO
+    //    {
+    //        if (event.getButton() == 0 && event.isButtonstate())
+    //        {
+    //            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
+    //        }
+    //        if (event.getButton() == 1 && event.isButtonstate())
+    //        {
+    //            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
+    //        }
+    //    }
 
     @SubscribeEvent
     public void onPreRenderLiving(RenderLivingEvent.Pre event)
     {
         RenderLivingBase renderer = event.getRenderer();
-//        List<LayerRenderer> layerLists = renderer.layerRenderers;
-//        EntityLivingBase entity = event.getEntity();
-//        RenderManager manager = this.mc.getRenderManager();
-//        IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
-//
-//        if (entity instanceof AbstractClientPlayer)
-//        {
-//            AbstractClientPlayer player = (AbstractClientPlayer) entity;
-//
-//            if (player.getSkinType().equals("default"))
-//            {
-//                RenderPlayer renderDefault = manager.getSkinMap().get("default");
-//                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
-//                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
-//                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
-//            }
-//            else
-//            {
-//                RenderPlayer renderSlim = manager.getSkinMap().get("slim");
-//                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
-//                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
-//                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
-//            }
-//        }
-//        else if (entity instanceof EntityZombieVillager)
-//        {
-//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager)), renderer, entity);
-//        }
-//        else if (entity instanceof EntityGiantZombie)
-//        {
-//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F)), renderer, entity);
-//        }
-//        else if (entity instanceof EntityZombie)
-//        {
-//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager)), renderer, entity);
-//        }
-//        else if (entity instanceof AbstractSkeleton)
-//        {
-//            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager)), renderer, entity);
-//        }
+        List<LayerRenderer> layerLists = renderer.layerRenderers;
+        EntityLivingBase entity = event.getEntity();
+        RenderManager manager = this.mc.getRenderManager();
+        IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
+
+        if (entity instanceof AbstractClientPlayer)
+        {
+            AbstractClientPlayer player = (AbstractClientPlayer) entity;
+
+            if (player.getSkinType().equals("default"))
+            {
+                RenderPlayer renderDefault = manager.getSkinMap().get("default");
+                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
+                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
+                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
+            }
+            else
+            {
+                RenderPlayer renderSlim = manager.getSkinMap().get("slim");
+                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
+                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
+                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
+            }
+        }
+        else if (entity instanceof EntityZombieVillager)
+        {
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager)), renderer, entity);
+        }
+        else if (entity instanceof EntityGiantZombie)
+        {
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F)), renderer, entity);
+        }
+        else if (entity instanceof EntityZombie)
+        {
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager)), renderer, entity);
+        }
+        else if (entity instanceof AbstractSkeleton)
+        {
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager)), renderer, entity);
+        }
     }
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event)
     {
-        if (IndicatiaEventHandler.initLayer)
+        if (event.getGui() != null && event.getGui().getClass().equals(GuiMainMenu.class) && IndicatiaEventHandler.initLayer)
         {
-//            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");TODO
-//            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-//            renderDefault.addLayer(new LayerCustomCape(renderDefault));
-//            renderSlim.addLayer(new LayerCustomCape(renderSlim));
+            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
+            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
+            renderDefault.addLayer(new LayerCustomCape(renderDefault));
+            renderSlim.addLayer(new LayerCustomCape(renderSlim));
             IndicatiaEventHandler.initLayer = false;
         }
         if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui && event.getGui() != null && event.getGui().getClass().equals(GuiMultiplayer.class))
@@ -346,17 +345,11 @@ public class IndicatiaEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onClientConnectedToServer(NetworkEvent.ClientCustomPayloadLoginEvent event)
-    {
-        //this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();TODO
-    }
-
-//    @SubscribeEvent TODO
-//    public void onDisconnectedFromServerEvent(NetworkEvent.ClientDisconnectionFromServerEvent event)
-//    {
-//        IndicatiaEventHandler.stopCommandTicks();
-//    }
+    //    @SubscribeEvent TODO
+    //    public void onDisconnectedFromServerEvent(NetworkEvent.ClientDisconnectionFromServerEvent event)
+    //    {
+    //        IndicatiaEventHandler.stopCommandTicks();
+    //    }
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event)
@@ -756,43 +749,35 @@ public class IndicatiaEventHandler
                 {
                     for (EnumHand hand : CachedEnum.handValues)
                     {
-                        boolean mainHand = mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod;
-                        boolean offHand = mc.player.getHeldItemOffhand().getItem() instanceof ItemFishingRod;
+                        ItemStack itemStack = mc.player.getHeldItem(hand);
+                        boolean fishingRod = mc.player.getHeldItem(hand).getItem() instanceof ItemFishingRod;
 
-                        if (mc.player.getHeldItemMainhand().getItem() instanceof ItemFishingRod)
+                        if (fishingRod)
                         {
-                            offHand = false;
-                        }
-
-                        if (mainHand || offHand)
-                        {
-                            ItemStack held = mc.player.getHeldItem(hand);
-
                             if (mc.objectMouseOver.type == RayTraceResult.Type.BLOCK)
                             {
                                 BlockPos pos = mc.objectMouseOver.getBlockPos();
 
-                                if (mc.world.getBlockState(pos).getMaterial() != Material.AIR)
+                                if (!mc.world.getBlockState(pos).isAir(mc.world, pos))
                                 {
-                                    int count = held.getCount();
+                                    int count = itemStack.getCount();
                                     EnumActionResult result = mc.playerController.processRightClickBlock(mc.player, mc.world, pos, mc.objectMouseOver.sideHit, mc.objectMouseOver.hitVec, hand);
 
                                     if (result == EnumActionResult.SUCCESS)
                                     {
                                         mc.player.swingArm(hand);
 
-                                        if (!held.isEmpty() && (held.getCount() != count || mc.playerController.isInCreativeMode()))
+                                        if (!itemStack.isEmpty() && (itemStack.getCount() != count || mc.playerController.isInCreativeMode()))
                                         {
                                             mc.entityRenderer.itemRenderer.resetEquippedProgress(hand);
                                         }
                                         return;
                                     }
+                                    if (result == EnumActionResult.FAIL)
+                                    {
+                                        return;
+                                    }
                                 }
-                            }
-                            if (!held.isEmpty() && mc.playerController.processRightClick(mc.player, mc.world, hand) == EnumActionResult.SUCCESS)
-                            {
-                                mc.entityRenderer.itemRenderer.resetEquippedProgress(hand);
-                                return;
                             }
                         }
                         else
@@ -800,6 +785,16 @@ public class IndicatiaEventHandler
                             IndicatiaEventHandler.autoFish = false;
                             IndicatiaEventHandler.autoFishTick = 0;
                             mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.must_hold_fishing_rod")));
+                            return;
+                        }
+
+                        if (itemStack.isEmpty() && (mc.objectMouseOver == null || mc.objectMouseOver.type == RayTraceResult.Type.MISS))
+                        {
+                            ForgeHooks.onEmptyClick(mc.player, hand);
+                        }
+                        if (!itemStack.isEmpty() && mc.playerController.processRightClick(mc.player, mc.world, hand) == EnumActionResult.SUCCESS)
+                        {
+                            mc.entityRenderer.itemRenderer.resetEquippedProgress(hand);
                             return;
                         }
                     }
@@ -811,60 +806,4 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.autoFishTick = 0;
         }
     }
-
-    /*public void rightClickMouse(Minecraft mc) TODO
-    {
-        if (!this.playerController.getIsHittingBlock()) {
-            this.rightClickDelayTimer = 4;
-            if (!this.player.isRowingBoat()) {
-                if (this.objectMouseOver == null) {
-                    LOGGER.warn("Null returned as 'hitResult', this shouldn't happen!");
-                }
-
-                for(EnumHand enumhand : EnumHand.values()) {
-                    ItemStack itemstack = this.player.getHeldItem(enumhand);
-                    if (this.objectMouseOver != null) {
-                        switch(this.objectMouseOver.type) {
-                        case ENTITY:
-                            if (this.playerController.interactWithEntity(this.player, this.objectMouseOver.entity, this.objectMouseOver, enumhand) == EnumActionResult.SUCCESS) {
-                                return;
-                            }
-
-                            if (this.playerController.interactWithEntity(this.player, this.objectMouseOver.entity, enumhand) == EnumActionResult.SUCCESS) {
-                                return;
-                            }
-                            break;
-                        case BLOCK:
-                            BlockPos blockpos = this.objectMouseOver.getBlockPos();
-                            if (!this.world.getBlockState(blockpos).isAir()) {
-                                int i = itemstack.getCount();
-                                EnumActionResult enumactionresult = this.playerController.processRightClickBlock(this.player, this.world, blockpos, this.objectMouseOver.sideHit, this.objectMouseOver.hitVec, enumhand);
-                                if (enumactionresult == EnumActionResult.SUCCESS) {
-                                    this.player.swingArm(enumhand);
-                                    if (!itemstack.isEmpty() && (itemstack.getCount() != i || this.playerController.isInCreativeMode())) {
-                                        this.entityRenderer.itemRenderer.resetEquippedProgress(enumhand);
-                                    }
-
-                                    return;
-                                }
-
-                                if (enumactionresult == EnumActionResult.FAIL) {
-                                    return;
-                                }
-                            }
-                        }
-                    }
-
-                    if (itemstack.isEmpty() && (this.objectMouseOver == null || this.objectMouseOver.type == RayTraceResult.Type.MISS))
-                        net.minecraftforge.common.ForgeHooks.onEmptyClick(this.player, enumhand);
-
-                    if (!itemstack.isEmpty() && this.playerController.processRightClick(this.player, this.world, enumhand) == EnumActionResult.SUCCESS) {
-                        this.entityRenderer.itemRenderer.resetEquippedProgress(enumhand);
-                        return;
-                    }
-                }
-
-            }
-        }
-    }*/
 }

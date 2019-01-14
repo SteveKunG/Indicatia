@@ -1,5 +1,6 @@
 package stevekung.mods.indicatia.gui.config;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -72,8 +73,9 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
 
         ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
         options = OPTIONS.toArray(options);
-        this.optionsRowList = new GuiConfigTextFieldRowList(this.parent, this.width, this.height, 32, this.height - 32, 25, options);
+        this.optionsRowList = new GuiConfigTextFieldRowList(this.width, this.height, 32, this.height - 32, 25, options);
         this.children.add(this.optionsRowList);
+        this.children.addAll(this.optionsRowList.getTextField());
     }
 
     @Nullable
@@ -92,14 +94,30 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
     @Override
     public void tick()
     {
-        this.optionsRowList.updateCursorCounter();
+        this.optionsRowList.tick();
+    }
+
+    @Override
+    public void onResize(Minecraft mc, int width, int height)
+    {
+        this.optionsRowList.onResize();
+        super.onResize(mc, width, height);
     }
 
     @Override
     public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
     {
         ExtendedConfig.save();
+        this.optionsRowList.saveCurrentValue();
+        this.optionsRowList.keyPressedText(keyCode, p_keyPressed_2_, p_keyPressed_3_);
         return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+    }
+
+    @Override
+    public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_)
+    {
+        this.optionsRowList.charTypedText(p_charTyped_1_, p_charTyped_2_);
+        return super.charTyped(p_charTyped_1_, p_charTyped_2_);
     }
 
     @Override
@@ -108,19 +126,17 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
         this.drawDefaultBackground();
         this.optionsRowList.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.keystroke_custom_color.title"), this.width / 2, 5, 16777215);
+        int index = this.optionsRowList.selected;
 
-        for (int i = 0; i < this.optionsRowList.getChildren().size(); ++i)
+        if (index != -1)
         {
-            if (this.optionsRowList.selected == i)
-            {
-                ExtendedConfig.Options options = this.optionsRowList.getChildren().get(i).getTextField().getOption();
-                RGB rgb = ColorUtils.stringToRGB(this.optionsRowList.getChildren().get(i).getTextField().getText());
-                this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
-            }
-            if (this.optionsRowList.selected == -1)
-            {
-                this.drawCenteredString(this.fontRenderer, "Color Format is '255,255,255'", this.width / 2, 15, 16777215);
-            }
+            ExtendedConfig.Options options = this.optionsRowList.getChildren().get(index).getTextField().getOption();
+            RGB rgb = ColorUtils.stringToRGB(this.optionsRowList.getChildren().get(index).getTextField().getText());
+            this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
+        }
+        else
+        {
+            this.drawCenteredString(this.fontRenderer, "Color Format is '255,255,255'", this.width / 2, 15, 16777215);
         }
         super.render(mouseX, mouseY, partialTicks);
     }

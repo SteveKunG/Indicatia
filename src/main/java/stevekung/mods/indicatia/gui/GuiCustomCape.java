@@ -11,13 +11,14 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
+import stevekung.mods.indicatia.utils.ThreadDownloadedCustomCape;
+import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class GuiCustomCape extends GuiScreen
 {
     private GuiTextField inputField;
     private GuiButton doneBtn;
-    private GuiButton cancelBtn;
     private GuiButton resetBtn;
     private GuiButton capeBtn;
     private int capeOption;
@@ -36,16 +37,24 @@ public class GuiCustomCape extends GuiScreen
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
-
+                if (!GuiCustomCape.this.inputField.getText().isEmpty())
+                {
+                    ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(GuiCustomCape.this.inputField.getText());
+                    thread.start();
+                    GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + GuiCustomCape.this.inputField.getText()));
+                }
+                GuiCustomCape.this.mc.displayGuiScreen(null);
             }
         });
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
-        this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"))
+        this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
-
+                GuiCustomCape.this.capeOption = GuiCustomCape.this.prevCapeOption;
+                GuiCustomCape.this.saveCapeOption();
+                GuiCustomCape.this.mc.displayGuiScreen(null);
             }
         });
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("message.reset_cape"))
@@ -53,7 +62,10 @@ public class GuiCustomCape extends GuiScreen
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
-
+                CapeUtils.CAPE_TEXTURE = null;
+                GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_current_cape")));
+                CapeUtils.texture.delete();
+                GuiCustomCape.this.mc.displayGuiScreen(null);
             }
         });
         this.resetBtn.enabled = CapeUtils.texture.exists();
@@ -76,9 +88,13 @@ public class GuiCustomCape extends GuiScreen
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
-
+                int i = 0;
+                i++;
+                GuiCustomCape.this.capeOption = (GuiCustomCape.this.capeOption + i) % 3;
+                GuiCustomCape.this.saveCapeOption();
             }
         });
+        this.children.add(this.inputField);
         this.setTextForCapeOption();
     }
 
@@ -96,62 +112,6 @@ public class GuiCustomCape extends GuiScreen
     {
         this.mc.keyboardListener.enableRepeatEvents(false);
     }
-
-//    @Override
-//    protected void actionPerformed(GuiButton button) throws IOException
-//    {
-//        if (button.enabled)TODO
-//        {
-//            if (button.id == 0)
-//            {
-//                if (!this.inputField.getText().isEmpty())
-//                {
-//                    ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(this.inputField.getText());
-//                    thread.start();
-//                    this.mc.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + this.inputField.getText()));
-//                }
-//                this.mc.displayGuiScreen(null);
-//            }
-//            if (button.id == 1)
-//            {
-//                this.capeOption = this.prevCapeOption;
-//                this.saveCapeOption();
-//                this.mc.displayGuiScreen(null);
-//            }
-//            if (button.id == 2)
-//            {
-//                CapeUtils.CAPE_TEXTURE = null;
-//                this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_current_cape")));
-//                CapeUtils.texture.delete();
-//                this.mc.displayGuiScreen(null);
-//            }
-//            if (button.id == 3)
-//            {
-//                int i = 0;
-//                i++;
-//                this.capeOption = (this.capeOption + i) % 3;
-//                this.saveCapeOption();
-//            }
-//        }
-//    }
-//
-//    @Override
-//    protected void keyTyped(char typedChar, int keyCode) throws IOException
-//    {
-//        this.inputField.textboxKeyTyped(typedChar, keyCode);
-//
-//        if (keyCode != 28 && keyCode != 156)
-//        {
-//            if (keyCode == 1)
-//            {
-//                this.actionPerformed(this.cancelBtn);
-//            }
-//        }
-//        else
-//        {
-//            this.actionPerformed(this.doneBtn);
-//        }
-//    }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)

@@ -90,7 +90,7 @@ public class InfoUtils
     public String getMoonPhase(Minecraft mc)
     {
         int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
-        int phase = moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getGameTime())];
+        int phase = moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getDayTime())];
         String status;
 
         switch (phase)
@@ -215,4 +215,83 @@ public class InfoUtils
             }
         }
     }
+
+    /*public void getMouseOver(float partialTicks) { TODO
+        Entity entity = this.mc.getRenderViewEntity();
+        if (entity != null) {
+            if (this.mc.world != null) {
+                this.mc.profiler.startSection("pick");
+                this.mc.pointedEntity = null;
+                double d0 = (double)this.mc.playerController.getBlockReachDistance();
+                this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks, RayTraceFluidMode.NEVER);
+                Vec3d vec3d = entity.getEyePosition(partialTicks);
+                boolean flag = false;
+                int i = 3;
+                double d1 = d0;
+                if (this.mc.playerController.extendedReach()) {
+                    d1 = 6.0D;
+                    d0 = d1;
+                } else {
+                    if (d0 > 3.0D) {
+                        flag = true;
+                    }
+
+                    d0 = d0;
+                }
+
+                if (this.mc.objectMouseOver != null) {
+                    d1 = this.mc.objectMouseOver.hitVec.distanceTo(vec3d);
+                }
+
+                Vec3d vec3d1 = entity.getLook(1.0F);
+                Vec3d vec3d2 = vec3d.add(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
+                this.pointedEntity = null;
+                Vec3d vec3d3 = null;
+                float f = 1.0F;
+                List<Entity> list = this.mc.world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().expand(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0).grow(1.0D, 1.0D, 1.0D), EntitySelectors.NOT_SPECTATING.and(Entity::canBeCollidedWith));
+                double d2 = d1;
+
+                for(int j = 0; j < list.size(); ++j) {
+                    Entity entity1 = list.get(j);
+                    AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow((double)entity1.getCollisionBorderSize());
+                    RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
+                    if (axisalignedbb.contains(vec3d)) {
+                        if (d2 >= 0.0D) {
+                            this.pointedEntity = entity1;
+                            vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
+                            d2 = 0.0D;
+                        }
+                    } else if (raytraceresult != null) {
+                        double d3 = vec3d.distanceTo(raytraceresult.hitVec);
+                        if (d3 < d2 || d2 == 0.0D) {
+                            if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity() && !entity1.canRiderInteract()) {
+                                if (d2 == 0.0D) {
+                                    this.pointedEntity = entity1;
+                                    vec3d3 = raytraceresult.hitVec;
+                                }
+                            } else {
+                                this.pointedEntity = entity1;
+                                vec3d3 = raytraceresult.hitVec;
+                                d2 = d3;
+                            }
+                        }
+                    }
+                }
+
+                if (this.pointedEntity != null && flag && vec3d.distanceTo(vec3d3) > 3.0D) {
+                    this.pointedEntity = null;
+                    this.mc.objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, (EnumFacing)null, new BlockPos(vec3d3));
+                }
+
+                if (this.pointedEntity != null && (d2 < d1 || this.mc.objectMouseOver == null)) {
+                    this.mc.objectMouseOver = new RayTraceResult(this.pointedEntity, vec3d3);
+                    if (this.pointedEntity instanceof EntityLivingBase || this.pointedEntity instanceof EntityItemFrame) {
+                        this.mc.pointedEntity = this.pointedEntity;
+                    }
+                }
+
+                this.mc.profiler.endSection();
+            }
+        }
+    }*/
 }

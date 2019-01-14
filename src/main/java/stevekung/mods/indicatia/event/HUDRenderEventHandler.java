@@ -2,6 +2,7 @@ package stevekung.mods.indicatia.event;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
@@ -45,7 +46,7 @@ public class HUDRenderEventHandler
     private Minecraft mc;
     private final GuiBossOverlayNew overlayBoss;
     private GuiPlayerTabOverlayNew overlayPlayerList;
-    public static boolean recordEnable;
+    static boolean recordEnable;
     private int recTick;
     private static int readFileTicks;
     public static String topDonator = "";
@@ -408,15 +409,15 @@ public class HUDRenderEventHandler
                 event.setCanceled(true);
             }
         }
-//        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)TODO
-//        {
-//            event.setCanceled(true);
-//            this.mc.getTextureManager().bindTexture(Gui.ICONS);
-//            GlStateManager.blendFuncSeparate(770, 771, 1, 0);
-//            GlStateManager.enableBlend();
-//            this.overlayBoss.renderBossHealth();
-//            GlStateManager.disableBlend();
-//        }
+        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
+        {
+            event.setCanceled(true);
+            this.mc.getTextureManager().bindTexture(Gui.ICONS);
+            GlStateManager.blendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.enableBlend();
+            this.overlayBoss.renderBossHealth();
+            GlStateManager.disableBlend();
+        }
     }
 
     @SubscribeEvent

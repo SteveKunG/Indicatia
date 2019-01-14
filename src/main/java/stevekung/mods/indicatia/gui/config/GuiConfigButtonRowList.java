@@ -39,7 +39,7 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
         {
             int i = options.getOrdinal();
 
-            GuiConfigButton button1 = new GuiConfigButton(i, x, 0, 160, options, ExtendedConfig.instance.getKeyBinding(options), options.getComment())
+            GuiConfigButton button1 = new GuiConfigButton(i, x, 0, 160, ExtendedConfig.instance.getKeyBinding(options), options.getComment())
             {
                 @Override
                 public void onClick(double mouseX, double mouseY)
@@ -62,7 +62,7 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
                     return super.mouseClicked(mouseX, mouseY, mouseEvent);
                 }
             };
-            GuiConfigButton button2 = new GuiConfigButton(i, x, 0, 160, options, ExtendedConfig.instance.getKeyBinding(options))
+            GuiConfigButton button2 = new GuiConfigButton(i, x, 0, 160, ExtendedConfig.instance.getKeyBinding(options))
             {
                 @Override
                 public void onClick(double mouseX, double mouseY)

@@ -47,7 +47,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
     {
-        ArrayList<File> files = new ArrayList<>(Arrays.asList(Objects.requireNonNull(ExtendedConfig.userDir.listFiles())));
+        ArrayList<File> files = new ArrayList<>(Arrays.asList(ExtendedConfig.userDir.listFiles()));
         List<String> resList = files.stream().filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
         return ProfileNameArgumentType.suggestIterable(resList, builder);
     }
@@ -61,7 +61,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
 
         if (ExtendedConfig.userDir.exists())
         {
-            for (File file : Objects.requireNonNull(ExtendedConfig.userDir.listFiles()))
+            for (File file : ExtendedConfig.userDir.listFiles())
             {
                 String name = file.getName();
 
@@ -132,7 +132,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         {
             return string;
         }
-        catch (ResourceLocationException var4)
+        catch (ResourceLocationException e)
         {
             reader.setCursor(cursor);
             throw ProfileNameArgumentType.INVALID_ARGS.createWithContext(reader);

@@ -16,7 +16,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 
 public class ProfileCommand
 {
@@ -39,7 +38,7 @@ public class ProfileCommand
             throw new CommandException(LangUtils.translateComponent("message.create_profile_default").setStyle(JsonUtils.red()));
         }
 
-        for (File file : Objects.requireNonNull(ExtendedConfig.userDir.listFiles()))
+        for (File file : ExtendedConfig.userDir.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -61,7 +60,7 @@ public class ProfileCommand
 
     private static int loadProfile(CommandSource source, String name)
     {
-        for (File file : Objects.requireNonNull(ExtendedConfig.userDir.listFiles()))
+        for (File file : ExtendedConfig.userDir.listFiles())
         {
             if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
             {
@@ -81,7 +80,7 @@ public class ProfileCommand
     {
         boolean exist = false;
 
-        for (File file : Objects.requireNonNull(ExtendedConfig.userDir.listFiles()))
+        for (File file : ExtendedConfig.userDir.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -110,7 +109,7 @@ public class ProfileCommand
 
         boolean exist = false;
 
-        for (File file : Objects.requireNonNull(ExtendedConfig.userDir.listFiles()))
+        for (File file : ExtendedConfig.userDir.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -135,7 +134,7 @@ public class ProfileCommand
 
     private static int getProfileList(CommandSource source)
     {
-        Collection<File> collection = new ArrayList<>(Arrays.asList(Objects.requireNonNull(ExtendedConfig.userDir.listFiles())));
+        Collection<File> collection = new ArrayList<>(Arrays.asList(ExtendedConfig.userDir.listFiles()));
 
         if (collection.isEmpty())
         {

@@ -3,24 +3,25 @@ package stevekung.mods.indicatia.gui.config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.ColorUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFieldRowList.Row>
 {
-    private final GuiScreen parent;
+    private final List<IGuiEventListener> textFields = new ArrayList<>();
     int selected = -1;
 
-    GuiConfigTextFieldRowList(GuiScreen parent, int width, int height, int top, int bottom, int slotHeight, ExtendedConfig.Options[] options)
+    GuiConfigTextFieldRowList(int width, int height, int top, int bottom, int slotHeight, ExtendedConfig.Options[] options)
     {
-        super(parent.mc, width, height, top, bottom, slotHeight);
-        this.parent = parent;
+        super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
         this.centerListVertically = false;
 
         Arrays.stream(options).forEach(option ->
@@ -40,8 +41,9 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
         else
         {
             int i = options.getOrdinal();
+            GuiTextFieldExtended textField = new GuiTextFieldExtended(i, x, 0, 80, options);
 
-            GuiConfigButton button = new GuiConfigButton(i, x, 0, 160, options, ExtendedConfig.instance.getKeyBinding(options))
+            GuiConfigButton button = new GuiConfigButton(i, x, 0, 160, ExtendedConfig.instance.getKeyBinding(options))
             {
                 @Override
                 public void onClick(double mouseX, double mouseY)
@@ -52,20 +54,13 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
                 }
             };
 
-            return options.isBoolean() ? button : new GuiTextFieldExtended(i, x, 0, 80, options);
+            if (!options.isBoolean())
+            {
+                this.textFields.add(textField);
+            }
+            return options.isBoolean() ? button : textField;
         }
     }
-
-    //    @Override TODO
-    //    protected void elementClicked(int slotIndex, int mouseX, int mouseY)
-    //    {
-    //        boolean flag = this.options.get(slotIndex).getTextField() != null && mouseX >= this.options.get(slotIndex).getTextField().x && mouseX < this.options.get(slotIndex).getTextField().x + this.options.get(slotIndex).getTextField().width && mouseY >= this.options.get(slotIndex).getTextField().y && mouseY < this.options.get(slotIndex).getTextField().y + this.options.get(slotIndex).getTextField().height;
-    //
-    //        if (flag)
-    //        {
-    //            this.selected = slotIndex;
-    //        }
-    //    }
 
     @Override
     public int getListWidth()
@@ -79,34 +74,46 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
         return super.getScrollBarX() + 40;
     }
 
-    public void saveCurrentValue()
+    @Override
+    protected boolean mouseClicked(int index, int button, double mouseX, double mouseY)
     {
-        this.getChildren().forEach(row -> row.saveCurrentValue());
+        boolean flag = this.getChildren().get(index).getTextField() != null && mouseX >= this.getChildren().get(index).getTextField().x && mouseX < this.getChildren().get(index).getTextField().x + this.getChildren().get(index).getTextField().width && mouseY >= this.getChildren().get(index).getTextField().y && mouseY < this.getChildren().get(index).getTextField().y + this.getChildren().get(index).getTextField().height;
+        this.selected = flag ? index : -1;
+        return super.mouseClicked(index, button, mouseX, mouseY);
     }
 
-    public void mouseClickedText(int mouseX, int mouseY, int mouseEvent)
+    List<IGuiEventListener> getTextField()
     {
-        this.getChildren().forEach(row -> row.mouseClicked(mouseX, mouseY, mouseEvent));
+        return this.textFields;
     }
 
-    public void updateCursorCounter()
+    void saveCurrentValue()
     {
-        this.getChildren().forEach(row -> row.updateCursorCounter());
+        this.getChildren().forEach(Row::saveCurrentValue);
     }
 
-    //    public void textboxKeyTyped(char typedChar, int keyCode)TODO
-    //    {
-    //        if (keyCode == 28)
-    //        {
-    //            this.saveCurrentValue();
-    //            ExtendedConfig.save();
-    //            this.mc.displayGuiScreen(this.parent);
-    //        }
-    //        this.options.forEach(row -> row.textboxKeyTyped(typedChar, keyCode));
-    //    }
+    void tick()
+    {
+        this.getChildren().forEach(Row::tick);
+    }
+
+    void onResize()
+    {
+        this.getChildren().forEach(Row::onResize);
+    }
+
+    void keyPressedText(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+    {
+        this.getChildren().forEach(row -> row.keyPressedText(keyCode, p_keyPressed_2_, p_keyPressed_3_));
+    }
+
+    void charTypedText(char p_charTyped_1_, int p_charTyped_2_)
+    {
+        this.getChildren().forEach(row -> row.charTypedText(p_charTyped_1_, p_charTyped_2_));
+    }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Row extends GuiListExtended.IGuiListEntry<Row>
+    public class Row extends GuiListExtended.IGuiListEntry<Row>
     {
         private final Minecraft mc = Minecraft.getInstance();
         private final Gui gui;
@@ -148,7 +155,7 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int mouseEvent)
         {
-            return this.gui != null && this.gui instanceof GuiConfigButton && ((GuiConfigButton)this.gui).mouseClicked(mouseX, mouseY, mouseEvent);
+            return this.gui != null && this.gui instanceof GuiConfigButton && ((GuiConfigButton)this.gui).mouseClicked(mouseX, mouseY, mouseEvent) || this.getTextField() != null && this.getTextField().mouseClicked(mouseX, mouseY, mouseEvent);
         }
 
         @Override
@@ -160,50 +167,60 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
         @Override
         public void func_195000_a(float partialTicks) {} //TODO updatePosition
 
-        public void saveCurrentValue()
-        {
-            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
-            {
-                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
-                ExtendedConfig.instance.setOptionStringValue(text.getOption(), text.getText());
-                ColorUtils.stringToRGB(text.getText(), true, text.getOption().getTranslation());
-            }
-        }
-
-        public void mouseClicked(int mouseX, int mouseY, int mouseEvent)
-        {
-            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
-            {
-                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
-                text.mouseClicked(mouseX, mouseY, mouseEvent);
-            }
-        }
-
-        public void updateCursorCounter()
-        {
-            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
-            {
-                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
-                text.tick();
-            }
-        }
-
-        //        public void textboxKeyTyped(char typedChar, int keyCode)TODO
-        //        {
-        //            if (this.gui != null && this.gui instanceof GuiTextFieldExtended)
-        //            {
-        //                GuiTextFieldExtended text = (GuiTextFieldExtended)this.gui;
-        //                text.textboxKeyTyped(typedChar, keyCode);
-        //            }
-        //        }
-
-        public GuiTextFieldExtended getTextField()
+        GuiTextFieldExtended getTextField()
         {
             if (this.gui instanceof GuiTextFieldExtended)
             {
                 return (GuiTextFieldExtended) this.gui;
             }
             return null;
+        }
+
+        void saveCurrentValue()
+        {
+            if (this.getTextField() != null)
+            {
+                GuiTextFieldExtended text = this.getTextField();
+                ExtendedConfig.instance.setOptionStringValue(text.getOption(), text.getText());
+                ColorUtils.stringToRGB(text.getText(), false, text.getOption().getTranslation());
+            }
+        }
+
+        void tick()
+        {
+            if (this.getTextField() != null)
+            {
+                GuiTextFieldExtended text = this.getTextField();
+                text.tick();
+            }
+        }
+
+        void onResize()
+        {
+            if (this.getTextField() != null)
+            {
+                GuiTextFieldExtended text = this.getTextField();
+                String textTemp = text.getText();
+                text.setText(textTemp);
+            }
+        }
+
+        void keyPressedText(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+        {
+            if (this.getTextField() != null)
+            {
+                GuiTextFieldExtended text = this.getTextField();
+                text.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+            }
+        }
+
+        void charTypedText(char p_charTyped_1_, int p_charTyped_2_)
+        {
+            if (this.getTextField() != null)
+            {
+                GuiTextFieldExtended text = this.getTextField();
+                text.charTyped(p_charTyped_1_, p_charTyped_2_);
+            }
         }
     }
 }

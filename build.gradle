@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Copy
+
 buildscript {
     repositories {
         maven { url = "https://files.minecraftforge.net/maven" }
@@ -19,7 +21,6 @@ def mcVersion = project.mc_version
 def hasInternal = project.hasProperty("internal")
 
 apply plugin: "net.minecraftforge.gradle"
-apply plugin: "eclipse"
 
 sourceSets.main {
     java {
@@ -38,6 +39,8 @@ compileJava.options.encoding = "UTF-8"
 
 minecraft {
     mappings channel: "snapshot", version: "20180921-1.13"
+    accessTransformer = file "src/main/resources/META-INF/accesstransformer.cfg"
+    accessTransformer = file "dependencies/main/resources/META-INF/accesstransformer.cfg"
 
     runs {
         client = {
@@ -58,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge.test:forge:1.13-24.0.64-1.13-pre"
+    minecraft "net.minecraftforge.test:forge:1.13-24.0.68-1.13-pre"
 }
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
@@ -95,7 +98,7 @@ curseforge {
 }
 
 // processing jar
-task processJar(type: Jar, dependsOn: "rePackAllJar") {
+/*task processJar(type: Jar, dependsOn: "rePackAllJar") {
     outputs.upToDateWhen { false }
 
     if (hasInternal)
@@ -109,10 +112,6 @@ task processJar(type: Jar, dependsOn: "rePackAllJar") {
 
     from(zipTree(project.ext.coreJar)) {
         includes.addAll(project.ext.coreFiles)
-    }
-    manifest {
-        attributes.put("FMLAT", "indicatia_at.cfg")
-        attributes.put("FMLCorePluginContainsFMLMod", "true")
     }
 }
 
@@ -133,10 +132,6 @@ task buildDeobfJar(type: Jar) {
     from sourceSets.main.output
     excludes.addAll(project.ext.apiFiles)
     classifier = "deobf"
-    manifest {
-        attributes.put("FMLAT", "indicatia_at.cfg")
-        attributes.put("FMLCorePluginContainsFMLMod", "true")
-    }
 }
 
-build.dependsOn(processJar)
+build.dependsOn(processJar)*/

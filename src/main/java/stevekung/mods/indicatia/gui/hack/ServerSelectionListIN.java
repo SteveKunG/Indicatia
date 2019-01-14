@@ -26,5 +26,6 @@ public class ServerSelectionListIN extends ServerSelectionList
         {
             this.serverListInternet.add(new ServerListEntryNormalIN(this.owner, list.getServerData(i)));
         }
+        this.func_195094_h();
     }
 }

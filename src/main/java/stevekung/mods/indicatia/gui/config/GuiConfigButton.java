@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 public abstract class GuiConfigButton extends GuiButton
 {
     private static final List<String> SMALL_TEXT = new ArrayList<>();
-    private final ExtendedConfig.Options options;
     private String comment;
 
     static
@@ -29,25 +27,15 @@ public abstract class GuiConfigButton extends GuiButton
         SMALL_TEXT.add("indicatia.hotbar_right");
     }
 
-    GuiConfigButton(int id, int x, int y, int width, ExtendedConfig.Options options, String text)
+    GuiConfigButton(int id, int x, int y, int width, String text)
     {
         super(id, x, y, width, 20, text);
-        this.options = options;
     }
 
-    GuiConfigButton(int id, int x, int y, int width, ExtendedConfig.Options options, String text, String comment)
+    GuiConfigButton(int id, int x, int y, int width, String text, String comment)
     {
         super(id, x, y, width, 20, text);
-        this.options = options;
         this.comment = comment;
-    }
-
-    @Override
-    public void onClick(double mouseX, double mouseZ)
-    {
-        ExtendedConfig.save();
-        ExtendedConfig.instance.setOptionValue(this.options, 1);
-        this.displayString = ExtendedConfig.instance.getKeyBinding(this.id == 150 ? ExtendedConfig.Options.PREVIEW : ExtendedConfig.Options.byOrdinal(this.id));
     }
 
     @Override
@@ -88,21 +76,17 @@ public abstract class GuiConfigButton extends GuiButton
 
             if (smallText)
             {
-                //                mc.fontRenderer.setUnicodeFlag(true);TODO
+                //TODO
+                //mc.getFontResourceManager().forceUnicodeFont = true;
             }
 
             this.drawCenteredString(mc.fontRenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
 
             if (smallText)
             {
-                //                mc.fontRenderer.setUnicodeFlag(mc.getLanguageManager().isCurrentLocaleUnicode() || mc.gameSettings.forceUnicodeFont);
+                //mc.getFontResourceManager().forceUnicodeFont = false;
             }
         }
-    }
-
-    public ExtendedConfig.Options getOption()
-    {
-        return this.options;
     }
 
     String getComment()

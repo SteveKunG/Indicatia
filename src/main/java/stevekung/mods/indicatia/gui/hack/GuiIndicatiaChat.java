@@ -123,7 +123,8 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
         }
     }
 
-    @Override public void actionPerformed(GuiButton button)//TODO
+    @Override
+    public void actionPerformed(GuiButton button)//TODO
     {
 
     }

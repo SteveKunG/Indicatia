@@ -28,7 +28,6 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
     private Minecraft mc;
     private static String murderAssassinsNick = "";
 
-    //TODO 1.13 player overlay fix?
     public GuiPlayerTabOverlayNew()
     {
         super(Minecraft.getInstance(), Minecraft.getInstance().ingameGUI);

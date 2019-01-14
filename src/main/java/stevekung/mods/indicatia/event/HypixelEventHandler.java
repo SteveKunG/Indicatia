@@ -16,7 +16,6 @@ import stevekung.mods.stevekunglib.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,8 +108,8 @@ public class HypixelEventHandler
 
                 message.forEach(text ->
                 {
-                    String messageToLower = Objects.requireNonNull(TextFormatting.getTextWithoutFormattingCodes(text)).toLowerCase();
-                    String displayTitleMessage = Objects.requireNonNull(TextFormatting.getTextWithoutFormattingCodes(unformattedText)).toLowerCase();
+                    String messageToLower = TextFormatting.getTextWithoutFormattingCodes(text).toLowerCase();
+                    String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(unformattedText).toLowerCase();
 
                     if (displayTitleMessage.contains(messageToLower) && !ConfigManagerIN.indicatia_general.autoGGMessage.isEmpty() && !IndicatiaEventHandler.printAutoGG)
                     {

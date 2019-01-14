@@ -4,6 +4,7 @@ import net.minecraftforge.common.config.Config;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @Config(modid = IndicatiaMod.MOD_ID)
+//TODO Rewrite config
 public class ConfigManagerIN
 {
     @Config.LangKey(value = "indicatia_general")
