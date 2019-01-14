@@ -131,7 +131,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (ConfigManagerIN.indicatia_general.enableRenderInfo && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof GuiRenderPreview))
+            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableRenderInfo", true) && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof GuiRenderPreview))
             {
                 List<String> leftInfo = new LinkedList<>();
                 List<String> rightInfo = new LinkedList<>();
@@ -195,7 +195,7 @@ public class HUDRenderEventHandler
                         leftInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (ConfigManagerIN.indicatia_donation.donatorMessagePosition == ConfigManagerIN.Donation.DonatorMessagePos.LEFT)
+                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("donatorMessagePosition", IndicatiaConfig.DonatorMessagePos.RIGHT) == IndicatiaConfig.DonatorMessagePos.LEFT)
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
@@ -213,29 +213,29 @@ public class HUDRenderEventHandler
                 {
                     int dimension = 0;
                     double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
-//                    double overworldTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;TODO
+                    //                    double overworldTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;TODO
                     double tps = Math.min(1000.0D / overallTPS, 20);
 
                     leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
 
                     if (ExtendedConfig.tpsAllDims)
                     {
-//                        for (Integer dimensionIds : DimensionManager.getIDs())
-//                        {
-//                            long[] values = server.worldTickTimes.get(dimensionIds);
-//
-//                            if (values == null)
-//                            {
-//                                LoggerIN.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
-//                                return;
-//                            }
-//                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-//                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).dimension.getDimension().getType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
-//                        }
+                        //                        for (Integer dimensionIds : DimensionManager.getIDs())
+                        //                        {
+                        //                            long[] values = server.worldTickTimes.get(dimensionIds);
+                        //
+                        //                            if (values == null)
+                        //                            {
+                        //                                LoggerIN.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
+                        //                                return;
+                        //                            }
+                        //                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
+                        //                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).dimension.getDimension().getType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                        //                        }
                     }
                     else
                     {
-//                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
+                        //                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
                     }
                     leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
                 }
@@ -268,7 +268,7 @@ public class HUDRenderEventHandler
                         rightInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (ConfigManagerIN.indicatia_donation.donatorMessagePosition == ConfigManagerIN.Donation.DonatorMessagePos.RIGHT)
+                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("donatorMessagePosition", IndicatiaConfig.DonatorMessagePos.RIGHT) == IndicatiaConfig.DonatorMessagePos.RIGHT)
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
@@ -360,7 +360,7 @@ public class HUDRenderEventHandler
                         KeystrokeRenderer.render(this.mc);
                     }
                 }
-                if (ConfigManagerIN.indicatia_general.enableRenderInfo && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
+                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableRenderInfo", true) && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
                 {
                     String rcps = ExtendedConfig.rcps ? " " + HUDInfo.getRCPS() : "";
                     RenderUtilsIN.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, (float)ExtendedConfig.cpsOpacity / 100.0F);
@@ -391,7 +391,7 @@ public class HUDRenderEventHandler
                 event.setCanceled(true);
                 return;
             }
-            if (ConfigManagerIN.indicatia_general.enableFixChatDepthRender)
+            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableFixChatDepthRender", true))
             {
                 event.setCanceled(true);
                 GlStateManager.pushMatrix();
@@ -404,7 +404,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!ConfigManagerIN.indicatia_general.enableVanillaPotionHUD || this.mc.currentScreen instanceof GuiRenderPreview)
+            if (!IndicatiaMod.INSTANCE.getConfig().getOrElse("enableVanillaPotionHUD", true) || this.mc.currentScreen instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
             }
@@ -454,7 +454,7 @@ public class HUDRenderEventHandler
         File file = new File("/" + ExtendedConfig.topDonatorFilePath);
         String text = "";
 
-        if (HUDRenderEventHandler.readFileTicks % ConfigManagerIN.indicatia_donation.readFileInterval == 0)
+        if (HUDRenderEventHandler.readFileTicks % IndicatiaMod.INSTANCE.getConfig().getOrElse("readFileInterval", 200) == 0)
         {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)))
             {
@@ -486,7 +486,7 @@ public class HUDRenderEventHandler
         File file = new File("/" + ExtendedConfig.recentDonatorFilePath);
         String text = "";
 
-        if (HUDRenderEventHandler.readFileTicks % ConfigManagerIN.indicatia_donation.readFileInterval == 0)
+        if (HUDRenderEventHandler.readFileTicks % IndicatiaMod.INSTANCE.getConfig().getOrElse("readFileInterval", 200) == 0)
         {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)))
             {

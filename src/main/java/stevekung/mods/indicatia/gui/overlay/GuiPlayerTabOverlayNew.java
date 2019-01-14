@@ -14,8 +14,8 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
-import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -43,7 +43,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
         for (NetworkPlayerInfo info : list)
         {
-            int pingWidth = ConfigManagerIN.indicatia_general.enableCustomPlayerList ? this.mc.fontRenderer.getStringWidth(String.valueOf(info.getResponseTime())) : 0;
+            int pingWidth = IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomPlayerList", false) ? this.mc.fontRenderer.getStringWidth(String.valueOf(info.getResponseTime())) : 0;
             int stringWidth = this.mc.fontRenderer.getStringWidth(this.getDisplayName(info).getFormattedText() + pingWidth);
             listWidth = Math.max(listWidth, stringWidth);
 
@@ -223,7 +223,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             ping = IndicatiaEventHandler.currentServerPing;
         }
 
-        if (ConfigManagerIN.indicatia_general.enableCustomPlayerList)
+        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomPlayerList", false))
         {
             TextFormatting color = TextFormatting.GREEN;
 

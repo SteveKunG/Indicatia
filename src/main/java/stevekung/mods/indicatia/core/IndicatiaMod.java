@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -15,11 +14,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
 import org.apache.commons.io.IOUtils;
 import stevekung.mods.indicatia.command.*;
-import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.*;
 import stevekung.mods.indicatia.gui.hack.GuiIndicatiaChat;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
@@ -28,6 +26,7 @@ import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
 import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
+import stevekung.mods.stevekunglib.config.ConfigManagerBase;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -44,7 +43,7 @@ import java.util.List;
 public class IndicatiaMod
 {
     private static final String NAME = "Indicatia";
-    public static final String MOD_ID = "indicatia";
+    static final String MOD_ID = "indicatia";
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     private static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
@@ -53,6 +52,7 @@ public class IndicatiaMod
     public static boolean isYoutubeChatLoaded;
     public static boolean isOptiFineLoaded;
     private static final List<String> allowedUUID = new ArrayList<>();
+    public static ConfigManagerBase INSTANCE;
 
     static
     {
@@ -71,14 +71,16 @@ public class IndicatiaMod
 
     public IndicatiaMod()
     {
-        FMLModLoadingContext.get().getModEventBus().addListener(this::preInit);
-        FMLModLoadingContext.get().getModEventBus().addListener(this::init);
-        FMLModLoadingContext.get().getModEventBus().addListener(this::postInit);
-        MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
+        CommonUtils.addModListener(this::preInit);
+        CommonUtils.addModListener(this::init);
+        CommonUtils.addModListener(this::postInit);
+        CommonUtils.addListener(this::serverStarting);
 
         IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
         IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
         IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
+        IndicatiaMod.INSTANCE =  new ConfigManagerBase(IndicatiaMod.MOD_ID, IndicatiaConfig.BUILDER);
+        IndicatiaMod.INSTANCE.load();
     }
 
     private void preInit(FMLPreInitializationEvent event)
@@ -99,7 +101,7 @@ public class IndicatiaMod
             }
             catch (Exception e) {}
         }
-        if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
+        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableOldFishingRodRender", false))
         {
             //ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));TODO
             LoggerIN.info("Successfully replacing vanilla Fishing Rod item model");
@@ -107,7 +109,7 @@ public class IndicatiaMod
 
         IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
 
-        if (ConfigManagerIN.indicatia_general.enableVersionChecker)
+        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableVersionChecker", true))
         {
             IndicatiaMod.CHECKER.startCheck();
         }
@@ -118,7 +120,7 @@ public class IndicatiaMod
         IndicatiaMod.loadProfileOption();
         CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
 
-        if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
+        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableOldFishingRodRender", false))
         {
             Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
             Minecraft.getInstance().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));

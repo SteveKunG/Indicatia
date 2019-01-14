@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 
@@ -28,7 +28,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void render(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (ConfigManagerIN.indicatia_general.enableCustomCape && entity.getName().getUnformattedComponentText().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
+        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomCape", false) && entity.getName().getUnformattedComponentText().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
         {
             ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 

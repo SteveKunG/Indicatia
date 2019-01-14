@@ -17,7 +17,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
 
@@ -42,7 +41,7 @@ public class BlockhitAnimationEventHandler
             event.setCanceled(true);
             return;
         }
-        if (ConfigManagerIN.indicatia_general.enableBlockhitAnimation)
+        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableBlockhitAnimation", false))
         {
             event.setCanceled(true);
 
