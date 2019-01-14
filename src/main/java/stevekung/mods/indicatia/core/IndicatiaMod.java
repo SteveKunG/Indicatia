@@ -148,6 +148,17 @@ public class IndicatiaMod
         SwedenTimeCommand.register(dispatcher);
         HideNameCommand.register(dispatcher);
         AutoLoginCommand.register(dispatcher);
+
+        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
+        {
+            try
+            {
+                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
+                clazz.getMethod("registerCommand", FMLServerStartingEvent.class).invoke(null, event);
+            }
+            catch (Exception e) {}
+        }
+
         LoggerIN.info("Registering client side commands");
     }
 
