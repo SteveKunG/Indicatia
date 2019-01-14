@@ -23,7 +23,7 @@ public class IndicatiaConfig
 
             .comment("temp")//TODO Comment
             .translation("indicatia.configgui.confirm_disconnect_mode")
-            .define("confirmDisconnectMode", DisconnectMode.GUI)
+            .define("confirmDisconnectMode", DisconnectMode.GUI.name())
 
             .comment("temp")//TODO Comment
             .translation("indicatia.configgui.enable_render_info")
@@ -102,7 +102,7 @@ public class IndicatiaConfig
 
             .comment("temp")//TODO Comment
             .translation("indicatia.configgui.donator_message_position")
-            .define("donatorMessagePosition", DonatorMessagePos.RIGHT)
+            .define("donatorMessagePosition", DonatorMessagePos.RIGHT.name())
 
             .comment("temp")//TODO Comment
             .translation("indicatia.configgui.read_file_interval")

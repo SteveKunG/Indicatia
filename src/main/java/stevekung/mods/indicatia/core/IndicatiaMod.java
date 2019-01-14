@@ -79,7 +79,7 @@ public class IndicatiaMod
         IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
         IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
         IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
-        IndicatiaMod.INSTANCE =  new ConfigManagerBase(IndicatiaMod.MOD_ID, IndicatiaConfig.BUILDER);
+        IndicatiaMod.INSTANCE = new ConfigManagerBase(IndicatiaMod.MOD_ID, IndicatiaConfig.BUILDER);
         IndicatiaMod.INSTANCE.load();
     }
 

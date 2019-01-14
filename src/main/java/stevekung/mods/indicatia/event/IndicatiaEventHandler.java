@@ -153,7 +153,7 @@ public class IndicatiaEventHandler
                     {
                         this.mc.currentScreen.buttons.forEach(button ->
                         {
-                            if (button.id == 1 && IndicatiaMod.INSTANCE.getConfig().getOrElse("confirmDisconnectMode", IndicatiaConfig.DisconnectMode.GUI) == IndicatiaConfig.DisconnectMode.CLICK)
+                            if (button.id == 1 && IndicatiaMod.INSTANCE.getConfig().getOrElse("confirmDisconnectMode", IndicatiaConfig.DisconnectMode.GUI.name()).equals(IndicatiaConfig.DisconnectMode.CLICK.name()))
                             {
                                 if (this.disconnectClickCooldown < 60)
                                 {
@@ -438,7 +438,7 @@ public class IndicatiaEventHandler
                 event.setCanceled(true);
                 event.getButton().playPressSound(this.mc.getSoundHandler());
 
-                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("confirmDisconnectMode", IndicatiaConfig.DisconnectMode.GUI) == IndicatiaConfig.DisconnectMode.GUI)
+                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("confirmDisconnectMode", IndicatiaConfig.DisconnectMode.GUI.name()).equals(IndicatiaConfig.DisconnectMode.GUI.name()))
                 {
                     this.mc.displayGuiScreen(new GuiConfirmDisconnect());
                 }
