@@ -73,6 +73,7 @@ public class GuiAutoLoginFunction extends GuiScreen
                 }
             });
         }
+        this.children.add(this.inputField);
     }
 
     @Override

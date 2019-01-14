@@ -87,6 +87,10 @@ public class GuiDonator extends GuiScreen
             }
         });
         this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
+        this.children.add(this.topDonateInput);
+        this.children.add(this.recentDonateInput);
+        this.children.add(this.topDonateTextInput);
+        this.children.add(this.recentDonateTextInput);
     }
 
     @Override
