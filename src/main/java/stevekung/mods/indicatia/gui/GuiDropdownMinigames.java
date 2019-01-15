@@ -126,7 +126,7 @@ public class GuiDropdownMinigames extends GuiButton
         return false;
     }
 
-    public void scroll(int amount)
+    public void scroll(double amount)
     {
         ExtendedConfig.hypixelMinigameScrollPos += amount;
         int i = this.minigameLists.size();
@@ -141,7 +141,7 @@ public class GuiDropdownMinigames extends GuiButton
         }
     }
 
-    public boolean isHoverDropdown(int mouseX, int mouseY)
+    public boolean isHoverDropdown(double mouseX, double mouseY)
     {
         return this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength;
     }

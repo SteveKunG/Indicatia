@@ -3,6 +3,8 @@ package stevekung.mods.indicatia.gui.hack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -18,7 +20,6 @@ import stevekung.mods.stevekunglib.client.gui.IEntityHoverChat;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -39,7 +40,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void drawScreen(List<GuiButton> buttonList, int mouseX, int mouseY, float partialTicks)
+    public void render(List<GuiButton> buttonList, int mouseX, int mouseY, float partialTicks)
     {
         buttonList.forEach(button ->
         {
@@ -52,7 +53,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void updateScreen(List<GuiButton> buttonList, int width, int height)
+    public void tick(List<GuiButton> buttonList, int width, int height)
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
@@ -109,7 +110,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void mouseClickMove(double mouseX, double mouseY, int clickedMouseButton, long timeSinceLastClick)
+    public void mouseDragged(double mouseX, double mouseY, int clickedMouseButton, double p_mouseDragged_6_, double p_mouseDragged_8_)
     {
         if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom"))
         {
@@ -124,22 +125,16 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void actionPerformed(GuiButton button)//TODO
-    {
-
-    }
-
-    @Override
-    public String addEntityComponent(String name)
+    public ITextComponent addEntityComponent(ITextComponent component)
     {
         for (String hide : HideNameData.getHideNameList())
         {
-            if (name.contains(hide))
+            if (component.getUnformattedComponentText().contains(hide))
             {
-                name = name.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
+                component = JsonUtils.create(component.getUnformattedComponentText().replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET));
             }
         }
-        return name;
+        return component;
     }
 
     @Override
@@ -149,39 +144,26 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void handleMouseInput(int width, int height) throws IOException
+    public boolean mouseScrolled(double wheel)
     {
-//        Minecraft mc = Minecraft.getInstance();TODO
-//        int mouseX = Mouse.getEventX() * width / mc.displayWidth;
-//        int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-//
-//        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
-//        {
-//            int i = Mouse.getEventDWheel();
-//
-//            if (i != 0)
-//            {
-//                if (i > 1)
-//                {
-//                    i = -1;
-//                }
-//                if (i < -1)
-//                {
-//                    i = 1;
-//                }
-//                if (GuiScreen.isCtrlKeyDown())
-//                {
-//                    i *= 7;
-//                }
-//                this.dropdown.scroll(i);
-//            }
-//            if (Mouse.getEventButtonState())
-//            {
-//                // hacked mouse clicked :D
-//                int event = Mouse.getEventButton();
-//                this.mouseClicked(mouseX, mouseY, event);
-//            }
-//        }
+        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(Minecraft.getInstance().mouseHelper.getMouseX(), Minecraft.getInstance().mouseHelper.getMouseY()))
+        {
+            if (wheel > 1.0D)
+            {
+                wheel = 1.0D;
+            }
+            if (wheel < -1.0D)
+            {
+                wheel = -1.0D;
+            }
+            if (GuiScreen.isCtrlKeyDown())
+            {
+                wheel *= 7;
+            }
+            this.dropdown.scroll(wheel);
+            return true;
+        }
+        return false;
     }
 
     @Override
