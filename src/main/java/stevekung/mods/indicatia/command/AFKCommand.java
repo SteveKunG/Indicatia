@@ -9,7 +9,6 @@ import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class AFKCommand
@@ -50,10 +49,10 @@ public class AFKCommand
             }
             else
             {
-                reason = ", " + LangUtils.translate("message.afk_reason") + " : " + reason;
+                reason = ", " + LangUtils.translate("commands.afk.reason", reason);
             }
 
-            String message = LangUtils.translate("message.afk_for_now");
+            String message = LangUtils.translate("commands.afk.afk_now");
 
             if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableAFKMessage", true))
             {
@@ -62,7 +61,7 @@ public class AFKCommand
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.afk_in_use").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_started"));
         }
         return 0;
     }
@@ -76,13 +75,19 @@ public class AFKCommand
 
             if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableAFKMessage", true))
             {
-                //TODO Fix lang
-                Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("message.stop_afk", IndicatiaEventHandler.afkReason, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getString());
+                if (IndicatiaEventHandler.afkReason.isEmpty())
+                {
+                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                }
+                else
+                {
+                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.afkReason, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                }
             }
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.afk_not_in_use").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_not_started"));
         }
         return 0;
     }
@@ -94,11 +99,11 @@ public class AFKCommand
             String oldReason = IndicatiaEventHandler.afkReason;
             String newReason = component.createCopy().getUnformattedComponentText();
             IndicatiaEventHandler.afkReason = newReason;
-            source.sendFeedback(LangUtils.translateComponent("message.change_reason", oldReason, newReason), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason), false);
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.afk_not_in_use").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_not_started"));
         }
         return 0;
     }
@@ -109,22 +114,22 @@ public class AFKCommand
         {
             IndicatiaEventHandler.afkMode = "idle";
             IndicatiaEventHandler.afkMoveTicks = 0;
-            source.sendFeedback(LangUtils.translateComponent("message.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
         }
         else if ("move".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "move";
-            source.sendFeedback(LangUtils.translateComponent("message.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
         }
         else if ("360".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "360";
-            source.sendFeedback(LangUtils.translateComponent("message.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
         }
         else if ("360_move".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "360_move";
-            source.sendFeedback(LangUtils.translateComponent("message.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
         }
         return 0;
     }

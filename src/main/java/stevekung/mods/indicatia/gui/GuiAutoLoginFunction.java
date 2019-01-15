@@ -38,7 +38,7 @@ public class GuiAutoLoginFunction extends GuiScreen
             {
                 if (GuiAutoLoginFunction.this.data != null)
                 {
-                    GuiAutoLoginFunction.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_function_set")));
+                    GuiAutoLoginFunction.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_login.function_set")));
                     ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + GuiAutoLoginFunction.this.data.serverIP);
                     ExtendedConfig.loginData.addAutoLogin(GuiAutoLoginFunction.this.data.serverIP, "", "", GameProfileUtils.getUUID(), GuiAutoLoginFunction.this.inputField.getText());
                     ExtendedConfig.save();
@@ -54,7 +54,7 @@ public class GuiAutoLoginFunction extends GuiScreen
                 GuiAutoLoginFunction.this.mc.displayGuiScreen(null);
             }
         });
-        this.addButton(this.helpBtn = new GuiButtonCustomizeTexture(2, this.width / 2 + 130, this.height / 4 + 35, this, Collections.singletonList(LangUtils.translate("message.help")), "help")
+        this.addButton(this.helpBtn = new GuiButtonCustomizeTexture(2, this.width / 2 + 130, this.height / 4 + 35, this, Collections.singletonList(LangUtils.translate("menu.help")), "help")
         {
             @Override
             public void onClick(double mouseX, double mouseZ)

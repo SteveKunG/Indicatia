@@ -58,7 +58,7 @@ public class HypixelEventHandler
             return;
         }
 
-        String unformattedText = event.getMessage().getString();
+        String unformattedText = event.getMessage().getUnformattedComponentText();
 
         if (InfoUtils.INSTANCE.isHypixel())
         {
@@ -128,7 +128,7 @@ public class HypixelEventHandler
 
             if (gui.tileSign != null)
             {
-                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getString();
+                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getUnformattedComponentText();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {

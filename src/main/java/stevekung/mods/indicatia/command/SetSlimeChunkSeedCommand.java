@@ -20,19 +20,19 @@ public class SetSlimeChunkSeedCommand
     {
         if (seed.equals("0"))
         {
-            throw new CommandException(LangUtils.translateComponent("message.not_allowed_zero").setStyle(JsonUtils.red()));
+            throw new CommandException(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero").setStyle(JsonUtils.red()));
         }
 
         try
         {
             long longSeed = Long.parseLong(seed);
             ExtendedConfig.slimeChunkSeed = longSeed;
-            source.sendFeedback(LangUtils.translateComponent("message.set_slime_seed", longSeed), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", longSeed), false);
         }
         catch (NumberFormatException e)
         {
             ExtendedConfig.slimeChunkSeed = seed.hashCode();
-            source.sendFeedback(LangUtils.translateComponent("message.set_slime_seed", seed.hashCode()), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", seed.hashCode()), false);
         }
         ExtendedConfig.save();
         return 0;

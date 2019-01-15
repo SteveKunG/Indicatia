@@ -587,7 +587,7 @@ public class ExtendedConfig
 
     public String getKeyBinding(ExtendedConfig.Options options)
     {
-        String name = LangUtils.translate(options.getTranslation()) + ": ";
+        String name = options.getTranslation() + ": ";
 
         if (options.isDouble())
         {
@@ -1485,7 +1485,7 @@ public class ExtendedConfig
 
         public String getTranslation()
         {
-            return LangUtils.translate(this.name().toLowerCase() + ".extended_config");
+            return LangUtils.translate("extended_config." + this.name().toLowerCase());
         }
 
         public String getComment()

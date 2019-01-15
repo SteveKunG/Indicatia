@@ -214,7 +214,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
         if (enableCPS)
         {
-            buttonList.add(new GuiButton(0, width - 63, height - 35, 60, 20, LangUtils.translate("message.reset_cps"))
+            buttonList.add(new GuiButton(0, width - 63, height - 35, 60, 20, LangUtils.translate("menu.reset_cps"))
             {
                 @Override
                 public void onClick(double mouseX, double mouseZ)

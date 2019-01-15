@@ -126,7 +126,7 @@ public class GuiExtendedConfig extends GuiScreen
             public void onClick(double mouseX, double mouseZ)
             {
                 ExtendedConfig.save();
-                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiYesNo(GuiExtendedConfig.this, LangUtils.translate("message.reset_config_confirm"), "", 201));
+                GuiExtendedConfig.this.mc.displayGuiScreen(new GuiYesNo(GuiExtendedConfig.this, LangUtils.translate("menu.reset_config_confirm"), "", 201));
             }
         });
         this.resetButton.visible = false;

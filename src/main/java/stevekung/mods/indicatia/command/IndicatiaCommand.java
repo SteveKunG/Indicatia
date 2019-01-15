@@ -43,7 +43,7 @@ public class IndicatiaCommand
     private static int startToggleSprint(CommandSource source)
     {
         ExtendedConfig.toggleSprint = true;
-        source.sendFeedback(LangUtils.translateComponent("message.toggle_sprint_enabled"), false);
+        source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.enable"), false);
         ExtendedConfig.save();
         return 0;
     }
@@ -51,7 +51,7 @@ public class IndicatiaCommand
     private static int stopToggleSprint(CommandSource source)
     {
         ExtendedConfig.toggleSprint = false;
-        source.sendFeedback(LangUtils.translateComponent("message.toggle_sprint_disabled"), false);
+        source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.disable"), false);
         ExtendedConfig.save();
         return 0;
     }
@@ -59,7 +59,7 @@ public class IndicatiaCommand
     private static int setToggleSprintMode(CommandSource source, String mode)
     {
         ExtendedConfig.toggleSprintUseMode = mode;
-        source.sendFeedback(JsonUtils.create(LangUtils.translate("message.toggle_sprint_set") + " " + LangUtils.translate("message." + mode)), false);
+        source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sprint.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
         ExtendedConfig.save();
         return 0;
     }
@@ -67,7 +67,7 @@ public class IndicatiaCommand
     private static int startToggleSneak(CommandSource source)
     {
         ExtendedConfig.toggleSneak = true;
-        source.sendFeedback(LangUtils.translateComponent("message.toggle_sneak_enabled"), false);
+        source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.enable"), false);
         ExtendedConfig.save();
         return 0;
     }
@@ -75,7 +75,7 @@ public class IndicatiaCommand
     private static int stopToggleSneak(CommandSource source)
     {
         ExtendedConfig.toggleSneak = false;
-        source.sendFeedback(LangUtils.translateComponent("message.toggle_sneak_disabled"), false);
+        source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.disable"), false);
         ExtendedConfig.save();
         return 0;
     }
@@ -83,7 +83,7 @@ public class IndicatiaCommand
     private static int setToggleSneakMode(CommandSource source, String mode)
     {
         ExtendedConfig.toggleSneakUseMode = mode;
-        source.sendFeedback(JsonUtils.create(LangUtils.translate("message.toggle_sneak_set") + " " + LangUtils.translate("message." + mode)), false);
+        source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sneak.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
         ExtendedConfig.save();
         return 0;
     }

@@ -35,7 +35,7 @@ public class ProfileCommand
 
         if (name.equalsIgnoreCase("default"))
         {
-            throw new CommandException(LangUtils.translateComponent("message.create_profile_default").setStyle(JsonUtils.red()));
+            throw new CommandException(LangUtils.translateComponent("commands.inprofile.cannot_create_default").setStyle(JsonUtils.red()));
         }
 
         for (File file : ExtendedConfig.userDir.listFiles())
@@ -48,11 +48,11 @@ public class ProfileCommand
 
         if (exist)
         {
-            throw new CommandException(LangUtils.translateComponent("message.already_created", name).setStyle(JsonUtils.red()));
+            throw new CommandException(LangUtils.translateComponent("commands.inprofile.profile_already_created", name).setStyle(JsonUtils.red()));
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.profile_added", name), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.inprofile.created", name), false);
             ExtendedConfig.save(name);
         }
         return 0;
@@ -64,14 +64,14 @@ public class ProfileCommand
         {
             if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
             {
-                throw new CommandException(LangUtils.translateComponent("message.cant_load_profile").setStyle(JsonUtils.red()));
+                throw new CommandException(LangUtils.translateComponent("commands.inprofile.cannot_load").setStyle(JsonUtils.red()));
             }
         }
 
         ExtendedConfig.setCurrentProfile(name);
         ExtendedConfig.saveProfileFile(name);
         ExtendedConfig.load();
-        source.sendFeedback(LangUtils.translateComponent("message.load_profile", name), false);
+        source.sendFeedback(LangUtils.translateComponent("commands.inprofile.load", name), false);
         ExtendedConfig.save(name); // save current settings
         return 0;
     }
@@ -91,11 +91,11 @@ public class ProfileCommand
         if (exist)
         {
             ExtendedConfig.save(name);
-            source.sendFeedback(LangUtils.translateComponent("message.save_profile", name), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.inprofile.save", name), false);
         }
         else
         {
-            throw new CommandException(LangUtils.translateComponent("message.cant_save_profile", name).setStyle(JsonUtils.red()));
+            throw new CommandException(LangUtils.translateComponent("commands.inprofile.cannot_save", name).setStyle(JsonUtils.red()));
         }
         return 0;
     }
@@ -104,7 +104,7 @@ public class ProfileCommand
     {
         if (name.equals("default"))
         {
-            throw new CommandException(LangUtils.translateComponent("message.cannot_remove_default", name).setStyle(JsonUtils.red()));
+            throw new CommandException(LangUtils.translateComponent("commands.inprofile.cannot_remove_default", name).setStyle(JsonUtils.red()));
         }
 
         boolean exist = false;
@@ -123,11 +123,11 @@ public class ProfileCommand
             toDel.delete();
             ExtendedConfig.setCurrentProfile("default");
             ExtendedConfig.load();
-            source.sendFeedback(LangUtils.translateComponent("message.remove_profile", name), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.inprofile.remove", name), false);
         }
         else
         {
-            throw new CommandException(LangUtils.translateComponent("message.cant_remove_profile", name).setStyle(JsonUtils.red()));
+            throw new CommandException(LangUtils.translateComponent("commands.inprofile.cannot_remove", name).setStyle(JsonUtils.red()));
         }
         return 0;
     }

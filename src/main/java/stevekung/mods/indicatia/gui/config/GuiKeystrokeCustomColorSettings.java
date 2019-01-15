@@ -60,7 +60,7 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
                 GuiKeystrokeCustomColorSettings.this.mc.displayGuiScreen(GuiKeystrokeCustomColorSettings.this.parent);
             }
         });
-        this.addButton(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("message.preview"))
+        this.addButton(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
@@ -132,7 +132,7 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
         {
             ExtendedConfig.Options options = this.optionsRowList.getChildren().get(index).getTextField().getOption();
             RGB rgb = ColorUtils.stringToRGB(this.optionsRowList.getChildren().get(index).getTextField().getText());
-            this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
+            this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("menu.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
         }
         else
         {

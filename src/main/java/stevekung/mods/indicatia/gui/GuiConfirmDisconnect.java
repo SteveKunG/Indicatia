@@ -56,7 +56,7 @@ public class GuiConfirmDisconnect extends GuiScreen
     public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, LangUtils.translate("message.want_disconnect"), this.width / 2, 70, 16777215);
+        this.drawCenteredString(this.fontRenderer, LangUtils.translate("menu.confirm_disconnect"), this.width / 2, 70, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 }

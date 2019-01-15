@@ -71,12 +71,12 @@ public class GuiDonator extends GuiScreen
                 GuiDonator.this.mc.displayGuiScreen(null);
             }
         });
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("message.reset_path"))
+        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("menu.reset_path"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
-                GuiDonator.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_donator_file_path")));
+                GuiDonator.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_donator_path")));
                 ExtendedConfig.topDonatorFilePath = "";
                 ExtendedConfig.recentDonatorFilePath = "";
                 HUDRenderEventHandler.topDonator = "";

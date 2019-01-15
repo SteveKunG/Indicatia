@@ -27,7 +27,7 @@ public class HideNameCommand
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.hidename_already_add").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.hide_name.already_added"));
         }
         return 0;
     }
@@ -41,7 +41,7 @@ public class HideNameCommand
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.hidename_remove").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.hide_name.already_removed"));
         }
         return 0;
     }

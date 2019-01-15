@@ -46,7 +46,7 @@ public class GuiOffsetSettings extends GuiScreen
                 GuiOffsetSettings.this.mc.displayGuiScreen(GuiOffsetSettings.this.parent);
             }
         });
-        this.addButton(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("message.preview"))
+        this.addButton(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)

@@ -7,7 +7,6 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.item.ItemFishingRod;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
 public class AutoFishCommand
@@ -33,16 +32,16 @@ public class AutoFishCommand
             if (mainHand || offHand)
             {
                 IndicatiaEventHandler.autoFish = true;
-                source.sendFeedback(LangUtils.translateComponent("message.auto_fish_enabled"), false);
+                source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.enable"), false);
             }
             else
             {
-                source.sendFeedback(LangUtils.translateComponent("message.not_held_fishing_rod").setStyle(JsonUtils.red()), false);
+                source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.not_equipped_fishing_rod"));
             }
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.already_start_autofish").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.auto_fish_started"));
         }
         return 0;
     }
@@ -52,11 +51,11 @@ public class AutoFishCommand
         if (IndicatiaEventHandler.autoFish)
         {
             IndicatiaEventHandler.autoFish = false;
-            source.sendFeedback(LangUtils.translateComponent("message.auto_fish_disabled"), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.disable"), false);
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("message.not_start_autofish").setStyle(JsonUtils.red()), false);
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.auto_fish_not_started"));
         }
         return 0;
     }

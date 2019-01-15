@@ -241,7 +241,7 @@ public class IndicatiaMod
 
     public static void saveResetFlag()
     {
-        ClientUtils.printClientMessage(LangUtils.translate("message.reset_config_flag"));
+        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.set_reset_flag"));
 
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(resetFlag), StandardCharsets.UTF_8)))
         {

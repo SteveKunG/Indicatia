@@ -158,7 +158,7 @@ public class IndicatiaEventHandler
                                 if (this.disconnectClickCooldown < 60)
                                 {
                                     int cooldownSec = 1 + this.disconnectClickCooldown / 20;
-                                    button.displayString = TextFormatting.RED + LangUtils.translate("message.confirm_disconnect") + " in " + cooldownSec + "...";
+                                    button.displayString = TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect") + " in " + cooldownSec + "...";
                                 }
                                 if (this.disconnectClickCooldown == 0)
                                 {
@@ -393,13 +393,13 @@ public class IndicatiaEventHandler
         if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
         {
             ExtendedConfig.toggleSprint = !ExtendedConfig.toggleSprint;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSprint ? LangUtils.translate("message.toggle_sprint_enabled") : LangUtils.translate("message.toggle_sprint_disabled")).getFormattedText());
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
             ExtendedConfig.save();
         }
         if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
         {
             ExtendedConfig.toggleSneak = !ExtendedConfig.toggleSneak;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSneak ? LangUtils.translate("message.toggle_sneak_enabled") : LangUtils.translate("message.toggle_sneak_disabled")).getFormattedText());
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
             ExtendedConfig.save();
         }
         if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
@@ -445,7 +445,7 @@ public class IndicatiaEventHandler
                 else
                 {
                     this.disconnectClickCount++;
-                    event.getButton().displayString = TextFormatting.RED + LangUtils.translate("message.confirm_disconnect");
+                    event.getButton().displayString = TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect");
 
                     if (this.disconnectClickCount == 1)
                     {
@@ -785,7 +785,7 @@ public class IndicatiaEventHandler
                         {
                             IndicatiaEventHandler.autoFish = false;
                             IndicatiaEventHandler.autoFishTick = 0;
-                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.must_hold_fishing_rod")));
+                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")));
                             return;
                         }
 

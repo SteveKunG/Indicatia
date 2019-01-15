@@ -57,13 +57,13 @@ public class GuiCustomCape extends GuiScreen
                 GuiCustomCape.this.mc.displayGuiScreen(null);
             }
         });
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("message.reset_cape"))
+        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("menu.reset_cape"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
                 CapeUtils.CAPE_TEXTURE = null;
-                GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_current_cape")));
+                GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_current_cape")));
                 CapeUtils.texture.delete();
                 GuiCustomCape.this.mc.displayGuiScreen(null);
             }

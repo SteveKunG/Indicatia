@@ -39,7 +39,7 @@ public class GuiMojangStatusChecker extends GuiScreen
                 GuiMojangStatusChecker.this.mc.displayGuiScreen(GuiMojangStatusChecker.this.parent);
             }
         });
-        this.addButton(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 6 + 145, 100, 20, LangUtils.translate("message.refresh"))
+        this.addButton(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 6 + 145, 100, 20, LangUtils.translate("selectServer.refresh"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
@@ -49,7 +49,7 @@ public class GuiMojangStatusChecker extends GuiScreen
                 GuiMojangStatusChecker.this.refreshButton.enabled = false;
             }
         });
-        this.addButton(this.checkButton = new GuiButton(202, this.width / 2 - 101, this.height / 6 + 145, 100, 20, LangUtils.translate("message.check"))
+        this.addButton(this.checkButton = new GuiButton(202, this.width / 2 - 101, this.height / 6 + 145, 100, 20, LangUtils.translate("menu.check"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
