@@ -9,11 +9,11 @@ public class IndicatiaConfig
             .comment("General settings")
             .push("general")
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.afk_message_time")
             .defineInRange("afkMessageTime", 5, 1, 60)
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.auto_gg_delay")
             .defineInRange("autoGGDelay", 20, 20, 100)
 
@@ -21,11 +21,11 @@ public class IndicatiaConfig
             .translation("indicatia.configgui.auto_gg_message")
             .define("autoGGMessage", "")
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.confirm_disconnect_mode")
             .define("confirmDisconnectMode", DisconnectMode.GUI.name())
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.enable_render_info")
             .define("enableRenderInfo", true)
 
@@ -46,11 +46,11 @@ public class IndicatiaConfig
             .translation("indicatia.configgui.enable_old_armor_render")
             .define("enableOldArmorRender", false)
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.enable_version_checker")
             .define("enableVersionChecker", true)
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.enable_afk_message")
             .define("enableAFKMessage", true)
 
@@ -74,15 +74,15 @@ public class IndicatiaConfig
             .translation("indicatia.configgui.enable_vanilla_potion_hud")
             .define("enableVanillaPotionHUD", true)
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.enable_boss_health_bar_render")
             .define("enableBossHealthBarRender", true)
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.enable_boss_health_status_render")
             .define("enableRenderBossHealthStatus", true)
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.enable_sidebar_scoreboard_render")
             .define("enableSidebarScoreboardRender", true)
 
@@ -100,11 +100,11 @@ public class IndicatiaConfig
             .comment("Donation settings")
             .push("donation")
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.donator_message_position")
             .define("donatorMessagePosition", DonatorMessagePos.RIGHT.name())
 
-            .comment("temp")//TODO Comment
+            .comment("")
             .translation("indicatia.configgui.read_file_interval")
             .define("readFileInterval", 200)
 
