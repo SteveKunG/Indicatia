@@ -79,6 +79,15 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
     {
         boolean flag = this.getChildren().get(index).getTextField() != null && mouseX >= this.getChildren().get(index).getTextField().x && mouseX < this.getChildren().get(index).getTextField().x + this.getChildren().get(index).getTextField().width && mouseY >= this.getChildren().get(index).getTextField().y && mouseY < this.getChildren().get(index).getTextField().y + this.getChildren().get(index).getTextField().height;
         this.selected = flag ? index : -1;
+
+        this.getChildren().stream().filter(row -> row.getTextField() != null).forEach(row ->
+        {
+            if (!row.getTextField().isFocused())
+            {
+                return;
+            }
+            row.getTextField().setFocused(false);
+        });
         return super.mouseClicked(index, button, mouseX, mouseY);
     }
 
