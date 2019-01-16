@@ -131,7 +131,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableRenderInfo", true) && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof GuiRenderPreview))
+            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof GuiRenderPreview))
             {
                 List<String> leftInfo = new LinkedList<>();
                 List<String> rightInfo = new LinkedList<>();
@@ -195,7 +195,7 @@ public class HUDRenderEventHandler
                         leftInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("donatorMessagePosition", IndicatiaConfig.DonatorMessagePos.RIGHT.name()).equals(IndicatiaConfig.DonatorMessagePos.LEFT.name()))
+                if (IndicatiaConfig.GENERAL.donatorMessagePosition.get().equals(IndicatiaConfig.DonatorMessagePos.LEFT.name()))
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
@@ -268,7 +268,7 @@ public class HUDRenderEventHandler
                         rightInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("donatorMessagePosition", IndicatiaConfig.DonatorMessagePos.RIGHT.name()).equals(IndicatiaConfig.DonatorMessagePos.RIGHT.name()))
+                if (IndicatiaConfig.GENERAL.donatorMessagePosition.get().equals(IndicatiaConfig.DonatorMessagePos.RIGHT.name()))
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
@@ -360,7 +360,7 @@ public class HUDRenderEventHandler
                         KeystrokeRenderer.render(this.mc);
                     }
                 }
-                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableRenderInfo", true) && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
+                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
                 {
                     String rcps = ExtendedConfig.rcps ? " " + HUDInfo.getRCPS() : "";
                     RenderUtilsIN.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, (float)ExtendedConfig.cpsOpacity / 100.0F);
@@ -391,7 +391,7 @@ public class HUDRenderEventHandler
                 event.setCanceled(true);
                 return;
             }
-            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableFixChatDepthRender", true))
+            if (IndicatiaConfig.GENERAL.enableFixChatDepthRender.get())
             {
                 event.setCanceled(true);
                 GlStateManager.pushMatrix();
@@ -404,7 +404,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!IndicatiaMod.INSTANCE.getConfig().getOrElse("enableVanillaPotionHUD", true) || this.mc.currentScreen instanceof GuiRenderPreview)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
             }
@@ -454,7 +454,7 @@ public class HUDRenderEventHandler
         File file = new File("/" + ExtendedConfig.topDonatorFilePath);
         String text = "";
 
-        if (HUDRenderEventHandler.readFileTicks % IndicatiaMod.INSTANCE.getConfig().getOrElse("readFileInterval", 200) == 0)
+        if (HUDRenderEventHandler.readFileTicks % IndicatiaConfig.GENERAL.readFileInterval.get() == 0)
         {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)))
             {
@@ -486,7 +486,7 @@ public class HUDRenderEventHandler
         File file = new File("/" + ExtendedConfig.recentDonatorFilePath);
         String text = "";
 
-        if (HUDRenderEventHandler.readFileTicks % IndicatiaMod.INSTANCE.getConfig().getOrElse("readFileInterval", 200) == 0)
+        if (HUDRenderEventHandler.readFileTicks % IndicatiaConfig.GENERAL.readFileInterval.get() == 0)
         {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)))
             {

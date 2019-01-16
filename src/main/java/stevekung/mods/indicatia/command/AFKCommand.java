@@ -6,7 +6,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.MessageArgument;
 import net.minecraft.util.text.ITextComponent;
-import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -54,7 +54,7 @@ public class AFKCommand
 
             String message = LangUtils.translate("commands.afk.afk_now");
 
-            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableAFKMessage", true))
+            if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
                 Minecraft.getInstance().player.sendChatMessage(message + reason);
             }
@@ -73,7 +73,7 @@ public class AFKCommand
             IndicatiaEventHandler.isAFK = false;
             IndicatiaEventHandler.afkMoveTicks = 0;
 
-            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableAFKMessage", true))
+            if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
                 if (IndicatiaEventHandler.afkReason.isEmpty())
                 {

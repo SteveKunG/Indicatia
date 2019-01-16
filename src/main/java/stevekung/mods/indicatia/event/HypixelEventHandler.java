@@ -10,7 +10,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 
@@ -111,7 +111,7 @@ public class HypixelEventHandler
                     String messageToLower = TextFormatting.getTextWithoutFormattingCodes(text).toLowerCase();
                     String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(unformattedText).toLowerCase();
 
-                    if (displayTitleMessage.contains(messageToLower) && !IndicatiaMod.INSTANCE.getConfig().getOrElse("autoGGMessage", "").isEmpty() && !IndicatiaEventHandler.printAutoGG)
+                    if (displayTitleMessage.contains(messageToLower) && !IndicatiaConfig.GENERAL.autoGGMessage.get().isEmpty() && !IndicatiaEventHandler.printAutoGG)
                     {
                         IndicatiaEventHandler.printAutoGG = true;
                     }

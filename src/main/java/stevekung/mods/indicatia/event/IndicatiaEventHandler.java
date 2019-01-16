@@ -111,7 +111,7 @@ public class IndicatiaEventHandler
             {
                 IndicatiaMod.CHECKER.startCheckIfFailed();
 
-                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableVersionChecker", true))
+                if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
                 {
                     IndicatiaMod.CHECKER.printInfo(this.mc.player);
                 }
@@ -124,13 +124,13 @@ public class IndicatiaEventHandler
                 AutoLoginFunction.runAutoLoginFunction();
                 CapeUtils.loadCapeTexture();
 
-                if (IndicatiaEventHandler.printAutoGG && IndicatiaEventHandler.printAutoGGTicks < IndicatiaMod.INSTANCE.getConfig().getOrElse("autoGGDelay", 20))
+                if (IndicatiaEventHandler.printAutoGG && IndicatiaEventHandler.printAutoGGTicks < IndicatiaConfig.GENERAL.autoGGDelay.get())
                 {
                     IndicatiaEventHandler.printAutoGGTicks++;
 
-                    if (IndicatiaEventHandler.printAutoGGTicks == IndicatiaMod.INSTANCE.getConfig().getOrElse("autoGGDelay", 20))
+                    if (IndicatiaEventHandler.printAutoGGTicks == IndicatiaConfig.GENERAL.autoGGDelay.get())
                     {
-                        this.mc.player.sendChatMessage(IndicatiaMod.INSTANCE.getConfig().getOrElse("autoGGMessage", ""));
+                        this.mc.player.sendChatMessage(IndicatiaConfig.GENERAL.autoGGMessage.get());
                         IndicatiaEventHandler.printAutoGG = false;
                         IndicatiaEventHandler.printAutoGGTicks = 0;
                     }
@@ -149,11 +149,11 @@ public class IndicatiaEventHandler
                 }
                 if (this.mc.currentScreen != null && this.mc.currentScreen instanceof GuiIngameMenu)
                 {
-                    if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableConfirmDisconnectButton", false) && !this.mc.isSingleplayer())
+                    if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && !this.mc.isSingleplayer())
                     {
                         this.mc.currentScreen.buttons.forEach(button ->
                         {
-                            if (button.id == 1 && IndicatiaMod.INSTANCE.getConfig().getOrElse("confirmDisconnectMode", IndicatiaConfig.DisconnectMode.GUI.name()).equals(IndicatiaConfig.DisconnectMode.CLICK.name()))
+                            if (button.id == 1 && IndicatiaConfig.GENERAL.confirmDisconnectMode.get().equals(IndicatiaConfig.DisconnectMode.CLICK.name()))
                             {
                                 if (this.disconnectClickCooldown < 60)
                                 {
@@ -190,7 +190,7 @@ public class IndicatiaEventHandler
                 {
                     if (action != EnumAction.NONE)
                     {
-                        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableAdditionalBlockhitAnimation", false) && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.type == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getUseAction() == action)
+                        if (IndicatiaConfig.GENERAL.enableAdditionalBlockhitAnimation.get() && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.type == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getUseAction() == action)
                         {
                             this.mc.player.swingArm(EnumHand.MAIN_HAND);
                         }
@@ -198,8 +198,8 @@ public class IndicatiaEventHandler
                 }
             }
         }
-        GuiIngameForge.renderBossHealth = IndicatiaMod.INSTANCE.getConfig().getOrElse("enableRenderBossHealthStatus", true);
-        GuiIngameForge.renderObjective = IndicatiaMod.INSTANCE.getConfig().getOrElse("enableSidebarScoreboardRender", true);
+        GuiIngameForge.renderBossHealth = IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get();
+        GuiIngameForge.renderObjective = IndicatiaConfig.GENERAL.enableSidebarScoreboardRender.get();
     }
 
     @SubscribeEvent
@@ -208,7 +208,7 @@ public class IndicatiaEventHandler
         MovementInput movement = event.getMovementInput();
         EntityPlayer player = event.getEntityPlayer();
 
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomMovementHandler", true))
+        if (IndicatiaConfig.GENERAL.enableCustomMovementHandler.get())
         {
             // canceled turn back
             if (ExtendedConfig.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
@@ -340,7 +340,7 @@ public class IndicatiaEventHandler
             renderSlim.addLayer(new LayerCustomCape(renderSlim));
             IndicatiaEventHandler.initLayer = false;
         }
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomServerSelectionGui", false) && event.getGui() != null && event.getGui().getClass().equals(GuiMultiplayer.class))
+        if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get() && event.getGui() != null && event.getGui().getClass().equals(GuiMultiplayer.class))
         {
             event.setGui(new GuiMultiplayerIN(new GuiMainMenu()));
         }
@@ -385,7 +385,7 @@ public class IndicatiaEventHandler
         {
             HUDRenderEventHandler.recordEnable = !HUDRenderEventHandler.recordEnable;
         }
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomCape", false) && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
+        if (IndicatiaConfig.GENERAL.enableCustomCape.get() && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
         {
             GuiCustomCape customCapeGui = new GuiCustomCape();
             this.mc.displayGuiScreen(customCapeGui);
@@ -424,21 +424,21 @@ public class IndicatiaEventHandler
     {
         if (event.getGui() instanceof GuiMainMenu)
         {
-            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomServerSelectionGui", false) && event.getButton().id == 2)
+            if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get() && event.getButton().id == 2)
             {
                 event.setCanceled(true);
                 event.getButton().playPressSound(this.mc.getSoundHandler());
                 this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
             }
         }
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableConfirmDisconnectButton", false) && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
+        if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
         {
             if (event.getButton().id == 1)
             {
                 event.setCanceled(true);
                 event.getButton().playPressSound(this.mc.getSoundHandler());
 
-                if (IndicatiaMod.INSTANCE.getConfig().getOrElse("confirmDisconnectMode", IndicatiaConfig.DisconnectMode.GUI.name()).equals(IndicatiaConfig.DisconnectMode.GUI.name()))
+                if (IndicatiaConfig.GENERAL.confirmDisconnectMode.get().equals(IndicatiaConfig.DisconnectMode.GUI.name()))
                 {
                     this.mc.displayGuiScreen(new GuiConfirmDisconnect());
                 }
@@ -465,7 +465,7 @@ public class IndicatiaEventHandler
                             this.mc.world.sendQuittingDisconnectingPacket();
                             this.mc.loadWorld(null);
 
-                            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomServerSelectionGui", false))
+                            if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
                             {
                                 this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
                             }
@@ -537,7 +537,7 @@ public class IndicatiaEventHandler
         {
             IndicatiaEventHandler.afkTicks++;
             int tick = IndicatiaEventHandler.afkTicks;
-            int messageMin = 1200 * IndicatiaMod.INSTANCE.getConfig().getOrElse("afkMessageTime", 5);
+            int messageMin = 1200 * IndicatiaConfig.GENERAL.afkMessageTime.get();
             String s = "s";
             float angle = tick % 2 == 0 ? 0.0001F : -0.0001F;
 
@@ -545,7 +545,7 @@ public class IndicatiaEventHandler
             {
                 s = "";
             }
-            if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableAFKMessage", true))
+            if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
                 if (tick % messageMin == 0)
                 {
@@ -604,7 +604,7 @@ public class IndicatiaEventHandler
     {
         int armorLayerIndex = -1;
 
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableOldArmorRender", false))
+        if (IndicatiaConfig.GENERAL.enableOldArmorRender.get())
         {
             for (int i = 0; i < layerLists.size(); i++)
             {
@@ -700,7 +700,7 @@ public class IndicatiaEventHandler
     {
         int elytraLayerIndex = -1;
 
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableOldArmorRender", false))
+        if (IndicatiaConfig.GENERAL.enableOldArmorRender.get())
         {
             for (int i = 0; i < layerLists.size(); i++)
             {

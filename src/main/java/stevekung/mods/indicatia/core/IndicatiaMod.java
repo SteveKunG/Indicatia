@@ -10,10 +10,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import org.apache.commons.io.IOUtils;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -52,7 +51,6 @@ public class IndicatiaMod
     public static boolean isYoutubeChatLoaded;
     public static boolean isOptiFineLoaded;
     private static final List<String> allowedUUID = new ArrayList<>();
-    public static ConfigManagerBase INSTANCE;
 
     static
     {
@@ -71,19 +69,17 @@ public class IndicatiaMod
 
     public IndicatiaMod()
     {
-        CommonUtils.addModListener(this::preInit);
-        CommonUtils.addModListener(this::init);
-        CommonUtils.addModListener(this::postInit);
+        CommonUtils.addModListener(this::setup);
+        CommonUtils.addModListener(this::loadComplete);
         CommonUtils.addListener(this::serverStarting);
 
         IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
         IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
         IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
-        IndicatiaMod.INSTANCE = new ConfigManagerBase(IndicatiaMod.MOD_ID, IndicatiaConfig.BUILDER);
-        IndicatiaMod.INSTANCE.load();
+        new ConfigManagerBase(IndicatiaMod.MOD_ID, IndicatiaConfig.GENERAL_BUILDER).load();
     }
 
-    private void preInit(FMLPreInitializationEvent event)
+    private void setup(FMLClientSetupEvent event)
     {
         KeyBindingHandler.init();
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
@@ -101,7 +97,7 @@ public class IndicatiaMod
             }
             catch (Exception e) {}
         }
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableOldFishingRodRender", false))
+        if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
         {
             //ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));TODO
             LoggerIN.info("Successfully replacing vanilla Fishing Rod item model");
@@ -109,18 +105,15 @@ public class IndicatiaMod
 
         IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
 
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableVersionChecker", true))
+        if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
         {
             IndicatiaMod.CHECKER.startCheck();
         }
-    }
 
-    private void init(FMLInitializationEvent event)
-    {
         IndicatiaMod.loadProfileOption();
         CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
 
-        if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableOldFishingRodRender", false))
+        if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
         {
             Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
             Minecraft.getInstance().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
@@ -128,7 +121,7 @@ public class IndicatiaMod
         }
     }
 
-    private void postInit(FMLPostInitializationEvent event)
+    private void loadComplete(FMLLoadCompleteEvent event)
     {
         CapeUtils.loadCapeTextureAtStartup();
         GuiChatRegistry.register(new GuiIndicatiaChat());

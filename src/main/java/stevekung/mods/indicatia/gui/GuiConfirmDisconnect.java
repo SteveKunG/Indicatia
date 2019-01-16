@@ -4,7 +4,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
@@ -31,7 +31,7 @@ public class GuiConfirmDisconnect extends GuiScreen
                     GuiConfirmDisconnect.this.mc.world.sendQuittingDisconnectingPacket();
                     GuiConfirmDisconnect.this.mc.loadWorld(null);
 
-                    if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableCustomServerSelectionGui", false))
+                    if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
                     {
                         GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
                     }

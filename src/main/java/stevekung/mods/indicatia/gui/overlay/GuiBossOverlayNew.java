@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.config.IndicatiaConfig;
 
 public class GuiBossOverlayNew extends GuiBossOverlay
 {
@@ -35,7 +35,7 @@ public class GuiBossOverlayNew extends GuiBossOverlay
 
                 if (!event.isCanceled())
                 {
-                    if (IndicatiaMod.INSTANCE.getConfig().getOrElse("enableBossHealthBarRender", true))
+                    if (IndicatiaConfig.GENERAL.enableBossHealthBarRender.get())
                     {
                         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                         this.mc.getTextureManager().bindTexture(GUI_BARS_TEXTURES);
@@ -45,10 +45,10 @@ public class GuiBossOverlayNew extends GuiBossOverlay
                     this.mc.fontRenderer.drawStringWithShadow(s, i / 2 - this.mc.fontRenderer.getStringWidth(s) / 2, j - 9, 16777215);
                 }
 
-                j += !IndicatiaMod.INSTANCE.getConfig().getOrElse("enableBossHealthBarRender", true) ? 12 : event.getIncrement();
+                j += !IndicatiaConfig.GENERAL.enableBossHealthBarRender.get() ? 12 : event.getIncrement();
                 ForgeHooksClient.bossBarRenderPost(this.mc.mainWindow);
 
-                if (!IndicatiaMod.INSTANCE.getConfig().getOrElse("enableBossHealthBarRender", true) ? j >= this.mc.mainWindow.getScaledHeight() / 4.5D : j >= this.mc.mainWindow.getScaledHeight() / 3)
+                if (!IndicatiaConfig.GENERAL.enableBossHealthBarRender.get() ? j >= this.mc.mainWindow.getScaledHeight() / 4.5D : j >= this.mc.mainWindow.getScaledHeight() / 3)
                 {
                     break;
                 }
