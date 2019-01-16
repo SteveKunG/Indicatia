@@ -83,14 +83,14 @@ public class GuiMojangStatusChecker extends GuiScreen
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
         if (this.doneButton.enabled && keyCode == 1)
         {
             this.statusList.clear();
             this.mc.displayGuiScreen(null);
         }
-        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override

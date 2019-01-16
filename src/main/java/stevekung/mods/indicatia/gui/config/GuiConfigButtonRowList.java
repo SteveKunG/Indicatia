@@ -139,11 +139,11 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
         }
 
         @Override
-        public boolean mouseReleased(double x, double y, int mouseEvent)
+        public boolean mouseReleased(double mouseX, double mouseY, int mouseEvent)
         {
             GuiConfigButtonRowList.comment = null;
-            boolean flag = this.buttonA != null && this.buttonA.mouseReleased(x, y, mouseEvent);
-            boolean flag1 = this.buttonB != null && this.buttonB.mouseReleased(x, y, mouseEvent);
+            boolean flag = this.buttonA != null && this.buttonA.mouseReleased(mouseX, mouseY, mouseEvent);
+            boolean flag1 = this.buttonB != null && this.buttonB.mouseReleased(mouseX, mouseY, mouseEvent);
             return flag || flag1;
         }
 

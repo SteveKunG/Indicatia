@@ -111,14 +111,14 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
         this.getChildren().forEach(Row::onResize);
     }
 
-    void keyPressedText(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+    void keyPressedText(int keyCode, int scanCode, int modifiers)
     {
-        this.getChildren().forEach(row -> row.keyPressedText(keyCode, p_keyPressed_2_, p_keyPressed_3_));
+        this.getChildren().forEach(row -> row.keyPressedText(keyCode, scanCode, modifiers));
     }
 
-    void charTypedText(char p_charTyped_1_, int p_charTyped_2_)
+    void charTypedText(char codePoint, int modifiers)
     {
-        this.getChildren().forEach(row -> row.charTypedText(p_charTyped_1_, p_charTyped_2_));
+        this.getChildren().forEach(row -> row.charTypedText(codePoint, modifiers));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -214,21 +214,21 @@ public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFiel
             }
         }
 
-        void keyPressedText(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+        void keyPressedText(int keyCode, int scanCode, int modifiers)
         {
             if (this.getTextField() != null)
             {
                 GuiTextFieldExtended text = this.getTextField();
-                text.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+                text.keyPressed(keyCode, scanCode, modifiers);
             }
         }
 
-        void charTypedText(char p_charTyped_1_, int p_charTyped_2_)
+        void charTypedText(char codePoint, int modifiers)
         {
             if (this.getTextField() != null)
             {
                 GuiTextFieldExtended text = this.getTextField();
-                text.charTyped(p_charTyped_1_, p_charTyped_2_);
+                text.charTyped(codePoint, modifiers);
             }
         }
     }

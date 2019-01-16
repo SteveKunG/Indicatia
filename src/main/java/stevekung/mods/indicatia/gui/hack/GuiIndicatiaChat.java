@@ -110,7 +110,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void mouseDragged(double mouseX, double mouseY, int clickedMouseButton, double p_mouseDragged_6_, double p_mouseDragged_8_)
+    public void mouseDragged(double mouseX, double mouseY, int mouseEvent, double dragX, double dragY)
     {
         if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom"))
         {

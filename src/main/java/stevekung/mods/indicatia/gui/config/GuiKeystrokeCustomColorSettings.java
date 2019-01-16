@@ -105,19 +105,19 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
         ExtendedConfig.save();
         this.optionsRowList.saveCurrentValue();
-        this.optionsRowList.keyPressedText(keyCode, p_keyPressed_2_, p_keyPressed_3_);
-        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+        this.optionsRowList.keyPressedText(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
-    public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_)
+    public boolean charTyped(char codePoint, int modifiers)
     {
-        this.optionsRowList.charTypedText(p_charTyped_1_, p_charTyped_2_);
-        return super.charTyped(p_charTyped_1_, p_charTyped_2_);
+        this.optionsRowList.charTypedText(codePoint, modifiers);
+        return super.charTyped(codePoint, modifiers);
     }
 
     @Override
