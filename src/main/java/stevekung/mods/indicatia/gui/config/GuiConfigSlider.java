@@ -7,10 +7,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.LangUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiConfigSlider extends GuiButton
@@ -18,12 +14,6 @@ public class GuiConfigSlider extends GuiButton
     private double sliderValue;
     private boolean dragging;
     private final ExtendedConfig.Options options;
-    private static final List<String> SMALL_TEXT = new ArrayList<>();
-
-    static
-    {
-        SMALL_TEXT.add("potion_length_y_offset_overlap.extended_config");
-    }
 
     GuiConfigSlider(int id, int x, int y, int width, ExtendedConfig.Options option)
     {
@@ -73,16 +63,15 @@ public class GuiConfigSlider extends GuiButton
                     color = 16777120;
                 }
             }
-            boolean smallText = SMALL_TEXT.stream().anyMatch(text -> this.displayString.trim().contains(LangUtils.translate(text)));
 
-            if (smallText)
+            if (this.displayString.length() > 24)
             {
                 //                mc.fontRenderer.setUnicodeFlag(true);TODO
             }
 
             this.drawCenteredString(mc.fontRenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
 
-            if (smallText)
+            if (this.displayString.length() > 24)
             {
                 //                mc.fontRenderer.setUnicodeFlag(mc.getLanguageManager().isCurrentLocaleUnicode() || mc.gameSettings.forceUnicodeFont);
             }
