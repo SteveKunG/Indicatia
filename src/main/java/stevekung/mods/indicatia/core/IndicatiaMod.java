@@ -6,10 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -25,7 +24,6 @@ import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
 import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
-import stevekung.mods.stevekunglib.config.ConfigManagerBase;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -73,10 +71,12 @@ public class IndicatiaMod
         CommonUtils.addModListener(this::loadComplete);
         CommonUtils.addListener(this::serverStarting);
 
+        CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
+        CommonUtils.registerModEventBus(IndicatiaConfig.class);
+
         IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
         IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
         IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
-        new ConfigManagerBase(IndicatiaMod.MOD_ID, IndicatiaConfig.GENERAL_BUILDER).load();
     }
 
     private void setup(FMLClientSetupEvent event)
@@ -153,15 +153,6 @@ public class IndicatiaMod
         }
 
         LoggerIN.info("Registering client side commands");
-    }
-
-    @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
-    {
-        if (event.getModID().equals(IndicatiaMod.MOD_ID))
-        {
-            //ConfigManager.sync(IndicatiaMod.MOD_ID, Config.Type.INSTANCE);TODO
-        }
     }
 
     private static void loadProfileOption()

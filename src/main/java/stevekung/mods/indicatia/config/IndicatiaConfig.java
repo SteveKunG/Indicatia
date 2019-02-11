@@ -1,6 +1,9 @@
 package stevekung.mods.indicatia.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import stevekung.mods.indicatia.utils.LoggerIN;
 
 public class IndicatiaConfig
 {
@@ -174,5 +177,17 @@ public class IndicatiaConfig
     public enum DonatorMessagePos
     {
         LEFT, RIGHT
+    }
+
+    @SubscribeEvent
+    public static void onLoad(ModConfig.Loading event)
+    {
+        LoggerIN.info("Loaded config file {}", event.getConfig().getFileName());
+    }
+
+    @SubscribeEvent
+    public static void onFileChange(ModConfig.ConfigReloading event)
+    {
+        LoggerIN.info("Indicatia config just got changed on the file system");
     }
 }

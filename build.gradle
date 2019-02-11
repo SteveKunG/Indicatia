@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge.test:forge:1.13-24.0.83-1.13-pre"
+    minecraft "net.minecraftforge.test:forge:1.13-24.0.183-1.13-pre"
 }
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
