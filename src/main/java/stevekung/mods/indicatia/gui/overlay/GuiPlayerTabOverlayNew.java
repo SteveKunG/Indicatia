@@ -8,7 +8,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.scoreboard.IScoreCriteria;
+import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.text.ITextComponent;
@@ -47,7 +47,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             int stringWidth = this.mc.fontRenderer.getStringWidth(this.getDisplayName(info).getFormattedText() + pingWidth);
             listWidth = Math.max(listWidth, stringWidth);
 
-            if (scoreObjective != null && scoreObjective.getRenderType() != IScoreCriteria.EnumRenderType.HEARTS)
+            if (scoreObjective != null && scoreObjective.getRenderType() != ScoreCriteria.RenderType.HEARTS)
             {
                 stringWidth = this.mc.fontRenderer.getStringWidth(" " + scoreboard.getOrCreateScore(info.getGameProfile().getName(), scoreObjective).getScorePoints());
                 j = Math.max(j, stringWidth);
@@ -69,7 +69,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
         if (scoreObjective != null)
         {
-            if (scoreObjective.getRenderType() == IScoreCriteria.EnumRenderType.HEARTS)
+            if (scoreObjective.getRenderType() == ScoreCriteria.RenderType.HEARTS)
             {
                 l = 90;
             }

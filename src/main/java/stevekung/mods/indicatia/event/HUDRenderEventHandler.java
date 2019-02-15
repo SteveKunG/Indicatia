@@ -13,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -166,7 +167,7 @@ public class HUDRenderEventHandler
                 {
                     leftInfo.add(HUDInfo.getXYZ(this.mc));
 
-                    if (this.mc.player.dimension == -1)
+                    if (this.mc.player.dimension == DimensionType.NETHER)
                     {
                         leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
                     }
@@ -179,7 +180,7 @@ public class HUDRenderEventHandler
                 {
                     leftInfo.add(HUDInfo.getBiome(this.mc));
                 }
-                if (ExtendedConfig.slimeChunkFinder && this.mc.player.dimension == 0)
+                if (ExtendedConfig.slimeChunkFinder && this.mc.player.dimension == DimensionType.OVERWORLD)
                 {
                     String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No";
                     leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
@@ -211,31 +212,29 @@ public class HUDRenderEventHandler
                 // server tps
                 if (ExtendedConfig.tps && server != null)
                 {
-                    int dimension = 0;
                     double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
-                    //                    double overworldTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;TODO
+                    double overworldTPS = HUDRenderEventHandler.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
                     double tps = Math.min(1000.0D / overallTPS, 20);
 
                     leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
 
                     if (ExtendedConfig.tpsAllDims)
                     {
-                        //                        for (Integer dimensionIds : DimensionManager.getIDs())
-                        //                        {
-                        //                            long[] values = server.worldTickTimes.get(dimensionIds);
-                        //
-                        //                            if (values == null)
-                        //                            {
-                        //                                LoggerIN.error("Got null Dimension ID {}! Skipped TPS from dimension", values);
-                        //                                return;
-                        //                            }
-                        //                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-                        //                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).dimension.getDimension().getType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
-                        //                        }
+                        for (DimensionType dimension : DimensionType.func_212681_b())
+                        {
+                            long[] values = server.getTickTime(dimension);
+
+                            if (values == null)
+                            {
+                                return;
+                            }
+                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
+                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimension).dimension.getDimension().getType().toString() + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                        }
                     }
                     else
                     {
-                        //                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
+                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
                     }
                     leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
                 }
@@ -513,7 +512,7 @@ public class HUDRenderEventHandler
         HUDRenderEventHandler.recentDonator = ColorUtils.stringToRGB(ExtendedConfig.recentDonatorNameColor).toColoredFont() + HUDRenderEventHandler.recentDonatorName + ColorUtils.stringToRGB(ExtendedConfig.recentDonatorValueColor).toColoredFont() + " " + HUDRenderEventHandler.recentDonatorCount.replace("THB", "") + "THB";
     }
 
-    private static long mean(long[] values)
+    public static long mean(long[] values)
     {
         long sum = 0L;
 

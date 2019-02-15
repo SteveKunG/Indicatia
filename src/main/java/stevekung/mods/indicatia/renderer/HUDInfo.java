@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.dimension.DimensionType;
 import stevekung.mods.indicatia.config.EnumEquipment;
 import stevekung.mods.indicatia.config.EnumPotionStatus;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -60,7 +61,7 @@ public class HUDInfo
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        String nether = mc.player.dimension == -1 ? "Nether " : "";
+        String nether = mc.player.dimension == DimensionType.NETHER ? "Nether " : "";
         return ColorUtils.stringToRGB(ExtendedConfig.xyzColor).toColoredFont() + nether + "XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.xyzValueColor).toColoredFont() + x + " " + y + " " + z;
     }
 

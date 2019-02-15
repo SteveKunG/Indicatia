@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -79,7 +80,7 @@ public class GuiRenderPreview extends GuiScreen
             leftInfo.add(HUDInfo.getFPS());
             leftInfo.add(HUDInfo.getXYZ(this.mc));
 
-            if (this.mc.player.dimension == -1)
+            if (this.mc.player.dimension == DimensionType.NETHER)
             {
                 leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
             }
@@ -87,7 +88,7 @@ public class GuiRenderPreview extends GuiScreen
             leftInfo.add(HUDInfo.renderDirection(this.mc));
             leftInfo.add(HUDInfo.getBiome(this.mc));
 
-            if (this.mc.player.dimension == 0)
+            if (this.mc.player.dimension == DimensionType.OVERWORLD)
             {
                 String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No";
                 leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
@@ -108,20 +109,26 @@ public class GuiRenderPreview extends GuiScreen
             }
 
             // server tps
-//            if (server != null)
-//            {
-//                double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
-//                double tps = Math.min(1000.0D / overallTPS, 20);
-//
-//                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
-//
-//                for (Integer dimensionIds : DimensionManager.getIDs())
-//                {
-//                    double dimensionTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimensionIds)) * 1.0E-6D;
-//                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).provider.getDimensionType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
-//                }
-//                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
-//            }
+            if (server != null)
+            {
+                double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
+                double tps = Math.min(1000.0D / overallTPS, 20);
+
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
+
+                for (DimensionType dimension : DimensionType.func_212681_b())
+                {
+                    long[] values = server.getTickTime(dimension);
+
+                    if (values == null)
+                    {
+                        return;
+                    }
+                    double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimension).dimension.getType().toString() + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                }
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
+            }
 
             // right info
             rightInfo.add(HUDInfo.getCurrentTime());
