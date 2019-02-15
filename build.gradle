@@ -42,14 +42,10 @@ minecraft {
 
     runs {
         client = {
-            properties "forge.logging.markers": "SCAN,REGISTRIES,REGISTRYDUMP"
-            properties "forge.logging.console.level": "debug"
             workingDirectory project.file("run").canonicalPath
             source sourceSets.main
         }
         server = {
-            properties "forge.logging.markers": "SCAN,REGISTRIES,REGISTRYDUMP"
-            properties "forge.logging.console.level": "debug"
             workingDirectory project.file("run").canonicalPath
             source sourceSets.main
         }
