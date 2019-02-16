@@ -6,8 +6,8 @@ import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
-import stevekung.mods.stevekunglib.utils.client.RenderUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiMultiplayerIN extends GuiMultiplayer

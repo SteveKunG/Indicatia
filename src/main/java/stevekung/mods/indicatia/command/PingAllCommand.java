@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import java.util.ArrayList;
 import java.util.List;

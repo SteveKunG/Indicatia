@@ -30,8 +30,8 @@ import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 import java.io.BufferedReader;
 import java.io.File;

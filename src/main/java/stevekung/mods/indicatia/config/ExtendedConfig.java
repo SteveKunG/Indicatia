@@ -13,8 +13,8 @@ import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.LoggerIN;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.GameProfileUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

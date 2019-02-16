@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

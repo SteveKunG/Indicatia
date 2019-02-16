@@ -9,8 +9,8 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.KeystrokePosition;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
-import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 import java.awt.*;
 

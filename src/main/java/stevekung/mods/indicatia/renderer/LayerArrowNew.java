@@ -10,7 +10,7 @@ import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.stevekunglib.utils.client.RenderUtils;
+import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
 import java.util.Random;
 

@@ -1,7 +1,7 @@
 package stevekung.mods.indicatia.utils;
 
-import stevekung.mods.stevekunglib.utils.JsonUtils;
-import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

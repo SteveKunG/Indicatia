@@ -7,9 +7,9 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
-import stevekung.mods.stevekunglib.utils.ColorUtils.RGB;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils.RGB;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

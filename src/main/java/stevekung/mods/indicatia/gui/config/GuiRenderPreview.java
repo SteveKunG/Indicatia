@@ -14,7 +14,7 @@ import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 import java.util.LinkedList;
 import java.util.List;

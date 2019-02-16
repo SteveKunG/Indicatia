@@ -11,8 +11,8 @@ import org.apache.logging.log4j.util.Strings;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekungslib.utils.CommonUtils;
+import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 
 public class ChatMessageEventHandler
 {

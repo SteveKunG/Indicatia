@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.NativeImage;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

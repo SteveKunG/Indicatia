@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.command;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

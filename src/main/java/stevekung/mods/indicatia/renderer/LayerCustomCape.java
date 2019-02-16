@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
+import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>

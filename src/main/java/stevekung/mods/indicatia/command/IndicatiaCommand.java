@@ -6,8 +6,8 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class IndicatiaCommand
 {

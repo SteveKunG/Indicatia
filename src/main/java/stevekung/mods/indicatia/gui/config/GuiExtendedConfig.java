@@ -8,8 +8,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.stevekunglib.utils.LangUtils;
-import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 import java.util.ArrayList;
 import java.util.List;

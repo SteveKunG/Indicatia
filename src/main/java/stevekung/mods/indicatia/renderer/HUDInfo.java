@@ -29,8 +29,8 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.integration.GalacticraftPlanetTime;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

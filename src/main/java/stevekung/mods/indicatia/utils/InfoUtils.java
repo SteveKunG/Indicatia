@@ -10,7 +10,7 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 import java.util.List;
 import java.util.Random;

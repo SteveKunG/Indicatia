@@ -1,7 +1,7 @@
 package stevekung.mods.indicatia.utils;
 
 import net.minecraft.client.Minecraft;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 import java.util.Arrays;
 

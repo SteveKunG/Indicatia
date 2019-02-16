@@ -6,7 +6,7 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import stevekung.mods.indicatia.config.EnumEquipment;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekunglib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 public class HorizontalEquipment
 {

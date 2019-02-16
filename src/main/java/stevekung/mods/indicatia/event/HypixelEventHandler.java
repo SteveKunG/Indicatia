@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;

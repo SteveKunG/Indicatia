@@ -16,9 +16,9 @@ import stevekung.mods.indicatia.minigames.MinigameData;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekunglib.client.gui.IEntityHoverChat;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.client.gui.IEntityHoverChat;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import java.util.Collections;
 import java.util.Comparator;

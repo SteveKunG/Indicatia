@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.utils.MojangServerStatus;
 import stevekung.mods.indicatia.utils.MojangStatusChecker;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import java.util.Arrays;
 import java.util.List;

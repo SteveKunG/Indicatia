@@ -60,10 +60,10 @@ import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
-import stevekung.mods.stevekunglib.utils.JsonUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
-import stevekung.mods.stevekunglib.utils.client.ClientUtils;
-import stevekung.mods.stevekunglib.utils.enums.CachedEnum;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
+import stevekung.mods.stevekungslib.utils.enums.CachedEnum;
 
 import javax.annotation.Nonnull;
 import java.net.InetAddress;

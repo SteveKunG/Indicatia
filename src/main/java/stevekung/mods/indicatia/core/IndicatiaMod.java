@@ -23,12 +23,12 @@ import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
-import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
-import stevekung.mods.stevekunglib.utils.VersionChecker;
-import stevekung.mods.stevekunglib.utils.client.ClientUtils;
+import stevekung.mods.stevekungslib.client.gui.GuiChatRegistry;
+import stevekung.mods.stevekungslib.utils.CommonUtils;
+import stevekung.mods.stevekungslib.utils.GameProfileUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.VersionChecker;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

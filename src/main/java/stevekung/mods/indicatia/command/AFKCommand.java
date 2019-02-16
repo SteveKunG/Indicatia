@@ -8,8 +8,8 @@ import net.minecraft.command.arguments.MessageArgument;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekunglib.utils.CommonUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.CommonUtils;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class AFKCommand
 {
