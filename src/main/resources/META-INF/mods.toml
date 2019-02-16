@@ -1,9 +1,9 @@
 modLoader="javafml"
-loaderVersion="[24,)"
+loaderVersion="[25,)"
 updateJSONURL="https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
 displayURL="https://minecraft.curseforge.com/projects/indicatia"
-logoFile="examplemod.png" #optional
+logoFile="logo.png"
 authors="SteveKunG"
 
 # TODO Remove
@@ -16,7 +16,14 @@ description="Code and Utilities for SteveKunG's mods!"
 [[dependencies.stevekungs_lib]]
     modId="forge"
     mandatory=true
-    versionRange="[24,)"
+    versionRange="[25,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.stevekungs_lib]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13.2]"
     ordering="NONE"
     side="BOTH"
 
@@ -29,13 +36,20 @@ description='Simple in-game info and utilities!'
 [[dependencies.indicatia]]
     modId="forge"
     mandatory=true
-    versionRange="[24,)"
+    versionRange="[25,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.indicatia]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13.2]"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.indicatia]]
     modId="stevekungs_lib"
     mandatory=true
-    versionRange="[1.0.5,)"
+    versionRange="[2.0.0]"
     ordering="NONE"
     side="BOTH"
