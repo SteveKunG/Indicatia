@@ -65,9 +65,9 @@ dependencies {
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "pack.mcmeta", "META_INF/mods.toml", "META-INF/accesstransformer.cfg"]
+ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "logo.png", "pack.mcmeta", "META_INF/mods.toml", "META-INF/accesstransformer.cfg"]
 ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
-ext.apiFiles = ["micdoodle8/**"]
+ext.apiFiles = ["stevekung/mods/stevekungslib/**", "micdoodle8/**"]
 
 jar {
     if (!hasInternal)
@@ -80,7 +80,7 @@ jar {
     manifest {
         attributes(["Specification-Title": "indicatia",
                     "Specification-Vendor": "SteveKunG",
-                    "Specification-Version": "25.0",
+                    "Specification-Version": "1",
                     "Implementation-Title": "Indicatia",
                     "Implementation-Version": "${version}",
                     "Implementation-Vendor" : "SteveKunG",

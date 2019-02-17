@@ -2,9 +2,6 @@ modLoader="javafml"
 loaderVersion="[25,)"
 updateJSONURL="https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
-displayURL="https://minecraft.curseforge.com/projects/indicatia"
-logoFile="logo.png"
-authors="SteveKunG"
 
 # TODO Remove
 [[mods]]
@@ -31,7 +28,10 @@ description="Code and Utilities for SteveKunG's mods!"
 modId="indicatia"
 version="2.0.0"
 displayName="Indicatia"
-description='Simple in-game info and utilities!'
+description="Simple in-game info and utilities!"
+displayURL="https://minecraft.curseforge.com/projects/indicatia"
+logoFile="logo.png"
+authors="SteveKunG"
 
 [[dependencies.indicatia]]
     modId="forge"
