@@ -1,5 +1,10 @@
 package stevekung.mods.indicatia.gui.hack;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
@@ -19,11 +24,6 @@ import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekungslib.client.gui.IEntityHoverChat;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 {

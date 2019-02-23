@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.gui;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -7,8 +9,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
-
-import java.util.List;
 
 public class GuiDropdownMinigames extends GuiButton
 {

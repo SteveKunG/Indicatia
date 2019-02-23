@@ -1,5 +1,14 @@
 package stevekung.mods.indicatia.event;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
@@ -32,15 +41,6 @@ import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.text.DecimalFormat;
-import java.util.LinkedList;
-import java.util.List;
 
 public class HUDRenderEventHandler
 {
@@ -316,7 +316,7 @@ public class HUDRenderEventHandler
                     String string = leftInfo.get(i);
                     float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = mc.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                    float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
@@ -330,7 +330,7 @@ public class HUDRenderEventHandler
                     String string = rightInfo.get(i);
                     float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = mc.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                    float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
@@ -347,7 +347,7 @@ public class HUDRenderEventHandler
                 {
                     color = 16733525;
                 }
-                ColorUtils.coloredFontRenderer.drawStringWithShadow("REC: " + StringUtils.ticksToElapsedTime(this.recTick), mc.mainWindow.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, mc.mainWindow.getScaledHeight() - 10, color);
+                ColorUtils.coloredFontRenderer.drawStringWithShadow("REC: " + StringUtils.ticksToElapsedTime(this.recTick), this.mc.mainWindow.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, this.mc.mainWindow.getScaledHeight() - 10, color);
             }
 
             if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
@@ -420,7 +420,7 @@ public class HUDRenderEventHandler
     }
 
     @SubscribeEvent
-    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post event)
+    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post<EntityLivingBase> event)
     {
         EntityLivingBase entity = event.getEntity();
         float health = entity.getHealth();

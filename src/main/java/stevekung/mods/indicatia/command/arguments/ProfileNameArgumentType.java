@@ -8,12 +8,6 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.TextComponentString;
-import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 import java.io.File;
 import java.util.*;
@@ -21,6 +15,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import net.minecraft.command.CommandSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.ResourceLocationException;
+import net.minecraft.util.text.TextComponentString;
+import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {

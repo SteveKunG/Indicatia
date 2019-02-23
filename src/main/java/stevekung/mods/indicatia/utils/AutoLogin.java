@@ -1,10 +1,11 @@
 package stevekung.mods.indicatia.utils;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 public class AutoLogin
 {

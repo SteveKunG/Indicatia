@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.event;
 
+import org.apache.logging.log4j.util.Strings;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.ServerData;
@@ -7,7 +9,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
-import org.apache.logging.log4j.util.Strings;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;

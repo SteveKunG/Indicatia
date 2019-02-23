@@ -1,6 +1,15 @@
 package stevekung.mods.indicatia.core;
 
 import com.mojang.brigadier.CommandDispatcher;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
@@ -12,7 +21,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import org.apache.commons.io.IOUtils;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
@@ -29,12 +37,6 @@ import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.VersionChecker;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod

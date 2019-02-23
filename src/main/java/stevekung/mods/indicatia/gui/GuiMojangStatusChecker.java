@@ -1,5 +1,9 @@
 package stevekung.mods.indicatia.gui;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -7,10 +11,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.utils.MojangServerStatus;
 import stevekung.mods.indicatia.utils.MojangStatusChecker;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiMojangStatusChecker extends GuiScreen

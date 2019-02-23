@@ -1,6 +1,15 @@
 package stevekung.mods.indicatia.event;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -64,13 +73,6 @@ import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 import stevekung.mods.stevekungslib.utils.enums.CachedEnum;
-
-import javax.annotation.Nonnull;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class IndicatiaEventHandler
 {

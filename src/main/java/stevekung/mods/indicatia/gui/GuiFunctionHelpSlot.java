@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.gui;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
@@ -7,8 +9,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp.StringFunction;
-
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiFunctionHelpSlot extends GuiSlot

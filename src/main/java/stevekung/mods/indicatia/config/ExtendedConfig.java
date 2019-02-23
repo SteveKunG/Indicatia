@@ -1,6 +1,11 @@
 package stevekung.mods.indicatia.config;
 
 import com.google.common.base.Strings;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,10 +20,6 @@ import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 public class ExtendedConfig
 {

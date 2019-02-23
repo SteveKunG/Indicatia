@@ -1,5 +1,10 @@
 package stevekung.mods.indicatia.gui.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -7,10 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiHypixelSettings extends GuiScreen
@@ -80,7 +81,7 @@ public class GuiHypixelSettings extends GuiScreen
             return true;
         }
         else
-            {
+        {
             return false;
         }
     }

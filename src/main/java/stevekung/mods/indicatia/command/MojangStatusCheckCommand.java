@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import stevekung.mods.indicatia.utils.ThreadCheckMojangStatus;

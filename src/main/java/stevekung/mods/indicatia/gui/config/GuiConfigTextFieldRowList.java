@@ -1,5 +1,9 @@
 package stevekung.mods.indicatia.gui.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiListExtended;
@@ -8,10 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiConfigTextFieldRowList extends GuiListExtended<GuiConfigTextFieldRowList.Row>

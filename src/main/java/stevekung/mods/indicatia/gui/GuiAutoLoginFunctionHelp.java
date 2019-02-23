@@ -1,13 +1,14 @@
 package stevekung.mods.indicatia.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiAutoLoginFunctionHelp extends GuiScreen
 {

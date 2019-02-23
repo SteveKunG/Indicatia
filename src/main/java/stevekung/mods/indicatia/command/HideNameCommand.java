@@ -2,6 +2,7 @@ package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import stevekung.mods.indicatia.config.ExtendedConfig;

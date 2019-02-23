@@ -1,12 +1,13 @@
 package stevekung.mods.indicatia.utils;
 
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.client.ClientUtils;
-
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+import stevekung.mods.stevekungslib.utils.JsonUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 public class ThreadDownloadedCustomCape extends Thread
 {

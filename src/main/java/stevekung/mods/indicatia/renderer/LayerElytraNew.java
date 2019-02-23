@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.lang.reflect.Method;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -13,8 +15,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-
-import java.lang.reflect.Method;
 
 @OnlyIn(Dist.CLIENT)
 public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>

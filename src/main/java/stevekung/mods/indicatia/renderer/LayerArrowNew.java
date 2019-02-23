@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.renderer;
 
+import java.util.Random;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -12,14 +14,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
-import java.util.Random;
-
 @OnlyIn(Dist.CLIENT)
 public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
 {
-    private final RenderLivingBase renderer;
+    private final RenderLivingBase<EntityLivingBase> renderer;
 
-    public LayerArrowNew(RenderLivingBase renderer)
+    public LayerArrowNew(RenderLivingBase<EntityLivingBase> renderer)
     {
         this.renderer = renderer;
     }

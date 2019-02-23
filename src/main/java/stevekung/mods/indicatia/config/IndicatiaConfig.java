@@ -42,7 +42,7 @@ public class IndicatiaConfig
         General(ForgeConfigSpec.Builder builder)
         {
             builder.comment("General settings")
-                    .push("general");
+            .push("general");
 
             this.afkMessageTime = builder
                     .comment("")
@@ -153,7 +153,7 @@ public class IndicatiaConfig
             builder.pop();
 
             builder.comment("Donation settings")
-                    .push("donation");
+            .push("donation");
 
             this.donatorMessagePosition = builder
                     .comment("")

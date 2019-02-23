@@ -1,5 +1,8 @@
 package stevekung.mods.indicatia.gui.hack;
 
+import java.net.UnknownHostException;
+import java.util.List;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ServerListEntryNormal;
 import net.minecraft.client.multiplayer.ServerData;
@@ -10,9 +13,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.ClientHooks;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
-
-import java.net.UnknownHostException;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ServerListEntryNormalIN extends ServerListEntryNormal

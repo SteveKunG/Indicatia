@@ -1,9 +1,9 @@
 package stevekung.mods.indicatia.utils;
 
+import java.util.Arrays;
+
 import net.minecraft.client.Minecraft;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
-
-import java.util.Arrays;
 
 public class ThreadCheckMojangStatus extends Thread
 {

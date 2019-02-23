@@ -1,6 +1,11 @@
 package stevekung.mods.indicatia.gui.overlay;
 
 import com.mojang.authlib.GameProfile;
+
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
@@ -19,9 +24,6 @@ import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 {

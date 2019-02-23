@@ -3,27 +3,6 @@ loaderVersion="[25,)"
 updateJSONURL="https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
 
-# TODO Remove
-[[mods]]
-modId="stevekungs_lib"
-version="2.0.0"
-displayName="SteveKunG's Lib"
-description="Code and Utilities for SteveKunG's mods!"
-
-[[dependencies.stevekungs_lib]]
-    modId="forge"
-    mandatory=true
-    versionRange="[25,)"
-    ordering="NONE"
-    side="BOTH"
-
-[[dependencies.stevekungs_lib]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.13.2]"
-    ordering="NONE"
-    side="BOTH"
-
 [[mods]]
 modId="indicatia"
 version="2.0.0"

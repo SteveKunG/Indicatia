@@ -1,9 +1,12 @@
 package stevekung.mods.indicatia.event;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.inventory.GuiEditSign;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -13,11 +16,6 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class HypixelEventHandler
 {
@@ -41,14 +39,14 @@ public class HypixelEventHandler
         }
     }
 
-//    @SubscribeEvent
-//    public void onMouseClick(MouseEvent event)TODO
-//    {
-//        if (event.getButton() == 1 && event.isButtonstate() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
-//        {
-//            HypixelEventHandler.rightClickAddParty(this.mc);
-//        }
-//    }
+    //    @SubscribeEvent
+    //    public void onMouseClick(MouseEvent event)TODO
+    //    {
+    //        if (event.getButton() == 1 && event.isButtonstate() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
+    //        {
+    //            HypixelEventHandler.rightClickAddParty(this.mc);
+    //        }
+    //    }
 
     @SubscribeEvent
     public void onClientChatReceived(ClientChatReceivedEvent event)

@@ -1,5 +1,7 @@
 package stevekung.mods.indicatia.gui;
 
+import java.util.Collections;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -9,8 +11,6 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import java.util.Collections;
 
 public class GuiAutoLoginFunction extends GuiScreen
 {

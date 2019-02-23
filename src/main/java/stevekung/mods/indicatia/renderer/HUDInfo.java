@@ -3,6 +3,12 @@ package stevekung.mods.indicatia.renderer;
 import com.google.common.collect.Ordering;
 import com.mojang.realmsclient.RealmsMainScreen;
 import com.mojang.realmsclient.dto.RealmsServer;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.util.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenRealmsProxy;
@@ -31,11 +37,6 @@ import stevekung.mods.indicatia.integration.GalacticraftPlanetTime;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.DateFormat;
-import java.util.*;
 
 public class HUDInfo
 {

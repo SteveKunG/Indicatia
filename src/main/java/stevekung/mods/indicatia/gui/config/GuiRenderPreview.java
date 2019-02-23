@@ -1,5 +1,8 @@
 package stevekung.mods.indicatia.gui.config;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
@@ -15,9 +18,6 @@ import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiRenderPreview extends GuiScreen

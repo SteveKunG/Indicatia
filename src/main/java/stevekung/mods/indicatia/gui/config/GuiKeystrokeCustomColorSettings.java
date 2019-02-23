@@ -1,5 +1,10 @@
 package stevekung.mods.indicatia.gui.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,10 +15,6 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 import stevekung.mods.stevekungslib.utils.ColorUtils.RGB;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiKeystrokeCustomColorSettings extends GuiScreen

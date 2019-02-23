@@ -1,9 +1,9 @@
 package stevekung.mods.indicatia.utils;
 
-import net.minecraft.client.Minecraft;
-
 import java.io.BufferedReader;
 import java.io.StringReader;
+
+import net.minecraft.client.Minecraft;
 
 public class AutoLoginFunction
 {

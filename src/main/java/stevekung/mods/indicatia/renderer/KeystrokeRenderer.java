@@ -1,9 +1,12 @@
 package stevekung.mods.indicatia.renderer;
 
+import org.lwjgl.glfw.GLFW;
+
+import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.glfw.GLFW;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.KeystrokePosition;
@@ -11,8 +14,6 @@ import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
-
-import java.awt.*;
 
 public class KeystrokeRenderer
 {

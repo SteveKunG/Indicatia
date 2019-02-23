@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.gui.config;
 
 import com.google.common.base.Strings;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;

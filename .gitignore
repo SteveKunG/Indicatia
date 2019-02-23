@@ -1,10 +1,12 @@
 # folder
+.settings
 .gradle
 .idea
 bin
 build
 dependencies
 out
+libs
 run
 src/main/java/stevekung/mods/indicatia/extra
 src/main/resources/assets/indicatia/sounds
@@ -12,4 +14,7 @@ src/main/java/net/minecraft
 src/main/java/net/minecraftforge
 
 # file
+.classpath
+.project
+*.launch
 sounds.json

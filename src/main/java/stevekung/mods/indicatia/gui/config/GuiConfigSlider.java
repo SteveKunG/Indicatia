@@ -85,7 +85,7 @@ public class GuiConfigSlider extends GuiButton
         {
             if (this.dragging)
             {
-                this.sliderValue = (double)((float)(mouseX - (this.x + 4)) / (float)(this.width - 8));
+                this.sliderValue = (float)(mouseX - (this.x + 4)) / (float)(this.width - 8);
                 this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0D, 1.0D);
                 double value = this.options.denormalizeValue(this.sliderValue);
                 ExtendedConfig.instance.setOptionDoubleValue(this.options, value);
@@ -94,15 +94,15 @@ public class GuiConfigSlider extends GuiButton
             }
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (double)(this.width - 8)), this.y, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (double)(this.width - 8)) + 4, this.y, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
+            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
         }
     }
 
     @Override
     public void onClick(double mouseX, double mouseY)
     {
-        this.sliderValue = (mouseX - (double)(this.x + 4)) / (double)(this.width - 8);
+        this.sliderValue = (mouseX - (this.x + 4)) / (this.width - 8);
         this.sliderValue = MathHelper.clamp(this.sliderValue, 0.0D, 1.0D);
         ExtendedConfig.instance.setOptionDoubleValue(this.options, this.options.denormalizeValue(this.sliderValue));
         this.displayString = ExtendedConfig.instance.getKeyBinding(this.options);

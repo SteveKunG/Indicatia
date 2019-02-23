@@ -2,6 +2,10 @@ package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+
+import java.util.Collection;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.command.CommandException;
@@ -19,9 +23,6 @@ import stevekung.mods.indicatia.utils.Base64Utils;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-
-import java.util.Collection;
-import java.util.UUID;
 
 public class AutoLoginCommand
 {

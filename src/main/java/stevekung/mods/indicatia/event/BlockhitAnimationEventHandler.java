@@ -1,6 +1,9 @@
 package stevekung.mods.indicatia.event;
 
 import com.google.common.base.MoreObjects;
+
+import java.util.Arrays;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,8 +23,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
-
-import java.util.Arrays;
 
 public class BlockhitAnimationEventHandler
 {
@@ -136,6 +137,7 @@ public class BlockhitAnimationEventHandler
                 int handType = rightSide ? 1 : -1;
                 float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
                 float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
+                float f5 = itemStack.getUseDuration() - (this.mc.player.getItemInUseCount() - partialTicks + 1.0F);
 
                 switch (itemStack.getUseAction())
                 {
@@ -160,7 +162,6 @@ public class BlockhitAnimationEventHandler
                     GlStateManager.rotatef(-13.935F, 1.0F, 0.0F, 0.0F);
                     GlStateManager.rotatef(handType * 35.3F, 0.0F, 1.0F, 0.0F);
                     GlStateManager.rotatef(handType * -9.785F, 0.0F, 0.0F, 1.0F);
-                    float f5 = itemStack.getUseDuration() - (this.mc.player.getItemInUseCount() - partialTicks + 1.0F);
                     float f6 = f5 / 20.0F;
                     f6 = (f6 * f6 + f6 * 2.0F) / 3.0F;
 
@@ -178,6 +179,30 @@ public class BlockhitAnimationEventHandler
                     GlStateManager.translatef(f6 * 0.0F, f6 * 0.0F, f6 * 0.04F);
                     GlStateManager.scalef(1.0F, 1.0F, 1.0F + f6 * 0.2F);
                     GlStateManager.rotatef(handType * 45.0F, 0.0F, -1.0F, 0.0F);
+                    break;
+                case SPEAR:
+                    this.mc.getFirstPersonRenderer().transformSideFirstPerson(handSide, equipProgress);
+                    GlStateManager.translatef(handType * -0.5F, 0.7F, 0.1F);
+                    GlStateManager.rotatef(-55.0F, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotatef(handType * 35.3F, 0.0F, 1.0F, 0.0F);
+                    GlStateManager.rotatef(handType * -9.785F, 0.0F, 0.0F, 1.0F);
+                    float f7 = f5 / 10.0F;
+
+                    if (f7 > 1.0F)
+                    {
+                        f7 = 1.0F;
+                    }
+                    if (f7 > 0.1F)
+                    {
+                        float f9 = MathHelper.sin((f5 - 0.1F) * 1.3F);
+                        float f2 = f7 - 0.1F;
+                        float f3 = f9 * f2;
+                        GlStateManager.translatef(f3 * 0.0F, f3 * 0.004F, f3 * 0.0F);
+                    }
+                    GlStateManager.translatef(0.0F, 0.0F, f7 * 0.2F);
+                    GlStateManager.scalef(1.0F, 1.0F, 1.0F + f7 * 0.2F);
+                    GlStateManager.rotatef(handType * 45.0F, 0.0F, -1.0F, 0.0F);
+                    break;
                 }
             }
             else
