@@ -17,9 +17,9 @@ import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 @OnlyIn(Dist.CLIENT)
 public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
 {
-    private final RenderLivingBase<EntityLivingBase> renderer;
+    private final RenderLivingBase<?> renderer;
 
-    public LayerArrowNew(RenderLivingBase<EntityLivingBase> renderer)
+    public LayerArrowNew(RenderLivingBase<?> renderer)
     {
         this.renderer = renderer;
     }
