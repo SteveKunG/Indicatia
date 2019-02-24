@@ -5,10 +5,8 @@ import org.apache.logging.log4j.util.Strings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
@@ -24,11 +22,11 @@ public class ChatMessageEventHandler
         this.mc = Minecraft.getInstance();
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent TODO
     public void onClientConnectedToServer(NetworkEvent.ClientCustomPayloadLoginEvent event)
     {
-        this.mc.addScheduledTask(() -> MinecraftForge.EVENT_BUS.register(new PlayerSendMessageHandler()));
-    }
+        this.mc.addScheduledTask(() -> CommonUtils.registerEventHandler(new PlayerSendMessageHandler()));
+    }*/
 
     public class PlayerSendMessageHandler
     {

@@ -27,7 +27,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import stevekung.mods.indicatia.config.*;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -65,17 +64,22 @@ public class HUDRenderEventHandler
         this.overlayBoss = new GuiBossOverlayNew();
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent TODO
     public void onClientConnectedToServer(NetworkEvent.ClientCustomPayloadLoginEvent event)
     {
         this.overlayPlayerList = new GuiPlayerTabOverlayNew();
-    }
+    }*/
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event)
     {
         if (event.phase == TickEvent.Phase.START)
         {
+            if (this.overlayPlayerList == null)//TODO Temp fix
+            {
+                this.overlayPlayerList = new GuiPlayerTabOverlayNew();
+            }
+
             HUDRenderEventHandler.readFileTicks++;
 
             if (HUDRenderEventHandler.recordEnable)
