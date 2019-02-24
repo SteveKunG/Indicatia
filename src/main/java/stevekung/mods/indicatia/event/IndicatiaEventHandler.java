@@ -286,10 +286,11 @@ public class IndicatiaEventHandler
 
     @SubscribeEvent
     @SuppressWarnings("unchecked")
-    public void onPreRenderLiving(RenderLivingEvent.Pre event)
+    public void onPreRenderLiving(RenderLivingEvent.Pre<?> event)
     {
+        @SuppressWarnings("rawtypes")
         RenderLivingBase renderer = event.getRenderer();
-        List<LayerRenderer> layerLists = renderer.layerRenderers;
+        List<LayerRenderer<?>> layerLists = renderer.layerRenderers;
         EntityLivingBase entity = event.getEntity();
         RenderManager manager = this.mc.getRenderManager();
         IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
@@ -602,7 +603,7 @@ public class IndicatiaEventHandler
         }
     }
 
-    private static void replaceArmorLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer, RenderLivingBase render, EntityLivingBase entity)
+    private static void replaceArmorLayer(List<LayerRenderer<?>> layerLists, LayerRenderer<?> newLayer, RenderLivingBase<?> render, EntityLivingBase entity)
     {
         int armorLayerIndex = -1;
 
@@ -610,7 +611,7 @@ public class IndicatiaEventHandler
         {
             for (int i = 0; i < layerLists.size(); i++)
             {
-                LayerRenderer layer = layerLists.get(i);
+                LayerRenderer<?> layer = layerLists.get(i);
 
                 if (layer.getClass().equals(LayerBipedArmor.class))
                 {
@@ -626,7 +627,7 @@ public class IndicatiaEventHandler
         {
             for (int i = 0; i < layerLists.size(); i++)
             {
-                LayerRenderer layer = layerLists.get(i);
+                LayerRenderer<?> layer = layerLists.get(i);
 
                 if (layer.getClass().equals(LayerAllArmor.class))
                 {
@@ -679,13 +680,13 @@ public class IndicatiaEventHandler
         }
     }
 
-    private static void replaceCapeLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    private static void replaceCapeLayer(List<LayerRenderer<?>> layerLists, LayerRenderer<?> newLayer)
     {
         int capeLayerIndex = -1;
 
         for (int i = 0; i < layerLists.size(); i++)
         {
-            LayerRenderer layer = layerLists.get(i);
+            LayerRenderer<?> layer = layerLists.get(i);
 
             if (layer.getClass().equals(LayerCape.class))
             {
@@ -698,7 +699,7 @@ public class IndicatiaEventHandler
         }
     }
 
-    private static void replaceElytraLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    private static void replaceElytraLayer(List<LayerRenderer<?>> layerLists, LayerRenderer<?> newLayer)
     {
         int elytraLayerIndex = -1;
 
@@ -706,7 +707,7 @@ public class IndicatiaEventHandler
         {
             for (int i = 0; i < layerLists.size(); i++)
             {
-                LayerRenderer layer = layerLists.get(i);
+                LayerRenderer<?> layer = layerLists.get(i);
 
                 if (layer.getClass().equals(LayerElytra.class))
                 {
@@ -720,13 +721,13 @@ public class IndicatiaEventHandler
         }
     }
 
-    private static void replaceArrowLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
+    private static void replaceArrowLayer(List<LayerRenderer<?>> layerLists, LayerRenderer<?> newLayer)
     {
         int arrowLayerIndex = -1;
 
         for (int i = 0; i < layerLists.size(); i++)
         {
-            LayerRenderer layer = layerLists.get(i);
+            LayerRenderer<?> layer = layerLists.get(i);
 
             if (layer.getClass().equals(LayerArrow.class))
             {
