@@ -121,7 +121,7 @@ curseforge {
     }
 }
 
-task buildDeobfJar(type: Jar) {
+task deobfJar(type: Jar) {
     from sourceSets.main.output
     excludes.addAll(project.ext.apiFiles)
     classifier = "deobf"
