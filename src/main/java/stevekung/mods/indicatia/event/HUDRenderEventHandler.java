@@ -38,6 +38,7 @@ import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
+import stevekung.mods.stevekungslib.client.event.ClientEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 
@@ -57,6 +58,11 @@ public class HUDRenderEventHandler
     private static String recentDonatorCount = "";
     public static final DecimalFormat tpsFormat = new DecimalFormat("########0.00");
     public static String currentLiveViewCount = "";
+
+    private static String overallTPS = "";
+    private static String overworldTPS = "";
+    private static String tps = "";
+    private static List<String> allDimensionTPS = new LinkedList<>();
 
     public HUDRenderEventHandler()
     {
@@ -216,31 +222,50 @@ public class HUDRenderEventHandler
                 // server tps
                 if (ExtendedConfig.tps && server != null)
                 {
-                    double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
-                    double overworldTPS = HUDRenderEventHandler.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
-                    double tps = Math.min(1000.0D / overallTPS, 20);
-
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
-
-                    if (ExtendedConfig.tpsAllDims)
+                    if (ClientEventHandler.ticks % 20 == 0)
                     {
-                        for (DimensionType dimension : DimensionType.func_212681_b())
+                        double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
+                        double overworldTPS = HUDRenderEventHandler.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
+                        double tps = Math.min(1000.0D / overallTPS, 20);
+
+                        HUDRenderEventHandler.overallTPS = HUDRenderEventHandler.tpsFormat.format(overallTPS);
+                        HUDRenderEventHandler.overworldTPS = "";
+                        HUDRenderEventHandler.allDimensionTPS.clear();
+
+                        if (ExtendedConfig.tpsAllDims)
                         {
-                            long[] values = server.getTickTime(dimension);
-
-                            if (values == null)
+                            for (DimensionType dimension : DimensionType.func_212681_b())
                             {
-                                return;
+                                long[] values = server.getTickTime(dimension);
+                                String dimensionName = DimensionType.func_212678_a(dimension).toString();
+
+                                if (values == null)
+                                {
+                                    return;
+                                }
+                                double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
+                                HUDRenderEventHandler.allDimensionTPS.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + dimensionName.substring(dimensionName.indexOf(":") + 1) + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
                             }
-                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimension).dimension.getDimension().getType().toString() + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
                         }
+                        else
+                        {
+                            HUDRenderEventHandler.overworldTPS = HUDRenderEventHandler.tpsFormat.format(overworldTPS);
+                        }
+                        HUDRenderEventHandler.tps = HUDRenderEventHandler.tpsFormat.format(tps);
                     }
-                    else
+                    // overall tps
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.overallTPS);
+                    // all dimension tps
+                    leftInfo.addAll(HUDRenderEventHandler.allDimensionTPS);
+
+                    // overworld tps
+                    if (!HUDRenderEventHandler.overworldTPS.isEmpty())
                     {
-                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
+                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.overworldTPS);
                     }
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
+
+                    // tps
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tps);
                 }
 
                 // right info

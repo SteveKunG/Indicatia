@@ -17,6 +17,7 @@ import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
+import stevekung.mods.stevekungslib.client.event.ClientEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 @OnlyIn(Dist.CLIENT)
@@ -24,6 +25,11 @@ public class GuiRenderPreview extends GuiScreen
 {
     private final GuiScreen parent;
     private final String type;
+
+    private static String overallTPS = "";
+    private static String overworldTPS = "";
+    private static String tps = "";
+    private static List<String> allDimensionTPS = new LinkedList<>();
 
     GuiRenderPreview(GuiScreen parent, String type)
     {
@@ -109,25 +115,52 @@ public class GuiRenderPreview extends GuiScreen
             }
 
             // server tps
-            if (server != null)
+            if (ExtendedConfig.tps && server != null)
             {
-                double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
-                double tps = Math.min(1000.0D / overallTPS, 20);
-
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
-
-                for (DimensionType dimension : DimensionType.func_212681_b())
+                if (ClientEventHandler.ticks % 50 == 0)
                 {
-                    long[] values = server.getTickTime(dimension);
+                    double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
+                    double overworldTPS = HUDRenderEventHandler.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
+                    double tps = Math.min(1000.0D / overallTPS, 20);
 
-                    if (values == null)
+                    GuiRenderPreview.overallTPS = HUDRenderEventHandler.tpsFormat.format(overallTPS);
+                    GuiRenderPreview.overworldTPS = "";
+                    GuiRenderPreview.allDimensionTPS.clear();
+
+                    if (ExtendedConfig.tpsAllDims)
                     {
-                        return;
+                        for (DimensionType dimension : DimensionType.func_212681_b())
+                        {
+                            long[] values = server.getTickTime(dimension);
+                            String dimensionName = DimensionType.func_212678_a(dimension).toString();
+
+                            if (values == null)
+                            {
+                                return;
+                            }
+                            double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
+                            GuiRenderPreview.allDimensionTPS.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + dimensionName.substring(dimensionName.indexOf(":") + 1) + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                        }
                     }
-                    double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimension).dimension.getType().toString() + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                    else
+                    {
+                        GuiRenderPreview.overworldTPS = HUDRenderEventHandler.tpsFormat.format(overworldTPS);
+                    }
+                    GuiRenderPreview.tps = HUDRenderEventHandler.tpsFormat.format(tps);
                 }
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
+                // overall tps
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + GuiRenderPreview.overallTPS);
+                // all dimension tps
+                leftInfo.addAll(GuiRenderPreview.allDimensionTPS);
+
+                // overworld tps
+                if (!GuiRenderPreview.overworldTPS.isEmpty())
+                {
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + GuiRenderPreview.overworldTPS);
+                }
+
+                // tps
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + GuiRenderPreview.tps);
             }
 
             // right info
