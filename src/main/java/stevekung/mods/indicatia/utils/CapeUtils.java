@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.NativeImage;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 public class CapeUtils
@@ -57,7 +58,7 @@ public class CapeUtils
             try
             {
                 CapeUtils.readCapeTexture();
-                LoggerIN.info("Found downloaded custom cape file {}", CapeUtils.texture.getPath());
+                IndicatiaMod.LOGGER.info("Found downloaded custom cape file {}", CapeUtils.texture.getPath());
             }
             catch (IOException e)
             {

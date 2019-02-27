@@ -36,7 +36,6 @@ import stevekung.mods.indicatia.gui.overlay.GuiPlayerTabOverlayNew;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.RenderUtilsIN;
 import stevekung.mods.stevekungslib.client.event.ClientEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
@@ -501,7 +500,7 @@ public class HUDRenderEventHandler
             }
             catch (Exception e)
             {
-                LoggerIN.error("Couldn't read text file from path {}", file.getPath());
+                IndicatiaMod.LOGGER.error("Couldn't read text file from path {}", file.getPath());
                 e.printStackTrace();
                 HUDRenderEventHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
             }
@@ -533,7 +532,7 @@ public class HUDRenderEventHandler
             }
             catch (Exception e)
             {
-                LoggerIN.error("Couldn't read text file from path {}", file.getPath());
+                IndicatiaMod.LOGGER.error("Couldn't read text file from path {}", file.getPath());
                 e.printStackTrace();
                 HUDRenderEventHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
             }

@@ -14,10 +14,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
-import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
@@ -329,7 +329,7 @@ public class ExtendedConfig
             ExtendedConfig.readAutoLoginData(nbt.getList("AutoLoginData", 10));
             HideNameData.load(nbt.getList("HideNameList", 10));
 
-            LoggerIN.info("Loading extended config {}", ExtendedConfig.file.getPath());
+            IndicatiaMod.LOGGER.info("Loading extended config {}", ExtendedConfig.file.getPath());
         }
         catch (Exception e) {}
     }
@@ -492,11 +492,11 @@ public class ExtendedConfig
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {
             writer.println("profile:" + profileName);
-            LoggerIN.info("Saving profile name!");
+            IndicatiaMod.LOGGER.info("Saving profile name!");
         }
         catch (IOException e)
         {
-            LoggerIN.error("Failed to save profiles", (Throwable)e);
+            IndicatiaMod.LOGGER.error("Failed to save profiles", (Throwable)e);
         }
     }
 

@@ -51,6 +51,7 @@ public class IndicatiaMod
     public static boolean isYoutubeChatLoaded;
     public static boolean isOptiFineLoaded;
     private static final List<String> allowedUUID = new ArrayList<>();
+    public static LoggerIN LOGGER = new LoggerIN();
 
     static
     {
@@ -58,7 +59,7 @@ public class IndicatiaMod
         {
             ExtendedConfig.defaultConfig.delete();
             IndicatiaMod.resetFlag.delete();
-            LoggerIN.info("Reset default config");
+            IndicatiaMod.LOGGER.info("Reset default config");
         }
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
@@ -102,7 +103,7 @@ public class IndicatiaMod
         if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
         {
             //ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));TODO
-            LoggerIN.info("Successfully replacing vanilla Fishing Rod item model");
+            IndicatiaMod.LOGGER.info("Successfully replacing vanilla Fishing Rod item model");
         }
 
         IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
@@ -119,7 +120,7 @@ public class IndicatiaMod
         {
             Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
             Minecraft.getInstance().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
-            LoggerIN.info("Successfully replacing {}", EntityFishHook.class.getName());
+            IndicatiaMod.LOGGER.info("Successfully replacing {}", EntityFishHook.class.getName());
         }
     }
 
@@ -154,7 +155,7 @@ public class IndicatiaMod
             catch (Exception e) {}
         }
 
-        LoggerIN.info("Registering client side commands");
+        IndicatiaMod.LOGGER.info("Registering client side commands");
     }
 
     private static void loadProfileOption()
@@ -165,7 +166,7 @@ public class IndicatiaMod
         }
         if (!ExtendedConfig.defaultConfig.exists())
         {
-            LoggerIN.info("Initializing created default Indicatia profile...");
+            IndicatiaMod.LOGGER.info("Initializing created default Indicatia profile...");
             ExtendedConfig.setCurrentProfile("default");
             ExtendedConfig.save();
         }
@@ -190,7 +191,7 @@ public class IndicatiaMod
 
             if ("profile".equals(property))
             {
-                LoggerIN.info("Loaded current profile by name '{}'", key);
+                IndicatiaMod.LOGGER.info("Loaded current profile by name '{}'", key);
                 ExtendedConfig.setCurrentProfile(key);
                 ExtendedConfig.load();
             }
@@ -215,11 +216,11 @@ public class IndicatiaMod
             try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
             {
                 writer.println("profile:default");
-                LoggerIN.info("Creating profile option at {}", profile.getPath());
+                IndicatiaMod.LOGGER.info("Creating profile option at {}", profile.getPath());
             }
             catch (IOException e)
             {
-                LoggerIN.error("Failed to save profile");
+                IndicatiaMod.LOGGER.error("Failed to save profile");
                 e.printStackTrace();
             }
         }
@@ -235,7 +236,7 @@ public class IndicatiaMod
         }
         catch (IOException e)
         {
-            LoggerIN.error("Failed to save reset flag");
+            IndicatiaMod.LOGGER.error("Failed to save reset flag");
             e.printStackTrace();
         }
     }

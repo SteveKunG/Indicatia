@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.minigames.MinigameCommand;
 import stevekung.mods.indicatia.minigames.MinigameData;
 
@@ -65,12 +66,12 @@ public class ThreadMinigameData extends Thread
                     }
                 });
             }
-            LoggerIN.info("Successfully getting minigames data from GitHub!");
+            IndicatiaMod.LOGGER.info("Successfully getting minigames data from GitHub!");
         }
         catch (IOException | JsonSyntaxException e)
         {
             e.printStackTrace();
-            LoggerIN.error("Could not get minigames data from GitHub!");
+            IndicatiaMod.LOGGER.error("Could not get minigames data from GitHub!");
             MinigameData.addMinigameData(new MinigameData("Could not get minigames data from Database!", new ArrayList<>()));
         }
     }

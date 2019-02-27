@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import stevekung.mods.indicatia.core.IndicatiaMod;
+
 public enum MojangStatusChecker
 {
     MAIN_WEBSITE("Main Website", "minecraft.net"),
@@ -47,7 +49,7 @@ public enum MojangStatusChecker
         catch (IOException e)
         {
             e.printStackTrace();
-            LoggerIN.error("Cannot get status data from Mojang!");
+            IndicatiaMod.LOGGER.error("Cannot get status data from Mojang!");
             return MojangServerStatus.UNKNOWN;
         }
     }
