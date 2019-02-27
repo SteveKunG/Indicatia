@@ -4,12 +4,15 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.enums.CachedEnum;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiDonator extends GuiScreen
 {
     private GuiTextField topDonateInput;

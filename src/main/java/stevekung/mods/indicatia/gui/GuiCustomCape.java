@@ -9,12 +9,15 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.ThreadDownloadedCustomCape;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiCustomCape extends GuiScreen
 {
     private GuiTextField inputField;

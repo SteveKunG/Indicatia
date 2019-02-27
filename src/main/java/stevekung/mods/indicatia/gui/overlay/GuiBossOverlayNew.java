@@ -5,10 +5,13 @@ import net.minecraft.client.gui.BossInfoClient;
 import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiBossOverlayNew extends GuiBossOverlay
 {
     private final Minecraft mc;

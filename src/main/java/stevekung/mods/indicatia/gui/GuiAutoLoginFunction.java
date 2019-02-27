@@ -7,11 +7,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiAutoLoginFunction extends GuiScreen
 {
     private GuiTextField inputField;

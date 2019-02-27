@@ -11,6 +11,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiButtonCustomize;
@@ -25,6 +27,7 @@ import stevekung.mods.stevekungslib.client.gui.IEntityHoverChat;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 {
     private boolean isDragging;

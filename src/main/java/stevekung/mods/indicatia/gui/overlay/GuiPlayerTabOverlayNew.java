@@ -19,12 +19,15 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 {
     private Minecraft mc;

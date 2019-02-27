@@ -7,9 +7,12 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 
+@OnlyIn(Dist.CLIENT)
 public class GuiDropdownMinigames extends GuiButton
 {
     private static final ResourceLocation texture = new ResourceLocation("indicatia:textures/gui/dropdown.png");
