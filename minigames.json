@@ -706,6 +706,11 @@
                 "name": "Doubles",
                 "command": "blitz_teams_normal",
                 "minigame": true
+            },
+            {
+                "name": "Solo Chaos",
+                "command": "blitz_solo_chaos",
+                "minigame": true
             }
         ]
     },
