@@ -16,24 +16,16 @@ public class AFKCommand
 {
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
-        dispatcher.register(Commands.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0)).then(Commands.literal("start").executes(requirement ->
-        AFKCommand.startAFK(requirement.getSource(), null)
-                ).then(Commands.argument("reason", MessageArgument.message()).executes(requirement ->
-                AFKCommand.startAFK(requirement.getSource(), MessageArgument.getMessage(requirement, "reason"))
-                        ))).then(Commands.literal("stop").executes(requirement ->
-                        AFKCommand.stopAFK(requirement.getSource())
-                                )).then(Commands.literal("change_reason")
-                                        .then(Commands.argument("reason", MessageArgument.message()).executes(requirement ->
-                                        AFKCommand.setReason(requirement.getSource(), MessageArgument.getMessage(requirement, "reason"))
-                                                ))).then(Commands.literal("mode").then(Commands.literal("idle").executes(requirement ->
-                                                AFKCommand.changeAFKMode(requirement.getSource(), "idle")
-                                                        )).then(Commands.literal("move").executes(requirement ->
-                                                        AFKCommand.changeAFKMode(requirement.getSource(), "move")
-                                                                )).then(Commands.literal("360").executes(requirement ->
-                                                                AFKCommand.changeAFKMode(requirement.getSource(), "360")
-                                                                        )).then(Commands.literal("360_move").executes(requirement ->
-                                                                        AFKCommand.changeAFKMode(requirement.getSource(), "360_move")
-                                                                                ))));
+        dispatcher.register(Commands.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
+                .then(Commands.literal("start").executes(requirement -> AFKCommand.startAFK(requirement.getSource(), null))
+                        .then(Commands.argument("reason", MessageArgument.message()).executes(requirement -> AFKCommand.startAFK(requirement.getSource(), MessageArgument.getMessage(requirement, "reason")))))
+                .then(Commands.literal("stop").executes(requirement -> AFKCommand.stopAFK(requirement.getSource())))
+                .then(Commands.literal("change_reason").then(Commands.argument("reason", MessageArgument.message()).executes(requirement -> AFKCommand.setReason(requirement.getSource(), MessageArgument.getMessage(requirement, "reason")))))
+                .then(Commands.literal("mode")
+                        .then(Commands.literal("idle").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "idle")))
+                        .then(Commands.literal("move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "move")))
+                        .then(Commands.literal("360").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "360")))
+                        .then(Commands.literal("360_move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "360_move")))));
     }
 
     private static int startAFK(CommandSource source, ITextComponent component)
