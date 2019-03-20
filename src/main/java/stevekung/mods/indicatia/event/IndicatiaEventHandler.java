@@ -417,7 +417,14 @@ public class IndicatiaEventHandler
         if (event.getGui() instanceof GuiMainMenu)
         {
             int height = event.getGui().height / 4 + 48;
-            event.addButton(new GuiButtonMojangStatus(200, event.getGui().width / 2 - 124, height + 63));
+            event.addButton(new GuiButtonMojangStatus(200, event.getGui().width / 2 - 124, height + 63)
+            {
+                @Override
+                public void onClick(double mouseX, double mouseY)
+                {
+                    IndicatiaEventHandler.this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.getGui()));
+                }
+            });
         }
     }
 
@@ -479,18 +486,6 @@ public class IndicatiaEventHandler
                         this.disconnectClickCount = 0;
                     }
                 }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onPostActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Post event)
-    {
-        if (event.getGui() instanceof GuiMainMenu)
-        {
-            if (event.getButton().id == 200)
-            {
-                this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.getGui()));
             }
         }
     }
