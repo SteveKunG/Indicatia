@@ -242,7 +242,7 @@ public class HUDInfo
             isSpace = IndicatiaMod.isGalacticraftLoaded && spaceWorld.isAssignableFrom(worldProvider);
         }
         catch (Exception e) {}
-        return isSpace ? GalacticraftPlanetTime.getTime(mc) : InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getGameTime() % 24000);
+        return isSpace ? GalacticraftPlanetTime.getTime(mc) : InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getDayTime() % 24000);
     }
 
     public static String getGameWeather(Minecraft mc)
