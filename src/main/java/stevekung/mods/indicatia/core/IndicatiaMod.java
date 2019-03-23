@@ -66,6 +66,7 @@ public class IndicatiaMod
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
         IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
         IndicatiaMod.allowedUUID.add("4675476a-46e5-45ee-89a5-010dc02996d9");
+        IndicatiaMod.allowedUUID.add("e2d72023-34b9-45c2-825b-63ae2d1b2f36");
     }
 
     public IndicatiaMod()
