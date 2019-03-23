@@ -205,7 +205,7 @@ public class HUDRenderEventHandler
                         leftInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (IndicatiaConfig.GENERAL.donatorMessagePosition.get().equals(IndicatiaConfig.DonatorMessagePos.LEFT.name()))
+                if (IndicatiaConfig.GENERAL.donatorMessagePosition.get() == IndicatiaConfig.DonatorMessagePos.LEFT)
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
@@ -295,7 +295,7 @@ public class HUDRenderEventHandler
                         rightInfo.add(HUDInfo.getRCPS());
                     }
                 }
-                if (IndicatiaConfig.GENERAL.donatorMessagePosition.get().equals(IndicatiaConfig.DonatorMessagePos.RIGHT.name()))
+                if (IndicatiaConfig.GENERAL.donatorMessagePosition.get() == IndicatiaConfig.DonatorMessagePos.RIGHT)
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {

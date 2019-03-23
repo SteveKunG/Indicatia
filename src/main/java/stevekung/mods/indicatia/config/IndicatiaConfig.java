@@ -16,7 +16,7 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.IntValue afkMessageTime;
         public final ForgeConfigSpec.IntValue autoGGDelay;
         public final ForgeConfigSpec.ConfigValue<String> autoGGMessage;
-        public final ForgeConfigSpec.ConfigValue<String> confirmDisconnectMode;
+        public final ForgeConfigSpec.EnumValue<DisconnectMode> confirmDisconnectMode;
         public final ForgeConfigSpec.BooleanValue enableRenderInfo;
         public final ForgeConfigSpec.BooleanValue enableBlockhitAnimation;
         public final ForgeConfigSpec.BooleanValue enableAdditionalBlockhitAnimation;
@@ -36,7 +36,7 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.BooleanValue enableCustomCape;
 
         // Donation
-        public final ForgeConfigSpec.ConfigValue<String> donatorMessagePosition;
+        public final ForgeConfigSpec.EnumValue<DonatorMessagePos> donatorMessagePosition;
         public final ForgeConfigSpec.IntValue readFileInterval;
 
         General(ForgeConfigSpec.Builder builder)
@@ -62,7 +62,7 @@ public class IndicatiaConfig
             this.confirmDisconnectMode = builder
                     .comment("")
                     .translation("indicatia.configgui.confirm_disconnect_mode")
-                    .define("confirmDisconnectMode", DisconnectMode.GUI.name());
+                    .defineEnum("confirmDisconnectMode", DisconnectMode.GUI);
 
             this.enableRenderInfo = builder
                     .comment("")
@@ -158,7 +158,7 @@ public class IndicatiaConfig
             this.donatorMessagePosition = builder
                     .comment("")
                     .translation("indicatia.configgui.donator_message_position")
-                    .define("donatorMessagePosition", DonatorMessagePos.RIGHT.name());
+                    .defineEnum("donatorMessagePosition", DonatorMessagePos.RIGHT);
 
             this.readFileInterval = builder
                     .comment("")
