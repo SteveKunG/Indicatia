@@ -2,11 +2,10 @@ package stevekung.mods.indicatia.renderer;
 
 import org.lwjgl.glfw.GLFW;
 
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.MathHelper;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.KeystrokePosition;
@@ -38,7 +37,7 @@ public class KeystrokeRenderer
         boolean sneakDown = mc.player.isSneaking();
         boolean blockDown = mc.player.isActiveItemStackBlocking();
         boolean useRainbow;
-        int rainbow = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
+        int rainbow = Math.abs(MathHelper.hsvToRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
         float red = (rainbow >> 16 & 255) / 255.0F;
         float green = (rainbow >> 8 & 255) / 255.0F;
         float blue = (rainbow & 255) / 255.0F;

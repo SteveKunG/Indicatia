@@ -1,13 +1,8 @@
 package stevekung.mods.indicatia.utils;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -69,9 +64,7 @@ public class CapeUtils
 
     private static void readCapeTexture() throws IOException
     {
-        BufferedImage image = ImageIO.read(CapeUtils.texture);
-        byte[] buffer = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
-        InputStream inputStream = new ByteArrayInputStream(buffer);
-        CapeUtils.CAPE_TEXTURE = new DynamicTexture(NativeImage.read(NativeImage.PixelFormat.RGBA, inputStream));
+        NativeImage image = NativeImage.read(NativeImage.PixelFormat.RGBA, new FileInputStream(CapeUtils.texture));
+        CapeUtils.CAPE_TEXTURE = new DynamicTexture(image);
     }
 }
