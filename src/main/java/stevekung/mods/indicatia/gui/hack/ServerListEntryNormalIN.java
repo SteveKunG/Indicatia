@@ -140,19 +140,20 @@ public class ServerListEntryNormalIN extends ServerListEntryNormal
         int i1 = mouseX - x;
         int j1 = mouseY - y;
 
-        String tooltip = ClientHooks.enhanceServerListEntry(this, this.server, x + 3, entryWidth - 5, y, i1, j1);
+        /*String tooltip = ClientHooks.enhanceServerListEntry(this, this.server, x + 3, entryWidth - 5, y, i1, j1);
 
         if (tooltip != null)
         {
             this.owner.setHoveringText(tooltip);
         }
-        else
+        else*/
         {
             if (i1 >= entryWidth - j - 15 - 2 && i1 <= entryWidth - 15 - 2 && j1 >= 0 && j1 <= 8)
             {
                 this.owner.setHoveringText(s);
             }
         }
+        ClientHooks.drawForgePingInfo(this.owner, server, x, y, entryWidth, i1, j1);
 
         if (this.mc.gameSettings.touchscreen || isSelected)
         {
