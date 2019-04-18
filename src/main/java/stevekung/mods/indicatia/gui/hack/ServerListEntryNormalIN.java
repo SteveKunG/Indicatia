@@ -153,7 +153,7 @@ public class ServerListEntryNormalIN extends ServerListEntryNormal
                 this.owner.setHoveringText(s);
             }
         }
-        ClientHooks.drawForgePingInfo(this.owner, server, x, y, entryWidth, i1, j1);
+        ClientHooks.drawForgePingInfo(this.owner, this.server, x, y, entryWidth, i1, j1);
 
         if (this.mc.gameSettings.touchscreen || isSelected)
         {
