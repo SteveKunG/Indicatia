@@ -48,13 +48,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -270,18 +266,18 @@ public class IndicatiaEventHandler
         }
     }
 
-    //    @SubscribeEvent
-    //    public void onMouseClick(MouseEvent event)TODO
-    //    {
-    //        if (event.getButton() == 0 && event.isButtonstate())
-    //        {
-    //            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
-    //        }
-    //        if (event.getButton() == 1 && event.isButtonstate())
-    //        {
-    //            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
-    //        }
-    //    }
+    @SubscribeEvent
+    public void onMouseClick(InputEvent.MouseInputEvent event)
+    {
+        if (event.getButton() == 0 && event.getAction() == 1)
+        {
+            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
+        }
+        if (event.getButton() == 1 && event.getAction() == 1)
+        {
+            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
+        }
+    }
 
     @SubscribeEvent
     @SuppressWarnings("unchecked")
