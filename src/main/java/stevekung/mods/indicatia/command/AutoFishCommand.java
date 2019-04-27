@@ -14,7 +14,7 @@ public class AutoFishCommand
 {
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
-        dispatcher.register(Commands.literal("autofish").requires(requirement -> requirement.hasPermissionLevel(0)).then(Commands.literal("enable").executes(requirement -> AutoFishCommand.startAutoFish(requirement.getSource()))).then(Commands.literal("disable").executes(requirement -> AutoFishCommand.stopAutoFish(requirement.getSource()))));
+        dispatcher.register(Commands.literal("autofish").requires(requirement -> requirement.hasPermissionLevel(0)).executes(requirement -> AutoFishCommand.startAutoFish(requirement.getSource())));
     }
 
     private static int startAutoFish(CommandSource source)
@@ -34,30 +34,19 @@ public class AutoFishCommand
             {
                 IndicatiaEventHandler.autoFish = true;
                 source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.enable"), false);
+                return 1;
             }
             else
             {
                 source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.not_equipped_fishing_rod"));
+                return 0;
             }
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.auto_fish_started"));
-        }
-        return 0;
-    }
-
-    private static int stopAutoFish(CommandSource source)
-    {
-        if (IndicatiaEventHandler.autoFish)
-        {
             IndicatiaEventHandler.autoFish = false;
             source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.disable"), false);
+            return 1;
         }
-        else
-        {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.auto_fish_not_started"));
-        }
-        return 0;
     }
 }
