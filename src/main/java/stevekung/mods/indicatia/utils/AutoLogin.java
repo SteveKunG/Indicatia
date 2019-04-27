@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 public class AutoLogin
 {
     private static final Map<String, AutoLoginData> autoLogin = new HashMap<>();
 
-    @Nullable
     public AutoLoginData getAutoLogin(String data)
     {
         return AutoLogin.autoLogin.get(data);

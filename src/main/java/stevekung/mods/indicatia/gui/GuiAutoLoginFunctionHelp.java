@@ -3,45 +3,40 @@ package stevekung.mods.indicatia.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
-@OnlyIn(Dist.CLIENT)
-public class GuiAutoLoginFunctionHelp extends GuiScreen
+@Environment(EnvType.CLIENT)
+public class GuiAutoLoginFunctionHelp extends Screen
 {
     private final boolean inGui;
     private final List<StringFunction> functionList = new ArrayList<>();
-    private GuiFunctionHelpSlot functionHelpSlot;
+    //    private GuiFunctionHelpSlot functionHelpSlot; TODO
 
     GuiAutoLoginFunctionHelp(boolean inGui)
     {
+        super(JsonUtils.create("Auto Login Function Help"));
         this.inGui = inGui;
     }
 
     @Override
-    public void initGui()
+    public void init()
     {
-        this.addButton(new GuiButton(0, this.width / 2 - 100, this.height - 38, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done"))
+        this.addButton(new ButtonWidget(this.width / 2 - 100, this.height - 38, 200, 20, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
+            if (GuiAutoLoginFunctionHelp.this.inGui)
             {
-                if (GuiAutoLoginFunctionHelp.this.inGui)
-                {
-                    GuiAutoLoginFunctionHelp.this.mc.displayGuiScreen(new GuiAutoLoginFunction());
-                }
-                else
-                {
-                    GuiAutoLoginFunctionHelp.this.mc.displayGuiScreen(null);
-                }
+                GuiAutoLoginFunctionHelp.this.minecraft.openScreen(new GuiAutoLoginFunction());
             }
-        });
+            else
+            {
+                GuiAutoLoginFunctionHelp.this.minecraft.openScreen(null);
+            }
+        }));
         this.functionList.clear();
         this.functionList.add(new StringFunction("Movement", null));
         this.functionList.add(new StringFunction("forward:<tick> ", "Move Forward"));
@@ -62,32 +57,31 @@ public class GuiAutoLoginFunctionHelp extends GuiScreen
         this.functionList.add(new StringFunction("right_click_delay:<tick> ", "Delay before use right click"));
         this.functionList.add(new StringFunction("function_delay:<tick> ", "Delay before run function"));
 
-        this.functionHelpSlot = new GuiFunctionHelpSlot(this, this.functionList, this.width, this.height);
-        this.children.add(this.functionHelpSlot);
+        //        this.functionHelpSlot = new GuiFunctionHelpSlot(this, this.functionList, this.width, this.height);
+        //        this.children.add(this.functionHelpSlot);
     }
 
-    @Override
-    @Nullable
-    public IGuiEventListener getFocused()
-    {
-        return this.functionHelpSlot;
-    }
+    //    @Override
+    //    public Element getFocused()
+    //    {
+    //        return this.functionHelpSlot;
+    //    }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, "Auto Login Function", this.width / 2, 20, 16777215);
+        this.renderBackground();
+        this.drawCenteredString(this.minecraft.textRenderer, "Auto Login Function", this.width / 2, 20, 16777215);
 
-        if (this.functionHelpSlot != null)
-        {
-            this.functionHelpSlot.drawScreen(mouseX, mouseY, partialTicks);
-        }
+        //        if (this.functionHelpSlot != null)
+        //        {
+        //            this.functionHelpSlot.render(mouseX, mouseY, partialTicks);
+        //        }
         super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public boolean doesGuiPauseGame()
+    public boolean isPauseScreen()
     {
         return false;
     }

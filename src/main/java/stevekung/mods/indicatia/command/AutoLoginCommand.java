@@ -1,21 +1,22 @@
 package stevekung.mods.indicatia.command;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
-
 import java.util.Collection;
 import java.util.UUID;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerData;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+
+import io.github.cottonmc.clientcommands.ArgumentBuilders;
+import io.github.cottonmc.clientcommands.Feedback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.MessageArgument;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.command.arguments.MessageArgumentType;
+import net.minecraft.server.command.CommandSource;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.text.StringTextComponent;
+import net.minecraft.text.TextComponent;
+import net.minecraft.text.TextFormat;
+import net.minecraft.text.TranslatableTextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.utils.AutoLogin;
@@ -28,20 +29,20 @@ public class AutoLoginCommand
 {
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
-        dispatcher.register(Commands.literal("autologin").requires(requirement -> requirement.hasPermissionLevel(0))
-                .then(Commands.literal("add").then(Commands.argument("command", StringArgumentType.word()).then(Commands.argument("object", MessageArgument.message()).executes(requirement -> AutoLoginCommand.addLoginData(requirement.getSource(), StringArgumentType.getString(requirement, "command"), MessageArgument.getMessage(requirement, "object"))))))
-                .then(Commands.literal("remove").executes(requirement -> AutoLoginCommand.removeLoginData(requirement.getSource())))
-                .then(Commands.literal("list").executes(requirement -> AutoLoginCommand.getLoginDataList(requirement.getSource())))
-                .then(Commands.literal("function").executes(requirement -> AutoLoginCommand.addAutoLoginFunction())));
+        dispatcher.register(ArgumentBuilders.literal("autologin").requires(requirement -> requirement.hasPermissionLevel(0))
+                .then(ArgumentBuilders.literal("add").then(ArgumentBuilders.argument("command", StringArgumentType.word()).then(ArgumentBuilders.argument("object", MessageArgumentType.create()).executes(requirement -> AutoLoginCommand.addLoginData(StringArgumentType.getString(requirement, "command"), ClientCommandUtils.getMessageArgument(requirement, "object"))))))
+                .then(ArgumentBuilders.literal("remove").executes(requirement -> AutoLoginCommand.removeLoginData()))
+                .then(ArgumentBuilders.literal("list").executes(requirement -> AutoLoginCommand.getLoginDataList()))
+                .then(ArgumentBuilders.literal("function").executes(requirement -> AutoLoginCommand.addAutoLoginFunction())));
     }
 
-    private static int addLoginData(CommandSource source, String command, ITextComponent component)
+    private static int addLoginData(String command, TextComponent component)
     {
-        Minecraft mc = Minecraft.getInstance();
-        ServerData data = mc.getCurrentServerData();
+        MinecraftClient mc = MinecraftClient.getInstance();
+        IntegratedServer data = mc.getServer();
         UUID uuid = GameProfileUtils.getUUID();
 
-        if (mc.isSingleplayer())
+        if (mc.isInSingleplayer())
         {
             throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer").setStyle(JsonUtils.red()));
         }
@@ -52,25 +53,25 @@ public class AutoLoginCommand
 
         if (data != null)
         {
-            if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
+            if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.getServerIp()) != null)
             {
                 throw new CommandException(LangUtils.translateComponent("commands.auto_login.already_added").setStyle(JsonUtils.red()));
             }
-            String value = component.createCopy().getUnformattedComponentText();
-            ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + command + " ", Base64Utils.encode(value), uuid, "");
-            source.sendFeedback(LangUtils.translateComponent("commands.auto_login.set"), false);
+            String value = component.copy().getText();
+            ExtendedConfig.loginData.addAutoLogin(data.getServerIp(), "/" + command + " ", Base64Utils.encode(value), uuid, "");
+            Feedback.sendFeedback(LangUtils.translateComponent("commands.auto_login.set"));
             ExtendedConfig.save();
         }
-        return 0;
+        return 1;
     }
 
-    private static int removeLoginData(CommandSource source)
+    private static int removeLoginData()
     {
-        Minecraft mc = Minecraft.getInstance();
-        ServerData data = mc.getCurrentServerData();
+        MinecraftClient mc = MinecraftClient.getInstance();
+        IntegratedServer data = mc.getServer();
         UUID uuid = GameProfileUtils.getUUID();
 
-        if (mc.isSingleplayer())
+        if (mc.isInSingleplayer())
         {
             throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer").setStyle(JsonUtils.red()));
         }
@@ -81,20 +82,20 @@ public class AutoLoginCommand
 
         if (data != null)
         {
-            if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
+            if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.getServerIp()) != null)
             {
-                ExtendedConfig.loginData.removeAutoLogin(uuid + data.serverIP);
-                source.sendFeedback(LangUtils.translateComponent("commands.auto_login.remove"), false);
+                ExtendedConfig.loginData.removeAutoLogin(uuid + data.getServerIp());
+                Feedback.sendFeedback(LangUtils.translateComponent("commands.auto_login.remove"));
             }
             else
             {
-                source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.not_set"));
+                Feedback.sendError(LangUtils.translateComponent("commands.auto_login.not_set"));
             }
         }
-        return 0;
+        return 1;
     }
 
-    private static int getLoginDataList(CommandSource source)
+    private static int getLoginDataList()
     {
         Collection<AutoLogin.AutoLoginData> collection = ExtendedConfig.loginData.getAutoLoginList();
 
@@ -104,19 +105,19 @@ public class AutoLoginCommand
         }
         else
         {
-            TextComponentString component = new TextComponentString(LangUtils.translate("commands.auto_login.list.count", collection.size()));
-            component.getStyle().setColor(TextFormatting.DARK_GREEN);
-            source.sendFeedback(component, false);
-            collection.forEach(loginData -> source.sendFeedback(new TextComponentTranslation(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID()), false));
+            StringTextComponent component = new StringTextComponent(LangUtils.translate("commands.auto_login.list.count", collection.size()));
+            component.getStyle().setColor(TextFormat.DARK_GREEN);
+            Feedback.sendFeedback(component);
+            collection.forEach(loginData -> Feedback.sendFeedback(new TranslatableTextComponent(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID())));
         }
-        return 0;
+        return 1;
     }
 
     private static int addAutoLoginFunction()
     {
-        Minecraft mc = Minecraft.getInstance();
+        MinecraftClient mc = MinecraftClient.getInstance();
 
-        if (mc.isSingleplayer())
+        if (mc.isInSingleplayer())
         {
             throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer").setStyle(JsonUtils.red()));
         }
@@ -124,7 +125,7 @@ public class AutoLoginCommand
         {
             throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_realms").setStyle(JsonUtils.red()));
         }
-        mc.addScheduledTask(() -> mc.displayGuiScreen(new GuiAutoLoginFunction()));
-        return 0;
+        mc.execute(() -> mc.openScreen(new GuiAutoLoginFunction()));
+        return 1;
     }
 }

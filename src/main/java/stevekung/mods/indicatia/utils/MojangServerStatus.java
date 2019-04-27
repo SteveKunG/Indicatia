@@ -1,18 +1,18 @@
 package stevekung.mods.indicatia.utils;
 
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.text.TextFormat;
 
 public enum MojangServerStatus
 {
-    ONLINE("Online", TextFormatting.GREEN),
-    UNSTABLE("Unstable", TextFormatting.YELLOW),
-    OFFLINE("Offline", TextFormatting.DARK_RED),
-    UNKNOWN("Unknown", TextFormatting.RED);
+    ONLINE("Online", TextFormat.GREEN),
+    UNSTABLE("Unstable", TextFormat.YELLOW),
+    OFFLINE("Offline", TextFormat.DARK_RED),
+    UNKNOWN("Unknown", TextFormat.RED);
 
     private String status;
-    private TextFormatting color;
+    private TextFormat color;
 
-    MojangServerStatus(String status, TextFormatting color)
+    MojangServerStatus(String status, TextFormat color)
     {
         this.status = status;
         this.color = color;
@@ -23,7 +23,7 @@ public enum MojangServerStatus
         return this.status;
     }
 
-    public TextFormatting getColor()
+    public TextFormat getColor()
     {
         return this.color;
     }

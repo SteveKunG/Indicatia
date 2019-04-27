@@ -1,18 +1,15 @@
 package stevekung.mods.indicatia.utils;
 
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.math.*;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
@@ -26,13 +23,13 @@ public class InfoUtils
 
     public int getPing()
     {
-        NetworkPlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(Minecraft.getInstance().player.getUniqueID());
+        PlayerListEntry info = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(MinecraftClient.getInstance().player.getUuid());
 
         if (info != null)
         {
-            if (info.getResponseTime() > 0)
+            if (info.getLatency() > 0)
             {
-                return info.getResponseTime();
+                return info.getLatency();
             }
             else
             {
@@ -44,12 +41,12 @@ public class InfoUtils
 
     public boolean isHypixel()
     {
-        ServerData server = Minecraft.getInstance().getCurrentServerData();
+        IntegratedServer server = MinecraftClient.getInstance().getServer();
 
         if (server != null)
         {
             Pattern pattern = Pattern.compile("^(?:(?:(?:.*\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(server.serverIP);
+            Matcher matcher = pattern.matcher(server.getServerIp());
             return matcher.find();
         }
         return false;
@@ -86,10 +83,10 @@ public class InfoUtils
         return ColorUtils.stringToRGB(ExtendedConfig.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
     }
 
-    public String getMoonPhase(Minecraft mc)
+    public String getMoonPhase(MinecraftClient mc)
     {
         int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
-        int phase = moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getDayTime())];
+        int phase = moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getTimeOfDay())];
         String status;
 
         switch (phase)
@@ -125,13 +122,13 @@ public class InfoUtils
 
     public boolean isSlimeChunk(BlockPos pos)
     {
-        int x = MathHelper.intFloorDiv(pos.getX(), 16);
-        int z = MathHelper.intFloorDiv(pos.getZ(), 16);
+        int x = MathHelper.floorDiv(pos.getX(), 16);
+        int z = MathHelper.floorDiv(pos.getZ(), 16);
         Random rnd = new Random(ExtendedConfig.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rnd.nextInt(10) == 0;
     }
 
-    public void processMouseOverEntity(Minecraft mc)
+    /*public void processMouseOverEntity(MinecraftClient mc)
     {
         Entity entity = mc.getRenderViewEntity();
         Entity pointedEntity;
@@ -214,5 +211,5 @@ public class InfoUtils
                 }
             }
         }
-    }
+    }*/
 }

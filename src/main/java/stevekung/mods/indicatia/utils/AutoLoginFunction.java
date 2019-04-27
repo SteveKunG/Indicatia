@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.utils;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 
 public class AutoLoginFunction
 {
@@ -161,7 +161,7 @@ public class AutoLoginFunction
         }
     }
 
-    public static void runAutoLoginFunctionTicks(Minecraft mc)
+    public static void runAutoLoginFunctionTicks(MinecraftClient mc)
     {
         if (AutoLoginFunction.forwardTicks > 0)
         {
@@ -190,8 +190,8 @@ public class AutoLoginFunction
 
         if (AutoLoginFunction.useRotation)
         {
-            mc.player.rotationPitch = AutoLoginFunction.pitch;
-            mc.player.rotationYaw = AutoLoginFunction.yaw;
+            mc.player.pitch = AutoLoginFunction.pitch;
+            mc.player.yaw = AutoLoginFunction.yaw;
             AutoLoginFunction.useRotation = false;
         }
         if (AutoLoginFunction.useRightClick)
@@ -200,9 +200,9 @@ public class AutoLoginFunction
             {
                 AutoLoginFunction.rightClickDelay--;
             }
-            if (AutoLoginFunction.rightClickDelay == 0 && mc.player.getHeldItemMainhand().isEmpty())
+            if (AutoLoginFunction.rightClickDelay == 0 && mc.player.getMainHandStack().isEmpty())
             {
-                mc.rightClickMouse();
+                //mc.doItemUse();TODO
             }
         }
         if (AutoLoginFunction.useSprint)

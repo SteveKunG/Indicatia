@@ -1,5 +1,12 @@
 package stevekung.mods.indicatia.command.arguments;
 
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -9,25 +16,18 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.server.command.CommandSource;
+import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.InvalidIdentifierException;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TextComponentString(LangUtils.translate("commands.inprofile.not_found", obj)));
-    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TextComponentString(LangUtils.translate("commands.inprofile.cannot_remove_default")));
-    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TextComponentString(LangUtils.translate("argument.id.invalid")));
+    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslatableTextComponent(LangUtils.translate("commands.inprofile.not_found", obj)));
+    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TranslatableTextComponent(LangUtils.translate("commands.inprofile.cannot_remove_default")));
+    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableTextComponent(LangUtils.translate("argument.id.invalid")));
     private Mode mode;
 
     private ProfileNameArgumentType(Mode mode)
@@ -122,7 +122,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     {
         int cursor = reader.getCursor();
 
-        while (reader.canRead() && ResourceLocation.isValidPathCharacter(reader.peek()))
+        while (reader.canRead() && Identifier.isValidChar(reader.peek()))
         {
             reader.skip();
         }
@@ -133,7 +133,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         {
             return string;
         }
-        catch (ResourceLocationException e)
+        catch (InvalidIdentifierException e)
         {
             reader.setCursor(cursor);
             throw ProfileNameArgumentType.INVALID_ARGS.createWithContext(reader);

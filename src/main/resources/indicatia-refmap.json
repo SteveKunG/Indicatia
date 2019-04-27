@@ -1,0 +1,14 @@
+{
+    "mappings": {
+        "stevekung/mods/indicatia/mixin/IngameHUDRenderer": {
+            "draw(F)V": "Lnet/minecraft/class_329;method_1753(F)V"
+        }
+    },
+    "data": {
+        "named:intermediary": {
+            "stevekung/mods/indicatia/mixin/IngameHUDRenderer": {
+                "draw(F)V": "Lnet/minecraft/class_329;method_1753(F)V"
+            }
+        }
+    }
+}

@@ -1,61 +1,19 @@
-buildscript {
-    repositories {
-        maven { url = "https://files.minecraftforge.net/maven" }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.1.2"
-    }
-}
-
 plugins {
+    id "fabric-loom" version "0.2.0-SNAPSHOT"
+    id "maven-publish"
     id "com.matthewprenger.cursegradle" version "1.1.2"
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
-def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").text)
 def mcVersion = project.mc_version
+def version = project.version
 def hasInternal = project.hasProperty("internal")
 
-apply plugin: "net.minecraftforge.gradle"
-apply plugin: "eclipse"
-
-import net.minecraftforge.gradle.common.task.SignJar
-
-version = project.version
-group = "stevekung.mods.indicatia"
-archivesBaseName = "Indicatia-All"
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 1.8
-compileJava.options.encoding = "UTF-8"
+apply plugin: net.fabricmc.loom.LoomGradlePlugin
+archivesBaseName = "Indicatia"
+sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
-    mappings channel: "snapshot", version: "20180921-1.13"
-    accessTransformer = file("$rootDir/libs/accesstransformer.cfg")
-
-    runs {
-        client = {
-            workingDirectory project.file("run").canonicalPath
-            source sourceSets.main
-
-            mods {
-                indicatia {
-                    source sourceSets.main
-                }
-            }
-        }
-        server = {
-            workingDirectory project.file("run").canonicalPath
-            source sourceSets.main
-
-            mods {
-                indicatia {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
 }
 
 repositories {
@@ -63,44 +21,33 @@ repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
     }
+    // Cloth
+    maven {
+        url "https://minecraft.curseforge.com/api/maven"
+    }
+    // CottonMC
+    maven {
+        url "http://server.bbkr.space:8081/artifactory/libs-snapshot"
+    }
+}
+
+jar {
+    //include "stevekung/mods/indicatia/**"
+    baseName = "Indicatia-" + mcVersion
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.13.2-25.0.147"
-    compile files("libs/SteveKunG's-Lib-1.13.2-2.0.0-deobf.jar")
-}
+	minecraft "com.mojang:minecraft:1.14"
+    mappings "net.fabricmc:yarn:1.14+build.+"
+    modCompile "net.fabricmc:fabric-loader:0.4.2+build.+"
 
-ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
-ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "logo.png", "pack.mcmeta", "META_INF/mods.toml", "META-INF/accesstransformer.cfg"]
-ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
-ext.apiFiles = ["stevekung/mods/stevekungslib/**", "micdoodle8/**"]
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modCompile "net.fabricmc:fabric:0.2.7+build.127"
 
-jar {
-
-    if (hasInternal)
-    {
-        baseName = "IndicatiaExtra-" + mcVersion
-    }
-    else
-    {
-        baseName = "Indicatia-" + mcVersion
-        excludes.addAll(project.ext.internalFiles)
-    }
-
-    excludes.addAll(project.ext.apiFiles)
-
-    manifest {
-        attributes([
-                "Specification-Title": "indicatia",
-                "Specification-Vendor": "SteveKunG",
-                "Specification-Version": "1",
-                "Implementation-Title": "Indicatia",
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"SteveKunG",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
+    modCompile "cloth-config:ClothConfig:0.2.1.14"
+    modCompile "io.github.prospector.modmenu:ModMenu:1.4.2-77"
+    modCompile "io.github.cottonmc:client-commands:0.2.1+1.14-pre5-SNAPSHOT"
+    modCompile file("libs/SteveKunG's-Lib-1.14-1.0.0-dev.jar")
 }
 
 curseforge {
@@ -120,20 +67,3 @@ curseforge {
         }
     }
 }
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    excludes.addAll(project.ext.apiFiles)
-    classifier = "deobf"
-}
-
-task signJar(type: SignJar, dependsOn: jar) {
-    keyStore = keystore.keystore_path
-    alias = keystore.alias
-    storePass = keystore.keystore_pass
-    keyPass = keystore.keystore_pass
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
-}
-
-build.dependsOn signJar

@@ -1,36 +1,42 @@
 package stevekung.mods.indicatia.gui.config;
 
-import com.google.common.base.Strings;
+import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.util.StringUtils;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ElementListWidget;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 
-@OnlyIn(Dist.CLIENT)
-public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowList.Row>
+@Environment(EnvType.CLIENT)
+public class GuiConfigButtonRowList extends ElementListWidget<GuiConfigButtonRowList.Row>
 {
     static String comment = null;
 
     GuiConfigButtonRowList(int width, int height, int top, int bottom, int slotHeight, ExtendedConfig.Options[] options)
     {
-        super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
+        super(MinecraftClient.getInstance(), width, height, top, bottom, slotHeight);
         this.centerListVertically = false;
 
         for (int i = 0; i < options.length; i += 2)
         {
             ExtendedConfig.Options exoptions = options[i];
             ExtendedConfig.Options exoptions1 = i < options.length - 1 ? options[i + 1] : null;
-            GuiButton button = GuiConfigButtonRowList.createButton(width / 2 - 165, exoptions);
-            GuiButton button1 = GuiConfigButtonRowList.createButton(width / 2 - 160 + 160, exoptions1);
-            this.addEntry(new GuiConfigButtonRowList.Row(button, button1));
+            ButtonWidget button = GuiConfigButtonRowList.createButton(width / 2 - 165, exoptions);
+            ButtonWidget button1 = GuiConfigButtonRowList.createButton(width / 2 - 160 + 160, exoptions1);
+            this.addEntry(new GuiConfigButtonRowList.Row(ImmutableList.of(button, button1)));
         }
     }
 
-    private static GuiButton createButton(int x, ExtendedConfig.Options options)
+    private static ButtonWidget createButton(int x, ExtendedConfig.Options options)
     {
         if (options == null)
         {
@@ -40,13 +46,13 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
         {
             int i = options.getOrdinal();
 
-            GuiConfigButton button1 = new GuiConfigButton(i, x, 0, 160, ExtendedConfig.instance.getKeyBinding(options), options.getComment())
+            GuiConfigButton button1 = new GuiConfigButton(x, 0, 160, ExtendedConfig.instance.getKeyBinding(options), options.getComment())
             {
                 @Override
                 public void onClick(double mouseX, double mouseY)
                 {
                     ExtendedConfig.instance.setOptionValue(options, 1);
-                    this.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.id));
+                    this.setMessage(ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(i)));
                     ExtendedConfig.save();
                 }
 
@@ -55,7 +61,7 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
                 {
                     String comment = this.getComment();
 
-                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
+                    if (mouseEvent == 1 && !StringUtils.isEmpty(comment))
                     {
                         GuiConfigButtonRowList.comment = comment;
                         return true;
@@ -63,13 +69,13 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
                     return super.mouseClicked(mouseX, mouseY, mouseEvent);
                 }
             };
-            GuiConfigButton button2 = new GuiConfigButton(i, x, 0, 160, ExtendedConfig.instance.getKeyBinding(options))
+            GuiConfigButton button2 = new GuiConfigButton(x, 0, 160, ExtendedConfig.instance.getKeyBinding(options))
             {
                 @Override
                 public void onClick(double mouseX, double mouseY)
                 {
                     ExtendedConfig.instance.setOptionValue(options, 1);
-                    this.displayString = ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(this.id));
+                    this.setMessage(ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(i)));
                     ExtendedConfig.save();
                 }
 
@@ -78,7 +84,7 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
                 {
                     String comment = this.getComment();
 
-                    if (mouseEvent == 1 && !StringUtils.isNullOrEmpty(comment))
+                    if (mouseEvent == 1 && !StringUtils.isEmpty(comment))
                     {
                         GuiConfigButtonRowList.comment = comment;
                         return true;
@@ -91,64 +97,41 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
     }
 
     @Override
-    public int getListWidth()
+    public int getRowWidth()
     {
         return 400;
     }
 
     @Override
-    protected int getScrollBarX()
+    protected int getScrollbarPosition()
     {
-        return super.getScrollBarX() + 40;
+        return super.getScrollbarPosition() + 40;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static class Row extends GuiListExtended.IGuiListEntry<Row>
+    @Environment(EnvType.CLIENT)
+    public static class Row extends ElementListWidget.Entry<Row>
     {
-        private final GuiButton buttonA;
-        private final GuiButton buttonB;
+        private final List<AbstractButtonWidget> buttons;
 
-        Row(GuiButton buttonA, GuiButton buttonB)
+        Row(List<AbstractButtonWidget> buttons)
         {
-            this.buttonA = buttonA;
-            this.buttonB = buttonB;
+            this.buttons = buttons;
         }
 
         @Override
-        public void drawEntry(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(int entryWidth, int entryHeight, int mouseX, int mouseY, int var5, int var6, int var7, boolean isSelected, float partialTicks)
         {
-            if (this.buttonA != null)
+            this.buttons.forEach(button ->
             {
-                this.buttonA.y = this.getY();
-                this.buttonA.render(mouseX, mouseY, partialTicks);
-            }
-            if (this.buttonB != null)
-            {
-                this.buttonB.y = this.getY();
-                this.buttonB.render(mouseX, mouseY, partialTicks);
-            }
+                button.y = entryHeight;
+                button.render(var6, var7, partialTicks);
+            });
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int mouseEvent)
+        public List<? extends Element> children()
         {
-            if (this.buttonA.mouseClicked(mouseX, mouseY, mouseEvent))
-            {
-                return true;
-            }
-            return this.buttonB != null && this.buttonB.mouseClicked(mouseX, mouseY, mouseEvent);
+            return this.buttons;
         }
-
-        @Override
-        public boolean mouseReleased(double mouseX, double mouseY, int mouseEvent)
-        {
-            GuiConfigButtonRowList.comment = null;
-            boolean flag = this.buttonA != null && this.buttonA.mouseReleased(mouseX, mouseY, mouseEvent);
-            boolean flag1 = this.buttonB != null && this.buttonB.mouseReleased(mouseX, mouseY, mouseEvent);
-            return flag || flag1;
-        }
-
-        @Override
-        public void func_195000_a(float partialTicks) {} //TODO updatePosition
     }
 }

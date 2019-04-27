@@ -2,25 +2,26 @@ package stevekung.mods.indicatia.gui;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import com.mojang.blaze3d.platform.GlStateManager;
 
-@OnlyIn(Dist.CLIENT)
-public class GuiButtonCustomizeTexture extends GuiButton
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.util.Identifier;
+
+@Environment(EnvType.CLIENT)
+public class GuiButtonCustomizeTexture extends ButtonWidget
 {
     private final String texture;
-    private final GuiScreen parent;
+    private final Screen parent;
     private final List<String> tooltips;
 
-    GuiButtonCustomizeTexture(int buttonID, int xPos, int yPos, GuiScreen parent, List<String> tooltips, String texture)
+    GuiButtonCustomizeTexture(int xPos, int yPos, Screen parent, List<String> tooltips, String texture, ButtonWidget.PressAction action)
     {
-        super(buttonID, xPos, yPos, 20, 20, "");
+        super(xPos, yPos, 20, 20, "", action);
         this.parent = parent;
         this.tooltips = tooltips;
         this.texture = texture;
@@ -31,10 +32,10 @@ public class GuiButtonCustomizeTexture extends GuiButton
     {
         if (this.visible)
         {
-            Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("indicatia:textures/gui/" + this.texture + ".png"));
+            MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier("indicatia:textures/gui/" + this.texture + ".png"));
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            Gui.drawModalRectWithCustomSizedTexture(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
+            DrawableHelper.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
     }
 
@@ -51,7 +52,7 @@ public class GuiButtonCustomizeTexture extends GuiButton
 
                 for (String s : this.tooltips)
                 {
-                    int l = Minecraft.getInstance().fontRenderer.getStringWidth(s);
+                    int l = MinecraftClient.getInstance().textRenderer.getStringWidth(s);
 
                     if (l > k)
                     {
@@ -72,26 +73,26 @@ public class GuiButtonCustomizeTexture extends GuiButton
                     i1 -= 28 + k;
                 }
 
-                this.zLevel = 300.0F;
+                this.blitOffset = 300;
                 int l1 = -267386864;
-                this.drawGradientRect(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
-                this.drawGradientRect(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
-                this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
-                this.drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
-                this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
+                this.blit(i1 - 3, j1 - 4, i1 + k + 3, j1 - 3, l1, l1);
+                this.blit(i1 - 3, j1 + k1 + 3, i1 + k + 3, j1 + k1 + 4, l1, l1);
+                this.blit(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
+                this.blit(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
+                this.blit(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
                 int i2 = 1347420415;
                 int j2 = (i2 & 16711422) >> 1 | i2 & -16777216;
-                this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-                this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-                this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
-                this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+                this.blit(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+                this.blit(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+                this.blit(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+                this.blit(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 
                 for (String s1 : this.tooltips)
                 {
-                    Minecraft.getInstance().fontRenderer.drawStringWithShadow(s1, i1, j1, -1);
+                    MinecraftClient.getInstance().textRenderer.drawWithShadow(s1, i1, j1, -1);
                     j1 += 10;
                 }
-                this.zLevel = 0.0F;
+                this.blitOffset = 0;
             }
             GlStateManager.enableDepthTest();
         }

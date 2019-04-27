@@ -3,16 +3,16 @@ package stevekung.mods.indicatia.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 
 public class HideNameData
 {
     private static final List<String> stringList = new ArrayList<>();
 
-    public static NBTTagList save()
+    public static ListTag save()
     {
-        NBTTagList list = new NBTTagList();
+        ListTag list = new ListTag();
 
         for (int i = 0; i < HideNameData.stringList.size(); i++)
         {
@@ -20,19 +20,19 @@ public class HideNameData
 
             if (name != null)
             {
-                NBTTagCompound tag = new NBTTagCompound();
-                tag.setString(String.valueOf(i), name);
+                CompoundTag tag = new CompoundTag();
+                tag.putString(String.valueOf(i), name);
                 list.add(tag);
             }
         }
         return list;
     }
 
-    public static void load(NBTTagList list)
+    public static void load(ListTag list)
     {
         for (int i = 0; i < list.size(); i++)
         {
-            NBTTagCompound tag = list.getCompound(i);
+            CompoundTag tag = list.getCompoundTag(i);
             String name = tag.getString(String.valueOf(i));
             HideNameData.stringList.add(i, name);
         }

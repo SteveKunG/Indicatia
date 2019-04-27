@@ -1,52 +1,34 @@
 package stevekung.mods.indicatia.core;
 
-import com.mojang.brigadier.CommandDispatcher;
-
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.client.GameSettings;
-import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandSource;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import org.apache.commons.io.IOUtils;
+
+import io.github.cottonmc.clientcommands.ClientCommands;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.options.GameOptions;
+import net.minecraft.nbt.CompoundTag;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.config.IndicatiaConfig;
-import stevekung.mods.indicatia.event.*;
-import stevekung.mods.indicatia.gui.hack.GuiIndicatiaChat;
+import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
-import stevekung.mods.stevekungslib.client.gui.GuiChatRegistry;
-import stevekung.mods.stevekungslib.utils.CommonUtils;
-import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
-import stevekung.mods.stevekungslib.utils.VersionChecker;
+import stevekung.mods.stevekungslib.utils.client.ClientRegistryUtils;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
-@Mod(IndicatiaMod.MOD_ID)
-public class IndicatiaMod
+public class IndicatiaMod implements ClientModInitializer
 {
-    private static final String NAME = "Indicatia";
     static final String MOD_ID = "indicatia";
-    private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     private static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
-    public static VersionChecker CHECKER;
     public static boolean isGalacticraftLoaded;
     public static boolean isYoutubeChatLoaded;
     public static boolean isOptiFineLoaded;
@@ -71,94 +53,30 @@ public class IndicatiaMod
         IndicatiaMod.allowedUUID.add("b996cae9-43ad-48ad-ba89-4f1c50f14943");
     }
 
-    public IndicatiaMod()
+    @Override
+    public void onInitializeClient()
     {
-        CommonUtils.addModListener(this::setup);
-        CommonUtils.addModListener(this::loadComplete);
-        CommonUtils.addListener(this::serverStarting);
-
-        CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
-        CommonUtils.registerModEventBus(IndicatiaConfig.class);
-
-        IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
-        IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
-        IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
-    }
-
-    private void setup(FMLClientSetupEvent event)
-    {
-        KeyBindingHandler.init();
-        CommonUtils.registerEventHandler(new HUDRenderEventHandler());
-        CommonUtils.registerEventHandler(new IndicatiaEventHandler());
-        CommonUtils.registerEventHandler(new ChatMessageEventHandler());
-        CommonUtils.registerEventHandler(new HypixelEventHandler());
-        CommonUtils.registerEventHandler(this);
-
-        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
-        {
-            try
-            {
-                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
-                clazz.getMethod("init").invoke(null);
-            }
-            catch (Exception e) {}
-        }
-        if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
-        {
-            //ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));TODO
-            IndicatiaMod.LOGGER.info("Successfully replacing vanilla Fishing Rod item model");
-        }
-
-        IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
-
-        if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
-        {
-            IndicatiaMod.CHECKER.startCheck();
-        }
+        IndicatiaMod.isGalacticraftLoaded = FabricLoader.getInstance().isModLoaded("galacticraftcore");
+        IndicatiaMod.isYoutubeChatLoaded = FabricLoader.getInstance().isModLoaded("youtube_chat");
+        IndicatiaMod.isOptiFineLoaded = FabricLoader.getInstance().isModLoaded("optifine");
 
         IndicatiaMod.loadProfileOption();
-        CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
+        KeyBindingHandler.init();
+        ClientCommands.registerCommand(dispatcher -> AFKCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> AutoFishCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> AutoLoginCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> HideNameCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> IndicatiaCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> MojangStatusCheckCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> PingAllCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> ProfileCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> SetSlimeChunkSeedCommand.register(dispatcher));
+        ClientCommands.registerCommand(dispatcher -> SwedenTimeCommand.register(dispatcher));
 
-        if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
-        {
-            Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
-            Minecraft.getInstance().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
-            IndicatiaMod.LOGGER.info("Successfully replacing {}", EntityFishHook.class.getName());
-        }
-    }
+        ClientRegistryUtils.registerClientTick(mc -> new IndicatiaEventHandler().onClientTick());
 
-    private void loadComplete(FMLLoadCompleteEvent event)
-    {
         CapeUtils.loadCapeTextureAtStartup();
-        GuiChatRegistry.register(new GuiIndicatiaChat());
         new ThreadMinigameData().run();
-    }
-
-    private void serverStarting(FMLServerStartingEvent event)
-    {
-        CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
-        MojangStatusCheckCommand.register(dispatcher);
-        SetSlimeChunkSeedCommand.register(dispatcher);
-        AFKCommand.register(dispatcher);
-        IndicatiaCommand.register(dispatcher);
-        ProfileCommand.register(dispatcher);
-        PingAllCommand.register(dispatcher);
-        AutoFishCommand.register(dispatcher);
-        SwedenTimeCommand.register(dispatcher);
-        HideNameCommand.register(dispatcher);
-        AutoLoginCommand.register(dispatcher);
-
-        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
-        {
-            try
-            {
-                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
-                clazz.getMethod("registerCommand", FMLServerStartingEvent.class).invoke(null, event);
-            }
-            catch (Exception e) {}
-        }
-
-        IndicatiaMod.LOGGER.info("Registering client side commands");
     }
 
     private static void loadProfileOption()
@@ -174,7 +92,7 @@ public class IndicatiaMod
             ExtendedConfig.save();
         }
 
-        NBTTagCompound nbt = new NBTTagCompound();
+        CompoundTag nbt = new CompoundTag();
 
         try
         {
@@ -182,13 +100,13 @@ public class IndicatiaMod
 
             list.forEach(option ->
             {
-                Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
-                nbt.setString(iterator.next(), iterator.next());
+                Iterator<String> iterator = GameOptions.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
+                nbt.putString(iterator.next(), iterator.next());
             });
         }
         catch (Exception e) {}
 
-        nbt.keySet().forEach(property ->
+        nbt.getKeys().forEach(property ->
         {
             String key = nbt.getString(property);
 

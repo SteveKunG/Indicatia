@@ -3,18 +3,22 @@ package stevekung.mods.indicatia.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.NativeImage;
+import org.apache.commons.io.IOUtils;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 public class CapeUtils
 {
-    public static DynamicTexture CAPE_TEXTURE;
+    public static NativeImageBackedTexture CAPE_TEXTURE;
     public static final File texture = new File(ExtendedConfig.userDir, "custom_cape");
     static boolean textureDownloaded = true;
 
@@ -22,7 +26,7 @@ public class CapeUtils
     {
         if (CapeUtils.CAPE_TEXTURE != null)
         {
-            GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.getGlTextureId());
+            GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.getGlId());
         }
     }
 
@@ -35,7 +39,7 @@ public class CapeUtils
                 try
                 {
                     CapeUtils.readCapeTexture();
-                    Minecraft.getInstance().player.sendMessage(JsonUtils.create("New custom cape texture successfully downloaded").setStyle(JsonUtils.green()));
+                    MinecraftClient.getInstance().player.addChatMessage(JsonUtils.create("New custom cape texture successfully downloaded").setStyle(JsonUtils.green()), false);
                 }
                 catch (IOException e)
                 {
@@ -64,7 +68,7 @@ public class CapeUtils
 
     private static void readCapeTexture() throws IOException
     {
-        NativeImage image = NativeImage.read(NativeImage.PixelFormat.RGBA, new FileInputStream(CapeUtils.texture));
-        CapeUtils.CAPE_TEXTURE = new DynamicTexture(image);
+        NativeImage image = NativeImage.fromByteBuffer(NativeImage.Format.RGBA, ByteBuffer.wrap(IOUtils.toByteArray(new FileInputStream(CapeUtils.texture))));
+        CapeUtils.CAPE_TEXTURE = new NativeImageBackedTexture(image);
     }
 }

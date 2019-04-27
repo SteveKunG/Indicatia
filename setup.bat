@@ -1,0 +1,1 @@
+cmd /k set GRADLE_USER_HOME=C:\Users\SteveKunG\.gradle_fabric

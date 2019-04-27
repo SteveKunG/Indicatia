@@ -2,12 +2,12 @@ package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.MessageArgument;
-import net.minecraft.util.text.ITextComponent;
-import stevekung.mods.indicatia.config.IndicatiaConfig;
+import io.github.cottonmc.clientcommands.ArgumentBuilders;
+import io.github.cottonmc.clientcommands.Feedback;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.command.arguments.MessageArgumentType;
+import net.minecraft.server.command.CommandSource;
+import net.minecraft.text.TextComponent;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -16,23 +16,23 @@ public class AFKCommand
 {
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
-        dispatcher.register(Commands.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
-                .then(Commands.literal("start").executes(requirement -> AFKCommand.startAFK(requirement.getSource(), null))
-                        .then(Commands.argument("reason", MessageArgument.message()).executes(requirement -> AFKCommand.startAFK(requirement.getSource(), MessageArgument.getMessage(requirement, "reason")))))
-                .then(Commands.literal("stop").executes(requirement -> AFKCommand.stopAFK(requirement.getSource())))
-                .then(Commands.literal("change_reason").then(Commands.argument("reason", MessageArgument.message()).executes(requirement -> AFKCommand.setReason(requirement.getSource(), MessageArgument.getMessage(requirement, "reason")))))
-                .then(Commands.literal("mode")
-                        .then(Commands.literal("idle").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "idle")))
-                        .then(Commands.literal("move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "move")))
-                        .then(Commands.literal("360").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "360")))
-                        .then(Commands.literal("360_move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "360_move")))));
+        dispatcher.register(ArgumentBuilders.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
+                .then(ArgumentBuilders.literal("start").executes(requirement -> AFKCommand.startAFK(null))
+                        .then(ArgumentBuilders.argument("reason", MessageArgumentType.create()).executes(requirement -> AFKCommand.startAFK(ClientCommandUtils.getMessageArgument(requirement, "reason")))))
+                .then(ArgumentBuilders.literal("stop").executes(requirement -> AFKCommand.stopAFK()))
+                .then(ArgumentBuilders.literal("change_reason").then(ArgumentBuilders.argument("reason", MessageArgumentType.create()).executes(requirement -> AFKCommand.setReason(ClientCommandUtils.getMessageArgument(requirement, "reason")))))
+                .then(ArgumentBuilders.literal("mode")
+                        .then(ArgumentBuilders.literal("idle").executes(requirement -> AFKCommand.changeAFKMode("idle")))
+                        .then(ArgumentBuilders.literal("move").executes(requirement -> AFKCommand.changeAFKMode("move")))
+                        .then(ArgumentBuilders.literal("360").executes(requirement -> AFKCommand.changeAFKMode("360")))
+                        .then(ArgumentBuilders.literal("360_move").executes(requirement -> AFKCommand.changeAFKMode("360_move")))));
     }
 
-    private static int startAFK(CommandSource source, ITextComponent component)
+    private static int startAFK(TextComponent component)
     {
         if (!IndicatiaEventHandler.isAFK)
         {
-            String reason = component == null ? "" : component.createCopy().getUnformattedComponentText();
+            String reason = component == null ? "" : component.copy().getText();
             IndicatiaEventHandler.isAFK = true;
             IndicatiaEventHandler.afkReason = reason;
 
@@ -47,83 +47,83 @@ public class AFKCommand
 
             String message = LangUtils.translate("commands.afk.afk_now");
 
-            if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
+            //if (IndicatiaConfig.GENERAL.enableAFKMessage.get())TODO
             {
-                Minecraft.getInstance().player.sendChatMessage(message + reason);
+                MinecraftClient.getInstance().player.sendChatMessage(message + reason);
             }
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_started"));
+            Feedback.sendError(LangUtils.translateComponent("commands.afk.afk_started"));
         }
-        return 0;
+        return 1;
     }
 
-    private static int stopAFK(CommandSource source)
+    private static int stopAFK()
     {
         if (IndicatiaEventHandler.isAFK)
         {
             IndicatiaEventHandler.isAFK = false;
             IndicatiaEventHandler.afkMoveTicks = 0;
 
-            if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
+            //if (IndicatiaConfig.GENERAL.enableAFKMessage.get())TODO
             {
                 if (IndicatiaEventHandler.afkReason.isEmpty())
                 {
-                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                    MinecraftClient.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getText());
                 }
                 else
                 {
-                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.afkReason, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                    MinecraftClient.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.afkReason, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getText());
                 }
             }
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_not_started"));
+            Feedback.sendError(LangUtils.translateComponent("commands.afk.afk_not_started"));
         }
-        return 0;
+        return 1;
     }
 
-    private static int setReason(CommandSource source, ITextComponent component)
+    private static int setReason(TextComponent component)
     {
         if (IndicatiaEventHandler.isAFK)
         {
             String oldReason = IndicatiaEventHandler.afkReason;
-            String newReason = component.createCopy().getUnformattedComponentText();
+            String newReason = component.copy().getText();
             IndicatiaEventHandler.afkReason = newReason;
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason), false);
+            Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason));
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_not_started"));
+            Feedback.sendError(LangUtils.translateComponent("commands.afk.afk_not_started"));
         }
-        return 0;
+        return 1;
     }
 
-    private static int changeAFKMode(CommandSource source, String mode)
+    private static int changeAFKMode(String mode)
     {
         if ("idle".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "idle";
             IndicatiaEventHandler.afkMoveTicks = 0;
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
         }
         else if ("move".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "move";
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
         }
         else if ("360".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "360";
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
         }
         else if ("360_move".equalsIgnoreCase(mode))
         {
             IndicatiaEventHandler.afkMode = "360_move";
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode), false);
+            Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
         }
-        return 0;
+        return 1;
     }
 }
