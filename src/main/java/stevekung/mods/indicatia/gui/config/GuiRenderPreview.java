@@ -11,7 +11,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import stevekung.mods.indicatia.config.EnumEquipment;
+import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.indicatia.renderer.HUDInfo;
@@ -51,7 +51,7 @@ public class GuiRenderPreview extends GuiScreen
             KeystrokeRenderer.render(this.mc);
             HUDInfo.renderPotionHUD(this.mc);
 
-            if (EnumEquipment.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+            if (Equipments.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
             {
                 HUDInfo.renderVerticalEquippedItems(this.mc);
             }

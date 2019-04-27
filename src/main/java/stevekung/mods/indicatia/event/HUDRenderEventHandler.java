@@ -316,13 +316,13 @@ public class HUDRenderEventHandler
                 // equipments
                 if (!this.mc.player.isSpectator() && ExtendedConfig.equipmentHUD)
                 {
-                    if (EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
+                    if (Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
                     {
                         HUDInfo.renderHotbarEquippedItems(this.mc);
                     }
                     else
                     {
-                        if (EnumEquipment.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+                        if (Equipments.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
                         {
                             HUDInfo.renderVerticalEquippedItems(this.mc);
                         }

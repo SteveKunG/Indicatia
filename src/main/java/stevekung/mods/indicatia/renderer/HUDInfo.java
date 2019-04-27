@@ -29,8 +29,8 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
-import stevekung.mods.indicatia.config.EnumEquipment;
-import stevekung.mods.indicatia.config.EnumPotionStatus;
+import stevekung.mods.indicatia.config.Equipments;
+import stevekung.mods.indicatia.config.StatusEffects;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.integration.GalacticraftPlanetTime;
@@ -253,8 +253,8 @@ public class HUDInfo
 
     public static void renderHorizontalEquippedItems(Minecraft mc)
     {
-        String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.equipmentOrdering);
-        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
+        String ordering = Equipments.Ordering.getById(ExtendedConfig.equipmentOrdering);
+        boolean isRightSide = Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         int baseXOffset = 2;
         int baseYOffset = ExtendedConfig.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
@@ -317,12 +317,12 @@ public class HUDInfo
 
     public static void renderVerticalEquippedItems(Minecraft mc)
     {
-        String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.equipmentOrdering);
-        String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+        String ordering = Equipments.Ordering.getById(ExtendedConfig.equipmentOrdering);
+        String status = Equipments.Status.getById(ExtendedConfig.equipmentStatus);
         List<ItemStack> itemStackList = new LinkedList<>();
         List<String> itemStatusList = new LinkedList<>();
         List<String> arrowCountList = new LinkedList<>();
-        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
+        boolean isRightSide = Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         int baseXOffset = isRightSide ? mc.mainWindow.getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
@@ -484,7 +484,7 @@ public class HUDInfo
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.player.inventory);
-        String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+        String status = Equipments.Status.getById(ExtendedConfig.equipmentStatus);
 
         for (int i = 2; i <= 3; i++)
         {
@@ -618,10 +618,10 @@ public class HUDInfo
 
     public static void renderPotionHUD(Minecraft mc)
     {
-        boolean iconAndTime = EnumPotionStatus.Style.getById(ExtendedConfig.potionHUDStyle).equalsIgnoreCase("icon_and_time");
-        boolean right = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition).equalsIgnoreCase("right");
+        boolean iconAndTime = StatusEffects.Style.getById(ExtendedConfig.potionHUDStyle).equalsIgnoreCase("icon_and_time");
+        boolean right = StatusEffects.Position.getById(ExtendedConfig.potionHUDPosition).equalsIgnoreCase("right");
         boolean showIcon = ExtendedConfig.potionHUDIcon;
-        String potionPos = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition);
+        String potionPos = StatusEffects.Position.getById(ExtendedConfig.potionHUDPosition);
         int size = ExtendedConfig.maximumPotionDisplay;
         int length = ExtendedConfig.potionLengthYOffset;
         int lengthOverlap = ExtendedConfig.potionLengthYOffsetOverlap;
@@ -743,7 +743,7 @@ public class HUDInfo
 
     static String getArmorDurabilityStatus(ItemStack itemStack)
     {
-        String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+        String status = Equipments.Status.getById(ExtendedConfig.equipmentStatus);
 
         switch (status)
         {

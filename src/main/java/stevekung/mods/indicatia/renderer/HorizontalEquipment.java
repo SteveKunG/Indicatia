@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import stevekung.mods.indicatia.config.EnumEquipment;
+import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 
@@ -30,7 +30,7 @@ public class HorizontalEquipment
 
     public void render(int x, int y)
     {
-        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
+        boolean isRightSide = Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
         ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
@@ -53,7 +53,7 @@ public class HorizontalEquipment
         }
         else
         {
-            String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+            String status = Equipments.Status.getById(ExtendedConfig.equipmentStatus);
             this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
         this.itemDamageWidth = Minecraft.getInstance().fontRenderer.getStringWidth(this.itemDamage);
