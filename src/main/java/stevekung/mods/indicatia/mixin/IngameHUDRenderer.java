@@ -14,7 +14,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.ingame.ChatScreen;
 import net.minecraft.world.dimension.DimensionType;
 import stevekung.mods.indicatia.config.CPSPosition;
-import stevekung.mods.indicatia.config.EnumEquipment;
+import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
@@ -151,13 +151,13 @@ public class IngameHUDRenderer
             // equipments
             if (!mc.player.isSpectator() && ExtendedConfig.equipmentHUD)
             {
-                if (EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
+                if (Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
                 {
                     HUDInfo.renderHotbarEquippedItems(mc);
                 }
                 else
                 {
-                    if (EnumEquipment.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+                    if (Equipments.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
                     {
                         HUDInfo.renderVerticalEquippedItems(mc);
                     }

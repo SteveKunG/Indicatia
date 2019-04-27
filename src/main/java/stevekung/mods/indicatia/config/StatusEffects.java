@@ -1,6 +1,6 @@
 package stevekung.mods.indicatia.config;
 
-public class EnumPotionStatus
+public class StatusEffects
 {
     public enum Style
     {

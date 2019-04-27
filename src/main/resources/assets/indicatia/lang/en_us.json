@@ -41,7 +41,6 @@
     "commands.auto_fish.disable": "Autofish Disabled",
     "commands.auto_fish.not_equipped_fishing_rod": "You aren't equip a Fishing Rod in the hand!",
     "commands.auto_fish.auto_fish_started": "Autofish already started!",
-    "commands.auto_fish.auto_fish_not_started": "Autofish aren't started yet!",
 
     "commands.auto_login.used_in_singleplayer": "Cannot use Auto Login in Singleplayer!",
     "commands.auto_login.used_in_realms": "Cannot use Auto Login in Realms server!",

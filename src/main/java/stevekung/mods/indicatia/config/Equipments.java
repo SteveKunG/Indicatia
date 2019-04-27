@@ -1,6 +1,6 @@
 package stevekung.mods.indicatia.config;
 
-public class EnumEquipment
+public class Equipments
 {
     public enum Ordering
     {

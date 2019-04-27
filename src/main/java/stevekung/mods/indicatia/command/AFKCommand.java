@@ -51,12 +51,13 @@ public class AFKCommand
             {
                 MinecraftClient.getInstance().player.sendChatMessage(message + reason);
             }
+            return 1;
         }
         else
         {
             Feedback.sendError(LangUtils.translateComponent("commands.afk.afk_started"));
+            return 0;
         }
-        return 1;
     }
 
     private static int stopAFK()
@@ -77,12 +78,13 @@ public class AFKCommand
                     MinecraftClient.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.afkReason, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getText());
                 }
             }
+            return 1;
         }
         else
         {
             Feedback.sendError(LangUtils.translateComponent("commands.afk.afk_not_started"));
+            return 0;
         }
-        return 1;
     }
 
     private static int setReason(TextComponent component)
@@ -93,37 +95,37 @@ public class AFKCommand
             String newReason = component.copy().getText();
             IndicatiaEventHandler.afkReason = newReason;
             Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason));
+            return 1;
         }
         else
         {
             Feedback.sendError(LangUtils.translateComponent("commands.afk.afk_not_started"));
+            return 0;
         }
-        return 1;
     }
 
     private static int changeAFKMode(String mode)
     {
-        if ("idle".equalsIgnoreCase(mode))
+        switch (mode)
         {
+        case "idle":
             IndicatiaEventHandler.afkMode = "idle";
             IndicatiaEventHandler.afkMoveTicks = 0;
             Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
-        }
-        else if ("move".equalsIgnoreCase(mode))
-        {
+            return 1;
+        case "move":
             IndicatiaEventHandler.afkMode = "move";
             Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
-        }
-        else if ("360".equalsIgnoreCase(mode))
-        {
+            return 1;
+        case "360":
             IndicatiaEventHandler.afkMode = "360";
             Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
-        }
-        else if ("360_move".equalsIgnoreCase(mode))
-        {
+            return 1;
+        case "360_move":
             IndicatiaEventHandler.afkMode = "360_move";
             Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", IndicatiaEventHandler.afkMode));
+            return 1;
         }
-        return 1;
+        return 0;
     }
 }

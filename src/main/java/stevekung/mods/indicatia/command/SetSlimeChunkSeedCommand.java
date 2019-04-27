@@ -5,10 +5,8 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
 import io.github.cottonmc.clientcommands.Feedback;
-import net.minecraft.command.CommandException;
 import net.minecraft.server.command.CommandSource;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class SetSlimeChunkSeedCommand
@@ -22,7 +20,8 @@ public class SetSlimeChunkSeedCommand
     {
         if (seed.equals("0"))
         {
-            throw new CommandException(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero").setStyle(JsonUtils.red()));
+            Feedback.sendError(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero"));
+            return 0;
         }
 
         try

@@ -722,7 +722,7 @@ public class IndicatiaEventHandler
                         {
                             IndicatiaEventHandler.autoFish = false;
                             IndicatiaEventHandler.autoFishTick = 0;
-                            mc.player.addChatMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")), false);
+                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).setStyle(JsonUtils.red()));
                             return;
                         }
 

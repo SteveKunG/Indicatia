@@ -25,12 +25,13 @@ public class HideNameCommand
         {
             HideNameData.getHideNameList().add(name);
             ExtendedConfig.save();
+            return 1;
         }
         else
         {
             Feedback.sendError(LangUtils.translateComponent("commands.hide_name.already_added"));
+            return 0;
         }
-        return 1;
     }
 
     private static int removeHideName(String name)
@@ -39,11 +40,12 @@ public class HideNameCommand
         {
             HideNameData.getHideNameList().remove(name);
             ExtendedConfig.save();
+            return 1;
         }
         else
         {
             Feedback.sendError(LangUtils.translateComponent("commands.hide_name.already_removed"));
+            return 0;
         }
-        return 1;
     }
 }
