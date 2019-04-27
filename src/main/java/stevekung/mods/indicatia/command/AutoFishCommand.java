@@ -14,10 +14,10 @@ public class AutoFishCommand
 {
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
-        dispatcher.register(Commands.literal("autofish").requires(requirement -> requirement.hasPermissionLevel(0)).executes(requirement -> AutoFishCommand.startAutoFish(requirement.getSource())));
+        dispatcher.register(Commands.literal("autofish").requires(requirement -> requirement.hasPermissionLevel(0)).executes(requirement -> AutoFishCommand.doAutofish(requirement.getSource())));
     }
 
-    private static int startAutoFish(CommandSource source)
+    private static int doAutofish(CommandSource source)
     {
         if (!IndicatiaEventHandler.autoFish)
         {
