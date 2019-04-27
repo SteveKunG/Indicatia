@@ -17,6 +17,6 @@ public class MojangStatusCheckCommand
     {
         ThreadCheckMojangStatus thread = new ThreadCheckMojangStatus();
         thread.start();
-        return 0;
+        return 1;
     }
 }

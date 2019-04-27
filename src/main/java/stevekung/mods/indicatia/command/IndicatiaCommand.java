@@ -38,7 +38,7 @@ public class IndicatiaCommand
     private static int openGui()
     {
         Minecraft.getInstance().addScheduledTask(() -> Minecraft.getInstance().displayGuiScreen(new GuiExtendedConfig()));
-        return 0;
+        return 1;
     }
 
     private static int startToggleSprint(CommandSource source)
@@ -46,7 +46,7 @@ public class IndicatiaCommand
         ExtendedConfig.toggleSprint = true;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.enable"), false);
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 
     private static int stopToggleSprint(CommandSource source)
@@ -54,7 +54,7 @@ public class IndicatiaCommand
         ExtendedConfig.toggleSprint = false;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.disable"), false);
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 
     private static int setToggleSprintMode(CommandSource source, String mode)
@@ -62,7 +62,7 @@ public class IndicatiaCommand
         ExtendedConfig.toggleSprintUseMode = mode;
         source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sprint.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 
     private static int startToggleSneak(CommandSource source)
@@ -70,7 +70,7 @@ public class IndicatiaCommand
         ExtendedConfig.toggleSneak = true;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.enable"), false);
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 
     private static int stopToggleSneak(CommandSource source)
@@ -78,7 +78,7 @@ public class IndicatiaCommand
         ExtendedConfig.toggleSneak = false;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.disable"), false);
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 
     private static int setToggleSneakMode(CommandSource source, String mode)
@@ -86,6 +86,6 @@ public class IndicatiaCommand
         ExtendedConfig.toggleSneakUseMode = mode;
         source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sneak.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 }

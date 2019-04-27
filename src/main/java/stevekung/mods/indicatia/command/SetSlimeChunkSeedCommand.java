@@ -3,11 +3,9 @@ package stevekung.mods.indicatia.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 
-import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class SetSlimeChunkSeedCommand
@@ -21,7 +19,8 @@ public class SetSlimeChunkSeedCommand
     {
         if (seed.equals("0"))
         {
-            throw new CommandException(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero"));
+            return 0;
         }
 
         try
@@ -36,6 +35,6 @@ public class SetSlimeChunkSeedCommand
             source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", seed.hashCode()), false);
         }
         ExtendedConfig.save();
-        return 0;
+        return 1;
     }
 }

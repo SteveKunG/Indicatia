@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.MessageArgument;
@@ -21,7 +20,6 @@ import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.Base64Utils;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class AutoLoginCommand
@@ -32,7 +30,7 @@ public class AutoLoginCommand
                 .then(Commands.literal("add").then(Commands.argument("command", StringArgumentType.word()).then(Commands.argument("object", MessageArgument.message()).executes(requirement -> AutoLoginCommand.addLoginData(requirement.getSource(), StringArgumentType.getString(requirement, "command"), MessageArgument.getMessage(requirement, "object"))))))
                 .then(Commands.literal("remove").executes(requirement -> AutoLoginCommand.removeLoginData(requirement.getSource())))
                 .then(Commands.literal("list").executes(requirement -> AutoLoginCommand.getLoginDataList(requirement.getSource())))
-                .then(Commands.literal("function").executes(requirement -> AutoLoginCommand.addAutoLoginFunction())));
+                .then(Commands.literal("function").executes(requirement -> AutoLoginCommand.addAutoLoginFunction(requirement.getSource()))));
     }
 
     private static int addLoginData(CommandSource source, String command, ITextComponent component)
@@ -43,23 +41,27 @@ public class AutoLoginCommand
 
         if (mc.isSingleplayer())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer"));
+            return 0;
         }
         else if (mc.isConnectedToRealms())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_realms").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
+            return 0;
         }
 
         if (data != null)
         {
             if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.serverIP) != null)
             {
-                throw new CommandException(LangUtils.translateComponent("commands.auto_login.already_added").setStyle(JsonUtils.red()));
+                source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.already_added"));
+                return 0;
             }
             String value = component.createCopy().getUnformattedComponentText();
             ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + command + " ", Base64Utils.encode(value), uuid, "");
             source.sendFeedback(LangUtils.translateComponent("commands.auto_login.set"), false);
             ExtendedConfig.save();
+            return 1;
         }
         return 0;
     }
@@ -72,11 +74,13 @@ public class AutoLoginCommand
 
         if (mc.isSingleplayer())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer"));
+            return 0;
         }
         else if (mc.isConnectedToRealms())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_realms").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
+            return 0;
         }
 
         if (data != null)
@@ -85,10 +89,12 @@ public class AutoLoginCommand
             {
                 ExtendedConfig.loginData.removeAutoLogin(uuid + data.serverIP);
                 source.sendFeedback(LangUtils.translateComponent("commands.auto_login.remove"), false);
+                return 1;
             }
             else
             {
                 source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.not_set"));
+                return 0;
             }
         }
         return 0;
@@ -100,7 +106,8 @@ public class AutoLoginCommand
 
         if (collection.isEmpty())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.list.empty").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.list.empty"));
+            return 0;
         }
         else
         {
@@ -108,23 +115,25 @@ public class AutoLoginCommand
             component.getStyle().setColor(TextFormatting.DARK_GREEN);
             source.sendFeedback(component, false);
             collection.forEach(loginData -> source.sendFeedback(new TextComponentTranslation(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID()), false));
+            return 1;
         }
-        return 0;
     }
 
-    private static int addAutoLoginFunction()
+    private static int addAutoLoginFunction(CommandSource source)
     {
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.isSingleplayer())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer"));
+            return 0;
         }
         else if (mc.isConnectedToRealms())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.auto_login.used_in_realms").setStyle(JsonUtils.red()));
+            source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
+            return 0;
         }
         mc.addScheduledTask(() -> mc.displayGuiScreen(new GuiAutoLoginFunction()));
-        return 0;
+        return 1;
     }
 }

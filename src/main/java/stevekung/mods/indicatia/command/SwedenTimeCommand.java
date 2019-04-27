@@ -24,6 +24,6 @@ public class SwedenTimeCommand
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Stockholm"));
         ClientUtils.printClientMessage("Current Sweden Time is : " + dateFormat.format(date));
-        return 0;
+        return 1;
     }
 }
