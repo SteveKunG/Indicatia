@@ -9,11 +9,9 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
 import io.github.cottonmc.clientcommands.Feedback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.command.arguments.MessageArgumentType;
 import net.minecraft.server.command.CommandSource;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.TextComponent;
 import net.minecraft.text.TextFormat;
 import net.minecraft.text.TranslatableTextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -28,13 +26,13 @@ public class AutoLoginCommand
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
         dispatcher.register(ArgumentBuilders.literal("autologin").requires(requirement -> requirement.hasPermissionLevel(0))
-                .then(ArgumentBuilders.literal("add").then(ArgumentBuilders.argument("command", StringArgumentType.word()).then(ArgumentBuilders.argument("object", MessageArgumentType.create()).executes(requirement -> AutoLoginCommand.addLoginData(StringArgumentType.getString(requirement, "command"), ClientCommandUtils.getMessageArgument(requirement, "object"))))))
+                .then(ArgumentBuilders.literal("add").then(ArgumentBuilders.argument("command", StringArgumentType.word()).then(ArgumentBuilders.argument("object", StringArgumentType.greedyString()).executes(requirement -> AutoLoginCommand.addLoginData(StringArgumentType.getString(requirement, "command"), StringArgumentType.getString(requirement, "object"))))))
                 .then(ArgumentBuilders.literal("remove").executes(requirement -> AutoLoginCommand.removeLoginData()))
                 .then(ArgumentBuilders.literal("list").executes(requirement -> AutoLoginCommand.getLoginDataList()))
                 .then(ArgumentBuilders.literal("function").executes(requirement -> AutoLoginCommand.addAutoLoginFunction())));
     }
 
-    private static int addLoginData(String command, TextComponent component)
+    private static int addLoginData(String command, String value)
     {
         MinecraftClient mc = MinecraftClient.getInstance();
         IntegratedServer data = mc.getServer();
@@ -58,7 +56,6 @@ public class AutoLoginCommand
                 Feedback.sendError(LangUtils.translateComponent("commands.auto_login.already_added"));
                 return 0;
             }
-            String value = component.copy().getText();
             ExtendedConfig.loginData.addAutoLogin(data.getServerIp(), "/" + command + " ", Base64Utils.encode(value), uuid, "");
             Feedback.sendFeedback(LangUtils.translateComponent("commands.auto_login.set"));
             ExtendedConfig.save();

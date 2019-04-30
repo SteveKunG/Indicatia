@@ -1,10 +1,11 @@
 //package stevekung.mods.indicatia.gui;
 //
+//import com.mojang.blaze3d.platform.GlStateManager;
+//
 //import net.minecraft.client.Minecraft;
-//import net.minecraft.client.gui.GuiButton;
-//import net.minecraft.client.gui.GuiScreen;
 //import net.minecraft.client.gui.GuiTextField;
-//import net.minecraft.client.renderer.GlStateManager;
+//import net.minecraft.client.gui.Screen;
+//import net.minecraft.client.gui.widget.ButtonWidget;
 //import net.minecraft.client.renderer.OpenGlHelper;
 //import net.minecraft.client.renderer.RenderHelper;
 //import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,12 +19,12 @@
 //import stevekung.mods.stevekungslib.utils.LangUtils;
 //
 //@OnlyIn(Dist.CLIENT)
-//public class GuiCustomCape extends GuiScreen
+//public class GuiCustomCape extends Screen
 //{
 //    private GuiTextField inputField;
-//    private GuiButton doneBtn;
-//    private GuiButton resetBtn;
-//    private GuiButton capeBtn;
+//    private ButtonWidget doneBtn;
+//    private ButtonWidget resetBtn;
+//    private ButtonWidget capeBtn;
 //    private int capeOption;
 //    private int prevCapeOption;
 //
@@ -35,7 +36,7 @@
 //        this.inputField.setMaxStringLength(32767);
 //        this.inputField.setFocused(true);
 //        this.inputField.setCanLoseFocus(true);
-//        this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.done"))
+//        this.doneBtn = this.addButton(new ButtonWidget(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.done"))
 //        {
 //            @Override
 //            public void onClick(double mouseX, double mouseZ)
@@ -46,21 +47,21 @@
 //                    thread.start();
 //                    GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + GuiCustomCape.this.inputField.getText()));
 //                }
-//                GuiCustomCape.this.mc.displayGuiScreen(null);
+//                GuiCustomCape.this.mc.openScreen(null);
 //            }
 //        });
 //        this.doneBtn.enabled = !this.inputField.getText().isEmpty();
-//        this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"))
+//        this.addButton(new ButtonWidget(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"))
 //        {
 //            @Override
 //            public void onClick(double mouseX, double mouseZ)
 //            {
 //                GuiCustomCape.this.capeOption = GuiCustomCape.this.prevCapeOption;
 //                GuiCustomCape.this.saveCapeOption();
-//                GuiCustomCape.this.mc.displayGuiScreen(null);
+//                GuiCustomCape.this.mc.openScreen(null);
 //            }
 //        });
-//        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("menu.reset_cape"))
+//        this.resetBtn = this.addButton(new ButtonWidget(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("menu.reset_cape"))
 //        {
 //            @Override
 //            public void onClick(double mouseX, double mouseZ)
@@ -68,7 +69,7 @@
 //                CapeUtils.CAPE_TEXTURE = null;
 //                GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_current_cape")));
 //                CapeUtils.texture.delete();
-//                GuiCustomCape.this.mc.displayGuiScreen(null);
+//                GuiCustomCape.this.mc.openScreen(null);
 //            }
 //        });
 //        this.resetBtn.enabled = CapeUtils.texture.exists();
@@ -86,7 +87,7 @@
 //            this.capeOption = 2;
 //        }
 //        this.prevCapeOption = this.capeOption;
-//        this.capeBtn = this.addButton(new GuiButton(3, this.width / 2 + 50 + 4, this.height / 4 + 50, 100, 20, "")
+//        this.capeBtn = this.addButton(new ButtonWidget(3, this.width / 2 + 50 + 4, this.height / 4 + 50, 100, 20, "")
 //        {
 //            @Override
 //            public void onClick(double mouseX, double mouseZ)

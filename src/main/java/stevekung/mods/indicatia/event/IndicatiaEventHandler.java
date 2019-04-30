@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.packet.QueryPongS2CPacket;
 import net.minecraft.client.network.packet.QueryResponseS2CPacket;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.ClientConnection;
@@ -28,12 +31,16 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SystemUtil;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
+import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 import stevekung.mods.stevekungslib.utils.enums.CachedEnum;
 
 public class IndicatiaEventHandler
@@ -73,6 +80,8 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.processAutoFish(this.mc);
             AutoLoginFunction.runAutoLoginFunction();
             CapeUtils.loadCapeTexture();
+
+            this.onPressKey();
 
             /*if (IndicatiaEventHandler.printAutoGG && IndicatiaEventHandler.printAutoGGTicks < IndicatiaConfig.GENERAL.autoGGDelay.get())
             {
@@ -317,45 +326,44 @@ public class IndicatiaEventHandler
         {
             InfoUtils.INSTANCE.processMouseOverEntity(this.mc);
         }
-    }
+    }*/
 
-    @SubscribeEvent
-    public void onPressKey(InputEvent.KeyInputEvent event)
+    private void onPressKey()
     {
-        if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
+        if (KeyBindingHandler.CONFIG.isPressed())
         {
             GuiExtendedConfig config = new GuiExtendedConfig();
-            this.mc.displayGuiScreen(config);
+            this.mc.openScreen(config);
         }
-        if (KeyBindingHandler.KEY_REC_OVERLAY.isKeyDown())
+        if (KeyBindingHandler.REC.isPressed())
         {
-            HUDRenderEventHandler.recordEnable = !HUDRenderEventHandler.recordEnable;
+            //HUDRenderEventHandler.recordEnable = !HUDRenderEventHandler.recordEnable; TODO
         }
-        if (IndicatiaConfig.GENERAL.enableCustomCape.get() && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
+        if (/*IndicatiaConfig.GENERAL.enableCustomCape.get() && */KeyBindingHandler.CUSTOM_CAPE.isPressed())
         {
-            GuiCustomCape customCapeGui = new GuiCustomCape();
-            this.mc.displayGuiScreen(customCapeGui);
+            /*GuiCustomCape customCapeGui = new GuiCustomCape();
+            this.mc.displayGuiScreen(customCapeGui);*/
         }
-        if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+        if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SPRINT.isPressed())
         {
             ExtendedConfig.toggleSprint = !ExtendedConfig.toggleSprint;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
             ExtendedConfig.save();
         }
-        if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
+        if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SNEAK.isPressed())
         {
             ExtendedConfig.toggleSneak = !ExtendedConfig.toggleSneak;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
             ExtendedConfig.save();
         }
-        if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
+        if (KeyBindingHandler.DONATOR.isPressed())
         {
-            GuiDonator donatorGui = new GuiDonator();
-            this.mc.displayGuiScreen(donatorGui);
+            /*GuiDonator donatorGui = new GuiDonator();
+            this.mc.displayGuiScreen(donatorGui);*/
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {
         if (event.getGui() instanceof GuiMainMenu)

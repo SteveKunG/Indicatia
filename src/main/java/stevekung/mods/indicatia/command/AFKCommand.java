@@ -1,13 +1,12 @@
 package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
 import io.github.cottonmc.clientcommands.Feedback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.command.arguments.MessageArgumentType;
 import net.minecraft.server.command.CommandSource;
-import net.minecraft.text.TextComponent;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -18,9 +17,9 @@ public class AFKCommand
     {
         dispatcher.register(ArgumentBuilders.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
                 .then(ArgumentBuilders.literal("start").executes(requirement -> AFKCommand.startAFK(null))
-                        .then(ArgumentBuilders.argument("reason", MessageArgumentType.create()).executes(requirement -> AFKCommand.startAFK(ClientCommandUtils.getMessageArgument(requirement, "reason")))))
+                        .then(ArgumentBuilders.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.startAFK(StringArgumentType.getString(requirement, "reason")))))
                 .then(ArgumentBuilders.literal("stop").executes(requirement -> AFKCommand.stopAFK()))
-                .then(ArgumentBuilders.literal("change_reason").then(ArgumentBuilders.argument("reason", MessageArgumentType.create()).executes(requirement -> AFKCommand.setReason(ClientCommandUtils.getMessageArgument(requirement, "reason")))))
+                .then(ArgumentBuilders.literal("change_reason").then(ArgumentBuilders.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.setReason(StringArgumentType.getString(requirement, "reason")))))
                 .then(ArgumentBuilders.literal("mode")
                         .then(ArgumentBuilders.literal("idle").executes(requirement -> AFKCommand.changeAFKMode("idle")))
                         .then(ArgumentBuilders.literal("move").executes(requirement -> AFKCommand.changeAFKMode("move")))
@@ -28,11 +27,10 @@ public class AFKCommand
                         .then(ArgumentBuilders.literal("360_move").executes(requirement -> AFKCommand.changeAFKMode("360_move")))));
     }
 
-    private static int startAFK(TextComponent component)
+    private static int startAFK(String reason)
     {
         if (!IndicatiaEventHandler.isAFK)
         {
-            String reason = component == null ? "" : component.copy().getText();
             IndicatiaEventHandler.isAFK = true;
             IndicatiaEventHandler.afkReason = reason;
 
@@ -87,12 +85,11 @@ public class AFKCommand
         }
     }
 
-    private static int setReason(TextComponent component)
+    private static int setReason(String newReason)
     {
         if (IndicatiaEventHandler.isAFK)
         {
             String oldReason = IndicatiaEventHandler.afkReason;
-            String newReason = component.copy().getText();
             IndicatiaEventHandler.afkReason = newReason;
             Feedback.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason));
             return 1;

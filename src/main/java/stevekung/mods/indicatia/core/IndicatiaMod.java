@@ -26,7 +26,7 @@ import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 public class IndicatiaMod implements ClientModInitializer
 {
-    static final String MOD_ID = "indicatia";
+    public static final String MOD_ID = "indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     private static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static boolean isGalacticraftLoaded;
