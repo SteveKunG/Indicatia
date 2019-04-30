@@ -1,12 +1,11 @@
 package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.MessageArgument;
-import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
@@ -18,9 +17,9 @@ public class AFKCommand
     {
         dispatcher.register(Commands.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
                 .then(Commands.literal("start").executes(requirement -> AFKCommand.startAFK(requirement.getSource(), null))
-                        .then(Commands.argument("reason", MessageArgument.message()).executes(requirement -> AFKCommand.startAFK(requirement.getSource(), MessageArgument.getMessage(requirement, "reason")))))
+                        .then(Commands.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.startAFK(requirement.getSource(), StringArgumentType.getString(requirement, "reason")))))
                 .then(Commands.literal("stop").executes(requirement -> AFKCommand.stopAFK(requirement.getSource())))
-                .then(Commands.literal("change_reason").then(Commands.argument("reason", MessageArgument.message()).executes(requirement -> AFKCommand.setReason(requirement.getSource(), MessageArgument.getMessage(requirement, "reason")))))
+                .then(Commands.literal("change_reason").then(Commands.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.setReason(requirement.getSource(), StringArgumentType.getString(requirement, "reason")))))
                 .then(Commands.literal("mode")
                         .then(Commands.literal("idle").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "idle")))
                         .then(Commands.literal("move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "move")))
@@ -28,11 +27,10 @@ public class AFKCommand
                         .then(Commands.literal("360_move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), "360_move")))));
     }
 
-    private static int startAFK(CommandSource source, ITextComponent component)
+    private static int startAFK(CommandSource source, String reason)
     {
         if (!IndicatiaEventHandler.isAFK)
         {
-            String reason = component == null ? "" : component.createCopy().getUnformattedComponentText();
             IndicatiaEventHandler.isAFK = true;
             IndicatiaEventHandler.afkReason = reason;
 
@@ -87,12 +85,11 @@ public class AFKCommand
         }
     }
 
-    private static int setReason(CommandSource source, ITextComponent component)
+    private static int setReason(CommandSource source, String newReason)
     {
         if (IndicatiaEventHandler.isAFK)
         {
             String oldReason = IndicatiaEventHandler.afkReason;
-            String newReason = component.createCopy().getUnformattedComponentText();
             IndicatiaEventHandler.afkReason = newReason;
             source.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason), false);
             return 1;
