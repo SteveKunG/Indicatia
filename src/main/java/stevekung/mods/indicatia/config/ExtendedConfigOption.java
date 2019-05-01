@@ -10,9 +10,9 @@ public abstract class ExtendedConfigOption
 {
     private final String key;
 
-    public ExtendedConfigOption(String key, boolean replaceKey)
+    public ExtendedConfigOption(String key)
     {
-        this.key = replaceKey ? key : "extended_config." + key;
+        this.key = "extended_config." + key;
     }
 
     public abstract AbstractButtonWidget createOptionButton(ExtendedConfig options, int x, int y, int width);

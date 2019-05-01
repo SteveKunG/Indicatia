@@ -32,7 +32,6 @@ repositories {
 }
 
 jar {
-    //include "stevekung/mods/indicatia/**"
     baseName = "Indicatia-" + mcVersion
 }
 

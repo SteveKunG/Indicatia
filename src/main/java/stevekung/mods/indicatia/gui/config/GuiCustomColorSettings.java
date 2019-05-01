@@ -23,15 +23,15 @@ public class GuiCustomColorSettings extends Screen
     {
         this.addButton(new ButtonWidget(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.render_info_custom_color.title"), button ->
         {
-            GuiCustomColorSettings.this.minecraft.openScreen(new GuiRenderInfoCustomColorSettings(GuiCustomColorSettings.this));
+            //this.minecraft.openScreen(new GuiRenderInfoCustomColorSettings(this));
         }));
         this.addButton(new ButtonWidget(this.width / 2 + 10, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.keystroke_custom_color.title"), button ->
         {
-            GuiCustomColorSettings.this.minecraft.openScreen(new GuiKeystrokeCustomColorSettings(GuiCustomColorSettings.this));
+            //this.minecraft.openScreen(new GuiKeystrokeCustomColorSettings(this));
         }));
         this.addButton(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button ->
         {
-            GuiCustomColorSettings.this.minecraft.openScreen(GuiCustomColorSettings.this.parent);
+            this.minecraft.openScreen(this.parent);
         }));
     }
 

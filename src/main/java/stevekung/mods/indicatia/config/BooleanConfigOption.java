@@ -16,14 +16,7 @@ public class BooleanConfigOption extends ExtendedConfigOption
 
     public BooleanConfigOption(String key, Predicate<ExtendedConfig> getter, BiConsumer<ExtendedConfig, Boolean> setter)
     {
-        super(key, false);
-        this.getter = getter;
-        this.setter = setter;
-    }
-
-    public BooleanConfigOption(String key, boolean replaceKey, Predicate<ExtendedConfig> getter, BiConsumer<ExtendedConfig, Boolean> setter)
-    {
-        super(key, replaceKey);
+        super(key);
         this.getter = getter;
         this.setter = setter;
     }

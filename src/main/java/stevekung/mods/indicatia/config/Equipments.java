@@ -106,7 +106,7 @@ public class Equipments
     {
         LEFT(0, "indicatia.left"),
         RIGHT(1, "indicatia.right"),
-        HOTBAR(1, "indicatia.hotbar");
+        HOTBAR(2, "indicatia.hotbar");
 
         private static final Position[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Position::getId)).toArray(id -> new Position[id]);
         private final int id;

@@ -21,7 +21,7 @@ public class DoubleConfigOption extends ExtendedConfigOption
 
     public DoubleConfigOption(String key, double min, double max, float interval, Function<ExtendedConfig, Double> getter, BiConsumer<ExtendedConfig, Double> setter, BiFunction<ExtendedConfig, DoubleConfigOption, String> displayStringGetter)
     {
-        super(key, false);
+        super(key);
         this.min = min;
         this.max = max;
         this.interval = interval;

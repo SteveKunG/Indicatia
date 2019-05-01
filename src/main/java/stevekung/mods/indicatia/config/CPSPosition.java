@@ -7,10 +7,10 @@ import net.minecraft.util.math.MathHelper;
 
 public enum CPSPosition
 {
-    LEFT(0, "indicatia.default"),
-    RIGHT(1, "potion_hud.icon_and_time"),
-    KEYSTROKE(2, "potion_hud.icon_and_time"),
-    CUSTOM(3, "potion_hud.icon_and_time");
+    LEFT(0, "indicatia.left"),
+    RIGHT(1, "indicatia.right"),
+    KEYSTROKE(2, "cps.keystroke"),
+    CUSTOM(3, "cps.custom");
 
     private static final CPSPosition[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(CPSPosition::getId)).toArray(id -> new CPSPosition[id]);
     private final int id;

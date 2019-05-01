@@ -61,7 +61,7 @@ public class GuiRenderInfoSettings extends Screen
         this.addButton(new ButtonWidget(this.width / 2 - 100, this.height - 27, 150, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.instance.save();
-            GuiRenderInfoSettings.this.minecraft.openScreen(GuiRenderInfoSettings.this.parent);
+            this.minecraft.openScreen(this.parent);
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
@@ -82,22 +82,7 @@ public class GuiRenderInfoSettings extends Screen
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.minecraft.textRenderer, LangUtils.translate("extended_config.render_info.title"), this.width / 2, 5, 16777215);
-
-        if (GuiConfigButtonRowList.comment != null)
-        {
-            List<String> wrappedLine = this.minecraft.textRenderer.wrapStringToWidthAsList(GuiConfigButtonRowList.comment, 250);
-            int y = 15;
-
-            for (String text : wrappedLine)
-            {
-                this.drawCenteredString(this.minecraft.textRenderer, TextFormat.GREEN + text, this.width / 2, y, 16777215);
-                y += this.minecraft.textRenderer.fontHeight;
-            }
-        }
-        else
-        {
-            this.drawCenteredString(this.minecraft.textRenderer, TextFormat.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
-        }
+        this.drawCenteredString(this.minecraft.textRenderer, TextFormat.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 }

@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.ExtendedConfigOption;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
@@ -16,12 +16,12 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 public class GuiHypixelSettings extends Screen
 {
     private final Screen parent;
-    private GuiConfigButtonRowList optionsRowList;
-    private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
+    private ConfigButtonListWidget optionsRowList;
+    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
 
     static
     {
-        OPTIONS.add(ExtendedConfig.Options.RIGHT_CLICK_ADD_PARTY);
+        OPTIONS.add(ExtendedConfig.RIGHT_CLICK_ADD_PARTY);
     }
 
     GuiHypixelSettings(Screen parent)
@@ -35,20 +35,13 @@ public class GuiHypixelSettings extends Screen
     {
         this.addButton(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), (buttonWidget) ->
         {
-            ExtendedConfig.save();
-            GuiHypixelSettings.this.minecraft.openScreen(GuiHypixelSettings.this.parent);
+            ExtendedConfig.instance.save();
+            this.minecraft.openScreen(this.parent);
         }));
 
-        ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
-        options = OPTIONS.toArray(options);
-        this.optionsRowList = new GuiConfigButtonRowList(this.width, this.height, 32, this.height - 32, 25, options);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
+        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
         this.children.add(this.optionsRowList);
-    }
-
-    @Override
-    public Element getFocused()
-    {
-        return this.optionsRowList;
     }
 
     @Override
@@ -77,7 +70,7 @@ public class GuiHypixelSettings extends Screen
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

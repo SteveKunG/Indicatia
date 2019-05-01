@@ -164,13 +164,12 @@ public class ExtendedConfig
     public int hypixelMinigameScrollPos = 0;
 
     public static final DoubleConfigOption CPS_OPACITY = new DoubleConfigOption("cps_opacity", 0.0D, 100.0D, 1.0F, config -> config.cpsOpacity, (config, value) -> config.cpsOpacity = value, (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-
-    public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-    public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-    public static final DoubleConfigOption KEYSTROKE_Y = new DoubleConfigOption("keystroke_y", -512.0D, 512.0D, 1.0F, config -> (double)config.keystrokeYOffset, (config, value) -> config.keystrokeYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-    public static final DoubleConfigOption MAXIMUM_POTION_DISPLAY = new DoubleConfigOption("maximum_potion_display", 2.0D, 8.0D, 1.0F, config -> (double)config.maximumPotionDisplay, (config, value) -> config.maximumPotionDisplay = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET = new DoubleConfigOption("potion_length_y_offset", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffset, (config, value) -> config.potionLengthYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
+    public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
+    public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
+    public static final DoubleConfigOption KEYSTROKE_Y = new DoubleConfigOption("keystroke_y", -512.0D, 512.0D, 1.0F, config -> (double)config.keystrokeYOffset, (config, value) -> config.keystrokeYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
+    public static final DoubleConfigOption MAXIMUM_POTION_DISPLAY = new DoubleConfigOption("maximum_potion_display", 2.0D, 8.0D, 0.0F, config -> (double)config.maximumPotionDisplay, (config, value) -> config.maximumPotionDisplay = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
+    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET = new DoubleConfigOption("potion_length_y_offset", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffset, (config, value) -> config.potionLengthYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
+    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
 
 
     public static final BooleanConfigOption PREVIEW = new BooleanConfigOption("preview", config -> GuiExtendedConfig.preview, (config, value) -> GuiExtendedConfig.preview = value);
@@ -197,8 +196,8 @@ public class ExtendedConfig
     public static final BooleanConfigOption GAME_WEATHER = new BooleanConfigOption("game_weather", config -> config.gameWeather, (config, value) -> config.gameWeather = value);
     public static final BooleanConfigOption MOON_PHASE = new BooleanConfigOption("moon_phase", config -> config.moonPhase, (config, value) -> config.moonPhase = value);
     public static final BooleanConfigOption POTION_ICON = new BooleanConfigOption("potion_icon", config -> config.potionHUDIcon, (config, value) -> config.potionHUDIcon = value);
-    public static final BooleanConfigOption TPS = new BooleanConfigOption("extended_config.render_info.tps.info", true, config -> config.tps, (config, value) -> config.tps = value);
-    public static final BooleanConfigOption TPS_ALL_DIMS = new BooleanConfigOption("extended_config.render_info.tps_all_dims.info", true, config -> config.tpsAllDims, (config, value) -> config.tpsAllDims = value);
+    public static final BooleanConfigOption TPS = new BooleanConfigOption("tps", config -> config.tps, (config, value) -> config.tps = value);
+    public static final BooleanConfigOption TPS_ALL_DIMS = new BooleanConfigOption("tps_all_dims", config -> config.tpsAllDims, (config, value) -> config.tpsAllDims = value);
     public static final BooleanConfigOption ALTERNATE_POTION_COLOR = new BooleanConfigOption("alternate_potion_color", config -> config.alternatePotionHUDTextColor, (config, value) -> config.alternatePotionHUDTextColor = value);
 
 
@@ -387,7 +386,7 @@ public class ExtendedConfig
 
     public void save()
     {
-        save(!ExtendedConfig.currentProfile.isEmpty() ? ExtendedConfig.currentProfile : "default");
+        this.save(!ExtendedConfig.currentProfile.isEmpty() ? ExtendedConfig.currentProfile : "default");
     }
 
     public void save(String profileName)

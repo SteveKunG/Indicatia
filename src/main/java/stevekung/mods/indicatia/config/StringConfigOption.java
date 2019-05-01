@@ -15,7 +15,7 @@ public class StringConfigOption extends ExtendedConfigOption
 
     public StringConfigOption(String key, BiConsumer<ExtendedConfig, Integer> getter, BiFunction<ExtendedConfig, StringConfigOption, String> setter)
     {
-        super(key, false);
+        super(key);
         this.getter = getter;
         this.setter = setter;
     }
