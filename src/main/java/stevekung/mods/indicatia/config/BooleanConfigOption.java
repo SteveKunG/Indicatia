@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
-import stevekung.mods.stevekungslib.utils.LangUtils;
+import net.minecraft.text.TextFormat;
 
 @Environment(EnvType.CLIENT)
 public class BooleanConfigOption extends ExtendedConfigOption
@@ -20,7 +20,7 @@ public class BooleanConfigOption extends ExtendedConfigOption
         this.getter = getter;
         this.setter = setter;
     }
-    
+
     public BooleanConfigOption(String key, boolean replaceKey, Predicate<ExtendedConfig> getter, BiConsumer<ExtendedConfig, Boolean> setter)
     {
         super(key, replaceKey);
@@ -31,10 +31,10 @@ public class BooleanConfigOption extends ExtendedConfigOption
     @Override
     public AbstractButtonWidget createOptionButton(ExtendedConfig config, int x, int y, int width)
     {
-        return new ConfigOptionButtonWidget(x, y, width, 20, this.getDisplayString(config), buttonWidget_1 ->
+        return new ConfigOptionButtonWidget(x, y, width, 20, this.getDisplayString(config), button ->
         {
             this.set(config);
-            buttonWidget_1.setMessage(this.getDisplayString(config));
+            button.setMessage(this.getDisplayString(config));
         });
     }
 
@@ -61,6 +61,6 @@ public class BooleanConfigOption extends ExtendedConfigOption
 
     public String getDisplayString(ExtendedConfig config)
     {
-        return this.getDisplayPrefix() + LangUtils.translate(this.get(config) ? "options.on" : "options.off");
+        return this.getDisplayPrefix() + (this.get(config) ? TextFormat.GREEN + "true" : TextFormat.RED + "false");
     }
 }

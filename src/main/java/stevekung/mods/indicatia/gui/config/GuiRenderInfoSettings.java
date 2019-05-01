@@ -5,11 +5,11 @@ import java.util.List;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.TextFormat;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.ExtendedConfigOption;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
@@ -17,36 +17,36 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 public class GuiRenderInfoSettings extends Screen
 {
     private final Screen parent;
-    private GuiConfigButtonRowList optionsRowList;
-    private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
+    private ConfigButtonListWidget optionsRowList;
+    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
 
     static
     {
-        OPTIONS.add(ExtendedConfig.Options.FPS);
-        OPTIONS.add(ExtendedConfig.Options.XYZ);
-        OPTIONS.add(ExtendedConfig.Options.DIRECTION);
-        OPTIONS.add(ExtendedConfig.Options.BIOME);
-        OPTIONS.add(ExtendedConfig.Options.PING);
-        OPTIONS.add(ExtendedConfig.Options.PING_TO_SECOND);
-        OPTIONS.add(ExtendedConfig.Options.SERVER_IP);
-        OPTIONS.add(ExtendedConfig.Options.SERVER_IP_MC);
-        OPTIONS.add(ExtendedConfig.Options.EQUIPMENT_HUD);
-        OPTIONS.add(ExtendedConfig.Options.POTION_HUD);
-        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE);
-        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_LRMB);
-        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_SS);
-        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_BLOCKING);
-        OPTIONS.add(ExtendedConfig.Options.CPS);
-        OPTIONS.add(ExtendedConfig.Options.RCPS);
-        OPTIONS.add(ExtendedConfig.Options.SLIME_CHUNK);
-        OPTIONS.add(ExtendedConfig.Options.REAL_TIME);
-        OPTIONS.add(ExtendedConfig.Options.GAME_TIME);
-        OPTIONS.add(ExtendedConfig.Options.GAME_WEATHER);
-        OPTIONS.add(ExtendedConfig.Options.MOON_PHASE);
-        OPTIONS.add(ExtendedConfig.Options.POTION_ICON);
-        OPTIONS.add(ExtendedConfig.Options.TPS);
-        OPTIONS.add(ExtendedConfig.Options.TPS_ALL_DIMS);
-        OPTIONS.add(ExtendedConfig.Options.ALTERNATE_POTION_COLOR);
+        OPTIONS.add(ExtendedConfig.FPS);
+        OPTIONS.add(ExtendedConfig.XYZ);
+        OPTIONS.add(ExtendedConfig.DIRECTION);
+        OPTIONS.add(ExtendedConfig.BIOME);
+        OPTIONS.add(ExtendedConfig.PING);
+        OPTIONS.add(ExtendedConfig.PING_TO_SECOND);
+        OPTIONS.add(ExtendedConfig.SERVER_IP);
+        OPTIONS.add(ExtendedConfig.SERVER_IP_MC);
+        OPTIONS.add(ExtendedConfig.EQUIPMENT_HUD);
+        OPTIONS.add(ExtendedConfig.POTION_HUD);
+        OPTIONS.add(ExtendedConfig.KEYSTROKE);
+        OPTIONS.add(ExtendedConfig.KEYSTROKE_LRMB);
+        OPTIONS.add(ExtendedConfig.KEYSTROKE_SS);
+        OPTIONS.add(ExtendedConfig.KEYSTROKE_BLOCKING);
+        OPTIONS.add(ExtendedConfig.CPS);
+        OPTIONS.add(ExtendedConfig.RCPS);
+        OPTIONS.add(ExtendedConfig.SLIME_CHUNK);
+        OPTIONS.add(ExtendedConfig.REAL_TIME);
+        OPTIONS.add(ExtendedConfig.GAME_TIME);
+        OPTIONS.add(ExtendedConfig.GAME_WEATHER);
+        OPTIONS.add(ExtendedConfig.MOON_PHASE);
+        OPTIONS.add(ExtendedConfig.POTION_ICON);
+        OPTIONS.add(ExtendedConfig.TPS);
+        OPTIONS.add(ExtendedConfig.TPS_ALL_DIMS);
+        OPTIONS.add(ExtendedConfig.ALTERNATE_POTION_COLOR);
     }
 
     GuiRenderInfoSettings(Screen parent)
@@ -60,26 +60,19 @@ public class GuiRenderInfoSettings extends Screen
     {
         this.addButton(new ButtonWidget(this.width / 2 - 100, this.height - 27, 150, 20, LangUtils.translate("gui.done"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiRenderInfoSettings.this.minecraft.openScreen(GuiRenderInfoSettings.this.parent);
         }));
 
-        ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
-        options = OPTIONS.toArray(options);
-        this.optionsRowList = new GuiConfigButtonRowList(this.width, this.height, 32, this.height - 32, 25, options);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
+        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
         this.children.add(this.optionsRowList);
-    }
-
-    @Override
-    public Element getFocused()
-    {
-        return this.optionsRowList;
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

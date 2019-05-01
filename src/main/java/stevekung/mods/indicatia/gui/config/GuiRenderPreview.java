@@ -44,7 +44,7 @@ public class GuiRenderPreview extends Screen
             KeystrokeRenderer.render(this.minecraft);
             HUDInfo.renderPotionHUD(this.minecraft);
 
-            if (Equipments.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+            if (ExtendedConfig.instance.equipmentDirection == Equipments.Direction.VERTICAL)
             {
                 HUDInfo.renderVerticalEquippedItems(this.minecraft);
             }
@@ -85,7 +85,7 @@ public class GuiRenderPreview extends Screen
             if (this.minecraft.player.dimension == DimensionType.OVERWORLD)
             {
                 String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.minecraft.player.getBlockPos()) ? "Yes" : "No";
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
             }
 
             leftInfo.add(HUDInfo.getCPS());
@@ -93,12 +93,12 @@ public class GuiRenderPreview extends Screen
 
             /*if (!HUDRenderEventHandler.topDonator.isEmpty())
             {
-                String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
                 leftInfo.add(text + HUDRenderEventHandler.topDonator);
             }
             if (!HUDRenderEventHandler.recentDonator.isEmpty())
             {
-                String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
                 leftInfo.add(text + HUDRenderEventHandler.recentDonator);
             }*/
 
@@ -123,7 +123,7 @@ public class GuiRenderPreview extends Screen
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
                 }
             }
 
@@ -137,7 +137,7 @@ public class GuiRenderPreview extends Screen
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
                 }
             }
         }

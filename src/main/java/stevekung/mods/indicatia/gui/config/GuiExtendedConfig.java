@@ -9,7 +9,9 @@ import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.menu.YesNoScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.TextFormat;
+import stevekung.mods.indicatia.config.DoubleConfigOption;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.ExtendedConfigOption;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -18,24 +20,24 @@ import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 @Environment(EnvType.CLIENT)
 public class GuiExtendedConfig extends Screen
 {
-    private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
+    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
     public static boolean preview = false;
     private ButtonWidget resetButton;
     private ButtonWidget doneButton;
 
     static
     {
-        OPTIONS.add(ExtendedConfig.Options.SWAP_INFO_POS);
-        OPTIONS.add(ExtendedConfig.Options.HEALTH_STATUS);
-        OPTIONS.add(ExtendedConfig.Options.KEYSTROKE_POSITION);
-        OPTIONS.add(ExtendedConfig.Options.EQUIPMENT_ORDERING);
-        OPTIONS.add(ExtendedConfig.Options.EQUIPMENT_DIRECTION);
-        OPTIONS.add(ExtendedConfig.Options.EQUIPMENT_STATUS);
-        OPTIONS.add(ExtendedConfig.Options.EQUIPMENT_POSITION);
-        OPTIONS.add(ExtendedConfig.Options.POTION_HUD_STYLE);
-        OPTIONS.add(ExtendedConfig.Options.POTION_HUD_POSITION);
-        OPTIONS.add(ExtendedConfig.Options.CPS_POSITION);
-        OPTIONS.add(ExtendedConfig.Options.CPS_OPACITY);
+        OPTIONS.add(ExtendedConfig.SWAP_INFO_POS);
+        OPTIONS.add(ExtendedConfig.HEALTH_STATUS);
+        OPTIONS.add(ExtendedConfig.KEYSTROKE_POSITION);
+        OPTIONS.add(ExtendedConfig.EQUIPMENT_ORDERING);
+        OPTIONS.add(ExtendedConfig.EQUIPMENT_DIRECTION);
+        OPTIONS.add(ExtendedConfig.EQUIPMENT_STATUS);
+        OPTIONS.add(ExtendedConfig.EQUIPMENT_POSITION);
+        OPTIONS.add(ExtendedConfig.POTION_HUD_STYLE);
+        OPTIONS.add(ExtendedConfig.POTION_HUD_POSITION);
+        OPTIONS.add(ExtendedConfig.CPS_POSITION);
+        OPTIONS.add(ExtendedConfig.CPS_OPACITY);
     }
 
     public GuiExtendedConfig()
@@ -49,65 +51,47 @@ public class GuiExtendedConfig extends Screen
         GuiExtendedConfig.preview = false;
         int i = 0;
 
-        for (ExtendedConfig.Options options : OPTIONS)
+        for (ExtendedConfigOption options : OPTIONS)
         {
-            if (options.isDouble())
+            if (options instanceof DoubleConfigOption)
             {
-                this.addButton(new GuiConfigSlider(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160, options));
+                this.addButton(options.createOptionButton(ExtendedConfig.instance, this.width / 2 - 160 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else
             {
-                GuiConfigButton button = new GuiConfigButton(this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160, ExtendedConfig.instance.getKeyBinding(options))
-                {
-                    @Override
-                    public void onClick(double mouseX, double mouseY)
-                    {
-                        ExtendedConfig.instance.setOptionValue(options, 1);
-                        this.setMessage(ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.byOrdinal(options.getOrdinal())));
-                        ExtendedConfig.save();
-                    }
-                };
-                this.addButton(button);
+                this.addButton(options.createOptionButton(ExtendedConfig.instance, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             ++i;
         }
         this.addButton(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiExtendedConfig.this.minecraft.openScreen(new GuiRenderInfoSettings(GuiExtendedConfig.this));
         }));
         this.addButton(new ButtonWidget(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiExtendedConfig.this.minecraft.openScreen(new GuiCustomColorSettings(GuiExtendedConfig.this));
         }));
         this.addButton(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiExtendedConfig.this.minecraft.openScreen(new GuiOffsetSettings(GuiExtendedConfig.this));
         }));
         this.addButton(new ButtonWidget(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiExtendedConfig.this.minecraft.openScreen(new GuiHypixelSettings(GuiExtendedConfig.this));
         }));
-        this.addButton(new GuiConfigButton(this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW))
-        {
-            @Override
-            public void onClick(double mouseX, double mouseY)
-            {
-                ExtendedConfig.instance.setOptionValue(ExtendedConfig.Options.PREVIEW, 1);
-                this.setMessage(ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW));
-            }
-        });
+        this.addButton(ExtendedConfig.PREVIEW.createOptionButton(ExtendedConfig.instance, this.width / 2 + 10, this.height / 6 + 103, 150));
         this.addButton(this.doneButton = new ButtonWidget(this.width / 2 - 100, this.height / 6 + 175, 200, 20, LangUtils.translate("gui.done"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiExtendedConfig.this.minecraft.openScreen(null);
         }));
         this.addButton(this.resetButton = new ButtonWidget(this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config"), button ->
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             GuiExtendedConfig.this.minecraft.openScreen(new YesNoScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
         }));
         this.resetButton.visible = false;
@@ -146,10 +130,10 @@ public class GuiExtendedConfig extends Screen
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.save();
-        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+        ExtendedConfig.instance.save();
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override

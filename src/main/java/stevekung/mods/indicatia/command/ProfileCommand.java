@@ -55,7 +55,7 @@ public class ProfileCommand
         else
         {
             Feedback.sendFeedback(LangUtils.translateComponent("commands.inprofile.created", name));
-            ExtendedConfig.save(name);
+            ExtendedConfig.instance.save(name);
             return 1;
         }
     }
@@ -72,9 +72,9 @@ public class ProfileCommand
         }
         ExtendedConfig.setCurrentProfile(name);
         ExtendedConfig.saveProfileFile(name);
-        ExtendedConfig.load();
+        ExtendedConfig.instance.load();
         Feedback.sendFeedback(LangUtils.translateComponent("commands.inprofile.load", name));
-        ExtendedConfig.save(name); // save current settings
+        ExtendedConfig.instance.save(name); // save current settings
         return 1;
     }
 
@@ -92,7 +92,7 @@ public class ProfileCommand
 
         if (exist)
         {
-            ExtendedConfig.save(name);
+            ExtendedConfig.instance.save(name);
             Feedback.sendFeedback(LangUtils.translateComponent("commands.inprofile.save", name));
             return 1;
         }
@@ -126,7 +126,7 @@ public class ProfileCommand
             File toDel = new File(ExtendedConfig.userDir, name + ".dat");
             toDel.delete();
             ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.load();
+            ExtendedConfig.instance.load();
             Feedback.sendFeedback(LangUtils.translateComponent("commands.inprofile.remove", name));
             return 1;
         }

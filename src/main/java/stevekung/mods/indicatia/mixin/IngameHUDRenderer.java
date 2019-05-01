@@ -35,27 +35,27 @@ public class IngameHUDRenderer
             List<String> rightInfo = new LinkedList<>();
 
             // left info
-            if (ExtendedConfig.ping && !mc.isInSingleplayer())
+            if (ExtendedConfig.instance.ping && !mc.isInSingleplayer())
             {
                 leftInfo.add(HUDInfo.getPing());
 
-                if (ExtendedConfig.pingToSecond)
+                if (ExtendedConfig.instance.pingToSecond)
                 {
                     leftInfo.add(HUDInfo.getPingToSecond());
                 }
             }
-            if (ExtendedConfig.serverIP && !mc.isInSingleplayer())
+            if (ExtendedConfig.instance.serverIP && !mc.isInSingleplayer())
             {
                 if (mc.getServer() != null)
                 {
                     leftInfo.add(HUDInfo.getServerIP(mc));
                 }
             }
-            if (ExtendedConfig.fps)
+            if (ExtendedConfig.instance.fps)
             {
                 leftInfo.add(HUDInfo.getFPS());
             }
-            if (ExtendedConfig.xyz)
+            if (ExtendedConfig.instance.xyz)
             {
                 leftInfo.add(HUDInfo.getXYZ(mc));
 
@@ -64,26 +64,26 @@ public class IngameHUDRenderer
                     leftInfo.add(HUDInfo.getOverworldXYZFromNether(mc));
                 }
             }
-            if (ExtendedConfig.direction)
+            if (ExtendedConfig.instance.direction)
             {
                 leftInfo.add(HUDInfo.renderDirection(mc));
             }
-            if (ExtendedConfig.biome)
+            if (ExtendedConfig.instance.biome)
             {
                 leftInfo.add(HUDInfo.getBiome(mc));
             }
-            if (ExtendedConfig.slimeChunkFinder && mc.player.dimension == DimensionType.OVERWORLD)
+            if (ExtendedConfig.instance.slimeChunkFinder && mc.player.dimension == DimensionType.OVERWORLD)
             {
                 String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(mc.player.getBlockPos()) ? "Yes" : "No";
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
             }
-            if (CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("left"))
+            if (ExtendedConfig.instance.cpsPosition == CPSPosition.LEFT)
             {
-                if (ExtendedConfig.cps)
+                if (ExtendedConfig.instance.cps)
                 {
                     leftInfo.add(HUDInfo.getCPS());
                 }
-                if (ExtendedConfig.rcps)
+                if (ExtendedConfig.instance.rcps)
                 {
                     leftInfo.add(HUDInfo.getRCPS());
                 }
@@ -92,40 +92,40 @@ public class IngameHUDRenderer
         {
             if (!HUDRenderEventHandler.topDonator.isEmpty())
             {
-                String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
                 leftInfo.add(text + HUDRenderEventHandler.topDonator);
             }
             if (!HUDRenderEventHandler.recentDonator.isEmpty())
             {
-                String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
                 leftInfo.add(text + HUDRenderEventHandler.recentDonator);
             }
         }*/
 
             // right info
-            if (ExtendedConfig.realTime)
+            if (ExtendedConfig.instance.realTime)
             {
                 rightInfo.add(HUDInfo.getCurrentTime());
             }
-            if (ExtendedConfig.gameTime)
+            if (ExtendedConfig.instance.gameTime)
             {
                 rightInfo.add(HUDInfo.getCurrentGameTime(mc));
             }
-            if (ExtendedConfig.gameWeather && mc.world.isRaining())
+            if (ExtendedConfig.instance.gameWeather && mc.world.isRaining())
             {
                 rightInfo.add(HUDInfo.getGameWeather(mc));
             }
-            if (ExtendedConfig.moonPhase)
+            if (ExtendedConfig.instance.moonPhase)
             {
                 rightInfo.add(InfoUtils.INSTANCE.getMoonPhase(mc));
             }
-            if (CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("right"))
+            if (ExtendedConfig.instance.cpsPosition == CPSPosition.RIGHT)
             {
-                if (ExtendedConfig.cps)
+                if (ExtendedConfig.instance.cps)
                 {
                     rightInfo.add(HUDInfo.getCPS());
                 }
-                if (ExtendedConfig.rcps)
+                if (ExtendedConfig.instance.rcps)
                 {
                     rightInfo.add(HUDInfo.getRCPS());
                 }
@@ -134,30 +134,30 @@ public class IngameHUDRenderer
         {
             if (!HUDRenderEventHandler.topDonator.isEmpty())
             {
-                String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
                 rightInfo.add(text + HUDRenderEventHandler.topDonator);
             }
             if (!HUDRenderEventHandler.recentDonator.isEmpty())
             {
-                String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
                 rightInfo.add(text + HUDRenderEventHandler.recentDonator);
             }
         }
         if (IndicatiaMod.isYoutubeChatLoaded && !HUDRenderEventHandler.currentLiveViewCount.isEmpty())
         {
-            rightInfo.add(ColorUtils.stringToRGB(ExtendedConfig.ytChatViewCountColor).toColoredFont() + "Current watched: " + ColorUtils.stringToRGB(ExtendedConfig.ytChatViewCountValueColor).toColoredFont() + HUDRenderEventHandler.currentLiveViewCount);
+            rightInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.ytChatViewCountColor).toColoredFont() + "Current watched: " + ColorUtils.stringToRGB(ExtendedConfig.instance.ytChatViewCountValueColor).toColoredFont() + HUDRenderEventHandler.currentLiveViewCount);
         }*/
 
             // equipments
-            if (!mc.player.isSpectator() && ExtendedConfig.equipmentHUD)
+            if (!mc.player.isSpectator() && ExtendedConfig.instance.equipmentHUD)
             {
-                if (Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
+                if (ExtendedConfig.instance.equipmentPosition == Equipments.Position.HOTBAR)
                 {
                     HUDInfo.renderHotbarEquippedItems(mc);
                 }
                 else
                 {
-                    if (Equipments.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+                    if (ExtendedConfig.instance.equipmentDirection == Equipments.Direction.VERTICAL)
                     {
                         HUDInfo.renderVerticalEquippedItems(mc);
                     }
@@ -168,7 +168,7 @@ public class IngameHUDRenderer
                 }
             }
 
-            if (ExtendedConfig.potionHUD)
+            if (ExtendedConfig.instance.potionHUD)
             {
                 HUDInfo.renderPotionHUD(mc);
             }
@@ -183,7 +183,7 @@ public class IngameHUDRenderer
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
                 }
             }
 
@@ -197,7 +197,7 @@ public class IngameHUDRenderer
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
                 }
             }
 
@@ -214,18 +214,18 @@ public class IngameHUDRenderer
 
             if (!mc.options.hudHidden && !mc.options.debugEnabled)
             {
-                if (ExtendedConfig.keystroke)
+                if (ExtendedConfig.instance.keystroke)
                 {
                     if (mc.currentScreen == null || mc.currentScreen instanceof ChatScreen)
                     {
                         KeystrokeRenderer.render(mc);
                     }
                 }
-                /*if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (mc.currentScreen == null || mc.currentScreen instanceof GuiChat))
+                /*if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.instance.cps && CPSPosition.getById(ExtendedConfig.instance.cpsPosition).equalsIgnoreCase("custom") && (mc.currentScreen == null || mc.currentScreen instanceof GuiChat))
             {
-                String rcps = ExtendedConfig.rcps ? " " + HUDInfo.getRCPS() : "";
-                RenderUtilsIN.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, (float)ExtendedConfig.cpsOpacity / 100.0F);
-                mc.fontRenderer.drawStringWithShadow(HUDInfo.getCPS() + rcps, ExtendedConfig.cpsCustomXOffset + 2, ExtendedConfig.cpsCustomYOffset + 2, 16777215);
+                String rcps = ExtendedConfig.instance.rcps ? " " + HUDInfo.getRCPS() : "";
+                RenderUtilsIN.drawRect(ExtendedConfig.instance.cpsCustomXOffset, ExtendedConfig.instance.cpsCustomYOffset, ExtendedConfig.instance.cpsCustomXOffset + mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.instance.cpsCustomYOffset + 11, 16777216, (float)ExtendedConfig.instance.cpsOpacity / 100.0F);
+                mc.fontRenderer.drawStringWithShadow(HUDInfo.getCPS() + rcps, ExtendedConfig.instance.cpsCustomXOffset + 2, ExtendedConfig.instance.cpsCustomYOffset + 2, 16777215);
             }*/
             }
         }
@@ -239,16 +239,16 @@ public class IngameHUDRenderer
 //        if (!mc.options.field_1842 && !mc.options.debugEnabled && mc.player != null && mc.world != null)
 //        {
 //            // left info
-//            if (ExtendedConfig.ping && !mc.method_1496())
+//            if (ExtendedConfig.instance.ping && !mc.method_1496())
 //            {
 //                leftInfo.add(HUDInfo.getPing());
 //
-//                if (ExtendedConfig.pingToSecond)
+//                if (ExtendedConfig.instance.pingToSecond)
 //                {
 //                    leftInfo.add(HUDInfo.getPingToSecond());
 //                }
 //            }
-//            if (ExtendedConfig.serverIP && !mc.method_1496())
+//            if (ExtendedConfig.instance.serverIP && !mc.method_1496())
 //            {
 //                //                    if (mc.isConnectedToRealms())
 //                //                    {
@@ -259,11 +259,11 @@ public class IngameHUDRenderer
 //                    leftInfo.add(HUDInfo.getServerIP(mc));
 //                }
 //            }
-//            if (ExtendedConfig.fps)
+//            if (ExtendedConfig.instance.fps)
 //            {
 //                leftInfo.add(HUDInfo.getFPS());
 //            }
-//            if (ExtendedConfig.xyz)
+//            if (ExtendedConfig.instance.xyz)
 //            {
 //                leftInfo.add(HUDInfo.getXYZ(mc));
 //
@@ -272,26 +272,26 @@ public class IngameHUDRenderer
 //                    leftInfo.add(HUDInfo.getOverworldXYZFromNether(mc));
 //                }
 //            }
-//            if (ExtendedConfig.direction)
+//            if (ExtendedConfig.instance.direction)
 //            {
 //                leftInfo.add(HUDInfo.renderDirection(mc));
 //            }
-//            if (ExtendedConfig.biome)
+//            if (ExtendedConfig.instance.biome)
 //            {
 //                leftInfo.add(HUDInfo.getBiome(mc));
 //            }
-//            if (ExtendedConfig.slimeChunkFinder && mc.player.dimension == DimensionType.OVERWORLD)
+//            if (ExtendedConfig.instance.slimeChunkFinder && mc.player.dimension == DimensionType.OVERWORLD)
 //            {
 //                String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPos()) ? "Yes" : "No";
-//                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
+//                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
 //            }
-//            if (CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("left"))
+//            if (CPSPosition.getById(ExtendedConfig.instance.cpsPosition).equalsIgnoreCase("left"))
 //            {
-//                if (ExtendedConfig.cps)
+//                if (ExtendedConfig.instance.cps)
 //                {
 //                    leftInfo.add(HUDInfo.getCPS());
 //                }
-//                if (ExtendedConfig.rcps)
+//                if (ExtendedConfig.instance.rcps)
 //                {
 //                    leftInfo.add(HUDInfo.getRCPS());
 //                }
@@ -300,54 +300,54 @@ public class IngameHUDRenderer
 //            //        {
 //            //            if (!HUDRenderEventHandler.topDonator.isEmpty())
 //            //            {
-//            //                String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormat.RESET + " ";
+//            //                String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormat.RESET + " ";
 //            //                leftInfo.add(text + HUDRenderEventHandler.topDonator);
 //            //            }
 //            //            if (!HUDRenderEventHandler.recentDonator.isEmpty())
 //            //            {
-//            //                String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormat.RESET + " ";
+//            //                String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormat.RESET + " ";
 //            //                leftInfo.add(text + HUDRenderEventHandler.recentDonator);
 //            //            }
 //            //        }
 //            // right info
-//            if (ExtendedConfig.realTime)
+//            if (ExtendedConfig.instance.realTime)
 //            {
 //                rightInfo.add(HUDInfo.getCurrentTime());
 //            }
-//            if (ExtendedConfig.gameTime)
+//            if (ExtendedConfig.instance.gameTime)
 //            {
 //                rightInfo.add(HUDInfo.getCurrentGameTime(mc));
 //            }
-//            if (ExtendedConfig.gameWeather && mc.world.isRaining())
+//            if (ExtendedConfig.instance.gameWeather && mc.world.isRaining())
 //            {
 //                rightInfo.add(HUDInfo.getGameWeather(mc));
 //            }
-//            if (ExtendedConfig.moonPhase)
+//            if (ExtendedConfig.instance.moonPhase)
 //            {
 //                rightInfo.add(InfoUtils.INSTANCE.getMoonPhase(mc));
 //            }
-//            if (CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("right"))
+//            if (CPSPosition.getById(ExtendedConfig.instance.cpsPosition).equalsIgnoreCase("right"))
 //            {
-//                if (ExtendedConfig.cps)
+//                if (ExtendedConfig.instance.cps)
 //                {
 //                    rightInfo.add(HUDInfo.getCPS());
 //                }
-//                if (ExtendedConfig.rcps)
+//                if (ExtendedConfig.instance.rcps)
 //                {
 //                    rightInfo.add(HUDInfo.getRCPS());
 //                }
 //            }
 //
 //            // equipments
-//            if (!mc.player.isSpectator() && ExtendedConfig.equipmentHUD)
+//            if (!mc.player.isSpectator() && ExtendedConfig.instance.equipmentHUD)
 //            {
-//                if (EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
+//                if (EnumEquipment.Position.getById(ExtendedConfig.instance.equipmentPosition).equalsIgnoreCase("hotbar"))
 //                {
 //                    HUDInfo.renderHotbarEquippedItems(mc);
 //                }
 //                else
 //                {
-//                    if (EnumEquipment.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+//                    if (EnumEquipment.Direction.getById(ExtendedConfig.instance.equipmentDirection).equalsIgnoreCase("vertical"))
 //                    {
 //                        HUDInfo.renderVerticalEquippedItems(mc);
 //                    }
@@ -358,7 +358,7 @@ public class IngameHUDRenderer
 //                }
 //            }
 //
-//            if (ExtendedConfig.potionHUD)
+//            if (ExtendedConfig.instance.potionHUD)
 //            {
 //                HUDInfo.renderPotionHUD(mc);
 //            }
@@ -373,7 +373,7 @@ public class IngameHUDRenderer
 //
 //                if (!Strings.isNullOrEmpty(string))
 //                {
-//                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+//                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
 //                }
 //            }
 //
@@ -387,7 +387,7 @@ public class IngameHUDRenderer
 //
 //                if (!Strings.isNullOrEmpty(string))
 //                {
-//                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+//                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
 //                }
 //            }
 //        }

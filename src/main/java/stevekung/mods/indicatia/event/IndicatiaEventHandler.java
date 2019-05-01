@@ -344,17 +344,17 @@ public class IndicatiaEventHandler
             /*GuiCustomCape customCapeGui = new GuiCustomCape();
             this.mc.displayGuiScreen(customCapeGui);*/
         }
-        if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SPRINT.isPressed())
+        if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SPRINT.isPressed())
         {
-            ExtendedConfig.toggleSprint = !ExtendedConfig.toggleSprint;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
-            ExtendedConfig.save();
+            ExtendedConfig.instance.toggleSprint = !ExtendedConfig.instance.toggleSprint;
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
+            ExtendedConfig.instance.save();
         }
-        if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SNEAK.isPressed())
+        if (ExtendedConfig.instance.toggleSneakUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SNEAK.isPressed())
         {
-            ExtendedConfig.toggleSneak = !ExtendedConfig.toggleSneak;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
-            ExtendedConfig.save();
+            ExtendedConfig.instance.toggleSneak = !ExtendedConfig.instance.toggleSneak;
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
+            ExtendedConfig.instance.save();
         }
         if (KeyBindingHandler.DONATOR.isPressed())
         {

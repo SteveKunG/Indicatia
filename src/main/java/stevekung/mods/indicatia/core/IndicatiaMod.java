@@ -89,7 +89,7 @@ public class IndicatiaMod implements ClientModInitializer
         {
             IndicatiaMod.LOGGER.info("Initializing created default Indicatia profile...");
             ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
 
         CompoundTag nbt = new CompoundTag();
@@ -114,7 +114,7 @@ public class IndicatiaMod implements ClientModInitializer
             {
                 IndicatiaMod.LOGGER.info("Loaded current profile by name '{}'", key);
                 ExtendedConfig.setCurrentProfile(key);
-                ExtendedConfig.load();
+                ExtendedConfig.instance.load();
             }
         });
     }

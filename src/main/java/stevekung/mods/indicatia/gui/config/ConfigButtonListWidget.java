@@ -10,28 +10,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.ExtendedConfigOption;
 
 @Environment(EnvType.CLIENT)
 public class ConfigButtonListWidget extends ElementListWidget<ConfigButtonListWidget.ButtonItem>
 {
-    public ConfigButtonListWidget(MinecraftClient mc, int int_1, int int_2, int int_3, int int_4, int int_5)
+    public ConfigButtonListWidget(int x, int y, int top, int bottom, int itemHeight)
     {
-        super(mc, int_1, int_2, int_3, int_4, int_5);
+        super(MinecraftClient.getInstance(), x, y, top, bottom, itemHeight);
         this.centerListVertically = false;
-    }
-
-    public void addButton(ExtendedConfig.Options gameOption_1, ExtendedConfig.Options gameOption_2)
-    {
-        this.addEntry(ConfigButtonListWidget.ButtonItem.method_20410(this.minecraft.options, this.width, gameOption_1, gameOption_2));
-    }
-
-    public void addAll(ExtendedConfig.Options[] gameOptions_1)
-    {
-        VideoOptionsScreen test;
-        for (int int_1 = 0; int_1 < gameOptions_1.length; int_1 += 2)
-        {
-            this.addButton(gameOptions_1[int_1], int_1 < gameOptions_1.length - 1 ? gameOptions_1[int_1 + 1] : null);
-        }
     }
 
     @Override
@@ -46,6 +33,19 @@ public class ConfigButtonListWidget extends ElementListWidget<ConfigButtonListWi
         return super.getScrollbarPosition() + 32;
     }
 
+    public void addButton(ExtendedConfigOption config1, ExtendedConfigOption config2)
+    {
+        this.addEntry(ConfigButtonListWidget.ButtonItem.createItems(ExtendedConfig.instance, this.width, config1, config2));
+    }
+
+    public void addAll(ExtendedConfigOption[] config)
+    {
+        for (int i = 0; i < config.length; i += 2)
+        {
+            this.addButton(config[i], i < config.length - 1 ? config[i + 1] : null);
+        }
+    }
+
     @Environment(EnvType.CLIENT)
     public static class ButtonItem extends ElementListWidget.Entry<ButtonItem>
     {
@@ -54,17 +54,6 @@ public class ConfigButtonListWidget extends ElementListWidget<ConfigButtonListWi
         private ButtonItem(List<AbstractButtonWidget> list)
         {
             this.buttons = list;
-        }
-
-        public static ConfigButtonListWidget.ButtonItem method_20409(ExtendedConfig.Options gameOptions_1, int int_1, ExtendedConfig.Options gameOption_1)
-        {
-            return new ConfigButtonListWidget.ButtonItem(ImmutableList.of(gameOption_1.createOptionButton(gameOptions_1, int_1 / 2 - 155, 0, 310)));
-        }
-
-        public static ConfigButtonListWidget.ButtonItem method_20410(ExtendedConfig.Options gameOptions_1, int int_1, ExtendedConfig.Options gameOption_1, ExtendedConfig.Options gameOption_2)
-        {
-            AbstractButtonWidget abstractButtonWidget_1 = gameOption_1.createOptionButton(gameOptions_1, int_1 / 2 - 155, 0, 150);
-            return gameOption_2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(abstractButtonWidget_1)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(abstractButtonWidget_1, gameOption_2.createOptionButton(gameOptions_1, int_1 / 2 - 155 + 160, 0, 150)));
         }
 
         @Override
@@ -81,6 +70,17 @@ public class ConfigButtonListWidget extends ElementListWidget<ConfigButtonListWi
         public List<AbstractButtonWidget> children()
         {
             return this.buttons;
+        }
+
+        public static ConfigButtonListWidget.ButtonItem createItem(ExtendedConfig config, int int_1, ExtendedConfigOption configOpt)
+        {
+            return new ConfigButtonListWidget.ButtonItem(ImmutableList.of(configOpt.createOptionButton(config, int_1 / 2 - 155, 0, 310)));
+        }
+
+        public static ConfigButtonListWidget.ButtonItem createItems(ExtendedConfig config, int x, ExtendedConfigOption configOpt1, ExtendedConfigOption configOpt2)
+        {
+            AbstractButtonWidget button = configOpt1.createOptionButton(config, x / 2 - 155, 0, 150);
+            return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createOptionButton(config, x / 2 - 155 + 160, 0, 150)));
         }
     }
 }

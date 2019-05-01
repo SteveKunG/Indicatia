@@ -40,7 +40,7 @@ public class GuiAutoLoginFunction extends Screen
                 GuiAutoLoginFunction.this.minecraft.player.addChatMessage(JsonUtils.create(LangUtils.translate("commands.auto_login.function_set")), false);
                 ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + GuiAutoLoginFunction.this.data.getServerIp());
                 ExtendedConfig.loginData.addAutoLogin(GuiAutoLoginFunction.this.data.getServerIp(), "", "", GameProfileUtils.getUUID(), GuiAutoLoginFunction.this.inputField.getText());
-                ExtendedConfig.save();
+                ExtendedConfig.instance.save();
             }
             GuiAutoLoginFunction.this.minecraft.openScreen(null);
         }));

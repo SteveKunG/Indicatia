@@ -31,15 +31,15 @@ public class HorizontalEquipment
 
     public void render(int x, int y)
     {
-        boolean isRightSide = Equipments.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
+        boolean isRightSide = ExtendedConfig.instance.equipmentPosition == Equipments.Position.RIGHT;
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        ColorUtils.coloredFontRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
+        ColorUtils.coloredFontRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(MinecraftClient.getInstance().player.inventory);
             GlStateManager.disableDepthTest();
-            ColorUtils.coloredFontRendererUnicode.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
+            ColorUtils.coloredFontRendererUnicode.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
             GlStateManager.enableDepthTest();
         }
     }
@@ -54,8 +54,7 @@ public class HorizontalEquipment
         }
         else
         {
-            String status = Equipments.Status.getById(ExtendedConfig.equipmentStatus);
-            this.itemDamage = this.itemStack.hasDurability() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : status.equalsIgnoreCase("none") ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
+            this.itemDamage = this.itemStack.hasDurability() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : ExtendedConfig.instance.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
         this.itemDamageWidth = MinecraftClient.getInstance().textRenderer.getStringWidth(this.itemDamage);
         this.width = 20 + this.itemDamageWidth;
