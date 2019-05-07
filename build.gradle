@@ -36,17 +36,17 @@ jar {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:1.14"
-    mappings "net.fabricmc:yarn:1.14+build.+"
-    modCompile "net.fabricmc:fabric-loader:0.4.2+build.+"
+	minecraft "com.mojang:minecraft:1.14.1 Pre-Release 1"
+    mappings "net.fabricmc:yarn:1.14.1 Pre-Release 1+build.+"
+    modCompile "net.fabricmc:fabric-loader:0.4.6+build.+"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modCompile "net.fabricmc:fabric:0.2.7+build.127"
 
     modCompile "cloth-config:ClothConfig:0.2.1.14"
-    modCompile "io.github.prospector.modmenu:ModMenu:1.4.2-77"
+    modCompile "io.github.prospector.modmenu:ModMenu:1.5.2-82"
     modCompile "io.github.cottonmc:client-commands:0.2.1+1.14-pre5-SNAPSHOT"
-    modCompile file("libs/SteveKunG's-Lib-1.14-1.0.0-dev.jar")
+    //modCompile files("libs/SteveKunG's-Lib-1.14-1.0.0-dev.jar")
 }
 
 curseforge {
