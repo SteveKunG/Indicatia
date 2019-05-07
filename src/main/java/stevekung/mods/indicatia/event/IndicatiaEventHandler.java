@@ -1,6 +1,5 @@
 package stevekung.mods.indicatia.event;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -12,27 +11,16 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.packet.QueryPongS2CPacket;
-import net.minecraft.client.network.packet.QueryResponseS2CPacket;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.ClientConnection;
-import net.minecraft.network.NetworkState;
-import net.minecraft.network.ServerAddress;
-import net.minecraft.network.listener.ClientQueryPacketListener;
-import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.server.network.packet.HandshakeC2SPacket;
-import net.minecraft.server.network.packet.QueryPingC2SPacket;
-import net.minecraft.server.network.packet.QueryRequestC2SPacket;
-import net.minecraft.text.TextComponent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SystemUtil;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
+import stevekung.mods.indicatia.extra.GuiRenderWeather;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
@@ -335,6 +323,11 @@ public class IndicatiaEventHandler
             GuiExtendedConfig config = new GuiExtendedConfig();
             this.mc.openScreen(config);
         }
+        if (KeyBindingHandler.WEATHER.isPressed())
+        {
+            GuiRenderWeather config = new GuiRenderWeather();
+            this.mc.openScreen(config);
+        }
         if (KeyBindingHandler.REC.isPressed())
         {
             //HUDRenderEventHandler.recordEnable = !HUDRenderEventHandler.recordEnable; TODO
@@ -442,43 +435,43 @@ public class IndicatiaEventHandler
         }
     }*/
 
-    private static void getRealTimeServerPing(IntegratedServer server)
-    {
-        IndicatiaEventHandler.serverPinger.submit(() ->
-        {
-            try
-            {
-                ServerAddress address = ServerAddress.parse(server.getServerIp());
-                ClientConnection manager = ClientConnection.connect(InetAddress.getByName(address.getAddress()), address.getPort(), false);
-
-                manager.setPacketListener(new ClientQueryPacketListener()
-                {
-                    private long currentSystemTime = 0L;
-
-                    @Override
-                    public void onResponse(QueryResponseS2CPacket packet)
-                    {
-                        this.currentSystemTime = SystemUtil.getMeasuringTimeMs();
-                        manager.send(new QueryPingC2SPacket(this.currentSystemTime));
-                    }
-
-                    @Override
-                    public void onPong(QueryPongS2CPacket packet)
-                    {
-                        long i = this.currentSystemTime;
-                        long j = SystemUtil.getMeasuringTimeMs();
-                        IndicatiaEventHandler.currentServerPing = (int) (j - i);
-                    }
-
-                    @Override
-                    public void onDisconnected(TextComponent component) {}
-                });
-                manager.send(new HandshakeC2SPacket(address.getAddress(), address.getPort(), NetworkState.STATUS));
-                manager.send(new QueryRequestC2SPacket());
-            }
-            catch (Exception e) {}
-        });
-    }
+//    private static void getRealTimeServerPing(IntegratedServer server)
+//    {
+//        IndicatiaEventHandler.serverPinger.submit(() ->
+//        {
+//            try
+//            {
+//                ServerAddress address = ServerAddress.parse(server.getServerIp());
+//                ClientConnection manager = ClientConnection.connect(InetAddress.getByName(address.getAddress()), address.getPort(), false);
+//
+//                manager.setPacketListener(new ClientQueryPacketListener()
+//                {
+//                    private long currentSystemTime = 0L;
+//
+//                    @Override
+//                    public void onResponse(QueryResponseS2CPacket packet)
+//                    {
+//                        this.currentSystemTime = SystemUtil.getMeasuringTimeMs();
+//                        manager.send(new QueryPingC2SPacket(this.currentSystemTime));
+//                    }
+//
+//                    @Override
+//                    public void onPong(QueryPongS2CPacket packet)
+//                    {
+//                        long i = this.currentSystemTime;
+//                        long j = SystemUtil.getMeasuringTimeMs();
+//                        IndicatiaEventHandler.currentServerPing = (int) (j - i);
+//                    }
+//
+//                    @Override
+//                    public void onDisconnected(TextComponent component) {}
+//                });
+//                manager.send(new HandshakeC2SPacket(address.getAddress(), address.getPort(), NetworkState.STATUS));
+//                manager.send(new QueryRequestC2SPacket());
+//            }
+//            catch (Exception e) {}
+//        });
+//    }
 
     private static void runAFK(ClientPlayerEntity player)
     {

@@ -8,5 +8,7 @@
     ],
     "injectors": {
         "defaultRequire": 1
-    }
+    },
+    "refmap": "indicatia-refmap.json",
+    "minVersion": "0.7.11-SNAPSHOT"
 }

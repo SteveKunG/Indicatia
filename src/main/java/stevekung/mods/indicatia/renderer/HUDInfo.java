@@ -9,6 +9,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ContainerScreen;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.Entity;
@@ -803,29 +804,28 @@ public class HUDInfo
 
     static void renderItem(ItemStack itemStack, int x, int y)
     {
-        MinecraftClient.getInstance().getItemRenderer().renderGuiItem(null, itemStack, x, y);
-        MinecraftClient.getInstance().getItemRenderer().renderGuiItemOverlay(ColorUtils.coloredFontRenderer, itemStack, x, y);
-        //        RenderHelper.enableGUIStandardItemLighting();
-        //        GlStateManager.enableRescaleNormal();
-        //        GlStateManager.enableBlend();
-        //        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
-        //        MinecraftClient.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(itemStack, x, y);
-        //        GlStateManager.disableRescaleNormal();
-        //        GlStateManager.disableBlend();
-        //        RenderHelper.disableStandardItemLighting();
-        //
-        //        if (itemStack.hasDurability())
-        //        {
-        //            RenderHelper.enableGUIStandardItemLighting();
-        //            GlStateManager.disableLighting();
-        //            GlStateManager.enableRescaleNormal();
-        //            GlStateManager.enableColorMaterial();
-        //            GlStateManager.disableLighting();
-        //            GlStateManager.enableCull();
-        //            MinecraftClient.getInstance().getItemRenderer().renderItemOverlays(ColorUtils.coloredFontRenderer, itemStack, x, y);
-        //            GlStateManager.blendFunc(770, 771);
-        //            GlStateManager.disableLighting();
-        //        }
+        GuiLighting.enableForItems();
+        GlStateManager.enableLighting();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
+        MinecraftClient.getInstance().getItemRenderer().renderGuiItem(itemStack, x, y);
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.disableBlend();
+        GuiLighting.disable();
+
+        if (itemStack.hasDurability())
+        {
+            GuiLighting.enableForItems();
+            GlStateManager.disableLighting();
+            GlStateManager.enableRescaleNormal();
+            GlStateManager.enableColorMaterial();
+            GlStateManager.disableLighting();
+            GlStateManager.enableCull();
+            MinecraftClient.getInstance().getItemRenderer().renderGuiItemOverlay(ColorUtils.coloredFontRenderer, itemStack, x, y);
+            GlStateManager.blendFunc(770, 771);
+            GlStateManager.disableLighting();
+        }
     }
 
     static String getInventoryItemCount(PlayerInventory inventory, ItemStack other)

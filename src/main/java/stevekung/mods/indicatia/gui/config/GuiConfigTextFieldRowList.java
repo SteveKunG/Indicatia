@@ -77,7 +77,7 @@
 //    public boolean mouseClicked(double mouseX, double mouseY, int button)
 //    {
 //        //TODO
-//        /*boolean flag = this.children().get(this.getSelected()).getTextField() != null && mouseX >= this.children().get(index).getTextField().x && mouseX < this.children().get(index).getTextField().x + this.children().get(index).getTextField().width && mouseY >= this.children().get(index).getTextField().y && mouseY < this.children().get(index).getTextField().y + this.children().get(index).getTextField().height;
+//        boolean flag = this.children().get(this.getSelected()).getTextField() != null && mouseX >= this.children().get(index).getTextField().x && mouseX < this.children().get(index).getTextField().x + this.children().get(index).getTextField().width && mouseY >= this.children().get(index).getTextField().y && mouseY < this.children().get(index).getTextField().y + this.children().get(index).getTextField().height;
 //        this.selected = flag ? index : -1;
 //
 //        this.children().stream().filter(row -> row.getTextField() != null).forEach(row ->
@@ -87,7 +87,7 @@
 //                return;
 //            }
 //            row.getTextField().setFocused(false);
-//        });*/
+//        });
 //        return super.mouseClicked(mouseX, mouseY, button);
 //    }
 //

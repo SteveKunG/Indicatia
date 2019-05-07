@@ -90,12 +90,12 @@ public abstract class ConfigSliderWidget extends AbstractButtonWidget
         this.setValue((mouseX - (this.x + 4)) / (this.width - 8));
     }
 
-    private void setValue(double mouseX)
+    private void setValue(double value)
     {
-        double double_2 = this.value;
-        this.value = MathHelper.clamp(mouseX, 0.0D, 1.0D);
+        double currentValue = this.value;
+        this.value = MathHelper.clamp(value, 0.0D, 1.0D);
 
-        if (double_2 != this.value)
+        if (currentValue != this.value)
         {
             this.applyValue();
         }

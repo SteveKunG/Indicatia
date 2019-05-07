@@ -10,9 +10,9 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
 import io.github.cottonmc.clientcommands.Feedback;
+import net.minecraft.ChatFormat;
+import net.minecraft.network.chat.BaseComponent;
 import net.minecraft.server.command.CommandSource;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TextFormat;
 import stevekung.mods.indicatia.command.arguments.ProfileNameArgumentType;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -158,8 +158,8 @@ public class ProfileCommand
                 }
             }
 
-            TextComponent translation = LangUtils.translateComponent("commands.inprofile.list.count", size);
-            translation.getStyle().setColor(TextFormat.DARK_GREEN);
+            BaseComponent translation = LangUtils.translateComponent("commands.inprofile.list.count", size);
+            translation.getStyle().setColor(ChatFormat.DARK_GREEN);
             Feedback.sendFeedback(translation);
 
             collection.stream().filter(file -> file.getName().endsWith(".dat")).forEach(file ->
@@ -167,7 +167,7 @@ public class ProfileCommand
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
                 boolean current = realName.equals(ExtendedConfig.currentProfile);
-                Feedback.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + TextFormat.RED + LangUtils.translate("commands.inprofile.current_profile") : ""));
+                Feedback.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + ChatFormat.RED + LangUtils.translate("commands.inprofile.current_profile") : ""));
             });
             return 1;
         }

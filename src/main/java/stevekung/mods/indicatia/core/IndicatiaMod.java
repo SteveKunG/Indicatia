@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 
@@ -16,6 +19,7 @@ import net.minecraft.nbt.CompoundTag;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.indicatia.extra.ThreadDownloadWeatherData;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
@@ -77,6 +81,10 @@ public class IndicatiaMod implements ClientModInitializer
 
         CapeUtils.loadCapeTextureAtStartup();
         new ThreadMinigameData().run();
+
+        //TODO TEMP
+        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+        exec.scheduleAtFixedRate(new ThreadDownloadWeatherData(), 0, 5, TimeUnit.MINUTES);
     }
 
     private static void loadProfileOption()

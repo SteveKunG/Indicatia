@@ -8,21 +8,11 @@ public class ConfigOptionSliderWidget extends ConfigSliderWidget
 {
     private final DoubleConfigOption option;
 
-    public ConfigOptionSliderWidget(ExtendedConfig config, int int_1, int int_2, int int_3, int int_4, DoubleConfigOption doubleOpt)
+    public ConfigOptionSliderWidget(ExtendedConfig config, int x, int y, int width, int height, DoubleConfigOption doubleOpt)
     {
-        super(config, int_1, int_2, int_3, int_4, (float)doubleOpt.normalizeValue(doubleOpt.get(config)));
+        super(config, x, y, width, height, (float)doubleOpt.normalizeValue(doubleOpt.get(config)));
         this.option = doubleOpt;
         this.updateMessage();
-    }
-
-    @Override
-    public void renderButton(int x, int y, float partialTicks)
-    {
-        /*if (this.option == GameOption.FULLSCREEN_RESOLUTION)
-        {
-            this.updateMessage();
-        }*/
-        super.renderButton(x, y, partialTicks);
     }
 
     @Override

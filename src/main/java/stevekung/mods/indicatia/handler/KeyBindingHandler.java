@@ -16,6 +16,7 @@ public class KeyBindingHandler
     public static FabricKeyBinding REC;
     public static FabricKeyBinding TOGGLE_SPRINT;
     public static FabricKeyBinding TOGGLE_SNEAK;
+    public static FabricKeyBinding WEATHER;
 
     public static void init()
     {
@@ -27,6 +28,7 @@ public class KeyBindingHandler
         KeyBindingHandler.REC = FabricKeyBinding.Builder.create(new Identifier("indicatia:rec_overlay.desc"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, IndicatiaMod.MOD_ID).build();
         KeyBindingHandler.TOGGLE_SPRINT = FabricKeyBinding.Builder.create(new Identifier("indicatia:toggle_sprint.desc"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_BRACKET, IndicatiaMod.MOD_ID).build();
         KeyBindingHandler.TOGGLE_SNEAK = FabricKeyBinding.Builder.create(new Identifier("indicatia:toggle_sneak.desc"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_BRACKET, IndicatiaMod.MOD_ID).build();
+        KeyBindingHandler.WEATHER = FabricKeyBinding.Builder.create(new Identifier("indicatia:weather.desc"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F6, IndicatiaMod.MOD_ID).build();
 
         KeyBindingRegistryImpl.INSTANCE.register(KeyBindingHandler.CUSTOM_CAPE);
         KeyBindingRegistryImpl.INSTANCE.register(KeyBindingHandler.DONATOR);
@@ -34,5 +36,6 @@ public class KeyBindingHandler
         KeyBindingRegistryImpl.INSTANCE.register(KeyBindingHandler.REC);
         KeyBindingRegistryImpl.INSTANCE.register(KeyBindingHandler.TOGGLE_SPRINT);
         KeyBindingRegistryImpl.INSTANCE.register(KeyBindingHandler.TOGGLE_SNEAK);
+        KeyBindingRegistryImpl.INSTANCE.register(KeyBindingHandler.WEATHER);
     }
 }

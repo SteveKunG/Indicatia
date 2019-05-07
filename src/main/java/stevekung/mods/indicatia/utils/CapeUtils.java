@@ -3,9 +3,6 @@ package stevekung.mods.indicatia.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-
-import org.apache.commons.io.IOUtils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
@@ -68,7 +65,7 @@ public class CapeUtils
 
     private static void readCapeTexture() throws IOException
     {
-        NativeImage image = NativeImage.fromByteBuffer(NativeImage.Format.RGBA, ByteBuffer.wrap(IOUtils.toByteArray(new FileInputStream(CapeUtils.texture))));
+        NativeImage image = NativeImage.fromInputStream(new FileInputStream(CapeUtils.texture));
         CapeUtils.CAPE_TEXTURE = new NativeImageBackedTexture(image);
     }
 }

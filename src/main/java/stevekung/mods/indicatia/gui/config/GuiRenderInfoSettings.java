@@ -5,9 +5,9 @@ import java.util.List;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormat;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.TextFormat;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.ExtendedConfigOption;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
@@ -82,7 +82,7 @@ public class GuiRenderInfoSettings extends Screen
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.minecraft.textRenderer, LangUtils.translate("extended_config.render_info.title"), this.width / 2, 5, 16777215);
-        this.drawCenteredString(this.minecraft.textRenderer, TextFormat.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.minecraft.textRenderer, ChatFormat.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 }
