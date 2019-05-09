@@ -500,31 +500,6 @@
         ]
     },
     {
-        "name": "Skyclash",
-        "commands": [
-            {
-                "name": "Skyclash Lobby",
-                "command": "sc",
-                "minigame": false
-            },
-            {
-                "name": "Solo",
-                "command": "skyclash_solo",
-                "minigame": true
-            },
-            {
-                "name": "Doubles",
-                "command": "skyclash_doubles",
-                "minigame": true
-            },
-            {
-                "name": "Doubles War",
-                "command": "skyclash_team_war",
-                "minigame": true
-            }
-        ]
-    },
-    {
         "name": "Skywars",
         "commands": [
             {
