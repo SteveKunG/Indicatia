@@ -5,12 +5,12 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.1.2"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.2.0"
     }
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.1.2"
+    id "com.matthewprenger.cursegradle" version "1.2.0"
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
@@ -35,7 +35,7 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
-    version = "1.12.2-14.23.5.2814"
+    version = "1.12.2-14.23.5.2838"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
@@ -53,7 +53,7 @@ repositories {
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "license.txt", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
+ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
 ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
 ext.apiFiles = ["micdoodle8/**"]
 
