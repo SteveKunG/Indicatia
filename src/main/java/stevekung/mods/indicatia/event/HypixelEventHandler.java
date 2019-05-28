@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.inventory.GuiEditSign;
@@ -12,6 +14,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -41,14 +44,14 @@ public class HypixelEventHandler
         }
     }
 
-    //    @SubscribeEvent
-    //    public void onMouseClick(MouseEvent event)TODO
-    //    {
-    //        if (event.getButton() == 1 && event.isButtonstate() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
-    //        {
-    //            HypixelEventHandler.rightClickAddParty(this.mc);
-    //        }
-    //    }
+    @SubscribeEvent
+    public void onMouseClick(InputEvent.MouseInputEvent event)
+    {
+        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
+        {
+            HypixelEventHandler.rightClickAddParty(this.mc);
+        }
+    }
 
     @SubscribeEvent
     public void onClientChatReceived(ClientChatReceivedEvent event)

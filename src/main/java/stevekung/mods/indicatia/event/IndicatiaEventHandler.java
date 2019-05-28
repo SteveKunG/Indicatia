@@ -1,7 +1,5 @@
 package stevekung.mods.indicatia.event;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +7,10 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.annotation.Nonnull;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -23,6 +25,7 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.entity.model.ModelSkeleton;
 import net.minecraft.client.renderer.entity.model.ModelZombie;
 import net.minecraft.client.renderer.entity.model.ModelZombieVillager;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityGiantZombie;
@@ -269,11 +272,11 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onMouseClick(InputEvent.MouseInputEvent event)
     {
-        if (event.getButton() == 0 && event.getAction() == 1)
+        if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_1 && event.getAction() == GLFW.GLFW_PRESS)
         {
             IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
         }
-        if (event.getButton() == 1 && event.getAction() == 1)
+        if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_2 && event.getAction() == GLFW.GLFW_PRESS)
         {
             IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
         }
@@ -372,35 +375,37 @@ public class IndicatiaEventHandler
     }
 
     @SubscribeEvent
-    public void onPressKey(InputEvent.KeyInputEvent event)
+    public void onPressKey(InputEvent.KeyInputEvent event)//TODO Figure out how to fix vanilla key repeating
     {
-        if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
+        InputMappings.Input input = InputMappings.Type.KEYSYM.getOrMakeInput(event.getKey());
+
+        if (KeyBindingHandler.KEY_QUICK_CONFIG.isActiveAndMatches(input))
         {
             GuiExtendedConfig config = new GuiExtendedConfig();
             this.mc.displayGuiScreen(config);
         }
-        if (KeyBindingHandler.KEY_REC_OVERLAY.isKeyDown())
+        if (KeyBindingHandler.KEY_REC_OVERLAY.isActiveAndMatches(input))
         {
             HUDRenderEventHandler.recordEnable = !HUDRenderEventHandler.recordEnable;
         }
-        if (IndicatiaConfig.GENERAL.enableCustomCape.get() && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isKeyDown())
+        if (IndicatiaConfig.GENERAL.enableCustomCape.get() && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isActiveAndMatches(input))
         {
             GuiCustomCape customCapeGui = new GuiCustomCape();
             this.mc.displayGuiScreen(customCapeGui);
         }
-        if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+        if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isActiveAndMatches(input))
         {
             ExtendedConfig.toggleSprint = !ExtendedConfig.toggleSprint;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
             ExtendedConfig.save();
         }
-        if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
+        if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isActiveAndMatches(input))
         {
             ExtendedConfig.toggleSneak = !ExtendedConfig.toggleSneak;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
             ExtendedConfig.save();
         }
-        if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
+        if (KeyBindingHandler.KEY_DONATOR_GUI.isActiveAndMatches(input))
         {
             GuiDonator donatorGui = new GuiDonator();
             this.mc.displayGuiScreen(donatorGui);
