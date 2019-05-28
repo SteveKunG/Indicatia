@@ -122,7 +122,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     {
         int cursor = reader.getCursor();
 
-        while (reader.canRead() && Identifier.isValidChar(reader.peek()))
+        while (reader.canRead() && Identifier.isCharValid(reader.peek()))
         {
             reader.skip();
         }

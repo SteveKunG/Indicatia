@@ -117,7 +117,7 @@
 //    }
 //
 //    @Override
-//    public void removed()
+//    public void onClose()
 //    {
 //        this.minecraft.keyboard.enableRepeatEvents(false);
 //    }

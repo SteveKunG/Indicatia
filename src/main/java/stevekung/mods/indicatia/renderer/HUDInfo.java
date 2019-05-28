@@ -7,8 +7,8 @@ import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.ContainerScreen;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
@@ -736,7 +736,7 @@ public class HUDInfo
 
     private static void method_18642(MinecraftClient mc, int int_1, int int_2, Iterable<StatusEffectInstance> iterable_1)
     {
-        mc.getTextureManager().bindTexture(ContainerScreen.BACKGROUND_TEXTURE);
+        mc.getTextureManager().bindTexture(AbstractContainerScreen.BACKGROUND_TEXTURE);
         int int_3 = 0;
 
         for (Iterator<StatusEffectInstance> var5 = iterable_1.iterator(); var5.hasNext(); int_3 += int_2)

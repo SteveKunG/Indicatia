@@ -6,8 +6,8 @@ import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormat;
-import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.menu.YesNoScreen;
+import net.minecraft.client.gui.screen.ConfirmScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import stevekung.mods.indicatia.config.DoubleConfigOption;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -92,7 +92,7 @@ public class GuiExtendedConfig extends Screen
         this.addButton(this.resetButton = new ButtonWidget(this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config"), button ->
         {
             ExtendedConfig.instance.save();
-            GuiExtendedConfig.this.minecraft.openScreen(new YesNoScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
+            GuiExtendedConfig.this.minecraft.openScreen(new ConfirmScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
         }));
         this.resetButton.visible = false;
     }

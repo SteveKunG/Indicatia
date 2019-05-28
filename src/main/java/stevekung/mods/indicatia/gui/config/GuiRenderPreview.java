@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.world.dimension.DimensionType;
 import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -31,7 +31,7 @@ public class GuiRenderPreview extends Screen
     }
 
     @Override
-    public void removed()
+    public void onClose()
     {
         this.minecraft.openScreen(this.parent);
     }

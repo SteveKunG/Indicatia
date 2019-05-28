@@ -325,8 +325,8 @@ public class IndicatiaEventHandler
         }
         if (KeyBindingHandler.WEATHER.isPressed())
         {
-            GuiRenderWeather config = new GuiRenderWeather();
-            this.mc.openScreen(config);
+            GuiRenderWeather weather = new GuiRenderWeather();
+            this.mc.openScreen(weather);
         }
         if (KeyBindingHandler.REC.isPressed())
         {
