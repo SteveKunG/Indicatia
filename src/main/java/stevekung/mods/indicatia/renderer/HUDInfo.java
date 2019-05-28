@@ -681,7 +681,7 @@ public class HUDInfo
                 if (showIcon)
                 {
                     mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-                    potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, alpha);
+                    potion.renderHUDEffect(potioneffect, mc.ingameGUI, xPotion, yPotion, mc.ingameGUI.zLevel, alpha);
                     int index = potion.getStatusIconIndex();
 
                     if (potionPos.equalsIgnoreCase("hotbar_left"))
