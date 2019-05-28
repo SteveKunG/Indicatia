@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
+import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.HealthStatusMode;
 import stevekung.mods.indicatia.utils.InfoUtils;
 
 @Mixin(MinecraftClient.class)
@@ -17,7 +19,7 @@ public class ExtendedReachEntity<T extends LivingEntity>
     {
         MinecraftClient mc = MinecraftClient.getInstance();
 
-        if (!mc.skipGameRender)
+        if (!mc.skipGameRender && ExtendedConfig.instance.healthStatusMode == HealthStatusMode.POINTED)
         {
             InfoUtils.INSTANCE.processMouseOverEntity(mc);
         }

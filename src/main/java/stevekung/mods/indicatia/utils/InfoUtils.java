@@ -13,9 +13,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ProjectileUtil;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BoundingBox;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
@@ -144,13 +146,6 @@ public class InfoUtils
             this.extendedPointedEntity = null;
             mc.hitResult = entity.rayTrace(distance, mc.getTickDelta(), false);
             Vec3d vec3d = entity.getCameraPosVec(mc.getTickDelta());
-            boolean flag = false;
-
-            if (!mc.interactionManager.hasExtendedReach())
-            {
-                flag = true;
-            }
-
             distance *= distance;
 
             if (mc.hitResult != null)
@@ -161,21 +156,17 @@ public class InfoUtils
             Vec3d vec3d1 = entity.getRotationVec(1.0F);
             Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
             BoundingBox boundingBox_1 = entity.getBoundingBox().stretch(vec3d1.multiply(distance)).expand(1.0D, 1.0D, 1.0D);
-            EntityHitResult raytraceresult = ProjectileUtil.rayTrace(entity, vec3d, vec3d2, boundingBox_1, entity_1 -> !entity_1.isSpectator() && entity_1.collides(), distance);
+            EntityHitResult result = ProjectileUtil.rayTrace(entity, vec3d, vec3d2, boundingBox_1, entity_1 -> !entity_1.isSpectator() && entity_1.collides(), distance);
 
-            if (raytraceresult != null)
+            if (result != null)
             {
-                Entity entity2 = raytraceresult.getEntity();
-                Vec3d vec3d_4 = raytraceresult.getPos();
+                Entity entity2 = result.getEntity();
+                Vec3d vec3d_4 = result.getPos();
                 double d3 = vec3d.squaredDistanceTo(vec3d_4);
 
-                if (flag && d3 > 9.0D)
+                if (d3 < distance || mc.hitResult == null)
                 {
-                    mc.hitResult = BlockHitResult.createMissed(vec3d_4, Direction.getFacing(vec3d1.x, vec3d1.y, vec3d1.z), new BlockPos(vec3d_4));
-                }
-                else if (d3 < distance || mc.hitResult == null)
-                {
-                    mc.hitResult = raytraceresult;
+                    mc.hitResult = result;
 
                     if (entity2 instanceof LivingEntity || entity2 instanceof ItemFrameEntity)
                     {
