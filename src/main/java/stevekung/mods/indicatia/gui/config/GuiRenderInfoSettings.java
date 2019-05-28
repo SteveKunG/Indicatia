@@ -58,7 +58,7 @@ public class GuiRenderInfoSettings extends Screen
     @Override
     public void init()
     {
-        this.addButton(new ButtonWidget(this.width / 2 - 100, this.height - 27, 150, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.instance.save();
             this.minecraft.openScreen(this.parent);
