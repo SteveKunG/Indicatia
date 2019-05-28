@@ -4,7 +4,9 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [],
     "client": [
-        "IngameHUDRenderer"
+        "IngameHUDRenderer",
+        "HealthStatusRenderer",
+        "ExtendedReachEntity"
     ],
     "injectors": {
         "defaultRequire": 1

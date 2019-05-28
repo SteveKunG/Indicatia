@@ -446,36 +446,7 @@
 //            GlStateManager.disableBlend();
 //        }
 //    }
-//
-//    @SubscribeEvent
-//    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post<EntityLivingBase> event)
-//    {
-//        EntityLivingBase entity = event.getEntity();
-//        float health = entity.getHealth();
-//        boolean halfHealth = health <= entity.getMaxHealth() / 2F;
-//        boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
-//        double range = entity.getAttribute(EntityLivingBase.NAMETAG_DISTANCE).getValue();
-//        double distance = entity.getDistanceSq(this.mc.getRenderViewEntity());
-//
-//        if (entity.isSneaking())
-//        {
-//            distance /= 2;
-//        }
-//
-//        String mode = HealthStatusMode.getById(ExtendedConfig.healthStatusMode);
-//        boolean flag = !mode.equalsIgnoreCase("disabled") && (!mode.equalsIgnoreCase("pointed") || entity == InfoUtils.INSTANCE.extendedPointedEntity);
-//        Style color = halfHealth ? JsonUtils.red() : halfHealth1 ? JsonUtils.darkRed() : JsonUtils.green();
-//
-//        if (distance < range * range)
-//        {
-//            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand) && !InfoUtils.INSTANCE.isHypixel())
-//            {
-//                String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
-//                RenderUtilsIN.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
-//            }
-//        }
-//    }
-//
+
 //    private static void readTopDonatorFile()
 //    {
 //        File file = new File("/" + ExtendedConfig.topDonatorFilePath);
