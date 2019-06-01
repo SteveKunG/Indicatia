@@ -6,7 +6,8 @@
     "client": [
         "IngameHUDRenderer",
         "HealthStatusRenderer",
-        "ExtendedReachEntity"
+        "ExtendedReachEntity",
+        "CustomPlayerListHUD"
     ],
     "injectors": {
         "defaultRequire": 1
