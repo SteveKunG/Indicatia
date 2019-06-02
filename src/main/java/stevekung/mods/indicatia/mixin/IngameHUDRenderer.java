@@ -24,8 +24,8 @@ import stevekung.mods.stevekungslib.utils.ColorUtils;
 @Mixin(InGameHud.class)
 public class IngameHUDRenderer
 {
-    @Inject(at = @At("RETURN"), method = "draw(F)V")
-    public void draw(CallbackInfo info)
+    @Inject(at = @At("HEAD"), method = "renderStatusEffectOverlay()V")
+    public void renderStatusEffectOverlay(CallbackInfo info)
     {
         MinecraftClient mc = MinecraftClient.getInstance();
 

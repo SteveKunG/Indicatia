@@ -7,7 +7,8 @@
         "IngameHUDRenderer",
         "HealthStatusRenderer",
         "ExtendedReachEntity",
-        "CustomPlayerListHUD"
+        "CustomPlayerListHUD",
+        "FixChatDepthRenderer"
     ],
     "injectors": {
         "defaultRequire": 1

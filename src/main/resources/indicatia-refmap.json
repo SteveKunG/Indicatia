@@ -1,13 +1,37 @@
 {
     "mappings": {
         "stevekung/mods/indicatia/mixin/IngameHUDRenderer": {
-            "draw(F)V": "Lnet/minecraft/class_329;method_1753(F)V"
+            "renderStatusEffectOverlay()V": "Lnet/minecraft/class_329;method_1765()V"
+        },
+        "stevekung/mods/indicatia/mixin/ExtendedReachEntity": {
+            "render(Z)V": "Lnet/minecraft/class_310;method_1523(Z)V"
+        },
+        "stevekung/mods/indicatia/mixin/HealthStatusRenderer": {
+            "method_4041(Lnet/minecraft/entity/LivingEntity;DDD)V": "Lnet/minecraft/class_922;method_4041(Lnet/minecraft/class_1309;DDD)V"
+        },
+        "stevekung/mods/indicatia/mixin/CustomPlayerListHUD": {
+            "(Lnet/minecraft/client/MinecraftClient;)V": "(Lnet/minecraft/class_310;)V"
+        },
+        "stevekung/mods/indicatia/mixin/FixChatDepthRenderer": {
+            "draw(I)V": "Lnet/minecraft/class_338;method_1805(I)V"
         }
     },
     "data": {
         "named:intermediary": {
             "stevekung/mods/indicatia/mixin/IngameHUDRenderer": {
-                "draw(F)V": "Lnet/minecraft/class_329;method_1753(F)V"
+                "renderStatusEffectOverlay()V": "Lnet/minecraft/class_329;method_1765()V"
+            },
+            "stevekung/mods/indicatia/mixin/ExtendedReachEntity": {
+                "render(Z)V": "Lnet/minecraft/class_310;method_1523(Z)V"
+            },
+            "stevekung/mods/indicatia/mixin/HealthStatusRenderer": {
+                "method_4041(Lnet/minecraft/entity/LivingEntity;DDD)V": "Lnet/minecraft/class_922;method_4041(Lnet/minecraft/class_1309;DDD)V"
+            },
+            "stevekung/mods/indicatia/mixin/CustomPlayerListHUD": {
+                "(Lnet/minecraft/client/MinecraftClient;)V": "Lnet/minecraft/class_310;)V"
+            },
+            "stevekung/mods/indicatia/mixin/FixChatDepthRenderer": {
+                "draw(I)V": "Lnet/minecraft/class_338;method_1805(I)V"
             }
         }
     }
