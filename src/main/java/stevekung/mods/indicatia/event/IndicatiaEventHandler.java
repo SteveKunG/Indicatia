@@ -435,43 +435,43 @@ public class IndicatiaEventHandler
         }
     }*/
 
-//    private static void getRealTimeServerPing(IntegratedServer server)
-//    {
-//        IndicatiaEventHandler.serverPinger.submit(() ->
-//        {
-//            try
-//            {
-//                ServerAddress address = ServerAddress.parse(server.getServerIp());
-//                ClientConnection manager = ClientConnection.connect(InetAddress.getByName(address.getAddress()), address.getPort(), false);
-//
-//                manager.setPacketListener(new ClientQueryPacketListener()
-//                {
-//                    private long currentSystemTime = 0L;
-//
-//                    @Override
-//                    public void onResponse(QueryResponseS2CPacket packet)
-//                    {
-//                        this.currentSystemTime = SystemUtil.getMeasuringTimeMs();
-//                        manager.send(new QueryPingC2SPacket(this.currentSystemTime));
-//                    }
-//
-//                    @Override
-//                    public void onPong(QueryPongS2CPacket packet)
-//                    {
-//                        long i = this.currentSystemTime;
-//                        long j = SystemUtil.getMeasuringTimeMs();
-//                        IndicatiaEventHandler.currentServerPing = (int) (j - i);
-//                    }
-//
-//                    @Override
-//                    public void onDisconnected(TextComponent component) {}
-//                });
-//                manager.send(new HandshakeC2SPacket(address.getAddress(), address.getPort(), NetworkState.STATUS));
-//                manager.send(new QueryRequestC2SPacket());
-//            }
-//            catch (Exception e) {}
-//        });
-//    }
+    //    private static void getRealTimeServerPing(IntegratedServer server)
+    //    {
+    //        IndicatiaEventHandler.serverPinger.submit(() ->
+    //        {
+    //            try
+    //            {
+    //                ServerAddress address = ServerAddress.parse(server.getServerIp());
+    //                ClientConnection manager = ClientConnection.connect(InetAddress.getByName(address.getAddress()), address.getPort(), false);
+    //
+    //                manager.setPacketListener(new ClientQueryPacketListener()
+    //                {
+    //                    private long currentSystemTime = 0L;
+    //
+    //                    @Override
+    //                    public void onResponse(QueryResponseS2CPacket packet)
+    //                    {
+    //                        this.currentSystemTime = SystemUtil.getMeasuringTimeMs();
+    //                        manager.send(new QueryPingC2SPacket(this.currentSystemTime));
+    //                    }
+    //
+    //                    @Override
+    //                    public void onPong(QueryPongS2CPacket packet)
+    //                    {
+    //                        long i = this.currentSystemTime;
+    //                        long j = SystemUtil.getMeasuringTimeMs();
+    //                        IndicatiaEventHandler.currentServerPing = (int) (j - i);
+    //                    }
+    //
+    //                    @Override
+    //                    public void onDisconnected(TextComponent component) {}
+    //                });
+    //                manager.send(new HandshakeC2SPacket(address.getAddress(), address.getPort(), NetworkState.STATUS));
+    //                manager.send(new QueryRequestC2SPacket());
+    //            }
+    //            catch (Exception e) {}
+    //        });
+    //    }
 
     private static void runAFK(ClientPlayerEntity player)
     {
