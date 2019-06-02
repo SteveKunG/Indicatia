@@ -1,7 +1,8 @@
 {
     "mappings": {
         "stevekung/mods/indicatia/mixin/IngameHUDRenderer": {
-            "renderStatusEffectOverlay()V": "Lnet/minecraft/class_329;method_1765()V"
+            "renderStatusEffectOverlay()V": "Lnet/minecraft/class_329;method_1765()V",
+            "draw(F)V": "Lnet/minecraft/class_329;method_1753(F)V"
         },
         "stevekung/mods/indicatia/mixin/ExtendedReachEntity": {
             "render(Z)V": "Lnet/minecraft/class_310;method_1523(Z)V"
@@ -19,7 +20,8 @@
     "data": {
         "named:intermediary": {
             "stevekung/mods/indicatia/mixin/IngameHUDRenderer": {
-                "renderStatusEffectOverlay()V": "Lnet/minecraft/class_329;method_1765()V"
+                "renderStatusEffectOverlay()V": "Lnet/minecraft/class_329;method_1765()V",
+                "draw(F)V": "Lnet/minecraft/class_329;method_1753(F)V"
             },
             "stevekung/mods/indicatia/mixin/ExtendedReachEntity": {
                 "render(Z)V": "Lnet/minecraft/class_310;method_1523(Z)V"
