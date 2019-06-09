@@ -4,8 +4,8 @@ import java.util.Collections;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,7 +15,7 @@ import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiAutoLoginFunction extends GuiScreen
+public class GuiAutoLoginFunction extends Screen
 {
     private GuiTextField inputField;
     private GuiButtonCustomizeTexture helpBtn;

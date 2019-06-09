@@ -3,7 +3,7 @@ package stevekung.mods.indicatia.event;
 import org.apache.logging.log4j.util.Strings;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,9 +33,9 @@ public class ChatMessageEventHandler
         @SubscribeEvent
         public void onEntityJoinWorld(EntityJoinWorldEvent event)
         {
-            if (event.getEntity() instanceof EntityPlayerSP)
+            if (event.getEntity() instanceof ClientPlayerEntity)
             {
-                EntityPlayerSP player = (EntityPlayerSP) event.getEntity();
+                ClientPlayerEntity player = (ClientPlayerEntity) event.getEntity();
                 ServerData data = ChatMessageEventHandler.this.mc.getCurrentServerData();
                 this.runAutoLoginCommand(player, data);
                 this.runRealmsCommand(player);
@@ -44,7 +44,7 @@ public class ChatMessageEventHandler
             }
         }
 
-        private void runAutoLoginCommand(EntityPlayerSP player, ServerData data)
+        private void runAutoLoginCommand(ClientPlayerEntity player, ServerData data)
         {
             if (data != null)
             {
@@ -58,7 +58,7 @@ public class ChatMessageEventHandler
             }
         }
 
-        private void runRealmsCommand(EntityPlayerSP player)
+        private void runRealmsCommand(ClientPlayerEntity player)
         {
             if (Minecraft.getInstance().isConnectedToRealms() && Strings.isNotEmpty(ExtendedConfig.realmsMessage))
             {

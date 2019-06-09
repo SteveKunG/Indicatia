@@ -1,21 +1,21 @@
 package stevekung.mods.indicatia.event;
 
-import com.google.common.base.MoreObjects;
-
 import java.util.Arrays;
 
+import com.google.common.base.MoreObjects;
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemMap;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.item.Items;
+import net.minecraft.item.MapItem;
+import net.minecraft.util.Hand;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -38,7 +38,7 @@ public class BlockhitAnimationEventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        if (this.mc.currentScreen instanceof GuiRenderPreview)
+        if (this.mc.field_71462_r instanceof GuiRenderPreview)
         {
             event.setCanceled(true);
             return;
@@ -49,13 +49,13 @@ public class BlockhitAnimationEventHandler
 
             if (!this.isZoomed())
             {
-                boolean isSleep = this.mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase)this.mc.getRenderViewEntity()).isPlayerSleeping();
+                boolean isSleep = this.mc.getRenderViewEntity() instanceof LivingEntity && ((LivingEntity)this.mc.getRenderViewEntity()).isPlayerSleeping();
 
                 if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectatorMode())
                 {
-                    this.mc.entityRenderer.enableLightmap();
+                    this.mc.gameRenderer.enableLightmap();
                     this.renderItemInFirstPerson(event.getPartialTicks());
-                    this.mc.entityRenderer.disableLightmap();
+                    this.mc.gameRenderer.disableLightmap();
                 }
             }
         }
@@ -63,9 +63,9 @@ public class BlockhitAnimationEventHandler
 
     private void renderItemInFirstPerson(float partialTicks)
     {
-        AbstractClientPlayer player = this.mc.player;
+        ClientPlayerEntity player = this.mc.player;
         float swingProgress = player.getSwingProgress(partialTicks);
-        EnumHand hand = MoreObjects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
+        Hand hand = MoreObjects.firstNonNull(player.field_184622_au, Hand.MAIN_HAND);
         float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
         float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks;
         boolean mainHand = true;
@@ -77,8 +77,8 @@ public class BlockhitAnimationEventHandler
 
             if (!itemStack.isEmpty() && itemStack.getItem() == Items.BOW)
             {
-                EnumHand activeHand = player.getActiveHand();
-                mainHand = activeHand == EnumHand.MAIN_HAND;
+                Hand activeHand = player.getActiveHand();
+                mainHand = activeHand == Hand.MAIN_HAND;
                 offHand = !mainHand;
             }
         }
@@ -90,24 +90,24 @@ public class BlockhitAnimationEventHandler
 
         if (mainHand)
         {
-            float mainHandSwing = hand == EnumHand.MAIN_HAND ? swingProgress : 0.0F;
+            float mainHandSwing = hand == Hand.MAIN_HAND ? swingProgress : 0.0F;
             float equipProgress = 1.0F - (this.mc.getFirstPersonRenderer().prevEquippedProgressMainHand + (this.mc.getFirstPersonRenderer().equippedProgressMainHand - this.mc.getFirstPersonRenderer().prevEquippedProgressMainHand) * partialTicks);
-            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.MAIN_HAND, mainHandSwing, this.mc.getFirstPersonRenderer().itemStackMainHand, equipProgress);
+            this.renderItemInFirstPerson(player, partialTicks, pitch, Hand.MAIN_HAND, mainHandSwing, this.mc.getFirstPersonRenderer().itemStackMainHand, equipProgress);
         }
         if (offHand)
         {
-            float offHandSwing = hand == EnumHand.OFF_HAND ? swingProgress : 0.0F;
+            float offHandSwing = hand == Hand.OFF_HAND ? swingProgress : 0.0F;
             float equipProgress = 1.0F - (this.mc.getFirstPersonRenderer().prevEquippedProgressOffHand + (this.mc.getFirstPersonRenderer().equippedProgressOffHand - this.mc.getFirstPersonRenderer().prevEquippedProgressOffHand) * partialTicks);
-            this.renderItemInFirstPerson(player, partialTicks, pitch, EnumHand.OFF_HAND, offHandSwing, this.mc.getFirstPersonRenderer().itemStackOffHand, equipProgress);
+            this.renderItemInFirstPerson(player, partialTicks, pitch, Hand.OFF_HAND, offHandSwing, this.mc.getFirstPersonRenderer().itemStackOffHand, equipProgress);
         }
         GlStateManager.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
     }
 
-    private void renderItemInFirstPerson(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress)
+    private void renderItemInFirstPerson(ClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress)
     {
-        boolean mainHand = hand == EnumHand.MAIN_HAND;
-        EnumHandSide handSide = mainHand ? player.getPrimaryHand() : player.getPrimaryHand().opposite();
+        boolean mainHand = hand == Hand.MAIN_HAND;
+        HandSide handSide = mainHand ? player.getPrimaryHand() : player.getPrimaryHand().opposite();
         GlStateManager.pushMatrix();
 
         if (itemStack.isEmpty())
@@ -117,7 +117,7 @@ public class BlockhitAnimationEventHandler
                 this.mc.getFirstPersonRenderer().renderArmFirstPerson(equipProgress, swingProgress, handSide);
             }
         }
-        else if (itemStack.getItem() instanceof ItemMap)
+        else if (itemStack.getItem() instanceof MapItem)
         {
             if (mainHand && this.mc.getFirstPersonRenderer().itemStackOffHand.isEmpty())
             {
@@ -130,7 +130,7 @@ public class BlockhitAnimationEventHandler
         }
         else
         {
-            boolean rightSide = handSide == EnumHandSide.RIGHT;
+            boolean rightSide = handSide == HandSide.RIGHT;
 
             if (player.isHandActive() && player.getItemInUseCount() > 0 && player.getActiveHand() == hand)
             {
@@ -202,6 +202,8 @@ public class BlockhitAnimationEventHandler
                     GlStateManager.translatef(0.0F, 0.0F, f7 * 0.2F);
                     GlStateManager.scalef(1.0F, 1.0F, 1.0F + f7 * 0.2F);
                     GlStateManager.rotatef(handType * 45.0F, 0.0F, -1.0F, 0.0F);
+                    break;
+                default:
                     break;
                 }
             }

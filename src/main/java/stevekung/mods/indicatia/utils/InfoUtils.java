@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;

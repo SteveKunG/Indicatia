@@ -1,13 +1,13 @@
 package stevekung.mods.indicatia.renderer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,7 +25,7 @@ public class LayerCapeNew implements LayerRenderer<AbstractClientPlayer>
     @Override
     public void render(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (entity.hasPlayerInfo() && !entity.isInvisible() && entity.isWearing(EnumPlayerModelParts.CAPE) && entity.getLocationCape() != null)
+        if (entity.hasPlayerInfo() && !entity.isInvisible() && entity.isWearing(PlayerModelParts.CAPE) && entity.getLocationCape() != null)
         {
             ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 

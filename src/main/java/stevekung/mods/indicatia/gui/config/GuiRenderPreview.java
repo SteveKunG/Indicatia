@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
@@ -21,7 +22,7 @@ import stevekung.mods.stevekungslib.client.event.ClientEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiRenderPreview extends GuiScreen
+public class GuiRenderPreview extends Screen
 {
     private final GuiScreen parent;
     private final String type;

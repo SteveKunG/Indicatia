@@ -2,43 +2,46 @@ package stevekung.mods.indicatia.renderer;
 
 import java.util.Random;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.ModelBox;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelBox;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
+public class LayerArrowNew<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M>
 {
-    private final RenderLivingBase<?> renderer;
+    private final LivingRenderer<T, M> renderer;
 
-    public LayerArrowNew(RenderLivingBase<?> renderer)
+    public LayerArrowNew(LivingRenderer<T, M> renderer)
     {
+        super(renderer);
         this.renderer = renderer;
     }
 
     @Override
-    public void render(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void func_212842_a_(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         int i = entity.getArrowCountInEntity();
 
         if (i > 0)
         {
-            EntityTippedArrow arrow = new EntityTippedArrow(entity.world, entity.posX, entity.posY, entity.posZ);
+            ArrowEntity arrow = new ArrowEntity(entity.world, entity.posX, entity.posY, entity.posZ);
             Random rand = new Random(entity.getEntityId());
 
             for (int j = 0; j < i; ++j)
             {
                 GlStateManager.pushMatrix();
                 RenderUtils.disableLighting();
-                ModelRenderer modelrenderer = this.renderer.getMainModel().getRandomModelBox(rand);
+                RendererModel modelrenderer = this.func_215332_c().getRandomModelBox(rand);
                 ModelBox modelbox = modelrenderer.cubeList.get(rand.nextInt(modelrenderer.cubeList.size()));
                 modelrenderer.postRender(0.0625F);
                 float f = rand.nextFloat();

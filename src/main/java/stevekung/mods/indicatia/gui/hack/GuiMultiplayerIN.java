@@ -1,7 +1,7 @@
 package stevekung.mods.indicatia.gui.hack;
 
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.MultiplayerScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,9 +10,9 @@ import stevekung.mods.stevekungslib.utils.ColorUtils;
 import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiMultiplayerIN extends GuiMultiplayer
+public class GuiMultiplayerIN extends MultiplayerScreen
 {
-    public GuiMultiplayerIN(GuiScreen parent)
+    public GuiMultiplayerIN(Screen parent)
     {
         super(parent);
     }
@@ -49,7 +49,7 @@ public class GuiMultiplayerIN extends GuiMultiplayer
     @Override
     public void refreshServerList()
     {
-        this.mc.displayGuiScreen(new GuiMultiplayerIN(this.parentScreen));
+        this.mc.displayScreen(new GuiMultiplayerIN(this.parentScreen));
     }
 
     @Override

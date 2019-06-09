@@ -3,10 +3,11 @@ package stevekung.mods.indicatia.gui.hack;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ServerListEntryNormal;
+import net.minecraft.client.gui.screen.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,7 +16,7 @@ import net.minecraftforge.fml.client.ClientHooks;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class ServerListEntryNormalIN extends ServerListEntryNormal
+public class ServerListEntryNormalIN extends ServerSelectionList
 {
     private static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
     private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");

@@ -3,10 +3,10 @@ package stevekung.mods.indicatia.command;
 import com.mojang.brigadier.CommandDispatcher;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.FishingRodItem;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
@@ -21,11 +21,11 @@ public class AutoFishCommand
     {
         if (!IndicatiaEventHandler.autoFish)
         {
-            EntityPlayerSP player = Minecraft.getInstance().player;
-            boolean mainHand = player.getHeldItemMainhand().getItem() instanceof ItemFishingRod;
-            boolean offHand = player.getHeldItemOffhand().getItem() instanceof ItemFishingRod;
+            ClientPlayerEntity player = Minecraft.getInstance().player;
+            boolean mainHand = player.getHeldItemMainhand().getItem() instanceof FishingRodItem;
+            boolean offHand = player.getHeldItemOffhand().getItem() instanceof FishingRodItem;
 
-            if (player.getHeldItemMainhand().getItem() instanceof ItemFishingRod)
+            if (player.getHeldItemMainhand().getItem() instanceof FishingRodItem)
             {
                 offHand = false;
             }

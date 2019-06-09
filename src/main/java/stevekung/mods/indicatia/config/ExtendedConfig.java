@@ -1,15 +1,15 @@
 package stevekung.mods.indicatia.config;
 
-import com.google.common.base.Strings;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import com.google.common.base.Strings;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -185,7 +185,7 @@ public class ExtendedConfig
     {
         try
         {
-            NBTTagCompound nbt = CompressedStreamTools.read(ExtendedConfig.file);
+            CompoundNBT nbt = CompressedStreamTools.read(ExtendedConfig.file);
 
             if (nbt == null)
             {
@@ -343,142 +343,142 @@ public class ExtendedConfig
     {
         try
         {
-            NBTTagCompound nbt = new NBTTagCompound();
+            CompoundNBT nbt = new CompoundNBT();
 
             // Render Info
-            nbt.setBoolean("FPS", ExtendedConfig.fps);
-            nbt.setBoolean("XYZ", ExtendedConfig.xyz);
-            nbt.setBoolean("Direction", ExtendedConfig.direction);
-            nbt.setBoolean("Biome", ExtendedConfig.biome);
-            nbt.setBoolean("Ping", ExtendedConfig.ping);
-            nbt.setBoolean("PingToSecond", ExtendedConfig.pingToSecond);
-            nbt.setBoolean("ServerIP", ExtendedConfig.serverIP);
-            nbt.setBoolean("ServerIPMCVersion", ExtendedConfig.serverIPMCVersion);
-            nbt.setBoolean("EquipmentHUD", ExtendedConfig.equipmentHUD);
-            nbt.setBoolean("PotionHUD", ExtendedConfig.potionHUD);
-            nbt.setBoolean("Keystroke", ExtendedConfig.keystroke);
-            nbt.setBoolean("KeystrokeMouse", ExtendedConfig.keystrokeMouse);
-            nbt.setBoolean("KeystrokeSprintSneak", ExtendedConfig.keystrokeSprintSneak);
-            nbt.setBoolean("KeystrokeBlocking", ExtendedConfig.keystrokeBlocking);
-            nbt.setBoolean("CPS", ExtendedConfig.cps);
-            nbt.setBoolean("RCPS", ExtendedConfig.rcps);
-            nbt.setBoolean("SlimeChunkFinder", ExtendedConfig.slimeChunkFinder);
-            nbt.setBoolean("RealTime", ExtendedConfig.realTime);
-            nbt.setBoolean("GameTime", ExtendedConfig.gameTime);
-            nbt.setBoolean("GameWeather", ExtendedConfig.gameWeather);
-            nbt.setBoolean("MoonPhase", ExtendedConfig.moonPhase);
-            nbt.setBoolean("PotionHUDIcon", ExtendedConfig.potionHUDIcon);
-            nbt.setBoolean("TPS", ExtendedConfig.tps);
-            nbt.setBoolean("TPSAllDimensions", ExtendedConfig.tpsAllDims);
-            nbt.setBoolean("AlternatePotionHUDTextColor", ExtendedConfig.alternatePotionHUDTextColor);
+            nbt.putBoolean("FPS", ExtendedConfig.fps);
+            nbt.putBoolean("XYZ", ExtendedConfig.xyz);
+            nbt.putBoolean("Direction", ExtendedConfig.direction);
+            nbt.putBoolean("Biome", ExtendedConfig.biome);
+            nbt.putBoolean("Ping", ExtendedConfig.ping);
+            nbt.putBoolean("PingToSecond", ExtendedConfig.pingToSecond);
+            nbt.putBoolean("ServerIP", ExtendedConfig.serverIP);
+            nbt.putBoolean("ServerIPMCVersion", ExtendedConfig.serverIPMCVersion);
+            nbt.putBoolean("EquipmentHUD", ExtendedConfig.equipmentHUD);
+            nbt.putBoolean("PotionHUD", ExtendedConfig.potionHUD);
+            nbt.putBoolean("Keystroke", ExtendedConfig.keystroke);
+            nbt.putBoolean("KeystrokeMouse", ExtendedConfig.keystrokeMouse);
+            nbt.putBoolean("KeystrokeSprintSneak", ExtendedConfig.keystrokeSprintSneak);
+            nbt.putBoolean("KeystrokeBlocking", ExtendedConfig.keystrokeBlocking);
+            nbt.putBoolean("CPS", ExtendedConfig.cps);
+            nbt.putBoolean("RCPS", ExtendedConfig.rcps);
+            nbt.putBoolean("SlimeChunkFinder", ExtendedConfig.slimeChunkFinder);
+            nbt.putBoolean("RealTime", ExtendedConfig.realTime);
+            nbt.putBoolean("GameTime", ExtendedConfig.gameTime);
+            nbt.putBoolean("GameWeather", ExtendedConfig.gameWeather);
+            nbt.putBoolean("MoonPhase", ExtendedConfig.moonPhase);
+            nbt.putBoolean("PotionHUDIcon", ExtendedConfig.potionHUDIcon);
+            nbt.putBoolean("TPS", ExtendedConfig.tps);
+            nbt.putBoolean("TPSAllDimensions", ExtendedConfig.tpsAllDims);
+            nbt.putBoolean("AlternatePotionHUDTextColor", ExtendedConfig.alternatePotionHUDTextColor);
 
             // Main
-            nbt.setBoolean("ShowCustomCape", ExtendedConfig.showCustomCape);
-            nbt.setBoolean("SwapRenderInfo", ExtendedConfig.swapRenderInfo);
-            nbt.setInt("HealthStatusMode", ExtendedConfig.healthStatusMode);
-            nbt.setInt("KeystrokePosition", ExtendedConfig.keystrokePosition);
-            nbt.setInt("EquipmentOrdering", ExtendedConfig.equipmentOrdering);
-            nbt.setInt("EquipmentDirection", ExtendedConfig.equipmentDirection);
-            nbt.setInt("EquipmentStatus", ExtendedConfig.equipmentStatus);
-            nbt.setInt("EquipmentPosition", ExtendedConfig.equipmentPosition);
-            nbt.setInt("PotionHUDStyle", ExtendedConfig.potionHUDStyle);
-            nbt.setInt("PotionHUDPosition", ExtendedConfig.potionHUDPosition);
-            nbt.setInt("CPSPosition", ExtendedConfig.cpsPosition);
-            nbt.setDouble("CPSOpacity", ExtendedConfig.cpsOpacity);
+            nbt.putBoolean("ShowCustomCape", ExtendedConfig.showCustomCape);
+            nbt.putBoolean("SwapRenderInfo", ExtendedConfig.swapRenderInfo);
+            nbt.putInt("HealthStatusMode", ExtendedConfig.healthStatusMode);
+            nbt.putInt("KeystrokePosition", ExtendedConfig.keystrokePosition);
+            nbt.putInt("EquipmentOrdering", ExtendedConfig.equipmentOrdering);
+            nbt.putInt("EquipmentDirection", ExtendedConfig.equipmentDirection);
+            nbt.putInt("EquipmentStatus", ExtendedConfig.equipmentStatus);
+            nbt.putInt("EquipmentPosition", ExtendedConfig.equipmentPosition);
+            nbt.putInt("PotionHUDStyle", ExtendedConfig.potionHUDStyle);
+            nbt.putInt("PotionHUDPosition", ExtendedConfig.potionHUDPosition);
+            nbt.putInt("CPSPosition", ExtendedConfig.cpsPosition);
+            nbt.putDouble("CPSOpacity", ExtendedConfig.cpsOpacity);
 
             // Movement
-            nbt.setBoolean("ToggleSprint", ExtendedConfig.toggleSprint);
-            nbt.setBoolean("ToggleSneak", ExtendedConfig.toggleSneak);
+            nbt.putBoolean("ToggleSprint", ExtendedConfig.toggleSprint);
+            nbt.putBoolean("ToggleSneak", ExtendedConfig.toggleSneak);
 
             // Offset
-            nbt.setInt("KeystrokeYOffset", ExtendedConfig.keystrokeYOffset);
-            nbt.setInt("ArmorHUDYOffset", ExtendedConfig.armorHUDYOffset);
-            nbt.setInt("PotionHUDYOffset", ExtendedConfig.potionHUDYOffset);
-            nbt.setInt("MaximumPotionDisplay", ExtendedConfig.maximumPotionDisplay);
-            nbt.setInt("PotionLengthYOffset", ExtendedConfig.potionLengthYOffset);
-            nbt.setInt("PotionLengthYOffsetOverlap", ExtendedConfig.potionLengthYOffsetOverlap);
+            nbt.putInt("KeystrokeYOffset", ExtendedConfig.keystrokeYOffset);
+            nbt.putInt("ArmorHUDYOffset", ExtendedConfig.armorHUDYOffset);
+            nbt.putInt("PotionHUDYOffset", ExtendedConfig.potionHUDYOffset);
+            nbt.putInt("MaximumPotionDisplay", ExtendedConfig.maximumPotionDisplay);
+            nbt.putInt("PotionLengthYOffset", ExtendedConfig.potionLengthYOffset);
+            nbt.putInt("PotionLengthYOffsetOverlap", ExtendedConfig.potionLengthYOffsetOverlap);
 
             // Custom Color
-            nbt.setString("FPSColor", ExtendedConfig.fpsColor);
-            nbt.setString("XYZColor", ExtendedConfig.xyzColor);
-            nbt.setString("BiomeColor", ExtendedConfig.biomeColor);
-            nbt.setString("DirectionColor", ExtendedConfig.directionColor);
-            nbt.setString("PingColor", ExtendedConfig.pingColor);
-            nbt.setString("PingToSecondColor", ExtendedConfig.pingToSecondColor);
-            nbt.setString("ServerIPColor", ExtendedConfig.serverIPColor);
-            nbt.setString("EquipmentStatusColor", ExtendedConfig.equipmentStatusColor);
-            nbt.setString("ArrowCountColor", ExtendedConfig.arrowCountColor);
-            nbt.setString("CPSColor", ExtendedConfig.cpsColor);
-            nbt.setString("RCPSColor", ExtendedConfig.rcpsColor);
-            nbt.setString("SlimeChunkColor", ExtendedConfig.slimeChunkColor);
-            nbt.setString("TopDonatorNameColor", ExtendedConfig.topDonatorNameColor);
-            nbt.setString("RecentDonatorNameColor", ExtendedConfig.recentDonatorNameColor);
-            nbt.setString("TPSColor", ExtendedConfig.tpsColor);
-            nbt.setString("RealTimeColor", ExtendedConfig.realTimeColor);
-            nbt.setString("GameTimeColor", ExtendedConfig.gameTimeColor);
-            nbt.setString("GameWeatherColor", ExtendedConfig.gameWeatherColor);
-            nbt.setString("MoonPhaseColor", ExtendedConfig.moonPhaseColor);
+            nbt.putString("FPSColor", ExtendedConfig.fpsColor);
+            nbt.putString("XYZColor", ExtendedConfig.xyzColor);
+            nbt.putString("BiomeColor", ExtendedConfig.biomeColor);
+            nbt.putString("DirectionColor", ExtendedConfig.directionColor);
+            nbt.putString("PingColor", ExtendedConfig.pingColor);
+            nbt.putString("PingToSecondColor", ExtendedConfig.pingToSecondColor);
+            nbt.putString("ServerIPColor", ExtendedConfig.serverIPColor);
+            nbt.putString("EquipmentStatusColor", ExtendedConfig.equipmentStatusColor);
+            nbt.putString("ArrowCountColor", ExtendedConfig.arrowCountColor);
+            nbt.putString("CPSColor", ExtendedConfig.cpsColor);
+            nbt.putString("RCPSColor", ExtendedConfig.rcpsColor);
+            nbt.putString("SlimeChunkColor", ExtendedConfig.slimeChunkColor);
+            nbt.putString("TopDonatorNameColor", ExtendedConfig.topDonatorNameColor);
+            nbt.putString("RecentDonatorNameColor", ExtendedConfig.recentDonatorNameColor);
+            nbt.putString("TPSColor", ExtendedConfig.tpsColor);
+            nbt.putString("RealTimeColor", ExtendedConfig.realTimeColor);
+            nbt.putString("GameTimeColor", ExtendedConfig.gameTimeColor);
+            nbt.putString("GameWeatherColor", ExtendedConfig.gameWeatherColor);
+            nbt.putString("MoonPhaseColor", ExtendedConfig.moonPhaseColor);
 
             // Custom Color : Value
-            nbt.setString("FPSValueColor", ExtendedConfig.fpsValueColor);
-            nbt.setString("FPS26And49Color", ExtendedConfig.fps26And49Color);
-            nbt.setString("FPSLow25Color", ExtendedConfig.fpsLow25Color);
-            nbt.setString("XYZValueColor", ExtendedConfig.xyzValueColor);
-            nbt.setString("BiomeValueColor", ExtendedConfig.biomeValueColor);
-            nbt.setString("DirectionValueColor", ExtendedConfig.directionValueColor);
-            nbt.setString("PingValueColor", ExtendedConfig.pingValueColor);
-            nbt.setString("Ping200And300Color", ExtendedConfig.ping200And300Color);
-            nbt.setString("Ping300And500Color", ExtendedConfig.ping300And500Color);
-            nbt.setString("PingMax500Color", ExtendedConfig.pingMax500Color);
-            nbt.setString("ServerIPValueColor", ExtendedConfig.serverIPValueColor);
-            nbt.setString("CPSValueColor", ExtendedConfig.cpsValueColor);
-            nbt.setString("RCPSValueColor", ExtendedConfig.rcpsValueColor);
-            nbt.setString("SlimeChunkValueColor", ExtendedConfig.slimeChunkValueColor);
-            nbt.setString("TopDonatorValueColor", ExtendedConfig.topDonatorValueColor);
-            nbt.setString("RecentDonatorValueColor", ExtendedConfig.recentDonatorValueColor);
-            nbt.setString("TPSValueColor", ExtendedConfig.tpsValueColor);
-            nbt.setString("RealTimeHHMMSSValueColor", ExtendedConfig.realTimeHHMMSSValueColor);
-            nbt.setString("RealTimeDDMMYYValueColor", ExtendedConfig.realTimeDDMMYYValueColor);
-            nbt.setString("GameTimeValueColor", ExtendedConfig.gameTimeValueColor);
-            nbt.setString("GameWeatherValueColor", ExtendedConfig.gameWeatherValueColor);
-            nbt.setString("MoonPhaseValueColor", ExtendedConfig.moonPhaseValueColor);
+            nbt.putString("FPSValueColor", ExtendedConfig.fpsValueColor);
+            nbt.putString("FPS26And49Color", ExtendedConfig.fps26And49Color);
+            nbt.putString("FPSLow25Color", ExtendedConfig.fpsLow25Color);
+            nbt.putString("XYZValueColor", ExtendedConfig.xyzValueColor);
+            nbt.putString("BiomeValueColor", ExtendedConfig.biomeValueColor);
+            nbt.putString("DirectionValueColor", ExtendedConfig.directionValueColor);
+            nbt.putString("PingValueColor", ExtendedConfig.pingValueColor);
+            nbt.putString("Ping200And300Color", ExtendedConfig.ping200And300Color);
+            nbt.putString("Ping300And500Color", ExtendedConfig.ping300And500Color);
+            nbt.putString("PingMax500Color", ExtendedConfig.pingMax500Color);
+            nbt.putString("ServerIPValueColor", ExtendedConfig.serverIPValueColor);
+            nbt.putString("CPSValueColor", ExtendedConfig.cpsValueColor);
+            nbt.putString("RCPSValueColor", ExtendedConfig.rcpsValueColor);
+            nbt.putString("SlimeChunkValueColor", ExtendedConfig.slimeChunkValueColor);
+            nbt.putString("TopDonatorValueColor", ExtendedConfig.topDonatorValueColor);
+            nbt.putString("RecentDonatorValueColor", ExtendedConfig.recentDonatorValueColor);
+            nbt.putString("TPSValueColor", ExtendedConfig.tpsValueColor);
+            nbt.putString("RealTimeHHMMSSValueColor", ExtendedConfig.realTimeHHMMSSValueColor);
+            nbt.putString("RealTimeDDMMYYValueColor", ExtendedConfig.realTimeDDMMYYValueColor);
+            nbt.putString("GameTimeValueColor", ExtendedConfig.gameTimeValueColor);
+            nbt.putString("GameWeatherValueColor", ExtendedConfig.gameWeatherValueColor);
+            nbt.putString("MoonPhaseValueColor", ExtendedConfig.moonPhaseValueColor);
 
             // Custom Color : Keystroke
-            nbt.setString("KeystrokeWASDColor", ExtendedConfig.keystrokeWASDColor);
-            nbt.setString("KeystrokeMouseButtonColor", ExtendedConfig.keystrokeMouseButtonColor);
-            nbt.setString("KeystrokeSprintColor", ExtendedConfig.keystrokeSprintColor);
-            nbt.setString("KeystrokeSneakColor", ExtendedConfig.keystrokeSneakColor);
-            nbt.setString("KeystrokeBlockingColor", ExtendedConfig.keystrokeBlockingColor);
-            nbt.setString("KeystrokeCPSColor", ExtendedConfig.keystrokeCPSColor);
-            nbt.setString("KeystrokeRCPSColor", ExtendedConfig.keystrokeRCPSColor);
-            nbt.setBoolean("KeystrokeWASDRainbow", ExtendedConfig.keystrokeWASDRainbow);
-            nbt.setBoolean("KeystrokeMouseButtonRainbow", ExtendedConfig.keystrokeMouseButtonRainbow);
-            nbt.setBoolean("KeystrokeSprintRainbow", ExtendedConfig.keystrokeSprintRainbow);
-            nbt.setBoolean("KeystrokeSneakRainbow", ExtendedConfig.keystrokeSneakRainbow);
-            nbt.setBoolean("KeystrokeBlockingRainbow", ExtendedConfig.keystrokeBlockingRainbow);
-            nbt.setBoolean("KeystrokeCPSRainbow", ExtendedConfig.keystrokeCPSRainbow);
-            nbt.setBoolean("KeystrokeRCPSRainbow", ExtendedConfig.keystrokeRCPSRainbow);
+            nbt.putString("KeystrokeWASDColor", ExtendedConfig.keystrokeWASDColor);
+            nbt.putString("KeystrokeMouseButtonColor", ExtendedConfig.keystrokeMouseButtonColor);
+            nbt.putString("KeystrokeSprintColor", ExtendedConfig.keystrokeSprintColor);
+            nbt.putString("KeystrokeSneakColor", ExtendedConfig.keystrokeSneakColor);
+            nbt.putString("KeystrokeBlockingColor", ExtendedConfig.keystrokeBlockingColor);
+            nbt.putString("KeystrokeCPSColor", ExtendedConfig.keystrokeCPSColor);
+            nbt.putString("KeystrokeRCPSColor", ExtendedConfig.keystrokeRCPSColor);
+            nbt.putBoolean("KeystrokeWASDRainbow", ExtendedConfig.keystrokeWASDRainbow);
+            nbt.putBoolean("KeystrokeMouseButtonRainbow", ExtendedConfig.keystrokeMouseButtonRainbow);
+            nbt.putBoolean("KeystrokeSprintRainbow", ExtendedConfig.keystrokeSprintRainbow);
+            nbt.putBoolean("KeystrokeSneakRainbow", ExtendedConfig.keystrokeSneakRainbow);
+            nbt.putBoolean("KeystrokeBlockingRainbow", ExtendedConfig.keystrokeBlockingRainbow);
+            nbt.putBoolean("KeystrokeCPSRainbow", ExtendedConfig.keystrokeCPSRainbow);
+            nbt.putBoolean("KeystrokeRCPSRainbow", ExtendedConfig.keystrokeRCPSRainbow);
 
             // Misc
-            nbt.setString("ToggleSprintUseMode", ExtendedConfig.toggleSprintUseMode);
-            nbt.setString("ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
-            nbt.setInt("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
-            nbt.setInt("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
-            nbt.setLong("SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
-            nbt.setString("TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
-            nbt.setString("RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
-            nbt.setString("TopDonatorText", ExtendedConfig.topDonatorText);
-            nbt.setString("RecentDonatorText", ExtendedConfig.recentDonatorText);
-            nbt.setString("RealmsMessage", ExtendedConfig.realmsMessage);
+            nbt.putString("ToggleSprintUseMode", ExtendedConfig.toggleSprintUseMode);
+            nbt.putString("ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
+            nbt.putInt("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
+            nbt.putInt("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
+            nbt.putLong("SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
+            nbt.putString("TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
+            nbt.putString("RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
+            nbt.putString("TopDonatorText", ExtendedConfig.topDonatorText);
+            nbt.putString("RecentDonatorText", ExtendedConfig.recentDonatorText);
+            nbt.putString("RealmsMessage", ExtendedConfig.realmsMessage);
 
             // Hypixel
-            nbt.setBoolean("RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
-            nbt.setString("HypixelNickName", ExtendedConfig.hypixelNickName);
-            nbt.setInt("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
-            nbt.setInt("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
+            nbt.putBoolean("RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
+            nbt.putString("HypixelNickName", ExtendedConfig.hypixelNickName);
+            nbt.putInt("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
+            nbt.putInt("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
 
-            nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
-            nbt.setTag("HideNameList", HideNameData.save());
+            nbt.put("AutoLoginData", ExtendedConfig.writeAutoLoginData());
+            nbt.put("HideNameList", HideNameData.save());
 
             CompressedStreamTools.safeWrite(nbt, !profileName.equalsIgnoreCase("default") ? new File(userDir, profileName + ".dat") : ExtendedConfig.file);
         }
@@ -500,33 +500,33 @@ public class ExtendedConfig
         }
     }
 
-    private static NBTTagList writeAutoLoginData()
+    private static ListNBT writeAutoLoginData()
     {
-        NBTTagList list = new NBTTagList();
+        ListNBT list = new ListNBT();
 
         ExtendedConfig.loginData.getAutoLoginList().forEach(data ->
         {
-            NBTTagCompound nbt = new NBTTagCompound();
-            nbt.setString("ServerIP", data.getServerIP());
-            nbt.setString("CommandName", data.getCommand());
-            nbt.setString("Value", data.getValue());
-            nbt.setString("UUID", data.getUUID().toString());
-            nbt.setString("Function", data.getFunction());
+            CompoundNBT nbt = new CompoundNBT();
+            nbt.putString("ServerIP", data.getServerIP());
+            nbt.putString("CommandName", data.getCommand());
+            nbt.putString("Value", data.getValue());
+            nbt.putString("UUID", data.getUUID().toString());
+            nbt.putString("Function", data.getFunction());
             list.add(nbt);
         });
         return list;
     }
 
-    private static void readAutoLoginData(NBTTagList list)
+    private static void readAutoLoginData(ListNBT list)
     {
         for (int i = 0; i < list.size(); ++i)
         {
-            NBTTagCompound nbt = list.getCompound(i);
+            CompoundNBT nbt = list.getCompound(i);
             ExtendedConfig.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), UUID.fromString(nbt.getString("UUID")), nbt.getString("Function"));
         }
     }
 
-    private static boolean getBoolean(NBTTagCompound nbt, String key, boolean defaultValue)
+    private static boolean getBoolean(CompoundNBT nbt, String key, boolean defaultValue)
     {
         if (nbt.contains(key, 99))
         {
@@ -538,7 +538,7 @@ public class ExtendedConfig
         }
     }
 
-    private static int getInteger(NBTTagCompound nbt, String key, int defaultValue)
+    private static int getInteger(CompoundNBT nbt, String key, int defaultValue)
     {
         if (nbt.contains(key, 99))
         {
@@ -550,7 +550,7 @@ public class ExtendedConfig
         }
     }
 
-    private static double getDouble(NBTTagCompound nbt, String key, double defaultValue)
+    private static double getDouble(CompoundNBT nbt, String key, double defaultValue)
     {
         if (nbt.contains(key, 99))
         {
@@ -562,7 +562,7 @@ public class ExtendedConfig
         }
     }
 
-    private static String getString(NBTTagCompound nbt, String key, String defaultValue)
+    private static String getString(CompoundNBT nbt, String key, String defaultValue)
     {
         if (nbt.contains(key, 8))
         {
@@ -574,7 +574,7 @@ public class ExtendedConfig
         }
     }
 
-    private static long getLong(NBTTagCompound nbt, String key, long defaultValue)
+    private static long getLong(CompoundNBT nbt, String key, long defaultValue)
     {
         if (nbt.contains(key, 99))
         {

@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.NativeImage;
 import stevekung.mods.indicatia.config.ExtendedConfig;

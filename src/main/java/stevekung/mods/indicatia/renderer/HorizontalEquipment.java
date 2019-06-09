@@ -1,8 +1,9 @@
 package stevekung.mods.indicatia.renderer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.item.ItemBow;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -34,7 +35,7 @@ public class HorizontalEquipment
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
         ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
-        if (this.itemStack.getItem() instanceof ItemBow)
+        if (this.itemStack.getItem() instanceof BowItem)
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getInstance().player.inventory);
             GlStateManager.disableDepthTest();

@@ -1,37 +1,31 @@
 package stevekung.mods.indicatia.renderer;
 
-import com.google.common.collect.Ordering;
-import com.mojang.realmsclient.RealmsMainScreen;
-import com.mojang.realmsclient.dto.RealmsServer;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.*;
 
+import com.google.common.collect.Ordering;
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenRealmsProxy;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemArrow;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.realms.RealmsScreen;
+import net.minecraft.item.Items;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
 import stevekung.mods.indicatia.config.Equipments;
-import stevekung.mods.indicatia.config.StatusEffects;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.StatusEffects;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.integration.GalacticraftPlanetTime;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -117,8 +111,8 @@ public class HUDInfo
 
     public static String getRealmName(Minecraft mc)
     {
-        String text = "Realms Server";
-        GuiScreen screen = mc.getConnection().guiScreenServer;
+        /*String text = "Realms Server";
+        Screen screen = mc.getConnection().guiScreenServer;
         GuiScreenRealmsProxy screenProxy = (GuiScreenRealmsProxy) screen;
         RealmsScreen realmsScreen = screenProxy.getProxy();
 
@@ -156,6 +150,8 @@ public class HUDInfo
             return text;
         }
         return ColorUtils.stringToRGB(ExtendedConfig.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.serverIPValueColor).toColoredFont() + realmsServer.getName();
+         */
+        return "Realms"; //TODO
     }
 
     public static String renderDirection(Minecraft mc)
@@ -625,7 +621,7 @@ public class HUDInfo
         int size = ExtendedConfig.maximumPotionDisplay;
         int length = ExtendedConfig.potionLengthYOffset;
         int lengthOverlap = ExtendedConfig.potionLengthYOffsetOverlap;
-        Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
+        Collection<EffectInstance> collection = mc.player.getActivePotionEffects();
         int xPotion;
         int yPotion;
 
@@ -652,11 +648,11 @@ public class HUDInfo
                 length = lengthOverlap / (collection.size() - 1);
             }
 
-            for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
+            for (EffectInstance potioneffect : Ordering.natural().sortedCopy(collection))
             {
                 float alpha = 1.0F;
-                Potion potion = potioneffect.getPotion();
-                String s = PotionUtil.getPotionDurationString(potioneffect, 1.0F);
+                Effect potion = potioneffect.getPotion();
+                String s = EffectUtils.getPotionDurationString(potioneffect, 1.0F);
                 String s1 = LangUtils.translate(potion.getName());
 
                 if (!potioneffect.isAmbient() && potioneffect.getDuration() <= 200)
@@ -670,9 +666,8 @@ public class HUDInfo
 
                 if (showIcon)
                 {
-                    mc.getTextureManager().bindTexture(GuiContainer.INVENTORY_BACKGROUND);
-                    potion.renderHUDEffect(potioneffect, mc.ingameGUI, xPotion, yPotion, mc.ingameGUI.zLevel, alpha);
-                    int index = potion.getStatusIconIndex();
+                    mc.getTextureManager().bindTexture(ContainerScreen.INVENTORY_BACKGROUND);
+                    potion.renderHUDEffect(potioneffect, mc.field_71462_r, xPotion, yPotion, mc.field_71462_r.blitOffset, alpha);
 
                     if (potionPos.equalsIgnoreCase("hotbar_left"))
                     {
@@ -809,7 +804,7 @@ public class HUDInfo
         }
     }
 
-    static String getInventoryItemCount(InventoryPlayer inventory, ItemStack other)
+    static String getInventoryItemCount(PlayerInventory inventory, ItemStack other)
     {
         int count = 0;
 
@@ -825,7 +820,7 @@ public class HUDInfo
         return String.valueOf(count);
     }
 
-    static int getInventoryArrowCount(InventoryPlayer inventory)
+    static int getInventoryArrowCount(PlayerInventory inventory)
     {
         int arrowCount = 0;
 
@@ -833,7 +828,7 @@ public class HUDInfo
         {
             ItemStack itemStack = inventory.getStackInSlot(i);
 
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemArrow)
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof ArrowItem)
             {
                 arrowCount += itemStack.getCount();
             }

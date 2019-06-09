@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,7 +15,7 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiExtendedConfig extends GuiScreen
+public class GuiExtendedConfig extends Screen
 {
     private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
     public static boolean preview = false;

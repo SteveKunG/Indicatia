@@ -1,20 +1,20 @@
 package stevekung.mods.indicatia.core;
 
-import com.mojang.brigadier.CommandDispatcher;
-
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+
+import com.mojang.brigadier.CommandDispatcher;
+
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.projectile.FishingBobberEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -121,9 +121,9 @@ public class IndicatiaMod
 
         if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
         {
-            Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
-            Minecraft.getInstance().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
-            IndicatiaMod.LOGGER.info("Successfully replacing {}", EntityFishHook.class.getName());
+            Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(FishingBobberEntity.class));
+            Minecraft.getInstance().getRenderManager().entityRenderMap.put(FishingBobberEntity.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
+            IndicatiaMod.LOGGER.info("Successfully replacing {}", FishingBobberEntity.class.getName());
         }
     }
 
@@ -174,7 +174,7 @@ public class IndicatiaMod
             ExtendedConfig.save();
         }
 
-        NBTTagCompound nbt = new NBTTagCompound();
+        CompoundNBT nbt = new CompoundNBT();
 
         try
         {
@@ -183,7 +183,7 @@ public class IndicatiaMod
             list.forEach(option ->
             {
                 Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
-                nbt.setString(iterator.next(), iterator.next());
+                nbt.putString(iterator.next(), iterator.next());
             });
         }
         catch (Exception e) {}

@@ -21,6 +21,7 @@ def hasInternal = project.hasProperty("internal")
 
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "eclipse"
+apply plugin: "maven-publish"
 
 import net.minecraftforge.gradle.common.task.SignJar
 
@@ -67,7 +68,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile files("libs/SteveKunG's-Lib-1.13.2-2.0.0-deobf.jar")
+    compile files("libs/SteveKunG's-Lib-1.14.2-2.0.0-deobf.jar")
 }
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"

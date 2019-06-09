@@ -37,7 +37,7 @@ public class IndicatiaCommand
 
     private static int openGui()
     {
-        Minecraft.getInstance().addScheduledTask(() -> Minecraft.getInstance().displayGuiScreen(new GuiExtendedConfig()));
+        Minecraft.getInstance().execute(() -> Minecraft.getInstance().displayGuiScreen(new GuiExtendedConfig()));
         return 1;
     }
 

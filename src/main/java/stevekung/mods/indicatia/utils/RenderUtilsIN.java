@@ -1,28 +1,29 @@
 package stevekung.mods.indicatia.utils;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
 public class RenderUtilsIN
 {
-    public static void renderEntityHealth(EntityLivingBase entityLivingBase, String text, double x, double y, double z)
+    public static void renderEntityHealth(LivingEntity entityLivingBase, String text, double x, double y, double z)
     {
         Minecraft mc = Minecraft.getInstance();
         boolean hasName = entityLivingBase.hasCustomName();
-        double distance = entityLivingBase.getDistanceSq(mc.getRenderManager().renderViewEntity);
+        double distance = entityLivingBase.getDistanceSq(mc.getRenderManager().pointedEntity);
         int maxDistance = 64;
 
         if (distance <= maxDistance * maxDistance)
         {
             GlStateManager.pushMatrix();
-            GlStateManager.translatef((float)x, hasName ? (float)y + entityLivingBase.height + 0.75F : !mc.isSingleplayer() ? (float)y + entityLivingBase.height + 1F : (float)y + entityLivingBase.height + 0.5F, (float)z);
+            GlStateManager.translatef((float)x, hasName ? (float)y + entityLivingBase.getHeight() + 0.75F : !mc.isSingleplayer() ? (float)y + entityLivingBase.getHeight() + 1F : (float)y + entityLivingBase.getHeight() + 0.5F, (float)z);
             GlStateManager.normal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.rotatef(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotatef((mc.getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
@@ -39,7 +40,7 @@ public class RenderUtilsIN
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             FontRenderer fontrenderer = mc.fontRenderer;
             int j = fontrenderer.getStringWidth(text) / 2;
-            GlStateManager.disableTexture2D();
+            GlStateManager.disableTexture();
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -48,7 +49,7 @@ public class RenderUtilsIN
             vertexbuffer.pos(j + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             vertexbuffer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             tessellator.draw();
-            GlStateManager.enableTexture2D();
+            GlStateManager.enableTexture();
 
             if (!entityLivingBase.isSneaking())
             {
@@ -93,7 +94,7 @@ public class RenderUtilsIN
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
             GlStateManager.enableBlend();
-            GlStateManager.disableTexture2D();
+            GlStateManager.disableTexture();
             GlStateManager.blendFuncSeparate(770, 771, 1, 0);
             GlStateManager.color4f(r, g, b, alpha);
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
@@ -102,7 +103,7 @@ public class RenderUtilsIN
             vertexbuffer.pos(right, top, 0.0D).endVertex();
             vertexbuffer.pos(left, top, 0.0D).endVertex();
             tessellator.draw();
-            GlStateManager.enableTexture2D();
+            GlStateManager.enableTexture();
             GlStateManager.disableBlend();
         }
     }

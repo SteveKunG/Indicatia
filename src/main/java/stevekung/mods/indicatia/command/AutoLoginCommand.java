@@ -1,18 +1,18 @@
 package stevekung.mods.indicatia.command;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
-
 import java.util.Collection;
 import java.util.UUID;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.utils.AutoLogin;
@@ -108,10 +108,10 @@ public class AutoLoginCommand
         }
         else
         {
-            TextComponentString component = new TextComponentString(LangUtils.translate("commands.auto_login.list.count", collection.size()));
+            StringTextComponent component = new StringTextComponent(LangUtils.translate("commands.auto_login.list.count", collection.size()));
             component.getStyle().setColor(TextFormatting.DARK_GREEN);
             source.sendFeedback(component, false);
-            collection.forEach(loginData -> source.sendFeedback(new TextComponentTranslation(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID()), false));
+            collection.forEach(loginData -> source.sendFeedback(new TranslationTextComponent(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID()), false));
             return 1;
         }
     }
@@ -130,7 +130,7 @@ public class AutoLoginCommand
             source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
             return 0;
         }
-        mc.addScheduledTask(() -> mc.displayGuiScreen(new GuiAutoLoginFunction()));
+        mc.execute(() -> mc.displayGuiScreen(new GuiAutoLoginFunction()));
         return 1;
     }
 }

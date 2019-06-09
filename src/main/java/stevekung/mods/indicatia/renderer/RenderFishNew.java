@@ -1,17 +1,18 @@
 package stevekung.mods.indicatia.renderer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.item.Items;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -19,19 +20,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderFishNew extends Render<EntityFishHook>
+public class RenderFishNew extends EntityRenderer<FishingBobberEntity>
 {
     private static final ResourceLocation FISH_PARTICLES = new ResourceLocation("textures/particle/particles.png");
 
-    public RenderFishNew(RenderManager manager)
+    public RenderFishNew(EntityRendererManager manager)
     {
         super(manager);
     }
 
     @Override
-    public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void doRender(FishingBobberEntity entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        EntityPlayer player = entity.getAngler();
+        PlayerEntity player = entity.getAngler();
 
         if (player != null && !this.renderOutlines)
         {
@@ -42,13 +43,13 @@ public class RenderFishNew extends Render<EntityFishHook>
             this.bindEntityTexture(entity);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
-            GlStateManager.rotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef((this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotatef(180.0F - this.field_76990_c.playerViewY, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotatef((this.field_76990_c.options.thirdPersonView == 2 ? -1 : 1) * -this.field_76990_c.playerViewX, 1.0F, 0.0F, 0.0F);
 
             if (this.renderOutlines)
             {
                 GlStateManager.enableColorMaterial();
-                GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+                GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
             }
 
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
@@ -60,13 +61,13 @@ public class RenderFishNew extends Render<EntityFishHook>
 
             if (this.renderOutlines)
             {
-                GlStateManager.disableOutlineMode();
+                GlStateManager.tearDownSolidRenderingTextureCombine();
                 GlStateManager.disableColorMaterial();
             }
 
             GlStateManager.disableRescaleNormal();
             GlStateManager.popMatrix();
-            int k = player.getPrimaryHand() == EnumHandSide.RIGHT ? 1 : -1;
+            int k = player.getPrimaryHand() == HandSide.RIGHT ? 1 : -1;
             ItemStack itemstack = player.getHeldItemMainhand();
 
             if (itemstack.getItem() != Items.FISHING_ROD)
@@ -86,9 +87,9 @@ public class RenderFishNew extends Render<EntityFishHook>
             double d7;
             double dz = 0.0D;
 
-            if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == Minecraft.getInstance().player)
+            if ((this.field_76990_c.options == null || this.field_76990_c.options.thirdPersonView <= 0) && player == Minecraft.getInstance().player)
             {
-                double f10 = this.renderManager.options.fovSetting;
+                double f10 = this.field_76990_c.options.fovSetting;
                 f10 = f10 / 100.0F;
                 Vec3d vec3d = new Vec3d(k * -0.5D * f10, 0.025D * f10, 0.65D);
                 vec3d = vec3d.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * 0.017453292F);
@@ -116,7 +117,7 @@ public class RenderFishNew extends Render<EntityFishHook>
             double d10 = (float)(d4 - d13) + dz;
             double d11 = (float)(d5 - d8) + d7;
             double d12 = (float)(d6 - d9);
-            GlStateManager.disableTexture2D();
+            GlStateManager.disableTexture();
             GlStateManager.disableLighting();
             vertexbuffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
 
@@ -127,13 +128,13 @@ public class RenderFishNew extends Render<EntityFishHook>
             }
             tessellator.draw();
             GlStateManager.enableLighting();
-            GlStateManager.enableTexture2D();
+            GlStateManager.enableTexture();
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
         }
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityFishHook entity)
+    protected ResourceLocation getEntityTexture(FishingBobberEntity entity)
     {
         return RenderFishNew.FISH_PARTICLES;
     }

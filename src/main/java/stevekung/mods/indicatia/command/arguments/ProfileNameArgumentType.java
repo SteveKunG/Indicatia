@@ -1,5 +1,12 @@
 package stevekung.mods.indicatia.command.arguments;
 
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -9,25 +16,18 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TextComponentString(LangUtils.translate("commands.inprofile.not_found", obj)));
-    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TextComponentString(LangUtils.translate("commands.inprofile.cannot_remove_default")));
-    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TextComponentString(LangUtils.translate("argument.id.invalid")));
+    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.inprofile.not_found", obj)));
+    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.inprofile.cannot_remove_default")));
+    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new StringTextComponent(LangUtils.translate("argument.id.invalid")));
     private Mode mode;
 
     private ProfileNameArgumentType(Mode mode)

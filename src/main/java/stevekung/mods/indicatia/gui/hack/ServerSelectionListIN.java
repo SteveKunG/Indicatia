@@ -1,7 +1,7 @@
 package stevekung.mods.indicatia.gui.hack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ServerSelectionList;
+import net.minecraft.client.gui.screen.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

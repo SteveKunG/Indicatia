@@ -8,8 +8,9 @@ import java.util.regex.Pattern;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
+import net.minecraft.client.gui.screen.EditSignScreen;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextFormatting;
@@ -125,13 +126,13 @@ public class HypixelEventHandler
 
     private static void getHypixelNickedPlayer(Minecraft mc)
     {
-        if (InfoUtils.INSTANCE.isHypixel() && mc.currentScreen instanceof GuiEditSign)
+        if (InfoUtils.INSTANCE.isHypixel() && mc.field_71462_r instanceof EditSignScreen)
         {
-            GuiEditSign gui = (GuiEditSign) mc.currentScreen;
+            EditSignScreen gui = (EditSignScreen) mc.field_71462_r;
 
-            if (gui.tileSign != null)
+            if (gui.field_146848_f != null)
             {
-                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getUnformattedComponentText();
+                ExtendedConfig.hypixelNickName = gui.field_146848_f.signText[0].getUnformattedComponentText();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {
@@ -143,11 +144,13 @@ public class HypixelEventHandler
 
     public static void rightClickAddParty(Minecraft mc)
     {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.type == RayTraceResult.Type.ENTITY)
+        if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == RayTraceResult.Type.ENTITY)
         {
-            if (mc.player.getHeldItemMainhand().isEmpty() && mc.objectMouseOver.entity instanceof EntityOtherPlayerMP)
+            EntityRayTraceResult result = (EntityRayTraceResult)mc.objectMouseOver;
+
+            if (mc.player.getHeldItemMainhand().isEmpty() && result.getEntity() instanceof RemoteClientPlayerEntity)
             {
-                EntityOtherPlayerMP player = (EntityOtherPlayerMP) mc.objectMouseOver.entity;
+                RemoteClientPlayerEntity player = (RemoteClientPlayerEntity) result.getEntity();
                 mc.player.sendChatMessage("/p " + player.getName());
             }
         }

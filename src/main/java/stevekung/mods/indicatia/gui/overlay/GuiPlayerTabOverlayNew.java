@@ -1,18 +1,18 @@
 package stevekung.mods.indicatia.gui.overlay;
 
-import com.mojang.authlib.GameProfile;
-
 import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiPlayerTabOverlay;
-import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.overlay.PlayerTabOverlayGui;
+import net.minecraft.client.network.play.NetworkPlayerInfo;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
@@ -28,21 +28,21 @@ import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
+public class GuiPlayerTabOverlayNew extends PlayerTabOverlayGui
 {
     private Minecraft mc;
     private static String murderAssassinsNick = "";
 
     public GuiPlayerTabOverlayNew()
     {
-        super(Minecraft.getInstance(), Minecraft.getInstance().ingameGUI);
+        super(Minecraft.getInstance(), Minecraft.getInstance().field_71456_v);
         this.mc = Minecraft.getInstance();
     }
 
     @Override
-    public void renderPlayerlist(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
+    public void render(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
-        List<NetworkPlayerInfo> list = GuiPlayerTabOverlay.ENTRY_ORDERING.sortedCopy(this.mc.player.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = PlayerTabOverlayGui.ENTRY_ORDERING.sortedCopy(this.mc.player.field_71174_a.getPlayerInfoMap());
         int listWidth = 0;
         int j = 0;
 
@@ -93,8 +93,8 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         int yOffset = 10;
         int l1 = i1 * columnSize + (columnSize - 1) * 5;
         List<String> list1 = null;
-        ITextComponent header = this.mc.ingameGUI.getTabList().header;
-        ITextComponent footer = this.mc.ingameGUI.getTabList().footer;
+        ITextComponent header = this.mc.field_71456_v.getTabList().header;
+        ITextComponent footer = this.mc.field_71456_v.getTabList().footer;
 
         if (header != null)
         {
@@ -120,7 +120,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
         if (list1 != null)
         {
-            Gui.drawRect(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + list1.size() * this.mc.fontRenderer.FONT_HEIGHT, Integer.MIN_VALUE);
+            AbstractGui.fill(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + list1.size() * this.mc.fontRenderer.FONT_HEIGHT, Integer.MIN_VALUE);
 
             for (String s2 : list1)
             {
@@ -131,7 +131,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             ++yOffset;
         }
 
-        Gui.drawRect(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + playerCount * 9, Integer.MIN_VALUE);
+        AbstractGui.fill(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + playerCount * 9, Integer.MIN_VALUE);
 
         for (int k4 = 0; k4 < playerListSize; ++k4)
         {
@@ -139,7 +139,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             int i5 = k4 % playerCount;
             int j2 = j1 + l4 * i1 + l4 * 5;
             int k2 = yOffset + i5 * 9;
-            Gui.drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
+            AbstractGui.fill(j2, k2, j2 + i1, k2 + 8, 553648127);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlphaTest();
             GlStateManager.enableBlend();
@@ -152,18 +152,18 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
 
                 if (flag)
                 {
-                    EntityPlayer entityplayer = this.mc.world.getPlayerEntityByUUID(gameprofile.getId());
-                    boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && ("Dinnerbone".equals(gameprofile.getName()) || "Grumm".equals(gameprofile.getName()));
+                    PlayerEntity entityplayer = this.mc.world.getPlayerByUuid(gameprofile.getId());
+                    boolean flag1 = entityplayer != null && entityplayer.isWearing(PlayerModelPart.CAPE) && ("Dinnerbone".equals(gameprofile.getName()) || "Grumm".equals(gameprofile.getName()));
                     this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
                     int l2 = 8 + (flag1 ? 8 : 0);
-                    int i3 = 8 * (flag1 ? -1 : 1);
-                    Gui.drawScaledCustomSizeModalRect(j2, k2, 8.0F, l2, 8, i3, 8, 8, 64.0F, 64.0F);
+                    int j3 = 8 * (flag1 ? -1 : 1);
+                    AbstractGui.blit(k2, l2, 8, 8, 8.0F, (float)l2, 8, j3, 64, 64);
 
-                    if (entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.HAT))
+                    if (entityplayer != null && entityplayer.isWearing(PlayerModelPart.HAT))
                     {
-                        int j3 = 8 + (flag1 ? 8 : 0);
-                        int k3 = 8 * (flag1 ? -1 : 1);
-                        Gui.drawScaledCustomSizeModalRect(j2, k2, 40.0F, j3, 8, k3, 8, 8, 64.0F, 64.0F);
+                        int j4 = 8 + (flag1 ? 8 : 0);
+                        int l3 = 8 * (flag1 ? -1 : 1);
+                        AbstractGui.blit(k2, l2, 8, 8, 40.0F, (float)j4, 8, l3, 64, 64);
                     }
                     j2 += 9;
                 }
@@ -207,7 +207,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         if (list2 != null)
         {
             yOffset = yOffset + playerCount * 9 + 1;
-            Gui.drawRect(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + list2.size() * this.mc.fontRenderer.FONT_HEIGHT, Integer.MIN_VALUE);
+            AbstractGui.fill(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + list2.size() * this.mc.fontRenderer.FONT_HEIGHT, Integer.MIN_VALUE);
 
             for (String s3 : list2)
             {
@@ -250,7 +250,7 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
         else
         {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(ICONS);
+            this.mc.getTextureManager().bindTexture(GUI_ICONS_LOCATION);
             int state;
 
             if (ping < 0)
@@ -277,9 +277,9 @@ public class GuiPlayerTabOverlayNew extends GuiPlayerTabOverlay
             {
                 state = 4;
             }
-            this.zLevel += 100.0F;
-            this.drawTexturedModalRect(x2 + x1 - 11, y, 0, 176 + state * 8, 10, 8);
-            this.zLevel -= 100.0F;
+            this.blitOffset += 100.0F;
+            this.blit(x2 + x1 - 11, y, 0, 176 + state * 8, 10, 8);
+            this.blitOffset -= 100.0F;
         }
     }
 }

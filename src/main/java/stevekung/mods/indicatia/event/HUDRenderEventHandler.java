@@ -9,14 +9,16 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.network.play.ClientPlayNetHandler;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
@@ -134,14 +136,14 @@ public class HUDRenderEventHandler
     {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
         {
-            if (this.mc.currentScreen instanceof GuiRenderPreview)
+            if (this.mc.field_71462_r instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof GuiRenderPreview))
+            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.field_71462_r instanceof GuiRenderPreview))
             {
                 List<String> leftInfo = new LinkedList<>();
                 List<String> rightInfo = new LinkedList<>();
@@ -233,10 +235,10 @@ public class HUDRenderEventHandler
 
                         if (ExtendedConfig.tpsAllDims)
                         {
-                            for (DimensionType dimension : DimensionType.func_212681_b())
+                            for (DimensionType dimension : DimensionType.getAll())
                             {
                                 long[] values = server.getTickTime(dimension);
-                                String dimensionName = DimensionType.func_212678_a(dimension).toString();
+                                String dimensionName = DimensionType.getKey(dimension).toString();
 
                                 if (values == null)
                                 {
@@ -382,12 +384,12 @@ public class HUDRenderEventHandler
             {
                 if (ExtendedConfig.keystroke)
                 {
-                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat)
+                    if (this.mc.field_71462_r == null || this.mc.field_71462_r instanceof ChatScreen)
                     {
                         KeystrokeRenderer.render(this.mc);
                     }
                 }
-                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
+                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.field_71462_r == null || this.mc.field_71462_r instanceof ChatScreen))
                 {
                     String rcps = ExtendedConfig.rcps ? " " + HUDInfo.getRCPS() : "";
                     RenderUtilsIN.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, (float)ExtendedConfig.cpsOpacity / 100.0F);
@@ -399,12 +401,12 @@ public class HUDRenderEventHandler
         {
             event.setCanceled(true);
             ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-            NetHandlerPlayClient handler = this.mc.player.connection;
+            ClientPlayNetHandler handler = this.mc.player.field_71174_a;
 
             if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
             {
                 this.overlayPlayerList.setVisible(true);
-                this.overlayPlayerList.renderPlayerlist(this.mc.mainWindow.getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
+                this.overlayPlayerList.render(this.mc.mainWindow.getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
             }
             else
             {
@@ -413,7 +415,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
         {
-            if (this.mc.currentScreen instanceof GuiRenderPreview)
+            if (this.mc.field_71462_r instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
                 return;
@@ -424,14 +426,14 @@ public class HUDRenderEventHandler
                 GlStateManager.pushMatrix();
                 GlStateManager.translatef(0, this.mc.mainWindow.getScaledHeight() - 48, 0.0F);
                 GlStateManager.disableDepthTest();
-                this.mc.ingameGUI.getChatGUI().drawChat(this.mc.ingameGUI.getTicks());
+                this.mc.field_71456_v.getChatGUI().render(this.mc.field_71456_v.getTicks());
                 GlStateManager.enableDepthTest();
                 GlStateManager.popMatrix();
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof GuiRenderPreview)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.field_71462_r instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
             }
@@ -439,7 +441,7 @@ public class HUDRenderEventHandler
         if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
         {
             event.setCanceled(true);
-            this.mc.getTextureManager().bindTexture(Gui.ICONS);
+            this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
             GlStateManager.blendFuncSeparate(770, 771, 1, 0);
             GlStateManager.enableBlend();
             this.overlayBoss.renderBossHealth();
@@ -448,13 +450,13 @@ public class HUDRenderEventHandler
     }
 
     @SubscribeEvent
-    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post<EntityLivingBase> event)
+    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post<LivingEntity, EntityModel<LivingEntity>> event)
     {
-        EntityLivingBase entity = event.getEntity();
+        LivingEntity entity = event.getEntity();
         float health = entity.getHealth();
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
-        double range = entity.getAttribute(EntityLivingBase.NAMETAG_DISTANCE).getValue();
+        double range = entity.getAttribute(LivingEntity.NAMETAG_DISTANCE).getValue();
         double distance = entity.getDistanceSq(this.mc.getRenderViewEntity());
 
         if (entity.isSneaking())
@@ -468,7 +470,7 @@ public class HUDRenderEventHandler
 
         if (distance < range * range)
         {
-            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand) && !InfoUtils.INSTANCE.isHypixel())
+            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof ClientPlayerEntity || entity instanceof ArmorStandEntity) && !InfoUtils.INSTANCE.isHypixel())
             {
                 String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
                 RenderUtilsIN.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
