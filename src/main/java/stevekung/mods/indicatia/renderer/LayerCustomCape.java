@@ -1,12 +1,14 @@
 package stevekung.mods.indicatia.renderer;
 
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,21 +18,19 @@ import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
+public class LayerCustomCape extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>
 {
-    private final RenderPlayer playerRenderer;
-
-    public LayerCustomCape(RenderPlayer playerRenderer)
+    public LayerCustomCape(IEntityRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> renderer)
     {
-        this.playerRenderer = playerRenderer;
+        super(renderer);
     }
 
     @Override
-    public void render(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void func_212842_a_(AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         if (IndicatiaConfig.GENERAL.enableCustomCape.get() && entity.getName().getUnformattedComponentText().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
         {
-            ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+            ItemStack itemStack = entity.getItemStackFromSlot(EquipmentSlotType.CHEST);
 
             if (itemStack.isEmpty() || itemStack.getItem() != Items.ELYTRA)
             {
@@ -69,7 +69,7 @@ public class LayerCustomCape implements LayerRenderer<AbstractClientPlayer>
                 GlStateManager.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
                 GlStateManager.rotatef(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotatef(180.0F, 0.0F, 1.0F, 0.0F);
-                this.playerRenderer.getMainModel().renderCape(0.0625F);
+                this.func_215332_c().renderCape(0.0625F);
                 GlStateManager.popMatrix();
             }
         }

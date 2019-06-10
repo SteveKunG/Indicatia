@@ -444,7 +444,7 @@ public class HUDRenderEventHandler
             this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
             GlStateManager.blendFuncSeparate(770, 771, 1, 0);
             GlStateManager.enableBlend();
-            this.overlayBoss.renderBossHealth();
+            this.overlayBoss.render();
             GlStateManager.disableBlend();
         }
     }

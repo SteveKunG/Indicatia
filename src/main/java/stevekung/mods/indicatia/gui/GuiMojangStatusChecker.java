@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.utils.MojangServerStatus;
@@ -13,15 +13,15 @@ import stevekung.mods.indicatia.utils.MojangStatusChecker;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiMojangStatusChecker extends GuiScreen
+public class GuiMojangStatusChecker extends Screen
 {
     private final List<String> statusList = new CopyOnWriteArrayList<>();
-    private final GuiScreen parent;
+    private final Screen parent;
     private GuiButton doneButton;
     private GuiButton checkButton;
     private GuiButton refreshButton;
 
-    public GuiMojangStatusChecker(GuiScreen parent)
+    public GuiMojangStatusChecker(Screen parent)
     {
         this.parent = parent;
     }
@@ -36,7 +36,7 @@ public class GuiMojangStatusChecker extends GuiScreen
             public void onClick(double mouseX, double mouseZ)
             {
                 GuiMojangStatusChecker.this.statusList.clear();
-                GuiMojangStatusChecker.this.mc.displayGuiScreen(GuiMojangStatusChecker.this.parent);
+                GuiMojangStatusChecker.this.mc.displayScreen(GuiMojangStatusChecker.this.parent);
             }
         });
         this.addButton(this.refreshButton = new GuiButton(201, this.width / 2 + 1, this.height / 6 + 145, 100, 20, LangUtils.translate("selectServer.refresh"))
@@ -88,7 +88,7 @@ public class GuiMojangStatusChecker extends GuiScreen
         if (this.doneButton.enabled && keyCode == 1)
         {
             this.statusList.clear();
-            this.mc.displayGuiScreen(null);
+            this.mc.displayScreen(null);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }

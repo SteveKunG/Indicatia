@@ -1,10 +1,11 @@
 package stevekung.mods.indicatia.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,7 +19,7 @@ import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiCustomCape extends GuiScreen
+public class GuiCustomCape extends Screen
 {
     private GuiTextField inputField;
     private GuiButton doneBtn;

@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.gui;
 
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -9,7 +10,7 @@ import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiConfirmDisconnect extends GuiScreen
+public class GuiConfirmDisconnect extends Screen
 {
     @Override
     public void initGui()
@@ -24,7 +25,7 @@ public class GuiConfirmDisconnect extends GuiScreen
                     GuiConfirmDisconnect.this.mc.world.sendQuittingDisconnectingPacket();
                     GuiConfirmDisconnect.this.mc.loadWorld(null);
                     RealmsBridge bridge = new RealmsBridge();
-                    bridge.switchToRealms(new GuiMainMenu());
+                    bridge.switchToRealms(new MainMenuScreen());
                 }
                 else
                 {
@@ -33,11 +34,11 @@ public class GuiConfirmDisconnect extends GuiScreen
 
                     if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
                     {
-                        GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
+                        GuiConfirmDisconnect.this.mc.displayScreen(new GuiMultiplayerIN(new MainMenuScreen()));
                     }
                     else
                     {
-                        GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                        GuiConfirmDisconnect.this.mc.displayScreen(new GuiMultiplayer(new MainMenuScreen()));
                     }
                 }
             }
@@ -47,7 +48,7 @@ public class GuiConfirmDisconnect extends GuiScreen
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
-                GuiConfirmDisconnect.this.mc.displayGuiScreen(new GuiIngameMenu());
+                GuiConfirmDisconnect.this.mc.displayScreen(new GuiIngameMenu());
             }
         });
     }

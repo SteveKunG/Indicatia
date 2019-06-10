@@ -16,7 +16,7 @@ import net.minecraftforge.fml.client.ClientHooks;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class ServerListEntryNormalIN extends ServerSelectionList
+public class ServerListEntryNormalIN extends ServerSelectionList.NormalEntry
 {
     private static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
     private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");

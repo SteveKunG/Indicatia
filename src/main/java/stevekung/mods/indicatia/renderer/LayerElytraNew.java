@@ -2,36 +2,37 @@ package stevekung.mods.indicatia.renderer;
 
 import java.lang.reflect.Method;
 
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.layers.LayerArmorBase;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.ArmorLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.ModelElytra;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.client.renderer.entity.model.ElytraModel;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
+public class LayerElytraNew<T extends AbstractClientPlayerEntity, M extends EntityModel<T>> extends LayerRenderer<T, M>
 {
     private static final ResourceLocation TEXTURE_ELYTRA = new ResourceLocation("textures/entity/elytra.png");
-    private final RenderPlayer renderPlayer;
-    private final ModelElytra modelElytra = new ModelElytra();
+    private final ElytraModel<T> modelElytra = new ElytraModel<>();
 
-    public LayerElytraNew(RenderPlayer renderPlayer)
+    public LayerElytraNew(IEntityRenderer<T, M> renderer)
     {
-        this.renderPlayer = renderPlayer;
+        super(renderer);
     }
 
     @Override
-    public void render(AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void func_212842_a_(T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        ItemStack itemStack = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+        ItemStack itemStack = entity.getItemStackFromSlot(EquipmentSlotType.CHEST);
 
         if (itemStack.getItem() == Items.ELYTRA)
         {
@@ -41,21 +42,21 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
 
             if (entity.isPlayerInfoSet() && entity.getLocationElytra() != null)
             {
-                this.renderPlayer.bindTexture(entity.getLocationElytra());
+                this.func_215333_a(entity.getLocationElytra());
             }
             else
             {
-                LayerElytraNew.renderOptifineElytra(this.renderPlayer, itemStack);
+                this.renderOptifineElytra(itemStack);
             }
 
             GlStateManager.pushMatrix();
             GlStateManager.translatef(0.0F, 0.0F, 0.125F);
-            this.modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
+            this.modelElytra.func_212844_a_(entity, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, limbSwing);
             this.modelElytra.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
             if (itemStack.isEnchanted())
             {
-                LayerArmorBase.renderEnchantedGlint(this.renderPlayer, entity, this.modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
+                ArmorLayer.func_215338_a(this::func_215333_a, entity, this.modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
             }
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
@@ -68,7 +69,7 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
         return true;
     }
 
-    private static void renderOptifineElytra(RenderPlayer renderPlayer, ItemStack itemStack)
+    private void renderOptifineElytra(ItemStack itemStack)
     {
         ResourceLocation elytraTexture = TEXTURE_ELYTRA;
 
@@ -89,6 +90,6 @@ public class LayerElytraNew implements LayerRenderer<AbstractClientPlayer>
             }
             catch (Exception e) {}
         }
-        renderPlayer.bindTexture(elytraTexture);
+        this.func_215333_a(elytraTexture);
     }
 }

@@ -157,13 +157,13 @@ public class GuiPlayerTabOverlayNew extends PlayerTabOverlayGui
                     this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
                     int l2 = 8 + (flag1 ? 8 : 0);
                     int j3 = 8 * (flag1 ? -1 : 1);
-                    AbstractGui.blit(k2, l2, 8, 8, 8.0F, (float)l2, 8, j3, 64, 64);
+                    AbstractGui.blit(k2, l2, 8, 8, 8.0F, l2, 8, j3, 64, 64);
 
                     if (entityplayer != null && entityplayer.isWearing(PlayerModelPart.HAT))
                     {
                         int j4 = 8 + (flag1 ? 8 : 0);
                         int l3 = 8 * (flag1 ? -1 : 1);
-                        AbstractGui.blit(k2, l2, 8, 8, 40.0F, (float)j4, 8, l3, 64, 64);
+                        AbstractGui.blit(k2, l2, 8, 8, 40.0F, j4, 8, l3, 64, 64);
                     }
                     j2 += 9;
                 }

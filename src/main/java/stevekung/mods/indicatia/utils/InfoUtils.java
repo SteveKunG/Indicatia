@@ -1,6 +1,5 @@
 package stevekung.mods.indicatia.utils;
 
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,9 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.util.EntitySelectors;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemFrameEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.math.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
@@ -134,83 +133,39 @@ public class InfoUtils
     public void processMouseOverEntity(Minecraft mc)
     {
         Entity entity = mc.getRenderViewEntity();
-        Entity pointedEntity;
         double distance = 12.0D;
 
         if (entity != null && mc.world != null)
         {
             this.extendedPointedEntity = null;
-            mc.objectMouseOver = entity.rayTrace(distance, mc.getRenderPartialTicks(), RayTraceFluidMode.NEVER);
+            mc.objectMouseOver = entity.func_213324_a(distance, mc.getRenderPartialTicks(), false);
             Vec3d vec3d = entity.getEyePosition(mc.getRenderPartialTicks());
-            boolean flag = false;
-            double d1 = distance;
-
-            if (!mc.playerController.extendedReach())
-            {
-                flag = true;
-            }
+            distance *= distance;
 
             if (mc.objectMouseOver != null)
             {
-                d1 = mc.objectMouseOver.hitVec.distanceTo(vec3d);
+                distance = mc.objectMouseOver.getHitVec().squareDistanceTo(vec3d);
             }
 
             Vec3d vec3d1 = entity.getLook(1.0F);
             Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
-            pointedEntity = null;
-            Vec3d vec3d3 = null;
-            List<Entity> list = mc.world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().expand(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance).grow(1.0D, 1.0D, 1.0D), EntitySelectors.NOT_SPECTATING.and(Entity::canBeCollidedWith));
-            double d2 = d1;
+            AxisAlignedBB axisalignedbb = entity.getBoundingBox().func_216361_a(vec3d1.scale(distance)).expand(1.0D, 1.0D, 1.0D);
+            EntityRayTraceResult result = ProjectileHelper.func_221273_a(entity, vec3d, vec3d2, axisalignedbb, entity_1 -> !entity_1.isSpectator() && entity_1.canBeCollidedWith(), distance);
 
-            for (Entity entity1 : list)
+            if (result != null)
             {
-                AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(entity1.getCollisionBorderSize());
-                RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
+                Entity entity2 = result.getEntity();
+                Vec3d vec3d_4 = result.getHitVec();
+                double d3 = vec3d.squareDistanceTo(vec3d_4);
 
-                if (axisalignedbb.contains(vec3d))
+                if (d3 < distance || mc.objectMouseOver == null)
                 {
-                    if (d2 >= 0.0D)
+                    mc.objectMouseOver = result;
+
+                    if (entity2 instanceof LivingEntity || entity2 instanceof ItemFrameEntity)
                     {
-                        pointedEntity = entity1;
-                        vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
-                        d2 = 0.0D;
+                        this.extendedPointedEntity = entity2;
                     }
-                }
-                else if (raytraceresult != null)
-                {
-                    double d3 = vec3d.distanceTo(raytraceresult.hitVec);
-
-                    if (d3 < d2 || d2 == 0.0D)
-                    {
-                        if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity() && !entity1.canRiderInteract())
-                        {
-                            if (d2 == 0.0D)
-                            {
-                                pointedEntity = entity1;
-                                vec3d3 = raytraceresult.hitVec;
-                            }
-                        }
-                        else
-                        {
-                            pointedEntity = entity1;
-                            vec3d3 = raytraceresult.hitVec;
-                            d2 = d3;
-                        }
-                    }
-                }
-            }
-            if (pointedEntity != null && flag && vec3d.distanceTo(vec3d3) > distance)
-            {
-                pointedEntity = null;
-                mc.objectMouseOver = new RayTraceResult(RayTraceResult.Type.MISS, vec3d3, null, new BlockPos(vec3d3));
-            }
-            if (pointedEntity != null && (d2 < d1 || mc.objectMouseOver == null))
-            {
-                mc.objectMouseOver = new RayTraceResult(pointedEntity, vec3d3);
-
-                if (pointedEntity instanceof EntityLivingBase || pointedEntity instanceof EntityItemFrame)
-                {
-                    this.extendedPointedEntity = pointedEntity;
                 }
             }
         }

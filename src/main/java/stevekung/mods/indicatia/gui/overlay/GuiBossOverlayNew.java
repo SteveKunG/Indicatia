@@ -1,9 +1,10 @@
 package stevekung.mods.indicatia.gui.overlay;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.BossInfoClient;
-import net.minecraft.client.gui.GuiBossOverlay;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.ClientBossInfo;
+import net.minecraft.client.gui.overlay.BossOverlayGui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -12,7 +13,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiBossOverlayNew extends GuiBossOverlay
+public class GuiBossOverlayNew extends BossOverlayGui
 {
     private final Minecraft mc;
     private static final ResourceLocation GUI_BARS_TEXTURES = new ResourceLocation("textures/gui/bars.png");
@@ -24,14 +25,14 @@ public class GuiBossOverlayNew extends GuiBossOverlay
     }
 
     @Override
-    public void renderBossHealth()
+    public void render()
     {
-        if (!this.mc.ingameGUI.getBossOverlay().mapBossInfos.isEmpty())
+        if (!this.mc.field_71456_v.getBossOverlay().mapBossInfos.isEmpty())
         {
             int i = this.mc.mainWindow.getScaledWidth();
             int j = 12;
 
-            for (BossInfoClient bossInfo : this.mc.ingameGUI.getBossOverlay().mapBossInfos.values())
+            for (ClientBossInfo bossInfo : this.mc.field_71456_v.getBossOverlay().mapBossInfos.values())
             {
                 int k = i / 2 - 91;
                 RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(this.mc.mainWindow, bossInfo, k, j, 10 + this.mc.fontRenderer.FONT_HEIGHT);

@@ -6,7 +6,7 @@ import com.google.common.base.MoreObjects;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.settings.KeyBinding;
@@ -51,7 +51,7 @@ public class BlockhitAnimationEventHandler
             {
                 boolean isSleep = this.mc.getRenderViewEntity() instanceof LivingEntity && ((LivingEntity)this.mc.getRenderViewEntity()).isPlayerSleeping();
 
-                if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectatorMode())
+                if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.field_71442_b.isSpectatorMode())
                 {
                     this.mc.gameRenderer.enableLightmap();
                     this.renderItemInFirstPerson(event.getPartialTicks());
@@ -63,7 +63,7 @@ public class BlockhitAnimationEventHandler
 
     private void renderItemInFirstPerson(float partialTicks)
     {
-        ClientPlayerEntity player = this.mc.player;
+        AbstractClientPlayerEntity player = this.mc.player;
         float swingProgress = player.getSwingProgress(partialTicks);
         Hand hand = MoreObjects.firstNonNull(player.field_184622_au, Hand.MAIN_HAND);
         float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
@@ -104,7 +104,7 @@ public class BlockhitAnimationEventHandler
         RenderHelper.disableStandardItemLighting();
     }
 
-    private void renderItemInFirstPerson(ClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress)
+    private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress)
     {
         boolean mainHand = hand == Hand.MAIN_HAND;
         HandSide handSide = mainHand ? player.getPrimaryHand() : player.getPrimaryHand().opposite();
