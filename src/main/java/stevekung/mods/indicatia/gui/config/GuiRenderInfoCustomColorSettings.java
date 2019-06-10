@@ -6,9 +6,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -18,69 +18,69 @@ import stevekung.mods.stevekungslib.utils.ColorUtils.RGB;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiRenderInfoCustomColorSettings extends GuiScreen
+public class GuiRenderInfoCustomColorSettings extends Screen
 {
-    private final GuiScreen parent;
+    private final Screen parent;
     private GuiConfigTextFieldRowList optionsRowList;
     private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
 
     static
     {
-        OPTIONS.add(ExtendedConfig.Options.FPS_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.XYZ_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.BIOME_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.DIRECTION_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.PING_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.PING_TO_SECOND_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.SERVER_IP_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.EQUIPMENT_STATUS_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.ARROW_COUNT_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.CPS_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.RCPS_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.SLIME_CHUNK_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.TOP_DONATOR_NAME_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.RECENT_DONATOR_NAME_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.TPS_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.REAL_TIME_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.GAME_TIME_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.GAME_WEATHER_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.MOON_PHASE_COLOR);
+        OPTIONS.add(ExtendedConfig.FPS_COLOR);
+        OPTIONS.add(ExtendedConfig.XYZ_COLOR);
+        OPTIONS.add(ExtendedConfig.BIOME_COLOR);
+        OPTIONS.add(ExtendedConfig.DIRECTION_COLOR);
+        OPTIONS.add(ExtendedConfig.PING_COLOR);
+        OPTIONS.add(ExtendedConfig.PING_TO_SECOND_COLOR);
+        OPTIONS.add(ExtendedConfig.SERVER_IP_COLOR);
+        OPTIONS.add(ExtendedConfig.EQUIPMENT_STATUS_COLOR);
+        OPTIONS.add(ExtendedConfig.ARROW_COUNT_COLOR);
+        OPTIONS.add(ExtendedConfig.CPS_COLOR);
+        OPTIONS.add(ExtendedConfig.RCPS_COLOR);
+        OPTIONS.add(ExtendedConfig.SLIME_CHUNK_COLOR);
+        OPTIONS.add(ExtendedConfig.TOP_DONATOR_NAME_COLOR);
+        OPTIONS.add(ExtendedConfig.RECENT_DONATOR_NAME_COLOR);
+        OPTIONS.add(ExtendedConfig.TPS_COLOR);
+        OPTIONS.add(ExtendedConfig.REAL_TIME_COLOR);
+        OPTIONS.add(ExtendedConfig.GAME_TIME_COLOR);
+        OPTIONS.add(ExtendedConfig.GAME_WEATHER_COLOR);
+        OPTIONS.add(ExtendedConfig.MOON_PHASE_COLOR);
 
         if (IndicatiaMod.isYoutubeChatLoaded)
         {
-            OPTIONS.add(ExtendedConfig.Options.YTCHAT_VIEW_COUNT_COLOR);
+            OPTIONS.add(ExtendedConfig.YTCHAT_VIEW_COUNT_COLOR);
         }
 
-        OPTIONS.add(ExtendedConfig.Options.FPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.FPS_26_AND_40_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.FPS_LOW_25_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.XYZ_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.DIRECTION_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.BIOME_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.PING_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.PING_200_AND_300_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.PING_300_AND_500_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.PING_MAX_500_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.SERVER_IP_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.CPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.RCPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.SLIME_CHUNK_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.TOP_DONATOR_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.RECENT_DONATOR_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.TPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.REAL_TIME_HHMMSS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.REAL_TIME_DDMMYY_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.GAME_TIME_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.GAME_WEATHER_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.Options.MOON_PHASE_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.FPS_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.FPS_26_AND_40_COLOR);
+        OPTIONS.add(ExtendedConfig.FPS_LOW_25_COLOR);
+        OPTIONS.add(ExtendedConfig.XYZ_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.DIRECTION_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.BIOME_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.PING_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.PING_200_AND_300_COLOR);
+        OPTIONS.add(ExtendedConfig.PING_300_AND_500_COLOR);
+        OPTIONS.add(ExtendedConfig.PING_MAX_500_COLOR);
+        OPTIONS.add(ExtendedConfig.SERVER_IP_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.CPS_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.RCPS_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.SLIME_CHUNK_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.TOP_DONATOR_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.RECENT_DONATOR_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.TPS_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.REAL_TIME_HHMMSS_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.REAL_TIME_DDMMYY_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.GAME_TIME_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.GAME_WEATHER_VALUE_COLOR);
+        OPTIONS.add(ExtendedConfig.MOON_PHASE_VALUE_COLOR);
 
         if (IndicatiaMod.isYoutubeChatLoaded)
         {
-            OPTIONS.add(ExtendedConfig.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR);
+            OPTIONS.add(ExtendedConfig.YTCHAT_VIEW_COUNT_VALUE_COLOR);
         }
     }
 
-    GuiRenderInfoCustomColorSettings(GuiScreen parent)
+    GuiRenderInfoCustomColorSettings(Screen parent)
     {
         this.parent = parent;
     }
@@ -89,24 +89,24 @@ public class GuiRenderInfoCustomColorSettings extends GuiScreen
     public void initGui()
     {
         this.mc.keyboardListener.enableRepeatEvents(true);
-        this.addButton(new GuiButton(200, this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done"))
+        this.addButton(new Button(200, this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
                 GuiRenderInfoCustomColorSettings.this.optionsRowList.saveCurrentValue();
                 ExtendedConfig.save();
-                GuiRenderInfoCustomColorSettings.this.mc.displayGuiScreen(GuiRenderInfoCustomColorSettings.this.parent);
+                GuiRenderInfoCustomColorSettings.this.mc.displayScreen(GuiRenderInfoCustomColorSettings.this.parent);
             }
         });
-        this.addButton(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"))
+        this.addButton(new Button(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"))
         {
             @Override
             public void onClick(double mouseX, double mouseZ)
             {
                 GuiRenderInfoCustomColorSettings.this.optionsRowList.saveCurrentValue();
                 ExtendedConfig.save();
-                GuiRenderInfoCustomColorSettings.this.mc.displayGuiScreen(new GuiRenderPreview(GuiRenderInfoCustomColorSettings.this, "render_info"));
+                GuiRenderInfoCustomColorSettings.this.mc.displayScreen(new GuiRenderPreview(GuiRenderInfoCustomColorSettings.this, "render_info"));
             }
         });
 

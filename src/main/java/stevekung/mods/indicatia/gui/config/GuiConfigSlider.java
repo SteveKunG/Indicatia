@@ -1,15 +1,16 @@
 package stevekung.mods.indicatia.gui.config;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiConfigSlider extends GuiButton
+public class GuiConfigSlider extends Button
 {
     private double sliderValue;
     private boolean dragging;

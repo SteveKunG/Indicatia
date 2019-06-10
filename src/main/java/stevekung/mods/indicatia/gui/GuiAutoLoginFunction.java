@@ -3,9 +3,9 @@ package stevekung.mods.indicatia.gui;
 import java.util.Collections;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,54 +17,43 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 @OnlyIn(Dist.CLIENT)
 public class GuiAutoLoginFunction extends Screen
 {
-    private GuiTextField inputField;
+    private TextFieldWidget inputField;
     private GuiButtonCustomizeTexture helpBtn;
     private ServerData data;
 
     public GuiAutoLoginFunction()
     {
+        super(JsonUtils.create("Auto Login Function"));
         this.data = Minecraft.getInstance().getCurrentServerData();
     }
 
     @Override
-    public void initGui()
+    public void init()
     {
-        this.mc.keyboardListener.enableRepeatEvents(true);
-        this.inputField = new GuiTextField(2, this.fontRenderer, this.width / 2 - 150, this.height / 4 + 65, 300, 20);
+        this.minecraft.keyboardListener.enableRepeatEvents(true);
+        this.inputField = new TextFieldWidget(this.font, this.width / 2 - 150, this.height / 4 + 65, 300, 20, "Auto Login Input");
         this.inputField.setMaxStringLength(32767);
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
-        this.addButton(new GuiButton(0, this.width / 2 - 152, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.done"))
+        this.addButton(new Button(this.width / 2 - 152, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.done"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
+            if (GuiAutoLoginFunction.this.data != null)
             {
-                if (GuiAutoLoginFunction.this.data != null)
-                {
-                    GuiAutoLoginFunction.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_login.function_set")));
-                    ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + GuiAutoLoginFunction.this.data.serverIP);
-                    ExtendedConfig.loginData.addAutoLogin(GuiAutoLoginFunction.this.data.serverIP, "", "", GameProfileUtils.getUUID(), GuiAutoLoginFunction.this.inputField.getText());
-                    ExtendedConfig.save();
-                }
-                GuiAutoLoginFunction.this.mc.displayGuiScreen(null);
+                GuiAutoLoginFunction.this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_login.function_set")));
+                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + GuiAutoLoginFunction.this.data.serverIP);
+                ExtendedConfig.loginData.addAutoLogin(GuiAutoLoginFunction.this.data.serverIP, "", "", GameProfileUtils.getUUID(), GuiAutoLoginFunction.this.inputField.getText());
+                ExtendedConfig.instance.save();
             }
-        });
-        this.addButton(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.cancel"))
+            GuiAutoLoginFunction.this.minecraft.displayGuiScreen(null);
+        }));
+        this.addButton(new Button(this.width / 2 + 2, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.cancel"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                GuiAutoLoginFunction.this.mc.displayGuiScreen(null);
-            }
-        });
-        this.addButton(this.helpBtn = new GuiButtonCustomizeTexture(2, this.width / 2 + 130, this.height / 4 + 35, this, Collections.singletonList(LangUtils.translate("menu.help")), "help")
+            GuiAutoLoginFunction.this.minecraft.displayGuiScreen(null);
+        }));
+        this.addButton(this.helpBtn = new GuiButtonCustomizeTexture(this.width / 2 + 130, this.height / 4 + 35, this, Collections.singletonList(LangUtils.translate("menu.help")), "help", button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                GuiAutoLoginFunction.this.mc.displayGuiScreen(new GuiAutoLoginFunctionHelp(true));
-            }
-        });
+            GuiAutoLoginFunction.this.minecraft.displayGuiScreen(new GuiAutoLoginFunctionHelp(true));
+        }));
 
         if (this.data != null)
         {
@@ -86,9 +75,9 @@ public class GuiAutoLoginFunction extends Screen
     }
 
     @Override
-    public void onGuiClosed()
+    public void onClose()
     {
-        this.mc.keyboardListener.enableRepeatEvents(false);
+        this.minecraft.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
@@ -101,16 +90,16 @@ public class GuiAutoLoginFunction extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
+        this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRenderer, "Auto Login Function", this.width / 2, this.height / 4, 16777215);
-        this.drawCenteredString(this.fontRenderer, "Put your own bot function to make it run automatically", this.width / 2, this.height / 4 + 20, 10526880);
-        this.inputField.drawTextField(mouseX, mouseY, partialTicks);
+        this.drawCenteredString(this.font, "Auto Login Function", this.width / 2, this.height / 4, 16777215);
+        this.drawCenteredString(this.font, "Put your own bot function to make it run automatically", this.width / 2, this.height / 4 + 20, 10526880);
+        this.inputField.render(mouseX, mouseY, partialTicks);
         this.helpBtn.drawRegion(mouseX, mouseY);
     }
 
     @Override
-    public boolean doesGuiPauseGame()
+    public boolean isPauseScreen()
     {
         return false;
     }

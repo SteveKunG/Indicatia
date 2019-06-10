@@ -23,7 +23,7 @@ public class HideNameCommand
         if (!HideNameData.getHideNameList().contains(name))
         {
             HideNameData.getHideNameList().add(name);
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             return 1;
         }
         else
@@ -38,7 +38,7 @@ public class HideNameCommand
         if (HideNameData.getHideNameList().contains(name))
         {
             HideNameData.getHideNameList().remove(name);
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             return 1;
         }
         else

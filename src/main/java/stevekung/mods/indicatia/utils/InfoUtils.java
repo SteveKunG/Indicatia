@@ -82,7 +82,7 @@ public class InfoUtils
         {
             sminutes = 0 + "" + minutes;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
     }
 
     public String getMoonPhase(Minecraft mc)
@@ -119,14 +119,14 @@ public class InfoUtils
             status = "Waxing Gibbous";
             break;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.moonPhaseColor).toColoredFont() + "Moon Phase: " + ColorUtils.stringToRGB(ExtendedConfig.moonPhaseValueColor).toColoredFont() + status;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.moonPhaseColor).toColoredFont() + "Moon Phase: " + ColorUtils.stringToRGB(ExtendedConfig.instance.moonPhaseValueColor).toColoredFont() + status;
     }
 
     public boolean isSlimeChunk(BlockPos pos)
     {
         int x = MathHelper.intFloorDiv(pos.getX(), 16);
         int z = MathHelper.intFloorDiv(pos.getZ(), 16);
-        Random rnd = new Random(ExtendedConfig.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
+        Random rnd = new Random(ExtendedConfig.instance.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rnd.nextInt(10) == 0;
     }
 

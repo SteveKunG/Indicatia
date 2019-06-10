@@ -43,49 +43,49 @@ public class IndicatiaCommand
 
     private static int startToggleSprint(CommandSource source)
     {
-        ExtendedConfig.toggleSprint = true;
+        ExtendedConfig.instance.toggleSprint = true;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.enable"), false);
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 
     private static int stopToggleSprint(CommandSource source)
     {
-        ExtendedConfig.toggleSprint = false;
+        ExtendedConfig.instance.toggleSprint = false;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.disable"), false);
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 
     private static int setToggleSprintMode(CommandSource source, String mode)
     {
-        ExtendedConfig.toggleSprintUseMode = mode;
+        ExtendedConfig.instance.toggleSprintUseMode = mode;
         source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sprint.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 
     private static int startToggleSneak(CommandSource source)
     {
-        ExtendedConfig.toggleSneak = true;
+        ExtendedConfig.instance.toggleSneak = true;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.enable"), false);
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 
     private static int stopToggleSneak(CommandSource source)
     {
-        ExtendedConfig.toggleSneak = false;
+        ExtendedConfig.instance.toggleSneak = false;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.disable"), false);
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 
     private static int setToggleSneakMode(CommandSource source, String mode)
     {
-        ExtendedConfig.toggleSneakUseMode = mode;
+        ExtendedConfig.instance.toggleSneakUseMode = mode;
         source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sneak.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 }

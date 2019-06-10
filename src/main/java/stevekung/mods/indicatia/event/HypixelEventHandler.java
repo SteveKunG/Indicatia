@@ -48,7 +48,7 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onMouseClick(InputEvent.MouseInputEvent event)
     {
-        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
+        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.instance.rightClickToAddParty)
         {
             HypixelEventHandler.rightClickAddParty(this.mc);
         }
@@ -80,14 +80,14 @@ public class HypixelEventHandler
                 }
                 else if (unformattedText.contains("Your nick has been reset!"))
                 {
-                    ExtendedConfig.hypixelNickName = "";
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.hypixelNickName = "";
+                    ExtendedConfig.instance.save();
                 }
 
                 if (nickMatcher.matches())
                 {
-                    ExtendedConfig.hypixelNickName = nickMatcher.group("nick");
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.hypixelNickName = nickMatcher.group("nick");
+                    ExtendedConfig.instance.save();
                 }
 
                 // https://gist.githubusercontent.com/minemanpi/72c38b0023f5062a5f3eba02a5132603/raw/triggers.txt
@@ -132,11 +132,11 @@ public class HypixelEventHandler
 
             if (gui.field_146848_f != null)
             {
-                ExtendedConfig.hypixelNickName = gui.field_146848_f.signText[0].getUnformattedComponentText();
+                ExtendedConfig.instance.hypixelNickName = gui.field_146848_f.signText[0].getUnformattedComponentText();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
             }
         }

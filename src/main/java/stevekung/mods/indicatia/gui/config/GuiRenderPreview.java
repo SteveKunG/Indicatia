@@ -3,7 +3,6 @@ package stevekung.mods.indicatia.gui.config;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
@@ -20,11 +19,12 @@ import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekungslib.client.event.ClientEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiRenderPreview extends Screen
 {
-    private final GuiScreen parent;
+    private final Screen parent;
     private final String type;
 
     private static String overallTPS = "";
@@ -32,16 +32,17 @@ public class GuiRenderPreview extends Screen
     private static String tps = "";
     private static List<String> allDimensionTPS = new LinkedList<>();
 
-    GuiRenderPreview(GuiScreen parent, String type)
+    GuiRenderPreview(Screen parent, String type)
     {
+        super(JsonUtils.create("Render Preview " + type));
         this.parent = parent;
         this.type = type;
     }
 
     @Override
-    public void close()
+    public void onClose()
     {
-        this.mc.displayGuiScreen(this.parent);
+        this.minecraft.displayGuiScreen(this.parent);
     }
 
     @Override
@@ -49,16 +50,16 @@ public class GuiRenderPreview extends Screen
     {
         if (this.type.equals("offset"))
         {
-            KeystrokeRenderer.render(this.mc);
-            HUDInfo.renderPotionHUD(this.mc);
+            KeystrokeRenderer.render(this.minecraft);
+            HUDInfo.renderPotionHUD(this.minecraft);
 
-            if (Equipments.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+            if (ExtendedConfig.instance.equipmentDirection == Equipments.Direction.VERTICAL)
             {
-                HUDInfo.renderVerticalEquippedItems(this.mc);
+                HUDInfo.renderVerticalEquippedItems(this.minecraft);
             }
             else
             {
-                HUDInfo.renderHorizontalEquippedItems(this.mc);
+                HUDInfo.renderHorizontalEquippedItems(this.minecraft);
             }
         }
         if (this.type.equals("render_info"))
@@ -66,39 +67,39 @@ public class GuiRenderPreview extends Screen
             List<String> leftInfo = new LinkedList<>();
             List<String> rightInfo = new LinkedList<>();
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            HUDInfo.renderVerticalEquippedItems(this.mc);
+            HUDInfo.renderVerticalEquippedItems(this.minecraft);
 
             // left info
-            if (!this.mc.isSingleplayer())
+            if (!this.minecraft.isSingleplayer())
             {
                 leftInfo.add(HUDInfo.getPing());
                 leftInfo.add(HUDInfo.getPingToSecond());
 
-                if (this.mc.isConnectedToRealms())
+                if (this.minecraft.isConnectedToRealms())
                 {
-                    leftInfo.add(HUDInfo.getRealmName(this.mc));
+                    leftInfo.add(HUDInfo.getRealmName(this.minecraft));
                 }
-                if (this.mc.getCurrentServerData() != null)
+                if (this.minecraft.getCurrentServerData() != null)
                 {
-                    leftInfo.add(HUDInfo.getServerIP(this.mc));
+                    leftInfo.add(HUDInfo.getServerIP(this.minecraft));
                 }
             }
 
             leftInfo.add(HUDInfo.getFPS());
-            leftInfo.add(HUDInfo.getXYZ(this.mc));
+            leftInfo.add(HUDInfo.getXYZ(this.minecraft));
 
-            if (this.mc.player.dimension == DimensionType.NETHER)
+            if (this.minecraft.player.dimension == DimensionType.NETHER)
             {
-                leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
+                leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.minecraft));
             }
 
-            leftInfo.add(HUDInfo.renderDirection(this.mc));
-            leftInfo.add(HUDInfo.getBiome(this.mc));
+            leftInfo.add(HUDInfo.renderDirection(this.minecraft));
+            leftInfo.add(HUDInfo.getBiome(this.minecraft));
 
-            if (this.mc.player.dimension == DimensionType.OVERWORLD)
+            if (this.minecraft.player.dimension == DimensionType.OVERWORLD)
             {
-                String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No";
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
+                String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.minecraft.player.getPosition()) ? "Yes" : "No";
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
             }
 
             leftInfo.add(HUDInfo.getCPS());
@@ -106,17 +107,17 @@ public class GuiRenderPreview extends Screen
 
             if (!HUDRenderEventHandler.topDonator.isEmpty())
             {
-                String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
                 leftInfo.add(text + HUDRenderEventHandler.topDonator);
             }
             if (!HUDRenderEventHandler.recentDonator.isEmpty())
             {
-                String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
+                String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
                 leftInfo.add(text + HUDRenderEventHandler.recentDonator);
             }
 
             // server tps
-            if (ExtendedConfig.tps && server != null)
+            if (ExtendedConfig.instance.tps && server != null)
             {
                 if (ClientEventHandler.ticks % 50 == 0)
                 {
@@ -128,19 +129,19 @@ public class GuiRenderPreview extends Screen
                     GuiRenderPreview.overworldTPS = "";
                     GuiRenderPreview.allDimensionTPS.clear();
 
-                    if (ExtendedConfig.tpsAllDims)
+                    if (ExtendedConfig.instance.tpsAllDims)
                     {
-                        for (DimensionType dimension : DimensionType.func_212681_b())
+                        for (DimensionType dimension : DimensionType.getAll())
                         {
                             long[] values = server.getTickTime(dimension);
-                            String dimensionName = DimensionType.func_212678_a(dimension).toString();
+                            String dimensionName = DimensionType.getKey(dimension).toString();
 
                             if (values == null)
                             {
                                 return;
                             }
                             double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-                            GuiRenderPreview.allDimensionTPS.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + dimensionName.substring(dimensionName.indexOf(":") + 1) + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                            GuiRenderPreview.allDimensionTPS.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Dimension " + dimensionName.substring(dimensionName.indexOf(":") + 1) + ": " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
                         }
                     }
                     else
@@ -150,30 +151,30 @@ public class GuiRenderPreview extends Screen
                     GuiRenderPreview.tps = HUDRenderEventHandler.tpsFormat.format(tps);
                 }
                 // overall tps
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + GuiRenderPreview.overallTPS);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + GuiRenderPreview.overallTPS);
                 // all dimension tps
                 leftInfo.addAll(GuiRenderPreview.allDimensionTPS);
 
                 // overworld tps
                 if (!GuiRenderPreview.overworldTPS.isEmpty())
                 {
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + GuiRenderPreview.overworldTPS);
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + GuiRenderPreview.overworldTPS);
                 }
 
                 // tps
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + GuiRenderPreview.tps);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + GuiRenderPreview.tps);
             }
 
             // right info
             rightInfo.add(HUDInfo.getCurrentTime());
-            rightInfo.add(HUDInfo.getCurrentGameTime(this.mc));
+            rightInfo.add(HUDInfo.getCurrentGameTime(this.minecraft));
 
-            if (this.mc.world.isRaining())
+            if (this.minecraft.world.isRaining())
             {
-                rightInfo.add(HUDInfo.getGameWeather(this.mc));
+                rightInfo.add(HUDInfo.getGameWeather(this.minecraft));
             }
 
-            rightInfo.add(InfoUtils.INSTANCE.getMoonPhase(this.mc));
+            rightInfo.add(InfoUtils.INSTANCE.getMoonPhase(this.minecraft));
 
             // left info
             for (int i = 0; i < leftInfo.size(); ++i)
@@ -181,11 +182,11 @@ public class GuiRenderPreview extends Screen
                 String string = leftInfo.get(i);
                 float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
                 }
             }
 
@@ -195,22 +196,22 @@ public class GuiRenderPreview extends Screen
                 String string = rightInfo.get(i);
                 float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+                    ColorUtils.coloredFontRenderer.drawStringWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
                 }
             }
         }
         if (this.type.equals("keystroke"))
         {
-            KeystrokeRenderer.render(this.mc);
+            KeystrokeRenderer.render(this.minecraft);
         }
     }
 
     @Override
-    public boolean doesGuiPauseGame()
+    public boolean isPauseScreen()
     {
         return true;
     }

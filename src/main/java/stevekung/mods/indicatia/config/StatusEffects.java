@@ -1,28 +1,73 @@
 package stevekung.mods.indicatia.config;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
+import net.minecraft.util.math.MathHelper;
+
 public class StatusEffects
 {
     public enum Style
     {
-        DEFAULT, ICON_AND_TIME;
+        DEFAULT(0, "indicatia.default"),
+        ICON_AND_TIME(1, "potion_hud.icon_and_time");
 
-        private static final Style[] values = values();
+        private static final Style[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Style::getId)).toArray(id -> new Style[id]);
+        private final int id;
+        private final String key;
 
-        public static String getById(int mode)
+        private Style(int id, String key)
         {
-            return values[mode].toString().toLowerCase();
+            this.id = id;
+            this.key = key;
+        }
+
+        public String getTranslationKey()
+        {
+            return this.key;
+        }
+
+        public int getId()
+        {
+            return this.id;
+        }
+
+        public static Style byId(int id)
+        {
+            return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
         }
     }
 
     public enum Position
     {
-        LEFT, RIGHT, HOTBAR_LEFT, HOTBAR_RIGHT;
+        LEFT(0, "indicatia.left"),
+        RIGHT(1, "indicatia.right"),
+        HOTBAR_LEFT(1, "indicatia.hotbar_left"),
+        HOTBAR_RIGHT(1, "indicatia.hotbar_right");
 
-        private static final Position[] values = values();
+        private static final Position[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Position::getId)).toArray(id -> new Position[id]);
+        private final int id;
+        private final String key;
 
-        public static String getById(int mode)
+        private Position(int id, String key)
         {
-            return values[mode].toString().toLowerCase();
+            this.id = id;
+            this.key = key;
+        }
+
+        public String getTranslationKey()
+        {
+            return this.key;
+        }
+
+        public int getId()
+        {
+            return this.id;
+        }
+
+        public static Position byId(int id)
+        {
+            return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
         }
     }
 }

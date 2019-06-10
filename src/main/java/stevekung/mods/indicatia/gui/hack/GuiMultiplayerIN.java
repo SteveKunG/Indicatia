@@ -18,9 +18,9 @@ public class GuiMultiplayerIN extends MultiplayerScreen
     }
 
     @Override
-    public void initGui()
+    public void init()
     {
-        this.mc.keyboardListener.enableRepeatEvents(true);
+        this.minecraft.keyboardListener.enableRepeatEvents(true);
 
         if (this.initialized)
         {
@@ -29,7 +29,7 @@ public class GuiMultiplayerIN extends MultiplayerScreen
         else
         {
             this.initialized = true;
-            this.savedServerList = new ServerList(this.mc);
+            this.savedServerList = new ServerList(this.minecraft);
             this.savedServerList.loadServerList();
             this.lanServerList = new LanServerDetector.LanServerList();
 
@@ -49,7 +49,7 @@ public class GuiMultiplayerIN extends MultiplayerScreen
     @Override
     public void refreshServerList()
     {
-        this.mc.displayScreen(new GuiMultiplayerIN(this.parentScreen));
+        this.minecraft.displayGuiScreen(new GuiMultiplayerIN(this.parentScreen));
     }
 
     @Override
@@ -59,8 +59,8 @@ public class GuiMultiplayerIN extends MultiplayerScreen
         RenderUtils.disableLighting();
         String info1 = "Press <SHIFT> for";
         String info2 = "server version info";
-        this.mc.fontRenderer.drawStringWithShadow(info1, 4, 3, ColorUtils.hexToRgb("#17F9DB"));
-        this.mc.fontRenderer.drawStringWithShadow(info2, 4, 3 + this.mc.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRgb("#17F9DB"));
+        this.minecraft.fontRenderer.drawStringWithShadow(info1, 4, 3, ColorUtils.hexToRgb("#17F9DB"));
+        this.minecraft.fontRenderer.drawStringWithShadow(info2, 4, 3 + this.minecraft.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRgb("#17F9DB"));
         RenderUtils.enableLighting();
     }
 }

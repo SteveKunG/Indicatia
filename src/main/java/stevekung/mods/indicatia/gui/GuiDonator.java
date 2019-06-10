@@ -1,8 +1,8 @@
 package stevekung.mods.indicatia.gui;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,81 +15,71 @@ import stevekung.mods.stevekungslib.utils.enums.CachedEnum;
 @OnlyIn(Dist.CLIENT)
 public class GuiDonator extends Screen
 {
-    private GuiTextField topDonateInput;
-    private GuiTextField recentDonateInput;
-    private GuiTextField topDonateTextInput;
-    private GuiTextField recentDonateTextInput;
-    private GuiButton resetBtn;
+    private TextFieldWidget topDonateInput;
+    private TextFieldWidget recentDonateInput;
+    private TextFieldWidget topDonateTextInput;
+    private TextFieldWidget recentDonateTextInput;
+    private Button resetBtn;
+
+    public GuiDonator()
+    {
+        super(JsonUtils.create("Donator"));
+    }
 
     @Override
-    public void initGui()
+    public void init()
     {
-        this.mc.keyboardListener.enableRepeatEvents(true);
-        this.topDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 60, 220, 20);
+        this.minecraft.keyboardListener.enableRepeatEvents(true);
+        this.topDonateInput = new TextFieldWidget(this.font, this.width / 2 - 80, 60, 220, 20, "");
         this.topDonateInput.setMaxStringLength(32767);
         this.topDonateInput.setCanLoseFocus(true);
-        this.topDonateInput.setText(ExtendedConfig.topDonatorFilePath);
+        this.topDonateInput.setText(ExtendedConfig.instance.topDonatorFilePath);
 
-        this.recentDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 85, 220, 20);
+        this.recentDonateInput = new TextFieldWidget(this.font, this.width / 2 - 80, 85, 220, 20, "");
         this.recentDonateInput.setMaxStringLength(32767);
         this.recentDonateInput.setCanLoseFocus(true);
-        this.recentDonateInput.setText(ExtendedConfig.recentDonatorFilePath);
+        this.recentDonateInput.setText(ExtendedConfig.instance.recentDonatorFilePath);
 
-        this.topDonateTextInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 110, 220, 20);
+        this.topDonateTextInput = new TextFieldWidget(this.font, this.width / 2 - 80, 110, 220, 20, "");
         this.topDonateTextInput.setMaxStringLength(32767);
         this.topDonateTextInput.setCanLoseFocus(true);
-        this.topDonateTextInput.setText(ExtendedConfig.topDonatorText.replace("\u00a7", "&"));
+        this.topDonateTextInput.setText(ExtendedConfig.instance.topDonatorText.replace("\u00a7", "&"));
 
-        this.recentDonateTextInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 135, 220, 20);
+        this.recentDonateTextInput = new TextFieldWidget(this.font, this.width / 2 - 80, 135, 220, 20, "");
         this.recentDonateTextInput.setMaxStringLength(32767);
         this.recentDonateTextInput.setCanLoseFocus(true);
-        this.recentDonateTextInput.setText(ExtendedConfig.recentDonatorText.replace("\u00a7", "&"));
+        this.recentDonateTextInput.setText(ExtendedConfig.instance.recentDonatorText.replace("\u00a7", "&"));
 
-        this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height - 38, 100, 20, LangUtils.translate("gui.done"))
+        this.addButton(new Button(this.width / 2 - 50 - 100 - 4, this.height - 38, 100, 20, LangUtils.translate("gui.done"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
+            if (!ExtendedConfig.instance.topDonatorFilePath.equals(GuiDonator.this.topDonateInput.getText()))
             {
-                if (!ExtendedConfig.topDonatorFilePath.equals(GuiDonator.this.topDonateInput.getText()))
-                {
-                    GuiDonator.this.mc.player.sendMessage(JsonUtils.create("Set top donator file path to " + GuiDonator.this.topDonateInput.getText()));
-                }
-                if (!ExtendedConfig.recentDonatorFilePath.equals(GuiDonator.this.recentDonateInput.getText()))
-                {
-                    GuiDonator.this.mc.player.sendMessage(JsonUtils.create("Set recent donator file path to " + GuiDonator.this.recentDonateInput.getText()));
-                }
-                ExtendedConfig.topDonatorFilePath = GuiDonator.this.topDonateInput.getText().replace("" + '\u0022', "");
-                ExtendedConfig.recentDonatorFilePath = GuiDonator.this.recentDonateInput.getText().replace("" + '\u0022', "");
-                ExtendedConfig.topDonatorText = GuiDonator.this.convertString(GuiDonator.this.topDonateTextInput.getText());
-                ExtendedConfig.recentDonatorText = GuiDonator.this.convertString(GuiDonator.this.recentDonateTextInput.getText());
-                ExtendedConfig.save();
-                GuiDonator.this.mc.displayGuiScreen(null);
+                GuiDonator.this.minecraft.player.sendMessage(JsonUtils.create("Set top donator file path to " + GuiDonator.this.topDonateInput.getText()));
             }
-        });
-        this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel"))
+            if (!ExtendedConfig.instance.recentDonatorFilePath.equals(GuiDonator.this.recentDonateInput.getText()))
+            {
+                GuiDonator.this.minecraft.player.sendMessage(JsonUtils.create("Set recent donator file path to " + GuiDonator.this.recentDonateInput.getText()));
+            }
+            ExtendedConfig.instance.topDonatorFilePath = GuiDonator.this.topDonateInput.getText().replace("" + '\u0022', "");
+            ExtendedConfig.instance.recentDonatorFilePath = GuiDonator.this.recentDonateInput.getText().replace("" + '\u0022', "");
+            ExtendedConfig.instance.topDonatorText = GuiDonator.this.convertString(GuiDonator.this.topDonateTextInput.getText());
+            ExtendedConfig.instance.recentDonatorText = GuiDonator.this.convertString(GuiDonator.this.recentDonateTextInput.getText());
+            ExtendedConfig.instance.save();
+            GuiDonator.this.minecraft.displayGuiScreen(null);
+        }));
+        this.addButton(new Button(this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel"), button -> GuiDonator.this.minecraft.displayGuiScreen(null)));
+        this.resetBtn = this.addButton(new Button(this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("menu.reset_path"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                GuiDonator.this.mc.displayGuiScreen(null);
-            }
-        });
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("menu.reset_path"))
-        {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                GuiDonator.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_donator_path")));
-                ExtendedConfig.topDonatorFilePath = "";
-                ExtendedConfig.recentDonatorFilePath = "";
-                HUDRenderEventHandler.topDonator = "";
-                HUDRenderEventHandler.recentDonator = "";
-                GuiDonator.this.topDonateInput.setText("");
-                GuiDonator.this.recentDonateInput.setText("");
-                ExtendedConfig.save();
-            }
-        });
-        this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
+            GuiDonator.this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_donator_path")));
+            ExtendedConfig.instance.topDonatorFilePath = "";
+            ExtendedConfig.instance.recentDonatorFilePath = "";
+            HUDRenderEventHandler.topDonator = "";
+            HUDRenderEventHandler.recentDonator = "";
+            GuiDonator.this.topDonateInput.setText("");
+            GuiDonator.this.recentDonateInput.setText("");
+            ExtendedConfig.instance.save();
+        }));
+        this.resetBtn.active = !ExtendedConfig.instance.topDonatorFilePath.isEmpty() || !ExtendedConfig.instance.recentDonatorFilePath.isEmpty();
         this.children.add(this.topDonateInput);
         this.children.add(this.recentDonateInput);
         this.children.add(this.topDonateTextInput);
@@ -99,7 +89,7 @@ public class GuiDonator extends Screen
     @Override
     public void tick()
     {
-        this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
+        this.resetBtn.active = !ExtendedConfig.instance.topDonatorFilePath.isEmpty() || !ExtendedConfig.instance.recentDonatorFilePath.isEmpty();
         this.topDonateInput.tick();
         this.recentDonateInput.tick();
         this.topDonateTextInput.tick();
@@ -107,9 +97,9 @@ public class GuiDonator extends Screen
     }
 
     @Override
-    public void onGuiClosed()
+    public void onClose()
     {
-        this.mc.keyboardListener.enableRepeatEvents(false);
+        this.minecraft.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
@@ -125,24 +115,24 @@ public class GuiDonator extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, "Donator Message Settings", this.width / 2, 20, 16777215);
-        this.drawCenteredString(this.fontRenderer, "Put your twitch donators file path. (.txt file only)", this.width / 2, 37, 10526880);
-        this.drawString(this.fontRenderer, "Top Donate:", this.width / 2 - 145, 66, 10526880);
-        this.drawString(this.fontRenderer, "Recent Donate:", this.width / 2 - 160, 90, 10526880);
-        this.drawString(this.fontRenderer, "Top Donate Text:", this.width / 2 - 170, 115, 10526880);
-        this.drawString(this.fontRenderer, "Recent Donate Text:", this.width / 2 - 185, 140, 10526880);
-        this.drawCenteredString(this.fontRenderer, TextFormatting.RESET + "Top Donate Text: " + this.convertString(this.topDonateTextInput.getText()), this.width / 2, 170, 10526880);
-        this.drawCenteredString(this.fontRenderer, TextFormatting.RESET + "Recent Donate Text: " + this.convertString(this.recentDonateTextInput.getText()), this.width / 2, 185, 10526880);
-        this.topDonateInput.drawTextField(mouseX, mouseY, partialTicks);
-        this.recentDonateInput.drawTextField(mouseX, mouseY, partialTicks);
-        this.topDonateTextInput.drawTextField(mouseX, mouseY, partialTicks);
-        this.recentDonateTextInput.drawTextField(mouseX, mouseY, partialTicks);
+        this.renderBackground();
+        this.drawCenteredString(this.font, "Donator Message Settings", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.font, "Put your twitch donators file path. (.txt file only)", this.width / 2, 37, 10526880);
+        this.drawString(this.font, "Top Donate:", this.width / 2 - 145, 66, 10526880);
+        this.drawString(this.font, "Recent Donate:", this.width / 2 - 160, 90, 10526880);
+        this.drawString(this.font, "Top Donate Text:", this.width / 2 - 170, 115, 10526880);
+        this.drawString(this.font, "Recent Donate Text:", this.width / 2 - 185, 140, 10526880);
+        this.drawCenteredString(this.font, TextFormatting.RESET + "Top Donate Text: " + this.convertString(this.topDonateTextInput.getText()), this.width / 2, 170, 10526880);
+        this.drawCenteredString(this.font, TextFormatting.RESET + "Recent Donate Text: " + this.convertString(this.recentDonateTextInput.getText()), this.width / 2, 185, 10526880);
+        this.topDonateInput.render(mouseX, mouseY, partialTicks);
+        this.recentDonateInput.render(mouseX, mouseY, partialTicks);
+        this.topDonateTextInput.render(mouseX, mouseY, partialTicks);
+        this.recentDonateTextInput.render(mouseX, mouseY, partialTicks);
         super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public boolean doesGuiPauseGame()
+    public boolean isPauseScreen()
     {
         return false;
     }

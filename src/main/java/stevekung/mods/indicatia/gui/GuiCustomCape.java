@@ -3,13 +3,12 @@ package stevekung.mods.indicatia.gui;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -21,83 +20,72 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 @OnlyIn(Dist.CLIENT)
 public class GuiCustomCape extends Screen
 {
-    private GuiTextField inputField;
-    private GuiButton doneBtn;
-    private GuiButton resetBtn;
-    private GuiButton capeBtn;
+    private TextFieldWidget inputField;
+    private Button doneBtn;
+    private Button resetBtn;
+    private Button capeBtn;
     private int capeOption;
     private int prevCapeOption;
 
-    @Override
-    public void initGui()
+    public GuiCustomCape()
     {
-        this.mc.keyboardListener.enableRepeatEvents(true);
-        this.inputField = new GuiTextField(2, this.fontRenderer, this.width / 2 - 150, this.height / 4 + 85, 300, 20);
+        super(JsonUtils.create("Custom Cape"));
+    }
+
+    @Override
+    public void init()
+    {
+        this.minecraft.keyboardListener.enableRepeatEvents(true);
+        this.inputField = new TextFieldWidget(this.font, this.width / 2 - 150, this.height / 4 + 85, 300, 20, "Cape Input");
         this.inputField.setMaxStringLength(32767);
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
-        this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.done"))
+        this.doneBtn = this.addButton(new Button(this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.done"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
+            if (!GuiCustomCape.this.inputField.getText().isEmpty())
             {
-                if (!GuiCustomCape.this.inputField.getText().isEmpty())
-                {
-                    ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(GuiCustomCape.this.inputField.getText());
-                    thread.start();
-                    GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + GuiCustomCape.this.inputField.getText()));
-                }
-                GuiCustomCape.this.mc.displayGuiScreen(null);
+                ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(GuiCustomCape.this.inputField.getText());
+                thread.start();
+                GuiCustomCape.this.minecraft.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + GuiCustomCape.this.inputField.getText()));
             }
-        });
-        this.doneBtn.enabled = !this.inputField.getText().isEmpty();
-        this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"))
+            GuiCustomCape.this.minecraft.displayGuiScreen(null);
+        }));
+        this.doneBtn.active = !this.inputField.getText().isEmpty();
+        this.addButton(new Button(this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                GuiCustomCape.this.capeOption = GuiCustomCape.this.prevCapeOption;
-                GuiCustomCape.this.saveCapeOption();
-                GuiCustomCape.this.mc.displayGuiScreen(null);
-            }
-        });
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("menu.reset_cape"))
+            GuiCustomCape.this.capeOption = GuiCustomCape.this.prevCapeOption;
+            GuiCustomCape.this.saveCapeOption();
+            GuiCustomCape.this.minecraft.displayGuiScreen(null);
+        }));
+        this.resetBtn = this.addButton(new Button(this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("menu.reset_cape"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                CapeUtils.CAPE_TEXTURE = null;
-                GuiCustomCape.this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_current_cape")));
-                CapeUtils.texture.delete();
-                GuiCustomCape.this.mc.displayGuiScreen(null);
-            }
-        });
-        this.resetBtn.enabled = CapeUtils.texture.exists();
+            CapeUtils.CAPE_TEXTURE = null;
+            GuiCustomCape.this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_current_cape")));
+            CapeUtils.texture.delete();
+            GuiCustomCape.this.minecraft.displayGuiScreen(null);
+        }));
+        this.resetBtn.active = CapeUtils.texture.exists();
 
-        if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.showCustomCape)
+        if (!this.minecraft.gameSettings.getModelParts().contains(PlayerModelPart.CAPE) && !ExtendedConfig.instance.showCustomCape)
         {
             this.capeOption = 0;
         }
-        if (ExtendedConfig.showCustomCape)
+        if (ExtendedConfig.instance.showCustomCape)
         {
             this.capeOption = 1;
         }
-        if (this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE))
+        if (this.minecraft.gameSettings.getModelParts().contains(PlayerModelPart.CAPE))
         {
             this.capeOption = 2;
         }
         this.prevCapeOption = this.capeOption;
-        this.capeBtn = this.addButton(new GuiButton(3, this.width / 2 + 50 + 4, this.height / 4 + 50, 100, 20, "")
+        this.capeBtn = this.addButton(new Button(this.width / 2 + 50 + 4, this.height / 4 + 50, 100, 20, "", button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                int i = 0;
-                i++;
-                GuiCustomCape.this.capeOption = (GuiCustomCape.this.capeOption + i) % 3;
-                GuiCustomCape.this.saveCapeOption();
-            }
-        });
+            int i = 0;
+            i++;
+            GuiCustomCape.this.capeOption = (GuiCustomCape.this.capeOption + i) % 3;
+            GuiCustomCape.this.saveCapeOption();
+        }));
         this.children.add(this.inputField);
         this.setTextForCapeOption();
     }
@@ -105,16 +93,16 @@ public class GuiCustomCape extends Screen
     @Override
     public void tick()
     {
-        this.doneBtn.enabled = !this.inputField.getText().isEmpty() || this.prevCapeOption != this.capeOption;
-        this.resetBtn.enabled = CapeUtils.texture.exists();
+        this.doneBtn.active = !this.inputField.getText().isEmpty() || this.prevCapeOption != this.capeOption;
+        this.resetBtn.active = CapeUtils.texture.exists();
         this.setTextForCapeOption();
         this.inputField.tick();
     }
 
     @Override
-    public void onGuiClosed()
+    public void onClose()
     {
-        this.mc.keyboardListener.enableRepeatEvents(false);
+        this.minecraft.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
@@ -127,16 +115,16 @@ public class GuiCustomCape extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        GuiCustomCape.renderPlayer(this.mc, this.width, this.height);
-        this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, "Custom Cape Downloader", this.width / 2, 20, 16777215);
-        this.drawCenteredString(this.fontRenderer, "Put your Cape URL (Must be .png or image format)", this.width / 2, 37, 10526880);
-        this.inputField.drawTextField(mouseX, mouseY, partialTicks);
+        GuiCustomCape.renderPlayer(this.minecraft, this.width, this.height);
+        this.renderBackground();
+        this.drawCenteredString(this.font, "Custom Cape Downloader", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.font, "Put your Cape URL (Must be .png or image format)", this.width / 2, 37, 10526880);
+        this.inputField.render(mouseX, mouseY, partialTicks);
         super.render(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public boolean doesGuiPauseGame()
+    public boolean isPauseScreen()
     {
         return false;
     }
@@ -146,13 +134,13 @@ public class GuiCustomCape extends Screen
         switch (this.capeOption)
         {
         case 0:
-            this.capeBtn.displayString = "Cape: OFF";
+            this.capeBtn.setMessage("Cape: OFF");
             break;
         case 1:
-            this.capeBtn.displayString = "Cape: Custom";
+            this.capeBtn.setMessage("Cape: Custom");
             break;
         case 2:
-            this.capeBtn.displayString = "Cape: OptiFine";
+            this.capeBtn.setMessage("Cape: OptiFine");
             break;
         }
     }
@@ -161,22 +149,22 @@ public class GuiCustomCape extends Screen
     {
         if (this.capeOption == 0)
         {
-            ExtendedConfig.showCustomCape = false;
-            this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
+            ExtendedConfig.instance.showCustomCape = false;
+            this.minecraft.gameSettings.setModelPartEnabled(PlayerModelPart.CAPE, false);
         }
         if (this.capeOption == 1)
         {
-            ExtendedConfig.showCustomCape = true;
-            this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
+            ExtendedConfig.instance.showCustomCape = true;
+            this.minecraft.gameSettings.setModelPartEnabled(PlayerModelPart.CAPE, false);
         }
         if (this.capeOption == 2)
         {
-            ExtendedConfig.showCustomCape = false;
-            this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
+            ExtendedConfig.instance.showCustomCape = false;
+            this.minecraft.gameSettings.setModelPartEnabled(PlayerModelPart.CAPE, true);
         }
-        this.mc.gameSettings.sendSettingsToServer();
-        this.mc.gameSettings.saveOptions();
-        ExtendedConfig.save();
+        this.minecraft.gameSettings.sendSettingsToServer();
+        this.minecraft.gameSettings.saveOptions();
+        ExtendedConfig.instance.save();
     }
 
     private static void renderPlayer(Minecraft mc, int width, int height)
@@ -196,7 +184,7 @@ public class GuiCustomCape extends Screen
         mc.player.rotationYaw = 0.0F;
         mc.player.rotationYawHead = mc.player.rotationYaw;
         GlStateManager.translated(0.0D, mc.player.getYOffset(), 0.0D);
-        RenderManager manager = mc.getRenderManager();
+        EntityRendererManager manager = mc.getRenderManager();
         manager.setPlayerViewY(180.0F);
         manager.setRenderShadow(false);
         manager.renderEntity(mc.player, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
@@ -209,7 +197,7 @@ public class GuiCustomCape extends Screen
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
         GlStateManager.activeTexture(OpenGlHelper.GL_TEXTURE1);
-        GlStateManager.disableTexture2D();
+        GlStateManager.disableTexture();
         GlStateManager.activeTexture(OpenGlHelper.GL_TEXTURE0);
     }
 }

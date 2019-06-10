@@ -223,7 +223,7 @@ public class GuiPlayerTabOverlayNew extends PlayerTabOverlayGui
     {
         int ping = info.getResponseTime();
 
-        if (InfoUtils.INSTANCE.isHypixel() && (info.getGameProfile().getName().equals(ExtendedConfig.hypixelNickName) || info.getGameProfile().getName().equals(GuiPlayerTabOverlayNew.murderAssassinsNick)))
+        if (InfoUtils.INSTANCE.isHypixel() && (info.getGameProfile().getName().equals(ExtendedConfig.instance.hypixelNickName) || info.getGameProfile().getName().equals(GuiPlayerTabOverlayNew.murderAssassinsNick)))
         {
             ping = IndicatiaEventHandler.currentServerPing;
         }

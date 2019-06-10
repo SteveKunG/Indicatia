@@ -1,13 +1,37 @@
 package stevekung.mods.indicatia.config;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
+import net.minecraft.util.math.MathHelper;
+
 public enum KeystrokePosition
 {
-    RIGHT, LEFT;
+    LEFT(0, "indicatia.left"),
+    RIGHT(1, "indicatia.right");
 
-    private static final KeystrokePosition[] values = values();
+    private static final KeystrokePosition[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(KeystrokePosition::getId)).toArray(id -> new KeystrokePosition[id]);
+    private final int id;
+    private final String key;
 
-    public static String getById(int mode)
+    private KeystrokePosition(int id, String key)
     {
-        return values[mode].toString().toLowerCase();
+        this.id = id;
+        this.key = key;
+    }
+
+    public String getTranslationKey()
+    {
+        return this.key;
+    }
+
+    public int getId()
+    {
+        return this.id;
+    }
+
+    public static KeystrokePosition byId(int id)
+    {
+        return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
     }
 }

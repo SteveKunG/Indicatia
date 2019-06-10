@@ -57,7 +57,7 @@ public class AutoLoginCommand
             }
             ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + command + " ", Base64Utils.encode(value), uuid, "");
             source.sendFeedback(LangUtils.translateComponent("commands.auto_login.set"), false);
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             return 1;
         }
         return 0;

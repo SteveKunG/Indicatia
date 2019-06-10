@@ -3,15 +3,13 @@ package stevekung.mods.indicatia.gui.config;
 import com.google.common.base.Strings;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowList.Row>
+public class GuiConfigButtonRowList extends ElementListWidget<GuiConfigButtonRowList.Row>
 {
     static String comment = null;
 
@@ -103,7 +101,7 @@ public class GuiConfigButtonRowList extends GuiListExtended<GuiConfigButtonRowLi
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Row extends GuiListExtended.IGuiListEntry<Row>
+    public static class Row extends ElementListWidget.Entry<Row>
     {
         private final GuiButton buttonA;
         private final GuiButton buttonB;

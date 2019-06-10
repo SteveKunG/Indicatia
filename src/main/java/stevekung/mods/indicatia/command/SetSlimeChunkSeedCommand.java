@@ -26,15 +26,15 @@ public class SetSlimeChunkSeedCommand
         try
         {
             long longSeed = Long.parseLong(seed);
-            ExtendedConfig.slimeChunkSeed = longSeed;
+            ExtendedConfig.instance.slimeChunkSeed = longSeed;
             source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", longSeed), false);
         }
         catch (NumberFormatException e)
         {
-            ExtendedConfig.slimeChunkSeed = seed.hashCode();
+            ExtendedConfig.instance.slimeChunkSeed = seed.hashCode();
             source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", seed.hashCode()), false);
         }
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return 1;
     }
 }

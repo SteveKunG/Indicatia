@@ -171,7 +171,7 @@ public class IndicatiaMod
         {
             IndicatiaMod.LOGGER.info("Initializing created default Indicatia profile...");
             ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
 
         CompoundNBT nbt = new CompoundNBT();
@@ -196,7 +196,7 @@ public class IndicatiaMod
             {
                 IndicatiaMod.LOGGER.info("Loaded current profile by name '{}'", key);
                 ExtendedConfig.setCurrentProfile(key);
-                ExtendedConfig.load();
+                ExtendedConfig.instance.load();
             }
         });
     }

@@ -2,10 +2,11 @@ package stevekung.mods.indicatia.gui;
 
 import java.util.List;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,7 +14,7 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiDropdownMinigames extends GuiButton
+public class GuiDropdownMinigames extends Button
 {
     private static final ResourceLocation texture = new ResourceLocation("indicatia:textures/gui/dropdown.png");
     public boolean dropdownClicked;
@@ -24,7 +25,7 @@ public class GuiDropdownMinigames extends GuiButton
 
     public GuiDropdownMinigames(IDropboxCallback parentClass, int x, int y, List<String> minigameLists)
     {
-        super(0, x, y, 15, 15, "");
+        super(x, y, 15, 15, "", null);
         this.parentClass = parentClass;
         this.minigameLists = minigameLists;
 
@@ -44,7 +45,7 @@ public class GuiDropdownMinigames extends GuiButton
         Minecraft mc = Minecraft.getInstance();
         int hoverColor = 150;
 
-        if (!this.dropdownClicked && this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)
+        if (!this.dropdownClicked && this.active && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)
         {
             hoverColor = 180;
         }
@@ -62,20 +63,20 @@ public class GuiDropdownMinigames extends GuiButton
             GlStateManager.pushMatrix();
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-            Gui.drawRect(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height), ColorUtils.to32BitColor(255, 0, 0, 0));
-            Gui.drawRect(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height) - 1, ColorUtils.to32BitColor(255, hoverColor, hoverColor, hoverColor));
-            Gui.drawRect(this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtils.to32BitColor(255, 0, 0, 0));
-            Gui.drawRect(this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtils.to32BitColor(255, 150, 150, 150));
+            AbstractGui.fill(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height), ColorUtils.to32BitColor(255, 0, 0, 0));
+            AbstractGui.fill(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height) - 1, ColorUtils.to32BitColor(255, hoverColor, hoverColor, hoverColor));
+            AbstractGui.fill(this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtils.to32BitColor(255, 0, 0, 0));
+            AbstractGui.fill(this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtils.to32BitColor(255, 150, 150, 150));
 
             if (this.displayLength > 1 && this.dropdownClicked && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
             {
                 int hoverPos = (mouseY - this.y) / this.height;
-                Gui.drawRect(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32BitColor(255, 180, 180, 180));
+                AbstractGui.fill(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32BitColor(255, 180, 180, 180));
             }
 
-            for (int i = 0; i + ExtendedConfig.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
+            for (int i = 0; i + ExtendedConfig.instance.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
             {
-                String minigames = this.minigameLists.get(i + ExtendedConfig.hypixelMinigameScrollPos);
+                String minigames = this.minigameLists.get(i + ExtendedConfig.instance.hypixelMinigameScrollPos);
 
                 if (minigames != null)
                 {
@@ -90,7 +91,7 @@ public class GuiDropdownMinigames extends GuiButton
                 }
             }
             mc.getTextureManager().bindTexture(GuiDropdownMinigames.texture);
-            Gui.drawModalRectWithCustomSizedTexture(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
+            AbstractGui.blit(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
             GlStateManager.popMatrix();
         }
     }
@@ -104,7 +105,7 @@ public class GuiDropdownMinigames extends GuiButton
         }
         if (!this.dropdownClicked)
         {
-            if (this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)
+            if (this.active && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)
             {
                 this.dropdownClicked = true;
                 return true;
@@ -112,9 +113,9 @@ public class GuiDropdownMinigames extends GuiButton
         }
         else
         {
-            if (this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
+            if (this.active && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
             {
-                double optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.hypixelMinigameScrollPos;
+                double optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.instance.hypixelMinigameScrollPos;
                 this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
@@ -131,22 +132,22 @@ public class GuiDropdownMinigames extends GuiButton
 
     public void scroll(double amount)
     {
-        ExtendedConfig.hypixelMinigameScrollPos += amount;
+        ExtendedConfig.instance.hypixelMinigameScrollPos += amount;
         int i = this.minigameLists.size();
 
-        if (ExtendedConfig.hypixelMinigameScrollPos > i - this.displayLength)
+        if (ExtendedConfig.instance.hypixelMinigameScrollPos > i - this.displayLength)
         {
-            ExtendedConfig.hypixelMinigameScrollPos = i - this.displayLength;
+            ExtendedConfig.instance.hypixelMinigameScrollPos = i - this.displayLength;
         }
-        if (ExtendedConfig.hypixelMinigameScrollPos <= 0)
+        if (ExtendedConfig.instance.hypixelMinigameScrollPos <= 0)
         {
-            ExtendedConfig.hypixelMinigameScrollPos = 0;
+            ExtendedConfig.instance.hypixelMinigameScrollPos = 0;
         }
     }
 
     public boolean isHoverDropdown(double mouseX, double mouseY)
     {
-        return this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength;
+        return this.active && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength;
     }
 
     public interface IDropboxCallback

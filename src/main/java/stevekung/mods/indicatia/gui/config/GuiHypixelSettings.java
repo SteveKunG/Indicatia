@@ -3,45 +3,40 @@ package stevekung.mods.indicatia.gui.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiHypixelSettings extends GuiScreen
+public class GuiHypixelSettings extends Screen
 {
-    private final GuiScreen parent;
+    private final Screen parent;
     private GuiConfigButtonRowList optionsRowList;
-    private static final List<ExtendedConfig.Options> OPTIONS = new ArrayList<>();
+    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
 
     static
     {
-        OPTIONS.add(ExtendedConfig.Options.RIGHT_CLICK_ADD_PARTY);
+        OPTIONS.add(ExtendedConfig.RIGHT_CLICK_ADD_PARTY);
     }
 
-    GuiHypixelSettings(GuiScreen parent)
+    GuiHypixelSettings(Screen parent)
     {
+        super(JsonUtils.create("Hypixel Settings"));
         this.parent = parent;
     }
 
     @Override
-    public void initGui()
+    public void init()
     {
-        this.addButton(new GuiButton(200, this.width / 2 - 100, this.height - 27, LangUtils.translate("gui.done"))
+        this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
         {
-            @Override
-            public void onClick(double mouseX, double mouseZ)
-            {
-                ExtendedConfig.save();
-                GuiHypixelSettings.this.mc.displayGuiScreen(GuiHypixelSettings.this.parent);
-            }
-        });
+            ExtendedConfig.instance.save();
+            GuiHypixelSettings.this.minecraft.displayGuiScreen(GuiHypixelSettings.this.parent);
+        }));
 
         ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
         options = OPTIONS.toArray(options);
@@ -49,24 +44,17 @@ public class GuiHypixelSettings extends GuiScreen
         this.children.add(this.optionsRowList);
     }
 
-    @Nullable
-    @Override
-    public IGuiEventListener getFocused()
-    {
-        return this.optionsRowList;
-    }
-
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int mouseEvent)
     {
-        int i = this.mc.gameSettings.guiScale;
+        int i = this.minecraft.gameSettings.guiScale;
 
         if (super.mouseReleased(mouseX, mouseY, mouseEvent))
         {
@@ -74,9 +62,9 @@ public class GuiHypixelSettings extends GuiScreen
         }
         else if (this.optionsRowList.mouseReleased(mouseX, mouseY, mouseEvent))
         {
-            if (this.mc.gameSettings.guiScale != i)
+            if (this.minecraft.gameSettings.guiScale != i)
             {
-                this.mc.mainWindow.updateSize();
+                this.minecraft.mainWindow.updateSize();
             }
             return true;
         }
@@ -89,9 +77,9 @@ public class GuiHypixelSettings extends GuiScreen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.optionsRowList.drawScreen(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRenderer, LangUtils.translate("extended_config.hypixel.title"), this.width / 2, 5, 16777215);
+        this.renderBackground();
+        this.optionsRowList.render(mouseX, mouseY, partialTicks);
+        this.drawCenteredString(this.font, LangUtils.translate("extended_config.hypixel.title"), this.width / 2, 5, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 }
