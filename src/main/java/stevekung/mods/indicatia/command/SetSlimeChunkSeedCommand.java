@@ -22,7 +22,7 @@ public class SetSlimeChunkSeedCommand implements ClientCommandPlugin
         if (seed.equals("0"))
         {
             source.sendError(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero"));
-            return 0;
+            return 1;
         }
 
         try

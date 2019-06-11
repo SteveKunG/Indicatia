@@ -51,7 +51,7 @@ dependencies {
 
     modCompile "cloth-config:ClothConfig2:0.2.0"
     modCompile "io.github.prospector.modmenu:ModMenu:1.6.2-92"
-    modCompile "io.github.cottonmc:cotton-client-commands:0.4.0+1.14.2-SNAPSHOT"
+    modCompile "io.github.cottonmc:cotton-client-commands:0.4.1+1.14.2-SNAPSHOT"
 }
 
 curseforge {

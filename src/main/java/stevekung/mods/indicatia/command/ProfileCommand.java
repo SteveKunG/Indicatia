@@ -37,7 +37,7 @@ public class ProfileCommand implements ClientCommandPlugin
         if (name.equalsIgnoreCase("default"))
         {
             source.sendError(LangUtils.translateComponent("commands.inprofile.cannot_create_default"));
-            return 0;
+            return 1;
         }
 
         for (File file : ExtendedConfig.userDir.listFiles())
@@ -51,7 +51,7 @@ public class ProfileCommand implements ClientCommandPlugin
         if (exist)
         {
             source.sendError(LangUtils.translateComponent("commands.inprofile.profile_already_created", name));
-            return 0;
+            return 1;
         }
         else
         {
@@ -68,7 +68,7 @@ public class ProfileCommand implements ClientCommandPlugin
             if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
             {
                 source.sendError(LangUtils.translateComponent("commands.inprofile.cannot_load"));
-                return 0;
+                return 1;
             }
         }
         ExtendedConfig.setCurrentProfile(name);
@@ -100,7 +100,7 @@ public class ProfileCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.inprofile.cannot_save", name));
-            return 0;
+            return 1;
         }
     }
 
@@ -109,7 +109,7 @@ public class ProfileCommand implements ClientCommandPlugin
         if (name.equals("default"))
         {
             source.sendError(LangUtils.translateComponent("commands.inprofile.cannot_remove_default", name));
-            return 0;
+            return 1;
         }
 
         boolean exist = false;
@@ -134,7 +134,7 @@ public class ProfileCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.inprofile.cannot_remove", name));
-            return 0;
+            return 1;
         }
     }
 
@@ -145,7 +145,7 @@ public class ProfileCommand implements ClientCommandPlugin
         if (collection.isEmpty())
         {
             source.sendError(LangUtils.translateComponent("commands.inprofile.list.empty"));
-            return 0;
+            return 1;
         }
         else
         {

@@ -41,7 +41,7 @@ public class AutoFishCommand implements ClientCommandPlugin
             else
             {
                 source.sendError(LangUtils.translateComponent("commands.auto_fish.not_equipped_fishing_rod"));
-                return 0;
+                return 1;
             }
         }
         else

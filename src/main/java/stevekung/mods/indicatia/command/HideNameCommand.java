@@ -31,7 +31,7 @@ public class HideNameCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.hide_name.already_added"));
-            return 0;
+            return 1;
         }
     }
 
@@ -46,7 +46,7 @@ public class HideNameCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.hide_name.already_removed"));
-            return 0;
+            return 1;
         }
     }
 }

@@ -42,12 +42,12 @@ public class AutoLoginCommand implements ClientCommandPlugin
         if (mc.isInSingleplayer())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer"));
-            return 0;
+            return 1;
         }
         else if (mc.isConnectedToRealms())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
-            return 0;
+            return 1;
         }
 
         if (data != null)
@@ -55,14 +55,14 @@ public class AutoLoginCommand implements ClientCommandPlugin
             if (ExtendedConfig.loginData.getAutoLogin(uuid.toString() + data.getServerIp()) != null)
             {
                 source.sendError(LangUtils.translateComponent("commands.auto_login.already_added"));
-                return 0;
+                return 1;
             }
             ExtendedConfig.loginData.addAutoLogin(data.getServerIp(), "/" + command + " ", Base64Utils.encode(value), uuid, "");
             source.sendFeedback(LangUtils.translateComponent("commands.auto_login.set"));
             ExtendedConfig.instance.save();
             return 1;
         }
-        return 1;
+        return 0;
     }
 
     private static int removeLoginData(CottonClientCommandSource source)
@@ -74,12 +74,12 @@ public class AutoLoginCommand implements ClientCommandPlugin
         if (mc.isInSingleplayer())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer"));
-            return 0;
+            return 1;
         }
         else if (mc.isConnectedToRealms())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
-            return 0;
+            return 1;
         }
 
         if (data != null)
@@ -93,10 +93,10 @@ public class AutoLoginCommand implements ClientCommandPlugin
             else
             {
                 source.sendError(LangUtils.translateComponent("commands.auto_login.not_set"));
-                return 0;
+                return 1;
             }
         }
-        return 1;
+        return 0;
     }
 
     private static int getLoginDataList(CottonClientCommandSource source)
@@ -106,7 +106,7 @@ public class AutoLoginCommand implements ClientCommandPlugin
         if (collection.isEmpty())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.list.empty"));
-            return 0;
+            return 1;
         }
         else
         {
@@ -125,14 +125,14 @@ public class AutoLoginCommand implements ClientCommandPlugin
         if (mc.isInSingleplayer())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.used_in_singleplayer"));
-            return 0;
+            return 1;
         }
         else if (mc.isConnectedToRealms())
         {
             source.sendError(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
-            return 0;
+            return 1;
         }
         mc.execute(() -> mc.openScreen(new GuiAutoLoginFunction()));
-        return 1;
+        return 0;
     }
 }

@@ -55,7 +55,7 @@ public class AFKCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.afk.afk_started"));
-            return 0;
+            return 1;
         }
     }
 
@@ -82,7 +82,7 @@ public class AFKCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.afk.afk_not_started"));
-            return 0;
+            return 1;
         }
     }
 
@@ -98,7 +98,7 @@ public class AFKCommand implements ClientCommandPlugin
         else
         {
             source.sendError(LangUtils.translateComponent("commands.afk.afk_not_started"));
-            return 0;
+            return 1;
         }
     }
 
