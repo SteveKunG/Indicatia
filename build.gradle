@@ -49,9 +49,9 @@ dependencies {
     modCompile "net.fabricmc:fabric-loader:0.4.8+build.+"
     modCompile "net.fabricmc.fabric-api:fabric-api:0.3.0+build.+"
 
-    modCompile "cloth-config:ClothConfig:0.2.4.17"
-    modCompile "io.github.prospector.modmenu:ModMenu:1.5.4-85"
-    modCompile "io.github.cottonmc:client-commands:0.2.1+1.14-pre5-SNAPSHOT"
+    modCompile "cloth-config:ClothConfig2:0.2.0"
+    modCompile "io.github.prospector.modmenu:ModMenu:1.6.2-92"
+    modCompile "io.github.cottonmc:cotton-client-commands:0.4.0+1.14.2-SNAPSHOT"
 }
 
 curseforge {

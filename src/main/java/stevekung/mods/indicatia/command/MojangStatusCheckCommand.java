@@ -3,12 +3,14 @@ package stevekung.mods.indicatia.command;
 import com.mojang.brigadier.CommandDispatcher;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
-import net.minecraft.server.command.CommandSource;
+import io.github.cottonmc.clientcommands.ClientCommandPlugin;
+import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import stevekung.mods.indicatia.utils.ThreadCheckMojangStatus;
 
-public class MojangStatusCheckCommand
+public class MojangStatusCheckCommand implements ClientCommandPlugin
 {
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
         dispatcher.register(ArgumentBuilders.literal("mojangstatus").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> MojangStatusCheckCommand.runThread()));
     }

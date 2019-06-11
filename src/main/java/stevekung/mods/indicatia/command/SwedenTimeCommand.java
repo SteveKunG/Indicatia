@@ -8,12 +8,14 @@ import java.util.TimeZone;
 import com.mojang.brigadier.CommandDispatcher;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
-import net.minecraft.server.command.CommandSource;
+import io.github.cottonmc.clientcommands.ClientCommandPlugin;
+import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
-public class SwedenTimeCommand
+public class SwedenTimeCommand implements ClientCommandPlugin
 {
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
         dispatcher.register(ArgumentBuilders.literal("swedentime").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> SwedenTimeCommand.checkTime()));
     }

@@ -4,23 +4,24 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
-import io.github.cottonmc.clientcommands.Feedback;
-import net.minecraft.server.command.CommandSource;
+import io.github.cottonmc.clientcommands.ClientCommandPlugin;
+import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
-public class SetSlimeChunkSeedCommand
+public class SetSlimeChunkSeedCommand implements ClientCommandPlugin
 {
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("slimeseed").requires(requirement -> requirement.hasPermissionLevel(0)).then(ArgumentBuilders.argument("seed", StringArgumentType.string()).executes(requirement -> SetSlimeChunkSeedCommand.setSlimeSeed(StringArgumentType.getString(requirement, "seed")))));
+        dispatcher.register(ArgumentBuilders.literal("slimeseed").requires(requirement -> requirement.hasPermissionLevel(0)).then(ArgumentBuilders.argument("seed", StringArgumentType.string()).executes(requirement -> SetSlimeChunkSeedCommand.setSlimeSeed(StringArgumentType.getString(requirement, "seed"), requirement.getSource()))));
     }
 
-    private static int setSlimeSeed(String seed)
+    private static int setSlimeSeed(String seed, CottonClientCommandSource source)
     {
         if (seed.equals("0"))
         {
-            Feedback.sendError(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero"));
+            source.sendError(LangUtils.translateComponent("commands.set_slime_seed.not_allow_zero"));
             return 0;
         }
 
@@ -28,12 +29,12 @@ public class SetSlimeChunkSeedCommand
         {
             long longSeed = Long.parseLong(seed);
             ExtendedConfig.instance.slimeChunkSeed = longSeed;
-            Feedback.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", longSeed));
+            source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", longSeed));
         }
         catch (NumberFormatException e)
         {
             ExtendedConfig.instance.slimeChunkSeed = seed.hashCode();
-            Feedback.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", seed.hashCode()));
+            source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", seed.hashCode()));
         }
         ExtendedConfig.instance.save();
         return 1;

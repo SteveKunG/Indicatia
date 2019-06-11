@@ -16,8 +16,8 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
+import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.command.CommandSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -40,7 +40,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         return new ProfileNameArgumentType(mode);
     }
 
-    public static String getProfile(CommandContext<CommandSource> context, String name)
+    public static String getProfile(CommandContext<CottonClientCommandSource> context, String name)
     {
         return context.getArgument(name, String.class);
     }

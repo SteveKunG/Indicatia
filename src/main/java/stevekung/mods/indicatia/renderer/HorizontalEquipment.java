@@ -50,11 +50,11 @@ public class HorizontalEquipment
 
         if (this.isArmor)
         {
-            this.itemDamage = this.itemStack.hasDurability() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
+            this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
         else
         {
-            this.itemDamage = this.itemStack.hasDurability() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : ExtendedConfig.instance.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
+            this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : ExtendedConfig.instance.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
         this.itemDamageWidth = MinecraftClient.getInstance().textRenderer.getStringWidth(this.itemDamage);
         this.width = 20 + this.itemDamageWidth;

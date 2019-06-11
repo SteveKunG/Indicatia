@@ -11,12 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 
-import io.github.cottonmc.clientcommands.ClientCommands;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.nbt.CompoundTag;
-import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.extra.ThreadDownloadWeatherData;
@@ -66,16 +64,6 @@ public class IndicatiaMod implements ClientModInitializer
 
         IndicatiaMod.loadProfileOption();
         KeyBindingHandler.init();
-        ClientCommands.registerCommand(dispatcher -> AFKCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> AutoFishCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> AutoLoginCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> HideNameCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> IndicatiaCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> MojangStatusCheckCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> PingAllCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> ProfileCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> SetSlimeChunkSeedCommand.register(dispatcher));
-        ClientCommands.registerCommand(dispatcher -> SwedenTimeCommand.register(dispatcher));
 
         ClientRegistryUtils.registerClientTick(mc -> new IndicatiaEventHandler().onClientTick());
 

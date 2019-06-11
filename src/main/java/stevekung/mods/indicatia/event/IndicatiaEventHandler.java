@@ -700,14 +700,14 @@ public class IndicatiaEventHandler
                             if (mc.hitResult.getType() == HitResult.Type.BLOCK)
                             {
                                 BlockHitResult hitResult = (BlockHitResult)mc.hitResult;
-                                int amount = itemStack.getAmount();
+                                int amount = itemStack.getCount();
                                 ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, mc.world, hand, hitResult);
 
                                 if (actionResult == ActionResult.SUCCESS)
                                 {
                                     mc.player.swingHand(hand);
 
-                                    if (!itemStack.isEmpty() && (itemStack.getAmount() != amount || mc.interactionManager.hasCreativeInventory()))
+                                    if (!itemStack.isEmpty() && (itemStack.getCount() != amount || mc.interactionManager.hasCreativeInventory()))
                                     {
                                         mc.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
                                     }

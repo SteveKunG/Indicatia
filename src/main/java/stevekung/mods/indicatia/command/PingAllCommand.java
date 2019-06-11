@@ -6,14 +6,16 @@ import java.util.List;
 import com.mojang.brigadier.CommandDispatcher;
 
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
+import io.github.cottonmc.clientcommands.ClientCommandPlugin;
+import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.server.command.CommandSource;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
-public class PingAllCommand
+public class PingAllCommand implements ClientCommandPlugin
 {
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
         dispatcher.register(ArgumentBuilders.literal("pingall").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> PingAllCommand.getAllLatency()));
     }

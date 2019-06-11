@@ -24,8 +24,8 @@
     "requires": {
         "fabricloader": ">=0.4.8",
         "fabric": "*",
-        "cloth-config": ">=0.2.4",
-        "clientcommands": ">=0.2.1",
+        "cloth-config2": ">=0.2.0",
+        "cotton-client-commands": ">=0.4.0",
         "stevekungs_lib": ">=1.0.0"
     },
     "mixins": [
@@ -34,5 +34,19 @@
     "custom": {
         "modmenu:api": true,
         "modmenu:clientsideOnly": true
+    },
+    "entrypoints": {
+        "cotton-client-commands": [
+            "stevekung.mods.indicatia.command.AFKCommand",
+            "stevekung.mods.indicatia.command.AutoFishCommand",
+            "stevekung.mods.indicatia.command.AutoLoginCommand",
+            "stevekung.mods.indicatia.command.HideNameCommand",
+            "stevekung.mods.indicatia.command.IndicatiaCommand",
+            "stevekung.mods.indicatia.command.MojangStatusCheckCommand",
+            "stevekung.mods.indicatia.command.PingAllCommand",
+            "stevekung.mods.indicatia.command.ProfileCommand",
+            "stevekung.mods.indicatia.command.SetSlimeChunkSeedCommand",
+            "stevekung.mods.indicatia.command.SwedenTimeCommand"
+        ]
     }
 }
