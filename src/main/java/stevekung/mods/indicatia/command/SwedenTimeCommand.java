@@ -17,7 +17,7 @@ public class SwedenTimeCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("swedentime").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> SwedenTimeCommand.checkTime()));
+        dispatcher.register(ArgumentBuilders.literal("swedentime").executes(command -> SwedenTimeCommand.checkTime()));
     }
 
     private static int checkTime()

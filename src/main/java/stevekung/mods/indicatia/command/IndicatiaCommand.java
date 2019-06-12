@@ -16,7 +16,7 @@ public class IndicatiaCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("indicatia").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> IndicatiaCommand.openGui())
+        dispatcher.register(ArgumentBuilders.literal("indicatia").executes(command -> IndicatiaCommand.openGui())
                 .then(ArgumentBuilders.literal("toggle_sprint").then(ArgumentBuilders.literal("enable").executes(requirement -> IndicatiaCommand.startToggleSprint(requirement.getSource())))
                         .then(ArgumentBuilders.literal("disable").executes(requirement -> IndicatiaCommand.stopToggleSprint(requirement.getSource())))
                         .then(ArgumentBuilders.literal("mode").then(ArgumentBuilders.literal("key_binding").executes(requirement -> IndicatiaCommand.setToggleSprintMode(requirement.getSource(), "key_binding")))
@@ -26,7 +26,7 @@ public class IndicatiaCommand implements ClientCommandPlugin
                         .then(ArgumentBuilders.literal("mode").then(ArgumentBuilders.literal("key_binding").executes(requirement -> IndicatiaCommand.setToggleSneakMode(requirement.getSource(), "key_binding")))
                                 .then(ArgumentBuilders.literal("command").executes(requirement -> IndicatiaCommand.setToggleSneakMode(requirement.getSource(), "command"))))));
 
-        dispatcher.register(ArgumentBuilders.literal("in").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> IndicatiaCommand.openGui())
+        dispatcher.register(ArgumentBuilders.literal("in").executes(command -> IndicatiaCommand.openGui())
                 .then(ArgumentBuilders.literal("toggle_sprint").then(ArgumentBuilders.literal("enable").executes(requirement -> IndicatiaCommand.startToggleSprint(requirement.getSource())))
                         .then(ArgumentBuilders.literal("disable").executes(requirement -> IndicatiaCommand.stopToggleSprint(requirement.getSource())))
                         .then(ArgumentBuilders.literal("mode").then(ArgumentBuilders.literal("key_binding").executes(requirement -> IndicatiaCommand.setToggleSprintMode(requirement.getSource(), "key_binding")))

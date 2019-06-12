@@ -17,7 +17,7 @@ public class PingAllCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("pingall").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> PingAllCommand.getAllLatency()));
+        dispatcher.register(ArgumentBuilders.literal("pingall").executes(command -> PingAllCommand.getAllLatency()));
     }
 
     private static int getAllLatency()

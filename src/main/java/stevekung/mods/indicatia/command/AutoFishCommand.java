@@ -16,7 +16,7 @@ public class AutoFishCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("autofish").requires(requirement -> requirement.hasPermissionLevel(0)).executes(requirement -> AutoFishCommand.doAutofish(requirement.getSource())));
+        dispatcher.register(ArgumentBuilders.literal("autofish").executes(requirement -> AutoFishCommand.doAutofish(requirement.getSource())));
     }
 
     private static int doAutofish(CottonClientCommandSource source)

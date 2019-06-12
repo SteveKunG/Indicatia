@@ -14,7 +14,7 @@ public class SetSlimeChunkSeedCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("slimeseed").requires(requirement -> requirement.hasPermissionLevel(0)).then(ArgumentBuilders.argument("seed", StringArgumentType.string()).executes(requirement -> SetSlimeChunkSeedCommand.setSlimeSeed(StringArgumentType.getString(requirement, "seed"), requirement.getSource()))));
+        dispatcher.register(ArgumentBuilders.literal("slimeseed").then(ArgumentBuilders.argument("seed", StringArgumentType.string()).executes(requirement -> SetSlimeChunkSeedCommand.setSlimeSeed(StringArgumentType.getString(requirement, "seed"), requirement.getSource()))));
     }
 
     private static int setSlimeSeed(String seed, CottonClientCommandSource source)

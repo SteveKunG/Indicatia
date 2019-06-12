@@ -26,7 +26,7 @@ public class AutoLoginCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("autologin").requires(requirement -> requirement.hasPermissionLevel(0))
+        dispatcher.register(ArgumentBuilders.literal("autologin")
                 .then(ArgumentBuilders.literal("add").then(ArgumentBuilders.argument("command", StringArgumentType.word()).then(ArgumentBuilders.argument("object", StringArgumentType.greedyString()).executes(requirement -> AutoLoginCommand.addLoginData(StringArgumentType.getString(requirement, "command"), StringArgumentType.getString(requirement, "object"), requirement.getSource())))))
                 .then(ArgumentBuilders.literal("remove").executes(requirement -> AutoLoginCommand.removeLoginData(requirement.getSource())))
                 .then(ArgumentBuilders.literal("list").executes(requirement -> AutoLoginCommand.getLoginDataList(requirement.getSource())))

@@ -12,7 +12,7 @@ public class MojangStatusCheckCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("mojangstatus").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> MojangStatusCheckCommand.runThread()));
+        dispatcher.register(ArgumentBuilders.literal("mojangstatus").executes(command -> MojangStatusCheckCommand.runThread()));
     }
 
     private static int runThread()

@@ -16,7 +16,7 @@ public class AFKCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
+        dispatcher.register(ArgumentBuilders.literal("afk")
                 .then(ArgumentBuilders.literal("start").executes(requirement -> AFKCommand.startAFK(null, requirement.getSource()))
                         .then(ArgumentBuilders.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.startAFK(StringArgumentType.getString(requirement, "reason"), requirement.getSource()))))
                 .then(ArgumentBuilders.literal("stop").executes(requirement -> AFKCommand.stopAFK(requirement.getSource())))

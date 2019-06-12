@@ -15,7 +15,7 @@ public class HideNameCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("inhidename").requires(requirement -> requirement.hasPermissionLevel(0))
+        dispatcher.register(ArgumentBuilders.literal("inhidename")
                 .then(ArgumentBuilders.literal("add").then(ArgumentBuilders.argument("name", StringArgumentType.greedyString()).executes(requirement -> HideNameCommand.addHideName(StringArgumentType.getString(requirement, "name"), requirement.getSource()))))
                 .then(ArgumentBuilders.literal("remove").then(ArgumentBuilders.argument("name", StringArgumentType.greedyString()).executes(requirement -> HideNameCommand.removeHideName(StringArgumentType.getString(requirement, "name"), requirement.getSource())))));
     }

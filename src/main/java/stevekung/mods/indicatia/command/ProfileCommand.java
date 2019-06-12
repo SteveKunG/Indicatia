@@ -22,7 +22,7 @@ public class ProfileCommand implements ClientCommandPlugin
     @Override
     public void registerCommands(CommandDispatcher<CottonClientCommandSource> dispatcher)
     {
-        dispatcher.register(ArgumentBuilders.literal("inprofile").requires(requirement -> requirement.hasPermissionLevel(0))
+        dispatcher.register(ArgumentBuilders.literal("inprofile")
                 .then(ArgumentBuilders.literal("add").then(ArgumentBuilders.argument("profile_name", StringArgumentType.word()).executes(requirement -> ProfileCommand.addProfile(StringArgumentType.getString(requirement, "profile_name"), requirement.getSource()))))
                 .then(ArgumentBuilders.literal("load").then(ArgumentBuilders.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.NONE)).executes(requirement -> ProfileCommand.loadProfile(ProfileNameArgumentType.getProfile(requirement, "profile_name"), requirement.getSource()))))
                 .then(ArgumentBuilders.literal("save").then(ArgumentBuilders.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.NONE)).executes(requirement -> ProfileCommand.saveProfile(ProfileNameArgumentType.getProfile(requirement, "profile_name"), requirement.getSource()))))
