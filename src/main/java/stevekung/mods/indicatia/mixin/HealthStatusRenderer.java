@@ -25,8 +25,8 @@ public class HealthStatusRenderer<T extends LivingEntity>
     {
         MinecraftClient mc = MinecraftClient.getInstance();
         float health = entity.getHealth();
-        boolean halfHealth = health <= entity.getHealth() / 2F;
-        boolean halfHealth1 = health <= entity.getHealth() / 4F;
+        boolean halfHealth = health <= entity.getHealthMaximum() / 2F;
+        boolean halfHealth1 = health <= entity.getHealthMaximum() / 4F;
         double range = 32.0D;
         double distance = entity.squaredDistanceTo(mc.getCameraEntity());
 
