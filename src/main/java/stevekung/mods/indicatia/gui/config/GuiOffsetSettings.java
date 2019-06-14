@@ -15,7 +15,7 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 public class GuiOffsetSettings extends Screen
 {
     private final Screen parent;
-    private GuiConfigButtonRowList optionsRowList;
+    private ConfigButtonListWidget optionsRowList;
     private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
 
     static
@@ -48,9 +48,8 @@ public class GuiOffsetSettings extends Screen
             GuiOffsetSettings.this.minecraft.displayGuiScreen(new GuiRenderPreview(GuiOffsetSettings.this, "offset"));
         }));
 
-        ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
-        options = OPTIONS.toArray(options);
-        this.optionsRowList = new GuiConfigButtonRowList(this.width, this.height, 32, this.height - 32, 25, options);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
+        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
         this.children.add(this.optionsRowList);
     }
 

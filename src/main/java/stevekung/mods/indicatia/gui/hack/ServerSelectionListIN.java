@@ -17,7 +17,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.ClientHooks;
-import stevekung.mods.indicatia.gui.hack.ServerSelectionListIN.ServerListEntryNormalIN;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 @OnlyIn(Dist.CLIENT)
@@ -42,14 +41,14 @@ public class ServerSelectionListIN extends ServerSelectionList
         }
         this.func_195094_h();
     }
-    
+
     class ServerListEntryNormalIN extends ServerSelectionList.NormalEntry
     {
         public ServerListEntryNormalIN(MultiplayerScreen gui, ServerData data)
         {
             super(gui, data);
         }
-        
+
         @Override
         public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {

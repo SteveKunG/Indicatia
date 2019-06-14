@@ -201,7 +201,6 @@
     "_comment": "EXTENDED CONFIG INFO",
     "extended_config.render_info.tps.info": "This will show overall Server TPS to testing performance. (Only works with client)",
     "extended_config.render_info.tps_all_dims.info": "This will show TPS each dimension if available.",
-    "extended_config.render_info.rclick.info": "Right click on the button to see more info.",
     "extended_config.current_profile.info": "Current Profile is '%s'",
 
     "_comment": "EXTENDED CONFIG VALUE",

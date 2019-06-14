@@ -1,5 +1,6 @@
 package stevekung.mods.indicatia.gui;
 
+import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
@@ -196,8 +197,8 @@ public class GuiCustomCape extends Screen
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
-        GlStateManager.activeTexture(OpenGlHelper.GL_TEXTURE1);
+        GlStateManager.activeTexture(GLX.GL_TEXTURE1);
         GlStateManager.disableTexture();
-        GlStateManager.activeTexture(OpenGlHelper.GL_TEXTURE0);
+        GlStateManager.activeTexture(GLX.GL_TEXTURE0);
     }
 }

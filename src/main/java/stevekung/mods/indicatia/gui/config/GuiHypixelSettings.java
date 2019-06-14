@@ -15,7 +15,7 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 public class GuiHypixelSettings extends Screen
 {
     private final Screen parent;
-    private GuiConfigButtonRowList optionsRowList;
+    private ConfigButtonListWidget optionsRowList;
     private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
 
     static
@@ -38,9 +38,8 @@ public class GuiHypixelSettings extends Screen
             GuiHypixelSettings.this.minecraft.displayGuiScreen(GuiHypixelSettings.this.parent);
         }));
 
-        ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
-        options = OPTIONS.toArray(options);
-        this.optionsRowList = new GuiConfigButtonRowList(this.width, this.height, 32, this.height - 32, 25, options);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
+        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
         this.children.add(this.optionsRowList);
     }
 
@@ -49,29 +48,6 @@ public class GuiHypixelSettings extends Screen
     {
         ExtendedConfig.instance.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int mouseEvent)
-    {
-        int i = this.minecraft.gameSettings.guiScale;
-
-        if (super.mouseReleased(mouseX, mouseY, mouseEvent))
-        {
-            return true;
-        }
-        else if (this.optionsRowList.mouseReleased(mouseX, mouseY, mouseEvent))
-        {
-            if (this.minecraft.gameSettings.guiScale != i)
-            {
-                this.minecraft.mainWindow.updateSize();
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     @Override

@@ -3,12 +3,8 @@ package stevekung.mods.indicatia.gui.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -19,7 +15,7 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 public class GuiRenderInfoSettings extends Screen
 {
     private final Screen parent;
-    private GuiConfigButtonRowList optionsRowList;
+    private ConfigButtonListWidget optionsRowList;
     private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
 
     static
@@ -66,9 +62,8 @@ public class GuiRenderInfoSettings extends Screen
             GuiRenderInfoSettings.this.minecraft.displayGuiScreen(GuiRenderInfoSettings.this.parent);
         }));
 
-        ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
-        options = OPTIONS.toArray(options);
-        this.optionsRowList = new GuiConfigButtonRowList(this.width, this.height, 32, this.height - 32, 25, options);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
+        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
         this.children.add(this.optionsRowList);
     }
 
@@ -85,22 +80,6 @@ public class GuiRenderInfoSettings extends Screen
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.font, LangUtils.translate("extended_config.render_info.title"), this.width / 2, 5, 16777215);
-
-        if (GuiConfigButtonRowList.comment != null)
-        {
-            List<String> wrappedLine = this.font.listFormattedStringToWidth(GuiConfigButtonRowList.comment, 250);
-            int y = 15;
-
-            for (String text : wrappedLine)
-            {
-                this.drawCenteredString(this.font, TextFormatting.GREEN + text, this.width / 2, y, 16777215);
-                y += this.font.FONT_HEIGHT;
-            }
-        }
-        else
-        {
-            this.drawCenteredString(this.font, TextFormatting.YELLOW + LangUtils.translate("extended_config.render_info.rclick.info"), this.width / 2, 15, 16777215);
-        }
         super.render(mouseX, mouseY, partialTicks);
     }
 }

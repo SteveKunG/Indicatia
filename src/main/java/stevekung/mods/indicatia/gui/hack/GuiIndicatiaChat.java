@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.gui.ButtonCustomize;
+import stevekung.mods.indicatia.gui.GuiButtonCustomize;
 import stevekung.mods.indicatia.gui.GuiDropdownMinigames;
 import stevekung.mods.indicatia.gui.GuiDropdownMinigames.IDropboxCallback;
 import stevekung.mods.indicatia.minigames.MinigameCommand;
@@ -48,9 +48,9 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     {
         buttonList.forEach(button ->
         {
-            if (button instanceof ButtonCustomize)
+            if (button instanceof GuiButtonCustomize)
             {
-                ButtonCustomize customButton = (ButtonCustomize) button;
+                GuiButtonCustomize customButton = (GuiButtonCustomize) button;
                 customButton.drawRegion(mouseX, mouseY);
             }
         });
@@ -71,9 +71,9 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
             buttonList.forEach(button ->
             {
-                if (button instanceof ButtonCustomize)
+                if (button instanceof GuiButtonCustomize)
                 {
-                    ButtonCustomize buttonCustom = (ButtonCustomize) button;
+                    GuiButtonCustomize buttonCustom = (GuiButtonCustomize) button;
                     buttonCustom.visible = clicked;
                 }
             });
@@ -239,7 +239,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
             this.dropdown.setWidth(length);
             this.prevSelect = ExtendedConfig.instance.selectedHypixelMinigame;
 
-            List<ButtonCustomize> gameBtn = new LinkedList<>();
+            List<GuiButtonCustomize> gameBtn = new LinkedList<>();
             int xPos2 = width - 99;
 
             for (MinigameData data : MinigameData.getMinigameData())
@@ -248,14 +248,14 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
                 {
                     if (data.getName().equals(list.get(this.prevSelect)))
                     {
-                        gameBtn.add(new ButtonCustomize(width, command.getName(), command.getCommand(), command.isMinigame()));
+                        gameBtn.add(new GuiButtonCustomize(width, command.getName(), command.getCommand(), command.isMinigame()));
                     }
                 }
             }
 
             for (int i = 0; i < gameBtn.size(); i++)
             {
-                ButtonCustomize button = gameBtn.get(i);
+                GuiButtonCustomize button = gameBtn.get(i);
 
                 if (i >= 6 && i <= 10)
                 {
@@ -284,7 +284,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
         buttonList.forEach(button ->
         {
-            if (!button.getClass().equals(GuiDropdownMinigames.class) && !(button.id >= 0 && button.id <= 102))
+            if (button instanceof GuiButtonCustomize)
             {
                 button.visible = false;
             }
