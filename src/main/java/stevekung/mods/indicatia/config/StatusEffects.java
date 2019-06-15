@@ -42,8 +42,8 @@ public class StatusEffects
     {
         LEFT(0, "indicatia.left"),
         RIGHT(1, "indicatia.right"),
-        HOTBAR_LEFT(1, "indicatia.hotbar_left"),
-        HOTBAR_RIGHT(1, "indicatia.hotbar_right");
+        HOTBAR_LEFT(2, "indicatia.hotbar_left"),
+        HOTBAR_RIGHT(3, "indicatia.hotbar_right");
 
         private static final Position[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Position::getId)).toArray(id -> new Position[id]);
         private final int id;
