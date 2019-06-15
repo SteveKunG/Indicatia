@@ -34,7 +34,7 @@ public class Equipments
 
         public static Ordering byId(int id)
         {
-            return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
+            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
         }
     }
 
@@ -65,7 +65,7 @@ public class Equipments
 
         public static Direction byId(int id)
         {
-            return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
+            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
         }
     }
 
@@ -98,7 +98,7 @@ public class Equipments
 
         public static Status byId(int id)
         {
-            return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
+            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
         }
     }
 
@@ -130,7 +130,7 @@ public class Equipments
 
         public static Position byId(int id)
         {
-            return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
+            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
         }
     }
 }

@@ -1,6 +1,6 @@
 package stevekung.mods.indicatia.gui.config;
 
-import net.minecraft.client.gui.widget.button.AbstractButton;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -16,10 +16,10 @@ public abstract class ExtendedConfigOption
         this.key = "extended_config." + key;
     }
 
-    public abstract AbstractButton createOptionButton(ExtendedConfig options, int x, int y, int width);
-
     public String getDisplayPrefix()
     {
         return LangUtils.translate(this.key) + ": ";
     }
+
+    public abstract Widget createOptionButton(ExtendedConfig options, int x, int y, int width);
 }

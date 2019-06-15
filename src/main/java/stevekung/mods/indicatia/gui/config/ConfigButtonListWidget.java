@@ -5,14 +5,15 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.AbstractButton;
-import net.minecraft.client.gui.widget.list.ExtendedList;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.list.AbstractOptionList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 
 @OnlyIn(Dist.CLIENT)
-public class ConfigButtonListWidget extends ExtendedList<ConfigButtonListWidget.ButtonItem>
+public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListWidget.ButtonItem>
 {
     public ConfigButtonListWidget(int x, int y, int top, int bottom, int itemHeight)
     {
@@ -46,11 +47,11 @@ public class ConfigButtonListWidget extends ExtendedList<ConfigButtonListWidget.
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ButtonItem extends ExtendedList.AbstractListEntry<ButtonItem>
+    public static class ButtonItem extends AbstractOptionList.Entry<ButtonItem>
     {
-        private final List<AbstractButton> buttons;
+        private final List<Widget> buttons;
 
-        private ButtonItem(List<AbstractButton> list)
+        private ButtonItem(List<Widget> list)
         {
             this.buttons = list;
         }
@@ -65,6 +66,12 @@ public class ConfigButtonListWidget extends ExtendedList<ConfigButtonListWidget.
             });
         }
 
+        @Override
+        public List<? extends IGuiEventListener> children()
+        {
+            return this.buttons;
+        }
+
         public static ConfigButtonListWidget.ButtonItem createItem(ExtendedConfig config, int int_1, ExtendedConfigOption configOpt)
         {
             return new ConfigButtonListWidget.ButtonItem(ImmutableList.of(configOpt.createOptionButton(config, int_1 / 2 - 155, 0, 310)));
@@ -72,7 +79,7 @@ public class ConfigButtonListWidget extends ExtendedList<ConfigButtonListWidget.
 
         public static ConfigButtonListWidget.ButtonItem createItems(ExtendedConfig config, int x, ExtendedConfigOption configOpt1, ExtendedConfigOption configOpt2)
         {
-            AbstractButton button = configOpt1.createOptionButton(config, x / 2 - 155, 0, 150);
+            Widget button = configOpt1.createOptionButton(config, x / 2 - 155, 0, 150);
             return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createOptionButton(config, x / 2 - 155 + 160, 0, 150)));
         }
     }

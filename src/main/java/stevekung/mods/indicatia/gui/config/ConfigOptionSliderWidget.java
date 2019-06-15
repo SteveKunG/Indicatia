@@ -28,10 +28,4 @@ public class ConfigOptionSliderWidget extends ConfigSliderWidget
     {
         this.setMessage(this.option.getDisplayString(this.options));
     }
-
-    @Override
-    public void onPress()
-    {
-        // TODO Auto-generated method stub
-    }
 }

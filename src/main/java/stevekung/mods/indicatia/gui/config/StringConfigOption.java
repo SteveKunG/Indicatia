@@ -3,7 +3,8 @@ package stevekung.mods.indicatia.gui.config;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
-import net.minecraft.client.gui.widget.button.AbstractButton;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -22,9 +23,9 @@ public class StringConfigOption extends ExtendedConfigOption
     }
 
     @Override
-    public AbstractButton createOptionButton(ExtendedConfig config, int x, int y, int width)
+    public Widget createOptionButton(ExtendedConfig config, int x, int y, int width)
     {
-        return new ConfigOptionButtonWidget(x, y, width, 20, this.get(config), button ->
+        return new Button(x, y, width, 20, this.get(config), button ->
         {
             this.set(config, 1);
             button.setMessage(this.get(config));

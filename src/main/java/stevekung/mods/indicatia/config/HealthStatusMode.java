@@ -33,6 +33,6 @@ public enum HealthStatusMode
 
     public static HealthStatusMode byId(int id)
     {
-        return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
+        return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
     }
 }

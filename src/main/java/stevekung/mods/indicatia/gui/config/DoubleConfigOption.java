@@ -4,7 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import net.minecraft.client.gui.widget.button.AbstractButton;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,7 +32,7 @@ public class DoubleConfigOption extends ExtendedConfigOption
     }
 
     @Override
-    public AbstractButton createOptionButton(ExtendedConfig config, int x, int y, int width)
+    public Widget createOptionButton(ExtendedConfig config, int x, int y, int width)
     {
         return new ConfigOptionSliderWidget(config, x, y, width, 20, this);
     }
@@ -44,7 +44,7 @@ public class DoubleConfigOption extends ExtendedConfigOption
 
     public double denormalizeValue(double value)
     {
-        return this.snapToStep(MathHelper.clampedLerp(MathHelper.clamp(value, 0.0D, 1.0D), this.min, this.max));//TODO Test
+        return this.snapToStep(MathHelper.func_219803_d(MathHelper.clamp(value, 0.0D, 1.0D), this.min, this.max));
     }
 
     private double snapToStep(double value)

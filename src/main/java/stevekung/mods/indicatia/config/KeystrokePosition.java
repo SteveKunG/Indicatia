@@ -32,6 +32,6 @@ public enum KeystrokePosition
 
     public static KeystrokePosition byId(int id)
     {
-        return VALUES[MathHelper.intFloorDiv(id, VALUES.length)];
+        return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
     }
 }
