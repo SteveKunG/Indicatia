@@ -20,10 +20,11 @@ import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
+import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 public class ExtendedConfig
 {
-    public static final ExtendedConfig instance = new ExtendedConfig();
+    public static ExtendedConfig instance = new ExtendedConfig();
     public static final AutoLogin loginData = new AutoLogin();
     private static final String defaultWhite = "255,255,255";
     public static final File indicatiaDir = new File(Minecraft.getInstance().gameDir, "indicatia");
@@ -549,6 +550,13 @@ public class ExtendedConfig
         {
             IndicatiaMod.LOGGER.error("Failed to save profiles", (Throwable)e);
         }
+    }
+
+    public static void resetConfig()
+    {
+        ExtendedConfig.instance = new ExtendedConfig();
+        ExtendedConfig.instance.save(ExtendedConfig.currentProfile);
+        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", ExtendedConfig.currentProfile));
     }
 
     private static ListNBT writeAutoLoginData()

@@ -248,5 +248,5 @@
     "menu.reset_cps": "Reset CPS",
 
     "_comment": "MISC",
-    "misc.extended_config.set_reset_flag": "Set Reset Default Config flag! You should restart the game."
+    "misc.extended_config.reset_config": "Config '%s' has been reset to default setting!"
 }

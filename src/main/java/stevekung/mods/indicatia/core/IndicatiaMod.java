@@ -34,9 +34,7 @@ import stevekung.mods.indicatia.utils.ThreadMinigameData;
 import stevekung.mods.stevekungslib.client.gui.GuiChatRegistry;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.VersionChecker;
-import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 @Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod
@@ -45,7 +43,6 @@ public class IndicatiaMod
     static final String MOD_ID = "indicatia";
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
-    private static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static VersionChecker CHECKER;
     public static boolean isGalacticraftLoaded;
     public static boolean isYoutubeChatLoaded;
@@ -55,12 +52,6 @@ public class IndicatiaMod
 
     static
     {
-        if (IndicatiaMod.resetFlag.exists())
-        {
-            ExtendedConfig.defaultConfig.delete();
-            IndicatiaMod.resetFlag.delete();
-            IndicatiaMod.LOGGER.info("Reset default config");
-        }
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
@@ -226,21 +217,6 @@ public class IndicatiaMod
                 IndicatiaMod.LOGGER.error("Failed to save profile");
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static void saveResetFlag()
-    {
-        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.set_reset_flag"));
-
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(resetFlag), StandardCharsets.UTF_8)))
-        {
-            writer.println("reset");
-        }
-        catch (IOException e)
-        {
-            IndicatiaMod.LOGGER.error("Failed to save reset flag");
-            e.printStackTrace();
         }
     }
 }

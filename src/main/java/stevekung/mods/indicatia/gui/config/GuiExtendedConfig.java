@@ -10,7 +10,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.client.ClientUtils;
@@ -137,7 +136,7 @@ public class GuiExtendedConfig extends Screen
     {
         if (condition)
         {
-            IndicatiaMod.saveResetFlag();
+            ExtendedConfig.resetConfig();
             this.minecraft.displayGuiScreen(null);
         }
         else
