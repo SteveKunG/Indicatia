@@ -57,11 +57,11 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         }
 
         @Override
-        public void render(int x, int y, int int_3, int int_4, int int_5, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
             this.buttons.forEach(button ->
             {
-                button.y = y;
+                button.y = rowTop;
                 button.render(mouseX, mouseY, partialTicks);
             });
         }
@@ -70,11 +70,6 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         public List<? extends IGuiEventListener> children()
         {
             return this.buttons;
-        }
-
-        public static ConfigButtonListWidget.ButtonItem createItem(ExtendedConfig config, int int_1, ExtendedConfigOption configOpt)
-        {
-            return new ConfigButtonListWidget.ButtonItem(ImmutableList.of(configOpt.createOptionButton(config, int_1 / 2 - 155, 0, 310)));
         }
 
         public static ConfigButtonListWidget.ButtonItem createItems(ExtendedConfig config, int x, ExtendedConfigOption configOpt1, ExtendedConfigOption configOpt2)

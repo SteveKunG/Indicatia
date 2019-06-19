@@ -21,5 +21,10 @@ public abstract class ExtendedConfigOption
         return LangUtils.translate(this.key) + ": ";
     }
 
+    public String getDisplayName()
+    {
+        return LangUtils.translate(this.key);
+    }
+
     public abstract Widget createOptionButton(ExtendedConfig options, int x, int y, int width);
 }

@@ -137,7 +137,7 @@ public class GuiExtendedConfig extends Screen
         if (condition)
         {
             ExtendedConfig.resetConfig();
-            this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(this);
         }
         else
         {

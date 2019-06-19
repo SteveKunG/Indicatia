@@ -21,9 +21,9 @@ public class GuiCustomColorSettings extends Screen
     @Override
     public void init()
     {
-        //TODO this.addButton(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.render_info_custom_color.title"), button -> GuiCustomColorSettings.this.minecraft.displayGuiScreen(new GuiRenderInfoCustomColorSettings(GuiCustomColorSettings.this))));
-        //TODO this.addButton(new Button(this.width / 2 + 10, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.keystroke_custom_color.title"), button -> GuiCustomColorSettings.this.minecraft.displayGuiScreen(new GuiKeystrokeCustomColorSettings(GuiCustomColorSettings.this))));
-        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button -> GuiCustomColorSettings.this.minecraft.displayGuiScreen(GuiCustomColorSettings.this.parent)));
+        this.addButton(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.render_info_custom_color.title"), button -> this.minecraft.displayGuiScreen(new GuiRenderInfoCustomColorSettings(this))));
+        this.addButton(new Button(this.width / 2 + 10, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.keystroke_custom_color.title"), button -> this.minecraft.displayGuiScreen(new GuiKeystrokeCustomColorSettings(this))));
+        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button -> this.minecraft.displayGuiScreen(this.parent)));
     }
 
     @Override

@@ -4,18 +4,12 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-import com.google.common.base.Strings;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.math.MathHelper;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.gui.config.BooleanConfigOption;
-import stevekung.mods.indicatia.gui.config.DoubleConfigOption;
-import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
-import stevekung.mods.indicatia.gui.config.StringConfigOption;
+import stevekung.mods.indicatia.gui.config.*;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
@@ -224,6 +218,62 @@ public class ExtendedConfig
     public static final StringConfigOption POTION_HUD_STYLE = new StringConfigOption("potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDStyle.getTranslationKey()));
     public static final StringConfigOption POTION_HUD_POSITION = new StringConfigOption("potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDPosition.getTranslationKey()));
     public static final StringConfigOption CPS_POSITION = new StringConfigOption("cps_position", (config, value) -> config.cpsPosition = CPSPosition.byId(config.cpsPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.cpsPosition.getTranslationKey()));
+
+
+    public static final TextFieldConfigOption FPS_COLOR = new TextFieldConfigOption("fps_color", config -> config.fpsColor, (config, value) -> config.fpsColor = value);
+    public static final TextFieldConfigOption XYZ_COLOR = new TextFieldConfigOption("xyz_color", config -> config.xyzColor, (config, value) -> config.xyzColor = value);
+    public static final TextFieldConfigOption BIOME_COLOR = new TextFieldConfigOption("biome_color", config -> config.biomeColor, (config, value) -> config.biomeColor = value);
+    public static final TextFieldConfigOption DIRECTION_COLOR = new TextFieldConfigOption("direction_color", config -> config.directionColor, (config, value) -> config.directionColor = value);
+    public static final TextFieldConfigOption PING_COLOR = new TextFieldConfigOption("ping_color", config -> config.pingColor, (config, value) -> config.pingColor = value);
+    public static final TextFieldConfigOption PING_TO_SECOND_COLOR = new TextFieldConfigOption("ping_to_second_color", config -> config.pingToSecondColor, (config, value) -> config.pingToSecondColor = value);
+    public static final TextFieldConfigOption SERVER_IP_COLOR = new TextFieldConfigOption("server_ip_color", config -> config.serverIPColor, (config, value) -> config.serverIPColor = value);
+    public static final TextFieldConfigOption EQUIPMENT_STATUS_COLOR = new TextFieldConfigOption("equipment_status_color", config -> config.equipmentStatusColor, (config, value) -> config.equipmentStatusColor = value);
+    public static final TextFieldConfigOption ARROW_COUNT_COLOR = new TextFieldConfigOption("arrow_count_color", config -> config.arrowCountColor, (config, value) -> config.arrowCountColor = value);
+    public static final TextFieldConfigOption CPS_COLOR = new TextFieldConfigOption("cps_color", config -> config.cpsColor, (config, value) -> config.cpsColor = value);
+    public static final TextFieldConfigOption RCPS_COLOR = new TextFieldConfigOption("rcps_color", config -> config.rcpsColor, (config, value) -> config.rcpsColor = value);
+    public static final TextFieldConfigOption SLIME_CHUNK_COLOR = new TextFieldConfigOption("slime_chunk_color", config -> config.slimeChunkColor, (config, value) -> config.slimeChunkColor = value);
+    public static final TextFieldConfigOption TOP_DONATOR_NAME_COLOR = new TextFieldConfigOption("top_donator_name_color", config -> config.topDonatorNameColor, (config, value) -> config.topDonatorNameColor = value);
+    public static final TextFieldConfigOption RECENT_DONATOR_NAME_COLOR = new TextFieldConfigOption("recent_donator_name_color", config -> config.recentDonatorNameColor, (config, value) -> config.recentDonatorNameColor = value);
+    public static final TextFieldConfigOption TPS_COLOR = new TextFieldConfigOption("tps_color", config -> config.tpsColor, (config, value) -> config.tpsColor = value);
+    public static final TextFieldConfigOption REAL_TIME_COLOR = new TextFieldConfigOption("real_time_color", config -> config.realTimeColor, (config, value) -> config.realTimeColor = value);
+    public static final TextFieldConfigOption GAME_TIME_COLOR = new TextFieldConfigOption("game_time_color", config -> config.gameTimeColor, (config, value) -> config.gameTimeColor = value);
+    public static final TextFieldConfigOption GAME_WEATHER_COLOR = new TextFieldConfigOption("game_weather_color", config -> config.gameWeatherColor, (config, value) -> config.gameWeatherColor = value);
+    public static final TextFieldConfigOption MOON_PHASE_COLOR = new TextFieldConfigOption("moon_phase_color", config -> config.moonPhaseColor, (config, value) -> config.moonPhaseColor = value);
+    public static final TextFieldConfigOption YTCHAT_VIEW_COUNT_COLOR = new TextFieldConfigOption("ytchat_view_count_color", config -> config.ytChatViewCountColor, (config, value) -> config.ytChatViewCountColor = value);
+
+
+    public static final TextFieldConfigOption FPS_VALUE_COLOR = new TextFieldConfigOption("fps_value_color", config -> config.fpsValueColor, (config, value) -> config.fpsValueColor = value);
+    public static final TextFieldConfigOption FPS_26_AND_40_COLOR = new TextFieldConfigOption("fps_26_and_40_color", config -> config.fps26And49Color, (config, value) -> config.fps26And49Color = value);
+    public static final TextFieldConfigOption FPS_LOW_25_COLOR = new TextFieldConfigOption("fps_low_25_color", config -> config.fpsLow25Color, (config, value) -> config.fpsLow25Color = value);
+    public static final TextFieldConfigOption XYZ_VALUE_COLOR = new TextFieldConfigOption("xyz_value_color", config -> config.xyzValueColor, (config, value) -> config.xyzValueColor = value);
+    public static final TextFieldConfigOption DIRECTION_VALUE_COLOR = new TextFieldConfigOption("direction_value_color", config -> config.directionValueColor, (config, value) -> config.directionValueColor = value);
+    public static final TextFieldConfigOption BIOME_VALUE_COLOR = new TextFieldConfigOption("biome_value_color", config -> config.biomeValueColor, (config, value) -> config.biomeValueColor = value);
+    public static final TextFieldConfigOption PING_VALUE_COLOR = new TextFieldConfigOption("ping_value_color", config -> config.pingValueColor, (config, value) -> config.pingValueColor = value);
+    public static final TextFieldConfigOption PING_200_AND_300_COLOR = new TextFieldConfigOption("ping_200_and_300_color", config -> config.ping200And300Color, (config, value) -> config.ping200And300Color = value);
+    public static final TextFieldConfigOption PING_300_AND_500_COLOR = new TextFieldConfigOption("ping_300_and_500_color", config -> config.ping300And500Color, (config, value) -> config.ping300And500Color = value);
+    public static final TextFieldConfigOption PING_MAX_500_COLOR = new TextFieldConfigOption("ping_max_500_color", config -> config.pingMax500Color, (config, value) -> config.pingMax500Color = value);
+    public static final TextFieldConfigOption SERVER_IP_VALUE_COLOR = new TextFieldConfigOption("server_ip_value_color", config -> config.serverIPValueColor, (config, value) -> config.serverIPValueColor = value);
+    public static final TextFieldConfigOption CPS_VALUE_COLOR = new TextFieldConfigOption("cps_value_color", config -> config.cpsValueColor, (config, value) -> config.cpsValueColor = value);
+    public static final TextFieldConfigOption RCPS_VALUE_COLOR = new TextFieldConfigOption("rcps_value_color", config -> config.rcpsValueColor, (config, value) -> config.rcpsValueColor = value);
+    public static final TextFieldConfigOption SLIME_CHUNK_VALUE_COLOR = new TextFieldConfigOption("slime_chunk_value_color", config -> config.slimeChunkValueColor, (config, value) -> config.slimeChunkValueColor = value);
+    public static final TextFieldConfigOption TOP_DONATOR_VALUE_COLOR = new TextFieldConfigOption("top_donator_value_color", config -> config.topDonatorValueColor, (config, value) -> config.topDonatorValueColor = value);
+    public static final TextFieldConfigOption RECENT_DONATOR_VALUE_COLOR = new TextFieldConfigOption("recent_donator_value_color", config -> config.recentDonatorValueColor, (config, value) -> config.recentDonatorValueColor = value);
+    public static final TextFieldConfigOption TPS_VALUE_COLOR = new TextFieldConfigOption("tps_value_color", config -> config.tpsValueColor, (config, value) -> config.tpsValueColor = value);
+    public static final TextFieldConfigOption REAL_TIME_HHMMSS_VALUE_COLOR = new TextFieldConfigOption("real_time_hhmmss_value_color", config -> config.realTimeHHMMSSValueColor, (config, value) -> config.realTimeHHMMSSValueColor = value);
+    public static final TextFieldConfigOption REAL_TIME_DDMMYY_VALUE_COLOR = new TextFieldConfigOption("real_time_ddmmyy_value_color", config -> config.realTimeDDMMYYValueColor, (config, value) -> config.realTimeDDMMYYValueColor = value);
+    public static final TextFieldConfigOption GAME_TIME_VALUE_COLOR = new TextFieldConfigOption("game_time_value_color", config -> config.gameTimeValueColor, (config, value) -> config.gameTimeValueColor = value);
+    public static final TextFieldConfigOption GAME_WEATHER_VALUE_COLOR = new TextFieldConfigOption("game_weather_value_color", config -> config.gameWeatherValueColor, (config, value) -> config.gameWeatherValueColor = value);
+    public static final TextFieldConfigOption MOON_PHASE_VALUE_COLOR = new TextFieldConfigOption("moon_phase_value_color", config -> config.moonPhaseValueColor, (config, value) -> config.moonPhaseValueColor = value);
+    public static final TextFieldConfigOption YTCHAT_VIEW_COUNT_VALUE_COLOR = new TextFieldConfigOption("ytchat_view_count_value_color", config -> config.ytChatViewCountValueColor, (config, value) -> config.ytChatViewCountValueColor = value);
+
+
+    public static final TextFieldConfigOption KEYSTROKE_WASD_COLOR = new TextFieldConfigOption("keystroke_wasd_color", config -> config.keystrokeWASDColor, (config, value) -> config.keystrokeWASDColor = value);
+    public static final TextFieldConfigOption KEYSTROKE_MOUSE_BUTTON_COLOR = new TextFieldConfigOption("keystroke_mouse_button_color", config -> config.keystrokeMouseButtonColor, (config, value) -> config.keystrokeMouseButtonColor = value);
+    public static final TextFieldConfigOption KEYSTROKE_SPRINT_COLOR = new TextFieldConfigOption("keystroke_sprint_color", config -> config.keystrokeSprintColor, (config, value) -> config.keystrokeSprintColor = value);
+    public static final TextFieldConfigOption KEYSTROKE_SNEAK_COLOR = new TextFieldConfigOption("keystroke_sneak_color", config -> config.keystrokeSneakColor, (config, value) -> config.keystrokeSneakColor = value);
+    public static final TextFieldConfigOption KEYSTROKE_BLOCKING_COLOR = new TextFieldConfigOption("keystroke_blocking_color", config -> config.keystrokeBlockingColor, (config, value) -> config.keystrokeBlockingColor = value);
+    public static final TextFieldConfigOption KEYSTROKE_CPS_COLOR = new TextFieldConfigOption("keystroke_cps_color", config -> config.keystrokeCPSColor, (config, value) -> config.keystrokeCPSColor = value);
+    public static final TextFieldConfigOption KEYSTROKE_RCPS_COLOR = new TextFieldConfigOption("keystroke_rcps_color", config -> config.keystrokeRCPSColor, (config, value) -> config.keystrokeRCPSColor = value);
 
     private ExtendedConfig() {}
 
@@ -642,435 +692,6 @@ public class ExtendedConfig
         else
         {
             return defaultValue;
-        }
-    }
-
-    /*public void setOptionStringValue(this.Options options, String value)
-    {
-        if (options == this.Options.FPS_COLOR)
-        {
-            this.fpsColor = value;
-        }
-        else if (options == this.Options.XYZ_COLOR)
-        {
-            this.xyzColor = value;
-        }
-        else if (options == this.Options.BIOME_COLOR)
-        {
-            this.biomeColor = value;
-        }
-        else if (options == this.Options.DIRECTION_COLOR)
-        {
-            this.directionColor = value;
-        }
-        else if (options == this.Options.PING_COLOR)
-        {
-            this.pingColor = value;
-        }
-        else if (options == this.Options.PING_TO_SECOND_COLOR)
-        {
-            this.pingToSecondColor = value;
-        }
-        else if (options == this.Options.SERVER_IP_COLOR)
-        {
-            this.serverIPColor = value;
-        }
-        else if (options == this.Options.EQUIPMENT_STATUS_COLOR)
-        {
-            this.equipmentStatusColor = value;
-        }
-        else if (options == this.Options.ARROW_COUNT_COLOR)
-        {
-            this.arrowCountColor = value;
-        }
-        else if (options == this.Options.CPS_COLOR)
-        {
-            this.cpsColor = value;
-        }
-        else if (options == this.Options.RCPS_COLOR)
-        {
-            this.rcpsColor = value;
-        }
-        else if (options == this.Options.SLIME_CHUNK_COLOR)
-        {
-            this.slimeChunkColor = value;
-        }
-        else if (options == this.Options.TOP_DONATOR_NAME_COLOR)
-        {
-            this.topDonatorNameColor = value;
-        }
-        else if (options == this.Options.RECENT_DONATOR_NAME_COLOR)
-        {
-            this.recentDonatorNameColor = value;
-        }
-        else if (options == this.Options.TPS_COLOR)
-        {
-            this.tpsColor = value;
-        }
-        else if (options == this.Options.REAL_TIME_COLOR)
-        {
-            this.realTimeColor = value;
-        }
-        else if (options == this.Options.GAME_TIME_COLOR)
-        {
-            this.gameTimeColor = value;
-        }
-        else if (options == this.Options.GAME_WEATHER_COLOR)
-        {
-            this.gameWeatherColor = value;
-        }
-        else if (options == this.Options.MOON_PHASE_COLOR)
-        {
-            this.moonPhaseColor = value;
-        }
-        else if (options == this.Options.YTCHAT_VIEW_COUNT_COLOR)
-        {
-            this.ytChatViewCountColor = value;
-        }
-
-        else if (options == this.Options.FPS_VALUE_COLOR)
-        {
-            this.fpsValueColor = value;
-        }
-        else if (options == this.Options.FPS_26_AND_40_COLOR)
-        {
-            this.fps26And49Color = value;
-        }
-        else if (options == this.Options.FPS_LOW_25_COLOR)
-        {
-            this.fpsLow25Color = value;
-        }
-        else if (options == this.Options.XYZ_VALUE_COLOR)
-        {
-            this.xyzValueColor = value;
-        }
-        else if (options == this.Options.DIRECTION_VALUE_COLOR)
-        {
-            this.directionValueColor = value;
-        }
-        else if (options == this.Options.BIOME_VALUE_COLOR)
-        {
-            this.biomeValueColor = value;
-        }
-        else if (options == this.Options.PING_VALUE_COLOR)
-        {
-            this.pingValueColor = value;
-        }
-        else if (options == this.Options.PING_200_AND_300_COLOR)
-        {
-            this.ping200And300Color = value;
-        }
-        else if (options == this.Options.PING_300_AND_500_COLOR)
-        {
-            this.ping300And500Color = value;
-        }
-        else if (options == this.Options.PING_MAX_500_COLOR)
-        {
-            this.pingMax500Color = value;
-        }
-        else if (options == this.Options.SERVER_IP_VALUE_COLOR)
-        {
-            this.serverIPValueColor = value;
-        }
-        else if (options == this.Options.CPS_VALUE_COLOR)
-        {
-            this.cpsValueColor = value;
-        }
-        else if (options == this.Options.RCPS_VALUE_COLOR)
-        {
-            this.rcpsValueColor = value;
-        }
-        else if (options == this.Options.SLIME_CHUNK_VALUE_COLOR)
-        {
-            this.slimeChunkValueColor = value;
-        }
-        else if (options == this.Options.TOP_DONATOR_VALUE_COLOR)
-        {
-            this.topDonatorValueColor = value;
-        }
-        else if (options == this.Options.RECENT_DONATOR_VALUE_COLOR)
-        {
-            this.recentDonatorValueColor = value;
-        }
-        else if (options == this.Options.TPS_VALUE_COLOR)
-        {
-            this.tpsValueColor = value;
-        }
-        else if (options == this.Options.REAL_TIME_HHMMSS_VALUE_COLOR)
-        {
-            this.realTimeHHMMSSValueColor = value;
-        }
-        else if (options == this.Options.REAL_TIME_DDMMYY_VALUE_COLOR)
-        {
-            this.realTimeDDMMYYValueColor = value;
-        }
-        else if (options == this.Options.GAME_TIME_VALUE_COLOR)
-        {
-            this.gameTimeValueColor = value;
-        }
-        else if (options == this.Options.GAME_WEATHER_VALUE_COLOR)
-        {
-            this.gameWeatherValueColor = value;
-        }
-        else if (options == this.Options.MOON_PHASE_VALUE_COLOR)
-        {
-            this.moonPhaseValueColor = value;
-        }
-        else if (options == this.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR)
-        {
-            this.ytChatViewCountValueColor = value;
-        }
-
-        else if (options == this.Options.KEYSTROKE_WASD_COLOR)
-        {
-            this.keystrokeWASDColor = value;
-        }
-        else if (options == this.Options.KEYSTROKE_MOUSE_BUTTON_COLOR)
-        {
-            this.keystrokeMouseButtonColor = value;
-        }
-        else if (options == this.Options.KEYSTROKE_SPRINT_COLOR)
-        {
-            this.keystrokeSprintColor = value;
-        }
-        else if (options == this.Options.KEYSTROKE_SNEAK_COLOR)
-        {
-            this.keystrokeSneakColor = value;
-        }
-        else if (options == this.Options.KEYSTROKE_BLOCKING_COLOR)
-        {
-            this.keystrokeBlockingColor = value;
-        }
-        else if (options == this.Options.KEYSTROKE_CPS_COLOR)
-        {
-            this.keystrokeCPSColor = value;
-        }
-        else if (options == this.Options.KEYSTROKE_RCPS_COLOR)
-        {
-            this.keystrokeRCPSColor = value;
-        }
-    }
-
-    /*private String getOptionStringValue(this.Options options)
-    {
-        switch (options)
-        {
-        case FPS_COLOR:
-            return this.fpsColor;
-        case XYZ_COLOR:
-            return this.xyzColor;
-        case BIOME_COLOR:
-            return this.biomeColor;
-        case DIRECTION_COLOR:
-            return this.directionColor;
-        case PING_COLOR:
-            return this.pingColor;
-        case PING_TO_SECOND_COLOR:
-            return this.pingToSecondColor;
-        case SERVER_IP_COLOR:
-            return this.serverIPColor;
-        case EQUIPMENT_STATUS_COLOR:
-            return this.equipmentStatusColor;
-        case ARROW_COUNT_COLOR:
-            return this.arrowCountColor;
-        case CPS_COLOR:
-            return this.cpsColor;
-        case RCPS_COLOR:
-            return this.rcpsColor;
-        case SLIME_CHUNK_COLOR:
-            return this.slimeChunkColor;
-        case TOP_DONATOR_NAME_COLOR:
-            return this.topDonatorNameColor;
-        case RECENT_DONATOR_NAME_COLOR:
-            return this.recentDonatorNameColor;
-        case TPS_COLOR:
-            return this.tpsColor;
-        case REAL_TIME_COLOR:
-            return this.realTimeColor;
-        case GAME_TIME_COLOR:
-            return this.gameTimeColor;
-        case GAME_WEATHER_COLOR:
-            return this.gameWeatherColor;
-        case MOON_PHASE_COLOR:
-            return this.moonPhaseColor;
-        case YTCHAT_VIEW_COUNT_COLOR:
-            return this.ytChatViewCountColor;
-
-        case FPS_VALUE_COLOR:
-            return this.fpsValueColor;
-        case FPS_26_AND_40_COLOR:
-            return this.fps26And49Color;
-        case FPS_LOW_25_COLOR:
-            return this.fpsLow25Color;
-        case XYZ_VALUE_COLOR:
-            return this.xyzValueColor;
-        case DIRECTION_VALUE_COLOR:
-            return this.directionValueColor;
-        case BIOME_VALUE_COLOR:
-            return this.biomeValueColor;
-        case PING_VALUE_COLOR:
-            return this.pingValueColor;
-        case PING_200_AND_300_COLOR:
-            return this.ping200And300Color;
-        case PING_300_AND_500_COLOR:
-            return this.ping300And500Color;
-        case PING_MAX_500_COLOR:
-            return this.pingMax500Color;
-        case SERVER_IP_VALUE_COLOR:
-            return this.serverIPValueColor;
-        case CPS_VALUE_COLOR:
-            return this.cpsValueColor;
-        case RCPS_VALUE_COLOR:
-            return this.rcpsValueColor;
-        case SLIME_CHUNK_VALUE_COLOR:
-            return this.slimeChunkValueColor;
-        case TOP_DONATOR_VALUE_COLOR:
-            return this.topDonatorValueColor;
-        case RECENT_DONATOR_VALUE_COLOR:
-            return this.recentDonatorValueColor;
-        case TPS_VALUE_COLOR:
-            return this.tpsValueColor;
-        case REAL_TIME_HHMMSS_VALUE_COLOR:
-            return this.realTimeHHMMSSValueColor;
-        case REAL_TIME_DDMMYY_VALUE_COLOR:
-            return this.realTimeDDMMYYValueColor;
-        case GAME_TIME_VALUE_COLOR:
-            return this.gameTimeValueColor;
-        case GAME_WEATHER_VALUE_COLOR:
-            return this.gameWeatherValueColor;
-        case MOON_PHASE_VALUE_COLOR:
-            return this.moonPhaseValueColor;
-        case YTCHAT_VIEW_COUNT_VALUE_COLOR:
-            return this.ytChatViewCountValueColor;
-
-        case KEYSTROKE_WASD_COLOR:
-            return this.keystrokeWASDColor;
-        case KEYSTROKE_MOUSE_BUTTON_COLOR:
-            return this.keystrokeMouseButtonColor;
-        case KEYSTROKE_SPRINT_COLOR:
-            return this.keystrokeSprintColor;
-        case KEYSTROKE_SNEAK_COLOR:
-            return this.keystrokeSneakColor;
-        case KEYSTROKE_BLOCKING_COLOR:
-            return this.keystrokeBlockingColor;
-        case KEYSTROKE_CPS_COLOR:
-            return this.keystrokeCPSColor;
-        case KEYSTROKE_RCPS_COLOR:
-            return this.keystrokeRCPSColor;
-        default:
-            return "";
-        }
-    }*/
-
-    public enum Options
-    {
-        ;
-
-        private final boolean isDouble;
-        private final boolean isBoolean;
-        private final double valueStep;
-        private boolean isTextbox;
-        private String comment;
-        private double valueMin;
-        private double valueMax;
-        private static final Options[] values = Options.values();
-
-        public static Options byOrdinal(int ordinal)
-        {
-            for (Options options : values)
-            {
-                if (options.getOrdinal() == ordinal)
-                {
-                    return options;
-                }
-            }
-            return null;
-        }
-
-        Options(boolean isDouble, boolean isBoolean)
-        {
-            this(isDouble, isBoolean, false, null, 0.0F, 1.0F, 0.0F);
-        }
-
-        Options(boolean isDouble, boolean isBoolean, double valMin, double valMax, double valStep)
-        {
-            this(isDouble, isBoolean, false, null, valMin, valMax, valStep);
-        }
-
-        Options(boolean isDouble, boolean isBoolean, boolean isTextbox)
-        {
-            this(isDouble, isBoolean, isTextbox, null, 0.0F, 1.0F, 0.0F);
-        }
-
-        Options(boolean isDouble, boolean isBoolean, boolean isTextbox, String comment)
-        {
-            this(isDouble, isBoolean, isTextbox, comment, 0.0F, 1.0F, 0.0F);
-        }
-
-        Options(boolean isDouble, boolean isBoolean, boolean isTextbox, String comment, double valMin, double valMax, double valStep)
-        {
-            this.isDouble = isDouble;
-            this.isBoolean = isBoolean;
-            this.isTextbox = isTextbox;
-            this.comment = comment;
-            this.valueMin = valMin;
-            this.valueMax = valMax;
-            this.valueStep = valStep;
-        }
-
-        public boolean isDouble()
-        {
-            return this.isDouble;
-        }
-
-        public boolean isBoolean()
-        {
-            return this.isBoolean;
-        }
-
-        public boolean isTextbox()
-        {
-            return this.isTextbox;
-        }
-
-        public int getOrdinal()
-        {
-            return this.ordinal();
-        }
-
-        public String getTranslation()
-        {
-            return LangUtils.translate("extended_config." + this.name().toLowerCase());
-        }
-
-        public String getComment()
-        {
-            return Strings.isNullOrEmpty(this.comment) ? "" : LangUtils.translate(this.comment);
-        }
-
-        public double normalizeValue(double value)
-        {
-            return MathHelper.clamp((this.snapToStepClamp(value) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
-        }
-
-        public double denormalizeValue(double value)
-        {
-            return this.snapToStepClamp(this.valueMin + (this.valueMax - this.valueMin) * MathHelper.clamp(value, 0.0F, 1.0F));
-        }
-
-        public double snapToStepClamp(double value)
-        {
-            value = this.snapToStep(value);
-            return MathHelper.clamp(value, this.valueMin, this.valueMax);
-        }
-
-        private double snapToStep(double value)
-        {
-            if (this.valueStep > 0.0F)
-            {
-                value = this.valueStep * Math.round(value / this.valueStep);
-            }
-            return value;
         }
     }
 }
