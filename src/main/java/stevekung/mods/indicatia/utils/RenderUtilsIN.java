@@ -17,8 +17,8 @@ public class RenderUtilsIN
     {
         Minecraft mc = Minecraft.getInstance();
         boolean hasName = entityLivingBase.hasCustomName();
-        double distance = entityLivingBase.getDistanceSq(mc.getRenderManager().pointedEntity);
-        int maxDistance = 64;
+        double distance = entityLivingBase.getDistanceSq(mc.getRenderManager().field_217783_c.func_216785_c());
+        int maxDistance = 32;
 
         if (distance <= maxDistance * maxDistance)
         {

@@ -60,9 +60,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.gui.*;
-import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
-import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
+import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
+import stevekung.mods.indicatia.gui.hack.MultiplayerScreenIN;
+import stevekung.mods.indicatia.gui.screen.ConfirmDisconnectScreen;
+import stevekung.mods.indicatia.gui.screen.CustomCapeScreen;
+import stevekung.mods.indicatia.gui.screen.DonatorSettingsScreen;
+import stevekung.mods.indicatia.gui.screen.MojangStatusScreen;
+import stevekung.mods.indicatia.gui.widget.MojangStatusButton;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
@@ -292,7 +296,7 @@ public class IndicatiaEventHandler
         LivingEntity entity = event.getEntity();
         IReloadableResourceManager resource = (IReloadableResourceManager)Minecraft.getInstance().getResourceManager();
         EntityRendererManager manager = this.mc.getRenderManager();
-        IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew<>(renderer));
+        IndicatiaEventHandler.replaceArrowLayer(layerLists, new ArrowLayerIN<>(renderer));
 
         if (entity instanceof AbstractClientPlayerEntity)
         {
@@ -301,33 +305,33 @@ public class IndicatiaEventHandler
             if (player.getSkinType().equals("default"))
             {
                 PlayerRenderer renderDefault = manager.getSkinMap().get("default");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault, new BipedModel<>(0.5F), new BipedModel<>(1.0F)), renderDefault, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew<>(renderDefault));
+                IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(renderDefault, new BipedModel<>(0.5F), new BipedModel<>(1.0F)), renderDefault, entity);
+                IndicatiaEventHandler.replaceCapeLayer(layerLists, new CapeLayerIN(renderDefault));
+                IndicatiaEventHandler.replaceElytraLayer(layerLists, new ElytraLayerIN<>(renderDefault));
             }
             else
             {
                 PlayerRenderer renderSlim = manager.getSkinMap().get("slim");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim, new BipedModel<>(0.5F), new BipedModel<>(1.0F)), renderer, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew<>(renderSlim));
+                IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(renderSlim, new BipedModel<>(0.5F), new BipedModel<>(1.0F)), renderer, entity);
+                IndicatiaEventHandler.replaceCapeLayer(layerLists, new CapeLayerIN(renderSlim));
+                IndicatiaEventHandler.replaceElytraLayer(layerLists, new ElytraLayerIN<>(renderSlim));
             }
         }
         else if (entity instanceof ZombieVillagerEntity)
         {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new ZombieVillagerRenderer(manager, resource), new ZombieVillagerModel<>(0.5F, true), new ZombieVillagerModel<>(1.0F, true)), renderer, entity);
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new ZombieVillagerRenderer(manager, resource), new ZombieVillagerModel<>(0.5F, true), new ZombieVillagerModel<>(1.0F, true)), renderer, entity);
         }
         else if (entity instanceof GiantEntity)
         {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new GiantZombieRenderer(manager, 6.0F), new GiantModel(0.5F, true), new GiantModel(1.0F, true)), renderer, entity);
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new GiantZombieRenderer(manager, 6.0F), new GiantModel(0.5F, true), new GiantModel(1.0F, true)), renderer, entity);
         }
         else if (entity instanceof ZombieEntity)
         {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new ZombieRenderer(manager), new ZombieModel<>(0.5F, true), new ZombieModel<>(1.0F, true)), renderer, entity);
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new ZombieRenderer(manager), new ZombieModel<>(0.5F, true), new ZombieModel<>(1.0F, true)), renderer, entity);
         }
         else if (entity instanceof AbstractSkeletonEntity)
         {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new SkeletonRenderer(manager), new SkeletonModel<>(0.5F, true), new SkeletonModel<>(1.0F, true)), renderer, entity);
+            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new SkeletonRenderer(manager), new SkeletonModel<>(0.5F, true), new SkeletonModel<>(1.0F, true)), renderer, entity);
         }
     }
 
@@ -338,13 +342,13 @@ public class IndicatiaEventHandler
         {
             PlayerRenderer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
             PlayerRenderer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-            renderDefault.addLayer(new LayerCustomCape(renderDefault));
-            renderSlim.addLayer(new LayerCustomCape(renderSlim));
+            renderDefault.addLayer(new CustomCapeLayer(renderDefault));
+            renderSlim.addLayer(new CustomCapeLayer(renderSlim));
             IndicatiaEventHandler.initLayer = false;
         }
         if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get() && event.getGui() != null && event.getGui().getClass().equals(MultiplayerScreen.class))
         {
-            event.setGui(new GuiMultiplayerIN(new MainMenuScreen()));
+            event.setGui(new MultiplayerScreenIN(new MainMenuScreen()));
         }
     }
 
@@ -382,7 +386,7 @@ public class IndicatiaEventHandler
 
         if (KeyBindingHandler.KEY_QUICK_CONFIG.isActiveAndMatches(input))
         {
-            GuiExtendedConfig config = new GuiExtendedConfig();
+            ExtendedConfigScreen config = new ExtendedConfigScreen();
             this.mc.displayGuiScreen(config);
         }
         if (KeyBindingHandler.KEY_REC_OVERLAY.isActiveAndMatches(input))
@@ -391,7 +395,7 @@ public class IndicatiaEventHandler
         }
         if (IndicatiaConfig.GENERAL.enableCustomCape.get() && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isActiveAndMatches(input))
         {
-            GuiCustomCape customCapeGui = new GuiCustomCape();
+            CustomCapeScreen customCapeGui = new CustomCapeScreen();
             this.mc.displayGuiScreen(customCapeGui);
         }
         if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isActiveAndMatches(input))
@@ -408,7 +412,7 @@ public class IndicatiaEventHandler
         }
         if (KeyBindingHandler.KEY_DONATOR_GUI.isActiveAndMatches(input))
         {
-            GuiDonator donatorGui = new GuiDonator();
+            DonatorSettingsScreen donatorGui = new DonatorSettingsScreen();
             this.mc.displayGuiScreen(donatorGui);
         }
     }
@@ -419,7 +423,7 @@ public class IndicatiaEventHandler
         if (event.getGui() instanceof MainMenuScreen)
         {
             int height = event.getGui().height / 4 + 48;
-            event.addWidget(new GuiButtonMojangStatus(event.getGui().width / 2 - 124, height + 63, button -> IndicatiaEventHandler.this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.getGui()))));
+            event.addWidget(new MojangStatusButton(event.getGui().width / 2 - 124, height + 63, button -> IndicatiaEventHandler.this.mc.displayGuiScreen(new MojangStatusScreen(event.getGui()))));
         }
     }
 
@@ -432,7 +436,7 @@ public class IndicatiaEventHandler
             {
                 event.setCanceled(true);
                 event.getButton().playDownSound(this.mc.getSoundHandler());
-                this.mc.displayGuiScreen(new GuiMultiplayerIN(new MainMenuScreen()));
+                this.mc.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
             }
         }
         if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && event.getGui() instanceof IngameMenuScreen && !this.mc.isSingleplayer())
@@ -444,7 +448,7 @@ public class IndicatiaEventHandler
 
                 if (IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.GUI)
                 {
-                    this.mc.displayGuiScreen(new GuiConfirmDisconnect());
+                    this.mc.displayGuiScreen(new ConfirmDisconnectScreen());
                 }
                 else
                 {
@@ -471,7 +475,7 @@ public class IndicatiaEventHandler
 
                             if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
                             {
-                                this.mc.displayGuiScreen(new GuiMultiplayerIN(new MainMenuScreen()));
+                                this.mc.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
                             }
                             else
                             {
@@ -619,7 +623,7 @@ public class IndicatiaEventHandler
             {
                 LayerRenderer<LivingEntity, EntityModel<LivingEntity>> layer = layerLists.get(i);
 
-                if (layer.getClass().equals(LayerAllArmor.class))
+                if (layer.getClass().equals(BipedArmorLayerIN.class))
                 {
                     armorLayerIndex = i;
                 }

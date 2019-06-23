@@ -22,9 +22,9 @@ import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 @OnlyIn(Dist.CLIENT)
 public class ServerSelectionListIN extends ServerSelectionList
 {
-    private final GuiMultiplayerIN owner;
+    private final MultiplayerScreenIN owner;
 
-    ServerSelectionListIN(GuiMultiplayerIN gui, int width, int height, int top, int bottom, int slotHeight)
+    ServerSelectionListIN(MultiplayerScreenIN gui, int width, int height, int top, int bottom, int slotHeight)
     {
         super(gui, Minecraft.getInstance(), width, height, top, bottom, slotHeight);
         this.owner = gui;

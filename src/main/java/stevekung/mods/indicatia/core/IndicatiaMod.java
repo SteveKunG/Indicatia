@@ -25,13 +25,13 @@ import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.event.*;
-import stevekung.mods.indicatia.gui.hack.GuiIndicatiaChat;
+import stevekung.mods.indicatia.gui.hack.IndicatiaChatScreen;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.RenderFishNew;
+import stevekung.mods.indicatia.renderer.FishRendererIN;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
-import stevekung.mods.stevekungslib.client.gui.GuiChatRegistry;
+import stevekung.mods.stevekungslib.client.gui.ChatScreenRegistry;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.VersionChecker;
@@ -40,7 +40,7 @@ import stevekung.mods.stevekungslib.utils.VersionChecker;
 public class IndicatiaMod
 {
     private static final String NAME = "Indicatia";
-    static final String MOD_ID = "indicatia";
+    public static final String MOD_ID = "indicatia";
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     public static VersionChecker CHECKER;
@@ -113,7 +113,7 @@ public class IndicatiaMod
         if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
         {
             Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(FishingBobberEntity.class));
-            Minecraft.getInstance().getRenderManager().entityRenderMap.put(FishingBobberEntity.class, new RenderFishNew(Minecraft.getInstance().getRenderManager()));
+            Minecraft.getInstance().getRenderManager().entityRenderMap.put(FishingBobberEntity.class, new FishRendererIN(Minecraft.getInstance().getRenderManager()));
             IndicatiaMod.LOGGER.info("Successfully replacing {}", FishingBobberEntity.class.getName());
         }
     }
@@ -121,7 +121,7 @@ public class IndicatiaMod
     private void loadComplete(FMLLoadCompleteEvent event)
     {
         CapeUtils.loadCapeTextureAtStartup();
-        GuiChatRegistry.register(new GuiIndicatiaChat());
+        ChatScreenRegistry.register(new IndicatiaChatScreen());
         new ThreadMinigameData().run();
     }
 

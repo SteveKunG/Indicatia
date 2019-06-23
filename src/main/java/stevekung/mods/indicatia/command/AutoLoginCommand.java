@@ -14,7 +14,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
+import stevekung.mods.indicatia.gui.screen.AutoLoginFunctionScreen;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.Base64Utils;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
@@ -130,7 +130,7 @@ public class AutoLoginCommand
             source.sendErrorMessage(LangUtils.translateComponent("commands.auto_login.used_in_realms"));
             return 0;
         }
-        mc.execute(() -> mc.displayGuiScreen(new GuiAutoLoginFunction()));
+        mc.execute(() -> mc.displayGuiScreen(new AutoLoginFunctionScreen()));
         return 1;
     }
 }

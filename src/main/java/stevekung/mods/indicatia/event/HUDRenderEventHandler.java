@@ -32,9 +32,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import stevekung.mods.indicatia.config.*;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
-import stevekung.mods.indicatia.gui.overlay.GuiBossOverlayNew;
-import stevekung.mods.indicatia.gui.overlay.GuiPlayerTabOverlayNew;
+import stevekung.mods.indicatia.gui.exconfig.screen.RenderPreviewScreen;
+import stevekung.mods.indicatia.gui.overlay.BossOverlayGuiIN;
+import stevekung.mods.indicatia.gui.overlay.PlayerTabOverlayGuiIN;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -46,8 +46,8 @@ import stevekung.mods.stevekungslib.utils.JsonUtils;
 public class HUDRenderEventHandler
 {
     private Minecraft mc;
-    private final GuiBossOverlayNew overlayBoss;
-    private GuiPlayerTabOverlayNew overlayPlayerList;
+    private final BossOverlayGuiIN overlayBoss;
+    private PlayerTabOverlayGuiIN overlayPlayerList;
     static boolean recordEnable;
     private int recTick;
     private static int readFileTicks;
@@ -68,7 +68,7 @@ public class HUDRenderEventHandler
     public HUDRenderEventHandler()
     {
         this.mc = Minecraft.getInstance();
-        this.overlayBoss = new GuiBossOverlayNew();
+        this.overlayBoss = new BossOverlayGuiIN();
     }
 
     /*@SubscribeEvent TODO
@@ -84,7 +84,7 @@ public class HUDRenderEventHandler
         {
             if (this.overlayPlayerList == null)//TODO Temp fix
             {
-                this.overlayPlayerList = new GuiPlayerTabOverlayNew();
+                this.overlayPlayerList = new PlayerTabOverlayGuiIN();
             }
 
             HUDRenderEventHandler.readFileTicks++;
@@ -136,14 +136,14 @@ public class HUDRenderEventHandler
     {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
         {
-            if (this.mc.field_71462_r instanceof GuiRenderPreview)
+            if (this.mc.field_71462_r instanceof RenderPreviewScreen)
             {
                 event.setCanceled(true);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.field_71462_r instanceof GuiRenderPreview))
+            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.field_71462_r instanceof RenderPreviewScreen))
             {
                 List<String> leftInfo = new LinkedList<>();
                 List<String> rightInfo = new LinkedList<>();
@@ -415,7 +415,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
         {
-            if (this.mc.field_71462_r instanceof GuiRenderPreview)
+            if (this.mc.field_71462_r instanceof RenderPreviewScreen)
             {
                 event.setCanceled(true);
                 return;
@@ -433,7 +433,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.field_71462_r instanceof GuiRenderPreview)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.field_71462_r instanceof RenderPreviewScreen)
             {
                 event.setCanceled(true);
             }
@@ -456,7 +456,7 @@ public class HUDRenderEventHandler
         float health = entity.getHealth();
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
-        double range = entity.getAttribute(LivingEntity.NAMETAG_DISTANCE).getValue();
+        double range = 32.0D;
         double distance = entity.getDistanceSq(this.mc.getRenderViewEntity());
 
         if (entity.isSneaking())

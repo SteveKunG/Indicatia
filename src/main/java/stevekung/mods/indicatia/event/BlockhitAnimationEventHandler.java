@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
+import stevekung.mods.indicatia.gui.exconfig.screen.RenderPreviewScreen;
 
 public class BlockhitAnimationEventHandler
 {
@@ -38,7 +38,7 @@ public class BlockhitAnimationEventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        if (this.mc.field_71462_r instanceof GuiRenderPreview)
+        if (this.mc.field_71462_r instanceof RenderPreviewScreen)
         {
             event.setCanceled(true);
             return;

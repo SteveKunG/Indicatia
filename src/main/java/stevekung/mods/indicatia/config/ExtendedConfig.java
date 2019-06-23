@@ -9,7 +9,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.ListNBT;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.gui.config.*;
+import stevekung.mods.indicatia.gui.exconfig.BooleanConfigOption;
+import stevekung.mods.indicatia.gui.exconfig.DoubleConfigOption;
+import stevekung.mods.indicatia.gui.exconfig.StringConfigOption;
+import stevekung.mods.indicatia.gui.exconfig.TextFieldConfigOption;
+import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
 import stevekung.mods.indicatia.utils.AutoLogin;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
@@ -168,7 +172,7 @@ public class ExtendedConfig
     public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
 
 
-    public static final BooleanConfigOption PREVIEW = new BooleanConfigOption("preview", config -> GuiExtendedConfig.preview, (config, value) -> GuiExtendedConfig.preview = value);
+    public static final BooleanConfigOption PREVIEW = new BooleanConfigOption("preview", config -> ExtendedConfigScreen.preview, (config, value) -> ExtendedConfigScreen.preview = value);
     public static final BooleanConfigOption SWAP_INFO_POS = new BooleanConfigOption("swap_info_pos", config -> config.swapRenderInfo, (config, value) -> config.swapRenderInfo = value);
     public static final BooleanConfigOption FPS = new BooleanConfigOption("fps", config -> config.fps, (config, value) -> config.fps = value);
     public static final BooleanConfigOption XYZ = new BooleanConfigOption("xyz", config -> config.xyz, (config, value) -> config.xyz = value);
