@@ -66,33 +66,33 @@ public class ExtendedConfigScreen extends Screen
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title"), button ->
         {
             ExtendedConfig.instance.save();
-            ExtendedConfigScreen.this.minecraft.displayGuiScreen(new RenderInfoSettingsScreen(ExtendedConfigScreen.this));
+            this.minecraft.displayGuiScreen(new RenderInfoSettingsScreen(this));
         }));
         this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title"), button ->
         {
             ExtendedConfig.instance.save();
-            ExtendedConfigScreen.this.minecraft.displayGuiScreen(new CustomColorSettingsScreen(ExtendedConfigScreen.this));
+            this.minecraft.displayGuiScreen(new CustomColorSettingsScreen(this));
         }));
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title"), button ->
         {
             ExtendedConfig.instance.save();
-            ExtendedConfigScreen.this.minecraft.displayGuiScreen(new OffsetSettingsScreen(ExtendedConfigScreen.this));
+            this.minecraft.displayGuiScreen(new OffsetSettingsScreen(this));
         }));
         this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title"), button ->
         {
             ExtendedConfig.instance.save();
-            ExtendedConfigScreen.this.minecraft.displayGuiScreen(new HypixelSettingsScreen(ExtendedConfigScreen.this));
+            this.minecraft.displayGuiScreen(new HypixelSettingsScreen(this));
         }));
         this.addButton(ExtendedConfig.PREVIEW.createOptionButton(ExtendedConfig.instance, this.width / 2 + 10, this.height / 6 + 103, 150));
         this.addButton(this.doneButton = new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.instance.save();
-            ExtendedConfigScreen.this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(null);
         }));
         this.addButton(this.resetButton = new Button(this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config"), button ->
         {
             ExtendedConfig.instance.save();
-            ExtendedConfigScreen.this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
+            this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
         }));
         this.resetButton.visible = false;
     }

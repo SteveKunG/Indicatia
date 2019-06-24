@@ -37,7 +37,7 @@ public class HypixelSettingsScreen extends Screen
         this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.instance.save();
-            HypixelSettingsScreen.this.minecraft.displayGuiScreen(HypixelSettingsScreen.this.parent);
+            this.minecraft.displayGuiScreen(this.parent);
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);

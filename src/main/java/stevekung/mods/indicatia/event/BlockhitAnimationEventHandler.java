@@ -24,6 +24,7 @@ import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.exconfig.screen.RenderPreviewScreen;
 
+@SuppressWarnings("deprecation")
 public class BlockhitAnimationEventHandler
 {
     private Minecraft mc;

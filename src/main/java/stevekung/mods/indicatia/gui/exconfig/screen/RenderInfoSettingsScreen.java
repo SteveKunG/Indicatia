@@ -61,7 +61,7 @@ public class RenderInfoSettingsScreen extends Screen
         this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.instance.save();
-            RenderInfoSettingsScreen.this.minecraft.displayGuiScreen(RenderInfoSettingsScreen.this.parent);
+            this.minecraft.displayGuiScreen(this.parent);
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
