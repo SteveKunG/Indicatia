@@ -423,7 +423,7 @@ public class IndicatiaEventHandler
         if (event.getGui() instanceof MainMenuScreen)
         {
             int height = event.getGui().height / 4 + 48;
-            event.addWidget(new MojangStatusButton(event.getGui().width / 2 - 124, height + 63, button -> IndicatiaEventHandler.this.mc.displayGuiScreen(new MojangStatusScreen(event.getGui()))));
+            event.addWidget(new MojangStatusButton(event.getGui().width / 2 - 124, height + 63, button -> this.mc.displayGuiScreen(new MojangStatusScreen(event.getGui()))));
         }
     }
 
