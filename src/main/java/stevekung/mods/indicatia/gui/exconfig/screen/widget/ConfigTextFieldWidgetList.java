@@ -48,16 +48,12 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
-        this.children().stream().filter(row -> row.getTextField() != null).forEach(row ->
+        if (this.getFocused() != null && this.getFocused().getTextField() != null)
         {
-            this.selected = mouseX >= row.getTextField().x && mouseX < row.getTextField().x + row.getTextField().getWidth() && mouseY >= row.getTextField().y && mouseY < row.getTextField().y + row.getTextField().getHeight();
-
-            if (!row.getTextField().isFocused())
-            {
-                return;
-            }
-            row.getTextField().setFocused2(false);
-        });
+            ExtendedTextFieldWidget text = this.getFocused().getTextField();
+            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeight();
+            text.setFocused2(false);
+        }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 

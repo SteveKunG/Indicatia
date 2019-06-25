@@ -146,9 +146,8 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.font, LangUtils.translate("extended_config.keystroke_custom_color.title"), this.width / 2, 5, 16777215);
-        boolean selected = this.optionsRowList.selected;
 
-        if (selected && this.optionsRowList.getFocused().getTextField() != null)
+        if (this.optionsRowList.selected && this.optionsRowList.getFocused() != null && this.optionsRowList.getFocused().getTextField() != null)
         {
             ExtendedTextFieldWidget textField = this.optionsRowList.getFocused().getTextField();
             RGB rgb = ColorUtils.stringToRGB(textField.getText());
