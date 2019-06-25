@@ -500,31 +500,6 @@
         ]
     },
     {
-        "name": "Skyclash",
-        "commands": [
-            {
-                "name": "Skyclash Lobby",
-                "command": "sc",
-                "minigame": false
-            },
-            {
-                "name": "Solo",
-                "command": "skyclash_solo",
-                "minigame": true
-            },
-            {
-                "name": "Doubles",
-                "command": "skyclash_doubles",
-                "minigame": true
-            },
-            {
-                "name": "Doubles War",
-                "command": "skyclash_team_war",
-                "minigame": true
-            }
-        ]
-    },
-    {
         "name": "Skywars",
         "commands": [
             {
@@ -706,6 +681,11 @@
                 "name": "Doubles",
                 "command": "blitz_teams_normal",
                 "minigame": true
+            },
+            {
+                "name": "Solo Chaos",
+                "command": "blitz_solo_chaos",
+                "minigame": true
             }
         ]
     },
@@ -790,6 +770,26 @@
             {
                 "name": "Capture The Wool",
                 "command": "prototype_pvp_ctw",
+                "minigame": true
+            }
+        ]
+    },
+    {
+        "name": "Prototype: Tower Wars",
+        "commands": [
+            {
+                "name": "Prototype Lobby",
+                "command": "ptl",
+                "minigame": false
+            },
+            {
+                "name": "Tower Wars Solo",
+                "command": "prototype_towerwars_solo",
+                "minigame": true
+            },
+            {
+                "name": "Tower Wars Team",
+                "command": "prototype_towerwars_team_of_two",
                 "minigame": true
             }
         ]
