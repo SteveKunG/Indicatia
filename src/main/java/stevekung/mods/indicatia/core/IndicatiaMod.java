@@ -144,6 +144,7 @@ public class IndicatiaMod
             try
             {
                 Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
+                clazz.getMethod("init").invoke(null);
                 clazz.getMethod("registerCommand", FMLServerStartingEvent.class).invoke(null, event);
             }
             catch (Exception e) {}
