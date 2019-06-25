@@ -16,7 +16,7 @@ import stevekung.mods.stevekungslib.utils.ColorUtils;
 @OnlyIn(Dist.CLIENT)
 public class DropdownMinigamesButton extends Button
 {
-    private static final ResourceLocation texture = new ResourceLocation("indicatia:textures/gui/dropdown.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation("indicatia:textures/gui/dropdown.png");
     public boolean dropdownClicked;
     private int selectedMinigame = -1;
     private final List<String> minigameLists;
@@ -90,7 +90,7 @@ public class DropdownMinigamesButton extends Button
                     }
                 }
             }
-            mc.getTextureManager().bindTexture(DropdownMinigamesButton.texture);
+            mc.getTextureManager().bindTexture(DropdownMinigamesButton.TEXTURE);
             AbstractGui.blit(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
             GlStateManager.popMatrix();
         }

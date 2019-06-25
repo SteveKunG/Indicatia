@@ -29,13 +29,13 @@ public class AutoLoginFunctionHelpScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 - 100, this.height - 38, 200, 20, this.inGui ? LangUtils.translate("gui.back") : LangUtils.translate("gui.done"), button ->
         {
-            if (AutoLoginFunctionHelpScreen.this.inGui)
+            if (this.inGui)
             {
-                AutoLoginFunctionHelpScreen.this.minecraft.displayGuiScreen(new AutoLoginFunctionScreen());
+                this.minecraft.displayGuiScreen(new AutoLoginFunctionScreen());
             }
             else
             {
-                AutoLoginFunctionHelpScreen.this.minecraft.displayGuiScreen(null);
+                this.minecraft.displayGuiScreen(null);
             }
         }));
         this.functionList.clear();

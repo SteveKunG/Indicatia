@@ -43,27 +43,27 @@ public class CustomCapeScreen extends Screen
         this.inputField.setCanLoseFocus(true);
         this.doneBtn = this.addButton(new Button(this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.done"), button ->
         {
-            if (!CustomCapeScreen.this.inputField.getText().isEmpty())
+            if (!this.inputField.getText().isEmpty())
             {
-                ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(CustomCapeScreen.this.inputField.getText());
+                ThreadDownloadedCustomCape thread = new ThreadDownloadedCustomCape(this.inputField.getText());
                 thread.start();
-                CustomCapeScreen.this.minecraft.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + CustomCapeScreen.this.inputField.getText()));
+                this.minecraft.player.sendMessage(JsonUtils.create("Start downloading cape texture from " + this.inputField.getText()));
             }
-            CustomCapeScreen.this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(null);
         }));
         this.doneBtn.active = !this.inputField.getText().isEmpty();
         this.addButton(new Button(this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("gui.cancel"), button ->
         {
-            CustomCapeScreen.this.capeOption = CustomCapeScreen.this.prevCapeOption;
-            CustomCapeScreen.this.saveCapeOption();
-            CustomCapeScreen.this.minecraft.displayGuiScreen(null);
+            this.capeOption = this.prevCapeOption;
+            this.saveCapeOption();
+            this.minecraft.displayGuiScreen(null);
         }));
         this.resetBtn = this.addButton(new Button(this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("menu.reset_cape"), button ->
         {
             CapeUtils.CAPE_TEXTURE = null;
-            CustomCapeScreen.this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_current_cape")));
+            this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_current_cape")));
             CapeUtils.texture.delete();
-            CustomCapeScreen.this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(null);
         }));
         this.resetBtn.active = CapeUtils.texture.exists();
 
@@ -84,8 +84,8 @@ public class CustomCapeScreen extends Screen
         {
             int i = 0;
             i++;
-            CustomCapeScreen.this.capeOption = (CustomCapeScreen.this.capeOption + i) % 3;
-            CustomCapeScreen.this.saveCapeOption();
+            this.capeOption = (this.capeOption + i) % 3;
+            this.saveCapeOption();
         }));
         this.children.add(this.inputField);
         this.setTextForCapeOption();

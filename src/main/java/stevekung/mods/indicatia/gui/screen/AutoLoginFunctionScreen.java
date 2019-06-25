@@ -38,22 +38,22 @@ public class AutoLoginFunctionScreen extends Screen
         this.inputField.setCanLoseFocus(true);
         this.addButton(new Button(this.width / 2 - 152, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.done"), button ->
         {
-            if (AutoLoginFunctionScreen.this.data != null)
+            if (this.data != null)
             {
-                AutoLoginFunctionScreen.this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_login.function_set")));
-                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + AutoLoginFunctionScreen.this.data.serverIP);
-                ExtendedConfig.loginData.addAutoLogin(AutoLoginFunctionScreen.this.data.serverIP, "", "", GameProfileUtils.getUUID(), AutoLoginFunctionScreen.this.inputField.getText());
+                this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_login.function_set")));
+                ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + this.data.serverIP);
+                ExtendedConfig.loginData.addAutoLogin(this.data.serverIP, "", "", GameProfileUtils.getUUID(), this.inputField.getText());
                 ExtendedConfig.instance.save();
             }
-            AutoLoginFunctionScreen.this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(null);
         }));
         this.addButton(new Button(this.width / 2 + 2, this.height / 4 + 100, 150, 20, LangUtils.translate("gui.cancel"), button ->
         {
-            AutoLoginFunctionScreen.this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(null);
         }));
         this.addButton(this.helpBtn = new CustomizedTextureButton(this.width / 2 + 130, this.height / 4 + 35, this, Collections.singletonList(LangUtils.translate("menu.help")), "help", button ->
         {
-            AutoLoginFunctionScreen.this.minecraft.displayGuiScreen(new AutoLoginFunctionHelpScreen(true));
+            this.minecraft.displayGuiScreen(new AutoLoginFunctionHelpScreen(true));
         }));
 
         if (this.data != null)

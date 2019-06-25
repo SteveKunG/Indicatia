@@ -26,30 +26,30 @@ public class ConfirmDisconnectScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.yes"), button ->
         {
-            if (ConfirmDisconnectScreen.this.minecraft.isConnectedToRealms())
+            if (this.minecraft.isConnectedToRealms())
             {
-                ConfirmDisconnectScreen.this.minecraft.world.sendQuittingDisconnectingPacket();
-                ConfirmDisconnectScreen.this.minecraft.loadWorld(null);
+                this.minecraft.world.sendQuittingDisconnectingPacket();
+                this.minecraft.loadWorld(null);
                 RealmsBridge bridge = new RealmsBridge();
                 bridge.switchToRealms(new MainMenuScreen());
             }
             else
             {
-                ConfirmDisconnectScreen.this.minecraft.world.sendQuittingDisconnectingPacket();
-                ConfirmDisconnectScreen.this.minecraft.loadWorld(null);
+                this.minecraft.world.sendQuittingDisconnectingPacket();
+                this.minecraft.loadWorld(null);
 
                 if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
                 {
-                    ConfirmDisconnectScreen.this.minecraft.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
+                    this.minecraft.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
                 }
                 else
                 {
-                    ConfirmDisconnectScreen.this.minecraft.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
+                    this.minecraft.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
                 }
             }
         }));
         boolean flag = this.minecraft.isSingleplayer() && !this.minecraft.getIntegratedServer().getPublic();
-        this.addButton(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.no"), button -> ConfirmDisconnectScreen.this.minecraft.displayGuiScreen(new IngameMenuScreen(flag))));
+        this.addButton(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.no"), button -> this.minecraft.displayGuiScreen(new IngameMenuScreen(flag))));
     }
 
     @Override

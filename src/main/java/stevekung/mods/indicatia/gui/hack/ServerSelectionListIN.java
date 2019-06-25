@@ -63,17 +63,17 @@ public class ServerSelectionListIN extends ServerSelectionList
                 {
                     try
                     {
-                        ServerSelectionListIN.this.owner.getOldServerPinger().ping(ServerListEntryNormalIN.this.server);
+                        this.owner.getOldServerPinger().ping(this.server);
                     }
                     catch (UnknownHostException e)
                     {
-                        ServerListEntryNormalIN.this.server.pingToServer = -1L;
-                        ServerListEntryNormalIN.this.server.serverMOTD = TextFormatting.DARK_RED + I18n.format("multiplayer.status.cannot_resolve");
+                        this.server.pingToServer = -1L;
+                        this.server.serverMOTD = TextFormatting.DARK_RED + I18n.format("multiplayer.status.cannot_resolve");
                     }
                     catch (Exception e)
                     {
-                        ServerListEntryNormalIN.this.server.pingToServer = -1L;
-                        ServerListEntryNormalIN.this.server.serverMOTD = TextFormatting.DARK_RED + I18n.format("multiplayer.status.cannot_connect");
+                        this.server.pingToServer = -1L;
+                        this.server.serverMOTD = TextFormatting.DARK_RED + I18n.format("multiplayer.status.cannot_connect");
                     }
                 });
             }
@@ -146,7 +146,7 @@ public class ServerSelectionListIN extends ServerSelectionList
             {
                 this.lastIconB64 = this.server.getBase64EncodedIconData();
                 this.prepareServerIcon();
-                ServerSelectionListIN.this.owner.getServerList().saveServerList();
+                this.owner.getServerList().saveServerList();
             }
 
             if (this.icon != null)
@@ -171,10 +171,10 @@ public class ServerSelectionListIN extends ServerSelectionList
             {
                 if (i1 >= entryWidth - j - 15 - 2 && i1 <= entryWidth - 15 - 2 && j1 >= 0 && j1 <= 8)
                 {
-                    ServerSelectionListIN.this.owner.setHoveringText(s);
+                    this.owner.setHoveringText(s);
                 }
             }
-            ClientHooks.drawForgePingInfo(ServerSelectionListIN.this.owner, this.server, x, y, entryWidth, i1, j1);
+            ClientHooks.drawForgePingInfo(this.owner, this.server, x, y, entryWidth, i1, j1);
 
             if (this.mc.gameSettings.touchscreen || isSelected)
             {
@@ -206,7 +206,7 @@ public class ServerSelectionListIN extends ServerSelectionList
                         AbstractGui.blit(x, y, 96.0F, 0.0F, 32, 32, 256, 256);
                     }
                 }
-                if (index < ServerSelectionListIN.this.owner.getServerList().countServers() - 1)
+                if (index < this.owner.getServerList().countServers() - 1)
                 {
                     if (k1 < 16 && l1 > 16)
                     {

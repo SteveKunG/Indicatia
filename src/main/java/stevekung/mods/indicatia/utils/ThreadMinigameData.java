@@ -13,6 +13,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import com.google.gson.*;
 
+import net.minecraftforge.versions.mcp.MCPVersion;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.minigames.MinigameCommand;
 import stevekung.mods.indicatia.minigames.MinigameData;
@@ -29,7 +30,7 @@ public class ThreadMinigameData extends Thread
     {
         try
         {
-            URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/1.13-pre/minigames.json");
+            URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/" + MCPVersion.getMCVersion() + "/minigames.json");
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             JsonParser parser = new JsonParser();

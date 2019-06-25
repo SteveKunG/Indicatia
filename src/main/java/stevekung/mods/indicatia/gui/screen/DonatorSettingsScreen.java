@@ -52,31 +52,31 @@ public class DonatorSettingsScreen extends Screen
 
         this.addButton(new Button(this.width / 2 - 50 - 100 - 4, this.height - 38, 100, 20, LangUtils.translate("gui.done"), button ->
         {
-            if (!ExtendedConfig.instance.topDonatorFilePath.equals(DonatorSettingsScreen.this.topDonateInput.getText()))
+            if (!ExtendedConfig.instance.topDonatorFilePath.equals(this.topDonateInput.getText()))
             {
-                DonatorSettingsScreen.this.minecraft.player.sendMessage(JsonUtils.create("Set top donator file path to " + DonatorSettingsScreen.this.topDonateInput.getText()));
+                this.minecraft.player.sendMessage(JsonUtils.create("Set top donator file path to " + this.topDonateInput.getText()));
             }
-            if (!ExtendedConfig.instance.recentDonatorFilePath.equals(DonatorSettingsScreen.this.recentDonateInput.getText()))
+            if (!ExtendedConfig.instance.recentDonatorFilePath.equals(this.recentDonateInput.getText()))
             {
-                DonatorSettingsScreen.this.minecraft.player.sendMessage(JsonUtils.create("Set recent donator file path to " + DonatorSettingsScreen.this.recentDonateInput.getText()));
+                this.minecraft.player.sendMessage(JsonUtils.create("Set recent donator file path to " + this.recentDonateInput.getText()));
             }
-            ExtendedConfig.instance.topDonatorFilePath = DonatorSettingsScreen.this.topDonateInput.getText().replace("" + '\u0022', "");
-            ExtendedConfig.instance.recentDonatorFilePath = DonatorSettingsScreen.this.recentDonateInput.getText().replace("" + '\u0022', "");
-            ExtendedConfig.instance.topDonatorText = DonatorSettingsScreen.this.convertString(DonatorSettingsScreen.this.topDonateTextInput.getText());
-            ExtendedConfig.instance.recentDonatorText = DonatorSettingsScreen.this.convertString(DonatorSettingsScreen.this.recentDonateTextInput.getText());
+            ExtendedConfig.instance.topDonatorFilePath = this.topDonateInput.getText().replace("" + '\u0022', "");
+            ExtendedConfig.instance.recentDonatorFilePath = this.recentDonateInput.getText().replace("" + '\u0022', "");
+            ExtendedConfig.instance.topDonatorText = this.convertString(this.topDonateTextInput.getText());
+            ExtendedConfig.instance.recentDonatorText = this.convertString(this.recentDonateTextInput.getText());
             ExtendedConfig.instance.save();
-            DonatorSettingsScreen.this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(null);
         }));
-        this.addButton(new Button(this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel"), button -> DonatorSettingsScreen.this.minecraft.displayGuiScreen(null)));
+        this.addButton(new Button(this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel"), button -> this.minecraft.displayGuiScreen(null)));
         this.resetBtn = this.addButton(new Button(this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("menu.reset_path"), button ->
         {
-            DonatorSettingsScreen.this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_donator_path")));
+            this.minecraft.player.sendMessage(JsonUtils.create(LangUtils.translate("menu.reset_donator_path")));
             ExtendedConfig.instance.topDonatorFilePath = "";
             ExtendedConfig.instance.recentDonatorFilePath = "";
             HUDRenderEventHandler.topDonator = "";
             HUDRenderEventHandler.recentDonator = "";
-            DonatorSettingsScreen.this.topDonateInput.setText("");
-            DonatorSettingsScreen.this.recentDonateInput.setText("");
+            this.topDonateInput.setText("");
+            this.recentDonateInput.setText("");
             ExtendedConfig.instance.save();
         }));
         this.resetBtn.active = !ExtendedConfig.instance.topDonatorFilePath.isEmpty() || !ExtendedConfig.instance.recentDonatorFilePath.isEmpty();

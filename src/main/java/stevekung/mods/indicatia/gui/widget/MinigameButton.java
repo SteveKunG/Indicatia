@@ -12,8 +12,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MinigameButton extends Button
 {
-    private static final ResourceLocation main = new ResourceLocation("indicatia:textures/gui/main_lobby.png");
-    private static final ResourceLocation play = new ResourceLocation("indicatia:textures/gui/play_icon.png");
+    private static final ResourceLocation MAIN = new ResourceLocation("indicatia:textures/gui/main_lobby.png");
+    private static final ResourceLocation PLAY = new ResourceLocation("indicatia:textures/gui/play_icon.png");
     private final boolean isPlay;
     private final int parentWidth;
     private final String tooltips;
@@ -39,7 +39,7 @@ public class MinigameButton extends Button
     {
         if (this.visible)
         {
-            Minecraft.getInstance().getTextureManager().bindTexture(this.isPlay ? MinigameButton.play : MinigameButton.main);
+            Minecraft.getInstance().getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
