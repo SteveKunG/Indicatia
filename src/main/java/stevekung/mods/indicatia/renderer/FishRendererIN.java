@@ -18,6 +18,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import stevekung.mods.stevekungslib.utils.client.GLConstants;
 
 @OnlyIn(Dist.CLIENT)
 public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
@@ -52,7 +53,7 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
                 GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
             }
 
-            vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
+            vertexbuffer.begin(GLConstants.QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
             vertexbuffer.pos(-0.5D, -0.5D, 0.0D).tex(0.0625D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
             vertexbuffer.pos(0.5D, -0.5D, 0.0D).tex(0.125D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
             vertexbuffer.pos(0.5D, 0.5D, 0.0D).tex(0.125D, 0.125D).normal(0.0F, 1.0F, 0.0F).endVertex();

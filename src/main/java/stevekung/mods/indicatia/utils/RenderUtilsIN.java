@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
+import stevekung.mods.stevekungslib.utils.client.GLConstants;
 import stevekung.mods.stevekungslib.utils.client.RenderUtils;
 
 public class RenderUtilsIN
@@ -43,7 +44,7 @@ public class RenderUtilsIN
             GlStateManager.disableTexture();
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
-            vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+            vertexbuffer.begin(GLConstants.QUADS, DefaultVertexFormats.POSITION_COLOR);
             vertexbuffer.pos(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             vertexbuffer.pos(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             vertexbuffer.pos(j + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
@@ -97,7 +98,7 @@ public class RenderUtilsIN
             GlStateManager.disableTexture();
             GlStateManager.blendFuncSeparate(770, 771, 1, 0);
             GlStateManager.color4f(r, g, b, alpha);
-            vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
+            vertexbuffer.begin(GLConstants.QUADS, DefaultVertexFormats.POSITION);
             vertexbuffer.pos(left, bottom, 0.0D).endVertex();
             vertexbuffer.pos(right, bottom, 0.0D).endVertex();
             vertexbuffer.pos(right, top, 0.0D).endVertex();
