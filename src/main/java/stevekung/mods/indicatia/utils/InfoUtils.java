@@ -149,7 +149,7 @@ public class InfoUtils
 
             Vec3d vec3d1 = entity.getLook(1.0F);
             Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
-            AxisAlignedBB axisalignedbb = entity.getBoundingBox().func_216361_a(vec3d1.scale(distance)).expand(1.0D, 1.0D, 1.0D);
+            AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vec3d1.scale(distance)).expand(1.0D, 1.0D, 1.0D);
             EntityRayTraceResult result = ProjectileHelper.func_221273_a(entity, vec3d, vec3d2, axisalignedbb, entity_1 -> !entity_1.isSpectator() && entity_1.canBeCollidedWith(), distance);
 
             if (result != null)

@@ -39,7 +39,7 @@ public class BlockhitAnimationEventHandler
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        if (this.mc.field_71462_r instanceof RenderPreviewScreen)
+        if (this.mc.currentScreen instanceof RenderPreviewScreen)
         {
             event.setCanceled(true);
             return;
@@ -50,9 +50,9 @@ public class BlockhitAnimationEventHandler
 
             if (!this.isZoomed())
             {
-                boolean isSleep = this.mc.getRenderViewEntity() instanceof LivingEntity && ((LivingEntity)this.mc.getRenderViewEntity()).isPlayerSleeping();
+                boolean isSleep = this.mc.getRenderViewEntity() instanceof LivingEntity && ((LivingEntity)this.mc.getRenderViewEntity()).isSleeping();
 
-                if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.field_71442_b.isSpectatorMode())
+                if (this.mc.gameSettings.thirdPersonView == 0 && !isSleep && !this.mc.gameSettings.hideGUI && !this.mc.playerController.isSpectatorMode())
                 {
                     this.mc.gameRenderer.enableLightmap();
                     this.renderItemInFirstPerson(event.getPartialTicks());
@@ -66,7 +66,7 @@ public class BlockhitAnimationEventHandler
     {
         AbstractClientPlayerEntity player = this.mc.player;
         float swingProgress = player.getSwingProgress(partialTicks);
-        Hand hand = MoreObjects.firstNonNull(player.field_184622_au, Hand.MAIN_HAND);
+        Hand hand = MoreObjects.firstNonNull(player.swingingHand, Hand.MAIN_HAND);
         float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks;
         float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks;
         boolean mainHand = true;

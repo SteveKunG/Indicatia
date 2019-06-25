@@ -32,7 +32,7 @@ public class CapeLayerIN extends LayerRenderer<AbstractClientPlayerEntity, Playe
             if (itemStack.getItem() != Items.ELYTRA)
             {
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                this.func_215333_a(entity.getLocationCape());
+                this.bindTexture(entity.getLocationCape());
                 GlStateManager.pushMatrix();
                 GlStateManager.enableRescaleNormal();
                 GlStateManager.translatef(0.0F, 0.0F, 0.125F);
@@ -66,7 +66,7 @@ public class CapeLayerIN extends LayerRenderer<AbstractClientPlayerEntity, Playe
                 GlStateManager.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
                 GlStateManager.rotatef(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotatef(180.0F, 0.0F, 1.0F, 0.0F);
-                this.func_215332_c().renderCape(0.0625F);
+                this.getEntityModel().renderCape(0.0625F);
                 GlStateManager.popMatrix();
             }
         }

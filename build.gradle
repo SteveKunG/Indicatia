@@ -68,7 +68,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile files("libs/SteveKunG's-Lib-1.14.2-2.0.0-deobf.jar")
+    compile files("libs/SteveKunG's-Lib-${mc_version}-2.0.0-deobf.jar")
 }
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"

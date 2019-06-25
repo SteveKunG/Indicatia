@@ -30,7 +30,7 @@ public class MultiplayerScreenIN extends MultiplayerScreen
 
         if (this.initialized)
         {
-            this.field_146803_h.updateSize(this.width, this.height, 32, this.height - 64);
+            this.serverListSelector.updateSize(this.width, this.height, 32, this.height - 64);
         }
         else
         {
@@ -41,18 +41,18 @@ public class MultiplayerScreenIN extends MultiplayerScreen
 
             try
             {
-                this.field_146800_B = new LanServerDetector.LanServerFindThread(this.lanServerList);
-                this.field_146800_B.start();
+                this.lanServerDetector = new LanServerDetector.LanServerFindThread(this.lanServerList);
+                this.lanServerDetector.start();
             }
             catch (Exception e) {}
 
-            this.field_146803_h = new ServerSelectionListIN(this, this.width, this.height, 32, this.height - 64, 36);
-            this.field_146803_h.updateOnlineServers(this.savedServerList);
+            this.serverListSelector = new ServerSelectionListIN(this, this.width, this.height, 32, this.height - 64, 36);
+            this.serverListSelector.updateOnlineServers(this.savedServerList);
         }
 
         // Vanilla Stuff
-        this.children.add(this.field_146803_h);
-        this.field_146809_s = this.addButton(new Button(this.width / 2 - 154, this.height - 52, 100, 20, I18n.format("selectServer.select"), button ->
+        this.children.add(this.serverListSelector);
+        this.btnSelectServer = this.addButton(new Button(this.width / 2 - 154, this.height - 52, 100, 20, I18n.format("selectServer.select"), button ->
         {
             this.connectToSelected();
         }));
@@ -66,9 +66,9 @@ public class MultiplayerScreenIN extends MultiplayerScreen
             this.selectedServer = new ServerData(I18n.format("selectServer.defaultName"), "", false);
             this.minecraft.displayGuiScreen(new AddServerScreen(this::func_214284_c, this.selectedServer));
         }));
-        this.field_146810_r = this.addButton(new Button(this.width / 2 - 154, this.height - 28, 70, 20, I18n.format("selectServer.edit"), button ->
+        this.btnEditServer = this.addButton(new Button(this.width / 2 - 154, this.height - 28, 70, 20, I18n.format("selectServer.edit"), button ->
         {
-            ServerSelectionList.Entry serverselectionlist$entry = this.field_146803_h.getSelected();
+            ServerSelectionList.Entry serverselectionlist$entry = this.serverListSelector.getSelected();
 
             if (serverselectionlist$entry instanceof ServerSelectionList.NormalEntry)
             {
@@ -79,9 +79,9 @@ public class MultiplayerScreenIN extends MultiplayerScreen
             }
 
         }));
-        this.field_146808_t = this.addButton(new Button(this.width / 2 - 74, this.height - 28, 70, 20, I18n.format("selectServer.delete"), button ->
+        this.btnDeleteServer = this.addButton(new Button(this.width / 2 - 74, this.height - 28, 70, 20, I18n.format("selectServer.delete"), button ->
         {
-            ServerSelectionList.Entry serverselectionlist$entry = this.field_146803_h.getSelected();
+            ServerSelectionList.Entry serverselectionlist$entry = this.serverListSelector.getSelected();
 
             if (serverselectionlist$entry instanceof ServerSelectionList.NormalEntry)
             {
@@ -104,7 +104,7 @@ public class MultiplayerScreenIN extends MultiplayerScreen
         }));
         this.addButton(new Button(this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel"), button ->
         {
-            this.minecraft.displayGuiScreen(this.field_146798_g);
+            this.minecraft.displayGuiScreen(this.parentScreen);
         }));
         this.func_214295_b();
     }
@@ -112,7 +112,7 @@ public class MultiplayerScreenIN extends MultiplayerScreen
     @Override
     public void refreshServerList()
     {
-        this.minecraft.displayGuiScreen(new MultiplayerScreenIN(this.field_146798_g));
+        this.minecraft.displayGuiScreen(new MultiplayerScreenIN(this.parentScreen));
     }
 
     @Override

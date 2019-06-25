@@ -27,12 +27,12 @@ public class BossOverlayGuiIN extends BossOverlayGui
     @Override
     public void render()
     {
-        if (!this.mc.field_71456_v.getBossOverlay().mapBossInfos.isEmpty())
+        if (!this.mc.ingameGUI.getBossOverlay().mapBossInfos.isEmpty())
         {
             int i = this.mc.mainWindow.getScaledWidth();
             int j = 12;
 
-            for (ClientBossInfo bossInfo : this.mc.field_71456_v.getBossOverlay().mapBossInfos.values())
+            for (ClientBossInfo bossInfo : this.mc.ingameGUI.getBossOverlay().mapBossInfos.values())
             {
                 int k = i / 2 - 91;
                 RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(this.mc.mainWindow, bossInfo, k, j, 10 + this.mc.fontRenderer.FONT_HEIGHT);

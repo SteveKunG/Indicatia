@@ -126,13 +126,13 @@ public class HypixelEventHandler
 
     private static void getHypixelNickedPlayer(Minecraft mc)
     {
-        if (InfoUtils.INSTANCE.isHypixel() && mc.field_71462_r instanceof EditSignScreen)
+        if (InfoUtils.INSTANCE.isHypixel() && mc.currentScreen instanceof EditSignScreen)
         {
-            EditSignScreen gui = (EditSignScreen) mc.field_71462_r;
+            EditSignScreen gui = (EditSignScreen) mc.currentScreen;
 
-            if (gui.field_146848_f != null)
+            if (gui.tileSign != null)
             {
-                ExtendedConfig.instance.hypixelNickName = gui.field_146848_f.signText[0].getUnformattedComponentText();
+                ExtendedConfig.instance.hypixelNickName = gui.tileSign.signText[0].getUnformattedComponentText();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {

@@ -45,7 +45,7 @@ public class DoubleConfigOption extends ExtendedConfigOption
 
     public double denormalizeValue(double value)
     {
-        return this.snapToStep(MathHelper.func_219803_d(MathHelper.clamp(value, 0.0D, 1.0D), this.min, this.max));
+        return this.snapToStep(MathHelper.lerp(MathHelper.clamp(value, 0.0D, 1.0D), this.min, this.max));
     }
 
     private double snapToStep(double value)

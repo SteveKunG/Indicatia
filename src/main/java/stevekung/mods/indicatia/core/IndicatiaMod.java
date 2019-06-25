@@ -112,8 +112,8 @@ public class IndicatiaMod
 
         if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
         {
-            Minecraft.getInstance().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(FishingBobberEntity.class));
-            Minecraft.getInstance().getRenderManager().entityRenderMap.put(FishingBobberEntity.class, new FishRendererIN(Minecraft.getInstance().getRenderManager()));
+            Minecraft.getInstance().getRenderManager().renderers.keySet().removeIf(key -> key.equals(FishingBobberEntity.class));
+            Minecraft.getInstance().getRenderManager().renderers.put(FishingBobberEntity.class, new FishRendererIN(Minecraft.getInstance().getRenderManager()));
             IndicatiaMod.LOGGER.info("Successfully replacing {}", FishingBobberEntity.class.getName());
         }
     }

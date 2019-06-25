@@ -35,14 +35,14 @@ public class PlayerTabOverlayGuiIN extends PlayerTabOverlayGui
 
     public PlayerTabOverlayGuiIN()
     {
-        super(Minecraft.getInstance(), Minecraft.getInstance().field_71456_v);
+        super(Minecraft.getInstance(), Minecraft.getInstance().ingameGUI);
         this.mc = Minecraft.getInstance();
     }
 
     @Override
     public void render(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
-        List<NetworkPlayerInfo> list = PlayerTabOverlayGui.ENTRY_ORDERING.sortedCopy(this.mc.player.field_71174_a.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = PlayerTabOverlayGui.ENTRY_ORDERING.sortedCopy(this.mc.player.connection.getPlayerInfoMap());
         int listWidth = 0;
         int j = 0;
 
@@ -93,8 +93,8 @@ public class PlayerTabOverlayGuiIN extends PlayerTabOverlayGui
         int yOffset = 10;
         int l1 = i1 * columnSize + (columnSize - 1) * 5;
         List<String> list1 = null;
-        ITextComponent header = this.mc.field_71456_v.getTabList().header;
-        ITextComponent footer = this.mc.field_71456_v.getTabList().footer;
+        ITextComponent header = this.mc.ingameGUI.getTabList().header;
+        ITextComponent footer = this.mc.ingameGUI.getTabList().footer;
 
         if (header != null)
         {

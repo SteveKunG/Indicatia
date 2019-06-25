@@ -42,7 +42,7 @@ public class ElytraLayerIN<T extends AbstractClientPlayerEntity, M extends Entit
 
             if (entity.isPlayerInfoSet() && entity.getLocationElytra() != null)
             {
-                this.func_215333_a(entity.getLocationElytra());
+                this.bindTexture(entity.getLocationElytra());
             }
             else
             {
@@ -52,11 +52,11 @@ public class ElytraLayerIN<T extends AbstractClientPlayerEntity, M extends Entit
             GlStateManager.pushMatrix();
             GlStateManager.translatef(0.0F, 0.0F, 0.125F);
             this.modelElytra.func_212844_a_(entity, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, limbSwing);
-            this.modelElytra.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            this.modelElytra.func_78088_a(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
             if (itemStack.isEnchanted())
             {
-                ArmorLayer.func_215338_a(this::func_215333_a, entity, this.modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
+                ArmorLayer.func_215338_a(this::bindTexture, entity, this.modelElytra, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
             }
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
@@ -90,6 +90,6 @@ public class ElytraLayerIN<T extends AbstractClientPlayerEntity, M extends Entit
             }
             catch (Exception e) {}
         }
-        this.func_215333_a(elytraTexture);
+        this.bindTexture(elytraTexture);
     }
 }

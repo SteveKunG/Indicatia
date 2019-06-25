@@ -31,7 +31,7 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
     }
 
     @Override
-    public void doRender(FishingBobberEntity entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void func_76986_a(FishingBobberEntity entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         PlayerEntity player = entity.getAngler();
 
@@ -44,8 +44,8 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
             this.bindEntityTexture(entity);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
-            GlStateManager.rotatef(180.0F - this.field_76990_c.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef((this.field_76990_c.options.thirdPersonView == 2 ? -1 : 1) * -this.field_76990_c.playerViewX, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotatef((this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
             if (this.renderOutlines)
             {
@@ -88,9 +88,9 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
             double d7;
             double dz = 0.0D;
 
-            if ((this.field_76990_c.options == null || this.field_76990_c.options.thirdPersonView <= 0) && player == Minecraft.getInstance().player)
+            if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == Minecraft.getInstance().player)
             {
-                double f10 = this.field_76990_c.options.fovSetting;
+                double f10 = this.renderManager.options.fov;
                 f10 = f10 / 100.0F;
                 Vec3d vec3d = new Vec3d(k * -0.5D * f10, 0.025D * f10, 0.65D);
                 vec3d = vec3d.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * 0.017453292F);
@@ -130,12 +130,12 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
             tessellator.draw();
             GlStateManager.enableLighting();
             GlStateManager.enableTexture();
-            super.doRender(entity, x, y, z, entityYaw, partialTicks);
+            super.func_76986_a(entity, x, y, z, entityYaw, partialTicks);
         }
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(FishingBobberEntity entity)
+    protected ResourceLocation func_110775_a(FishingBobberEntity entity)
     {
         return FishRendererIN.FISH_PARTICLES;
     }

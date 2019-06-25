@@ -63,7 +63,7 @@ public class HUDInfo
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        String nether = mc.player.dimension == DimensionType.NETHER ? "Nether " : "";
+        String nether = mc.player.dimension == DimensionType.THE_NETHER ? "Nether " : "";
         return ColorUtils.stringToRGB(ExtendedConfig.instance.xyzColor).toColoredFont() + nether + "XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.instance.xyzValueColor).toColoredFont() + x + " " + y + " " + z;
     }
 
@@ -80,7 +80,7 @@ public class HUDInfo
     {
         BlockPos blockPos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
         ChunkPos chunkPos = new ChunkPos(blockPos);
-        Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
+        Chunk worldChunk = mc.world.func_212866_a_(chunkPos.x, chunkPos.z);
 
         if (worldChunk.isEmpty())
         {
@@ -119,7 +119,7 @@ public class HUDInfo
     public static String getRealmName(Minecraft mc)
     {
         String text = "Realms Server";
-        Screen screen = mc.getConnection().field_147307_j;
+        Screen screen = mc.getConnection().guiScreenServer;
         RealmsScreenProxy screenProxy = (RealmsScreenProxy) screen;
         RealmsScreen realmsScreen = screenProxy.getScreen();
 
@@ -666,20 +666,20 @@ public class HUDInfo
 
                 if (showIcon)
                 {
-                    potion.renderInventoryEffect(potioneffect, (DisplayEffectsScreen<?>)mc.field_71462_r, xPotion, yPotion, mc.field_71462_r.blitOffset);
-                    PotionSpriteUploader sprite = mc.func_213248_ap();
+                    potion.renderInventoryEffect(potioneffect, (DisplayEffectsScreen<?>)mc.currentScreen, xPotion, yPotion, mc.currentScreen.blitOffset);
+                    PotionSpriteUploader sprite = mc.getPotionSpriteUploader();
 
                     if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
-                        AbstractGui.blit(xPotion + 12, yPotion + 6, mc.field_71462_r.blitOffset, 18, 18, sprite.func_215288_a(potion));
+                        AbstractGui.blit(xPotion + 12, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.func_215288_a(potion));
                     }
                     else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                     {
-                        AbstractGui.blit(xPotion + 24, yPotion + 6, mc.field_71462_r.blitOffset, 18, 18, sprite.func_215288_a(potion));
+                        AbstractGui.blit(xPotion + 24, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.func_215288_a(potion));
                     }
                     else
                     {
-                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.field_71462_r.blitOffset, 18, 18, sprite.func_215288_a(potion));
+                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.func_215288_a(potion));
                     }
                 }
 

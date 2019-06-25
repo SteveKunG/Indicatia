@@ -231,7 +231,7 @@ public class IndicatiaEventHandler
             }
 
             // toggle sprint
-            if (ExtendedConfig.instance.toggleSprint && !player.isPotionActive(Effects.field_76440_q) && !ExtendedConfig.instance.toggleSneak)
+            if (ExtendedConfig.instance.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.instance.toggleSneak)
             {
                 player.setSprinting(true);
             }
@@ -719,7 +719,7 @@ public class IndicatiaEventHandler
             ++IndicatiaEventHandler.autoFishTick;
             IndicatiaEventHandler.autoFishTick %= 4;
 
-            if (mc.objectMouseOver != null && mc.world != null && mc.field_71442_b != null && mc.gameRenderer != null)
+            if (mc.objectMouseOver != null && mc.world != null && mc.playerController != null && mc.gameRenderer != null)
             {
                 if (IndicatiaEventHandler.autoFishTick % 4 == 0)
                 {
@@ -738,13 +738,13 @@ public class IndicatiaEventHandler
                                 if (!mc.world.getBlockState(pos).isAir(mc.world, pos))
                                 {
                                     int count = itemStack.getCount();
-                                    ActionResultType result = mc.field_71442_b.func_217292_a(mc.player, mc.world, hand, blockRayTrace);
+                                    ActionResultType result = mc.playerController.func_217292_a(mc.player, mc.world, hand, blockRayTrace);
 
                                     if (result == ActionResultType.SUCCESS)
                                     {
                                         mc.player.swingArm(hand);
 
-                                        if (!itemStack.isEmpty() && (itemStack.getCount() != count || mc.field_71442_b.isInCreativeMode()))
+                                        if (!itemStack.isEmpty() && (itemStack.getCount() != count || mc.playerController.isInCreativeMode()))
                                         {
                                             mc.gameRenderer.itemRenderer.resetEquippedProgress(hand);
                                         }
@@ -769,7 +769,7 @@ public class IndicatiaEventHandler
                         {
                             ForgeHooks.onEmptyClick(mc.player, hand);
                         }
-                        if (!itemStack.isEmpty() && mc.field_71442_b.processRightClick(mc.player, mc.world, hand) == ActionResultType.SUCCESS)
+                        if (!itemStack.isEmpty() && mc.playerController.processRightClick(mc.player, mc.world, hand) == ActionResultType.SUCCESS)
                         {
                             mc.gameRenderer.itemRenderer.resetEquippedProgress(hand);
                             return;

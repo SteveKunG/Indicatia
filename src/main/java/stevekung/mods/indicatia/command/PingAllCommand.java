@@ -20,7 +20,7 @@ public class PingAllCommand
 
     private static int getAllLatency()
     {
-        List<NetworkPlayerInfo> infoList = new ArrayList<>(Minecraft.getInstance().player.field_71174_a.getPlayerInfoMap());
+        List<NetworkPlayerInfo> infoList = new ArrayList<>(Minecraft.getInstance().player.connection.getPlayerInfoMap());
         infoList.sort((info1, info2) -> Integer.compare(info2.getResponseTime(), info1.getResponseTime()));
         infoList.forEach(info -> Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.ping_all.result", info.getGameProfile().getName(), info.getResponseTime())));
         return 1;

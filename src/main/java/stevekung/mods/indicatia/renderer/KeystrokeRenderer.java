@@ -27,7 +27,7 @@ public class KeystrokeRenderer
         width = ExtendedConfig.instance.keystrokePosition == KeystrokePosition.LEFT ? 96 : width;
         int widthSquare = 80;
         int heightSquare = 48 + ExtendedConfig.instance.keystrokeYOffset;
-        boolean nullScreen = mc.field_71462_r == null;
+        boolean nullScreen = mc.currentScreen == null;
         boolean wDown = nullScreen && ClientUtils.isKeyDown(GLFW.GLFW_KEY_W);
         boolean aDown = nullScreen && ClientUtils.isKeyDown(GLFW.GLFW_KEY_A);
         boolean sDown = nullScreen && ClientUtils.isKeyDown(GLFW.GLFW_KEY_S);

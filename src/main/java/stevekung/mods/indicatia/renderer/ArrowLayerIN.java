@@ -41,7 +41,7 @@ public class ArrowLayerIN<T extends LivingEntity, M extends EntityModel<T>> exte
             {
                 GlStateManager.pushMatrix();
                 RenderUtils.disableLighting();
-                RendererModel modelrenderer = this.func_215332_c().getRandomModelBox(rand);
+                RendererModel modelrenderer = this.getEntityModel().getRandomModelBox(rand);
                 ModelBox modelbox = modelrenderer.cubeList.get(rand.nextInt(modelrenderer.cubeList.size()));
                 modelrenderer.postRender(0.0625F);
                 float f = rand.nextFloat();

@@ -136,14 +136,14 @@ public class HUDRenderEventHandler
     {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
         {
-            if (this.mc.field_71462_r instanceof RenderPreviewScreen)
+            if (this.mc.currentScreen instanceof RenderPreviewScreen)
             {
                 event.setCanceled(true);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.field_71462_r instanceof RenderPreviewScreen))
+            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof RenderPreviewScreen))
             {
                 List<String> leftInfo = new LinkedList<>();
                 List<String> rightInfo = new LinkedList<>();
@@ -178,7 +178,7 @@ public class HUDRenderEventHandler
                 {
                     leftInfo.add(HUDInfo.getXYZ(this.mc));
 
-                    if (this.mc.player.dimension == DimensionType.NETHER)
+                    if (this.mc.player.dimension == DimensionType.THE_NETHER)
                     {
                         leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
                     }
@@ -384,12 +384,12 @@ public class HUDRenderEventHandler
             {
                 if (ExtendedConfig.instance.keystroke)
                 {
-                    if (this.mc.field_71462_r == null || this.mc.field_71462_r instanceof ChatScreen)
+                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof ChatScreen)
                     {
                         KeystrokeRenderer.render(this.mc);
                     }
                 }
-                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.CUSTOM && (this.mc.field_71462_r == null || this.mc.field_71462_r instanceof ChatScreen))
+                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.CUSTOM && (this.mc.currentScreen == null || this.mc.currentScreen instanceof ChatScreen))
                 {
                     String rcps = ExtendedConfig.instance.rcps ? " " + HUDInfo.getRCPS() : "";
                     RenderUtilsIN.drawRect(ExtendedConfig.instance.cpsCustomXOffset, ExtendedConfig.instance.cpsCustomYOffset, ExtendedConfig.instance.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.instance.cpsCustomYOffset + 11, 16777216, (float)ExtendedConfig.instance.cpsOpacity / 100.0F);
@@ -400,13 +400,13 @@ public class HUDRenderEventHandler
         if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
         {
             event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-            ClientPlayNetHandler handler = this.mc.player.field_71174_a;
+            ScoreObjective scoreobjective = this.mc.world.func_96441_U().getObjectiveInDisplaySlot(0);
+            ClientPlayNetHandler handler = this.mc.player.connection;
 
             if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
             {
                 this.overlayPlayerList.setVisible(true);
-                this.overlayPlayerList.render(this.mc.mainWindow.getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
+                this.overlayPlayerList.render(this.mc.mainWindow.getScaledWidth(), this.mc.world.func_96441_U(), scoreobjective);
             }
             else
             {
@@ -415,7 +415,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
         {
-            if (this.mc.field_71462_r instanceof RenderPreviewScreen)
+            if (this.mc.currentScreen instanceof RenderPreviewScreen)
             {
                 event.setCanceled(true);
                 return;
@@ -426,14 +426,14 @@ public class HUDRenderEventHandler
                 GlStateManager.pushMatrix();
                 GlStateManager.translatef(0, this.mc.mainWindow.getScaledHeight() - 48, 0.0F);
                 GlStateManager.disableDepthTest();
-                this.mc.field_71456_v.getChatGUI().render(this.mc.field_71456_v.getTicks());
+                this.mc.ingameGUI.getChatGUI().render(this.mc.ingameGUI.getTicks());
                 GlStateManager.enableDepthTest();
                 GlStateManager.popMatrix();
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.field_71462_r instanceof RenderPreviewScreen)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof RenderPreviewScreen)
             {
                 event.setCanceled(true);
             }

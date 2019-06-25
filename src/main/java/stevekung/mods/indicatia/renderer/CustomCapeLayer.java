@@ -69,7 +69,7 @@ public class CustomCapeLayer extends LayerRenderer<AbstractClientPlayerEntity, P
                 GlStateManager.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
                 GlStateManager.rotatef(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotatef(180.0F, 0.0F, 1.0F, 0.0F);
-                this.func_215332_c().renderCape(0.0625F);
+                this.getEntityModel().renderCape(0.0625F);
                 GlStateManager.popMatrix();
             }
         }

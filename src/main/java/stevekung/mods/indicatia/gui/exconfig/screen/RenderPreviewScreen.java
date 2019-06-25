@@ -88,7 +88,7 @@ public class RenderPreviewScreen extends Screen
             leftInfo.add(HUDInfo.getFPS());
             leftInfo.add(HUDInfo.getXYZ(this.minecraft));
 
-            if (this.minecraft.player.dimension == DimensionType.NETHER)
+            if (this.minecraft.player.dimension == DimensionType.THE_NETHER)
             {
                 leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.minecraft));
             }
