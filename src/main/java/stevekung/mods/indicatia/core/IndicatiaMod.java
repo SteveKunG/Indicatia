@@ -17,6 +17,7 @@ import net.minecraft.client.options.GameOptions;
 import net.minecraft.nbt.CompoundTag;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.indicatia.extra.ExtraEventHandler;
 import stevekung.mods.indicatia.extra.ThreadDownloadWeatherData;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.utils.CapeUtils;
@@ -66,6 +67,7 @@ public class IndicatiaMod implements ClientModInitializer
         KeyBindingHandler.init();
 
         ClientRegistryUtils.registerClientTick(mc -> new IndicatiaEventHandler().onClientTick());
+        ClientRegistryUtils.registerClientTick(mc -> new ExtraEventHandler().onClientTick());
 
         CapeUtils.loadCapeTextureAtStartup();
         new ThreadMinigameData().run();

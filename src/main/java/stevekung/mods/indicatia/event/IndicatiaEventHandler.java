@@ -20,7 +20,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
-import stevekung.mods.indicatia.extra.GuiRenderWeather;
+import stevekung.mods.indicatia.extra.WeatherRegionScreen;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
@@ -325,7 +325,7 @@ public class IndicatiaEventHandler
         }
         if (KeyBindingHandler.WEATHER.isPressed())
         {
-            GuiRenderWeather weather = new GuiRenderWeather();
+            WeatherRegionScreen weather = new WeatherRegionScreen();
             this.mc.openScreen(weather);
         }
         if (KeyBindingHandler.REC.isPressed())
