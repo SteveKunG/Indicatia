@@ -1,6 +1,5 @@
-package stevekung.mods.indicatia.gui.hack;
+package stevekung.mods.indicatia.gui;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -16,8 +15,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.CPSPosition;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.gui.GuiButtonCustomize;
-import stevekung.mods.indicatia.gui.GuiDropdownMinigames;
 import stevekung.mods.indicatia.gui.GuiDropdownMinigames.IDropboxCallback;
 import stevekung.mods.indicatia.minigames.MinigameCommand;
 import stevekung.mods.indicatia.minigames.MinigameData;
@@ -185,7 +182,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void handleMouseInput(int width, int height) throws IOException
+    public void handleMouseInput(int width, int height)
     {
         Minecraft mc = Minecraft.getMinecraft();
         int mouseX = Mouse.getEventX() * width / mc.displayWidth;
@@ -221,10 +218,10 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void keyTypedScrollDown() {}
+    public void pageUp() {}
 
     @Override
-    public void keyTypedScrollUp() {}
+    public void pageDown() {}
 
     @Override
     public void getSentHistory(int msgPos) {}

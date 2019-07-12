@@ -16,3 +16,4 @@ src/main/resources/assets/indicatia/sounds
 .classpath
 .project
 sounds.json
+src/main/resources/mixins.stevekung's_lib.json

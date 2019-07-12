@@ -33,8 +33,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.event.*;
-import stevekung.mods.indicatia.gui.hack.GuiIndicatiaChat;
+import stevekung.mods.indicatia.event.ChatMessageEventHandler;
+import stevekung.mods.indicatia.event.HUDRenderEventHandler;
+import stevekung.mods.indicatia.event.HypixelEventHandler;
+import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.indicatia.gui.GuiIndicatiaChat;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
 import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
@@ -54,7 +57,7 @@ public class IndicatiaMod
     public static final String MOD_ID = "indicatia";
     private static final int MAJOR_VERSION = 1;
     private static final int MINOR_VERSION = 2;
-    private static final int BUILD_VERSION = 5;
+    private static final int BUILD_VERSION = 6;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
     private static final String FORGE_VERSION = "after:forge@[14.23.5.2768,);";
     protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.0.5,); " + IndicatiaMod.FORGE_VERSION;
@@ -144,7 +147,6 @@ public class IndicatiaMod
     public void init(FMLInitializationEvent event)
     {
         IndicatiaMod.loadProfileOption();
-        CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
 
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {

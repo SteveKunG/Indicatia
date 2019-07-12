@@ -2,15 +2,17 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url = "https://repo.spongepowered.org/maven" }
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.2.0"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.3.0"
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
     }
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.2.0"
+    id "com.matthewprenger.cursegradle" version "1.3.0"
 }
 
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
@@ -19,10 +21,12 @@ def mcVersion = project.mc_version
 def hasInternal = project.hasProperty("internal")
 
 apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
 
 sourceSets.main {
     java {
         srcDirs = ["src/main/java", "dependencies/main/java"]
+        exclude "stevekung/mods/stevekunglib/mixin/**"
     }
     resources {
         srcDirs = ["src/main/resources", "dependencies/main/resources"]
@@ -44,27 +48,37 @@ minecraft {
     replaceIn "IndicatiaMod.java"
 }
 
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+}
+
+dependencies {
+    embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
+}
+
 repositories {
     // Curse Gradle
     maven {
         url "https://plugins.gradle.org/m2/"
     }
+    // Mixin
+    maven {
+        url = "http://repo.spongepowered.org/maven/"
+    }
+}
+
+sourceSets {
+    main {
+        ext.refMap = "mixins.indicatia.refmap.json"
+    }
 }
 
 ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "pack.mcmeta", "META-INF/indicatia_at.cfg"]
+ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "pack.mcmeta", "META-INF/indicatia_at.cfg", "mixins.indicatia.json", "mixins.indicatia.refmap.json"]
 ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
-ext.apiFiles = ["micdoodle8/**"]
-
-jar
-{
-    if (!hasInternal)
-    {
-        excludes.addAll(project.ext.internalFiles)
-    }
-    excludes.addAll(project.ext.apiFiles)
-}
+ext.apiFiles = ["micdoodle8/**", "stevekung/mods/stevekunglib/**", "mixins.stevekung's_lib.json"]
 
 curseforge {
     apiKey = api.indicatia
@@ -107,12 +121,27 @@ task processJar(type: Jar, dependsOn: "rePackAllJar") {
         baseName = "Indicatia-" + mcVersion
     }
 
+    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "LICENSE.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+    }
+
+    if (!hasInternal)
+    {
+        excludes.addAll(project.ext.internalFiles)
+    }
+    excludes.addAll(project.ext.apiFiles)
+
     from(zipTree(project.ext.coreJar)) {
         includes.addAll(project.ext.coreFiles)
     }
+    
     manifest {
-        attributes.put("FMLAT", "indicatia_at.cfg")
-        attributes.put("FMLCorePluginContainsFMLMod", "true")
+        attributes("FMLAT": "indicatia_at.cfg",
+                   "FMLCorePluginContainsFMLMod": "true",
+                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                   "MixinConfigs": "mixins.indicatia.json",
+                   "ForceLoadAsMod": "true"
+        )
     }
 }
 
@@ -134,8 +163,12 @@ task buildDeobfJar(type: Jar) {
     excludes.addAll(project.ext.apiFiles)
     classifier = "deobf"
     manifest {
-        attributes.put("FMLAT", "indicatia_at.cfg")
-        attributes.put("FMLCorePluginContainsFMLMod", "true")
+        attributes("FMLAT": "indicatia_at.cfg",
+                   "FMLCorePluginContainsFMLMod": "true",
+                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                   "MixinConfigs": "mixins.indicatia.json",
+                   "ForceLoadAsMod": "true"
+        )
     }
 }
 

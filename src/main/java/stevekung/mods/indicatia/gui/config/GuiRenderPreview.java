@@ -142,13 +142,13 @@ public class GuiRenderPreview extends GuiScreen
             {
                 ScaledResolution res = new ScaledResolution(this.mc);
                 String string = leftInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
+                float fontHeight = this.fontRenderer.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = res.getScaledWidth() - 2 - this.fontRenderer.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
+                    this.fontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
                 }
             }
 
@@ -157,13 +157,13 @@ public class GuiRenderPreview extends GuiScreen
             {
                 ScaledResolution res = new ScaledResolution(this.mc);
                 String string = rightInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
+                float fontHeight = this.fontRenderer.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = res.getScaledWidth() - 2 - this.fontRenderer.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
+                    this.fontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
                 }
             }
         }

@@ -4,8 +4,6 @@ import net.minecraft.client.gui.*;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatia.config.ConfigManagerIN;
-import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 
 @SideOnly(Side.CLIENT)
@@ -34,15 +32,7 @@ public class GuiConfirmDisconnect extends GuiScreen
             {
                 this.mc.world.sendQuittingDisconnectingPacket();
                 this.mc.loadWorld(null);
-
-                if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui)
-                {
-                    this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
-                }
-                else
-                {
-                    this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
-                }
+                this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
             }
         }
         else

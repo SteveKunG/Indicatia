@@ -74,8 +74,8 @@ public class KeystrokeRenderer
             if (ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
                 String cps = "CPS:" + InfoUtils.INSTANCE.getCPS();
-                int smallFontWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(cps);
-                ColorUtils.coloredFontRendererUnicode.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
+                int smallFontWidth = ColorUtils.unicodeFontRenderer.getStringWidth(cps);
+                ColorUtils.unicodeFontRenderer.drawString(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeCPSColor).to32Bit(), lmbDown ? false : true);
             }
 
             useRainbow = ExtendedConfig.keystrokeRCPSRainbow;
@@ -83,8 +83,8 @@ public class KeystrokeRenderer
             if (ExtendedConfig.rcps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("keystroke"))
             {
                 String rcps = "RCPS:" + InfoUtils.INSTANCE.getRCPS();
-                int smallFontWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(rcps);
-                ColorUtils.coloredFontRendererUnicode.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
+                int smallFontWidth = ColorUtils.unicodeFontRenderer.getStringWidth(rcps);
+                ColorUtils.unicodeFontRenderer.drawString(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.keystrokeRCPSColor).to32Bit(), rmbDown ? false : true);
             }
         }
         if (ExtendedConfig.keystrokeSprintSneak)

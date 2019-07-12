@@ -10,23 +10,12 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.model.ModelSkeleton;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.model.ModelZombieVillager;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.renderer.entity.*;
-import net.minecraft.client.renderer.entity.layers.*;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.monster.EntityGiantZombie;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
@@ -50,7 +39,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -61,10 +53,8 @@ import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.*;
 import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
-import stevekung.mods.indicatia.gui.hack.GuiMultiplayerIN;
-import stevekung.mods.indicatia.gui.hack.GuiNewChatFast;
+import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.*;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -82,7 +72,6 @@ public class IndicatiaEventHandler
     public static int currentServerPing;
     private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static int pendingPingTicks = 100;
-    private static boolean initLayer = true;
     private int disconnectClickCount;
     private int disconnectClickCooldown;
     private boolean initVersionCheck;
@@ -285,75 +274,6 @@ public class IndicatiaEventHandler
     }
 
     @SubscribeEvent
-    public void onPreRenderLiving(RenderLivingEvent.Pre event)
-    {
-        RenderLivingBase renderer = event.getRenderer();
-        List<LayerRenderer> layerLists = renderer.layerRenderers;
-        EntityLivingBase entity = event.getEntity();
-        RenderManager manager = this.mc.getRenderManager();
-        IndicatiaEventHandler.replaceArrowLayer(layerLists, new LayerArrowNew(renderer));
-
-        if (entity instanceof AbstractClientPlayer)
-        {
-            AbstractClientPlayer player = (AbstractClientPlayer) entity;
-
-            if (player.getSkinType().equals("default"))
-            {
-                RenderPlayer renderDefault = manager.getSkinMap().get("default");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderDefault), renderer, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderDefault));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderDefault));
-            }
-            else
-            {
-                RenderPlayer renderSlim = manager.getSkinMap().get("slim");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(renderSlim), renderer, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new LayerCapeNew(renderSlim));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new LayerElytraNew(renderSlim));
-            }
-        }
-        else if (entity instanceof EntityZombieVillager)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombieVillager(manager)), renderer, entity);
-        }
-        else if (entity instanceof EntityGiantZombie)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderGiantZombie(manager, 6.0F)), renderer, entity);
-        }
-        else if (entity instanceof EntityZombie && !(entity instanceof EntityZombieVillager))
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderZombie(manager)), renderer, entity);
-        }
-        else if (entity instanceof AbstractSkeleton)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new LayerAllArmor(new RenderSkeleton(manager)), renderer, entity);
-        }
-    }
-
-    @SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent event)
-    {
-        if (IndicatiaEventHandler.initLayer)
-        {
-            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
-            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-            renderDefault.addLayer(new LayerCustomCape(renderDefault));
-            renderSlim.addLayer(new LayerCustomCape(renderSlim));
-            IndicatiaEventHandler.initLayer = false;
-        }
-        if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui && event.getGui() != null && event.getGui().getClass().equals(GuiMultiplayer.class))
-        {
-            event.setGui(new GuiMultiplayerIN(new GuiMainMenu()));
-        }
-    }
-
-    @SubscribeEvent
-    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
-    {
-        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast();
-    }
-
-    @SubscribeEvent
     public void onDisconnectedFromServerEvent(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
         IndicatiaEventHandler.stopCommandTicks();
@@ -429,15 +349,6 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
     {
-        if (event.getGui() instanceof GuiMainMenu)
-        {
-            if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui && event.getButton().id == 2)
-            {
-                event.setCanceled(true);
-                event.getButton().playPressSound(this.mc.getSoundHandler());
-                this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
-            }
-        }
         if (ConfigManagerIN.indicatia_general.enableConfirmDisconnectButton && event.getGui() instanceof GuiIngameMenu && !this.mc.isSingleplayer())
         {
             if (event.getButton().id == 1)
@@ -471,15 +382,7 @@ public class IndicatiaEventHandler
                         {
                             this.mc.world.sendQuittingDisconnectingPacket();
                             this.mc.loadWorld(null);
-
-                            if (ConfigManagerIN.indicatia_general.enableCustomServerSelectionGui)
-                            {
-                                this.mc.displayGuiScreen(new GuiMultiplayerIN(new GuiMainMenu()));
-                            }
-                            else
-                            {
-                                this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
-                            }
+                            this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                         }
                         this.disconnectClickCount = 0;
                     }
@@ -497,6 +400,16 @@ public class IndicatiaEventHandler
             {
                 this.mc.displayGuiScreen(new GuiMojangStatusChecker(event.getGui()));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderHand(RenderHandEvent event)
+    {
+        if (this.mc.currentScreen instanceof GuiRenderPreview)
+        {
+            event.setCanceled(true);
+            return;
         }
     }
 
@@ -605,143 +518,6 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.autoFish = false;
             IndicatiaEventHandler.autoFishTick = 0;
             LoggerIN.info("Stopping Autofish Command");
-        }
-    }
-
-    private static void replaceArmorLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer, RenderLivingBase render, EntityLivingBase entity)
-    {
-        int armorLayerIndex = -1;
-
-        if (ConfigManagerIN.indicatia_general.enableOldArmorRender)
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer layer = layerLists.get(i);
-
-                if (layer.getClass().equals(LayerBipedArmor.class))
-                {
-                    armorLayerIndex = i;
-                }
-            }
-            if (armorLayerIndex >= 0)
-            {
-                layerLists.set(armorLayerIndex, newLayer);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer layer = layerLists.get(i);
-
-                if (layer.getClass().equals(LayerAllArmor.class))
-                {
-                    armorLayerIndex = i;
-                }
-            }
-            if (armorLayerIndex >= 0)
-            {
-                if (entity instanceof AbstractClientPlayer)
-                {
-                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render));
-                }
-                else if ((entity instanceof EntityZombie || entity instanceof EntityGiantZombie) && !(entity instanceof EntityZombieVillager))
-                {
-                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render)
-                    {
-                        @Override
-                        protected void initArmor()
-                        {
-                            this.modelLeggings = new ModelZombie(0.5F, true);
-                            this.modelArmor = new ModelZombie(1.0F, true);
-                        }
-                    });
-                }
-                else if (entity instanceof AbstractSkeleton)
-                {
-                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render)
-                    {
-                        @Override
-                        protected void initArmor()
-                        {
-                            this.modelLeggings = new ModelSkeleton(0.5F, true);
-                            this.modelArmor = new ModelSkeleton(1.0F, true);
-                        }
-                    });
-                }
-                else if (entity instanceof EntityZombieVillager)
-                {
-                    layerLists.set(armorLayerIndex, new LayerBipedArmor(render)
-                    {
-                        @Override
-                        protected void initArmor()
-                        {
-                            this.modelLeggings = new ModelZombieVillager(0.5F, 0.0F, true);
-                            this.modelArmor = new ModelZombieVillager(1.0F, 0.0F, true);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    private static void replaceCapeLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
-    {
-        int capeLayerIndex = -1;
-
-        for (int i = 0; i < layerLists.size(); i++)
-        {
-            LayerRenderer layer = layerLists.get(i);
-
-            if (layer.getClass().equals(LayerCape.class))
-            {
-                capeLayerIndex = i;
-            }
-        }
-        if (capeLayerIndex >= 0)
-        {
-            layerLists.set(capeLayerIndex, newLayer);
-        }
-    }
-
-    private static void replaceElytraLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
-    {
-        int elytraLayerIndex = -1;
-
-        if (ConfigManagerIN.indicatia_general.enableOldArmorRender)
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer layer = layerLists.get(i);
-
-                if (layer.getClass().equals(LayerElytra.class))
-                {
-                    elytraLayerIndex = i;
-                }
-            }
-            if (elytraLayerIndex >= 0)
-            {
-                layerLists.set(elytraLayerIndex, newLayer);
-            }
-        }
-    }
-
-    private static void replaceArrowLayer(List<LayerRenderer> layerLists, LayerRenderer newLayer)
-    {
-        int arrowLayerIndex = -1;
-
-        for (int i = 0; i < layerLists.size(); i++)
-        {
-            LayerRenderer layer = layerLists.get(i);
-
-            if (layer.getClass().equals(LayerArrow.class))
-            {
-                arrowLayerIndex = i;
-            }
-        }
-        if (arrowLayerIndex >= 0)
-        {
-            layerLists.set(arrowLayerIndex, newLayer);
         }
     }
 

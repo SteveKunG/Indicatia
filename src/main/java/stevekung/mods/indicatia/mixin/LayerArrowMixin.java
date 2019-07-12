@@ -1,30 +1,32 @@
-package stevekung.mods.indicatia.renderer;
+package stevekung.mods.indicatia.mixin;
 
 import java.util.Random;
+
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.layers.LayerArrow;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.stevekunglib.utils.client.RenderUtils;
 
-@SideOnly(Side.CLIENT)
-public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
+@Mixin(LayerArrow.class)
+public abstract class LayerArrowMixin implements LayerRenderer<EntityLivingBase>
 {
-    private final RenderLivingBase renderer;
-
-    public LayerArrowNew(RenderLivingBase renderer)
-    {
-        this.renderer = renderer;
-    }
+    @Shadow
+    @Final
+    private RenderLivingBase renderer;
 
     @Override
+    @Overwrite
     public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         int i = entity.getArrowCountInEntity();
@@ -65,11 +67,5 @@ public class LayerArrowNew implements LayerRenderer<EntityLivingBase>
                 RenderUtils.enableLighting();
             }
         }
-    }
-
-    @Override
-    public boolean shouldCombineTextures()
-    {
-        return false;
     }
 }

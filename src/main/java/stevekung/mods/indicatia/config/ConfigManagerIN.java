@@ -72,10 +72,6 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable Confirm Disconnect Button")
         public boolean enableConfirmDisconnectButton = false;
 
-        @Config.Comment("Fix chat rendering if equipment icons is over Chat GUI.")
-        @Config.Name(value = "Enable Fix Chat Depth Render")
-        public boolean enableFixChatDepthRender = true;
-
         @Config.Comment("Show Vanilla Potion HUD in-game.")
         @Config.Name(value = "Enable Vanilla Potion HUD")
         public boolean enableVanillaPotionHUD = true;

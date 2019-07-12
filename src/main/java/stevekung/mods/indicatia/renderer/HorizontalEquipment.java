@@ -32,13 +32,13 @@ public class HorizontalEquipment
     {
         boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        ColorUtils.coloredFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215, true);
+        Minecraft.getMinecraft().fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215, true);
 
         if (this.itemStack.getItem() instanceof ItemBow)
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getMinecraft().player.inventory);
             GlStateManager.disableDepth();
-            ColorUtils.coloredFontRendererUnicode.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
+            ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215, true);
             GlStateManager.enableDepth();
         }
     }

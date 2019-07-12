@@ -136,7 +136,7 @@ public class GuiKeystrokeCustomColorSettings extends GuiScreen
             {
                 ExtendedConfig.Options options = this.optionsRowList.getListEntry(i).getTextField().getOption();
                 RGB rgb = ColorUtils.stringToRGB(this.optionsRowList.getListEntry(i).getTextField().getText());
-                this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
+                this.drawCenteredString(this.fontRenderer, LangUtils.translate("message.example") + ": " + rgb.toColoredFont() + options.getTranslation(), this.width / 2, 15, 16777215);
             }
             if (this.optionsRowList.selected == -1)
             {

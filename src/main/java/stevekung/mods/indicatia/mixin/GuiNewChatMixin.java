@@ -1,4 +1,11 @@
-package stevekung.mods.indicatia.gui.hack;
+package stevekung.mods.indicatia.mixin;
+
+import java.util.List;
+
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
@@ -8,23 +15,39 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.utils.HideNameData;
 
-@SideOnly(Side.CLIENT)
-public class GuiNewChatFast extends GuiNewChat
+@Mixin(GuiNewChat.class)
+public abstract class GuiNewChatMixin extends Gui
 {
+    @Shadow
+    @Final
     private Minecraft mc;
 
-    public GuiNewChatFast()
-    {
-        super(Minecraft.getMinecraft());
-        this.mc = Minecraft.getMinecraft();
-    }
+    @Shadow
+    @Final
+    private List<ChatLine> drawnChatLines;
 
-    @Override
+    @Shadow
+    private int scrollPos;
+
+    @Shadow
+    private boolean isScrolled;
+
+    @Shadow
+    protected abstract int getLineCount();
+
+    @Shadow
+    protected abstract boolean getChatOpen();
+
+    @Shadow
+    protected abstract float getChatScale();
+
+    @Shadow
+    protected abstract int getChatWidth();
+
+    @Overwrite
     public void drawChat(int updateCounter)
     {
         if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)

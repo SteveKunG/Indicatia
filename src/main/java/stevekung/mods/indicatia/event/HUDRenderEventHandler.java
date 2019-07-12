@@ -11,15 +11,11 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.Style;
@@ -30,12 +26,9 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import stevekung.mods.indicatia.config.*;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.config.GuiRenderPreview;
-import stevekung.mods.indicatia.gui.overlay.GuiBossOverlayNew;
-import stevekung.mods.indicatia.gui.overlay.GuiPlayerTabOverlayNew;
 import stevekung.mods.indicatia.renderer.HUDInfo;
 import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -47,8 +40,6 @@ import stevekung.mods.stevekunglib.utils.JsonUtils;
 public class HUDRenderEventHandler
 {
     private Minecraft mc;
-    private final GuiBossOverlayNew overlayBoss;
-    private GuiPlayerTabOverlayNew overlayPlayerList;
     public static boolean recordEnable;
     private int recTick;
     private static int readFileTicks;
@@ -64,13 +55,6 @@ public class HUDRenderEventHandler
     public HUDRenderEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
-        this.overlayBoss = new GuiBossOverlayNew();
-    }
-
-    @SubscribeEvent
-    public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
-    {
-        this.overlayPlayerList = new GuiPlayerTabOverlayNew();
     }
 
     @SubscribeEvent
@@ -319,13 +303,13 @@ public class HUDRenderEventHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = leftInfo.get(i);
-                    float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
-                        ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
+                        this.mc.fontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
                     }
                 }
 
@@ -334,13 +318,13 @@ public class HUDRenderEventHandler
                 {
                     ScaledResolution res = new ScaledResolution(this.mc);
                     String string = rightInfo.get(i);
-                    float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
+                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                     float yOffset = 3 + fontHeight * i;
-                    float xOffset = res.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                    float xOffset = res.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(string);
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
-                        ColorUtils.coloredFontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
+                        this.mc.fontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
                     }
                 }
             }
@@ -354,7 +338,7 @@ public class HUDRenderEventHandler
                 {
                     color = 16733525;
                 }
-                ColorUtils.coloredFontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                this.mc.fontRenderer.drawString("REC: " + StringUtils.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("REC: " + StringUtils.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
             }
 
             if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
@@ -374,38 +358,12 @@ public class HUDRenderEventHandler
                 }
             }
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
-        {
-            event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-            NetHandlerPlayClient handler = this.mc.player.connection;
-
-            if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
-            {
-                this.overlayPlayerList.updatePlayerList(true);
-                this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
-            }
-            else
-            {
-                this.overlayPlayerList.updatePlayerList(false);
-            }
-        }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
         {
             if (this.mc.currentScreen instanceof GuiRenderPreview)
             {
                 event.setCanceled(true);
                 return;
-            }
-            if (ConfigManagerIN.indicatia_general.enableFixChatDepthRender)
-            {
-                event.setCanceled(true);
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(0, event.getResolution().getScaledHeight() - 48, 0.0F);
-                GlStateManager.disableDepth();
-                this.mc.ingameGUI.getChatGUI().drawChat(this.mc.ingameGUI.getUpdateCounter());
-                GlStateManager.enableDepth();
-                GlStateManager.popMatrix();
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
@@ -414,15 +372,6 @@ public class HUDRenderEventHandler
             {
                 event.setCanceled(true);
             }
-        }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
-        {
-            event.setCanceled(true);
-            this.mc.getTextureManager().bindTexture(Gui.ICONS);
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.enableBlend();
-            this.overlayBoss.renderBossHealth();
-            GlStateManager.disableBlend();
         }
     }
 
