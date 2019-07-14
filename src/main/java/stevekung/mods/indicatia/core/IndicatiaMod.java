@@ -59,8 +59,8 @@ public class IndicatiaMod
     private static final int MINOR_VERSION = 2;
     private static final int BUILD_VERSION = 6;
     public static final String VERSION = IndicatiaMod.MAJOR_VERSION + "." + IndicatiaMod.MINOR_VERSION + "." + IndicatiaMod.BUILD_VERSION;
-    private static final String FORGE_VERSION = "after:forge@[14.23.5.2768,);";
-    protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.0.5,); " + IndicatiaMod.FORGE_VERSION;
+    private static final String FORGE_VERSION = "after:forge@[14.23.5.2838,);";
+    protected static final String DEPENDENCIES = "required-after:stevekung's_lib@[1.1.0,); " + IndicatiaMod.FORGE_VERSION;
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     protected static final String JSON_URL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json";
     protected static final String CERTIFICATE = "@FINGERPRINT@";
