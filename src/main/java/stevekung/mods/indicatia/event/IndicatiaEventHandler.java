@@ -342,7 +342,7 @@ public class IndicatiaEventHandler
         if (event.getGui() instanceof GuiMainMenu)
         {
             int height = event.getGui().height / 4 + 48;
-            event.getButtonList().add(new GuiButtonMojangStatus(200, event.getGui().width / 2 - 124, height + 63));
+            event.getButtonList().add(new GuiButtonMojangStatus(200, event.getGui().width / 2 + 104, height + 84));
         }
     }
 
