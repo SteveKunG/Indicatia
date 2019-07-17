@@ -26,7 +26,7 @@ public class CustomCapeLayer extends LayerRenderer<AbstractClientPlayerEntity, P
     }
 
     @Override
-    public void func_212842_a_(AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         if (IndicatiaConfig.GENERAL.enableCustomCape.get() && entity.getName().getUnformattedComponentText().equals(GameProfileUtils.getUsername()) && !entity.isInvisible() && ExtendedConfig.instance.showCustomCape && CapeUtils.CAPE_TEXTURE != null)
         {

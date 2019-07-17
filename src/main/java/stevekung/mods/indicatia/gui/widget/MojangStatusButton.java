@@ -30,8 +30,8 @@ public class MojangStatusButton extends Button
         if (mc.currentScreen instanceof MainMenuScreen)
         {
             MainMenuScreen main = (MainMenuScreen)mc.currentScreen;
-            float f = main.field_213102_y ? (Util.milliTime() - main.field_213103_z) / 1000.0F : 1.0F;
-            float f1 = main.field_213102_y ? MathHelper.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
+            float f = main.showFadeInAnimation ? (Util.milliTime() - main.firstRenderTime) / 1000.0F : 1.0F;
+            float f1 = main.showFadeInAnimation ? MathHelper.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
 
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);

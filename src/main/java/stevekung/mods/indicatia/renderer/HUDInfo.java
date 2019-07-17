@@ -80,7 +80,7 @@ public class HUDInfo
     {
         BlockPos blockPos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
         ChunkPos chunkPos = new ChunkPos(blockPos);
-        Chunk worldChunk = mc.world.func_212866_a_(chunkPos.x, chunkPos.z);
+        Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
 
         if (worldChunk.isEmpty())
         {
@@ -671,15 +671,15 @@ public class HUDInfo
 
                     if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
-                        AbstractGui.blit(xPotion + 12, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.func_215288_a(potion));
+                        AbstractGui.blit(xPotion + 12, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.getSprite(potion));
                     }
                     else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                     {
-                        AbstractGui.blit(xPotion + 24, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.func_215288_a(potion));
+                        AbstractGui.blit(xPotion + 24, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.getSprite(potion));
                     }
                     else
                     {
-                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.func_215288_a(potion));
+                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.getSprite(potion));
                     }
                 }
 

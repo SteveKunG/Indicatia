@@ -23,7 +23,7 @@ public class CapeLayerIN extends LayerRenderer<AbstractClientPlayerEntity, Playe
     }
 
     @Override
-    public void func_212842_a_(AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         if (entity.hasPlayerInfo() && !entity.isInvisible() && entity.isWearing(PlayerModelPart.CAPE) && entity.getLocationCape() != null)
         {

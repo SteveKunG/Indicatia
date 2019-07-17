@@ -31,7 +31,7 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
     }
 
     @Override
-    public void func_76986_a(FishingBobberEntity entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void doRender(FishingBobberEntity entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         PlayerEntity player = entity.getAngler();
 
@@ -130,12 +130,12 @@ public class FishRendererIN extends EntityRenderer<FishingBobberEntity>
             tessellator.draw();
             GlStateManager.enableLighting();
             GlStateManager.enableTexture();
-            super.func_76986_a(entity, x, y, z, entityYaw, partialTicks);
+            super.doRender(entity, x, y, z, entityYaw, partialTicks);
         }
     }
 
     @Override
-    protected ResourceLocation func_110775_a(FishingBobberEntity entity)
+    protected ResourceLocation getEntityTexture(FishingBobberEntity entity)
     {
         return FishRendererIN.FISH_PARTICLES;
     }

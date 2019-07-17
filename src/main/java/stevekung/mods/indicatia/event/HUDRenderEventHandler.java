@@ -400,13 +400,13 @@ public class HUDRenderEventHandler
         if (event.getType() == RenderGameOverlayEvent.ElementType.PLAYER_LIST)
         {
             event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.world.func_96441_U().getObjectiveInDisplaySlot(0);
+            ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
             ClientPlayNetHandler handler = this.mc.player.connection;
 
             if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
             {
                 this.overlayPlayerList.setVisible(true);
-                this.overlayPlayerList.render(this.mc.mainWindow.getScaledWidth(), this.mc.world.func_96441_U(), scoreobjective);
+                this.overlayPlayerList.render(this.mc.mainWindow.getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
             }
             else
             {

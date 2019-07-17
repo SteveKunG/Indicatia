@@ -28,7 +28,7 @@ public class ArrowLayerIN<T extends LivingEntity, M extends EntityModel<T>> exte
     }
 
     @Override
-    public void func_212842_a_(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         int i = entity.getArrowCountInEntity();
 

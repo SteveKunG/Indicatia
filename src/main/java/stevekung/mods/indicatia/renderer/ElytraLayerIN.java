@@ -30,7 +30,7 @@ public class ElytraLayerIN<T extends AbstractClientPlayerEntity, M extends Entit
     }
 
     @Override
-    public void func_212842_a_(T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         ItemStack itemStack = entity.getItemStackFromSlot(EquipmentSlotType.CHEST);
 
@@ -51,8 +51,8 @@ public class ElytraLayerIN<T extends AbstractClientPlayerEntity, M extends Entit
 
             GlStateManager.pushMatrix();
             GlStateManager.translatef(0.0F, 0.0F, 0.125F);
-            this.modelElytra.func_212844_a_(entity, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, limbSwing);
-            this.modelElytra.func_78088_a(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            this.modelElytra.setRotationAngles(entity, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, limbSwing);
+            this.modelElytra.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
 
             if (itemStack.isEnchanted())
             {
