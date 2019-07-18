@@ -152,29 +152,29 @@ public class IndicatiaEventHandler
                 {
                     this.disconnectClickCooldown--;
                 }
-                /*if (this.mc.field_71462_r != null && this.mc.field_71462_r instanceof GuiIngameMenu) TODO
+                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof IngameMenuScreen)//TODO Testing
                 {
                     if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && !this.mc.isSingleplayer())
                     {
-                        this.mc.field_71462_r.buttons.forEach(button ->
+                        this.mc.currentScreen.buttons.forEach(button ->
                         {
-                            if (button.id == 1 && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK)
+                            if (button.getMessage().equals(LangUtils.translate("menu.disconnect")) && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK)
                             {
                                 if (this.disconnectClickCooldown < 60)
                                 {
                                     int cooldownSec = 1 + this.disconnectClickCooldown / 20;
-                                    button.displayString = TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect") + " in " + cooldownSec + "...";
+                                    button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect") + " in " + cooldownSec + "...");
                                 }
                                 if (this.disconnectClickCooldown == 0)
                                 {
-                                    button.displayString = LangUtils.translate("menu.disconnect");
+                                    button.setMessage(LangUtils.translate("menu.disconnect"));
                                     this.disconnectClickCount = 0;
                                 }
                             }
                         });
                     }
                 }
-                else*/
+                else
                 {
                     this.disconnectClickCount = 0;
                     this.disconnectClickCooldown = 0;
