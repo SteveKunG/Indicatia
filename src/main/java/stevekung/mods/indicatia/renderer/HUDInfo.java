@@ -81,7 +81,7 @@ public class HUDInfo
         }
         else
         {
-            String biomeName = worldChunk.getBiome(blockPos).getTextComponent().getFormattedText().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
+            String biomeName = worldChunk.getBiome(blockPos).getName().asFormattedString().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
             return ColorUtils.stringToRGB(ExtendedConfig.instance.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.instance.biomeValueColor).toColoredFont() + biomeName;
         }
     }

@@ -11,8 +11,8 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
 import io.github.cottonmc.clientcommands.ClientCommandPlugin;
 import io.github.cottonmc.clientcommands.CottonClientCommandSource;
-import net.minecraft.ChatFormat;
-import net.minecraft.network.chat.BaseComponent;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import stevekung.mods.indicatia.command.arguments.ProfileNameArgumentType;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -159,8 +159,8 @@ public class ProfileCommand implements ClientCommandPlugin
                 }
             }
 
-            BaseComponent translation = LangUtils.translateComponent("commands.inprofile.list.count", size);
-            translation.getStyle().setColor(ChatFormat.DARK_GREEN);
+            Text translation = LangUtils.translateComponent("commands.inprofile.list.count", size);
+            translation.getStyle().setColor(Formatting.DARK_GREEN);
             source.sendFeedback(translation);
 
             collection.stream().filter(file -> file.getName().endsWith(".dat")).forEach(file ->
@@ -168,7 +168,7 @@ public class ProfileCommand implements ClientCommandPlugin
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
                 boolean current = realName.equals(ExtendedConfig.currentProfile);
-                source.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + ChatFormat.RED + LangUtils.translate("commands.inprofile.current_profile") : ""));
+                source.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + Formatting.RED + LangUtils.translate("commands.inprofile.current_profile") : ""));
             });
             return 1;
         }

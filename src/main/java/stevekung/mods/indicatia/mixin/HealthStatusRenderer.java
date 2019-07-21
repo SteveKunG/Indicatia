@@ -10,7 +10,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.network.chat.Style;
+import net.minecraft.text.Style;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.HealthStatusMode;
 import stevekung.mods.indicatia.utils.InfoUtils;
@@ -43,7 +43,7 @@ public class HealthStatusRenderer<T extends LivingEntity>
         {
             if (!mc.options.hudHidden && !entity.isInvisible() && flag && !(entity instanceof ClientPlayerEntity || entity instanceof ArmorStandEntity) && !InfoUtils.INSTANCE.isHypixel())
             {
-                String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
+                String heart = JsonUtils.create("\u2764 ").setStyle(color).asFormattedString();
                 RenderUtilsIN.renderEntityHealth(entity, heart + String.format("%.1f", health), x, y, z);
             }
         }

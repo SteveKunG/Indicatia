@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.ChatFormat;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.util.Formatting;
 import stevekung.mods.indicatia.config.DoubleConfigOption;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.ExtendedConfigOption;
@@ -143,7 +143,7 @@ public class GuiExtendedConfig extends Screen
         {
             this.renderBackground();
         }
-        this.drawCenteredString(this.minecraft.textRenderer, LangUtils.translate("extended_config.main.title") + " : " + LangUtils.translate("extended_config.current_profile.info", ChatFormat.YELLOW + ExtendedConfig.currentProfile + ChatFormat.RESET), this.width / 2, 10, 16777215);
+        this.drawCenteredString(this.minecraft.textRenderer, LangUtils.translate("extended_config.main.title") + " : " + LangUtils.translate("extended_config.current_profile.info", Formatting.YELLOW + ExtendedConfig.currentProfile + Formatting.RESET), this.width / 2, 10, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 }

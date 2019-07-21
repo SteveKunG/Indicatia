@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.hud.PlayerListHud;
-import stevekung.mods.indicatia.gui.overlay.PlayerListHudNew;
 
 @Mixin(InGameHud.class)
 public class CustomPlayerListHUD
@@ -19,6 +18,6 @@ public class CustomPlayerListHUD
     @Inject(at = @At("RETURN"), method = "(Lnet/minecraft/client/MinecraftClient;)V")
     public void draw(CallbackInfo info)
     {
-        this.playerListHud = new PlayerListHudNew();
+        //this.playerListHud = new PlayerListHudNew();
     }
 }

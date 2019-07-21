@@ -15,7 +15,7 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BoundingBox;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -155,7 +155,7 @@ public class InfoUtils
 
             Vec3d vec3d1 = entity.getRotationVec(1.0F);
             Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
-            BoundingBox boundingBox_1 = entity.getBoundingBox().stretch(vec3d1.multiply(distance)).expand(1.0D, 1.0D, 1.0D);
+            Box boundingBox_1 = entity.getBoundingBox().stretch(vec3d1.multiply(distance)).expand(1.0D, 1.0D, 1.0D);
             EntityHitResult result = ProjectileUtil.rayTrace(entity, vec3d, vec3d2, boundingBox_1, entity_1 -> !entity_1.isSpectator() && entity_1.collides(), distance);
 
             if (result != null)

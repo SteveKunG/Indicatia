@@ -9,11 +9,11 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import io.github.cottonmc.clientcommands.ArgumentBuilders;
 import io.github.cottonmc.clientcommands.ClientCommandPlugin;
 import io.github.cottonmc.clientcommands.CottonClientCommandSource;
-import net.minecraft.ChatFormat;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.utils.AutoLogin;
@@ -110,10 +110,10 @@ public class AutoLoginCommand implements ClientCommandPlugin
         }
         else
         {
-            TextComponent component = new TextComponent(LangUtils.translate("commands.auto_login.list.count", collection.size()));
-            component.getStyle().setColor(ChatFormat.DARK_GREEN);
+            LiteralText component = new LiteralText(LangUtils.translate("commands.auto_login.list.count", collection.size()));
+            component.getStyle().setColor(Formatting.DARK_GREEN);
             source.sendFeedback(component);
-            collection.forEach(loginData -> source.sendFeedback(new TranslatableComponent(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID())));
+            collection.forEach(loginData -> source.sendFeedback(new TranslatableText(LangUtils.translate("commands.auto_login.list.entry"), loginData.getServerIP(), loginData.getUUID())));
             return 1;
         }
     }

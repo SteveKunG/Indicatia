@@ -65,7 +65,7 @@ public class CapeUtils
 
     private static void readCapeTexture() throws IOException
     {
-        NativeImage image = NativeImage.fromInputStream(new FileInputStream(CapeUtils.texture));
+        NativeImage image = NativeImage.read(new FileInputStream(CapeUtils.texture));
         CapeUtils.CAPE_TEXTURE = new NativeImageBackedTexture(image);
     }
 }

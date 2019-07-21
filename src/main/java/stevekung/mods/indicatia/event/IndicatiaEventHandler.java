@@ -340,13 +340,13 @@ public class IndicatiaEventHandler
         if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SPRINT.isPressed())
         {
             ExtendedConfig.instance.toggleSprint = !ExtendedConfig.instance.toggleSprint;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).asFormattedString());
             ExtendedConfig.instance.save();
         }
         if (ExtendedConfig.instance.toggleSneakUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SNEAK.isPressed())
         {
             ExtendedConfig.instance.toggleSneak = !ExtendedConfig.instance.toggleSneak;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).asFormattedString());
             ExtendedConfig.instance.save();
         }
         if (KeyBindingHandler.DONATOR.isPressed())

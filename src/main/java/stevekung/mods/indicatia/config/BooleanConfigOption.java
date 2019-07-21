@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.ChatFormat;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.util.Formatting;
 
 @Environment(EnvType.CLIENT)
 public class BooleanConfigOption extends ExtendedConfigOption
@@ -54,6 +54,6 @@ public class BooleanConfigOption extends ExtendedConfigOption
 
     public String getDisplayString(ExtendedConfig config)
     {
-        return this.getDisplayPrefix() + (this.get(config) ? ChatFormat.GREEN + "true" : ChatFormat.RED + "false");
+        return this.getDisplayPrefix() + (this.get(config) ? Formatting.GREEN + "true" : Formatting.RED + "false");
     }
 }

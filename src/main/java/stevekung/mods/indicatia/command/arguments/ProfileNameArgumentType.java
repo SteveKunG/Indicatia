@@ -17,7 +17,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import io.github.cottonmc.clientcommands.CottonClientCommandSource;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -25,9 +25,9 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslatableComponent(LangUtils.translate("commands.inprofile.not_found", obj)));
-    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TranslatableComponent(LangUtils.translate("commands.inprofile.cannot_remove_default")));
-    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableComponent(LangUtils.translate("argument.id.invalid")));
+    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslatableText(LangUtils.translate("commands.inprofile.not_found", obj)));
+    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TranslatableText(LangUtils.translate("commands.inprofile.cannot_remove_default")));
+    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableText(LangUtils.translate("argument.id.invalid")));
     private Mode mode;
 
     private ProfileNameArgumentType(Mode mode)
