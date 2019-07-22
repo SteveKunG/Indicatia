@@ -123,13 +123,13 @@ public class IngameHUDRenderer
             for (int i = 0; i < leftInfo.size(); ++i)
             {
                 String string = leftInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.fontHeight + 1;
+                float fontHeight = mc.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = mc.window.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = mc.window.getScaledWidth() - 2 - mc.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+                    mc.textRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
                 }
             }
 
@@ -137,13 +137,13 @@ public class IngameHUDRenderer
             for (int i = 0; i < rightInfo.size(); ++i)
             {
                 String string = rightInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.fontHeight + 1;
+                float fontHeight = mc.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = mc.window.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = mc.window.getScaledWidth() - 2 - mc.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+                    mc.textRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
                 }
             }
         }

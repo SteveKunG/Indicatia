@@ -440,13 +440,13 @@ public class HUDInfo
         for (int i = 0; i < itemStatusList.size(); ++i)
         {
             String string = itemStatusList.get(i);
-            fontHeight = ColorUtils.coloredFontRenderer.fontHeight + 7.0625F;
+            fontHeight = mc.textRenderer.fontHeight + 7.0625F;
 
             if (!string.isEmpty())
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
-                float xOffset = isRightSide ? mc.window.getScaledWidth() - ColorUtils.coloredFontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
-                ColorUtils.coloredFontRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+                float xOffset = isRightSide ? mc.window.getScaledWidth() - mc.textRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
             }
         }
 
@@ -459,7 +459,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepthTest();
-                ColorUtils.coloredFontRendererUnicode.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, isRightSide ? mc.window.getScaledWidth() - ColorUtils.coloredFontRendererUnicode.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215);
+                mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, isRightSide ? mc.window.getScaledWidth() - mc.textRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215);
                 GlStateManager.enableDepthTest();
             }
         }
@@ -560,10 +560,10 @@ public class HUDInfo
         for (int i = 0; i < leftItemStatusList.size(); ++i)
         {
             String string = leftItemStatusList.get(i);
-            int stringWidth = ColorUtils.coloredFontRenderer.getStringWidth(string);
+            int stringWidth = mc.textRenderer.getStringWidth(string);
             float xOffset = mc.window.getScaledWidth() / 2 - 114 - stringWidth;
             int yOffset = mc.window.getScaledHeight() - 16 * i - 36;
-            ColorUtils.coloredFontRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+            mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
         }
 
         // right durability/item count stuff
@@ -572,21 +572,21 @@ public class HUDInfo
             String string = rightItemStatusList.get(i);
             float xOffset = mc.window.getScaledWidth() / 2 + 114;
             int yOffset = mc.window.getScaledHeight() - 16 * i - 36;
-            ColorUtils.coloredFontRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+            mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
         }
 
         // left arrow count stuff
         for (int i = 0; i < leftArrowCountList.size(); ++i)
         {
             String string = leftArrowCountList.get(i);
-            int stringWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(string);
+            int stringWidth = mc.textRenderer.getStringWidth(string);
             float xOffset = mc.window.getScaledWidth() / 2 - 90 - stringWidth;
             int yOffset = mc.window.getScaledHeight() - 16 * i - 32;
 
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepthTest();
-                ColorUtils.coloredFontRendererUnicode.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+                mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
                 GlStateManager.enableDepthTest();
             }
         }
@@ -601,7 +601,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepthTest();
-                ColorUtils.coloredFontRendererUnicode.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
+                mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
                 GlStateManager.enableDepthTest();
             }
         }
@@ -694,8 +694,8 @@ public class HUDInfo
                     s1 = s1 + " " + LangUtils.translate("enchantment.level.4");
                 }
 
-                int stringwidth1 = ColorUtils.coloredFontRenderer.getStringWidth(s);
-                int stringwidth2 = ColorUtils.coloredFontRenderer.getStringWidth(s1);
+                int stringwidth1 = mc.textRenderer.getStringWidth(s);
+                int stringwidth2 = mc.textRenderer.getStringWidth(s1);
                 int yOffset = iconAndTime ? 11 : 16;
 
                 if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
@@ -704,9 +704,9 @@ public class HUDInfo
 
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawWithShadow(s1, xPotion + xOffset - stringwidth2, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                        mc.textRenderer.drawWithShadow(s1, xPotion + xOffset - stringwidth2, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawWithShadow(s, xPotion + xOffset - stringwidth1, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                    mc.textRenderer.drawWithShadow(s, xPotion + xOffset - stringwidth1, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
                 }
                 else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                 {
@@ -714,9 +714,9 @@ public class HUDInfo
 
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawWithShadow(s1, xPotion + xOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                        mc.textRenderer.drawWithShadow(s1, xPotion + xOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawWithShadow(s, xPotion + xOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                    mc.textRenderer.drawWithShadow(s, xPotion + xOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
                 }
                 else
                 {
@@ -725,9 +725,9 @@ public class HUDInfo
 
                     if (!iconAndTime)
                     {
-                        ColorUtils.coloredFontRenderer.drawWithShadow(s1, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                        mc.textRenderer.drawWithShadow(s1, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
                     }
-                    ColorUtils.coloredFontRenderer.drawWithShadow(s, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                    mc.textRenderer.drawWithShadow(s, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
                 }
                 yPotion -= length;
             }
@@ -822,7 +822,7 @@ public class HUDInfo
             GlStateManager.enableColorMaterial();
             GlStateManager.disableLighting();
             GlStateManager.enableCull();
-            MinecraftClient.getInstance().getItemRenderer().renderGuiItemOverlay(ColorUtils.coloredFontRenderer, itemStack, x, y);
+            MinecraftClient.getInstance().getItemRenderer().renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, itemStack, x, y);
             GlStateManager.blendFunc(770, 771);
             GlStateManager.disableLighting();
         }

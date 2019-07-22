@@ -117,13 +117,13 @@ public class GuiRenderPreview extends Screen
             for (int i = 0; i < leftInfo.size(); ++i)
             {
                 String string = leftInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.fontHeight + 1;
+                float fontHeight = this.minecraft.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.minecraft.window.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.window.getScaledWidth() - 2 - this.minecraft.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+                    this.minecraft.textRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
                 }
             }
 
@@ -131,13 +131,13 @@ public class GuiRenderPreview extends Screen
             for (int i = 0; i < rightInfo.size(); ++i)
             {
                 String string = rightInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.fontHeight + 1;
+                float fontHeight = this.minecraft.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.minecraft.window.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.window.getScaledWidth() - 2 - this.minecraft.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+                    this.minecraft.textRenderer.drawWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
                 }
             }
         }

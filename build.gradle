@@ -13,6 +13,15 @@ apply plugin: net.fabricmc.loom.LoomGradlePlugin
 archivesBaseName = "Indicatia"
 sourceCompatibility = targetCompatibility = 1.8
 
+sourceSets.main {
+    java {
+        srcDirs = ["src/main/java", "dependencies/main/java"]
+    }
+    resources {
+        srcDirs = ["src/main/resources", "dependencies/main/resources"]
+    }
+}
+
 minecraft {
     refmapName = "indicatia-refmap.json"
 }

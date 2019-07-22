@@ -72,15 +72,15 @@ public class KeystrokeRenderer
             if (ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.KEYSTROKE)
             {
                 String cps = "CPS:" + InfoUtils.INSTANCE.getCPS();
-                int smallFontWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(cps);
+                int smallFontWidth = mc.textRenderer.getStringWidth(cps);
 
                 if (lmbDown)
                 {
-                    ColorUtils.coloredFontRendererUnicode.draw(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeCPSColor).to32Bit());
+                    mc.textRenderer.draw(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeCPSColor).to32Bit());
                 }
                 else
                 {
-                    ColorUtils.coloredFontRendererUnicode.drawWithShadow(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeCPSColor).to32Bit());
+                    mc.textRenderer.drawWithShadow(cps, width - widthSquare + 8.0625F - smallFontWidth / 2, heightSquare + 12, lmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeCPSColor).to32Bit());
                 }
             }
 
@@ -89,15 +89,15 @@ public class KeystrokeRenderer
             if (ExtendedConfig.instance.rcps && ExtendedConfig.instance.cpsPosition == CPSPosition.KEYSTROKE)
             {
                 String rcps = "RCPS:" + InfoUtils.INSTANCE.getRCPS();
-                int smallFontWidth = ColorUtils.coloredFontRendererUnicode.getStringWidth(rcps);
+                int smallFontWidth = mc.textRenderer.getStringWidth(rcps);
 
                 if (rmbDown)
                 {
-                    ColorUtils.coloredFontRendererUnicode.draw(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeRCPSColor).to32Bit());
+                    mc.textRenderer.draw(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeRCPSColor).to32Bit());
                 }
                 else
                 {
-                    ColorUtils.coloredFontRendererUnicode.drawWithShadow(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeRCPSColor).to32Bit());
+                    mc.textRenderer.drawWithShadow(rcps, width - widthSquare + 56.0625F - smallFontWidth / 2, heightSquare + 12, rmbDown ? 0 : useRainbow ? rainbow : ColorUtils.stringToRGB(ExtendedConfig.instance.keystrokeRCPSColor).to32Bit());
                 }
             }
         }

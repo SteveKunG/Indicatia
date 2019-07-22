@@ -26,7 +26,7 @@ import stevekung.mods.stevekungslib.utils.LangUtils;
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
     private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslatableText(LangUtils.translate("commands.inprofile.not_found", obj)));
-    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TranslatableText(LangUtils.translate("commands.inprofile.cannot_remove_default")));
+    private static final SimpleCommandExceptionType CANNOT_REMOVE_DEFAULT = new SimpleCommandExceptionType(new TranslatableText(LangUtils.translate("commands.inprofile.cannot_remove_default")));
     private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableText(LangUtils.translate("argument.id.invalid")));
     private Mode mode;
 
@@ -79,7 +79,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
 
         if (remove)
         {
-            throw ProfileNameArgumentType.CANNOT_REMOVE_DEFAULT.create(fileName);
+            throw ProfileNameArgumentType.CANNOT_REMOVE_DEFAULT.create();
         }
 
         if (exist)

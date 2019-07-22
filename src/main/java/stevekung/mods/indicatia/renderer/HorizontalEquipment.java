@@ -31,15 +31,16 @@ public class HorizontalEquipment
 
     public void render(int x, int y)
     {
+        MinecraftClient mc = MinecraftClient.getInstance();
         boolean isRightSide = ExtendedConfig.instance.equipmentPosition == Equipments.Position.RIGHT;
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        ColorUtils.coloredFontRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
+        mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(MinecraftClient.getInstance().player.inventory);
             GlStateManager.disableDepthTest();
-            ColorUtils.coloredFontRendererUnicode.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
+            mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
             GlStateManager.enableDepthTest();
         }
     }
