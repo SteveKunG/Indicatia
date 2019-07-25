@@ -1,37 +1,40 @@
-package stevekung.mods.indicatia.renderer;
+package stevekung.mods.indicatia.mixin;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderFish;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Items;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatia.config.ConfigManagerIN;
+import stevekung.mods.stevekunglib.utils.client.GLConstants;
 
-@SideOnly(Side.CLIENT)
-public class RenderFishNew extends Render<EntityFishHook>
+@Mixin(RenderFish.class)
+public abstract class RenderFishMixin extends Render<Entity>
 {
-    private static final ResourceLocation FISH_PARTICLES = new ResourceLocation("textures/particle/particles.png");
-
-    public RenderFishNew(RenderManager manager)
+    public RenderFishMixin(RenderManager manager)
     {
         super(manager);
     }
 
     @Override
-    public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks)
+    @Overwrite
+    public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        EntityPlayer player = entity.getAngler();
+        EntityPlayer player = ((EntityFishHook)entity).getAngler();
 
         if (player != null && !this.renderOutlines)
         {
@@ -51,7 +54,7 @@ public class RenderFishNew extends Render<EntityFishHook>
                 GlStateManager.enableOutlineMode(this.getTeamColor(entity));
             }
 
-            vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
+            vertexbuffer.begin(GLConstants.QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
             vertexbuffer.pos(-0.5D, -0.5D, 0.0D).tex(0.0625D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
             vertexbuffer.pos(0.5D, -0.5D, 0.0D).tex(0.125D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
             vertexbuffer.pos(0.5D, 0.5D, 0.0D).tex(0.125D, 0.125D).normal(0.0F, 1.0F, 0.0F).endVertex();
@@ -67,9 +70,9 @@ public class RenderFishNew extends Render<EntityFishHook>
             GlStateManager.disableRescaleNormal();
             GlStateManager.popMatrix();
             int k = player.getPrimaryHand() == EnumHandSide.RIGHT ? 1 : -1;
-            ItemStack itemstack = player.getHeldItemMainhand();
+            ItemStack itemStack = player.getHeldItemMainhand();
 
-            if (itemstack.getItem() != Items.FISHING_ROD)
+            if (!(itemStack.getItem() instanceof ItemFishingRod))
             {
                 k = -k;
             }
@@ -90,7 +93,7 @@ public class RenderFishNew extends Render<EntityFishHook>
             {
                 float f10 = this.renderManager.options.fovSetting;
                 f10 = f10 / 100.0F;
-                Vec3d vec3d = new Vec3d(k * -0.5D * f10, 0.025D * f10, 0.65D);
+                Vec3d vec3d = ConfigManagerIN.indicatia_general.enableFishingRodOldRender ? new Vec3d(k * -0.5D * f10, 0.025D * f10, 0.65D) : new Vec3d(k * -0.36D * f10, -0.045D * f10, 0.4D);
                 vec3d = vec3d.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * 0.017453292F);
                 vec3d = vec3d.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * 0.017453292F);
                 vec3d = vec3d.rotateYaw(f8 * 0.5F);
@@ -102,12 +105,12 @@ public class RenderFishNew extends Render<EntityFishHook>
             }
             else
             {
-                double xz = player.isSneaking() ? 0.775D : 0.9D;
+                double xz = player.isSneaking() ? 0.775D : ConfigManagerIN.indicatia_general.enableFishingRodOldRender ? 0.9D : 0.8D;
                 d4 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks - d1 * d2 - d0 * xz;
-                d5 = player.prevPosY + player.getEyeHeight() + (player.posY - player.prevPosY) * partialTicks - 0.4D;
+                d5 = player.prevPosY + player.getEyeHeight() + (player.posY - player.prevPosY) * partialTicks - (ConfigManagerIN.indicatia_general.enableFishingRodOldRender ? 0.4D : 0.45D);
                 d6 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks - d0 * d2 + d1 * xz;
-                d7 = player.isSneaking() ? -0.55D : 0.0D;
-                dz = player.isSneaking() ? 0.01D : 0.0D;
+                d7 = player.isSneaking() ? ConfigManagerIN.indicatia_general.enableFishingRodOldRender ? -0.55D : -0.1875D : 0.0D;
+                dz = ConfigManagerIN.indicatia_general.enableFishingRodOldRender && player.isSneaking() ? 0.01D : 0.0D;
             }
 
             double d13 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
@@ -130,11 +133,5 @@ public class RenderFishNew extends Render<EntityFishHook>
             GlStateManager.enableTexture2D();
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
         }
-    }
-
-    @Override
-    protected ResourceLocation getEntityTexture(EntityFishHook entity)
-    {
-        return RenderFishNew.FISH_PARTICLES;
     }
 }

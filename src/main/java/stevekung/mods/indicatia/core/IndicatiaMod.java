@@ -9,10 +9,8 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Items;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,7 +37,6 @@ import stevekung.mods.indicatia.event.HypixelEventHandler;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.gui.GuiIndicatiaChat;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.RenderFishNew;
 import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
@@ -147,13 +144,6 @@ public class IndicatiaMod
     public void init(FMLInitializationEvent event)
     {
         IndicatiaMod.loadProfileOption();
-
-        if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
-        {
-            Minecraft.getMinecraft().getRenderManager().entityRenderMap.keySet().removeIf(key -> key.equals(EntityFishHook.class));
-            Minecraft.getMinecraft().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishNew(Minecraft.getMinecraft().getRenderManager()));
-            LoggerIN.info("Successfully replacing {}", EntityFishHook.class.getName());
-        }
     }
 
     @EventHandler

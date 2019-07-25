@@ -18,7 +18,8 @@
         "LayerCapeMixin",
         "LayerElytraMixin",
         "LayerArrowMixin",
-        "RenderPlayerMixin"
+        "RenderPlayerMixin",
+        "RenderFishMixin"
     ],
     "injectors": {
         "defaultRequire": 1
