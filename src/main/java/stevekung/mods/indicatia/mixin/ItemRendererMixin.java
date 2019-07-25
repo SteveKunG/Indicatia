@@ -16,32 +16,14 @@ import stevekung.mods.indicatia.config.ConfigManagerIN;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin
 {
-    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V", cancellable = true, at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 0))
-    private void onItemUseNone(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
-    {
-        float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-        float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
-        this.swingHandOldAnimation(equipProgress, f, f1);
-    }
-
-    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V", cancellable = true, at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 1))
-    private void onItemUseEatDrink(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
-    {
-        float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-        float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
-        this.swingHandOldAnimation(equipProgress, f, f1);
-    }
-
-    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V", cancellable = true, at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 2))
-    private void onItemUseBlock(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
-    {
-        float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-        float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
-        this.swingHandOldAnimation(equipProgress, f, f1);
-    }
-
-    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V", cancellable = true, at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 3))
-    private void onItemUseBow(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
+    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V", cancellable = true, at =
+        {
+                @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 0),
+                @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 1),
+                @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 2),
+                @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemRenderer.transformSideFirstPerson(Lnet/minecraft/util/EnumHandSide;F)V", shift = At.Shift.AFTER, ordinal = 3)
+        })
+    private void onItemUse(AbstractClientPlayer player, float partialTicks, float rotationPitch, EnumHand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
     {
         float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
         float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
