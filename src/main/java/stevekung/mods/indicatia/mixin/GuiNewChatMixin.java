@@ -14,9 +14,7 @@ import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
-import stevekung.mods.indicatia.utils.HideNameData;
 
 @Mixin(GuiNewChat.class)
 public abstract class GuiNewChatMixin extends Gui
@@ -105,14 +103,6 @@ public abstract class GuiNewChatMixin extends Gui
                                 if (!ConfigManagerIN.indicatia_general.enableFastChatRender)
                                 {
                                     Gui.drawRect(-2, j2 - 9, 0 + k + 4, j2, l1 / 2 << 24);
-                                }
-
-                                for (String hide : HideNameData.getHideNameList())
-                                {
-                                    if (text.contains(hide))
-                                    {
-                                        text = text.replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET);
-                                    }
                                 }
 
                                 GlStateManager.enableBlend();
