@@ -519,6 +519,12 @@ public class IndicatiaEventHandler
 
                     @Override
                     public void onDisconnect(@Nonnull ITextComponent component) {}
+
+                    @Override
+                    public NetworkManager getNetworkManager()
+                    {
+                        return manager;
+                    }
                 });
                 manager.sendPacket(new CHandshakePacket(address.getIP(), address.getPort(), ProtocolType.STATUS));
                 manager.sendPacket(new CServerQueryPacket());
