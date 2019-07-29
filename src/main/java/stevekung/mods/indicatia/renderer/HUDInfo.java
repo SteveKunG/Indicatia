@@ -1,17 +1,13 @@
 package stevekung.mods.indicatia.renderer;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.*;
 
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.realmsclient.dto.RealmsServer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.Entity;
@@ -22,8 +18,6 @@ import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
-import net.minecraft.realms.RealmsScreen;
-import net.minecraft.realms.RealmsScreenProxy;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -113,49 +107,6 @@ public class HUDInfo
             ip = ip + "/" + mc.getVersion();
         }
         return ip;
-    }
-
-    public static String getRealmName(Minecraft mc)
-    {
-        String text = "Realms Server";
-        Screen screen = mc.getConnection().guiScreenServer;
-        RealmsScreenProxy screenProxy = (RealmsScreenProxy) screen;
-        RealmsScreen realmsScreen = screenProxy.getScreen();
-
-        if (!(realmsScreen instanceof RealmsScreen))
-        {
-            return text;
-        }
-
-        RealmsScreen realmsMainScreen = (RealmsScreen) realmsScreen;
-        RealmsServer realmsServer;
-
-        try
-        {
-            Field selectedServerId = realmsMainScreen.getClass().getDeclaredField("selectedServerId");
-            selectedServerId.setAccessible(true);
-
-            if (!selectedServerId.getType().equals(long.class))
-            {
-                return text;
-            }
-
-            long id = selectedServerId.getLong(realmsMainScreen);
-            Method findServer = realmsMainScreen.getClass().getDeclaredMethod("findServer", long.class);
-            findServer.setAccessible(true);
-            Object obj = findServer.invoke(realmsMainScreen, id);
-
-            if (!(obj instanceof RealmsServer))
-            {
-                return text;
-            }
-            realmsServer = (RealmsServer)obj;
-        }
-        catch (Exception e)
-        {
-            return text;
-        }
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPValueColor).toColoredFont() + realmsServer.getName();
     }
 
     public static String renderDirection(Minecraft mc)

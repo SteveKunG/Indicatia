@@ -163,7 +163,7 @@ public class HUDRenderEventHandler
                 {
                     if (this.mc.isConnectedToRealms())
                     {
-                        leftInfo.add(HUDInfo.getRealmName(this.mc));
+                        leftInfo.add("Realms Server");
                     }
                     if (this.mc.getCurrentServerData() != null)
                     {

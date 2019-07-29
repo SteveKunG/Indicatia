@@ -77,7 +77,7 @@ public class RenderPreviewScreen extends Screen
 
                 if (this.minecraft.isConnectedToRealms())
                 {
-                    leftInfo.add(HUDInfo.getRealmName(this.minecraft));
+                    leftInfo.add("Realms Server");
                 }
                 if (this.minecraft.getCurrentServerData() != null)
                 {
