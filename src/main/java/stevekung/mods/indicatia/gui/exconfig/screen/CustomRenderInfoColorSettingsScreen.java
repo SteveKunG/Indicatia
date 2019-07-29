@@ -145,7 +145,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     {
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.font, LangUtils.translate("extended_config.keystroke_custom_color.title"), this.width / 2, 5, 16777215);
+        this.drawCenteredString(this.font, LangUtils.translate("extended_config.render_info_custom_color.title"), this.width / 2, 5, 16777215);
 
         if (this.optionsRowList.selected && this.optionsRowList.getFocused() != null && this.optionsRowList.getFocused().getTextField() != null)
         {
