@@ -30,8 +30,7 @@
             "stevekung.mods.indicatia.command.SetSlimeChunkSeedCommand",
             "stevekung.mods.indicatia.command.SwedenTimeCommand",
             "stevekung.mods.indicatia.extra.EntityDetectorCommand",
-            "stevekung.mods.indicatia.extra.AutoRightClickCommand",
-            "stevekung.mods.indicatia.extra.AutoSwimCommand"
+            "stevekung.mods.indicatia.extra.AutoRightClickCommand"
         ]
     },
     "depends": {
