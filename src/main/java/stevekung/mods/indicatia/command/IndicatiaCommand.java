@@ -7,7 +7,7 @@ import io.github.cottonmc.clientcommands.ClientCommandPlugin;
 import io.github.cottonmc.clientcommands.CottonClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.gui.config.GuiExtendedConfig;
+import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
 
@@ -39,7 +39,7 @@ public class IndicatiaCommand implements ClientCommandPlugin
 
     private static int openGui()
     {
-        MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().openScreen(new GuiExtendedConfig()));
+        MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().openScreen(new ExtendedConfigScreen()));
         return 1;
     }
 

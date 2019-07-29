@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.nbt.CompoundTag;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -20,32 +19,18 @@ import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.extra.ExtraEventHandler;
 import stevekung.mods.indicatia.extra.ThreadDownloadWeatherData;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
-import stevekung.mods.indicatia.utils.ThreadMinigameData;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 import stevekung.mods.stevekungslib.utils.client.ClientRegistryUtils;
-import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 public class IndicatiaMod implements ClientModInitializer
 {
     public static final String MOD_ID = "indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
-    private static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
-    public static boolean isGalacticraftLoaded;
-    public static boolean isYoutubeChatLoaded;
-    public static boolean isOptiFineLoaded;
     private static final List<String> allowedUUID = new ArrayList<>();
     public static LoggerIN LOGGER = new LoggerIN();
 
     static
     {
-        if (IndicatiaMod.resetFlag.exists())
-        {
-            ExtendedConfig.defaultConfig.delete();
-            IndicatiaMod.resetFlag.delete();
-            IndicatiaMod.LOGGER.info("Reset default config");
-        }
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
@@ -59,20 +44,12 @@ public class IndicatiaMod implements ClientModInitializer
     @Override
     public void onInitializeClient()
     {
-        IndicatiaMod.isGalacticraftLoaded = FabricLoader.getInstance().isModLoaded("galacticraftcore");
-        IndicatiaMod.isYoutubeChatLoaded = FabricLoader.getInstance().isModLoaded("youtube_chat");
-        IndicatiaMod.isOptiFineLoaded = FabricLoader.getInstance().isModLoaded("optifine");
-
         IndicatiaMod.loadProfileOption();
         KeyBindingHandler.init();
 
         ClientRegistryUtils.registerClientTick(mc -> new IndicatiaEventHandler().onClientTick());
         ClientRegistryUtils.registerClientTick(mc -> new ExtraEventHandler().onClientTick());
 
-        CapeUtils.loadCapeTextureAtStartup();
-        new ThreadMinigameData().run();
-
-        //TODO TEMP
         ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
         exec.scheduleAtFixedRate(new ThreadDownloadWeatherData(), 0, 5, TimeUnit.MINUTES);
     }
@@ -142,21 +119,6 @@ public class IndicatiaMod implements ClientModInitializer
                 IndicatiaMod.LOGGER.error("Failed to save profile");
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static void saveResetFlag()
-    {
-        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.set_reset_flag"));
-
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(resetFlag), StandardCharsets.UTF_8)))
-        {
-            writer.println("reset");
-        }
-        catch (IOException e)
-        {
-            IndicatiaMod.LOGGER.error("Failed to save reset flag");
-            e.printStackTrace();
         }
     }
 }

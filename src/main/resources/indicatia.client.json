@@ -4,11 +4,16 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [],
     "client": [
-        "IngameHUDRenderer",
-        "HealthStatusRenderer",
-        "ExtendedReachEntity",
-        "CustomPlayerListHUD",
-        "FixChatDepthRenderer"
+        "PlayerListHudMixin",
+        "ChatHudMixin",
+        "LivingEntityRendererMixin",
+        "MinecraftClientMixin",
+        "InGameHudMixin",
+        "FirstPersonRendererMixin",
+        "ArmorFeatureRendererMixin",
+        "CapeFeatureRendererMixin",
+        "ElytraFeatureRendererMixin",
+        "StuckArrowsFeatureRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1

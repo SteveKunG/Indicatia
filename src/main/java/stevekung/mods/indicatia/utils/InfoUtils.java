@@ -19,7 +19,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 public class InfoUtils
@@ -35,14 +34,7 @@ public class InfoUtils
 
         if (info != null)
         {
-            if (info.getLatency() > 0)
-            {
-                return info.getLatency();
-            }
-            else
-            {
-                return IndicatiaEventHandler.currentServerPing;
-            }
+            return info.getLatency();
         }
         return 0;
     }
@@ -58,18 +50,6 @@ public class InfoUtils
             return matcher.find();
         }
         return false;
-    }
-
-    public int getCPS()
-    {
-        IndicatiaEventHandler.LEFT_CLICK.removeIf(cps -> cps < System.currentTimeMillis() - 1000L);
-        return IndicatiaEventHandler.LEFT_CLICK.size();
-    }
-
-    public int getRCPS()
-    {
-        IndicatiaEventHandler.RIGHT_CLICK.removeIf(rcps -> rcps < System.currentTimeMillis() - 1000L);
-        return IndicatiaEventHandler.RIGHT_CLICK.size();
     }
 
     public String getCurrentGameTime(long worldTicks)

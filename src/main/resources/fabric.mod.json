@@ -23,15 +23,15 @@
         "cotton-client-commands": [
             "stevekung.mods.indicatia.command.AFKCommand",
             "stevekung.mods.indicatia.command.AutoFishCommand",
-            "stevekung.mods.indicatia.command.AutoLoginCommand",
-            "stevekung.mods.indicatia.command.HideNameCommand",
             "stevekung.mods.indicatia.command.IndicatiaCommand",
             "stevekung.mods.indicatia.command.MojangStatusCheckCommand",
             "stevekung.mods.indicatia.command.PingAllCommand",
             "stevekung.mods.indicatia.command.ProfileCommand",
             "stevekung.mods.indicatia.command.SetSlimeChunkSeedCommand",
             "stevekung.mods.indicatia.command.SwedenTimeCommand",
-            "stevekung.mods.indicatia.extra.EntityDetectorCommand"
+            "stevekung.mods.indicatia.extra.EntityDetectorCommand",
+            "stevekung.mods.indicatia.extra.AutoRightClickCommand",
+            "stevekung.mods.indicatia.extra.AutoSwimCommand"
         ]
     },
     "depends": {

@@ -8,10 +8,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -73,7 +71,7 @@ public class HUDInfo
     {
         BlockPos blockPos = new BlockPos(mc.getCameraEntity().x, mc.getCameraEntity().getBoundingBox().minY, mc.getCameraEntity().z);
         ChunkPos chunkPos = new ChunkPos(blockPos);
-        WorldChunk worldChunk = mc.world.method_8497(chunkPos.x, chunkPos.z);//TODO getWorldChunk
+        WorldChunk worldChunk = mc.world.method_8497(chunkPos.x, chunkPos.z);
 
         if (worldChunk.isEmpty())
         {
@@ -108,49 +106,6 @@ public class HUDInfo
         }
         return ip;
     }
-
-    /*public static String getRealmName(MinecraftClient mc)
-    {
-        String text = "Realms Server";
-        GuiScreen screen = mc.getConnection().guiScreenServer;
-        GuiScreenRealmsProxy screenProxy = (GuiScreenRealmsProxy) screen;
-        RealmsScreen realmsScreen = screenProxy.getProxy();
-
-        if (!(realmsScreen instanceof RealmsMainScreen))
-        {
-            return text;
-        }
-
-        RealmsMainScreen realmsMainScreen = (RealmsMainScreen) realmsScreen;
-        RealmsServer realmsServer;
-
-        try
-        {
-            Field selectedServerId = realmsMainScreen.getClass().getDeclaredField("selectedServerId");
-            selectedServerId.setAccessible(true);
-
-            if (!selectedServerId.getType().equals(long.class))
-            {
-                return text;
-            }
-
-            long id = selectedServerId.getLong(realmsMainScreen);
-            Method findServer = realmsMainScreen.getClass().getDeclaredMethod("findServer", long.class);
-            findServer.setAccessible(true);
-            Object obj = findServer.invoke(realmsMainScreen, id);
-
-            if (!(obj instanceof RealmsServer))
-            {
-                return text;
-            }
-            realmsServer = (RealmsServer)obj;
-        }
-        catch (Exception e)
-        {
-            return text;
-        }
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPValueColor).toColoredFont() + realmsServer.getTranslationKey();
-    }*/
 
     public static String renderDirection(MinecraftClient mc)
     {
@@ -205,16 +160,6 @@ public class HUDInfo
         return ColorUtils.stringToRGB(ExtendedConfig.instance.directionColor).toColoredFont() + "Direction: " + ColorUtils.stringToRGB(ExtendedConfig.instance.directionValueColor).toColoredFont() + direction;
     }
 
-    public static String getCPS()
-    {
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.cpsColor).toColoredFont() + "CPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.cpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getCPS();
-    }
-
-    public static String getRCPS()
-    {
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.rcpsColor).toColoredFont() + "RCPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.rcpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getRCPS();
-    }
-
     public static String getCurrentTime()
     {
         Date date = new Date();
@@ -227,16 +172,6 @@ public class HUDInfo
 
     public static String getCurrentGameTime(MinecraftClient mc)
     {
-        /*boolean isSpace = false;
-
-        try
-        {
-            Class<?> worldProvider = mc.player.world.dimension.getClass();
-            Class<?> spaceWorld = Class.forName("micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace");
-            isSpace = IndicatiaMod.isGalacticraftLoaded && spaceWorld.isAssignableFrom(worldProvider);
-        }
-        catch (Exception e) {}
-        return isSpace ? GalacticraftPlanetTime.getTime(mc) : InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getTimeOfDay() % 24000);*/
         return InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getTimeOfDay() % 24000);
     }
 
@@ -642,122 +577,77 @@ public class HUDInfo
                 length = lengthOverlap / (collection.size() - 1);
             }
 
-            for (StatusEffectInstance potioneffect : Ordering.natural().sortedCopy(collection))
+            for (StatusEffectInstance effectIns : Ordering.natural().sortedCopy(collection))
             {
                 float alpha = 1.0F;
-                StatusEffect potion = potioneffect.getEffectType();
-                String s = StatusEffectUtil.durationToString(potioneffect, 1.0F);
-                String s1 = LangUtils.translate(potion.getTranslationKey());
+                int duration = effectIns.getDuration();
 
-                if (!potioneffect.isAmbient() && potioneffect.getDuration() <= 200)
+                if (!effectIns.isAmbient() && duration <= 200)
                 {
-                    int j1 = 10 - potioneffect.getDuration() / 20;
-                    alpha = MathHelper.clamp(potioneffect.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(potioneffect.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                    int j1 = 10 - duration / 20;
+                    alpha = MathHelper.clamp(duration / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(duration * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
                 }
 
-                GlStateManager.enableBlend();
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+                GlStateManager.disableLighting();
+                mc.getTextureManager().bindTexture(SpriteAtlasTexture.STATUS_EFFECT_ATLAS_TEX);
 
-                if (showIcon)
-                {
-                    method_18642(mc, xPotion, yPotion, collection);//TODO
-                    method_18643(mc, xPotion, yPotion, collection);
-
-                    //                    //potion.renderHUDEffect(potioneffect, mc.inGameHud, xPotion, yPotion, mc.inGameHud.zLevel, alpha);TODO
-                    //                    potion.renderHUDEffect(xPotion, yPotion, potioneffect, mc, alpha);
-                    //                    int index = potion.getStatusIconIndex();
-                    //
-                    //                    if (potionPos.equalsIgnoreCase("hotbar_left"))
-                    //                    {
-                    //                        mc.inGameHud.drawTexturedModalRect(xPotion + 12, yPotion + 6, index % 8 * 18, 198 + index / 8 * 18, 18, 18);
-                    //                    }
-                    //                    else if (potionPos.equalsIgnoreCase("hotbar_right"))
-                    //                    {
-                    //                        mc.inGameHud.drawTexturedModalRect(xPotion + 24, yPotion + 6, index % 8 * 18, 198 + index / 8 * 18, 18, 18);
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        mc.inGameHud.drawTexturedModalRect(right ? xPotion + 12 : xPotion + 28, yPotion + 6, index % 8 * 18, 198 + index / 8 * 18, 18, 18);
-                    //                    }
-                }
-
-                if (potioneffect.getAmplifier() == 1)
-                {
-                    s1 = s1 + " " + LangUtils.translate("enchantment.level.2");
-                }
-                else if (potioneffect.getAmplifier() == 2)
-                {
-                    s1 = s1 + " " + LangUtils.translate("enchantment.level.3");
-                }
-                else if (potioneffect.getAmplifier() == 3)
-                {
-                    s1 = s1 + " " + LangUtils.translate("enchantment.level.4");
-                }
-
-                int stringwidth1 = mc.textRenderer.getStringWidth(s);
-                int stringwidth2 = mc.textRenderer.getStringWidth(s1);
+                StatusEffect effect = effectIns.getEffectType();
+                int amplifier = effectIns.getAmplifier();
+                String name = LangUtils.translate(effect.getTranslationKey());
+                String durationTxt = StatusEffectUtil.durationToString(effectIns, 1.0F);
+                int stringwidth1 = mc.textRenderer.getStringWidth(name);
+                int stringwidth2 = mc.textRenderer.getStringWidth(durationTxt);
                 int yOffset = iconAndTime ? 11 : 16;
+                alpha = alpha * 255.0F;
+                int alphaRGB = (int)alpha << 24 & -16777216;
+                int textColor = ExtendedConfig.instance.alternatePotionHUDTextColor ? effect.getColor() | alphaRGB : 16777215 | alphaRGB;
 
-                if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
+                if (amplifier >= 1 && amplifier <= 9)
                 {
-                    int xOffset = showIcon ? 8 : 28;
-
-                    if (!iconAndTime)
-                    {
-                        mc.textRenderer.drawWithShadow(s1, xPotion + xOffset - stringwidth2, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
-                    }
-                    mc.textRenderer.drawWithShadow(s, xPotion + xOffset - stringwidth1, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                    name = name + ' ' + LangUtils.translate("enchantment.level." + (amplifier + 1));
                 }
-                else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
+
+                if (duration > 16)
                 {
-                    int xOffset = showIcon ? 46 : 28;
-
-                    if (!iconAndTime)
+                    if (showIcon)
                     {
-                        mc.textRenderer.drawWithShadow(s1, xPotion + xOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                        DrawableHelper.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, 0, 18, 18, mc.getStatusEffectSpriteManager().getSprite(effect));
                     }
-                    mc.textRenderer.drawWithShadow(s, xPotion + xOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
-                }
-                else
-                {
-                    int leftXOffset = showIcon ? 50 : 28;
-                    int rightXOffset = showIcon ? 8 : 28;
-
-                    if (!iconAndTime)
+                    if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
-                        mc.textRenderer.drawWithShadow(s1, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                        int xOffset = showIcon ? 8 : 28;
+
+                        if (!iconAndTime)
+                        {
+                            mc.textRenderer.drawWithShadow(name, xPotion + xOffset - stringwidth2, yPotion + 6, textColor);
+                        }
+                        mc.textRenderer.drawWithShadow(durationTxt, xPotion + xOffset - stringwidth1, yPotion + yOffset, textColor);
                     }
-                    mc.textRenderer.drawWithShadow(s, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getColor() : 16777215);
+                    else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
+                    {
+                        int xOffset = showIcon ? 46 : 28;
+
+                        if (!iconAndTime)
+                        {
+                            mc.textRenderer.drawWithShadow(name, xPotion + xOffset, yPotion + 6, textColor);
+                        }
+                        mc.textRenderer.drawWithShadow(durationTxt, xPotion + xOffset, yPotion + yOffset, textColor);
+                    }
+                    else
+                    {
+                        int leftXOffset = showIcon ? 50 : 28;
+                        int rightXOffset = showIcon ? 8 : 28;
+
+                        if (!iconAndTime)
+                        {
+                            mc.textRenderer.drawWithShadow(name, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, textColor);
+                        }
+                        mc.textRenderer.drawWithShadow(durationTxt, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, textColor);
+                    }
+                    yPotion -= length;
                 }
-                yPotion -= length;
             }
-        }
-    }
-
-    private static void method_18642(MinecraftClient mc, int int_1, int int_2, Iterable<StatusEffectInstance> iterable_1)
-    {
-        mc.getTextureManager().bindTexture(AbstractContainerScreen.BACKGROUND_TEXTURE);
-        int int_3 = 0;
-
-        for (Iterator<StatusEffectInstance> var5 = iterable_1.iterator(); var5.hasNext(); int_3 += int_2)
-        {
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            DrawableHelper.blit(int_1, int_3, 0, 166, 140, 32, 256, 256);
-        }
-    }
-
-    private static void method_18643(MinecraftClient mc, int int_1, int int_2, Iterable<StatusEffectInstance> iterable_1)
-    {
-        mc.getTextureManager().bindTexture(SpriteAtlasTexture.STATUS_EFFECT_ATLAS_TEX);
-        StatusEffectSpriteManager sprite = mc.getStatusEffectSpriteManager();
-        int int_3 = 0;
-        int blitOffset = 0;
-
-        for (Iterator<StatusEffectInstance> var6 = iterable_1.iterator(); var6.hasNext(); int_3 += int_2)
-        {
-            StatusEffectInstance statusEffectInstance_1 = var6.next();
-            StatusEffect statusEffect_1 = statusEffectInstance_1.getEffectType();
-            DrawableHelper.blit(int_1 + 6, int_3 + 7, blitOffset, 18, 18, sprite.getSprite(statusEffect_1));
         }
     }
 
