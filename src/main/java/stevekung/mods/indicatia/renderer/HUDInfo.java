@@ -11,10 +11,9 @@ import com.mojang.realmsclient.dto.RealmsServer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.PotionSpriteUploader;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArrowItem;
@@ -648,90 +647,78 @@ public class HUDInfo
                 length = lengthOverlap / (collection.size() - 1);
             }
 
-            for (EffectInstance potioneffect : Ordering.natural().sortedCopy(collection))
+            for (EffectInstance effectIns : Ordering.natural().sortedCopy(collection))
             {
                 float alpha = 1.0F;
-                Effect potion = potioneffect.getPotion();
-                String s = EffectUtils.getPotionDurationString(potioneffect, 1.0F);
-                String s1 = LangUtils.translate(potion.getName());
+                int duration = effectIns.getDuration();
 
-                if (!potioneffect.isAmbient() && potioneffect.getDuration() <= 200)
+                if (!effectIns.isAmbient() && duration <= 200)
                 {
-                    int j1 = 10 - potioneffect.getDuration() / 20;
-                    alpha = MathHelper.clamp(potioneffect.getDuration() / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(potioneffect.getDuration() * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                    int j1 = 10 - duration / 20;
+                    alpha = MathHelper.clamp(duration / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(duration * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
                 }
 
-                GlStateManager.enableBlend();
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+                GlStateManager.disableLighting();
+                mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_EFFECTS_TEXTURE);
 
-                if (showIcon)
+                Effect effect = effectIns.getPotion();
+                int amplifier = effectIns.getAmplifier();
+                String name = LangUtils.translate(effect.getName());
+                String durationTxt = EffectUtils.getPotionDurationString(effectIns, 1.0F);
+                int stringwidth1 = ColorUtils.coloredFontRenderer.getStringWidth(name);
+                int stringwidth2 = ColorUtils.coloredFontRenderer.getStringWidth(durationTxt);
+                int yOffset = iconAndTime ? 11 : 16;
+                alpha = alpha * 255.0F;
+                int alphaRGB = (int)alpha << 24 & -16777216;
+                int textColor = ExtendedConfig.instance.alternatePotionHUDTextColor ? effect.getLiquidColor() | alphaRGB : 16777215 | alphaRGB;
+
+                if (amplifier >= 1 && amplifier <= 9)
                 {
-                    potion.renderInventoryEffect(potioneffect, (DisplayEffectsScreen<?>)mc.currentScreen, xPotion, yPotion, mc.currentScreen.blitOffset);
-                    PotionSpriteUploader sprite = mc.getPotionSpriteUploader();
+                    name = name + ' ' + LangUtils.translate("enchantment.level." + (amplifier + 1));
+                }
 
+                if (duration > 16)
+                {
+                    effect.renderInventoryEffect(effectIns, null, xPotion, yPotion, mc.ingameGUI.blitOffset);
+
+                    if (showIcon)
+                    {
+                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.ingameGUI.blitOffset, 18, 18, mc.getPotionSpriteUploader().getSprite(effect));
+                    }
                     if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
-                        AbstractGui.blit(xPotion + 12, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.getSprite(potion));
+                        int xOffset = showIcon ? 8 : 28;
+
+                        if (!iconAndTime)
+                        {
+                            ColorUtils.coloredFontRenderer.drawStringWithShadow(name, xPotion + xOffset - stringwidth2, yPotion + 6, textColor);
+                        }
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(durationTxt, xPotion + xOffset - stringwidth1, yPotion + yOffset, textColor);
                     }
                     else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                     {
-                        AbstractGui.blit(xPotion + 24, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.getSprite(potion));
+                        int xOffset = showIcon ? 46 : 28;
+
+                        if (!iconAndTime)
+                        {
+                            ColorUtils.coloredFontRenderer.drawStringWithShadow(name, xPotion + xOffset, yPotion + 6, textColor);
+                        }
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(durationTxt, xPotion + xOffset, yPotion + yOffset, textColor);
                     }
                     else
                     {
-                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.currentScreen.blitOffset, 18, 18, sprite.getSprite(potion));
+                        int leftXOffset = showIcon ? 50 : 28;
+                        int rightXOffset = showIcon ? 8 : 28;
+
+                        if (!iconAndTime)
+                        {
+                            ColorUtils.coloredFontRenderer.drawStringWithShadow(name, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, textColor);
+                        }
+                        ColorUtils.coloredFontRenderer.drawStringWithShadow(durationTxt, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, textColor);
                     }
+                    yPotion -= length;
                 }
-
-                if (potioneffect.getAmplifier() == 1)
-                {
-                    s1 = s1 + " " + LangUtils.translate("enchantment.level.2");
-                }
-                else if (potioneffect.getAmplifier() == 2)
-                {
-                    s1 = s1 + " " + LangUtils.translate("enchantment.level.3");
-                }
-                else if (potioneffect.getAmplifier() == 3)
-                {
-                    s1 = s1 + " " + LangUtils.translate("enchantment.level.4");
-                }
-
-                int stringwidth1 = ColorUtils.coloredFontRenderer.getStringWidth(s);
-                int stringwidth2 = ColorUtils.coloredFontRenderer.getStringWidth(s1);
-                int yOffset = iconAndTime ? 11 : 16;
-
-                if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
-                {
-                    int xOffset = showIcon ? 8 : 28;
-
-                    if (!iconAndTime)
-                    {
-                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, xPotion + xOffset - stringwidth2, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
-                    }
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, xPotion + xOffset - stringwidth1, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
-                }
-                else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
-                {
-                    int xOffset = showIcon ? 46 : 28;
-
-                    if (!iconAndTime)
-                    {
-                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, xPotion + xOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
-                    }
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, xPotion + xOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
-                }
-                else
-                {
-                    int leftXOffset = showIcon ? 50 : 28;
-                    int rightXOffset = showIcon ? 8 : 28;
-
-                    if (!iconAndTime)
-                    {
-                        ColorUtils.coloredFontRenderer.drawStringWithShadow(s1, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
-                    }
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(s, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215);
-                }
-                yPotion -= length;
             }
         }
     }
