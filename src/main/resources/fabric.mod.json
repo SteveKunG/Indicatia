@@ -44,7 +44,6 @@
         "indicatia.client.json"
     ],
     "custom": {
-        "modmenu:api": true,
         "modmenu:clientsideOnly": true
     }
 }
