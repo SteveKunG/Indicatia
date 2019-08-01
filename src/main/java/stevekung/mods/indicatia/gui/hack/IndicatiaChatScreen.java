@@ -46,14 +46,14 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     @Override
     public void render(List<Widget> buttonList, int mouseX, int mouseY, float partialTicks)
     {
-        buttonList.forEach(button ->
+        for (Widget button : buttonList)
         {
             if (button instanceof MinigameButton)
             {
                 MinigameButton customButton = (MinigameButton) button;
                 customButton.drawRegion(mouseX, mouseY);
             }
-        });
+        }
     }
 
     @Override
@@ -69,14 +69,14 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
 
             boolean clicked = !this.dropdown.dropdownClicked;
 
-            buttonList.forEach(button ->
+            for (Widget button : buttonList)
             {
                 if (button instanceof MinigameButton)
                 {
                     MinigameButton buttonCustom = (MinigameButton) button;
                     buttonCustom.visible = clicked;
                 }
-            });
+            }
         }
     }
 
@@ -282,12 +282,12 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
             }
         }
 
-        buttonList.forEach(button ->
+        for (Widget button : buttonList)
         {
             if (button instanceof MinigameButton)
             {
                 button.visible = false;
             }
-        });
+        }
     }
 }

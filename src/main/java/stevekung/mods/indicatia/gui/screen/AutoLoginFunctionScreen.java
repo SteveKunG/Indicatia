@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.widget.CustomizedTextureButton;
+import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.JsonUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -58,13 +59,13 @@ public class AutoLoginFunctionScreen extends Screen
 
         if (this.data != null)
         {
-            ExtendedConfig.loginData.getAutoLoginList().forEach(login ->
+            for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
             {
                 if (this.data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
                 {
                     this.inputField.setText(login.getFunction());
                 }
-            });
+            }
         }
         this.children.add(this.inputField);
     }

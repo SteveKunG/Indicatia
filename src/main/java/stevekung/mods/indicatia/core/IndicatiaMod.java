@@ -172,15 +172,15 @@ public class IndicatiaMod
         {
             List<String> list = IOUtils.readLines(new FileInputStream(profile), StandardCharsets.UTF_8);
 
-            list.forEach(option ->
+            for (String option : list)
             {
                 Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
                 nbt.putString(iterator.next(), iterator.next());
-            });
+            }
         }
         catch (Exception e) {}
 
-        nbt.keySet().forEach(property ->
+        for (String property : nbt.keySet())
         {
             String key = nbt.getString(property);
 
@@ -190,7 +190,7 @@ public class IndicatiaMod
                 ExtendedConfig.setCurrentProfile(key);
                 ExtendedConfig.instance.load();
             }
-        });
+        }
     }
 
     private static void initProfileFile()

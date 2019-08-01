@@ -18,6 +18,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.status.IClientStatusNetHandler;
@@ -156,7 +157,7 @@ public class IndicatiaEventHandler
                 {
                     if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && !this.mc.isSingleplayer())
                     {
-                        this.mc.currentScreen.buttons.forEach(button ->
+                        for (Widget button : this.mc.currentScreen.buttons)
                         {
                             if (button.getMessage().equals(LangUtils.translate("menu.disconnect")) && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK)
                             {
@@ -171,7 +172,7 @@ public class IndicatiaEventHandler
                                     this.disconnectClickCount = 0;
                                 }
                             }
-                        });
+                        }
                     }
                 }
                 else

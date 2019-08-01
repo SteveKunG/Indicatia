@@ -15,6 +15,7 @@ import stevekung.mods.indicatia.gui.exconfig.StringConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.TextFieldConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
 import stevekung.mods.indicatia.utils.AutoLogin;
+import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.stevekungslib.utils.GameProfileUtils;
 import stevekung.mods.stevekungslib.utils.LangUtils;
@@ -617,7 +618,7 @@ public class ExtendedConfig
     {
         ListNBT list = new ListNBT();
 
-        ExtendedConfig.loginData.getAutoLoginList().forEach(data ->
+        for (AutoLoginData data : ExtendedConfig.loginData.getAutoLoginList())
         {
             CompoundNBT nbt = new CompoundNBT();
             nbt.putString("ServerIP", data.getServerIP());
@@ -626,7 +627,7 @@ public class ExtendedConfig
             nbt.putString("UUID", data.getUUID().toString());
             nbt.putString("Function", data.getFunction());
             list.add(nbt);
-        });
+        }
         return list;
     }
 

@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.AutoLoginFunction;
 import stevekung.mods.indicatia.utils.Base64Utils;
 import stevekung.mods.stevekungslib.utils.CommonUtils;
@@ -48,13 +49,13 @@ public class ChatMessageEventHandler
         {
             if (data != null)
             {
-                ExtendedConfig.loginData.getAutoLoginList().forEach(login ->
+                for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
                 {
                     if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()))
                     {
                         player.sendChatMessage(login.getCommand() + Base64Utils.decode(login.getValue()));
                     }
-                });
+                }
             }
         }
 
@@ -70,14 +71,14 @@ public class ChatMessageEventHandler
         {
             if (data != null)
             {
-                ExtendedConfig.loginData.getAutoLoginList().forEach(login ->
+                for (AutoLoginData login : ExtendedConfig.loginData.getAutoLoginList())
                 {
                     if (data.serverIP.equalsIgnoreCase(login.getServerIP()) && GameProfileUtils.getUUID().equals(login.getUUID()) && !login.getFunction().isEmpty())
                     {
                         AutoLoginFunction.functionValue = login.getFunction();
                         AutoLoginFunction.run = true;
                     }
-                });
+                }
             }
         }
     }

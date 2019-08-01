@@ -110,7 +110,7 @@ public class HypixelEventHandler
                 message.add("Winners - ");
                 message.add("WINNER!");
 
-                message.forEach(text ->
+                for (String text : message)
                 {
                     String messageToLower = TextFormatting.getTextWithoutFormattingCodes(text).toLowerCase();
                     String displayTitleMessage = TextFormatting.getTextWithoutFormattingCodes(unformattedText).toLowerCase();
@@ -119,7 +119,7 @@ public class HypixelEventHandler
                     {
                         IndicatiaEventHandler.printAutoGG = true;
                     }
-                });
+                }
             }
         }
     }

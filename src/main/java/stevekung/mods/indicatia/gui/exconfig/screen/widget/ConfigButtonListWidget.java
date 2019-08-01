@@ -60,11 +60,11 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         @Override
         public void render(int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            this.buttons.forEach(button ->
+            for (Widget button : this.buttons)
             {
                 button.y = rowTop;
                 button.render(mouseX, mouseY, partialTicks);
-            });
+            }
         }
 
         @Override
