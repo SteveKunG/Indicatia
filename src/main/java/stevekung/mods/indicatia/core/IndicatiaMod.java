@@ -27,7 +27,7 @@ public class IndicatiaMod implements ClientModInitializer
     public static final String MOD_ID = "indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
     private static final List<String> allowedUUID = new ArrayList<>();
-    public static LoggerIN LOGGER = new LoggerIN();
+    public static final LoggerIN LOGGER = new LoggerIN();
 
     static
     {
@@ -73,15 +73,15 @@ public class IndicatiaMod implements ClientModInitializer
         {
             List<String> list = IOUtils.readLines(new FileInputStream(profile), StandardCharsets.UTF_8);
 
-            list.forEach(option ->
+            for (String option : list)
             {
                 Iterator<String> iterator = GameOptions.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
                 nbt.putString(iterator.next(), iterator.next());
-            });
+            }
         }
         catch (Exception e) {}
 
-        nbt.getKeys().forEach(property ->
+        for (String property : nbt.getKeys())
         {
             String key = nbt.getString(property);
 
@@ -91,7 +91,7 @@ public class IndicatiaMod implements ClientModInitializer
                 ExtendedConfig.setCurrentProfile(key);
                 ExtendedConfig.instance.load();
             }
-        });
+        }
     }
 
     private static void initProfileFile()

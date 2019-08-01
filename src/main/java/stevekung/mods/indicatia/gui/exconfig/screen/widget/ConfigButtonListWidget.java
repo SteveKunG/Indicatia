@@ -59,11 +59,11 @@ public class ConfigButtonListWidget extends ElementListWidget<ConfigButtonListWi
         @Override
         public void render(int x, int y, int int_3, int int_4, int int_5, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            this.buttons.forEach(button ->
+            for (AbstractButtonWidget button : this.buttons)
             {
                 button.y = y;
                 button.render(mouseX, mouseY, partialTicks);
-            });
+            }
         }
 
         @Override
