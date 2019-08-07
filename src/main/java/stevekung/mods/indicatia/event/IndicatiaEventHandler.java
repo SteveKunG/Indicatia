@@ -55,9 +55,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
@@ -212,7 +212,7 @@ public class IndicatiaEventHandler
     public void onInputUpdate(InputUpdateEvent event)
     {
         MovementInput movement = event.getMovementInput();
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
 
         if (IndicatiaConfig.GENERAL.enableCustomMovementHandler.get())
         {
@@ -223,7 +223,7 @@ public class IndicatiaEventHandler
             }
 
             // toggle sneak
-            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.instance.toggleSneak && !event.getEntityPlayer().isSpectator();
+            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.instance.toggleSneak && !player.isSpectator();
 
             if (ExtendedConfig.instance.toggleSneak && !player.isSpectator() && !player.isCreative())
             {
