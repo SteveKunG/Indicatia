@@ -44,9 +44,15 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onMouseClick(MouseEvent event)
     {
-        if (event.getButton() == 1 && event.isButtonstate() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
+        if (event.getButton() == 1 && event.isButtonstate() && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof EntityOtherPlayerMP && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
         {
-            HypixelEventHandler.rightClickAddParty(this.mc);
+            EntityOtherPlayerMP player = (EntityOtherPlayerMP)this.mc.pointedEntity;
+
+            if (this.mc.player.connection.getPlayerInfoMap().stream().anyMatch(info -> info.getGameProfile().getName().equals(player.getName())))
+            {
+                this.mc.player.sendChatMessage("/p " + player.getName());
+                event.setCanceled(true);
+            }
         }
     }
 
@@ -133,23 +139,6 @@ public class HypixelEventHandler
                 if (mc.player.ticksExisted % 40 == 0)
                 {
                     ExtendedConfig.save();
-                }
-            }
-        }
-    }
-
-    private static void rightClickAddParty(Minecraft mc)
-    {
-        if (mc.objectMouseOver != null)
-        {
-            switch (mc.objectMouseOver.typeOfHit)
-            {
-            case ENTITY:
-            default:
-                if (mc.player.getHeldItemMainhand().isEmpty() && mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP)
-                {
-                    EntityOtherPlayerMP player = (EntityOtherPlayerMP) mc.objectMouseOver.entityHit;
-                    mc.player.sendChatMessage("/p " + player.getName());
                 }
             }
         }
