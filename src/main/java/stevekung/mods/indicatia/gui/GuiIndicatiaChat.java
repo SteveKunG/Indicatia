@@ -129,6 +129,11 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
 
+        if (player == null)
+        {
+            return;
+        }
+
         if (button instanceof GuiButtonCustomize)
         {
             GuiButtonCustomize buttomCustom = (GuiButtonCustomize) button;
