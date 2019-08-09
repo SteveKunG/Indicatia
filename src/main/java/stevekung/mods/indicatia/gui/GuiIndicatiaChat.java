@@ -147,15 +147,15 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
             ExtendedConfig.cpsCustomYOffset = res.getScaledHeight() / 2 - 5;
             ExtendedConfig.save();
             break;
-        case 100:
+        case 200:
             player.sendChatMessage("/chat a");
             player.sendMessage(JsonUtils.create("Reset Hypixel Chat"));
             break;
-        case 101:
+        case 201:
             player.sendChatMessage("/chat p");
             player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Party Chat"));
             break;
-        case 102:
+        case 202:
             player.sendChatMessage("/chat g");
             player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Guild Chat"));
             break;
@@ -256,9 +256,9 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
             int length = mc.fontRenderer.getStringWidth(max) + 32;
 
             // hypixel chat
-            buttonList.add(new GuiButton(100, width - 63, enableCPS ? height - 56 : height - 35, 60, 20, "Reset Chat"));
-            buttonList.add(new GuiButton(101, width - 63, enableCPS ? height - 77 : height - 56, 60, 20, "Party Chat"));
-            buttonList.add(new GuiButton(102, width - 63, enableCPS ? height - 98 : height - 77, 60, 20, "Guild Chat"));
+            buttonList.add(new GuiButton(200, width - 63, enableCPS ? height - 56 : height - 35, 60, 20, "Reset Chat"));
+            buttonList.add(new GuiButton(201, width - 63, enableCPS ? height - 77 : height - 56, 60, 20, "Party Chat"));
+            buttonList.add(new GuiButton(202, width - 63, enableCPS ? height - 98 : height - 77, 60, 20, "Guild Chat"));
             buttonList.add(this.dropdown = new GuiDropdownMinigames(this, width - length, 2, list));
             this.dropdown.width = length;
             this.prevSelect = ExtendedConfig.selectedHypixelMinigame;
