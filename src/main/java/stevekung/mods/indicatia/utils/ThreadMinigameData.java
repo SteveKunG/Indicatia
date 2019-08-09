@@ -11,10 +11,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 
 import net.minecraftforge.common.ForgeVersion;
 import stevekung.mods.indicatia.minigames.MinigameCommand;
@@ -58,7 +55,7 @@ public class ThreadMinigameData extends Thread
             }
             LoggerIN.info("Successfully getting minigames data from GitHub!");
         }
-        catch (IOException | JsonSyntaxException e)
+        catch (IOException | JsonIOException | JsonSyntaxException e)
         {
             e.printStackTrace();
             LoggerIN.error("Could not get minigames data from GitHub!");
