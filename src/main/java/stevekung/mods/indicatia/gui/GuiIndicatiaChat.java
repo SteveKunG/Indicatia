@@ -208,12 +208,6 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
                 }
                 this.dropdown.scroll(i);
             }
-            if (Mouse.getEventButtonState())
-            {
-                // hacked mouse clicked :D
-                int event = Mouse.getEventButton();
-                this.mouseClicked(mouseX, mouseY, event);
-            }
         }
     }
 
