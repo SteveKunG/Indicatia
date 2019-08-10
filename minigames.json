@@ -740,12 +740,12 @@
             },
             {
                 "name": "Sky Block: Home",
-                "command": "warp home",
+                "command": "/warp home",
                 "minigame": true
             },
             {
                 "name": "Sky Block: Hub",
-                "command": "warp hub",
+                "command": "/warp hub",
                 "minigame": true
             }
         ]
