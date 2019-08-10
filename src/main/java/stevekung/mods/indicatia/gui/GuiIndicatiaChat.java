@@ -270,6 +270,12 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
             List<GuiButtonCustomize> gameBtn = new LinkedList<>();
             int xPos2 = width - 99;
+            
+            if (this.prevSelect > list.size())
+            {
+                this.prevSelect = 0;
+                ExtendedConfig.selectedHypixelMinigame = 0;
+            }
 
             for (MinigameData data : MinigameData.getMinigameData())
             {
@@ -313,7 +319,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
         buttonList.forEach(button ->
         {
-            if (!button.getClass().equals(GuiDropdownMinigames.class) && !(button.id >= 0 && button.id <= 102))
+            if (!button.getClass().equals(GuiDropdownMinigames.class) && !(button.id >= 0 && button.id <= 202))
             {
                 button.visible = false;
             }
