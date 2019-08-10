@@ -270,7 +270,7 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
 
             List<GuiButtonCustomize> gameBtn = new LinkedList<>();
             int xPos2 = width - 99;
-            
+
             if (this.prevSelect > list.size())
             {
                 this.prevSelect = 0;
