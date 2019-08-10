@@ -739,6 +739,11 @@
                 "minigame": true
             },
             {
+                "name": "Sky Block",
+                "command": "skyblock",
+                "minigame": true
+            },
+            {
                 "name": "Sky Block: Home",
                 "command": "/warp home",
                 "minigame": true
