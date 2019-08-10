@@ -3,6 +3,7 @@ package stevekung.mods.indicatia.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Optional;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
@@ -21,10 +22,7 @@ public class CapeUtils
 
     public static void bindCapeTexture()
     {
-        if (CapeUtils.CAPE_TEXTURE != null)
-        {
-            GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.getGlTextureId());
-        }
+        GlStateManager.bindTexture(Optional.ofNullable(CapeUtils.CAPE_TEXTURE.getGlTextureId()).orElse(null));
     }
 
     public static void loadCapeTexture()
