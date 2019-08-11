@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -383,7 +384,7 @@ public class HUDRenderEventHandler
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
         float range = entity.isSneaking() ? RenderLivingBase.NAME_TAG_RANGE_SNEAK : RenderLivingBase.NAME_TAG_RANGE;
-        double distance = entity.getDistanceSq(this.mc.getRenderViewEntity());
+        double distance = entity.getDistanceSq(this.mc.getRenderManager().renderViewEntity);
         String mode = HealthStatusMode.getById(ExtendedConfig.healthStatusMode);
         boolean flag = mode.equalsIgnoreCase("disabled") ? false : mode.equalsIgnoreCase("pointed") ? entity == InfoUtils.INSTANCE.extendedPointedEntity : true;
         Style color = halfHealth ? JsonUtils.red() : halfHealth1 ? JsonUtils.darkRed() : JsonUtils.green();
@@ -393,6 +394,7 @@ public class HUDRenderEventHandler
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand) && !InfoUtils.INSTANCE.isHypixel())
             {
                 String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
+                GlStateManager.alphaFunc(516, 0.1F);
                 RenderUtilsIN.renderEntityHealth(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ());
             }
         }
