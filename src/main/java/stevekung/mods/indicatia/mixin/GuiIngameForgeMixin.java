@@ -29,4 +29,14 @@ public abstract class GuiIngameForgeMixin extends GuiIngame
     {
         GlStateManager.enableDepth();
     }
+
+    @Inject(method = "renderGameOverlay(F)V", cancellable = true, at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/GlStateManager.color(FFFF)V", shift = At.Shift.AFTER, ordinal = 1))
+    private void fixEmptyBossBarRender(float partialTicks, CallbackInfo ci)
+    {
+        if (!GuiIngameForge.renderBossHealth)
+        {
+            GlStateManager.enableDepth();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        }
+    }
 }
