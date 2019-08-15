@@ -110,6 +110,12 @@ public class HUDRenderEventHandler
     @SubscribeEvent
     public void onPreInfoRender(RenderGameOverlayEvent.Pre event)
     {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
+        {
+            event.setCanceled(!ConfigManagerIN.indicatia_general.enableRenderBossHealthStatus);
+            GlStateManager.enableDepth();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        }
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
         {
             if (this.mc.currentScreen instanceof GuiRenderPreview)

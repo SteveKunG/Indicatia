@@ -189,7 +189,6 @@ public class IndicatiaEventHandler
                 }
             }
         }
-        GuiIngameForge.renderBossHealth = ConfigManagerIN.indicatia_general.enableRenderBossHealthStatus;
         GuiIngameForge.renderObjective = ConfigManagerIN.indicatia_general.enableRenderScoreboard;
     }
 
