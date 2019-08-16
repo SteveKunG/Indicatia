@@ -228,22 +228,22 @@ public class IndicatiaEventHandler
 
                 if (afkMoveTick > 0 && afkMoveTick < 2)
                 {
-                    ++movement.moveForward;
+                    movement.moveForward += Math.random();
                     movement.forwardKeyDown = true;
                 }
                 else if (afkMoveTick > 2 && afkMoveTick < 4)
                 {
-                    ++movement.moveStrafe;
+                    movement.moveStrafe += Math.random();
                     movement.leftKeyDown = true;
                 }
                 else if (afkMoveTick > 4 && afkMoveTick < 6)
                 {
-                    --movement.moveForward;
+                    movement.moveForward -= Math.random();
                     movement.backKeyDown = true;
                 }
                 else if (afkMoveTick > 6 && afkMoveTick < 8)
                 {
-                    --movement.moveStrafe;
+                    movement.moveStrafe -= Math.random();
                     movement.rightKeyDown = true;
                 }
             }
@@ -458,7 +458,7 @@ public class IndicatiaEventHandler
             int tick = IndicatiaEventHandler.afkTicks;
             int messageMin = 1200 * ConfigManagerIN.indicatia_general.afkMessageTime;
             String s = "s";
-            float angle = tick % 2 == 0 ? 0.0001F : -0.0001F;
+            float angle = (float)(tick % 2 == 0 ? Math.random() : -Math.random());
 
             if (tick == 0)
             {
@@ -480,11 +480,11 @@ public class IndicatiaEventHandler
             }
             else if (IndicatiaEventHandler.afkMode.equals("360"))
             {
-                player.turn(1.0F, 0.0F);
+                player.turn((float)(Math.random() + 1.0F), 0.0F);
             }
             else if (IndicatiaEventHandler.afkMode.equals("360_move"))
             {
-                player.turn(1.0F, 0.0F);
+                player.turn((float)(Math.random() + 1.0F), 0.0F);
                 IndicatiaEventHandler.afkMoveTicks++;
                 IndicatiaEventHandler.afkMoveTicks %= 8;
             }
