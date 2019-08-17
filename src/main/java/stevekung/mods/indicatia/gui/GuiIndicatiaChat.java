@@ -10,6 +10,7 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.text.TextFormatting;
@@ -127,9 +128,10 @@ public class GuiIndicatiaChat implements IEntityHoverChat, IDropboxCallback
     @Override
     public void actionPerformed(GuiButton button)
     {
-        EntityPlayerSP player = Minecraft.getMinecraft().player;
+        Minecraft mc = Minecraft.getMinecraft();
+        EntityPlayerSP player = mc.player;
 
-        if (player == null)
+        if (player == null || !(mc.currentScreen instanceof GuiChat))
         {
             return;
         }
