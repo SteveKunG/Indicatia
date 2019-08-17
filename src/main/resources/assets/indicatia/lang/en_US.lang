@@ -24,6 +24,7 @@ equipment_position.extended_config=Equipment Position
 potion_hud_style.extended_config=Potion HUD Style
 potion_hud_position.extended_config=Potion HUD Position
 cps_position.extended_config=CPS Position
+ping_mode.extended_config=Ping Mode
 cps_opacity.extended_config=CPS Opacity
 fps.extended_config=FPS
 xyz.extended_config=XYZ
@@ -143,6 +144,8 @@ equipment.only_damage=Only Damage
 potion_hud.icon_and_time=Icon/Time
 cps.keystroke=Keystroke
 cps.custom=Custom
+indicatia.only_ping=Only Ping
+indicatia.ping_and_delay=Ping and Delay
 
 # KEY BINDING
 key.indicatia.category=Indicatia

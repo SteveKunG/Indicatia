@@ -37,6 +37,7 @@ public class ExtendedConfig
     private static final String[] POTION_STATUS_HUD_STYLE = new String[] {"indicatia.default", "potion_hud.icon_and_time"};
     private static final String[] POTION_STATUS_HUD_POSITION = new String[] {"indicatia.left", "indicatia.right", "indicatia.hotbar_left", "indicatia.hotbar_right"};
     private static final String[] CPS_POSITION = new String[] {"indicatia.left", "indicatia.right", "cps.keystroke", "cps.custom"};
+    private static final String[] PING_MODE = new String[] {"indicatia.only_ping", "indicatia.ping_and_delay"};
     private static File file;
 
     // Render Info
@@ -79,6 +80,7 @@ public class ExtendedConfig
     public static int potionHUDStyle = 0;
     public static int potionHUDPosition = 0;
     public static int cpsPosition = 2;
+    public static int pingMode = 0;
     public static float cpsOpacity = 50.0F;
 
     // Offset
@@ -229,6 +231,7 @@ public class ExtendedConfig
             ExtendedConfig.potionHUDStyle = ExtendedConfig.getInteger(nbt, "PotionHUDStyle", ExtendedConfig.potionHUDStyle);
             ExtendedConfig.potionHUDPosition = ExtendedConfig.getInteger(nbt, "PotionHUDPosition", ExtendedConfig.potionHUDPosition);
             ExtendedConfig.cpsPosition = ExtendedConfig.getInteger(nbt, "CPSPosition", ExtendedConfig.cpsPosition);
+            ExtendedConfig.pingMode = ExtendedConfig.getInteger(nbt, "PingMode", ExtendedConfig.pingMode);
             ExtendedConfig.cpsOpacity = ExtendedConfig.getFloat(nbt, "CPSOpacity", ExtendedConfig.cpsOpacity);
 
             // Movement
@@ -382,6 +385,7 @@ public class ExtendedConfig
             nbt.setInteger("PotionHUDStyle", ExtendedConfig.potionHUDStyle);
             nbt.setInteger("PotionHUDPosition", ExtendedConfig.potionHUDPosition);
             nbt.setInteger("CPSPosition", ExtendedConfig.cpsPosition);
+            nbt.setInteger("PingMode", ExtendedConfig.pingMode);
             nbt.setFloat("CPSOpacity", ExtendedConfig.cpsOpacity);
 
             // Movement
@@ -638,6 +642,10 @@ public class ExtendedConfig
         {
             return name + this.getTranslation(CPS_POSITION, ExtendedConfig.cpsPosition);
         }
+        else if (options == ExtendedConfig.Options.PING_MODE)
+        {
+            return name + this.getTranslation(PING_MODE, ExtendedConfig.pingMode);
+        }
         else
         {
             return name;
@@ -689,6 +697,10 @@ public class ExtendedConfig
         else if (options == ExtendedConfig.Options.CPS_POSITION)
         {
             ExtendedConfig.cpsPosition = (ExtendedConfig.cpsPosition + value) % 4;
+        }
+        else if (options == ExtendedConfig.Options.PING_MODE)
+        {
+            ExtendedConfig.pingMode = (ExtendedConfig.pingMode + value) % 2;
         }
 
         else if (options == ExtendedConfig.Options.FPS)
@@ -1312,6 +1324,7 @@ public class ExtendedConfig
         POTION_HUD_STYLE(false, false),
         POTION_HUD_POSITION(false, false),
         CPS_POSITION(false, false),
+        PING_MODE(false, false),
         CPS_OPACITY(true, false, 0.0F, 100.0F, 1.0F),
 
         FPS(false, true),

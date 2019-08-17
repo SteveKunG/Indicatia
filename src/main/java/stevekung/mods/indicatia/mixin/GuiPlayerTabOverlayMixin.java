@@ -27,6 +27,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameType;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.config.ExtendedConfig;
+import stevekung.mods.indicatia.config.PingMode;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.utils.InfoUtils;
 
@@ -62,15 +63,17 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
 
         for (NetworkPlayerInfo info : list)
         {
-            int pingWidth = ConfigManagerIN.indicatia_general.enableCustomPlayerList ? this.mc.fontRenderer.getStringWidth(String.valueOf(info.getResponseTime())) : 0;
-            int stringWidth = this.mc.fontRenderer.getStringWidth(this.getPlayerName(info) + pingWidth);
-            listWidth = Math.max(listWidth, stringWidth);
+            int ping = info.getResponseTime();
+            String pingText = String.valueOf(ping);
 
-            if (scoreObjective != null && scoreObjective.getRenderType() != IScoreCriteria.EnumRenderType.HEARTS)
+            if (PingMode.getById(ExtendedConfig.pingMode).equalsIgnoreCase("ping_and_delay"))
             {
-                stringWidth = this.mc.fontRenderer.getStringWidth(" " + scoreboard.getOrCreateScore(info.getGameProfile().getName(), scoreObjective).getScorePoints());
-                j = Math.max(j, stringWidth);
+                pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
             }
+
+            int pingWidth = ConfigManagerIN.indicatia_general.enableCustomPlayerList ? this.mc.fontRenderer.getStringWidth(pingText) : 0;
+            int stringWidth = this.mc.fontRenderer.getStringWidth(this.getPlayerName(info)) + pingWidth;
+            listWidth = Math.max(listWidth, stringWidth);
         }
 
         list = list.subList(0, Math.min(list.size(), 80));
@@ -227,6 +230,7 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
         if (ConfigManagerIN.indicatia_general.enableCustomPlayerList)
         {
             TextFormatting color = TextFormatting.GREEN;
+            String pingText = String.valueOf(ping);
 
             if (ping >= 200 && ping < 300)
             {
@@ -240,8 +244,19 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
             {
                 color = TextFormatting.DARK_RED;
             }
-            String pingText = String.valueOf(ping);
+
+            if (PingMode.getById(ExtendedConfig.pingMode).equalsIgnoreCase("ping_and_delay"))
+            {
+                pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
+                this.mc.fontRenderer.setUnicodeFlag(true);
+            }
+
             this.mc.fontRenderer.drawString(color + pingText, x1 + x2 - this.mc.fontRenderer.getStringWidth(pingText), y + 0.625F, 0, true);
+
+            if (PingMode.getById(ExtendedConfig.pingMode).equalsIgnoreCase("ping_and_delay"))
+            {
+                this.mc.fontRenderer.setUnicodeFlag(false);
+            }
         }
         else
         {

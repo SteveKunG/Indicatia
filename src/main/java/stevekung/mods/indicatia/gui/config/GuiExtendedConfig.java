@@ -39,6 +39,7 @@ public class GuiExtendedConfig extends GuiScreen
         OPTIONS.add(ExtendedConfig.Options.POTION_HUD_STYLE);
         OPTIONS.add(ExtendedConfig.Options.POTION_HUD_POSITION);
         OPTIONS.add(ExtendedConfig.Options.CPS_POSITION);
+        OPTIONS.add(ExtendedConfig.Options.PING_MODE);
         OPTIONS.add(ExtendedConfig.Options.CPS_OPACITY);
     }
 
@@ -64,7 +65,7 @@ public class GuiExtendedConfig extends GuiScreen
         {
             if (options.isFloat())
             {
-                this.buttonList.add(new GuiConfigSlider(options.getOrdinal(), this.width / 2 - 160 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160, options));
+                this.buttonList.add(new GuiConfigSlider(options.getOrdinal(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160, options));
             }
             else
             {
@@ -78,9 +79,9 @@ public class GuiExtendedConfig extends GuiScreen
         this.buttonList.add(new GuiButton(102, this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title")));
         this.buttonList.add(new GuiButton(103, this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title")));
 
-        this.buttonList.add(new GuiConfigButton(150, this.width / 2 + 10, this.height / 6 + 103, 150, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
-        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 - 100, this.height / 6 + 175, LangUtils.translate("gui.done")));
-        this.buttonList.add(this.resetButton = new GuiButton(201, this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config")));
+        this.buttonList.add(new GuiConfigButton(150, this.width / 2 - 160, this.height / 6 + 175, 160, ExtendedConfig.Options.PREVIEW, ExtendedConfig.instance.getKeyBinding(ExtendedConfig.Options.PREVIEW)));
+        this.buttonList.add(this.doneButton = new GuiButton(200, this.width / 2 + 5, this.height / 6 + 175, 160, 20, LangUtils.translate("gui.done")));
+        this.buttonList.add(this.resetButton = new GuiButton(201, this.width / 2 + 87, this.height / 6 + 175, 78, 20, LangUtils.translate("extended_config.reset_config")));
         this.resetButton.visible = false;
     }
 
@@ -91,14 +92,14 @@ public class GuiExtendedConfig extends GuiScreen
 
         if (shift)
         {
-            this.doneButton.width = 100;
-            this.doneButton.x = this.width / 2 - 105;
+            this.doneButton.width = 78;
+            this.doneButton.x = this.width / 2 + 5;
             this.resetButton.visible = true;
         }
         else
         {
-            this.doneButton.width = 200;
-            this.doneButton.x = this.width / 2 - 100;
+            this.doneButton.width = 160;
+            this.doneButton.x = this.width / 2 + 5;
             this.resetButton.visible = false;
         }
     }
