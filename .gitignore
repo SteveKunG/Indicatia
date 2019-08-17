@@ -1,19 +1,15 @@
 # folder
 .settings
 .gradle
-.gradle_data
 bin
 build
 dependencies
 eclipse
 run
-src/main/java/stevekung/mods/indicatia/extra
-src/main/resources/assets/indicatia/sounds
 
 # file
 *.launch
 .metadata
 .classpath
 .project
-sounds.json
 src/main/resources/mixins.stevekung's_lib.json

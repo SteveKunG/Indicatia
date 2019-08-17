@@ -18,7 +18,6 @@ plugins {
 def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
 def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").text)
 def mcVersion = project.mc_version
-def hasInternal = project.hasProperty("internal")
 
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "org.spongepowered.mixin"
@@ -74,10 +73,9 @@ sourceSets {
     }
 }
 
-ext.finalJar = "build/libs/" + (hasInternal ? "IndicatiaExtra-" : "Indicatia-") + mcVersion + "-" + version + ".jar"
+ext.finalJar = "build/libs/Indicatia-" + mcVersion + "-" + version + ".jar"
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "pack.mcmeta", "META-INF/indicatia_at.cfg", "mixins.indicatia.json", "mixins.indicatia.refmap.json"]
-ext.internalFiles = ["stevekung/mods/indicatia/extra/**", "assets/indicatia/sounds/**", "assets/indicatia/sounds.json"]
 ext.apiFiles = ["micdoodle8/**", "stevekung/mods/stevekunglib/**", "mixins.stevekung's_lib.json"]
 
 curseforge {
@@ -111,30 +109,18 @@ task buildJar(type: SignJar, dependsOn: "processJar") {
 // processing jar
 task processJar(type: Jar, dependsOn: "rePackAllJar") {
     outputs.upToDateWhen { false }
-
-    if (hasInternal)
-    {
-        baseName = "IndicatiaExtra-" + mcVersion
-    }
-    else
-    {
-        baseName = "Indicatia-" + mcVersion
-    }
+    baseName = "Indicatia-" + mcVersion
 
     from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
         exclude "LICENSE.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
     }
 
-    if (!hasInternal)
-    {
-        excludes.addAll(project.ext.internalFiles)
-    }
     excludes.addAll(project.ext.apiFiles)
 
     from(zipTree(project.ext.coreJar)) {
         includes.addAll(project.ext.coreFiles)
     }
-    
+
     manifest {
         attributes("FMLAT": "indicatia_at.cfg",
                    "FMLCorePluginContainsFMLMod": "true",

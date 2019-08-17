@@ -2,7 +2,6 @@ package stevekung.mods.indicatia.core;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +41,6 @@ import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
 import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
-import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.VersionChecker;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
@@ -69,7 +67,6 @@ public class IndicatiaMod
     public static VersionChecker CHECKER;
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
     public static final boolean isYoutubeChatLoaded = Loader.isModLoaded("youtube_chat");
-    private static final List<String> allowedUUID = new ArrayList<>();
 
     static
     {
@@ -80,10 +77,6 @@ public class IndicatiaMod
         catch (Exception e) {}
 
         IndicatiaMod.initProfileFile();
-        IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
-        IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
-        IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
-        IndicatiaMod.allowedUUID.add("4675476a-46e5-45ee-89a5-010dc02996d9");
     }
 
     @EventHandler
@@ -97,15 +90,6 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(new ChatMessageEventHandler());
         CommonUtils.registerEventHandler(new HypixelEventHandler());
 
-        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
-        {
-            try
-            {
-                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
-                clazz.getMethod("init").invoke(null);
-            }
-            catch (Exception e) {}
-        }
         if (ConfigManagerIN.indicatia_general.enableFishingRodOldRender)
         {
             ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));
