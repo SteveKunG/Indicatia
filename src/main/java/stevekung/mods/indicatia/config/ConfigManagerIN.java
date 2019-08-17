@@ -93,6 +93,9 @@ public class ConfigManagerIN
         @Config.Name(value = "Enable Custom Cape")
         public boolean enableCustomCape = false;
 
+        @Config.Name(value = "Enable Smooth Sneaking View")
+        public boolean enableSmoothSneakingView = true;
+
         public static enum DisconnectMode
         {
             GUI, CLICK

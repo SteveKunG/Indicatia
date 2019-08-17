@@ -88,6 +88,9 @@ public class IndicatiaEventHandler
     public static boolean autoFish;
     public static int autoFishTick;
 
+    private static long sneakTimeOld = 0L;
+    private static boolean sneakingOld = false;
+
     public IndicatiaEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
@@ -296,6 +299,14 @@ public class IndicatiaEventHandler
         if (event.phase == TickEvent.Phase.START)
         {
             InfoUtils.INSTANCE.processMouseOverEntity(this.mc);
+
+            if (ConfigManagerIN.indicatia_general.enableSmoothSneakingView)
+            {
+                if (this.mc.player != null)
+                {
+                    this.mc.player.eyeHeight = IndicatiaEventHandler.getSmoothEyeHeight(this.mc.player);
+                }
+            }
         }
     }
 
@@ -587,5 +598,59 @@ public class IndicatiaEventHandler
         {
             IndicatiaEventHandler.autoFishTick = 0;
         }
+    }
+
+    private static float getSmoothEyeHeight(EntityPlayer player)
+    {
+        if (IndicatiaEventHandler.sneakingOld != player.isSneaking() || IndicatiaEventHandler.sneakTimeOld <= 0L)
+        {
+            IndicatiaEventHandler.sneakTimeOld = System.currentTimeMillis();
+        }
+
+        IndicatiaEventHandler.sneakingOld = player.isSneaking();
+        float defaultEyeHeight = 1.62F;
+        double sneakPress = 0.0006D;
+        double sneakValue = 0.005D;
+        int sneakTime = -35;
+        long smoothRatio = 88L;
+
+        if (player.isSneaking())
+        {
+            int sneakSystemTime = (int)(IndicatiaEventHandler.sneakTimeOld + smoothRatio - System.currentTimeMillis());
+
+            if (sneakSystemTime > sneakTime)
+            {
+                defaultEyeHeight += (float)(sneakSystemTime * sneakPress);
+
+                if (defaultEyeHeight < 0.0F || defaultEyeHeight > 10.0F)
+                {
+                    defaultEyeHeight = 1.54F;
+                }
+            }
+            else
+            {
+                defaultEyeHeight = (float)(defaultEyeHeight - sneakValue);
+            }
+        }
+        else
+        {
+            int sneakSystemTime = (int)(IndicatiaEventHandler.sneakTimeOld + smoothRatio - System.currentTimeMillis());
+
+            if (sneakSystemTime > sneakTime)
+            {
+                defaultEyeHeight -= (float)(sneakSystemTime * sneakPress);
+                defaultEyeHeight = (float)(defaultEyeHeight - sneakValue);
+
+                if (defaultEyeHeight < 0.0F)
+                {
+                    defaultEyeHeight = 1.62F;
+                }
+            }
+            else
+            {
+                defaultEyeHeight -= 0.0F;
+            }
+        }
+        return defaultEyeHeight;
     }
 }
