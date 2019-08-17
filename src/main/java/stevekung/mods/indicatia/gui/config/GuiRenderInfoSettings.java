@@ -76,7 +76,7 @@ public class GuiRenderInfoSettings extends GuiScreen
     {
         if (keyCode == 1)
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
         super.keyTyped(typedChar, keyCode);
     }
@@ -102,7 +102,7 @@ public class GuiRenderInfoSettings extends GuiScreen
         {
             if (button.id == 200)
             {
-                ExtendedConfig.save();
+                ExtendedConfig.instance.save();
                 this.mc.displayGuiScreen(this.parent);
             }
         }

@@ -31,33 +31,33 @@ public class GuiDonator extends GuiScreen
         this.topDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 60, 220, 20);
         this.topDonateInput.setMaxStringLength(32767);
         this.topDonateInput.setCanLoseFocus(true);
-        this.topDonateInput.setText(ExtendedConfig.topDonatorFilePath);
+        this.topDonateInput.setText(ExtendedConfig.instance.topDonatorFilePath);
 
         this.recentDonateInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 85, 220, 20);
         this.recentDonateInput.setMaxStringLength(32767);
         this.recentDonateInput.setCanLoseFocus(true);
-        this.recentDonateInput.setText(ExtendedConfig.recentDonatorFilePath);
+        this.recentDonateInput.setText(ExtendedConfig.instance.recentDonatorFilePath);
 
         this.topDonateTextInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 110, 220, 20);
         this.topDonateTextInput.setMaxStringLength(32767);
         this.topDonateTextInput.setCanLoseFocus(true);
-        this.topDonateTextInput.setText(ExtendedConfig.topDonatorText.replace("\u00a7", "&"));
+        this.topDonateTextInput.setText(ExtendedConfig.instance.topDonatorText.replace("\u00a7", "&"));
 
         this.recentDonateTextInput = new GuiTextField(2, this.fontRenderer, this.width / 2 - 80, 135, 220, 20);
         this.recentDonateTextInput.setMaxStringLength(32767);
         this.recentDonateTextInput.setCanLoseFocus(true);
-        this.recentDonateTextInput.setText(ExtendedConfig.recentDonatorText.replace("\u00a7", "&"));
+        this.recentDonateTextInput.setText(ExtendedConfig.instance.recentDonatorText.replace("\u00a7", "&"));
 
         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height - 38, 100, 20, LangUtils.translate("gui.done")));
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height - 38, 100, 20, LangUtils.translate("gui.cancel")));
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height - 38, 100, 20, LangUtils.translate("message.reset_path")));
-        this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
+        this.resetBtn.enabled = !ExtendedConfig.instance.topDonatorFilePath.isEmpty() || !ExtendedConfig.instance.recentDonatorFilePath.isEmpty();
     }
 
     @Override
     public void updateScreen()
     {
-        this.resetBtn.enabled = !ExtendedConfig.topDonatorFilePath.isEmpty() || !ExtendedConfig.recentDonatorFilePath.isEmpty();
+        this.resetBtn.enabled = !ExtendedConfig.instance.topDonatorFilePath.isEmpty() || !ExtendedConfig.instance.recentDonatorFilePath.isEmpty();
         this.topDonateInput.updateCursorCounter();
         this.recentDonateInput.updateCursorCounter();
         this.topDonateTextInput.updateCursorCounter();
@@ -77,19 +77,19 @@ public class GuiDonator extends GuiScreen
         {
             if (button.id == 0)
             {
-                if (!ExtendedConfig.topDonatorFilePath.equals(this.topDonateInput.getText()))
+                if (!ExtendedConfig.instance.topDonatorFilePath.equals(this.topDonateInput.getText()))
                 {
                     this.mc.player.sendMessage(JsonUtils.create("Set top donator file path to " + this.topDonateInput.getText()));
                 }
-                if (!ExtendedConfig.recentDonatorFilePath.equals(this.recentDonateInput.getText()))
+                if (!ExtendedConfig.instance.recentDonatorFilePath.equals(this.recentDonateInput.getText()))
                 {
                     this.mc.player.sendMessage(JsonUtils.create("Set recent donator file path to " + this.recentDonateInput.getText()));
                 }
-                ExtendedConfig.topDonatorFilePath = this.topDonateInput.getText().replace("" + '\u0022', "");
-                ExtendedConfig.recentDonatorFilePath = this.recentDonateInput.getText().replace("" + '\u0022', "");
-                ExtendedConfig.topDonatorText = this.convertString(this.topDonateTextInput.getText());
-                ExtendedConfig.recentDonatorText = this.convertString(this.recentDonateTextInput.getText());
-                ExtendedConfig.save();
+                ExtendedConfig.instance.topDonatorFilePath = this.topDonateInput.getText().replace("" + '\u0022', "");
+                ExtendedConfig.instance.recentDonatorFilePath = this.recentDonateInput.getText().replace("" + '\u0022', "");
+                ExtendedConfig.instance.topDonatorText = this.convertString(this.topDonateTextInput.getText());
+                ExtendedConfig.instance.recentDonatorText = this.convertString(this.recentDonateTextInput.getText());
+                ExtendedConfig.instance.save();
                 this.mc.displayGuiScreen(null);
             }
             if (button.id == 1)
@@ -99,13 +99,13 @@ public class GuiDonator extends GuiScreen
             if (button.id == 2)
             {
                 this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.reset_donator_file_path")));
-                ExtendedConfig.topDonatorFilePath = "";
-                ExtendedConfig.recentDonatorFilePath = "";
+                ExtendedConfig.instance.topDonatorFilePath = "";
+                ExtendedConfig.instance.recentDonatorFilePath = "";
                 HUDRenderEventHandler.topDonator = "";
                 HUDRenderEventHandler.recentDonator = "";
                 this.topDonateInput.setText("");
                 this.recentDonateInput.setText("");
-                ExtendedConfig.save();
+                ExtendedConfig.instance.save();
             }
         }
     }

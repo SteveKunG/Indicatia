@@ -43,7 +43,7 @@ public class CommandHideName extends ClientCommandBase
                 if (!HideNameData.getHideNameList().contains(name))
                 {
                     HideNameData.getHideNameList().add(name);
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
                 else
                 {
@@ -62,7 +62,7 @@ public class CommandHideName extends ClientCommandBase
                 if (HideNameData.getHideNameList().contains(name))
                 {
                     HideNameData.getHideNameList().remove(name);
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
                 else
                 {

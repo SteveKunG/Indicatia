@@ -74,7 +74,7 @@ public class HUDRenderEventHandler
                 this.recTick = 0;
             }
 
-            if (!ExtendedConfig.topDonatorFilePath.isEmpty())
+            if (!ExtendedConfig.instance.topDonatorFilePath.isEmpty())
             {
                 HUDRenderEventHandler.readTopDonatorFile();
             }
@@ -83,7 +83,7 @@ public class HUDRenderEventHandler
                 HUDRenderEventHandler.topDonator = "";
             }
 
-            if (!ExtendedConfig.recentDonatorFilePath.isEmpty())
+            if (!ExtendedConfig.instance.recentDonatorFilePath.isEmpty())
             {
                 HUDRenderEventHandler.readRecentDonatorFile();
             }
@@ -132,16 +132,16 @@ public class HUDRenderEventHandler
                 MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
                 // left info
-                if (ExtendedConfig.ping && !this.mc.isSingleplayer())
+                if (ExtendedConfig.instance.ping && !this.mc.isSingleplayer())
                 {
                     leftInfo.add(HUDInfo.getPing());
 
-                    if (ExtendedConfig.pingToSecond)
+                    if (ExtendedConfig.instance.pingToSecond)
                     {
                         leftInfo.add(HUDInfo.getPingToSecond());
                     }
                 }
-                if (ExtendedConfig.serverIP && !this.mc.isSingleplayer())
+                if (ExtendedConfig.instance.serverIP && !this.mc.isSingleplayer())
                 {
                     if (this.mc.isConnectedToRealms())
                     {
@@ -152,11 +152,11 @@ public class HUDRenderEventHandler
                         leftInfo.add(HUDInfo.getServerIP(this.mc));
                     }
                 }
-                if (ExtendedConfig.fps)
+                if (ExtendedConfig.instance.fps)
                 {
                     leftInfo.add(HUDInfo.getFPS());
                 }
-                if (ExtendedConfig.xyz)
+                if (ExtendedConfig.instance.xyz)
                 {
                     leftInfo.add(HUDInfo.getXYZ(this.mc));
 
@@ -165,26 +165,26 @@ public class HUDRenderEventHandler
                         leftInfo.add(HUDInfo.getOverworldXYZFromNether(this.mc));
                     }
                 }
-                if (ExtendedConfig.direction)
+                if (ExtendedConfig.instance.direction)
                 {
                     leftInfo.add(HUDInfo.renderDirection(this.mc));
                 }
-                if (ExtendedConfig.biome)
+                if (ExtendedConfig.instance.biome)
                 {
                     leftInfo.add(HUDInfo.getBiome(this.mc));
                 }
-                if (ExtendedConfig.slimeChunkFinder && this.mc.player.dimension == 0)
+                if (ExtendedConfig.instance.slimeChunkFinder && this.mc.player.dimension == 0)
                 {
                     String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No";
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
                 }
-                if (CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("left"))
+                if (CPSPosition.getById(ExtendedConfig.instance.cpsPosition).equalsIgnoreCase("left"))
                 {
-                    if (ExtendedConfig.cps)
+                    if (ExtendedConfig.instance.cps)
                     {
                         leftInfo.add(HUDInfo.getCPS());
                     }
-                    if (ExtendedConfig.rcps)
+                    if (ExtendedConfig.instance.rcps)
                     {
                         leftInfo.add(HUDInfo.getRCPS());
                     }
@@ -193,26 +193,26 @@ public class HUDRenderEventHandler
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
-                        String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormatting.RESET + " ";
+                        String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
                         leftInfo.add(text + HUDRenderEventHandler.topDonator);
                     }
                     if (!HUDRenderEventHandler.recentDonator.isEmpty())
                     {
-                        String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
+                        String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
                         leftInfo.add(text + HUDRenderEventHandler.recentDonator);
                     }
                 }
                 // server tps
-                if (ExtendedConfig.tps && server != null)
+                if (ExtendedConfig.instance.tps && server != null)
                 {
                     int dimension = 0;
                     double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
                     double overworldTPS = HUDRenderEventHandler.mean(server.worldTickTimes.get(dimension)) * 1.0E-6D;
                     double tps = Math.min(1000.0D / overallTPS, 20);
 
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overallTPS));
 
-                    if (ExtendedConfig.tpsAllDims)
+                    if (ExtendedConfig.instance.tpsAllDims)
                     {
                         for (Integer dimensionIds : DimensionManager.getIDs())
                         {
@@ -224,40 +224,40 @@ public class HUDRenderEventHandler
                                 return;
                             }
                             double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).provider.getDimensionType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                            leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Dimension " + server.getWorld(dimensionIds).provider.getDimensionType().getName() + " " + dimensionIds + ": " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
                         }
                     }
                     else
                     {
-                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
+                        leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(overworldTPS));
                     }
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(tps));
                 }
 
                 // right info
-                if (ExtendedConfig.realTime)
+                if (ExtendedConfig.instance.realTime)
                 {
                     rightInfo.add(HUDInfo.getCurrentTime());
                 }
-                if (ExtendedConfig.gameTime)
+                if (ExtendedConfig.instance.gameTime)
                 {
                     rightInfo.add(HUDInfo.getCurrentGameTime(this.mc));
                 }
-                if (ExtendedConfig.gameWeather && this.mc.world.isRaining())
+                if (ExtendedConfig.instance.gameWeather && this.mc.world.isRaining())
                 {
                     rightInfo.add(HUDInfo.getGameWeather(this.mc));
                 }
-                if (ExtendedConfig.moonPhase)
+                if (ExtendedConfig.instance.moonPhase)
                 {
                     rightInfo.add(InfoUtils.INSTANCE.getMoonPhase(this.mc));
                 }
-                if (CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("right"))
+                if (CPSPosition.getById(ExtendedConfig.instance.cpsPosition).equalsIgnoreCase("right"))
                 {
-                    if (ExtendedConfig.cps)
+                    if (ExtendedConfig.instance.cps)
                     {
                         rightInfo.add(HUDInfo.getCPS());
                     }
-                    if (ExtendedConfig.rcps)
+                    if (ExtendedConfig.instance.rcps)
                     {
                         rightInfo.add(HUDInfo.getRCPS());
                     }
@@ -266,30 +266,30 @@ public class HUDRenderEventHandler
                 {
                     if (!HUDRenderEventHandler.topDonator.isEmpty())
                     {
-                        String text = ExtendedConfig.topDonatorText.isEmpty() ? "" : ExtendedConfig.topDonatorText + TextFormatting.RESET + " ";
+                        String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
                         rightInfo.add(text + HUDRenderEventHandler.topDonator);
                     }
                     if (!HUDRenderEventHandler.recentDonator.isEmpty())
                     {
-                        String text = ExtendedConfig.recentDonatorText.isEmpty() ? "" : ExtendedConfig.recentDonatorText + TextFormatting.RESET + " ";
+                        String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
                         rightInfo.add(text + HUDRenderEventHandler.recentDonator);
                     }
                 }
                 if (IndicatiaMod.isYoutubeChatLoaded && !HUDRenderEventHandler.currentLiveViewCount.isEmpty())
                 {
-                    rightInfo.add(ColorUtils.stringToRGB(ExtendedConfig.ytChatViewCountColor).toColoredFont() + "Current watched: " + ColorUtils.stringToRGB(ExtendedConfig.ytChatViewCountValueColor).toColoredFont() + HUDRenderEventHandler.currentLiveViewCount);
+                    rightInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.ytChatViewCountColor).toColoredFont() + "Current watched: " + ColorUtils.stringToRGB(ExtendedConfig.instance.ytChatViewCountValueColor).toColoredFont() + HUDRenderEventHandler.currentLiveViewCount);
                 }
 
                 // equipments
-                if (!this.mc.player.isSpectator() && ExtendedConfig.equipmentHUD)
+                if (!this.mc.player.isSpectator() && ExtendedConfig.instance.equipmentHUD)
                 {
-                    if (EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("hotbar"))
+                    if (EnumEquipment.Position.getById(ExtendedConfig.instance.equipmentPosition).equalsIgnoreCase("hotbar"))
                     {
                         HUDInfo.renderHotbarEquippedItems(this.mc);
                     }
                     else
                     {
-                        if (EnumEquipment.Direction.getById(ExtendedConfig.equipmentDirection).equalsIgnoreCase("vertical"))
+                        if (EnumEquipment.Direction.getById(ExtendedConfig.instance.equipmentDirection).equalsIgnoreCase("vertical"))
                         {
                             HUDInfo.renderVerticalEquippedItems(this.mc);
                         }
@@ -300,7 +300,7 @@ public class HUDRenderEventHandler
                     }
                 }
 
-                if (ExtendedConfig.potionHUD)
+                if (ExtendedConfig.instance.potionHUD)
                 {
                     HUDInfo.renderPotionHUD(this.mc);
                 }
@@ -316,7 +316,7 @@ public class HUDRenderEventHandler
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
-                        this.mc.fontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
+                        this.mc.fontRenderer.drawString(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215, true);
                     }
                 }
 
@@ -331,7 +331,7 @@ public class HUDRenderEventHandler
 
                     if (!StringUtils.isNullOrEmpty(string))
                     {
-                        this.mc.fontRenderer.drawString(string, ExtendedConfig.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
+                        this.mc.fontRenderer.drawString(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215, true);
                     }
                 }
             }
@@ -350,18 +350,18 @@ public class HUDRenderEventHandler
 
             if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
             {
-                if (ExtendedConfig.keystroke)
+                if (ExtendedConfig.instance.keystroke)
                 {
                     if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat)
                     {
                         KeystrokeRenderer.render(this.mc);
                     }
                 }
-                if (ConfigManagerIN.indicatia_general.enableRenderInfo && ExtendedConfig.cps && CPSPosition.getById(ExtendedConfig.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
+                if (ConfigManagerIN.indicatia_general.enableRenderInfo && ExtendedConfig.instance.cps && CPSPosition.getById(ExtendedConfig.instance.cpsPosition).equalsIgnoreCase("custom") && (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat))
                 {
-                    String rcps = ExtendedConfig.rcps ? " " + HUDInfo.getRCPS() : "";
-                    RenderUtilsIN.drawRect(ExtendedConfig.cpsCustomXOffset, ExtendedConfig.cpsCustomYOffset, ExtendedConfig.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.cpsCustomYOffset + 11, 16777216, ExtendedConfig.cpsOpacity / 100.0F);
-                    this.mc.fontRenderer.drawString(HUDInfo.getCPS() + rcps, ExtendedConfig.cpsCustomXOffset + 2, ExtendedConfig.cpsCustomYOffset + 2, 16777215, true);
+                    String rcps = ExtendedConfig.instance.rcps ? " " + HUDInfo.getRCPS() : "";
+                    RenderUtilsIN.drawRect(ExtendedConfig.instance.cpsCustomXOffset, ExtendedConfig.instance.cpsCustomYOffset, ExtendedConfig.instance.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(HUDInfo.getCPS() + rcps) + 4, ExtendedConfig.instance.cpsCustomYOffset + 11, 16777216, ExtendedConfig.instance.cpsOpacity / 100.0F);
+                    this.mc.fontRenderer.drawString(HUDInfo.getCPS() + rcps, ExtendedConfig.instance.cpsCustomXOffset + 2, ExtendedConfig.instance.cpsCustomYOffset + 2, 16777215, true);
                 }
             }
         }
@@ -391,7 +391,7 @@ public class HUDRenderEventHandler
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
         float range = entity.isSneaking() ? RenderLivingBase.NAME_TAG_RANGE_SNEAK : RenderLivingBase.NAME_TAG_RANGE;
         double distance = entity.getDistanceSq(this.mc.getRenderManager().renderViewEntity);
-        String mode = HealthStatusMode.getById(ExtendedConfig.healthStatusMode);
+        String mode = HealthStatusMode.getById(ExtendedConfig.instance.healthStatusMode);
         boolean flag = mode.equalsIgnoreCase("disabled") ? false : mode.equalsIgnoreCase("pointed") ? entity == InfoUtils.INSTANCE.extendedPointedEntity : true;
         Style color = halfHealth ? JsonUtils.red() : halfHealth1 ? JsonUtils.darkRed() : JsonUtils.green();
 
@@ -408,7 +408,7 @@ public class HUDRenderEventHandler
 
     private static void readTopDonatorFile()
     {
-        File file = new File("/" + ExtendedConfig.topDonatorFilePath);
+        File file = new File("/" + ExtendedConfig.instance.topDonatorFilePath);
         String text = "";
 
         if (HUDRenderEventHandler.readFileTicks % ConfigManagerIN.indicatia_donation.readFileInterval == 0)
@@ -435,12 +435,12 @@ public class HUDRenderEventHandler
                 HUDRenderEventHandler.topDonator = TextFormatting.RED + "Cannot read text file!";
             }
         }
-        HUDRenderEventHandler.topDonator = ColorUtils.stringToRGB(ExtendedConfig.topDonatorNameColor).toColoredFont() + HUDRenderEventHandler.topDonatorName + ColorUtils.stringToRGB(ExtendedConfig.topDonatorValueColor).toColoredFont() + " " + HUDRenderEventHandler.topDonatorCount.replace("THB", "") + "THB";
+        HUDRenderEventHandler.topDonator = ColorUtils.stringToRGB(ExtendedConfig.instance.topDonatorNameColor).toColoredFont() + HUDRenderEventHandler.topDonatorName + ColorUtils.stringToRGB(ExtendedConfig.instance.topDonatorValueColor).toColoredFont() + " " + HUDRenderEventHandler.topDonatorCount.replace("THB", "") + "THB";
     }
 
     private static void readRecentDonatorFile()
     {
-        File file = new File("/" + ExtendedConfig.recentDonatorFilePath);
+        File file = new File("/" + ExtendedConfig.instance.recentDonatorFilePath);
         String text = "";
 
         if (HUDRenderEventHandler.readFileTicks % ConfigManagerIN.indicatia_donation.readFileInterval == 0)
@@ -467,7 +467,7 @@ public class HUDRenderEventHandler
                 HUDRenderEventHandler.recentDonator = TextFormatting.RED + "Cannot read text file!";
             }
         }
-        HUDRenderEventHandler.recentDonator = ColorUtils.stringToRGB(ExtendedConfig.recentDonatorNameColor).toColoredFont() + HUDRenderEventHandler.recentDonatorName + ColorUtils.stringToRGB(ExtendedConfig.recentDonatorValueColor).toColoredFont() + " " + HUDRenderEventHandler.recentDonatorCount.replace("THB", "") + "THB";
+        HUDRenderEventHandler.recentDonator = ColorUtils.stringToRGB(ExtendedConfig.instance.recentDonatorNameColor).toColoredFont() + HUDRenderEventHandler.recentDonatorName + ColorUtils.stringToRGB(ExtendedConfig.instance.recentDonatorValueColor).toColoredFont() + " " + HUDRenderEventHandler.recentDonatorCount.replace("THB", "") + "THB";
     }
 
     public static long mean(long[] values)

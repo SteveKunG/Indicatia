@@ -38,17 +38,17 @@ public class CommandSlimeChunkSeed extends ClientCommandBase
 
                     if (longSeed != 0L)
                     {
-                        ExtendedConfig.slimeChunkSeed = longSeed;
+                        ExtendedConfig.instance.slimeChunkSeed = longSeed;
                         sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_slime_seed", longSeed)));
                     }
                 }
                 catch (NumberFormatException e)
                 {
-                    ExtendedConfig.slimeChunkSeed = seed.hashCode();
+                    ExtendedConfig.instance.slimeChunkSeed = seed.hashCode();
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.set_slime_seed", seed.hashCode())));
                 }
             }
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
     }
 }

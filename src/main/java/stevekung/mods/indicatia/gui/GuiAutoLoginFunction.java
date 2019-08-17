@@ -90,7 +90,7 @@ public class GuiAutoLoginFunction extends GuiScreen
                 this.mc.player.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_function_set")));
                 ExtendedConfig.loginData.removeAutoLogin(GameProfileUtils.getUUID() + this.data.serverIP);
                 ExtendedConfig.loginData.addAutoLogin(this.data.serverIP, "", "", GameProfileUtils.getUUID(), this.inputField.getText());
-                ExtendedConfig.save();
+                ExtendedConfig.instance.save();
             }
             this.mc.displayGuiScreen(null);
         }

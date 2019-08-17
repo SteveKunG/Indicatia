@@ -62,9 +62,9 @@ public class ChatMessageEventHandler
 
         private void runRealmsCommand(EntityPlayerSP player)
         {
-            if (Minecraft.getMinecraft().isConnectedToRealms() && Strings.isNotEmpty(ExtendedConfig.realmsMessage))
+            if (Minecraft.getMinecraft().isConnectedToRealms() && Strings.isNotEmpty(ExtendedConfig.instance.realmsMessage))
             {
-                player.sendChatMessage(ExtendedConfig.realmsMessage);
+                player.sendChatMessage(ExtendedConfig.instance.realmsMessage);
             }
         }
 

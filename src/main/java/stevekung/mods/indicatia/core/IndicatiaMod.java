@@ -43,7 +43,6 @@ import stevekung.mods.indicatia.utils.ThreadMinigameData;
 import stevekung.mods.stevekunglib.client.gui.GuiChatRegistry;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
-import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.VersionChecker;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
@@ -67,7 +66,6 @@ public class IndicatiaMod
 
     public static boolean isDevelopment;
     public static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
-    public static final File resetFlag = new File(ExtendedConfig.userDir, "reset");
     public static VersionChecker CHECKER;
     public static final boolean isGalacticraftLoaded = Loader.isModLoaded("galacticraftcore");
     public static final boolean isYoutubeChatLoaded = Loader.isModLoaded("youtube_chat");
@@ -81,12 +79,6 @@ public class IndicatiaMod
         }
         catch (Exception e) {}
 
-        if (IndicatiaMod.resetFlag.exists())
-        {
-            ExtendedConfig.defaultConfig.delete();
-            IndicatiaMod.resetFlag.delete();
-            LoggerIN.info("Reset default config");
-        }
         IndicatiaMod.initProfileFile();
         IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
         IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
@@ -196,8 +188,8 @@ public class IndicatiaMod
         if (!ExtendedConfig.defaultConfig.exists())
         {
             LoggerIN.info("Initializing created default Indicatia profile...");
-            ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.save();
+            ExtendedConfig.instance.setCurrentProfile("default");
+            ExtendedConfig.instance.save();
         }
 
         NBTTagCompound nbt = new NBTTagCompound();
@@ -221,8 +213,8 @@ public class IndicatiaMod
             if ("profile".equals(property))
             {
                 LoggerIN.info("Loaded current profile by name '{}'", key);
-                ExtendedConfig.setCurrentProfile(key);
-                ExtendedConfig.load();
+                ExtendedConfig.instance.setCurrentProfile(key);
+                ExtendedConfig.instance.load();
             }
         });
     }
@@ -252,21 +244,6 @@ public class IndicatiaMod
                 LoggerIN.error("Failed to save profile");
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static void saveResetFlag()
-    {
-        ClientUtils.printClientMessage(LangUtils.translate("message.reset_config_flag"));
-
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(resetFlag), StandardCharsets.UTF_8)))
-        {
-            writer.println("reset");
-        }
-        catch (IOException e)
-        {
-            LoggerIN.error("Failed to save reset flag");
-            e.printStackTrace();
         }
     }
 }

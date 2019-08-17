@@ -44,7 +44,7 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onMouseClick(MouseEvent event)
     {
-        if (event.getButton() == 1 && event.isButtonstate() && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof EntityOtherPlayerMP && !this.mc.player.isSneaking() && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.rightClickToAddParty)
+        if (event.getButton() == 1 && event.isButtonstate() && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof EntityOtherPlayerMP && !this.mc.player.isSneaking() && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.instance.rightClickToAddParty)
         {
             EntityOtherPlayerMP player = (EntityOtherPlayerMP)this.mc.pointedEntity;
 
@@ -82,14 +82,14 @@ public class HypixelEventHandler
                 }
                 else if (unformattedText.contains("Your nick has been reset!"))
                 {
-                    ExtendedConfig.hypixelNickName = "";
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.hypixelNickName = "";
+                    ExtendedConfig.instance.save();
                 }
 
                 if (nickMatcher.matches())
                 {
-                    ExtendedConfig.hypixelNickName = nickMatcher.group("nick");
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.hypixelNickName = nickMatcher.group("nick");
+                    ExtendedConfig.instance.save();
                 }
 
                 // https://gist.githubusercontent.com/minemanpi/72c38b0023f5062a5f3eba02a5132603/raw/triggers.txt
@@ -134,11 +134,11 @@ public class HypixelEventHandler
 
             if (gui.tileSign != null)
             {
-                ExtendedConfig.hypixelNickName = gui.tileSign.signText[0].getUnformattedText();
+                ExtendedConfig.instance.hypixelNickName = gui.tileSign.signText[0].getUnformattedText();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
             }
         }

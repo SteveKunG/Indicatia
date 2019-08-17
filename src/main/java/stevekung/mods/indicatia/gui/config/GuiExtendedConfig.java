@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.client.ClientUtils;
@@ -111,8 +110,8 @@ public class GuiExtendedConfig extends GuiScreen
 
         if (result)
         {
-            IndicatiaMod.saveResetFlag();
-            this.mc.displayGuiScreen(null);
+            ExtendedConfig.resetConfig();
+            this.mc.displayGuiScreen(this);
         }
         else
         {
@@ -125,7 +124,7 @@ public class GuiExtendedConfig extends GuiScreen
     {
         if (keyCode == 1)
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
         super.keyTyped(typedChar, keyCode);
     }
@@ -135,7 +134,7 @@ public class GuiExtendedConfig extends GuiScreen
     {
         if (button.enabled)
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
 
             if ((button.id < 100 || button.id == 150) && button instanceof GuiConfigButton)
             {

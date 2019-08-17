@@ -66,7 +66,7 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
             int ping = info.getResponseTime();
             String pingText = String.valueOf(ping);
 
-            if (PingMode.getById(ExtendedConfig.pingMode).equalsIgnoreCase("ping_and_delay"))
+            if (PingMode.getById(ExtendedConfig.instance.pingMode).equalsIgnoreCase("ping_and_delay"))
             {
                 pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
             }
@@ -225,7 +225,7 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
     @Overwrite
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo info)
     {
-        int ping = InfoUtils.INSTANCE.isHypixel() && info.getGameProfile().getName().equals(ExtendedConfig.hypixelNickName) ? IndicatiaEventHandler.currentServerPing : info.getResponseTime();
+        int ping = InfoUtils.INSTANCE.isHypixel() && info.getGameProfile().getName().equals(ExtendedConfig.instance.hypixelNickName) ? IndicatiaEventHandler.currentServerPing : info.getResponseTime();
 
         if (ConfigManagerIN.indicatia_general.enableCustomPlayerList)
         {
@@ -245,7 +245,7 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
                 color = TextFormatting.DARK_RED;
             }
 
-            if (PingMode.getById(ExtendedConfig.pingMode).equalsIgnoreCase("ping_and_delay"))
+            if (PingMode.getById(ExtendedConfig.instance.pingMode).equalsIgnoreCase("ping_and_delay"))
             {
                 pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
                 this.mc.fontRenderer.setUnicodeFlag(true);
@@ -253,7 +253,7 @@ public abstract class GuiPlayerTabOverlayMixin extends Gui
 
             this.mc.fontRenderer.drawString(color + pingText, x1 + x2 - this.mc.fontRenderer.getStringWidth(pingText), y + 0.625F, 0, true);
 
-            if (PingMode.getById(ExtendedConfig.pingMode).equalsIgnoreCase("ping_and_delay"))
+            if (PingMode.getById(ExtendedConfig.instance.pingMode).equalsIgnoreCase("ping_and_delay"))
             {
                 this.mc.fontRenderer.setUnicodeFlag(false);
             }

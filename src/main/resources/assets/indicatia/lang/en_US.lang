@@ -240,5 +240,5 @@ message.not_held_fishing_rod=You are not held a Fishing Rod!
 message.already_start_autofish=Already start Autofish!
 message.not_start_autofish=You didn't start using /autofish command!
 message.must_hold_fishing_rod=You must hold a Fishing Rod while AFK!
-message.reset_config_flag=Set Reset default config flag! You should restart the game.
 message.reset_config_confirm=Are you want to restore default config?
+message.reset_config=Config '%s' has been reset to default setting!

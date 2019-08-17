@@ -74,7 +74,7 @@ public class CommandAutoLogin extends ClientCommandBase
                     String value = component.createCopy().getUnformattedText();
                     ExtendedConfig.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), uuid, "");
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_set")));
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
             }
             else if ("remove".equalsIgnoreCase(args[0]))

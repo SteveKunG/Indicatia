@@ -32,15 +32,15 @@ public class CommandRealmsMessage extends ClientCommandBase
 
             if (text.equals("reset"))
             {
-                ExtendedConfig.realmsMessage = "";
+                ExtendedConfig.instance.realmsMessage = "";
                 sender.sendMessage(JsonUtils.create(LangUtils.translate("message.realmsmsg_reset")));
-                ExtendedConfig.save();
+                ExtendedConfig.instance.save();
             }
             else
             {
-                ExtendedConfig.realmsMessage = text;
+                ExtendedConfig.instance.realmsMessage = text;
                 sender.sendMessage(JsonUtils.create(LangUtils.translate("message.realmsmsg_set", text)));
-                ExtendedConfig.save();
+                ExtendedConfig.instance.save();
             }
         }
     }

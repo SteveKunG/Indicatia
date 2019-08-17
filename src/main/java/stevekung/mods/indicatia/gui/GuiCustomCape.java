@@ -43,11 +43,11 @@ public class GuiCustomCape extends GuiScreen
         this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, LangUtils.translate("message.reset_cape")));
         this.resetBtn.enabled = CapeUtils.texture.exists();
 
-        if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.showCustomCape)
+        if (!this.mc.gameSettings.getModelParts().contains(EnumPlayerModelParts.CAPE) && !ExtendedConfig.instance.showCustomCape)
         {
             this.capeOption = 0;
         }
-        if (ExtendedConfig.showCustomCape)
+        if (ExtendedConfig.instance.showCustomCape)
         {
             this.capeOption = 1;
         }
@@ -175,22 +175,22 @@ public class GuiCustomCape extends GuiScreen
     {
         if (this.capeOption == 0)
         {
-            ExtendedConfig.showCustomCape = false;
+            ExtendedConfig.instance.showCustomCape = false;
             this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
         }
         if (this.capeOption == 1)
         {
-            ExtendedConfig.showCustomCape = true;
+            ExtendedConfig.instance.showCustomCape = true;
             this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
         }
         if (this.capeOption == 2)
         {
-            ExtendedConfig.showCustomCape = false;
+            ExtendedConfig.instance.showCustomCape = false;
             this.mc.gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
         }
         this.mc.gameSettings.sendSettingsToServer();
         this.mc.gameSettings.saveOptions();
-        ExtendedConfig.save();
+        ExtendedConfig.instance.save();
     }
 
     private static void renderPlayer(Minecraft mc, int width, int height)

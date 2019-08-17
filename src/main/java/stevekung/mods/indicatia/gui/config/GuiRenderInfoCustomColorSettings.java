@@ -121,7 +121,7 @@ public class GuiRenderInfoCustomColorSettings extends GuiScreen
     {
         if (keyCode == 1)
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
         this.optionsRowList.textboxKeyTyped(typedChar, keyCode);
         super.keyTyped(typedChar, keyCode);
@@ -147,7 +147,7 @@ public class GuiRenderInfoCustomColorSettings extends GuiScreen
         if (button.enabled)
         {
             this.optionsRowList.saveCurrentValue();
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
 
             if (button.id == 200)
             {

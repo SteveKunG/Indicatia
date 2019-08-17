@@ -64,7 +64,7 @@ public class CommandProfile extends ClientCommandBase
                 else
                 {
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.profile_added", name)));
-                    ExtendedConfig.save(name);
+                    ExtendedConfig.instance.save(name);
                 }
             }
             else if ("load".equalsIgnoreCase(args[0]))
@@ -85,11 +85,11 @@ public class CommandProfile extends ClientCommandBase
                     }
                 }
 
-                ExtendedConfig.setCurrentProfile(name);
+                ExtendedConfig.instance.setCurrentProfile(name);
                 ExtendedConfig.saveProfileFile(name);
-                ExtendedConfig.load();
+                ExtendedConfig.instance.load();
                 sender.sendMessage(JsonUtils.create(LangUtils.translate("message.load_profile", name)));
-                ExtendedConfig.save(name); // save current settings
+                ExtendedConfig.instance.save(name); // save current settings
             }
             else if ("save".equalsIgnoreCase(args[0]))
             {
@@ -111,7 +111,7 @@ public class CommandProfile extends ClientCommandBase
 
                 if (exist)
                 {
-                    ExtendedConfig.save(name);
+                    ExtendedConfig.instance.save(name);
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.save_profile", name)));
                 }
                 else
@@ -148,8 +148,8 @@ public class CommandProfile extends ClientCommandBase
                 {
                     File toDel = new File(ExtendedConfig.userDir, name + ".dat");
                     toDel.delete();
-                    ExtendedConfig.setCurrentProfile("default");
-                    ExtendedConfig.load();
+                    ExtendedConfig.instance.setCurrentProfile("default");
+                    ExtendedConfig.instance.load();
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.remove_profile", name)));
                 }
                 else

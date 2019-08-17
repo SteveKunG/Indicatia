@@ -102,7 +102,7 @@ public class GuiConfigTextFieldRowList extends GuiListExtended
         if (keyCode == 28)
         {
             this.saveCurrentValue();
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
             this.mc.displayGuiScreen(this.parent);
         }
         this.options.forEach(row -> row.textboxKeyTyped(typedChar, keyCode));

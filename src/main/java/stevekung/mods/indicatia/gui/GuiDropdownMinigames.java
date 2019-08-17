@@ -69,9 +69,9 @@ public class GuiDropdownMinigames extends GuiButton
                 Gui.drawRect(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32BitColor(255, 180, 180, 180));
             }
 
-            for (int i = 0; i + ExtendedConfig.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
+            for (int i = 0; i + ExtendedConfig.instance.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
             {
-                String minigames = this.minigameLists.get(i + ExtendedConfig.hypixelMinigameScrollPos);
+                String minigames = this.minigameLists.get(i + ExtendedConfig.instance.hypixelMinigameScrollPos);
 
                 if (minigames != null)
                 {
@@ -110,7 +110,7 @@ public class GuiDropdownMinigames extends GuiButton
         {
             if (this.enabled && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
             {
-                int optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.hypixelMinigameScrollPos;
+                int optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.instance.hypixelMinigameScrollPos;
                 this.selectedMinigame = optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
@@ -127,16 +127,16 @@ public class GuiDropdownMinigames extends GuiButton
 
     public void scroll(int amount)
     {
-        ExtendedConfig.hypixelMinigameScrollPos += amount;
+        ExtendedConfig.instance.hypixelMinigameScrollPos += amount;
         int i = this.minigameLists.size();
 
-        if (ExtendedConfig.hypixelMinigameScrollPos > i - this.displayLength)
+        if (ExtendedConfig.instance.hypixelMinigameScrollPos > i - this.displayLength)
         {
-            ExtendedConfig.hypixelMinigameScrollPos = i - this.displayLength;
+            ExtendedConfig.instance.hypixelMinigameScrollPos = i - this.displayLength;
         }
-        if (ExtendedConfig.hypixelMinigameScrollPos <= 0)
+        if (ExtendedConfig.instance.hypixelMinigameScrollPos <= 0)
         {
-            ExtendedConfig.hypixelMinigameScrollPos = 0;
+            ExtendedConfig.instance.hypixelMinigameScrollPos = 0;
         }
     }
 

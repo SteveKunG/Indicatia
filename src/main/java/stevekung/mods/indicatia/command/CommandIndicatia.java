@@ -47,15 +47,15 @@ public class CommandIndicatia extends ClientCommandBase
 
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
-                    ExtendedConfig.toggleSprint = true;
+                    ExtendedConfig.instance.toggleSprint = true;
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sprint_enabled")));
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
                 {
-                    ExtendedConfig.toggleSprint = false;
+                    ExtendedConfig.instance.toggleSprint = false;
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sprint_disabled")));
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
                 {
@@ -66,15 +66,15 @@ public class CommandIndicatia extends ClientCommandBase
 
                     if ("key_binding".equalsIgnoreCase(args[2]))
                     {
-                        ExtendedConfig.toggleSprintUseMode = "key_binding";
+                        ExtendedConfig.instance.toggleSprintUseMode = "key_binding";
                         sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sprint_set") + LangUtils.translate("message.key_binding")));
-                        ExtendedConfig.save();
+                        ExtendedConfig.instance.save();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
-                        ExtendedConfig.toggleSprintUseMode = "command";
+                        ExtendedConfig.instance.toggleSprintUseMode = "command";
                         sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sprint_set") + LangUtils.translate("message.command")));
-                        ExtendedConfig.save();
+                        ExtendedConfig.instance.save();
                     }
                     else
                     {
@@ -95,15 +95,15 @@ public class CommandIndicatia extends ClientCommandBase
 
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
-                    ExtendedConfig.toggleSneak = true;
+                    ExtendedConfig.instance.toggleSneak = true;
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sneak_enabled")));
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
                 {
-                    ExtendedConfig.toggleSneak = false;
+                    ExtendedConfig.instance.toggleSneak = false;
                     sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sneak_disabled")));
-                    ExtendedConfig.save();
+                    ExtendedConfig.instance.save();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
                 {
@@ -113,15 +113,15 @@ public class CommandIndicatia extends ClientCommandBase
                     }
                     if ("key_binding".equalsIgnoreCase(args[2]))
                     {
-                        ExtendedConfig.toggleSneakUseMode = "key_binding";
+                        ExtendedConfig.instance.toggleSneakUseMode = "key_binding";
                         sender.sendMessage(JsonUtils.create("Set toggle sneak to use Key Binding"));
-                        ExtendedConfig.save();
+                        ExtendedConfig.instance.save();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
-                        ExtendedConfig.toggleSneakUseMode = "command";
+                        ExtendedConfig.instance.toggleSneakUseMode = "command";
                         sender.sendMessage(JsonUtils.create(LangUtils.translate("message.toggle_sneak_set") + LangUtils.translate("message.command")));
-                        ExtendedConfig.save();
+                        ExtendedConfig.instance.save();
                     }
                     else
                     {

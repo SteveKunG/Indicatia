@@ -57,7 +57,7 @@ public class GuiOffsetSettings extends GuiScreen
     {
         if (keyCode == 1)
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
         }
         super.keyTyped(typedChar, keyCode);
     }
@@ -81,7 +81,7 @@ public class GuiOffsetSettings extends GuiScreen
     {
         if (button.enabled)
         {
-            ExtendedConfig.save();
+            ExtendedConfig.instance.save();
 
             if (button.id == 200)
             {

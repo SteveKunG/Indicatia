@@ -201,22 +201,22 @@ public class IndicatiaEventHandler
         if (ConfigManagerIN.indicatia_general.enableCustomMovementHandler)
         {
             // canceled turn back
-            if (ExtendedConfig.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+            if (ExtendedConfig.instance.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
             {
                 ++movement.moveForward;
             }
 
             // toggle sneak
-            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.toggleSneak && !event.getEntityPlayer().isSpectator();
+            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.instance.toggleSneak && !event.getEntityPlayer().isSpectator();
 
-            if (ExtendedConfig.toggleSneak && !player.isSpectator() && !player.isCreative())
+            if (ExtendedConfig.instance.toggleSneak && !player.isSpectator() && !player.isCreative())
             {
                 movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
                 movement.moveForward = (float)(movement.moveForward * 0.3D);
             }
 
             // toggle sprint
-            if (ExtendedConfig.toggleSprint && !player.isPotionActive(MobEffects.BLINDNESS) && !ExtendedConfig.toggleSneak)
+            if (ExtendedConfig.instance.toggleSprint && !player.isPotionActive(MobEffects.BLINDNESS) && !ExtendedConfig.instance.toggleSneak)
             {
                 player.setSprinting(true);
             }
@@ -316,17 +316,17 @@ public class IndicatiaEventHandler
             GuiCustomCape customCapeGui = new GuiCustomCape();
             this.mc.displayGuiScreen(customCapeGui);
         }
-        if (ExtendedConfig.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+        if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
         {
-            ExtendedConfig.toggleSprint = !ExtendedConfig.toggleSprint;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSprint ? LangUtils.translate("message.toggle_sprint_enabled") : LangUtils.translate("message.toggle_sprint_disabled")).getFormattedText());
-            ExtendedConfig.save();
+            ExtendedConfig.instance.toggleSprint = !ExtendedConfig.instance.toggleSprint;
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSprint ? LangUtils.translate("message.toggle_sprint_enabled") : LangUtils.translate("message.toggle_sprint_disabled")).getFormattedText());
+            ExtendedConfig.instance.save();
         }
-        if (ExtendedConfig.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
+        if (ExtendedConfig.instance.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
         {
-            ExtendedConfig.toggleSneak = !ExtendedConfig.toggleSneak;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.toggleSneak ? LangUtils.translate("message.toggle_sneak_enabled") : LangUtils.translate("message.toggle_sneak_disabled")).getFormattedText());
-            ExtendedConfig.save();
+            ExtendedConfig.instance.toggleSneak = !ExtendedConfig.instance.toggleSneak;
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSneak ? LangUtils.translate("message.toggle_sneak_enabled") : LangUtils.translate("message.toggle_sneak_disabled")).getFormattedText());
+            ExtendedConfig.instance.save();
         }
         if (KeyBindingHandler.KEY_DONATOR_GUI.isKeyDown())
         {

@@ -18,10 +18,11 @@ import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
+import stevekung.mods.stevekunglib.utils.client.ClientUtils;
 
 public class ExtendedConfig
 {
-    public static final ExtendedConfig instance = new ExtendedConfig();
+    public static ExtendedConfig instance = new ExtendedConfig();
     public static final AutoLogin loginData = new AutoLogin();
     private static final String defaultWhite = "255,255,255";
     public static final File indicatiaDir = new File(Minecraft.getMinecraft().mcDataDir, "indicatia");
@@ -41,147 +42,147 @@ public class ExtendedConfig
     private static File file;
 
     // Render Info
-    public static boolean fps = true;
-    public static boolean xyz = true;
-    public static boolean direction = true;
-    public static boolean biome = true;
-    public static boolean ping = true;
-    public static boolean pingToSecond = false;
-    public static boolean serverIP = false;
-    public static boolean serverIPMCVersion = false;
-    public static boolean equipmentHUD = false;
-    public static boolean potionHUD = false;
-    public static boolean keystroke = false;
-    public static boolean keystrokeMouse = true;
-    public static boolean keystrokeSprintSneak = true;
-    public static boolean keystrokeBlocking = true;
-    public static boolean cps = false;
-    public static boolean rcps = false;
-    public static boolean slimeChunkFinder = false;
-    public static boolean realTime = true;
-    public static boolean gameTime = true;
-    public static boolean gameWeather = true;
-    public static boolean moonPhase = true;
-    public static boolean potionHUDIcon = false;
-    public static boolean tps = false;
-    public static boolean tpsAllDims = false;
-    public static boolean alternatePotionHUDTextColor = false;
-    public static boolean toggleSprint = false;
-    public static boolean toggleSneak = false;
+    public boolean fps = true;
+    public boolean xyz = true;
+    public boolean direction = true;
+    public boolean biome = true;
+    public boolean ping = true;
+    public boolean pingToSecond = false;
+    public boolean serverIP = false;
+    public boolean serverIPMCVersion = false;
+    public boolean equipmentHUD = false;
+    public boolean potionHUD = false;
+    public boolean keystroke = false;
+    public boolean keystrokeMouse = true;
+    public boolean keystrokeSprintSneak = true;
+    public boolean keystrokeBlocking = true;
+    public boolean cps = false;
+    public boolean rcps = false;
+    public boolean slimeChunkFinder = false;
+    public boolean realTime = true;
+    public boolean gameTime = true;
+    public boolean gameWeather = true;
+    public boolean moonPhase = true;
+    public boolean potionHUDIcon = false;
+    public boolean tps = false;
+    public boolean tpsAllDims = false;
+    public boolean alternatePotionHUDTextColor = false;
+    public boolean toggleSprint = false;
+    public boolean toggleSneak = false;
 
     // Main
-    public static boolean swapRenderInfo = false;
-    public static int healthStatusMode = 0;
-    public static int keystrokePosition = 0;
-    public static int equipmentOrdering = 0;
-    public static int equipmentDirection = 0;
-    public static int equipmentStatus = 0;
-    public static int equipmentPosition = 2;
-    public static int potionHUDStyle = 0;
-    public static int potionHUDPosition = 0;
-    public static int cpsPosition = 2;
-    public static int pingMode = 0;
-    public static float cpsOpacity = 50.0F;
+    public boolean swapRenderInfo = false;
+    public int healthStatusMode = 0;
+    public int keystrokePosition = 0;
+    public int equipmentOrdering = 0;
+    public int equipmentDirection = 0;
+    public int equipmentStatus = 0;
+    public int equipmentPosition = 2;
+    public int potionHUDStyle = 0;
+    public int potionHUDPosition = 0;
+    public int cpsPosition = 2;
+    public int pingMode = 0;
+    public float cpsOpacity = 50.0F;
 
     // Offset
-    public static int keystrokeYOffset = 0;
-    public static int armorHUDYOffset = 0;
-    public static int potionHUDYOffset = 0;
-    public static int maximumPotionDisplay = 2;
-    public static int potionLengthYOffset = 23;
-    public static int potionLengthYOffsetOverlap = 45;
+    public int keystrokeYOffset = 0;
+    public int armorHUDYOffset = 0;
+    public int potionHUDYOffset = 0;
+    public int maximumPotionDisplay = 2;
+    public int potionLengthYOffset = 23;
+    public int potionLengthYOffsetOverlap = 45;
 
     // Custom Color
-    public static String fpsColor = defaultWhite;
-    public static String xyzColor = defaultWhite;
-    public static String biomeColor = defaultWhite;
-    public static String directionColor = defaultWhite;
-    public static String pingColor = defaultWhite;
-    public static String pingToSecondColor = defaultWhite;
-    public static String serverIPColor = defaultWhite;
-    public static String equipmentStatusColor = defaultWhite;
-    public static String arrowCountColor = defaultWhite;
-    public static String cpsColor = defaultWhite;
-    public static String rcpsColor = defaultWhite;
-    public static String slimeChunkColor = defaultWhite;
-    public static String topDonatorNameColor = defaultWhite;
-    public static String recentDonatorNameColor = defaultWhite;
-    public static String tpsColor = defaultWhite;
-    public static String realTimeColor = defaultWhite;
-    public static String gameTimeColor = defaultWhite;
-    public static String gameWeatherColor = defaultWhite;
-    public static String moonPhaseColor = defaultWhite;
-    public static String ytChatViewCountColor = defaultWhite;
+    public String fpsColor = defaultWhite;
+    public String xyzColor = defaultWhite;
+    public String biomeColor = defaultWhite;
+    public String directionColor = defaultWhite;
+    public String pingColor = defaultWhite;
+    public String pingToSecondColor = defaultWhite;
+    public String serverIPColor = defaultWhite;
+    public String equipmentStatusColor = defaultWhite;
+    public String arrowCountColor = defaultWhite;
+    public String cpsColor = defaultWhite;
+    public String rcpsColor = defaultWhite;
+    public String slimeChunkColor = defaultWhite;
+    public String topDonatorNameColor = defaultWhite;
+    public String recentDonatorNameColor = defaultWhite;
+    public String tpsColor = defaultWhite;
+    public String realTimeColor = defaultWhite;
+    public String gameTimeColor = defaultWhite;
+    public String gameWeatherColor = defaultWhite;
+    public String moonPhaseColor = defaultWhite;
+    public String ytChatViewCountColor = defaultWhite;
 
     // Custom Color : Value
-    public static String fpsValueColor = "85,255,85";
-    public static String fps26And49Color = "255,255,85";
-    public static String fpsLow25Color = "255,85,85";
-    public static String xyzValueColor = defaultWhite;
-    public static String directionValueColor = defaultWhite;
-    public static String biomeValueColor = defaultWhite;
-    public static String pingValueColor = "85,255,85";
-    public static String ping200And300Color = "255,255,85";
-    public static String ping300And500Color = "255,85,85";
-    public static String pingMax500Color = "170,0,0";
-    public static String serverIPValueColor = defaultWhite;
-    public static String cpsValueColor = defaultWhite;
-    public static String rcpsValueColor = defaultWhite;
-    public static String slimeChunkValueColor = defaultWhite;
-    public static String topDonatorValueColor = defaultWhite;
-    public static String recentDonatorValueColor = defaultWhite;
-    public static String tpsValueColor = defaultWhite;
-    public static String realTimeHHMMSSValueColor = defaultWhite;
-    public static String realTimeDDMMYYValueColor = defaultWhite;
-    public static String gameTimeValueColor = defaultWhite;
-    public static String gameWeatherValueColor = defaultWhite;
-    public static String moonPhaseValueColor = defaultWhite;
-    public static String ytChatViewCountValueColor = defaultWhite;
+    public String fpsValueColor = "85,255,85";
+    public String fps26And49Color = "255,255,85";
+    public String fpsLow25Color = "255,85,85";
+    public String xyzValueColor = defaultWhite;
+    public String directionValueColor = defaultWhite;
+    public String biomeValueColor = defaultWhite;
+    public String pingValueColor = "85,255,85";
+    public String ping200And300Color = "255,255,85";
+    public String ping300And500Color = "255,85,85";
+    public String pingMax500Color = "170,0,0";
+    public String serverIPValueColor = defaultWhite;
+    public String cpsValueColor = defaultWhite;
+    public String rcpsValueColor = defaultWhite;
+    public String slimeChunkValueColor = defaultWhite;
+    public String topDonatorValueColor = defaultWhite;
+    public String recentDonatorValueColor = defaultWhite;
+    public String tpsValueColor = defaultWhite;
+    public String realTimeHHMMSSValueColor = defaultWhite;
+    public String realTimeDDMMYYValueColor = defaultWhite;
+    public String gameTimeValueColor = defaultWhite;
+    public String gameWeatherValueColor = defaultWhite;
+    public String moonPhaseValueColor = defaultWhite;
+    public String ytChatViewCountValueColor = defaultWhite;
 
     // Custom Color : Keystroke
-    public static String keystrokeWASDColor = defaultWhite;
-    public static String keystrokeMouseButtonColor = defaultWhite;
-    public static String keystrokeSprintColor = defaultWhite;
-    public static String keystrokeSneakColor = defaultWhite;
-    public static String keystrokeBlockingColor = defaultWhite;
-    public static String keystrokeCPSColor = defaultWhite;
-    public static String keystrokeRCPSColor = defaultWhite;
-    public static boolean keystrokeWASDRainbow = false;
-    public static boolean keystrokeMouseButtonRainbow = false;
-    public static boolean keystrokeSprintRainbow = false;
-    public static boolean keystrokeSneakRainbow = false;
-    public static boolean keystrokeBlockingRainbow = false;
-    public static boolean keystrokeCPSRainbow = false;
-    public static boolean keystrokeRCPSRainbow = false;
+    public String keystrokeWASDColor = defaultWhite;
+    public String keystrokeMouseButtonColor = defaultWhite;
+    public String keystrokeSprintColor = defaultWhite;
+    public String keystrokeSneakColor = defaultWhite;
+    public String keystrokeBlockingColor = defaultWhite;
+    public String keystrokeCPSColor = defaultWhite;
+    public String keystrokeRCPSColor = defaultWhite;
+    public boolean keystrokeWASDRainbow = false;
+    public boolean keystrokeMouseButtonRainbow = false;
+    public boolean keystrokeSprintRainbow = false;
+    public boolean keystrokeSneakRainbow = false;
+    public boolean keystrokeBlockingRainbow = false;
+    public boolean keystrokeCPSRainbow = false;
+    public boolean keystrokeRCPSRainbow = false;
 
     // Misc
-    public static boolean showCustomCape = false;
-    public static String toggleSprintUseMode = "command";
-    public static String toggleSneakUseMode = "command";
-    public static int cpsCustomXOffset = 3;
-    public static int cpsCustomYOffset = 2;
-    public static long slimeChunkSeed = 0L;
-    public static String topDonatorFilePath = "";
-    public static String recentDonatorFilePath = "";
-    public static String topDonatorText = "";
-    public static String recentDonatorText = "";
-    public static String realmsMessage = "";
+    public boolean showCustomCape = false;
+    public String toggleSprintUseMode = "command";
+    public String toggleSneakUseMode = "command";
+    public int cpsCustomXOffset = 3;
+    public int cpsCustomYOffset = 2;
+    public long slimeChunkSeed = 0L;
+    public String topDonatorFilePath = "";
+    public String recentDonatorFilePath = "";
+    public String topDonatorText = "";
+    public String recentDonatorText = "";
+    public String realmsMessage = "";
 
     // Hypixel
-    public static boolean rightClickToAddParty = false;
-    public static String hypixelNickName = "";
-    public static int selectedHypixelMinigame = 0;
-    public static int hypixelMinigameScrollPos = 0;
+    public boolean rightClickToAddParty = false;
+    public String hypixelNickName = "";
+    public int selectedHypixelMinigame = 0;
+    public int hypixelMinigameScrollPos = 0;
 
     private ExtendedConfig() {}
 
-    public static void setCurrentProfile(String profileName)
+    public void setCurrentProfile(String profileName)
     {
         ExtendedConfig.file = new File(userDir, profileName + ".dat");
         currentProfile = profileName;
     }
 
-    public static void load()
+    public void load()
     {
         try
         {
@@ -193,139 +194,139 @@ public class ExtendedConfig
             }
 
             // Render Info
-            ExtendedConfig.fps = ExtendedConfig.getBoolean(nbt, "FPS", ExtendedConfig.fps);
-            ExtendedConfig.xyz = ExtendedConfig.getBoolean(nbt, "XYZ", ExtendedConfig.xyz);
-            ExtendedConfig.direction = ExtendedConfig.getBoolean(nbt, "Direction", ExtendedConfig.direction);
-            ExtendedConfig.biome = ExtendedConfig.getBoolean(nbt, "Biome", ExtendedConfig.biome);
-            ExtendedConfig.ping = ExtendedConfig.getBoolean(nbt, "Ping", ExtendedConfig.ping);
-            ExtendedConfig.pingToSecond = ExtendedConfig.getBoolean(nbt, "PingToSecond", ExtendedConfig.pingToSecond);
-            ExtendedConfig.serverIP = ExtendedConfig.getBoolean(nbt, "ServerIP", ExtendedConfig.serverIP);
-            ExtendedConfig.serverIPMCVersion = ExtendedConfig.getBoolean(nbt, "ServerIPMCVersion", ExtendedConfig.serverIPMCVersion);
-            ExtendedConfig.equipmentHUD = ExtendedConfig.getBoolean(nbt, "EquipmentHUD", ExtendedConfig.equipmentHUD);
-            ExtendedConfig.potionHUD = ExtendedConfig.getBoolean(nbt, "PotionHUD", ExtendedConfig.potionHUD);
-            ExtendedConfig.keystroke = ExtendedConfig.getBoolean(nbt, "Keystroke", ExtendedConfig.keystroke);
-            ExtendedConfig.keystrokeMouse = ExtendedConfig.getBoolean(nbt, "KeystrokeMouse", ExtendedConfig.keystrokeMouse);
-            ExtendedConfig.keystrokeSprintSneak = ExtendedConfig.getBoolean(nbt, "KeystrokeSprintSneak", ExtendedConfig.keystrokeSprintSneak);
-            ExtendedConfig.keystrokeBlocking = ExtendedConfig.getBoolean(nbt, "KeystrokeBlocking", ExtendedConfig.keystrokeBlocking);
-            ExtendedConfig.cps = ExtendedConfig.getBoolean(nbt, "CPS", ExtendedConfig.cps);
-            ExtendedConfig.rcps = ExtendedConfig.getBoolean(nbt, "RCPS", ExtendedConfig.rcps);
-            ExtendedConfig.slimeChunkFinder = ExtendedConfig.getBoolean(nbt, "SlimeChunkFinder", ExtendedConfig.slimeChunkFinder);
-            ExtendedConfig.realTime = ExtendedConfig.getBoolean(nbt, "RealTime", ExtendedConfig.realTime);
-            ExtendedConfig.gameTime = ExtendedConfig.getBoolean(nbt, "GameTime", ExtendedConfig.gameTime);
-            ExtendedConfig.gameWeather = ExtendedConfig.getBoolean(nbt, "GameWeather", ExtendedConfig.gameWeather);
-            ExtendedConfig.moonPhase = ExtendedConfig.getBoolean(nbt, "MoonPhase", ExtendedConfig.moonPhase);
-            ExtendedConfig.potionHUDIcon = ExtendedConfig.getBoolean(nbt, "PotionHUDIcon", ExtendedConfig.potionHUDIcon);
-            ExtendedConfig.tps = ExtendedConfig.getBoolean(nbt, "TPS", ExtendedConfig.tps);
-            ExtendedConfig.tpsAllDims = ExtendedConfig.getBoolean(nbt, "TPSAllDimensions", ExtendedConfig.tpsAllDims);
-            ExtendedConfig.alternatePotionHUDTextColor = ExtendedConfig.getBoolean(nbt, "AlternatePotionHUDTextColor", ExtendedConfig.alternatePotionHUDTextColor);
+            this.fps = ExtendedConfig.getBoolean(nbt, "FPS", this.fps);
+            this.xyz = ExtendedConfig.getBoolean(nbt, "XYZ", this.xyz);
+            this.direction = ExtendedConfig.getBoolean(nbt, "Direction", this.direction);
+            this.biome = ExtendedConfig.getBoolean(nbt, "Biome", this.biome);
+            this.ping = ExtendedConfig.getBoolean(nbt, "Ping", this.ping);
+            this.pingToSecond = ExtendedConfig.getBoolean(nbt, "PingToSecond", this.pingToSecond);
+            this.serverIP = ExtendedConfig.getBoolean(nbt, "ServerIP", this.serverIP);
+            this.serverIPMCVersion = ExtendedConfig.getBoolean(nbt, "ServerIPMCVersion", this.serverIPMCVersion);
+            this.equipmentHUD = ExtendedConfig.getBoolean(nbt, "EquipmentHUD", this.equipmentHUD);
+            this.potionHUD = ExtendedConfig.getBoolean(nbt, "PotionHUD", this.potionHUD);
+            this.keystroke = ExtendedConfig.getBoolean(nbt, "Keystroke", this.keystroke);
+            this.keystrokeMouse = ExtendedConfig.getBoolean(nbt, "KeystrokeMouse", this.keystrokeMouse);
+            this.keystrokeSprintSneak = ExtendedConfig.getBoolean(nbt, "KeystrokeSprintSneak", this.keystrokeSprintSneak);
+            this.keystrokeBlocking = ExtendedConfig.getBoolean(nbt, "KeystrokeBlocking", this.keystrokeBlocking);
+            this.cps = ExtendedConfig.getBoolean(nbt, "CPS", this.cps);
+            this.rcps = ExtendedConfig.getBoolean(nbt, "RCPS", this.rcps);
+            this.slimeChunkFinder = ExtendedConfig.getBoolean(nbt, "SlimeChunkFinder", this.slimeChunkFinder);
+            this.realTime = ExtendedConfig.getBoolean(nbt, "RealTime", this.realTime);
+            this.gameTime = ExtendedConfig.getBoolean(nbt, "GameTime", this.gameTime);
+            this.gameWeather = ExtendedConfig.getBoolean(nbt, "GameWeather", this.gameWeather);
+            this.moonPhase = ExtendedConfig.getBoolean(nbt, "MoonPhase", this.moonPhase);
+            this.potionHUDIcon = ExtendedConfig.getBoolean(nbt, "PotionHUDIcon", this.potionHUDIcon);
+            this.tps = ExtendedConfig.getBoolean(nbt, "TPS", this.tps);
+            this.tpsAllDims = ExtendedConfig.getBoolean(nbt, "TPSAllDimensions", this.tpsAllDims);
+            this.alternatePotionHUDTextColor = ExtendedConfig.getBoolean(nbt, "AlternatePotionHUDTextColor", this.alternatePotionHUDTextColor);
 
             // Main
-            ExtendedConfig.swapRenderInfo = ExtendedConfig.getBoolean(nbt, "SwapRenderInfo", ExtendedConfig.swapRenderInfo);
-            ExtendedConfig.showCustomCape = ExtendedConfig.getBoolean(nbt, "ShowCustomCape", ExtendedConfig.showCustomCape);
-            ExtendedConfig.healthStatusMode = ExtendedConfig.getInteger(nbt, "HealthStatusMode", ExtendedConfig.healthStatusMode);
-            ExtendedConfig.keystrokePosition = ExtendedConfig.getInteger(nbt, "KeystrokePosition", ExtendedConfig.keystrokePosition);
-            ExtendedConfig.equipmentOrdering = ExtendedConfig.getInteger(nbt, "EquipmentOrdering", ExtendedConfig.equipmentOrdering);
-            ExtendedConfig.equipmentDirection = ExtendedConfig.getInteger(nbt, "EquipmentDirection", ExtendedConfig.equipmentDirection);
-            ExtendedConfig.equipmentStatus = ExtendedConfig.getInteger(nbt, "EquipmentStatus", ExtendedConfig.equipmentStatus);
-            ExtendedConfig.equipmentPosition = ExtendedConfig.getInteger(nbt, "EquipmentPosition", ExtendedConfig.equipmentPosition);
-            ExtendedConfig.potionHUDStyle = ExtendedConfig.getInteger(nbt, "PotionHUDStyle", ExtendedConfig.potionHUDStyle);
-            ExtendedConfig.potionHUDPosition = ExtendedConfig.getInteger(nbt, "PotionHUDPosition", ExtendedConfig.potionHUDPosition);
-            ExtendedConfig.cpsPosition = ExtendedConfig.getInteger(nbt, "CPSPosition", ExtendedConfig.cpsPosition);
-            ExtendedConfig.pingMode = ExtendedConfig.getInteger(nbt, "PingMode", ExtendedConfig.pingMode);
-            ExtendedConfig.cpsOpacity = ExtendedConfig.getFloat(nbt, "CPSOpacity", ExtendedConfig.cpsOpacity);
+            this.swapRenderInfo = ExtendedConfig.getBoolean(nbt, "SwapRenderInfo", this.swapRenderInfo);
+            this.showCustomCape = ExtendedConfig.getBoolean(nbt, "ShowCustomCape", this.showCustomCape);
+            this.healthStatusMode = ExtendedConfig.getInteger(nbt, "HealthStatusMode", this.healthStatusMode);
+            this.keystrokePosition = ExtendedConfig.getInteger(nbt, "KeystrokePosition", this.keystrokePosition);
+            this.equipmentOrdering = ExtendedConfig.getInteger(nbt, "EquipmentOrdering", this.equipmentOrdering);
+            this.equipmentDirection = ExtendedConfig.getInteger(nbt, "EquipmentDirection", this.equipmentDirection);
+            this.equipmentStatus = ExtendedConfig.getInteger(nbt, "EquipmentStatus", this.equipmentStatus);
+            this.equipmentPosition = ExtendedConfig.getInteger(nbt, "EquipmentPosition", this.equipmentPosition);
+            this.potionHUDStyle = ExtendedConfig.getInteger(nbt, "PotionHUDStyle", this.potionHUDStyle);
+            this.potionHUDPosition = ExtendedConfig.getInteger(nbt, "PotionHUDPosition", this.potionHUDPosition);
+            this.cpsPosition = ExtendedConfig.getInteger(nbt, "CPSPosition", this.cpsPosition);
+            this.pingMode = ExtendedConfig.getInteger(nbt, "PingMode", this.pingMode);
+            this.cpsOpacity = ExtendedConfig.getFloat(nbt, "CPSOpacity", this.cpsOpacity);
 
             // Movement
-            ExtendedConfig.toggleSprint = ExtendedConfig.getBoolean(nbt, "ToggleSprint", ExtendedConfig.toggleSprint);
-            ExtendedConfig.toggleSneak = ExtendedConfig.getBoolean(nbt, "ToggleSneak", ExtendedConfig.toggleSneak);
+            this.toggleSprint = ExtendedConfig.getBoolean(nbt, "ToggleSprint", this.toggleSprint);
+            this.toggleSneak = ExtendedConfig.getBoolean(nbt, "ToggleSneak", this.toggleSneak);
 
             // Offset
-            ExtendedConfig.keystrokeYOffset = ExtendedConfig.getInteger(nbt, "KeystrokeYOffset", ExtendedConfig.keystrokeYOffset);
-            ExtendedConfig.armorHUDYOffset = ExtendedConfig.getInteger(nbt, "ArmorHUDYOffset", ExtendedConfig.armorHUDYOffset);
-            ExtendedConfig.potionHUDYOffset = ExtendedConfig.getInteger(nbt, "PotionHUDYOffset", ExtendedConfig.potionHUDYOffset);
-            ExtendedConfig.maximumPotionDisplay = ExtendedConfig.getInteger(nbt, "MaximumPotionDisplay", ExtendedConfig.maximumPotionDisplay);
-            ExtendedConfig.potionLengthYOffset = ExtendedConfig.getInteger(nbt, "PotionLengthYOffset", ExtendedConfig.potionLengthYOffset);
-            ExtendedConfig.potionLengthYOffsetOverlap = ExtendedConfig.getInteger(nbt, "PotionLengthYOffsetOverlap", ExtendedConfig.potionLengthYOffsetOverlap);
+            this.keystrokeYOffset = ExtendedConfig.getInteger(nbt, "KeystrokeYOffset", this.keystrokeYOffset);
+            this.armorHUDYOffset = ExtendedConfig.getInteger(nbt, "ArmorHUDYOffset", this.armorHUDYOffset);
+            this.potionHUDYOffset = ExtendedConfig.getInteger(nbt, "PotionHUDYOffset", this.potionHUDYOffset);
+            this.maximumPotionDisplay = ExtendedConfig.getInteger(nbt, "MaximumPotionDisplay", this.maximumPotionDisplay);
+            this.potionLengthYOffset = ExtendedConfig.getInteger(nbt, "PotionLengthYOffset", this.potionLengthYOffset);
+            this.potionLengthYOffsetOverlap = ExtendedConfig.getInteger(nbt, "PotionLengthYOffsetOverlap", this.potionLengthYOffsetOverlap);
 
             // Custom Color
-            ExtendedConfig.fpsColor = ExtendedConfig.getString(nbt, "FPSColor", ExtendedConfig.fpsColor);
-            ExtendedConfig.xyzColor = ExtendedConfig.getString(nbt, "XYZColor", ExtendedConfig.xyzColor);
-            ExtendedConfig.biomeColor = ExtendedConfig.getString(nbt, "BiomeColor", ExtendedConfig.biomeColor);
-            ExtendedConfig.directionColor = ExtendedConfig.getString(nbt, "DirectionColor", ExtendedConfig.directionColor);
-            ExtendedConfig.pingColor = ExtendedConfig.getString(nbt, "PingColor", ExtendedConfig.pingColor);
-            ExtendedConfig.pingToSecondColor = ExtendedConfig.getString(nbt, "PingToSecondColor", ExtendedConfig.pingToSecondColor);
-            ExtendedConfig.serverIPColor = ExtendedConfig.getString(nbt, "ServerIPColor", ExtendedConfig.serverIPColor);
-            ExtendedConfig.equipmentStatusColor = ExtendedConfig.getString(nbt, "EquipmentStatusColor", ExtendedConfig.equipmentStatusColor);
-            ExtendedConfig.arrowCountColor = ExtendedConfig.getString(nbt, "ArrowCountColor", ExtendedConfig.arrowCountColor);
-            ExtendedConfig.cpsColor = ExtendedConfig.getString(nbt, "CPSColor", ExtendedConfig.cpsColor);
-            ExtendedConfig.rcpsColor = ExtendedConfig.getString(nbt, "RCPSColor", ExtendedConfig.rcpsColor);
-            ExtendedConfig.slimeChunkColor = ExtendedConfig.getString(nbt, "SlimeChunkColor", ExtendedConfig.slimeChunkColor);
-            ExtendedConfig.topDonatorNameColor = ExtendedConfig.getString(nbt, "TopDonatorNameColor", ExtendedConfig.topDonatorNameColor);
-            ExtendedConfig.recentDonatorNameColor = ExtendedConfig.getString(nbt, "RecentDonatorNameColor", ExtendedConfig.recentDonatorNameColor);
-            ExtendedConfig.tpsColor = ExtendedConfig.getString(nbt, "TPSColor", ExtendedConfig.tpsColor);
-            ExtendedConfig.realTimeColor = ExtendedConfig.getString(nbt, "RealTimeColor", ExtendedConfig.realTimeColor);
-            ExtendedConfig.gameTimeColor = ExtendedConfig.getString(nbt, "GameTimeColor", ExtendedConfig.gameTimeColor);
-            ExtendedConfig.gameWeatherColor = ExtendedConfig.getString(nbt, "GameWeatherColor", ExtendedConfig.gameWeatherColor);
-            ExtendedConfig.moonPhaseColor = ExtendedConfig.getString(nbt, "MoonPhaseColor", ExtendedConfig.moonPhaseColor);
-            ExtendedConfig.ytChatViewCountColor = ExtendedConfig.getString(nbt, "YTChatViewCountColor", ExtendedConfig.ytChatViewCountColor);
+            this.fpsColor = ExtendedConfig.getString(nbt, "FPSColor", this.fpsColor);
+            this.xyzColor = ExtendedConfig.getString(nbt, "XYZColor", this.xyzColor);
+            this.biomeColor = ExtendedConfig.getString(nbt, "BiomeColor", this.biomeColor);
+            this.directionColor = ExtendedConfig.getString(nbt, "DirectionColor", this.directionColor);
+            this.pingColor = ExtendedConfig.getString(nbt, "PingColor", this.pingColor);
+            this.pingToSecondColor = ExtendedConfig.getString(nbt, "PingToSecondColor", this.pingToSecondColor);
+            this.serverIPColor = ExtendedConfig.getString(nbt, "ServerIPColor", this.serverIPColor);
+            this.equipmentStatusColor = ExtendedConfig.getString(nbt, "EquipmentStatusColor", this.equipmentStatusColor);
+            this.arrowCountColor = ExtendedConfig.getString(nbt, "ArrowCountColor", this.arrowCountColor);
+            this.cpsColor = ExtendedConfig.getString(nbt, "CPSColor", this.cpsColor);
+            this.rcpsColor = ExtendedConfig.getString(nbt, "RCPSColor", this.rcpsColor);
+            this.slimeChunkColor = ExtendedConfig.getString(nbt, "SlimeChunkColor", this.slimeChunkColor);
+            this.topDonatorNameColor = ExtendedConfig.getString(nbt, "TopDonatorNameColor", this.topDonatorNameColor);
+            this.recentDonatorNameColor = ExtendedConfig.getString(nbt, "RecentDonatorNameColor", this.recentDonatorNameColor);
+            this.tpsColor = ExtendedConfig.getString(nbt, "TPSColor", this.tpsColor);
+            this.realTimeColor = ExtendedConfig.getString(nbt, "RealTimeColor", this.realTimeColor);
+            this.gameTimeColor = ExtendedConfig.getString(nbt, "GameTimeColor", this.gameTimeColor);
+            this.gameWeatherColor = ExtendedConfig.getString(nbt, "GameWeatherColor", this.gameWeatherColor);
+            this.moonPhaseColor = ExtendedConfig.getString(nbt, "MoonPhaseColor", this.moonPhaseColor);
+            this.ytChatViewCountColor = ExtendedConfig.getString(nbt, "YTChatViewCountColor", this.ytChatViewCountColor);
 
             // Custom Color : Value
-            ExtendedConfig.fpsValueColor = ExtendedConfig.getString(nbt, "FPSValueColor", ExtendedConfig.fpsValueColor);
-            ExtendedConfig.fps26And49Color = ExtendedConfig.getString(nbt, "FPS26And49Color", ExtendedConfig.fps26And49Color);
-            ExtendedConfig.fpsLow25Color = ExtendedConfig.getString(nbt, "FPSLow25Color", ExtendedConfig.fpsLow25Color);
-            ExtendedConfig.xyzValueColor = ExtendedConfig.getString(nbt, "XYZValueColor", ExtendedConfig.xyzValueColor);
-            ExtendedConfig.biomeValueColor = ExtendedConfig.getString(nbt, "BiomeValueColor", ExtendedConfig.biomeValueColor);
-            ExtendedConfig.directionValueColor = ExtendedConfig.getString(nbt, "DirectionValueColor", ExtendedConfig.directionValueColor);
-            ExtendedConfig.pingValueColor = ExtendedConfig.getString(nbt, "PingValueColor", ExtendedConfig.pingValueColor);
-            ExtendedConfig.ping200And300Color = ExtendedConfig.getString(nbt, "Ping200And300Color", ExtendedConfig.ping200And300Color);
-            ExtendedConfig.ping300And500Color = ExtendedConfig.getString(nbt, "Ping300And500Color", ExtendedConfig.ping300And500Color);
-            ExtendedConfig.pingMax500Color = ExtendedConfig.getString(nbt, "PingMax500Color", ExtendedConfig.pingMax500Color);
-            ExtendedConfig.serverIPValueColor = ExtendedConfig.getString(nbt, "ServerIPValueColor", ExtendedConfig.serverIPValueColor);
-            ExtendedConfig.cpsValueColor = ExtendedConfig.getString(nbt, "CPSValueColor", ExtendedConfig.cpsValueColor);
-            ExtendedConfig.rcpsValueColor = ExtendedConfig.getString(nbt, "RCPSValueColor", ExtendedConfig.rcpsValueColor);
-            ExtendedConfig.slimeChunkValueColor = ExtendedConfig.getString(nbt, "SlimeChunkValueColor", ExtendedConfig.slimeChunkValueColor);
-            ExtendedConfig.topDonatorValueColor = ExtendedConfig.getString(nbt, "TopDonatorValueColor", ExtendedConfig.topDonatorValueColor);
-            ExtendedConfig.recentDonatorValueColor = ExtendedConfig.getString(nbt, "RecentDonatorValueColor", ExtendedConfig.recentDonatorValueColor);
-            ExtendedConfig.tpsValueColor = ExtendedConfig.getString(nbt, "TPSValueColor", ExtendedConfig.tpsValueColor);
-            ExtendedConfig.realTimeHHMMSSValueColor = ExtendedConfig.getString(nbt, "RealTimeHHMMSSValueColor", ExtendedConfig.realTimeHHMMSSValueColor);
-            ExtendedConfig.realTimeDDMMYYValueColor = ExtendedConfig.getString(nbt, "RealTimeDDMMYYValueColor", ExtendedConfig.realTimeDDMMYYValueColor);
-            ExtendedConfig.gameTimeValueColor = ExtendedConfig.getString(nbt, "GameTimeValueColor", ExtendedConfig.gameTimeValueColor);
-            ExtendedConfig.gameWeatherValueColor = ExtendedConfig.getString(nbt, "GameWeatherValueColor", ExtendedConfig.gameWeatherValueColor);
-            ExtendedConfig.moonPhaseValueColor = ExtendedConfig.getString(nbt, "MoonPhaseValueColor", ExtendedConfig.moonPhaseValueColor);
-            ExtendedConfig.ytChatViewCountValueColor = ExtendedConfig.getString(nbt, "YTChatViewCountValueColor", ExtendedConfig.ytChatViewCountValueColor);
+            this.fpsValueColor = ExtendedConfig.getString(nbt, "FPSValueColor", this.fpsValueColor);
+            this.fps26And49Color = ExtendedConfig.getString(nbt, "FPS26And49Color", this.fps26And49Color);
+            this.fpsLow25Color = ExtendedConfig.getString(nbt, "FPSLow25Color", this.fpsLow25Color);
+            this.xyzValueColor = ExtendedConfig.getString(nbt, "XYZValueColor", this.xyzValueColor);
+            this.biomeValueColor = ExtendedConfig.getString(nbt, "BiomeValueColor", this.biomeValueColor);
+            this.directionValueColor = ExtendedConfig.getString(nbt, "DirectionValueColor", this.directionValueColor);
+            this.pingValueColor = ExtendedConfig.getString(nbt, "PingValueColor", this.pingValueColor);
+            this.ping200And300Color = ExtendedConfig.getString(nbt, "Ping200And300Color", this.ping200And300Color);
+            this.ping300And500Color = ExtendedConfig.getString(nbt, "Ping300And500Color", this.ping300And500Color);
+            this.pingMax500Color = ExtendedConfig.getString(nbt, "PingMax500Color", this.pingMax500Color);
+            this.serverIPValueColor = ExtendedConfig.getString(nbt, "ServerIPValueColor", this.serverIPValueColor);
+            this.cpsValueColor = ExtendedConfig.getString(nbt, "CPSValueColor", this.cpsValueColor);
+            this.rcpsValueColor = ExtendedConfig.getString(nbt, "RCPSValueColor", this.rcpsValueColor);
+            this.slimeChunkValueColor = ExtendedConfig.getString(nbt, "SlimeChunkValueColor", this.slimeChunkValueColor);
+            this.topDonatorValueColor = ExtendedConfig.getString(nbt, "TopDonatorValueColor", this.topDonatorValueColor);
+            this.recentDonatorValueColor = ExtendedConfig.getString(nbt, "RecentDonatorValueColor", this.recentDonatorValueColor);
+            this.tpsValueColor = ExtendedConfig.getString(nbt, "TPSValueColor", this.tpsValueColor);
+            this.realTimeHHMMSSValueColor = ExtendedConfig.getString(nbt, "RealTimeHHMMSSValueColor", this.realTimeHHMMSSValueColor);
+            this.realTimeDDMMYYValueColor = ExtendedConfig.getString(nbt, "RealTimeDDMMYYValueColor", this.realTimeDDMMYYValueColor);
+            this.gameTimeValueColor = ExtendedConfig.getString(nbt, "GameTimeValueColor", this.gameTimeValueColor);
+            this.gameWeatherValueColor = ExtendedConfig.getString(nbt, "GameWeatherValueColor", this.gameWeatherValueColor);
+            this.moonPhaseValueColor = ExtendedConfig.getString(nbt, "MoonPhaseValueColor", this.moonPhaseValueColor);
+            this.ytChatViewCountValueColor = ExtendedConfig.getString(nbt, "YTChatViewCountValueColor", this.ytChatViewCountValueColor);
 
             // Custom Color : Keystroke
-            ExtendedConfig.keystrokeWASDColor = ExtendedConfig.getString(nbt, "KeystrokeWASDColor", ExtendedConfig.keystrokeWASDColor);
-            ExtendedConfig.keystrokeMouseButtonColor = ExtendedConfig.getString(nbt, "KeystrokeMouseButtonColor", ExtendedConfig.keystrokeMouseButtonColor);
-            ExtendedConfig.keystrokeSprintColor = ExtendedConfig.getString(nbt, "KeystrokeSprintColor", ExtendedConfig.keystrokeSprintColor);
-            ExtendedConfig.keystrokeSneakColor = ExtendedConfig.getString(nbt, "KeystrokeSneakColor", ExtendedConfig.keystrokeSneakColor);
-            ExtendedConfig.keystrokeBlockingColor = ExtendedConfig.getString(nbt, "KeystrokeBlockingColor", ExtendedConfig.keystrokeBlockingColor);
-            ExtendedConfig.keystrokeCPSColor = ExtendedConfig.getString(nbt, "KeystrokeCPSColor", ExtendedConfig.keystrokeCPSColor);
-            ExtendedConfig.keystrokeRCPSColor = ExtendedConfig.getString(nbt, "KeystrokeRCPSColor", ExtendedConfig.keystrokeRCPSColor);
-            ExtendedConfig.keystrokeWASDRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeWASDRainbow", ExtendedConfig.keystrokeWASDRainbow);
-            ExtendedConfig.keystrokeMouseButtonRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeMouseButtonRainbow", ExtendedConfig.keystrokeMouseButtonRainbow);
-            ExtendedConfig.keystrokeSprintRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeSprintRainbow", ExtendedConfig.keystrokeSprintRainbow);
-            ExtendedConfig.keystrokeSneakRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeSneakRainbow", ExtendedConfig.keystrokeSneakRainbow);
-            ExtendedConfig.keystrokeBlockingRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeBlockingRainbow", ExtendedConfig.keystrokeBlockingRainbow);
-            ExtendedConfig.keystrokeCPSRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeCPSRainbow", ExtendedConfig.keystrokeCPSRainbow);
-            ExtendedConfig.keystrokeRCPSRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeRCPSRainbow", ExtendedConfig.keystrokeRCPSRainbow);
+            this.keystrokeWASDColor = ExtendedConfig.getString(nbt, "KeystrokeWASDColor", this.keystrokeWASDColor);
+            this.keystrokeMouseButtonColor = ExtendedConfig.getString(nbt, "KeystrokeMouseButtonColor", this.keystrokeMouseButtonColor);
+            this.keystrokeSprintColor = ExtendedConfig.getString(nbt, "KeystrokeSprintColor", this.keystrokeSprintColor);
+            this.keystrokeSneakColor = ExtendedConfig.getString(nbt, "KeystrokeSneakColor", this.keystrokeSneakColor);
+            this.keystrokeBlockingColor = ExtendedConfig.getString(nbt, "KeystrokeBlockingColor", this.keystrokeBlockingColor);
+            this.keystrokeCPSColor = ExtendedConfig.getString(nbt, "KeystrokeCPSColor", this.keystrokeCPSColor);
+            this.keystrokeRCPSColor = ExtendedConfig.getString(nbt, "KeystrokeRCPSColor", this.keystrokeRCPSColor);
+            this.keystrokeWASDRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeWASDRainbow", this.keystrokeWASDRainbow);
+            this.keystrokeMouseButtonRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeMouseButtonRainbow", this.keystrokeMouseButtonRainbow);
+            this.keystrokeSprintRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeSprintRainbow", this.keystrokeSprintRainbow);
+            this.keystrokeSneakRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeSneakRainbow", this.keystrokeSneakRainbow);
+            this.keystrokeBlockingRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeBlockingRainbow", this.keystrokeBlockingRainbow);
+            this.keystrokeCPSRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeCPSRainbow", this.keystrokeCPSRainbow);
+            this.keystrokeRCPSRainbow = ExtendedConfig.getBoolean(nbt, "KeystrokeRCPSRainbow", this.keystrokeRCPSRainbow);
 
             // Misc
-            ExtendedConfig.toggleSprintUseMode = ExtendedConfig.getString(nbt, "ToggleSprintUseMode", ExtendedConfig.toggleSprintUseMode);
-            ExtendedConfig.toggleSneakUseMode = ExtendedConfig.getString(nbt, "ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
-            ExtendedConfig.cpsCustomXOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
-            ExtendedConfig.cpsCustomYOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
-            ExtendedConfig.slimeChunkSeed = ExtendedConfig.getLong(nbt, "SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
-            ExtendedConfig.topDonatorFilePath = ExtendedConfig.getString(nbt, "TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
-            ExtendedConfig.recentDonatorFilePath = ExtendedConfig.getString(nbt, "RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
-            ExtendedConfig.topDonatorText = ExtendedConfig.getString(nbt, "TopDonatorText", ExtendedConfig.topDonatorText);
-            ExtendedConfig.recentDonatorText = ExtendedConfig.getString(nbt, "RecentDonatorText", ExtendedConfig.recentDonatorText);
-            ExtendedConfig.realmsMessage = ExtendedConfig.getString(nbt, "RealmsMessage", ExtendedConfig.realmsMessage);
+            this.toggleSprintUseMode = ExtendedConfig.getString(nbt, "ToggleSprintUseMode", this.toggleSprintUseMode);
+            this.toggleSneakUseMode = ExtendedConfig.getString(nbt, "ToggleSneakUseMode", this.toggleSneakUseMode);
+            this.cpsCustomXOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetX", this.cpsCustomXOffset);
+            this.cpsCustomYOffset = ExtendedConfig.getInteger(nbt, "CPSCustomOffsetY", this.cpsCustomYOffset);
+            this.slimeChunkSeed = ExtendedConfig.getLong(nbt, "SlimeChunkSeed", this.slimeChunkSeed);
+            this.topDonatorFilePath = ExtendedConfig.getString(nbt, "TopDonatorFilePath", this.topDonatorFilePath);
+            this.recentDonatorFilePath = ExtendedConfig.getString(nbt, "RecentDonatorFilePath", this.recentDonatorFilePath);
+            this.topDonatorText = ExtendedConfig.getString(nbt, "TopDonatorText", this.topDonatorText);
+            this.recentDonatorText = ExtendedConfig.getString(nbt, "RecentDonatorText", this.recentDonatorText);
+            this.realmsMessage = ExtendedConfig.getString(nbt, "RealmsMessage", this.realmsMessage);
 
             // Hypixel
-            ExtendedConfig.rightClickToAddParty = ExtendedConfig.getBoolean(nbt, "RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
-            ExtendedConfig.hypixelNickName = ExtendedConfig.getString(nbt, "HypixelNickName", ExtendedConfig.hypixelNickName);
-            ExtendedConfig.selectedHypixelMinigame = ExtendedConfig.getInteger(nbt, "SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
-            ExtendedConfig.hypixelMinigameScrollPos = ExtendedConfig.getInteger(nbt, "HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
+            this.rightClickToAddParty = ExtendedConfig.getBoolean(nbt, "RightClickToAddParty", this.rightClickToAddParty);
+            this.hypixelNickName = ExtendedConfig.getString(nbt, "HypixelNickName", this.hypixelNickName);
+            this.selectedHypixelMinigame = ExtendedConfig.getInteger(nbt, "SelectedHypixelMinigame", this.selectedHypixelMinigame);
+            this.hypixelMinigameScrollPos = ExtendedConfig.getInteger(nbt, "HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
 
             ExtendedConfig.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
             HideNameData.load(nbt.getTagList("HideNameList", 10));
@@ -335,149 +336,149 @@ public class ExtendedConfig
         catch (Exception e) {}
     }
 
-    public static void save()
+    public void save()
     {
-        save(!ExtendedConfig.currentProfile.isEmpty() ? ExtendedConfig.currentProfile : "default");
+        this.save(!ExtendedConfig.currentProfile.isEmpty() ? ExtendedConfig.currentProfile : "default");
     }
 
-    public static void save(String profileName)
+    public void save(String profileName)
     {
         try
         {
             NBTTagCompound nbt = new NBTTagCompound();
 
             // Render Info
-            nbt.setBoolean("FPS", ExtendedConfig.fps);
-            nbt.setBoolean("XYZ", ExtendedConfig.xyz);
-            nbt.setBoolean("Direction", ExtendedConfig.direction);
-            nbt.setBoolean("Biome", ExtendedConfig.biome);
-            nbt.setBoolean("Ping", ExtendedConfig.ping);
-            nbt.setBoolean("PingToSecond", ExtendedConfig.pingToSecond);
-            nbt.setBoolean("ServerIP", ExtendedConfig.serverIP);
-            nbt.setBoolean("ServerIPMCVersion", ExtendedConfig.serverIPMCVersion);
-            nbt.setBoolean("EquipmentHUD", ExtendedConfig.equipmentHUD);
-            nbt.setBoolean("PotionHUD", ExtendedConfig.potionHUD);
-            nbt.setBoolean("Keystroke", ExtendedConfig.keystroke);
-            nbt.setBoolean("KeystrokeMouse", ExtendedConfig.keystrokeMouse);
-            nbt.setBoolean("KeystrokeSprintSneak", ExtendedConfig.keystrokeSprintSneak);
-            nbt.setBoolean("KeystrokeBlocking", ExtendedConfig.keystrokeBlocking);
-            nbt.setBoolean("CPS", ExtendedConfig.cps);
-            nbt.setBoolean("RCPS", ExtendedConfig.rcps);
-            nbt.setBoolean("SlimeChunkFinder", ExtendedConfig.slimeChunkFinder);
-            nbt.setBoolean("RealTime", ExtendedConfig.realTime);
-            nbt.setBoolean("GameTime", ExtendedConfig.gameTime);
-            nbt.setBoolean("GameWeather", ExtendedConfig.gameWeather);
-            nbt.setBoolean("MoonPhase", ExtendedConfig.moonPhase);
-            nbt.setBoolean("PotionHUDIcon", ExtendedConfig.potionHUDIcon);
-            nbt.setBoolean("TPS", ExtendedConfig.tps);
-            nbt.setBoolean("TPSAllDimensions", ExtendedConfig.tpsAllDims);
-            nbt.setBoolean("AlternatePotionHUDTextColor", ExtendedConfig.alternatePotionHUDTextColor);
+            nbt.setBoolean("FPS", this.fps);
+            nbt.setBoolean("XYZ", this.xyz);
+            nbt.setBoolean("Direction", this.direction);
+            nbt.setBoolean("Biome", this.biome);
+            nbt.setBoolean("Ping", this.ping);
+            nbt.setBoolean("PingToSecond", this.pingToSecond);
+            nbt.setBoolean("ServerIP", this.serverIP);
+            nbt.setBoolean("ServerIPMCVersion", this.serverIPMCVersion);
+            nbt.setBoolean("EquipmentHUD", this.equipmentHUD);
+            nbt.setBoolean("PotionHUD", this.potionHUD);
+            nbt.setBoolean("Keystroke", this.keystroke);
+            nbt.setBoolean("KeystrokeMouse", this.keystrokeMouse);
+            nbt.setBoolean("KeystrokeSprintSneak", this.keystrokeSprintSneak);
+            nbt.setBoolean("KeystrokeBlocking", this.keystrokeBlocking);
+            nbt.setBoolean("CPS", this.cps);
+            nbt.setBoolean("RCPS", this.rcps);
+            nbt.setBoolean("SlimeChunkFinder", this.slimeChunkFinder);
+            nbt.setBoolean("RealTime", this.realTime);
+            nbt.setBoolean("GameTime", this.gameTime);
+            nbt.setBoolean("GameWeather", this.gameWeather);
+            nbt.setBoolean("MoonPhase", this.moonPhase);
+            nbt.setBoolean("PotionHUDIcon", this.potionHUDIcon);
+            nbt.setBoolean("TPS", this.tps);
+            nbt.setBoolean("TPSAllDimensions", this.tpsAllDims);
+            nbt.setBoolean("AlternatePotionHUDTextColor", this.alternatePotionHUDTextColor);
 
             // Main
-            nbt.setBoolean("ShowCustomCape", ExtendedConfig.showCustomCape);
-            nbt.setBoolean("SwapRenderInfo", ExtendedConfig.swapRenderInfo);
-            nbt.setInteger("HealthStatusMode", ExtendedConfig.healthStatusMode);
-            nbt.setInteger("KeystrokePosition", ExtendedConfig.keystrokePosition);
-            nbt.setInteger("EquipmentOrdering", ExtendedConfig.equipmentOrdering);
-            nbt.setInteger("EquipmentDirection", ExtendedConfig.equipmentDirection);
-            nbt.setInteger("EquipmentStatus", ExtendedConfig.equipmentStatus);
-            nbt.setInteger("EquipmentPosition", ExtendedConfig.equipmentPosition);
-            nbt.setInteger("PotionHUDStyle", ExtendedConfig.potionHUDStyle);
-            nbt.setInteger("PotionHUDPosition", ExtendedConfig.potionHUDPosition);
-            nbt.setInteger("CPSPosition", ExtendedConfig.cpsPosition);
-            nbt.setInteger("PingMode", ExtendedConfig.pingMode);
-            nbt.setFloat("CPSOpacity", ExtendedConfig.cpsOpacity);
+            nbt.setBoolean("ShowCustomCape", this.showCustomCape);
+            nbt.setBoolean("SwapRenderInfo", this.swapRenderInfo);
+            nbt.setInteger("HealthStatusMode", this.healthStatusMode);
+            nbt.setInteger("KeystrokePosition", this.keystrokePosition);
+            nbt.setInteger("EquipmentOrdering", this.equipmentOrdering);
+            nbt.setInteger("EquipmentDirection", this.equipmentDirection);
+            nbt.setInteger("EquipmentStatus", this.equipmentStatus);
+            nbt.setInteger("EquipmentPosition", this.equipmentPosition);
+            nbt.setInteger("PotionHUDStyle", this.potionHUDStyle);
+            nbt.setInteger("PotionHUDPosition", this.potionHUDPosition);
+            nbt.setInteger("CPSPosition", this.cpsPosition);
+            nbt.setInteger("PingMode", this.pingMode);
+            nbt.setFloat("CPSOpacity", this.cpsOpacity);
 
             // Movement
-            nbt.setBoolean("ToggleSprint", ExtendedConfig.toggleSprint);
-            nbt.setBoolean("ToggleSneak", ExtendedConfig.toggleSneak);
+            nbt.setBoolean("ToggleSprint", this.toggleSprint);
+            nbt.setBoolean("ToggleSneak", this.toggleSneak);
 
             // Offset
-            nbt.setInteger("KeystrokeYOffset", ExtendedConfig.keystrokeYOffset);
-            nbt.setInteger("ArmorHUDYOffset", ExtendedConfig.armorHUDYOffset);
-            nbt.setInteger("PotionHUDYOffset", ExtendedConfig.potionHUDYOffset);
-            nbt.setInteger("MaximumPotionDisplay", ExtendedConfig.maximumPotionDisplay);
-            nbt.setInteger("PotionLengthYOffset", ExtendedConfig.potionLengthYOffset);
-            nbt.setInteger("PotionLengthYOffsetOverlap", ExtendedConfig.potionLengthYOffsetOverlap);
+            nbt.setInteger("KeystrokeYOffset", this.keystrokeYOffset);
+            nbt.setInteger("ArmorHUDYOffset", this.armorHUDYOffset);
+            nbt.setInteger("PotionHUDYOffset", this.potionHUDYOffset);
+            nbt.setInteger("MaximumPotionDisplay", this.maximumPotionDisplay);
+            nbt.setInteger("PotionLengthYOffset", this.potionLengthYOffset);
+            nbt.setInteger("PotionLengthYOffsetOverlap", this.potionLengthYOffsetOverlap);
 
             // Custom Color
-            nbt.setString("FPSColor", ExtendedConfig.fpsColor);
-            nbt.setString("XYZColor", ExtendedConfig.xyzColor);
-            nbt.setString("BiomeColor", ExtendedConfig.biomeColor);
-            nbt.setString("DirectionColor", ExtendedConfig.directionColor);
-            nbt.setString("PingColor", ExtendedConfig.pingColor);
-            nbt.setString("PingToSecondColor", ExtendedConfig.pingToSecondColor);
-            nbt.setString("ServerIPColor", ExtendedConfig.serverIPColor);
-            nbt.setString("EquipmentStatusColor", ExtendedConfig.equipmentStatusColor);
-            nbt.setString("ArrowCountColor", ExtendedConfig.arrowCountColor);
-            nbt.setString("CPSColor", ExtendedConfig.cpsColor);
-            nbt.setString("RCPSColor", ExtendedConfig.rcpsColor);
-            nbt.setString("SlimeChunkColor", ExtendedConfig.slimeChunkColor);
-            nbt.setString("TopDonatorNameColor", ExtendedConfig.topDonatorNameColor);
-            nbt.setString("RecentDonatorNameColor", ExtendedConfig.recentDonatorNameColor);
-            nbt.setString("TPSColor", ExtendedConfig.tpsColor);
-            nbt.setString("RealTimeColor", ExtendedConfig.realTimeColor);
-            nbt.setString("GameTimeColor", ExtendedConfig.gameTimeColor);
-            nbt.setString("GameWeatherColor", ExtendedConfig.gameWeatherColor);
-            nbt.setString("MoonPhaseColor", ExtendedConfig.moonPhaseColor);
+            nbt.setString("FPSColor", this.fpsColor);
+            nbt.setString("XYZColor", this.xyzColor);
+            nbt.setString("BiomeColor", this.biomeColor);
+            nbt.setString("DirectionColor", this.directionColor);
+            nbt.setString("PingColor", this.pingColor);
+            nbt.setString("PingToSecondColor", this.pingToSecondColor);
+            nbt.setString("ServerIPColor", this.serverIPColor);
+            nbt.setString("EquipmentStatusColor", this.equipmentStatusColor);
+            nbt.setString("ArrowCountColor", this.arrowCountColor);
+            nbt.setString("CPSColor", this.cpsColor);
+            nbt.setString("RCPSColor", this.rcpsColor);
+            nbt.setString("SlimeChunkColor", this.slimeChunkColor);
+            nbt.setString("TopDonatorNameColor", this.topDonatorNameColor);
+            nbt.setString("RecentDonatorNameColor", this.recentDonatorNameColor);
+            nbt.setString("TPSColor", this.tpsColor);
+            nbt.setString("RealTimeColor", this.realTimeColor);
+            nbt.setString("GameTimeColor", this.gameTimeColor);
+            nbt.setString("GameWeatherColor", this.gameWeatherColor);
+            nbt.setString("MoonPhaseColor", this.moonPhaseColor);
 
             // Custom Color : Value
-            nbt.setString("FPSValueColor", ExtendedConfig.fpsValueColor);
-            nbt.setString("FPS26And49Color", ExtendedConfig.fps26And49Color);
-            nbt.setString("FPSLow25Color", ExtendedConfig.fpsLow25Color);
-            nbt.setString("XYZValueColor", ExtendedConfig.xyzValueColor);
-            nbt.setString("BiomeValueColor", ExtendedConfig.biomeValueColor);
-            nbt.setString("DirectionValueColor", ExtendedConfig.directionValueColor);
-            nbt.setString("PingValueColor", ExtendedConfig.pingValueColor);
-            nbt.setString("Ping200And300Color", ExtendedConfig.ping200And300Color);
-            nbt.setString("Ping300And500Color", ExtendedConfig.ping300And500Color);
-            nbt.setString("PingMax500Color", ExtendedConfig.pingMax500Color);
-            nbt.setString("ServerIPValueColor", ExtendedConfig.serverIPValueColor);
-            nbt.setString("CPSValueColor", ExtendedConfig.cpsValueColor);
-            nbt.setString("RCPSValueColor", ExtendedConfig.rcpsValueColor);
-            nbt.setString("SlimeChunkValueColor", ExtendedConfig.slimeChunkValueColor);
-            nbt.setString("TopDonatorValueColor", ExtendedConfig.topDonatorValueColor);
-            nbt.setString("RecentDonatorValueColor", ExtendedConfig.recentDonatorValueColor);
-            nbt.setString("TPSValueColor", ExtendedConfig.tpsValueColor);
-            nbt.setString("RealTimeHHMMSSValueColor", ExtendedConfig.realTimeHHMMSSValueColor);
-            nbt.setString("RealTimeDDMMYYValueColor", ExtendedConfig.realTimeDDMMYYValueColor);
-            nbt.setString("GameTimeValueColor", ExtendedConfig.gameTimeValueColor);
-            nbt.setString("GameWeatherValueColor", ExtendedConfig.gameWeatherValueColor);
-            nbt.setString("MoonPhaseValueColor", ExtendedConfig.moonPhaseValueColor);
+            nbt.setString("FPSValueColor", this.fpsValueColor);
+            nbt.setString("FPS26And49Color", this.fps26And49Color);
+            nbt.setString("FPSLow25Color", this.fpsLow25Color);
+            nbt.setString("XYZValueColor", this.xyzValueColor);
+            nbt.setString("BiomeValueColor", this.biomeValueColor);
+            nbt.setString("DirectionValueColor", this.directionValueColor);
+            nbt.setString("PingValueColor", this.pingValueColor);
+            nbt.setString("Ping200And300Color", this.ping200And300Color);
+            nbt.setString("Ping300And500Color", this.ping300And500Color);
+            nbt.setString("PingMax500Color", this.pingMax500Color);
+            nbt.setString("ServerIPValueColor", this.serverIPValueColor);
+            nbt.setString("CPSValueColor", this.cpsValueColor);
+            nbt.setString("RCPSValueColor", this.rcpsValueColor);
+            nbt.setString("SlimeChunkValueColor", this.slimeChunkValueColor);
+            nbt.setString("TopDonatorValueColor", this.topDonatorValueColor);
+            nbt.setString("RecentDonatorValueColor", this.recentDonatorValueColor);
+            nbt.setString("TPSValueColor", this.tpsValueColor);
+            nbt.setString("RealTimeHHMMSSValueColor", this.realTimeHHMMSSValueColor);
+            nbt.setString("RealTimeDDMMYYValueColor", this.realTimeDDMMYYValueColor);
+            nbt.setString("GameTimeValueColor", this.gameTimeValueColor);
+            nbt.setString("GameWeatherValueColor", this.gameWeatherValueColor);
+            nbt.setString("MoonPhaseValueColor", this.moonPhaseValueColor);
 
             // Custom Color : Keystroke
-            nbt.setString("KeystrokeWASDColor", ExtendedConfig.keystrokeWASDColor);
-            nbt.setString("KeystrokeMouseButtonColor", ExtendedConfig.keystrokeMouseButtonColor);
-            nbt.setString("KeystrokeSprintColor", ExtendedConfig.keystrokeSprintColor);
-            nbt.setString("KeystrokeSneakColor", ExtendedConfig.keystrokeSneakColor);
-            nbt.setString("KeystrokeBlockingColor", ExtendedConfig.keystrokeBlockingColor);
-            nbt.setString("KeystrokeCPSColor", ExtendedConfig.keystrokeCPSColor);
-            nbt.setString("KeystrokeRCPSColor", ExtendedConfig.keystrokeRCPSColor);
-            nbt.setBoolean("KeystrokeWASDRainbow", ExtendedConfig.keystrokeWASDRainbow);
-            nbt.setBoolean("KeystrokeMouseButtonRainbow", ExtendedConfig.keystrokeMouseButtonRainbow);
-            nbt.setBoolean("KeystrokeSprintRainbow", ExtendedConfig.keystrokeSprintRainbow);
-            nbt.setBoolean("KeystrokeSneakRainbow", ExtendedConfig.keystrokeSneakRainbow);
-            nbt.setBoolean("KeystrokeBlockingRainbow", ExtendedConfig.keystrokeBlockingRainbow);
-            nbt.setBoolean("KeystrokeCPSRainbow", ExtendedConfig.keystrokeCPSRainbow);
-            nbt.setBoolean("KeystrokeRCPSRainbow", ExtendedConfig.keystrokeRCPSRainbow);
+            nbt.setString("KeystrokeWASDColor", this.keystrokeWASDColor);
+            nbt.setString("KeystrokeMouseButtonColor", this.keystrokeMouseButtonColor);
+            nbt.setString("KeystrokeSprintColor", this.keystrokeSprintColor);
+            nbt.setString("KeystrokeSneakColor", this.keystrokeSneakColor);
+            nbt.setString("KeystrokeBlockingColor", this.keystrokeBlockingColor);
+            nbt.setString("KeystrokeCPSColor", this.keystrokeCPSColor);
+            nbt.setString("KeystrokeRCPSColor", this.keystrokeRCPSColor);
+            nbt.setBoolean("KeystrokeWASDRainbow", this.keystrokeWASDRainbow);
+            nbt.setBoolean("KeystrokeMouseButtonRainbow", this.keystrokeMouseButtonRainbow);
+            nbt.setBoolean("KeystrokeSprintRainbow", this.keystrokeSprintRainbow);
+            nbt.setBoolean("KeystrokeSneakRainbow", this.keystrokeSneakRainbow);
+            nbt.setBoolean("KeystrokeBlockingRainbow", this.keystrokeBlockingRainbow);
+            nbt.setBoolean("KeystrokeCPSRainbow", this.keystrokeCPSRainbow);
+            nbt.setBoolean("KeystrokeRCPSRainbow", this.keystrokeRCPSRainbow);
 
             // Misc
-            nbt.setString("ToggleSprintUseMode", ExtendedConfig.toggleSprintUseMode);
-            nbt.setString("ToggleSneakUseMode", ExtendedConfig.toggleSneakUseMode);
-            nbt.setInteger("CPSCustomOffsetX", ExtendedConfig.cpsCustomXOffset);
-            nbt.setInteger("CPSCustomOffsetY", ExtendedConfig.cpsCustomYOffset);
-            nbt.setLong("SlimeChunkSeed", ExtendedConfig.slimeChunkSeed);
-            nbt.setString("TopDonatorFilePath", ExtendedConfig.topDonatorFilePath);
-            nbt.setString("RecentDonatorFilePath", ExtendedConfig.recentDonatorFilePath);
-            nbt.setString("TopDonatorText", ExtendedConfig.topDonatorText);
-            nbt.setString("RecentDonatorText", ExtendedConfig.recentDonatorText);
-            nbt.setString("RealmsMessage", ExtendedConfig.realmsMessage);
+            nbt.setString("ToggleSprintUseMode", this.toggleSprintUseMode);
+            nbt.setString("ToggleSneakUseMode", this.toggleSneakUseMode);
+            nbt.setInteger("CPSCustomOffsetX", this.cpsCustomXOffset);
+            nbt.setInteger("CPSCustomOffsetY", this.cpsCustomYOffset);
+            nbt.setLong("SlimeChunkSeed", this.slimeChunkSeed);
+            nbt.setString("TopDonatorFilePath", this.topDonatorFilePath);
+            nbt.setString("RecentDonatorFilePath", this.recentDonatorFilePath);
+            nbt.setString("TopDonatorText", this.topDonatorText);
+            nbt.setString("RecentDonatorText", this.recentDonatorText);
+            nbt.setString("RealmsMessage", this.realmsMessage);
 
             // Hypixel
-            nbt.setBoolean("RightClickToAddParty", ExtendedConfig.rightClickToAddParty);
-            nbt.setString("HypixelNickName", ExtendedConfig.hypixelNickName);
-            nbt.setInteger("SelectedHypixelMinigame", ExtendedConfig.selectedHypixelMinigame);
-            nbt.setInteger("HypixelMinigameScrollPos", ExtendedConfig.hypixelMinigameScrollPos);
+            nbt.setBoolean("RightClickToAddParty", this.rightClickToAddParty);
+            nbt.setString("HypixelNickName", this.hypixelNickName);
+            nbt.setInteger("SelectedHypixelMinigame", this.selectedHypixelMinigame);
+            nbt.setInteger("HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
 
             nbt.setTag("AutoLoginData", ExtendedConfig.writeAutoLoginData());
             nbt.setTag("HideNameList", HideNameData.save());
@@ -500,6 +501,13 @@ public class ExtendedConfig
         {
             LoggerIN.error("Failed to save profiles", (Throwable)e);
         }
+    }
+
+    public static void resetConfig()
+    {
+        ExtendedConfig.instance = new ExtendedConfig();
+        ExtendedConfig.instance.save(ExtendedConfig.currentProfile);
+        ClientUtils.printClientMessage(LangUtils.translate("message.reset_config", ExtendedConfig.currentProfile));
     }
 
     private static NBTTagList writeAutoLoginData()
@@ -608,43 +616,43 @@ public class ExtendedConfig
         }
         else if (options == ExtendedConfig.Options.HEALTH_STATUS)
         {
-            return name + this.getTranslation(HEALTH_STATUS, ExtendedConfig.healthStatusMode);
+            return name + this.getTranslation(HEALTH_STATUS, this.healthStatusMode);
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_POSITION)
         {
-            return name + this.getTranslation(POSITION, ExtendedConfig.keystrokePosition);
+            return name + this.getTranslation(POSITION, this.keystrokePosition);
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_ORDERING)
         {
-            return name + this.getTranslation(EQUIPMENT_ORDERING, ExtendedConfig.equipmentOrdering);
+            return name + this.getTranslation(EQUIPMENT_ORDERING, this.equipmentOrdering);
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_DIRECTION)
         {
-            return name + this.getTranslation(EQUIPMENT_DIRECTION, ExtendedConfig.equipmentDirection);
+            return name + this.getTranslation(EQUIPMENT_DIRECTION, this.equipmentDirection);
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_STATUS)
         {
-            return name + this.getTranslation(EQUIPMENT_STATUS, ExtendedConfig.equipmentStatus);
+            return name + this.getTranslation(EQUIPMENT_STATUS, this.equipmentStatus);
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_POSITION)
         {
-            return name + this.getTranslation(EQUIPMENT_POSITION, ExtendedConfig.equipmentPosition);
+            return name + this.getTranslation(EQUIPMENT_POSITION, this.equipmentPosition);
         }
         else if (options == ExtendedConfig.Options.POTION_HUD_STYLE)
         {
-            return name + this.getTranslation(POTION_STATUS_HUD_STYLE, ExtendedConfig.potionHUDStyle);
+            return name + this.getTranslation(POTION_STATUS_HUD_STYLE, this.potionHUDStyle);
         }
         else if (options == ExtendedConfig.Options.POTION_HUD_POSITION)
         {
-            return name + this.getTranslation(POTION_STATUS_HUD_POSITION, ExtendedConfig.potionHUDPosition);
+            return name + this.getTranslation(POTION_STATUS_HUD_POSITION, this.potionHUDPosition);
         }
         else if (options == ExtendedConfig.Options.CPS_POSITION)
         {
-            return name + this.getTranslation(CPS_POSITION, ExtendedConfig.cpsPosition);
+            return name + this.getTranslation(CPS_POSITION, this.cpsPosition);
         }
         else if (options == ExtendedConfig.Options.PING_MODE)
         {
-            return name + this.getTranslation(PING_MODE, ExtendedConfig.pingMode);
+            return name + this.getTranslation(PING_MODE, this.pingMode);
         }
         else
         {
@@ -660,181 +668,181 @@ public class ExtendedConfig
         }
         else if (options == ExtendedConfig.Options.SWAP_INFO_POS)
         {
-            ExtendedConfig.swapRenderInfo = !ExtendedConfig.swapRenderInfo;
+            this.swapRenderInfo = !this.swapRenderInfo;
         }
         else if (options == ExtendedConfig.Options.HEALTH_STATUS)
         {
-            ExtendedConfig.healthStatusMode = (ExtendedConfig.healthStatusMode + value) % 3;
+            this.healthStatusMode = (this.healthStatusMode + value) % 3;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_POSITION)
         {
-            ExtendedConfig.keystrokePosition = (ExtendedConfig.keystrokePosition + value) % 2;
+            this.keystrokePosition = (this.keystrokePosition + value) % 2;
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_ORDERING)
         {
-            ExtendedConfig.equipmentOrdering = (ExtendedConfig.equipmentOrdering + value) % 2;
+            this.equipmentOrdering = (this.equipmentOrdering + value) % 2;
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_DIRECTION)
         {
-            ExtendedConfig.equipmentDirection = (ExtendedConfig.equipmentDirection + value) % 2;
+            this.equipmentDirection = (this.equipmentDirection + value) % 2;
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_STATUS)
         {
-            ExtendedConfig.equipmentStatus = (ExtendedConfig.equipmentStatus + value) % 4;
+            this.equipmentStatus = (this.equipmentStatus + value) % 4;
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_POSITION)
         {
-            ExtendedConfig.equipmentPosition = (ExtendedConfig.equipmentPosition + value) % 3;
+            this.equipmentPosition = (this.equipmentPosition + value) % 3;
         }
         else if (options == ExtendedConfig.Options.POTION_HUD_STYLE)
         {
-            ExtendedConfig.potionHUDStyle = (ExtendedConfig.potionHUDStyle + value) % 2;
+            this.potionHUDStyle = (this.potionHUDStyle + value) % 2;
         }
         else if (options == ExtendedConfig.Options.POTION_HUD_POSITION)
         {
-            ExtendedConfig.potionHUDPosition = (ExtendedConfig.potionHUDPosition + value) % 4;
+            this.potionHUDPosition = (this.potionHUDPosition + value) % 4;
         }
         else if (options == ExtendedConfig.Options.CPS_POSITION)
         {
-            ExtendedConfig.cpsPosition = (ExtendedConfig.cpsPosition + value) % 4;
+            this.cpsPosition = (this.cpsPosition + value) % 4;
         }
         else if (options == ExtendedConfig.Options.PING_MODE)
         {
-            ExtendedConfig.pingMode = (ExtendedConfig.pingMode + value) % 2;
+            this.pingMode = (this.pingMode + value) % 2;
         }
 
         else if (options == ExtendedConfig.Options.FPS)
         {
-            ExtendedConfig.fps = !ExtendedConfig.fps;
+            this.fps = !this.fps;
         }
         else if (options == ExtendedConfig.Options.XYZ)
         {
-            ExtendedConfig.xyz = !ExtendedConfig.xyz;
+            this.xyz = !this.xyz;
         }
         else if (options == ExtendedConfig.Options.DIRECTION)
         {
-            ExtendedConfig.direction = !ExtendedConfig.direction;
+            this.direction = !this.direction;
         }
         else if (options == ExtendedConfig.Options.BIOME)
         {
-            ExtendedConfig.biome = !ExtendedConfig.biome;
+            this.biome = !this.biome;
         }
         else if (options == ExtendedConfig.Options.PING)
         {
-            ExtendedConfig.ping = !ExtendedConfig.ping;
+            this.ping = !this.ping;
         }
         else if (options == ExtendedConfig.Options.PING_TO_SECOND)
         {
-            ExtendedConfig.pingToSecond = !ExtendedConfig.pingToSecond;
+            this.pingToSecond = !this.pingToSecond;
         }
         else if (options == ExtendedConfig.Options.SERVER_IP)
         {
-            ExtendedConfig.serverIP = !ExtendedConfig.serverIP;
+            this.serverIP = !this.serverIP;
         }
         else if (options == ExtendedConfig.Options.SERVER_IP_MC)
         {
-            ExtendedConfig.serverIPMCVersion = !ExtendedConfig.serverIPMCVersion;
+            this.serverIPMCVersion = !this.serverIPMCVersion;
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_HUD)
         {
-            ExtendedConfig.equipmentHUD = !ExtendedConfig.equipmentHUD;
+            this.equipmentHUD = !this.equipmentHUD;
         }
         else if (options == ExtendedConfig.Options.POTION_HUD)
         {
-            ExtendedConfig.potionHUD = !ExtendedConfig.potionHUD;
+            this.potionHUD = !this.potionHUD;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE)
         {
-            ExtendedConfig.keystroke = !ExtendedConfig.keystroke;
+            this.keystroke = !this.keystroke;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_LRMB)
         {
-            ExtendedConfig.keystrokeMouse = !ExtendedConfig.keystrokeMouse;
+            this.keystrokeMouse = !this.keystrokeMouse;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_SS)
         {
-            ExtendedConfig.keystrokeSprintSneak = !ExtendedConfig.keystrokeSprintSneak;
+            this.keystrokeSprintSneak = !this.keystrokeSprintSneak;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING)
         {
-            ExtendedConfig.keystrokeBlocking = !ExtendedConfig.keystrokeBlocking;
+            this.keystrokeBlocking = !this.keystrokeBlocking;
         }
         else if (options == ExtendedConfig.Options.CPS)
         {
-            ExtendedConfig.cps = !ExtendedConfig.cps;
+            this.cps = !this.cps;
         }
         else if (options == ExtendedConfig.Options.RCPS)
         {
-            ExtendedConfig.rcps = !ExtendedConfig.rcps;
+            this.rcps = !this.rcps;
         }
         else if (options == ExtendedConfig.Options.SLIME_CHUNK)
         {
-            ExtendedConfig.slimeChunkFinder = !ExtendedConfig.slimeChunkFinder;
+            this.slimeChunkFinder = !this.slimeChunkFinder;
         }
         else if (options == ExtendedConfig.Options.REAL_TIME)
         {
-            ExtendedConfig.realTime = !ExtendedConfig.realTime;
+            this.realTime = !this.realTime;
         }
         else if (options == ExtendedConfig.Options.GAME_TIME)
         {
-            ExtendedConfig.gameTime = !ExtendedConfig.gameTime;
+            this.gameTime = !this.gameTime;
         }
         else if (options == ExtendedConfig.Options.GAME_WEATHER)
         {
-            ExtendedConfig.gameWeather = !ExtendedConfig.gameWeather;
+            this.gameWeather = !this.gameWeather;
         }
         else if (options == ExtendedConfig.Options.MOON_PHASE)
         {
-            ExtendedConfig.moonPhase = !ExtendedConfig.moonPhase;
+            this.moonPhase = !this.moonPhase;
         }
         else if (options == ExtendedConfig.Options.POTION_ICON)
         {
-            ExtendedConfig.potionHUDIcon = !ExtendedConfig.potionHUDIcon;
+            this.potionHUDIcon = !this.potionHUDIcon;
         }
         else if (options == ExtendedConfig.Options.TPS)
         {
-            ExtendedConfig.tps = !ExtendedConfig.tps;
+            this.tps = !this.tps;
         }
         else if (options == ExtendedConfig.Options.TPS_ALL_DIMS)
         {
-            ExtendedConfig.tpsAllDims = !ExtendedConfig.tpsAllDims;
+            this.tpsAllDims = !this.tpsAllDims;
         }
         else if (options == ExtendedConfig.Options.ALTERNATE_POTION_COLOR)
         {
-            ExtendedConfig.alternatePotionHUDTextColor = !ExtendedConfig.alternatePotionHUDTextColor;
+            this.alternatePotionHUDTextColor = !this.alternatePotionHUDTextColor;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_WASD_RAINBOW)
         {
-            ExtendedConfig.keystrokeWASDRainbow = !ExtendedConfig.keystrokeWASDRainbow;
+            this.keystrokeWASDRainbow = !this.keystrokeWASDRainbow;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_RAINBOW)
         {
-            ExtendedConfig.keystrokeMouseButtonRainbow = !ExtendedConfig.keystrokeMouseButtonRainbow;
+            this.keystrokeMouseButtonRainbow = !this.keystrokeMouseButtonRainbow;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_SPRINT_RAINBOW)
         {
-            ExtendedConfig.keystrokeSprintRainbow = !ExtendedConfig.keystrokeSprintRainbow;
+            this.keystrokeSprintRainbow = !this.keystrokeSprintRainbow;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_SNEAK_RAINBOW)
         {
-            ExtendedConfig.keystrokeSneakRainbow = !ExtendedConfig.keystrokeSneakRainbow;
+            this.keystrokeSneakRainbow = !this.keystrokeSneakRainbow;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING_RAINBOW)
         {
-            ExtendedConfig.keystrokeBlockingRainbow = !ExtendedConfig.keystrokeBlockingRainbow;
+            this.keystrokeBlockingRainbow = !this.keystrokeBlockingRainbow;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_CPS_RAINBOW)
         {
-            ExtendedConfig.keystrokeCPSRainbow = !ExtendedConfig.keystrokeCPSRainbow;
+            this.keystrokeCPSRainbow = !this.keystrokeCPSRainbow;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_RCPS_RAINBOW)
         {
-            ExtendedConfig.keystrokeRCPSRainbow = !ExtendedConfig.keystrokeRCPSRainbow;
+            this.keystrokeRCPSRainbow = !this.keystrokeRCPSRainbow;
         }
 
         else if (options == ExtendedConfig.Options.RIGHT_CLICK_ADD_PARTY)
         {
-            ExtendedConfig.rightClickToAddParty = !ExtendedConfig.rightClickToAddParty;
+            this.rightClickToAddParty = !this.rightClickToAddParty;
         }
     }
 
@@ -842,31 +850,31 @@ public class ExtendedConfig
     {
         if (options == ExtendedConfig.Options.ARMOR_HUD_Y)
         {
-            ExtendedConfig.armorHUDYOffset = (int) value;
+            this.armorHUDYOffset = (int) value;
         }
         else if (options == ExtendedConfig.Options.POTION_HUD_Y)
         {
-            ExtendedConfig.potionHUDYOffset = (int) value;
+            this.potionHUDYOffset = (int) value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_Y)
         {
-            ExtendedConfig.keystrokeYOffset = (int) value;
+            this.keystrokeYOffset = (int) value;
         }
         else if (options == ExtendedConfig.Options.MAXIMUM_POTION_DISPLAY)
         {
-            ExtendedConfig.maximumPotionDisplay = (int) value;
+            this.maximumPotionDisplay = (int) value;
         }
         else if (options == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET)
         {
-            ExtendedConfig.potionLengthYOffset = (int) value;
+            this.potionLengthYOffset = (int) value;
         }
         else if (options == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
         {
-            ExtendedConfig.potionLengthYOffsetOverlap = (int) value;
+            this.potionLengthYOffsetOverlap = (int) value;
         }
         else if (options == ExtendedConfig.Options.CPS_OPACITY)
         {
-            ExtendedConfig.cpsOpacity = value;
+            this.cpsOpacity = value;
         }
     }
 
@@ -874,205 +882,205 @@ public class ExtendedConfig
     {
         if (options == ExtendedConfig.Options.FPS_COLOR)
         {
-            ExtendedConfig.fpsColor = value;
+            this.fpsColor = value;
         }
         else if (options == ExtendedConfig.Options.XYZ_COLOR)
         {
-            ExtendedConfig.xyzColor = value;
+            this.xyzColor = value;
         }
         else if (options == ExtendedConfig.Options.BIOME_COLOR)
         {
-            ExtendedConfig.biomeColor = value;
+            this.biomeColor = value;
         }
         else if (options == ExtendedConfig.Options.DIRECTION_COLOR)
         {
-            ExtendedConfig.directionColor = value;
+            this.directionColor = value;
         }
         else if (options == ExtendedConfig.Options.PING_COLOR)
         {
-            ExtendedConfig.pingColor = value;
+            this.pingColor = value;
         }
         else if (options == ExtendedConfig.Options.PING_TO_SECOND_COLOR)
         {
-            ExtendedConfig.pingToSecondColor = value;
+            this.pingToSecondColor = value;
         }
         else if (options == ExtendedConfig.Options.SERVER_IP_COLOR)
         {
-            ExtendedConfig.serverIPColor = value;
+            this.serverIPColor = value;
         }
         else if (options == ExtendedConfig.Options.EQUIPMENT_STATUS_COLOR)
         {
-            ExtendedConfig.equipmentStatusColor = value;
+            this.equipmentStatusColor = value;
         }
         else if (options == ExtendedConfig.Options.ARROW_COUNT_COLOR)
         {
-            ExtendedConfig.arrowCountColor = value;
+            this.arrowCountColor = value;
         }
         else if (options == ExtendedConfig.Options.CPS_COLOR)
         {
-            ExtendedConfig.cpsColor = value;
+            this.cpsColor = value;
         }
         else if (options == ExtendedConfig.Options.RCPS_COLOR)
         {
-            ExtendedConfig.rcpsColor = value;
+            this.rcpsColor = value;
         }
         else if (options == ExtendedConfig.Options.SLIME_CHUNK_COLOR)
         {
-            ExtendedConfig.slimeChunkColor = value;
+            this.slimeChunkColor = value;
         }
         else if (options == ExtendedConfig.Options.TOP_DONATOR_NAME_COLOR)
         {
-            ExtendedConfig.topDonatorNameColor = value;
+            this.topDonatorNameColor = value;
         }
         else if (options == ExtendedConfig.Options.RECENT_DONATOR_NAME_COLOR)
         {
-            ExtendedConfig.recentDonatorNameColor = value;
+            this.recentDonatorNameColor = value;
         }
         else if (options == ExtendedConfig.Options.TPS_COLOR)
         {
-            ExtendedConfig.tpsColor = value;
+            this.tpsColor = value;
         }
         else if (options == ExtendedConfig.Options.REAL_TIME_COLOR)
         {
-            ExtendedConfig.realTimeColor = value;
+            this.realTimeColor = value;
         }
         else if (options == ExtendedConfig.Options.GAME_TIME_COLOR)
         {
-            ExtendedConfig.gameTimeColor = value;
+            this.gameTimeColor = value;
         }
         else if (options == ExtendedConfig.Options.GAME_WEATHER_COLOR)
         {
-            ExtendedConfig.gameWeatherColor = value;
+            this.gameWeatherColor = value;
         }
         else if (options == ExtendedConfig.Options.MOON_PHASE_COLOR)
         {
-            ExtendedConfig.moonPhaseColor = value;
+            this.moonPhaseColor = value;
         }
         else if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_COLOR)
         {
-            ExtendedConfig.ytChatViewCountColor = value;
+            this.ytChatViewCountColor = value;
         }
 
         else if (options == ExtendedConfig.Options.FPS_VALUE_COLOR)
         {
-            ExtendedConfig.fpsValueColor = value;
+            this.fpsValueColor = value;
         }
         else if (options == ExtendedConfig.Options.FPS_26_AND_40_COLOR)
         {
-            ExtendedConfig.fps26And49Color = value;
+            this.fps26And49Color = value;
         }
         else if (options == ExtendedConfig.Options.FPS_LOW_25_COLOR)
         {
-            ExtendedConfig.fpsLow25Color = value;
+            this.fpsLow25Color = value;
         }
         else if (options == ExtendedConfig.Options.XYZ_VALUE_COLOR)
         {
-            ExtendedConfig.xyzValueColor = value;
+            this.xyzValueColor = value;
         }
         else if (options == ExtendedConfig.Options.DIRECTION_VALUE_COLOR)
         {
-            ExtendedConfig.directionValueColor = value;
+            this.directionValueColor = value;
         }
         else if (options == ExtendedConfig.Options.BIOME_VALUE_COLOR)
         {
-            ExtendedConfig.biomeValueColor = value;
+            this.biomeValueColor = value;
         }
         else if (options == ExtendedConfig.Options.PING_VALUE_COLOR)
         {
-            ExtendedConfig.pingValueColor = value;
+            this.pingValueColor = value;
         }
         else if (options == ExtendedConfig.Options.PING_200_AND_300_COLOR)
         {
-            ExtendedConfig.ping200And300Color = value;
+            this.ping200And300Color = value;
         }
         else if (options == ExtendedConfig.Options.PING_300_AND_500_COLOR)
         {
-            ExtendedConfig.ping300And500Color = value;
+            this.ping300And500Color = value;
         }
         else if (options == ExtendedConfig.Options.PING_MAX_500_COLOR)
         {
-            ExtendedConfig.pingMax500Color = value;
+            this.pingMax500Color = value;
         }
         else if (options == ExtendedConfig.Options.SERVER_IP_VALUE_COLOR)
         {
-            ExtendedConfig.serverIPValueColor = value;
+            this.serverIPValueColor = value;
         }
         else if (options == ExtendedConfig.Options.CPS_VALUE_COLOR)
         {
-            ExtendedConfig.cpsValueColor = value;
+            this.cpsValueColor = value;
         }
         else if (options == ExtendedConfig.Options.RCPS_VALUE_COLOR)
         {
-            ExtendedConfig.rcpsValueColor = value;
+            this.rcpsValueColor = value;
         }
         else if (options == ExtendedConfig.Options.SLIME_CHUNK_VALUE_COLOR)
         {
-            ExtendedConfig.slimeChunkValueColor = value;
+            this.slimeChunkValueColor = value;
         }
         else if (options == ExtendedConfig.Options.TOP_DONATOR_VALUE_COLOR)
         {
-            ExtendedConfig.topDonatorValueColor = value;
+            this.topDonatorValueColor = value;
         }
         else if (options == ExtendedConfig.Options.RECENT_DONATOR_VALUE_COLOR)
         {
-            ExtendedConfig.recentDonatorValueColor = value;
+            this.recentDonatorValueColor = value;
         }
         else if (options == ExtendedConfig.Options.TPS_VALUE_COLOR)
         {
-            ExtendedConfig.tpsValueColor = value;
+            this.tpsValueColor = value;
         }
         else if (options == ExtendedConfig.Options.REAL_TIME_HHMMSS_VALUE_COLOR)
         {
-            ExtendedConfig.realTimeHHMMSSValueColor = value;
+            this.realTimeHHMMSSValueColor = value;
         }
         else if (options == ExtendedConfig.Options.REAL_TIME_DDMMYY_VALUE_COLOR)
         {
-            ExtendedConfig.realTimeDDMMYYValueColor = value;
+            this.realTimeDDMMYYValueColor = value;
         }
         else if (options == ExtendedConfig.Options.GAME_TIME_VALUE_COLOR)
         {
-            ExtendedConfig.gameTimeValueColor = value;
+            this.gameTimeValueColor = value;
         }
         else if (options == ExtendedConfig.Options.GAME_WEATHER_VALUE_COLOR)
         {
-            ExtendedConfig.gameWeatherValueColor = value;
+            this.gameWeatherValueColor = value;
         }
         else if (options == ExtendedConfig.Options.MOON_PHASE_VALUE_COLOR)
         {
-            ExtendedConfig.moonPhaseValueColor = value;
+            this.moonPhaseValueColor = value;
         }
         else if (options == ExtendedConfig.Options.YTCHAT_VIEW_COUNT_VALUE_COLOR)
         {
-            ExtendedConfig.ytChatViewCountValueColor = value;
+            this.ytChatViewCountValueColor = value;
         }
 
         else if (options == ExtendedConfig.Options.KEYSTROKE_WASD_COLOR)
         {
-            ExtendedConfig.keystrokeWASDColor = value;
+            this.keystrokeWASDColor = value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_MOUSE_BUTTON_COLOR)
         {
-            ExtendedConfig.keystrokeMouseButtonColor = value;
+            this.keystrokeMouseButtonColor = value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_SPRINT_COLOR)
         {
-            ExtendedConfig.keystrokeSprintColor = value;
+            this.keystrokeSprintColor = value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_SNEAK_COLOR)
         {
-            ExtendedConfig.keystrokeSneakColor = value;
+            this.keystrokeSneakColor = value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_BLOCKING_COLOR)
         {
-            ExtendedConfig.keystrokeBlockingColor = value;
+            this.keystrokeBlockingColor = value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_CPS_COLOR)
         {
-            ExtendedConfig.keystrokeCPSColor = value;
+            this.keystrokeCPSColor = value;
         }
         else if (options == ExtendedConfig.Options.KEYSTROKE_RCPS_COLOR)
         {
-            ExtendedConfig.keystrokeRCPSColor = value;
+            this.keystrokeRCPSColor = value;
         }
     }
 
@@ -1080,31 +1088,31 @@ public class ExtendedConfig
     {
         if (settingOption == ExtendedConfig.Options.ARMOR_HUD_Y)
         {
-            return ExtendedConfig.armorHUDYOffset;
+            return this.armorHUDYOffset;
         }
         else if (settingOption == ExtendedConfig.Options.POTION_HUD_Y)
         {
-            return ExtendedConfig.potionHUDYOffset;
+            return this.potionHUDYOffset;
         }
         else if (settingOption == ExtendedConfig.Options.KEYSTROKE_Y)
         {
-            return ExtendedConfig.keystrokeYOffset;
+            return this.keystrokeYOffset;
         }
         else if (settingOption == ExtendedConfig.Options.MAXIMUM_POTION_DISPLAY)
         {
-            return ExtendedConfig.maximumPotionDisplay;
+            return this.maximumPotionDisplay;
         }
         else if (settingOption == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET)
         {
-            return ExtendedConfig.potionLengthYOffset;
+            return this.potionLengthYOffset;
         }
         else if (settingOption == ExtendedConfig.Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
         {
-            return ExtendedConfig.potionLengthYOffsetOverlap;
+            return this.potionLengthYOffsetOverlap;
         }
         else if (settingOption == ExtendedConfig.Options.CPS_OPACITY)
         {
-            return ExtendedConfig.cpsOpacity;
+            return this.cpsOpacity;
         }
         return 0.0F;
     }
@@ -1116,74 +1124,74 @@ public class ExtendedConfig
         case PREVIEW:
             return GuiExtendedConfig.preview;
         case SWAP_INFO_POS:
-            return ExtendedConfig.swapRenderInfo;
+            return this.swapRenderInfo;
         case FPS:
-            return ExtendedConfig.fps;
+            return this.fps;
         case XYZ:
-            return ExtendedConfig.xyz;
+            return this.xyz;
         case DIRECTION:
-            return ExtendedConfig.direction;
+            return this.direction;
         case BIOME:
-            return ExtendedConfig.biome;
+            return this.biome;
         case PING:
-            return ExtendedConfig.ping;
+            return this.ping;
         case PING_TO_SECOND:
-            return ExtendedConfig.pingToSecond;
+            return this.pingToSecond;
         case SERVER_IP:
-            return ExtendedConfig.serverIP;
+            return this.serverIP;
         case SERVER_IP_MC:
-            return ExtendedConfig.serverIPMCVersion;
+            return this.serverIPMCVersion;
         case EQUIPMENT_HUD:
-            return ExtendedConfig.equipmentHUD;
+            return this.equipmentHUD;
         case POTION_HUD:
-            return ExtendedConfig.potionHUD;
+            return this.potionHUD;
         case KEYSTROKE:
-            return ExtendedConfig.keystroke;
+            return this.keystroke;
         case KEYSTROKE_LRMB:
-            return ExtendedConfig.keystrokeMouse;
+            return this.keystrokeMouse;
         case KEYSTROKE_SS:
-            return ExtendedConfig.keystrokeSprintSneak;
+            return this.keystrokeSprintSneak;
         case KEYSTROKE_BLOCKING:
-            return ExtendedConfig.keystrokeBlocking;
+            return this.keystrokeBlocking;
         case CPS:
-            return ExtendedConfig.cps;
+            return this.cps;
         case RCPS:
-            return ExtendedConfig.rcps;
+            return this.rcps;
         case SLIME_CHUNK:
-            return ExtendedConfig.slimeChunkFinder;
+            return this.slimeChunkFinder;
         case REAL_TIME:
-            return ExtendedConfig.realTime;
+            return this.realTime;
         case GAME_TIME:
-            return ExtendedConfig.gameTime;
+            return this.gameTime;
         case GAME_WEATHER:
-            return ExtendedConfig.gameWeather;
+            return this.gameWeather;
         case MOON_PHASE:
-            return ExtendedConfig.moonPhase;
+            return this.moonPhase;
         case POTION_ICON:
-            return ExtendedConfig.potionHUDIcon;
+            return this.potionHUDIcon;
         case TPS:
-            return ExtendedConfig.tps;
+            return this.tps;
         case TPS_ALL_DIMS:
-            return ExtendedConfig.tpsAllDims;
+            return this.tpsAllDims;
         case ALTERNATE_POTION_COLOR:
-            return ExtendedConfig.alternatePotionHUDTextColor;
+            return this.alternatePotionHUDTextColor;
         case KEYSTROKE_WASD_RAINBOW:
-            return ExtendedConfig.keystrokeWASDRainbow;
+            return this.keystrokeWASDRainbow;
         case KEYSTROKE_MOUSE_BUTTON_RAINBOW:
-            return ExtendedConfig.keystrokeMouseButtonRainbow;
+            return this.keystrokeMouseButtonRainbow;
         case KEYSTROKE_SPRINT_RAINBOW:
-            return ExtendedConfig.keystrokeSprintRainbow;
+            return this.keystrokeSprintRainbow;
         case KEYSTROKE_SNEAK_RAINBOW:
-            return ExtendedConfig.keystrokeSneakRainbow;
+            return this.keystrokeSneakRainbow;
         case KEYSTROKE_BLOCKING_RAINBOW:
-            return ExtendedConfig.keystrokeBlockingRainbow;
+            return this.keystrokeBlockingRainbow;
         case KEYSTROKE_CPS_RAINBOW:
-            return ExtendedConfig.keystrokeCPSRainbow;
+            return this.keystrokeCPSRainbow;
         case KEYSTROKE_RCPS_RAINBOW:
-            return ExtendedConfig.keystrokeRCPSRainbow;
+            return this.keystrokeRCPSRainbow;
 
         case RIGHT_CLICK_ADD_PARTY:
-            return ExtendedConfig.rightClickToAddParty;
+            return this.rightClickToAddParty;
         default:
             return false;
         }
@@ -1194,107 +1202,107 @@ public class ExtendedConfig
         switch (options)
         {
         case FPS_COLOR:
-            return ExtendedConfig.fpsColor;
+            return this.fpsColor;
         case XYZ_COLOR:
-            return ExtendedConfig.xyzColor;
+            return this.xyzColor;
         case BIOME_COLOR:
-            return ExtendedConfig.biomeColor;
+            return this.biomeColor;
         case DIRECTION_COLOR:
-            return ExtendedConfig.directionColor;
+            return this.directionColor;
         case PING_COLOR:
-            return ExtendedConfig.pingColor;
+            return this.pingColor;
         case PING_TO_SECOND_COLOR:
-            return ExtendedConfig.pingToSecondColor;
+            return this.pingToSecondColor;
         case SERVER_IP_COLOR:
-            return ExtendedConfig.serverIPColor;
+            return this.serverIPColor;
         case EQUIPMENT_STATUS_COLOR:
-            return ExtendedConfig.equipmentStatusColor;
+            return this.equipmentStatusColor;
         case ARROW_COUNT_COLOR:
-            return ExtendedConfig.arrowCountColor;
+            return this.arrowCountColor;
         case CPS_COLOR:
-            return ExtendedConfig.cpsColor;
+            return this.cpsColor;
         case RCPS_COLOR:
-            return ExtendedConfig.rcpsColor;
+            return this.rcpsColor;
         case SLIME_CHUNK_COLOR:
-            return ExtendedConfig.slimeChunkColor;
+            return this.slimeChunkColor;
         case TOP_DONATOR_NAME_COLOR:
-            return ExtendedConfig.topDonatorNameColor;
+            return this.topDonatorNameColor;
         case RECENT_DONATOR_NAME_COLOR:
-            return ExtendedConfig.recentDonatorNameColor;
+            return this.recentDonatorNameColor;
         case TPS_COLOR:
-            return ExtendedConfig.tpsColor;
+            return this.tpsColor;
         case REAL_TIME_COLOR:
-            return ExtendedConfig.realTimeColor;
+            return this.realTimeColor;
         case GAME_TIME_COLOR:
-            return ExtendedConfig.gameTimeColor;
+            return this.gameTimeColor;
         case GAME_WEATHER_COLOR:
-            return ExtendedConfig.gameWeatherColor;
+            return this.gameWeatherColor;
         case MOON_PHASE_COLOR:
-            return ExtendedConfig.moonPhaseColor;
+            return this.moonPhaseColor;
         case YTCHAT_VIEW_COUNT_COLOR:
-            return ExtendedConfig.ytChatViewCountColor;
+            return this.ytChatViewCountColor;
 
         case FPS_VALUE_COLOR:
-            return ExtendedConfig.fpsValueColor;
+            return this.fpsValueColor;
         case FPS_26_AND_40_COLOR:
-            return ExtendedConfig.fps26And49Color;
+            return this.fps26And49Color;
         case FPS_LOW_25_COLOR:
-            return ExtendedConfig.fpsLow25Color;
+            return this.fpsLow25Color;
         case XYZ_VALUE_COLOR:
-            return ExtendedConfig.xyzValueColor;
+            return this.xyzValueColor;
         case DIRECTION_VALUE_COLOR:
-            return ExtendedConfig.directionValueColor;
+            return this.directionValueColor;
         case BIOME_VALUE_COLOR:
-            return ExtendedConfig.biomeValueColor;
+            return this.biomeValueColor;
         case PING_VALUE_COLOR:
-            return ExtendedConfig.pingValueColor;
+            return this.pingValueColor;
         case PING_200_AND_300_COLOR:
-            return ExtendedConfig.ping200And300Color;
+            return this.ping200And300Color;
         case PING_300_AND_500_COLOR:
-            return ExtendedConfig.ping300And500Color;
+            return this.ping300And500Color;
         case PING_MAX_500_COLOR:
-            return ExtendedConfig.pingMax500Color;
+            return this.pingMax500Color;
         case SERVER_IP_VALUE_COLOR:
-            return ExtendedConfig.serverIPValueColor;
+            return this.serverIPValueColor;
         case CPS_VALUE_COLOR:
-            return ExtendedConfig.cpsValueColor;
+            return this.cpsValueColor;
         case RCPS_VALUE_COLOR:
-            return ExtendedConfig.rcpsValueColor;
+            return this.rcpsValueColor;
         case SLIME_CHUNK_VALUE_COLOR:
-            return ExtendedConfig.slimeChunkValueColor;
+            return this.slimeChunkValueColor;
         case TOP_DONATOR_VALUE_COLOR:
-            return ExtendedConfig.topDonatorValueColor;
+            return this.topDonatorValueColor;
         case RECENT_DONATOR_VALUE_COLOR:
-            return ExtendedConfig.recentDonatorValueColor;
+            return this.recentDonatorValueColor;
         case TPS_VALUE_COLOR:
-            return ExtendedConfig.tpsValueColor;
+            return this.tpsValueColor;
         case REAL_TIME_HHMMSS_VALUE_COLOR:
-            return ExtendedConfig.realTimeHHMMSSValueColor;
+            return this.realTimeHHMMSSValueColor;
         case REAL_TIME_DDMMYY_VALUE_COLOR:
-            return ExtendedConfig.realTimeDDMMYYValueColor;
+            return this.realTimeDDMMYYValueColor;
         case GAME_TIME_VALUE_COLOR:
-            return ExtendedConfig.gameTimeValueColor;
+            return this.gameTimeValueColor;
         case GAME_WEATHER_VALUE_COLOR:
-            return ExtendedConfig.gameWeatherValueColor;
+            return this.gameWeatherValueColor;
         case MOON_PHASE_VALUE_COLOR:
-            return ExtendedConfig.moonPhaseValueColor;
+            return this.moonPhaseValueColor;
         case YTCHAT_VIEW_COUNT_VALUE_COLOR:
-            return ExtendedConfig.ytChatViewCountValueColor;
+            return this.ytChatViewCountValueColor;
 
         case KEYSTROKE_WASD_COLOR:
-            return ExtendedConfig.keystrokeWASDColor;
+            return this.keystrokeWASDColor;
         case KEYSTROKE_MOUSE_BUTTON_COLOR:
-            return ExtendedConfig.keystrokeMouseButtonColor;
+            return this.keystrokeMouseButtonColor;
         case KEYSTROKE_SPRINT_COLOR:
-            return ExtendedConfig.keystrokeSprintColor;
+            return this.keystrokeSprintColor;
         case KEYSTROKE_SNEAK_COLOR:
-            return ExtendedConfig.keystrokeSneakColor;
+            return this.keystrokeSneakColor;
         case KEYSTROKE_BLOCKING_COLOR:
-            return ExtendedConfig.keystrokeBlockingColor;
+            return this.keystrokeBlockingColor;
         case KEYSTROKE_CPS_COLOR:
-            return ExtendedConfig.keystrokeCPSColor;
+            return this.keystrokeCPSColor;
         case KEYSTROKE_RCPS_COLOR:
-            return ExtendedConfig.keystrokeRCPSColor;
+            return this.keystrokeRCPSColor;
         default:
             return "";
         }

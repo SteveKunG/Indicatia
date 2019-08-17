@@ -42,17 +42,17 @@ public class HUDInfo
     public static String getFPS()
     {
         int fps = Minecraft.getDebugFPS();
-        String color = ColorUtils.stringToRGB(ExtendedConfig.fpsValueColor).toColoredFont();
+        String color = ColorUtils.stringToRGB(ExtendedConfig.instance.fpsValueColor).toColoredFont();
 
         if (fps >= 26 && fps <= 49)
         {
-            color = ColorUtils.stringToRGB(ExtendedConfig.fps26And49Color).toColoredFont();
+            color = ColorUtils.stringToRGB(ExtendedConfig.instance.fps26And49Color).toColoredFont();
         }
         else if (fps <= 25)
         {
-            color = ColorUtils.stringToRGB(ExtendedConfig.fpsLow25Color).toColoredFont();
+            color = ColorUtils.stringToRGB(ExtendedConfig.instance.fpsLow25Color).toColoredFont();
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.fpsColor).toColoredFont() + "FPS: " + color + fps;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.fpsColor).toColoredFont() + "FPS: " + color + fps;
     }
 
     public static String getXYZ(Minecraft mc)
@@ -62,7 +62,7 @@ public class HUDInfo
         int y = pos.getY();
         int z = pos.getZ();
         String nether = mc.player.dimension == -1 ? "Nether " : "";
-        return ColorUtils.stringToRGB(ExtendedConfig.xyzColor).toColoredFont() + nether + "XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.xyzValueColor).toColoredFont() + x + " " + y + " " + z;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.xyzColor).toColoredFont() + nether + "XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.instance.xyzValueColor).toColoredFont() + x + " " + y + " " + z;
     }
 
     public static String getOverworldXYZFromNether(Minecraft mc)
@@ -71,7 +71,7 @@ public class HUDInfo
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        return ColorUtils.stringToRGB(ExtendedConfig.xyzColor).toColoredFont() + "Overworld XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.xyzValueColor).toColoredFont() + x * 8 + " " + y + " " + z * 8;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.xyzColor).toColoredFont() + "Overworld XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.instance.xyzValueColor).toColoredFont() + x * 8 + " " + y + " " + z * 8;
     }
 
     public static String getBiome(Minecraft mc)
@@ -84,7 +84,7 @@ public class HUDInfo
             if (!chunk.isEmpty())
             {
                 String biomeName = chunk.getBiome(pos, mc.world.getBiomeProvider()).getBiomeName().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-                return ColorUtils.stringToRGB(ExtendedConfig.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.biomeValueColor).toColoredFont() + biomeName;
+                return ColorUtils.stringToRGB(ExtendedConfig.instance.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.instance.biomeValueColor).toColoredFont() + biomeName;
             }
             else
             {
@@ -100,20 +100,20 @@ public class HUDInfo
     public static String getPing()
     {
         int responseTime = InfoUtils.INSTANCE.getPing();
-        return ColorUtils.stringToRGB(ExtendedConfig.pingColor).toColoredFont() + "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.pingColor).toColoredFont() + "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
     }
 
     public static String getPingToSecond()
     {
         double responseTime = InfoUtils.INSTANCE.getPing() / 1000D;
-        return ColorUtils.stringToRGB(ExtendedConfig.pingToSecondColor).toColoredFont() + "Delay: " + HUDInfo.getResponseTimeColor((int) (responseTime * 1000D)) + responseTime + "s";
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.pingToSecondColor).toColoredFont() + "Delay: " + HUDInfo.getResponseTimeColor((int) (responseTime * 1000D)) + responseTime + "s";
     }
 
     public static String getServerIP(Minecraft mc)
     {
-        String ip = ColorUtils.stringToRGB(ExtendedConfig.serverIPColor).toColoredFont() + "IP: " + "" + ColorUtils.stringToRGB(ExtendedConfig.serverIPValueColor).toColoredFont() + mc.getCurrentServerData().serverIP;
+        String ip = ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPColor).toColoredFont() + "IP: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPValueColor).toColoredFont() + mc.getCurrentServerData().serverIP;
 
-        if (ExtendedConfig.serverIPMCVersion)
+        if (ExtendedConfig.instance.serverIPMCVersion)
         {
             ip = ip + "/" + ForgeVersion.mcVersion;
         }
@@ -160,7 +160,7 @@ public class HUDInfo
         {
             return text;
         }
-        String name = ColorUtils.stringToRGB(ExtendedConfig.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.serverIPValueColor).toColoredFont() + realmsServer.getName();
+        String name = ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPColor).toColoredFont() + "Realms: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.serverIPValueColor).toColoredFont() + realmsServer.getName();
         return name;
     }
 
@@ -214,17 +214,17 @@ public class HUDInfo
             direction = "Unknown";
             break;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.directionColor).toColoredFont() + "Direction: " + ColorUtils.stringToRGB(ExtendedConfig.directionValueColor).toColoredFont() + direction;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.directionColor).toColoredFont() + "Direction: " + ColorUtils.stringToRGB(ExtendedConfig.instance.directionValueColor).toColoredFont() + direction;
     }
 
     public static String getCPS()
     {
-        return ColorUtils.stringToRGB(ExtendedConfig.cpsColor).toColoredFont() + "CPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.cpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getCPS();
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.cpsColor).toColoredFont() + "CPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.cpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getCPS();
     }
 
     public static String getRCPS()
     {
-        return ColorUtils.stringToRGB(ExtendedConfig.rcpsColor).toColoredFont() + "RCPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.rcpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getRCPS();
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.rcpsColor).toColoredFont() + "RCPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.instance.rcpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getRCPS();
     }
 
     public static String getCurrentTime()
@@ -233,8 +233,8 @@ public class HUDInfo
         boolean isThai = Calendar.getInstance().getTimeZone().getID().equals("Asia/Bangkok");
         String dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, isThai ? new Locale("th", "TH") : Locale.getDefault()).format(date);
         String timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, isThai ? new Locale("th", "TH") : Locale.getDefault()).format(date);
-        String currentTime = ColorUtils.stringToRGB(ExtendedConfig.realTimeDDMMYYValueColor).toColoredFont() + dateFormat + " " + ColorUtils.stringToRGB(ExtendedConfig.realTimeHHMMSSValueColor).toColoredFont() + timeFormat;
-        return ColorUtils.stringToRGB(ExtendedConfig.realTimeColor).toColoredFont() + "Time: " + currentTime;
+        String currentTime = ColorUtils.stringToRGB(ExtendedConfig.instance.realTimeDDMMYYValueColor).toColoredFont() + dateFormat + " " + ColorUtils.stringToRGB(ExtendedConfig.instance.realTimeHHMMSSValueColor).toColoredFont() + timeFormat;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.realTimeColor).toColoredFont() + "Time: " + currentTime;
     }
 
     public static String getCurrentGameTime(Minecraft mc)
@@ -254,16 +254,16 @@ public class HUDInfo
     public static String getGameWeather(Minecraft mc)
     {
         String weather = mc.world.isRaining() && !mc.world.isThundering() ? "Raining" : mc.world.isRaining() && mc.world.isThundering() ? "Thunder" : "";
-        return ColorUtils.stringToRGB(ExtendedConfig.gameWeatherColor).toColoredFont() + "Weather: " + ColorUtils.stringToRGB(ExtendedConfig.gameWeatherValueColor).toColoredFont() + weather;
+        return ColorUtils.stringToRGB(ExtendedConfig.instance.gameWeatherColor).toColoredFont() + "Weather: " + ColorUtils.stringToRGB(ExtendedConfig.instance.gameWeatherValueColor).toColoredFont() + weather;
     }
 
     public static void renderHorizontalEquippedItems(Minecraft mc)
     {
-        String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.equipmentOrdering);
+        String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.instance.equipmentOrdering);
         ScaledResolution res = new ScaledResolution(mc);
-        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
+        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.instance.equipmentPosition).equalsIgnoreCase("right");
         int baseXOffset = 2;
-        int baseYOffset = ExtendedConfig.armorHUDYOffset;
+        int baseYOffset = ExtendedConfig.instance.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
         List<HorizontalEquipment> element = new LinkedList<>();
@@ -324,15 +324,15 @@ public class HUDInfo
 
     public static void renderVerticalEquippedItems(Minecraft mc)
     {
-        String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.equipmentOrdering);
-        String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+        String ordering = EnumEquipment.Ordering.getById(ExtendedConfig.instance.equipmentOrdering);
+        String status = EnumEquipment.Status.getById(ExtendedConfig.instance.equipmentStatus);
         List<ItemStack> itemStackList = new LinkedList<>();
         List<String> itemStatusList = new LinkedList<>();
         List<String> arrowCountList = new LinkedList<>();
         ScaledResolution res = new ScaledResolution(mc);
-        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.equipmentPosition).equalsIgnoreCase("right");
+        boolean isRightSide = EnumEquipment.Position.getById(ExtendedConfig.instance.equipmentPosition).equalsIgnoreCase("right");
         int baseXOffset = isRightSide ? res.getScaledWidth() - 18 : 2;
-        int baseYOffset = ExtendedConfig.armorHUDYOffset;
+        int baseYOffset = ExtendedConfig.instance.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.player.inventory);
@@ -462,7 +462,7 @@ public class HUDInfo
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
                 float xOffset = isRightSide ? res.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
-                mc.fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+                mc.fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
             }
         }
 
@@ -475,7 +475,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - ColorUtils.unicodeFontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
+                ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, isRightSide ? res.getScaledWidth() - ColorUtils.unicodeFontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
@@ -493,7 +493,7 @@ public class HUDInfo
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
         int arrowCount = HUDInfo.getInventoryArrowCount(mc.player.inventory);
-        String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+        String status = EnumEquipment.Status.getById(ExtendedConfig.instance.equipmentStatus);
 
         for (int i = 2; i <= 3; i++)
         {
@@ -581,7 +581,7 @@ public class HUDInfo
             int stringWidth = mc.fontRenderer.getStringWidth(string);
             float xOffset = res.getScaledWidth() / 2 - 114 - stringWidth;
             int yOffset = res.getScaledHeight() - 16 * i - 36;
-            mc.fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+            mc.fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
         }
 
         // right durability/item count stuff
@@ -590,7 +590,7 @@ public class HUDInfo
             String string = rightItemStatusList.get(i);
             float xOffset = res.getScaledWidth() / 2 + 114;
             int yOffset = res.getScaledHeight() - 16 * i - 36;
-            mc.fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+            mc.fontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
         }
 
         // left arrow count stuff
@@ -604,7 +604,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+                ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
@@ -619,7 +619,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepth();
-                ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
+                ColorUtils.unicodeFontRenderer.drawString(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215, true);
                 GlStateManager.enableDepth();
             }
         }
@@ -627,14 +627,14 @@ public class HUDInfo
 
     public static void renderPotionHUD(Minecraft mc)
     {
-        boolean iconAndTime = EnumPotionStatus.Style.getById(ExtendedConfig.potionHUDStyle).equalsIgnoreCase("icon_and_time");
-        boolean right = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition).equalsIgnoreCase("right");
-        boolean showIcon = ExtendedConfig.potionHUDIcon;
-        String potionPos = EnumPotionStatus.Position.getById(ExtendedConfig.potionHUDPosition);
+        boolean iconAndTime = EnumPotionStatus.Style.getById(ExtendedConfig.instance.potionHUDStyle).equalsIgnoreCase("icon_and_time");
+        boolean right = EnumPotionStatus.Position.getById(ExtendedConfig.instance.potionHUDPosition).equalsIgnoreCase("right");
+        boolean showIcon = ExtendedConfig.instance.potionHUDIcon;
+        String potionPos = EnumPotionStatus.Position.getById(ExtendedConfig.instance.potionHUDPosition);
         ScaledResolution scaledRes = new ScaledResolution(mc);
-        int size = ExtendedConfig.maximumPotionDisplay;
-        int length = ExtendedConfig.potionLengthYOffset;
-        int lengthOverlap = ExtendedConfig.potionLengthYOffsetOverlap;
+        int size = ExtendedConfig.instance.maximumPotionDisplay;
+        int length = ExtendedConfig.instance.potionLengthYOffset;
+        int lengthOverlap = ExtendedConfig.instance.potionLengthYOffsetOverlap;
         Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
         int xPotion = 0;
         int yPotion = 0;
@@ -652,7 +652,7 @@ public class HUDInfo
         else
         {
             xPotion = right ? scaledRes.getScaledWidth() - 32 : -24;
-            yPotion = scaledRes.getScaledHeight() - 220 + ExtendedConfig.potionHUDYOffset + 90;
+            yPotion = scaledRes.getScaledHeight() - 220 + ExtendedConfig.instance.potionHUDYOffset + 90;
         }
 
         if (!collection.isEmpty())
@@ -718,25 +718,25 @@ public class HUDInfo
                 {
                     if (!iconAndTime)
                     {
-                        mc.fontRenderer.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                        mc.fontRenderer.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
                     }
-                    mc.fontRenderer.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                    mc.fontRenderer.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
                 }
                 else if (potionPos.equalsIgnoreCase("hotbar_right"))
                 {
                     if (!iconAndTime)
                     {
-                        mc.fontRenderer.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                        mc.fontRenderer.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
                     }
-                    mc.fontRenderer.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                    mc.fontRenderer.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
                 }
                 else
                 {
                     if (!iconAndTime)
                     {
-                        mc.fontRenderer.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                        mc.fontRenderer.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
                     }
-                    mc.fontRenderer.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
+                    mc.fontRenderer.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ExtendedConfig.instance.alternatePotionHUDTextColor ? potion.getLiquidColor() : 16777215, true);
                 }
                 yPotion -= length;
             }
@@ -745,7 +745,7 @@ public class HUDInfo
 
     static String getArmorDurabilityStatus(ItemStack itemStack)
     {
-        String status = EnumEquipment.Status.getById(ExtendedConfig.equipmentStatus);
+        String status = EnumEquipment.Status.getById(ExtendedConfig.instance.equipmentStatus);
 
         switch (status)
         {
@@ -770,19 +770,19 @@ public class HUDInfo
     {
         if (responseTime >= 200 && responseTime < 300)
         {
-            return ColorUtils.stringToRGB(ExtendedConfig.ping200And300Color).toColoredFont();
+            return ColorUtils.stringToRGB(ExtendedConfig.instance.ping200And300Color).toColoredFont();
         }
         else if (responseTime >= 300 && responseTime < 500)
         {
-            return ColorUtils.stringToRGB(ExtendedConfig.ping300And500Color).toColoredFont();
+            return ColorUtils.stringToRGB(ExtendedConfig.instance.ping300And500Color).toColoredFont();
         }
         else if (responseTime >= 500)
         {
-            return ColorUtils.stringToRGB(ExtendedConfig.pingMax500Color).toColoredFont();
+            return ColorUtils.stringToRGB(ExtendedConfig.instance.pingMax500Color).toColoredFont();
         }
         else
         {
-            return ColorUtils.stringToRGB(ExtendedConfig.pingValueColor).toColoredFont();
+            return ColorUtils.stringToRGB(ExtendedConfig.instance.pingValueColor).toColoredFont();
         }
     }
 
