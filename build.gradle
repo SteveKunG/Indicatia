@@ -82,9 +82,9 @@ curseforge {
     apiKey = api.indicatia
     project {
         id = "272146"
-        changelog = ""
+        changelog = "Change Log"
         changelogType = "markdown"
-        releaseType = "beta"
+        releaseType = "release"
         addGameVersion mcVersion
 
         mainArtifact(file("build/libs/Indicatia-" + mcVersion + "-" + version + ".jar")) {
