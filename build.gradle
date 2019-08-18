@@ -6,31 +6,19 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.3.0"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
         classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
     }
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.3.0"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
-def api = new groovy.json.JsonSlurper().parseText(file("${api_token_path}").text)
-def keystore = new groovy.json.JsonSlurper().parseText(file("${keystore_path}").text)
 def mcVersion = project.mc_version
 
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "org.spongepowered.mixin"
-
-sourceSets.main {
-    java {
-        srcDirs = ["src/main/java", "dependencies/main/java"]
-        exclude "stevekung/mods/stevekunglib/mixin/**"
-    }
-    resources {
-        srcDirs = ["src/main/resources", "dependencies/main/resources"]
-    }
-}
 
 version = project.version
 group = "stevekung.mods.indicatia"
@@ -43,7 +31,7 @@ minecraft {
     mappings = "${mcp_mapping}"
     makeObfSourceJar = false
 
-    replace "@FINGERPRINT@", keystore.sha1
+    replace "@FINGERPRINT@", project.sha1
     replaceIn "IndicatiaMod.java"
 }
 
@@ -53,6 +41,7 @@ configurations {
 }
 
 dependencies {
+    deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.3:deobf"
     embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
 }
 
@@ -65,6 +54,10 @@ repositories {
     maven {
         url = "http://repo.spongepowered.org/maven/"
     }
+    // Curse Forge
+    maven {
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
 }
 
 sourceSets {
@@ -73,89 +66,76 @@ sourceSets {
     }
 }
 
-ext.finalJar = "build/libs/Indicatia-" + mcVersion + "-" + version + ".jar"
-ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ["stevekung/mods/indicatia/**", "assets/indicatia/**", "pack.mcmeta", "META-INF/indicatia_at.cfg", "mixins.indicatia.json", "mixins.indicatia.refmap.json"]
-ext.apiFiles = ["micdoodle8/**", "stevekung/mods/stevekunglib/**", "mixins.stevekung's_lib.json"]
+jar {
+    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+    }
+    manifest {
+        attributes("FMLAT": "indicatia_at.cfg",
+                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                   "MixinConfigs": "mixins.indicatia.json",
+                   "ForceLoadAsMod": "true"
+        )
+    }
+    baseName = "Indicatia-" + mcVersion
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.api.output
+    from sourceSets.main.allSource
+	baseName = "Indicatia-" + mcVersion
+    classifier = "sources"
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.api.output
+    from sourceSets.main.output
+    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+    }
+    manifest {
+        attributes("FMLAT": "indicatia_at.cfg",
+                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                   "MixinConfigs": "mixins.indicatia.json",
+                   "ForceLoadAsMod": "true"
+        )
+    }
+    baseName = "Indicatia-" + mcVersion
+    classifier = "deobf"
+}
+
+artifacts {
+    archives sourcesJar
+    archives deobfJar
+}
 
 curseforge {
-    apiKey = api.indicatia
+    apiKey = project.indicatia_api
     project {
         id = "272146"
         changelog = "Change Log"
-        changelogType = "markdown"
+        changelogType = "text"
         releaseType = "release"
         addGameVersion mcVersion
 
-        mainArtifact(file("build/libs/Indicatia-" + mcVersion + "-" + version + ".jar")) {
+        mainArtifact(jar) {
             displayName = "Indicatia-" + mcVersion + "-" + version
             relations {
                 requiredLibrary "stevekungs-lib"
             }
         }
+        addArtifact sourcesJar
+        addArtifact deobfJar
     }
 }
 
-// signing jar first
-task buildJar(type: SignJar, dependsOn: "processJar") {
-    keyStore = keystore.keystore_path
-    alias = keystore.alias
-    storePass = keystore.keystore_pass
-    keyPass = keystore.keystore_pass
-    inputFile = project.ext.finalJar
-    outputFile = project.ext.finalJar
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    keyStore = project.keystore_path
+    alias = project.alias
+    storePass = project.keystore_pass
+    keyPass = project.keystore_pass
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
 }
 
-// processing jar
-task processJar(type: Jar, dependsOn: "rePackAllJar") {
-    outputs.upToDateWhen { false }
-    baseName = "Indicatia-" + mcVersion
-
-    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "LICENSE.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
-    }
-
-    excludes.addAll(project.ext.apiFiles)
-
-    from(zipTree(project.ext.coreJar)) {
-        includes.addAll(project.ext.coreFiles)
-    }
-
-    manifest {
-        attributes("FMLAT": "indicatia_at.cfg",
-                   "FMLCorePluginContainsFMLMod": "true",
-                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-                   "MixinConfigs": "mixins.indicatia.json",
-                   "ForceLoadAsMod": "true"
-        )
-    }
-}
-
-task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {
-    from "temporary"
-}
-
-task copyModFiles(type: Copy, dependsOn: "reobfJar") {
-    from(zipTree(project.ext.coreJar))
-    into "temporary"
-}
-
-task deleteTemporary(type: Delete) {
-    delete "temporary"
-}
-
-task buildDeobfJar(type: Jar) {
-    from sourceSets.main.output
-    excludes.addAll(project.ext.apiFiles)
-    classifier = "deobf"
-    manifest {
-        attributes("FMLAT": "indicatia_at.cfg",
-                   "FMLCorePluginContainsFMLMod": "true",
-                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-                   "MixinConfigs": "mixins.indicatia.json",
-                   "ForceLoadAsMod": "true"
-        )
-    }
-}
-
-buildJar.finalizedBy(deleteTemporary)
+build.dependsOn signJar

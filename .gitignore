@@ -3,13 +3,13 @@
 .gradle
 bin
 build
-dependencies
 eclipse
 run
 
 # file
+!gradlew.bat
+*.bat
 *.launch
 .metadata
 .classpath
 .project
-src/main/resources/mixins.stevekung's_lib.json
