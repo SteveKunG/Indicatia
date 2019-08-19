@@ -81,14 +81,12 @@ jar {
 }
 
 task sourcesJar(type: Jar) {
-    from sourceSets.api.output
     from sourceSets.main.allSource
 	baseName = "Indicatia-" + mcVersion
     classifier = "sources"
 }
 
 task deobfJar(type: Jar) {
-    from sourceSets.api.output
     from sourceSets.main.output
     from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
         exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
