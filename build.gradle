@@ -41,7 +41,7 @@ configurations {
 }
 
 dependencies {
-    deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.3:deobf"
+    deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.4:deobf"
     embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
 }
 
