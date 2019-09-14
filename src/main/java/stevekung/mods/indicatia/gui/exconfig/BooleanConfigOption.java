@@ -24,38 +24,38 @@ public class BooleanConfigOption extends ExtendedConfigOption
     }
 
     @Override
-    public Widget createOptionButton(ExtendedConfig config, int x, int y, int width)
+    public Widget createOptionButton(int x, int y, int width)
     {
-        return new Button(x, y, width, 20, this.getDisplayString(config), button ->
+        return new Button(x, y, width, 20, this.getDisplayString(), button ->
         {
-            this.set(config);
-            button.setMessage(this.getDisplayString(config));
+            this.set();
+            button.setMessage(this.getDisplayString());
         });
     }
 
-    public void set(ExtendedConfig config, String value)
+    public void set(String value)
     {
-        this.set(config, "true".equals(value));
+        this.set("true".equals(value));
     }
 
-    public void set(ExtendedConfig config)
+    public void set()
     {
-        this.set(config, !this.get(config));
-        config.save();
+        this.set(!this.get());
+        ExtendedConfig.INSTANCE.save();
     }
 
-    private void set(ExtendedConfig config, boolean value)
+    private void set(boolean value)
     {
-        this.setter.accept(config, value);
+        this.setter.accept(ExtendedConfig.INSTANCE, value);
     }
 
-    public boolean get(ExtendedConfig config)
+    public boolean get()
     {
-        return this.getter.test(config);
+        return this.getter.test(ExtendedConfig.INSTANCE);
     }
 
-    public String getDisplayString(ExtendedConfig config)
+    public String getDisplayString()
     {
-        return this.getDisplayPrefix() + (this.get(config) ? TextFormatting.GREEN + "true" : TextFormatting.RED + "false");
+        return this.getDisplayPrefix() + (this.get() ? TextFormatting.GREEN + "true" : TextFormatting.RED + "false");
     }
 }

@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -14,7 +15,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatia.command.arguments.ProfileNameArgumentType;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class ProfileCommand
 {
@@ -38,7 +38,7 @@ public class ProfileCommand
             return 0;
         }
 
-        for (File file : ExtendedConfig.userDir.listFiles())
+        for (File file : ExtendedConfig.USER_DIR.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -54,14 +54,14 @@ public class ProfileCommand
         else
         {
             source.sendFeedback(LangUtils.translateComponent("commands.inprofile.created", name), false);
-            ExtendedConfig.instance.save(name);
+            ExtendedConfig.INSTANCE.save(name);
             return 1;
         }
     }
 
     private static int loadProfile(CommandSource source, String name)
     {
-        for (File file : ExtendedConfig.userDir.listFiles())
+        for (File file : ExtendedConfig.USER_DIR.listFiles())
         {
             if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
             {
@@ -71,9 +71,9 @@ public class ProfileCommand
         }
         ExtendedConfig.setCurrentProfile(name);
         ExtendedConfig.saveProfileFile(name);
-        ExtendedConfig.instance.load();
+        ExtendedConfig.INSTANCE.load();
         source.sendFeedback(LangUtils.translateComponent("commands.inprofile.load", name), false);
-        ExtendedConfig.instance.save(name); // save current settings
+        ExtendedConfig.INSTANCE.save(name); // save current settings
         return 1;
     }
 
@@ -81,7 +81,7 @@ public class ProfileCommand
     {
         boolean exist = false;
 
-        for (File file : ExtendedConfig.userDir.listFiles())
+        for (File file : ExtendedConfig.USER_DIR.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -91,7 +91,7 @@ public class ProfileCommand
 
         if (exist)
         {
-            ExtendedConfig.instance.save(name);
+            ExtendedConfig.INSTANCE.save(name);
             source.sendFeedback(LangUtils.translateComponent("commands.inprofile.save", name), false);
             return 1;
         }
@@ -112,7 +112,7 @@ public class ProfileCommand
 
         boolean exist = false;
 
-        for (File file : ExtendedConfig.userDir.listFiles())
+        for (File file : ExtendedConfig.USER_DIR.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -122,10 +122,10 @@ public class ProfileCommand
 
         if (exist)
         {
-            File toDel = new File(ExtendedConfig.userDir, name + ".dat");
+            File toDel = new File(ExtendedConfig.USER_DIR, name + ".dat");
             toDel.delete();
             ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.instance.load();
+            ExtendedConfig.INSTANCE.load();
             source.sendFeedback(LangUtils.translateComponent("commands.inprofile.remove", name), false);
             return 1;
         }
@@ -138,7 +138,7 @@ public class ProfileCommand
 
     private static int getProfileList(CommandSource source)
     {
-        Collection<File> collection = new ArrayList<>(Arrays.asList(ExtendedConfig.userDir.listFiles()));
+        Collection<File> collection = new ArrayList<>(Arrays.asList(ExtendedConfig.USER_DIR.listFiles()));
 
         if (collection.isEmpty())
         {
@@ -165,7 +165,7 @@ public class ProfileCommand
             {
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
-                boolean current = realName.equals(ExtendedConfig.currentProfile);
+                boolean current = realName.equals(ExtendedConfig.CURRENT_PROFILE);
                 source.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translate("commands.inprofile.current_profile") : ""), false);
             });
             return 1;

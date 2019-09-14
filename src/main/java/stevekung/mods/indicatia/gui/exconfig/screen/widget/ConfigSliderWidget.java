@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.gui.exconfig.screen.widget;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
@@ -8,24 +9,15 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ConfigSliderWidget extends Widget
 {
-    protected final ExtendedConfig options;
     protected double value;
 
     protected ConfigSliderWidget(int x, int y, int width, int height, double value)
     {
-        this(ExtendedConfig.instance, x, y, width, height, value);
-    }
-
-    protected ConfigSliderWidget(ExtendedConfig config, int x, int y, int width, int height, double value)
-    {
         super(x, y, width, height, "");
-        this.options = config;
         this.value = value;
     }
 

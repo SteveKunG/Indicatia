@@ -14,30 +14,21 @@ public class IndicatiaConfig
     {
         // General
         public final ForgeConfigSpec.IntValue afkMessageTime;
-        public final ForgeConfigSpec.IntValue autoGGDelay;
-        public final ForgeConfigSpec.ConfigValue<String> autoGGMessage;
         public final ForgeConfigSpec.EnumValue<DisconnectMode> confirmDisconnectMode;
         public final ForgeConfigSpec.BooleanValue enableRenderInfo;
         public final ForgeConfigSpec.BooleanValue enableBlockhitAnimation;
         public final ForgeConfigSpec.BooleanValue enableAdditionalBlockhitAnimation;
-        public final ForgeConfigSpec.BooleanValue enableOldFishingRodRender;
         public final ForgeConfigSpec.BooleanValue enableOldArmorRender;
         public final ForgeConfigSpec.BooleanValue enableVersionChecker;
         public final ForgeConfigSpec.BooleanValue enableAFKMessage;
         public final ForgeConfigSpec.BooleanValue enableCustomPlayerList;
         public final ForgeConfigSpec.BooleanValue enableCustomServerSelectionGui;
         public final ForgeConfigSpec.BooleanValue enableConfirmDisconnectButton;
-        public final ForgeConfigSpec.BooleanValue enableFixChatDepthRender;
         public final ForgeConfigSpec.BooleanValue enableVanillaPotionHUD;
         public final ForgeConfigSpec.BooleanValue enableBossHealthBarRender;
         public final ForgeConfigSpec.BooleanValue enableRenderBossHealthStatus;
         public final ForgeConfigSpec.BooleanValue enableSidebarScoreboardRender;
         public final ForgeConfigSpec.BooleanValue enableCustomMovementHandler;
-        public final ForgeConfigSpec.BooleanValue enableCustomCape;
-
-        // Donation
-        public final ForgeConfigSpec.EnumValue<DonatorMessagePos> donatorMessagePosition;
-        public final ForgeConfigSpec.IntValue readFileInterval;
 
         General(ForgeConfigSpec.Builder builder)
         {
@@ -48,16 +39,6 @@ public class IndicatiaConfig
                     .comment("")
                     .translation("indicatia.configgui.afk_message_time")
                     .defineInRange("afkMessageTime", 5, 1, 60);
-
-            this.autoGGDelay = builder
-                    .comment("")
-                    .translation("indicatia.configgui.auto_gg_delay")
-                    .defineInRange("autoGGDelay", 20, 20, 100);
-
-            this.autoGGMessage = builder
-                    .comment("This message will be printed to in-game chat when game is ending or finished. Disable by leave it blank.")
-                    .translation("indicatia.configgui.auto_gg_message")
-                    .define("autoGGMessage", "");
 
             this.confirmDisconnectMode = builder
                     .comment("")
@@ -78,12 +59,6 @@ public class IndicatiaConfig
                     .comment("When Eating/Blocking/Bowing/Drinking and use left click on the block, your hand will be swing just like in 1.7. (Not breaking block)")
                     .translation("indicatia.configgui.enable_additional_blockhit_animation")
                     .define("enableAdditionalBlockhitAnimation", false);
-
-            this.enableOldFishingRodRender = builder
-                    .comment("Replacing vanilla fishing line and fishing rod model rendering.")
-                    .translation("indicatia.configgui.enable_old_fishing_rod_render")
-                    .worldRestart() //TODO MC Restart
-                    .define("enableOldFishingRodRender", false);
 
             this.enableOldArmorRender = builder
                     .comment("This will using old armor hurt effect render. (red overlay)")
@@ -115,11 +90,6 @@ public class IndicatiaConfig
                     .translation("indicatia.configgui.enable_confirm_disconnect_button")
                     .define("enableConfirmDisconnectButton", false);
 
-            this.enableFixChatDepthRender = builder
-                    .comment("Fix chat rendering if equipment icons is over Chat GUI.")
-                    .translation("indicatia.configgui.enable_fix_chat_depth_render")
-                    .define("enableFixChatDepthRender", true);
-
             this.enableVanillaPotionHUD = builder
                     .comment("Show Vanilla Potion HUD in-game.")
                     .translation("indicatia.configgui.enable_vanilla_potion_hud")
@@ -145,26 +115,6 @@ public class IndicatiaConfig
                     .translation("indicatia.configgui.enable_custom_movement_handler")
                     .define("enableCustomMovementHandler", true);
 
-            this.enableCustomCape = builder
-                    .comment("Allow to use Custom Cape by upload your Custom Cape texture to any website.")
-                    .translation("indicatia.configgui.enable_custom_cape")
-                    .define("enableCustomCape", false);
-
-            builder.pop();
-
-            builder.comment("Donation settings")
-            .push("donation");
-
-            this.donatorMessagePosition = builder
-                    .comment("")
-                    .translation("indicatia.configgui.donator_message_position")
-                    .defineEnum("donatorMessagePosition", DonatorMessagePos.RIGHT);
-
-            this.readFileInterval = builder
-                    .comment("")
-                    .translation("indicatia.configgui.read_file_interval")
-                    .defineInRange("readFileInterval", 200, 200, 1200);
-
             builder.pop();
         }
     }
@@ -172,11 +122,6 @@ public class IndicatiaConfig
     public enum DisconnectMode
     {
         GUI, CLICK
-    }
-
-    public enum DonatorMessagePos
-    {
-        LEFT, RIGHT
     }
 
     @SubscribeEvent

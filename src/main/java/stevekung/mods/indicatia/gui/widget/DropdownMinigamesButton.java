@@ -3,6 +3,7 @@ package stevekung.mods.indicatia.gui.widget;
 import java.util.List;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -11,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class DropdownMinigamesButton extends Button
@@ -74,9 +74,9 @@ public class DropdownMinigamesButton extends Button
                 AbstractGui.fill(this.x + 1, this.y + this.height * hoverPos + 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32BitColor(255, 180, 180, 180));
             }
 
-            for (int i = 0; i + ExtendedConfig.instance.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
+            for (int i = 0; i + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
             {
-                String minigames = this.minigameLists.get(i + ExtendedConfig.instance.hypixelMinigameScrollPos);
+                String minigames = this.minigameLists.get(i + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos);
 
                 if (minigames != null)
                 {
@@ -115,7 +115,7 @@ public class DropdownMinigamesButton extends Button
         {
             if (this.active && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength)
             {
-                double optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.instance.hypixelMinigameScrollPos;
+                double optionClicked = (mouseY - this.y) / this.height + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos;
                 this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
@@ -132,16 +132,16 @@ public class DropdownMinigamesButton extends Button
 
     public void scroll(double amount)
     {
-        ExtendedConfig.instance.hypixelMinigameScrollPos += amount;
+        ExtendedConfig.INSTANCE.hypixelMinigameScrollPos += amount;
         int i = this.minigameLists.size();
 
-        if (ExtendedConfig.instance.hypixelMinigameScrollPos > i - this.displayLength)
+        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength)
         {
-            ExtendedConfig.instance.hypixelMinigameScrollPos = i - this.displayLength;
+            ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = i - this.displayLength;
         }
-        if (ExtendedConfig.instance.hypixelMinigameScrollPos <= 0)
+        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)
         {
-            ExtendedConfig.instance.hypixelMinigameScrollPos = 0;
+            ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
         }
     }
 

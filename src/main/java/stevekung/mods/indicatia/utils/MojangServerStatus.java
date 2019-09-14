@@ -9,10 +9,10 @@ public enum MojangServerStatus
     OFFLINE("Offline", TextFormatting.DARK_RED),
     UNKNOWN("Unknown", TextFormatting.RED);
 
-    private String status;
-    private TextFormatting color;
+    private final String status;
+    private final TextFormatting color;
 
-    MojangServerStatus(String status, TextFormatting color)
+    private MojangServerStatus(String status, TextFormatting color)
     {
         this.status = status;
         this.color = color;

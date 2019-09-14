@@ -2,35 +2,30 @@ package stevekung.mods.indicatia.config;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
+
+import com.stevekung.stevekungslib.utils.GameProfileUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.ListNBT;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.exconfig.BooleanConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.DoubleConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.StringConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.TextFieldConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
-import stevekung.mods.indicatia.utils.AutoLogin;
-import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatia.utils.HideNameData;
-import stevekung.mods.stevekungslib.utils.GameProfileUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
-import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 public class ExtendedConfig
 {
-    public static ExtendedConfig instance = new ExtendedConfig();
-    public static final AutoLogin loginData = new AutoLogin();
-    private static final String defaultWhite = "255,255,255";
-    public static final File indicatiaDir = new File(Minecraft.getInstance().gameDir, "indicatia");
-    public static final File userDir = new File(indicatiaDir, GameProfileUtils.getUUID().toString());
-    public static final File defaultConfig = new File(userDir, "default.dat");
-    public static String currentProfile = "";
-    private static File file;
+    public static ExtendedConfig INSTANCE = new ExtendedConfig();
+    private static final String WHITE = "255,255,255";
+    public static final File INDICATIA_DIR = new File(Minecraft.getInstance().gameDir, "indicatia");
+    public static final File USER_DIR = new File(ExtendedConfig.INDICATIA_DIR, GameProfileUtils.getUUID().toString());
+    public static final File DEFAULT_CONFIG_FILE = new File(ExtendedConfig.USER_DIR, "default.dat");
+    public static String CURRENT_PROFILE = "";
+    private static File PROFILE_FILE;
 
     // Render Info
     public boolean fps = true;
@@ -43,10 +38,6 @@ public class ExtendedConfig
     public boolean serverIPMCVersion = false;
     public boolean equipmentHUD = false;
     public boolean potionHUD = false;
-    public boolean keystroke = false;
-    public boolean keystrokeMouse = true;
-    public boolean keystrokeSprintSneak = true;
-    public boolean keystrokeBlocking = true;
     public boolean cps = false;
     public boolean rcps = false;
     public boolean slimeChunkFinder = false;
@@ -64,14 +55,13 @@ public class ExtendedConfig
     // Main
     public boolean swapRenderInfo = false;
     public HealthStatusMode healthStatusMode = HealthStatusMode.DISABLED;
-    public KeystrokePosition keystrokePosition = KeystrokePosition.RIGHT;
     public Equipments.Ordering equipmentOrdering = Equipments.Ordering.DEFAULT;
     public Equipments.Direction equipmentDirection = Equipments.Direction.VERTICAL;
     public Equipments.Status equipmentStatus = Equipments.Status.DAMAGE_AND_MAX_DAMAGE;
     public Equipments.Position equipmentPosition = Equipments.Position.HOTBAR;
     public StatusEffects.Style potionHUDStyle = StatusEffects.Style.DEFAULT;
     public StatusEffects.Position potionHUDPosition = StatusEffects.Position.LEFT;
-    public CPSPosition cpsPosition = CPSPosition.KEYSTROKE;
+    public CPSPosition cpsPosition = CPSPosition.CUSTOM;
     public double cpsOpacity = 50.0D;
 
     // Offset
@@ -83,60 +73,60 @@ public class ExtendedConfig
     public int potionLengthYOffsetOverlap = 45;
 
     // Custom Color
-    public String fpsColor = defaultWhite;
-    public String xyzColor = defaultWhite;
-    public String biomeColor = defaultWhite;
-    public String directionColor = defaultWhite;
-    public String pingColor = defaultWhite;
-    public String pingToSecondColor = defaultWhite;
-    public String serverIPColor = defaultWhite;
-    public String equipmentStatusColor = defaultWhite;
-    public String arrowCountColor = defaultWhite;
-    public String cpsColor = defaultWhite;
-    public String rcpsColor = defaultWhite;
-    public String slimeChunkColor = defaultWhite;
-    public String topDonatorNameColor = defaultWhite;
-    public String recentDonatorNameColor = defaultWhite;
-    public String tpsColor = defaultWhite;
-    public String realTimeColor = defaultWhite;
-    public String gameTimeColor = defaultWhite;
-    public String gameWeatherColor = defaultWhite;
-    public String moonPhaseColor = defaultWhite;
-    public String ytChatViewCountColor = defaultWhite;
+    public String fpsColor = WHITE;
+    public String xyzColor = WHITE;
+    public String biomeColor = WHITE;
+    public String directionColor = WHITE;
+    public String pingColor = WHITE;
+    public String pingToSecondColor = WHITE;
+    public String serverIPColor = WHITE;
+    public String equipmentStatusColor = WHITE;
+    public String arrowCountColor = WHITE;
+    public String cpsColor = WHITE;
+    public String rcpsColor = WHITE;
+    public String slimeChunkColor = WHITE;
+    public String topDonatorNameColor = WHITE;
+    public String recentDonatorNameColor = WHITE;
+    public String tpsColor = WHITE;
+    public String realTimeColor = WHITE;
+    public String gameTimeColor = WHITE;
+    public String gameWeatherColor = WHITE;
+    public String moonPhaseColor = WHITE;
+    public String ytChatViewCountColor = WHITE;
 
     // Custom Color : Value
     public String fpsValueColor = "85,255,85";
     public String fps26And49Color = "255,255,85";
     public String fpsLow25Color = "255,85,85";
-    public String xyzValueColor = defaultWhite;
-    public String directionValueColor = defaultWhite;
-    public String biomeValueColor = defaultWhite;
+    public String xyzValueColor = WHITE;
+    public String directionValueColor = WHITE;
+    public String biomeValueColor = WHITE;
     public String pingValueColor = "85,255,85";
     public String ping200And300Color = "255,255,85";
     public String ping300And500Color = "255,85,85";
     public String pingMax500Color = "170,0,0";
-    public String serverIPValueColor = defaultWhite;
-    public String cpsValueColor = defaultWhite;
-    public String rcpsValueColor = defaultWhite;
-    public String slimeChunkValueColor = defaultWhite;
-    public String topDonatorValueColor = defaultWhite;
-    public String recentDonatorValueColor = defaultWhite;
-    public String tpsValueColor = defaultWhite;
-    public String realTimeHHMMSSValueColor = defaultWhite;
-    public String realTimeDDMMYYValueColor = defaultWhite;
-    public String gameTimeValueColor = defaultWhite;
-    public String gameWeatherValueColor = defaultWhite;
-    public String moonPhaseValueColor = defaultWhite;
-    public String ytChatViewCountValueColor = defaultWhite;
+    public String serverIPValueColor = WHITE;
+    public String cpsValueColor = WHITE;
+    public String rcpsValueColor = WHITE;
+    public String slimeChunkValueColor = WHITE;
+    public String topDonatorValueColor = WHITE;
+    public String recentDonatorValueColor = WHITE;
+    public String tpsValueColor = WHITE;
+    public String realTimeHHMMSSValueColor = WHITE;
+    public String realTimeDDMMYYValueColor = WHITE;
+    public String gameTimeValueColor = WHITE;
+    public String gameWeatherValueColor = WHITE;
+    public String moonPhaseValueColor = WHITE;
+    public String ytChatViewCountValueColor = WHITE;
 
     // Custom Color : Keystroke
-    public String keystrokeWASDColor = defaultWhite;
-    public String keystrokeMouseButtonColor = defaultWhite;
-    public String keystrokeSprintColor = defaultWhite;
-    public String keystrokeSneakColor = defaultWhite;
-    public String keystrokeBlockingColor = defaultWhite;
-    public String keystrokeCPSColor = defaultWhite;
-    public String keystrokeRCPSColor = defaultWhite;
+    public String keystrokeWASDColor = WHITE;
+    public String keystrokeMouseButtonColor = WHITE;
+    public String keystrokeSprintColor = WHITE;
+    public String keystrokeSneakColor = WHITE;
+    public String keystrokeBlockingColor = WHITE;
+    public String keystrokeCPSColor = WHITE;
+    public String keystrokeRCPSColor = WHITE;
     public boolean keystrokeWASDRainbow = false;
     public boolean keystrokeMouseButtonRainbow = false;
     public boolean keystrokeSprintRainbow = false;
@@ -152,11 +142,6 @@ public class ExtendedConfig
     public int cpsCustomXOffset = 3;
     public int cpsCustomYOffset = 2;
     public long slimeChunkSeed = 0L;
-    public String topDonatorFilePath = "";
-    public String recentDonatorFilePath = "";
-    public String topDonatorText = "";
-    public String recentDonatorText = "";
-    public String realmsMessage = "";
 
     // Hypixel
     public boolean rightClickToAddParty = false;
@@ -164,16 +149,15 @@ public class ExtendedConfig
     public int selectedHypixelMinigame = 0;
     public int hypixelMinigameScrollPos = 0;
 
-    public static final DoubleConfigOption CPS_OPACITY = new DoubleConfigOption("cps_opacity", 0.0D, 100.0D, 1.0F, config -> config.cpsOpacity, (config, value) -> config.cpsOpacity = value, (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get(config)));
-    public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
-    public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
-    public static final DoubleConfigOption KEYSTROKE_Y = new DoubleConfigOption("keystroke_y", -512.0D, 512.0D, 1.0F, config -> (double)config.keystrokeYOffset, (config, value) -> config.keystrokeYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
-    public static final DoubleConfigOption MAXIMUM_POTION_DISPLAY = new DoubleConfigOption("maximum_potion_display", 2.0D, 8.0D, 0.0F, config -> (double)config.maximumPotionDisplay, (config, value) -> config.maximumPotionDisplay = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
-    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET = new DoubleConfigOption("potion_length_y_offset", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffset, (config, value) -> config.potionLengthYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
-    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get(config));
+    public static final DoubleConfigOption CPS_OPACITY = new DoubleConfigOption("cps_opacity", 0.0D, 100.0D, 1.0F, config -> config.cpsOpacity, (config, value) -> config.cpsOpacity = value, (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get()));
+    public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
+    public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
+    public static final DoubleConfigOption MAXIMUM_POTION_DISPLAY = new DoubleConfigOption("maximum_potion_display", 2.0D, 8.0D, 0.0F, config -> (double)config.maximumPotionDisplay, (config, value) -> config.maximumPotionDisplay = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
+    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET = new DoubleConfigOption("potion_length_y_offset", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffset, (config, value) -> config.potionLengthYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
+    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
 
 
-    public static final BooleanConfigOption PREVIEW = new BooleanConfigOption("preview", config -> ExtendedConfigScreen.preview, (config, value) -> ExtendedConfigScreen.preview = value);
+    public static final BooleanConfigOption PREVIEW = new BooleanConfigOption("preview", config -> ExtendedConfigScreen.PREVIEW, (config, value) -> ExtendedConfigScreen.PREVIEW = value);
     public static final BooleanConfigOption SWAP_INFO_POS = new BooleanConfigOption("swap_info_pos", config -> config.swapRenderInfo, (config, value) -> config.swapRenderInfo = value);
     public static final BooleanConfigOption FPS = new BooleanConfigOption("fps", config -> config.fps, (config, value) -> config.fps = value);
     public static final BooleanConfigOption XYZ = new BooleanConfigOption("xyz", config -> config.xyz, (config, value) -> config.xyz = value);
@@ -185,10 +169,6 @@ public class ExtendedConfig
     public static final BooleanConfigOption SERVER_IP_MC = new BooleanConfigOption("server_ip_mc", config -> config.serverIPMCVersion, (config, value) -> config.serverIPMCVersion = value);
     public static final BooleanConfigOption EQUIPMENT_HUD = new BooleanConfigOption("equipment_hud", config -> config.equipmentHUD, (config, value) -> config.equipmentHUD = value);
     public static final BooleanConfigOption POTION_HUD = new BooleanConfigOption("potion_hud", config -> config.potionHUD, (config, value) -> config.potionHUD = value);
-    public static final BooleanConfigOption KEYSTROKE = new BooleanConfigOption("keystroke", config -> config.keystroke, (config, value) -> config.keystroke = value);
-    public static final BooleanConfigOption KEYSTROKE_LRMB = new BooleanConfigOption("keystroke_lrmb", config -> config.keystrokeMouse, (config, value) -> config.keystrokeMouse = value);
-    public static final BooleanConfigOption KEYSTROKE_SS = new BooleanConfigOption("keystroke_ss", config -> config.keystrokeSprintSneak, (config, value) -> config.keystrokeSprintSneak = value);
-    public static final BooleanConfigOption KEYSTROKE_BLOCKING = new BooleanConfigOption("keystroke_blocking", config -> config.keystrokeBlocking, (config, value) -> config.keystrokeBlocking = value);
     public static final BooleanConfigOption CPS = new BooleanConfigOption("cps", config -> config.cps, (config, value) -> config.cps = value);
     public static final BooleanConfigOption RCPS = new BooleanConfigOption("rcps", config -> config.rcps, (config, value) -> config.rcps = value);
     public static final BooleanConfigOption SLIME_CHUNK = new BooleanConfigOption("slime_chunk", config -> config.slimeChunkFinder, (config, value) -> config.slimeChunkFinder = value);
@@ -202,20 +182,10 @@ public class ExtendedConfig
     public static final BooleanConfigOption ALTERNATE_POTION_COLOR = new BooleanConfigOption("alternate_potion_color", config -> config.alternatePotionHUDTextColor, (config, value) -> config.alternatePotionHUDTextColor = value);
 
 
-    public static final BooleanConfigOption KEYSTROKE_WASD_RAINBOW = new BooleanConfigOption("keystroke_wasd_rainbow", config -> config.keystrokeWASDRainbow, (config, value) -> config.keystrokeWASDRainbow = value);
-    public static final BooleanConfigOption KEYSTROKE_MOUSE_BUTTON_RAINBOW = new BooleanConfigOption("keystroke_mouse_button_rainbow", config -> config.keystrokeMouseButtonRainbow, (config, value) -> config.keystrokeMouseButtonRainbow = value);
-    public static final BooleanConfigOption KEYSTROKE_SPRINT_RAINBOW = new BooleanConfigOption("keystroke_sprint_rainbow", config -> config.keystrokeSprintRainbow, (config, value) -> config.keystrokeSprintRainbow = value);
-    public static final BooleanConfigOption KEYSTROKE_SNEAK_RAINBOW = new BooleanConfigOption("keystroke_sneak_rainbow", config -> config.keystrokeSneakRainbow, (config, value) -> config.keystrokeSneakRainbow = value);
-    public static final BooleanConfigOption KEYSTROKE_BLOCKING_RAINBOW = new BooleanConfigOption("keystroke_blocking_rainbow", config -> config.keystrokeBlockingRainbow, (config, value) -> config.keystrokeBlockingRainbow = value);
-    public static final BooleanConfigOption KEYSTROKE_CPS_RAINBOW = new BooleanConfigOption("keystroke_cps_rainbow", config -> config.keystrokeCPSRainbow, (config, value) -> config.keystrokeCPSRainbow = value);
-    public static final BooleanConfigOption KEYSTROKE_RCPS_RAINBOW = new BooleanConfigOption("keystroke_rcps_rainbow", config -> config.keystrokeRCPSRainbow, (config, value) -> config.keystrokeRCPSRainbow = value);
-
-
     public static final BooleanConfigOption RIGHT_CLICK_ADD_PARTY = new BooleanConfigOption("right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
 
 
     public static final StringConfigOption HEALTH_STATUS = new StringConfigOption("health_status", (config, value) -> config.healthStatusMode = HealthStatusMode.byId(config.healthStatusMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.healthStatusMode.getTranslationKey()));
-    public static final StringConfigOption KEYSTROKE_POSITION = new StringConfigOption("keystroke_position", (config, value) -> config.keystrokePosition = KeystrokePosition.byId(config.keystrokePosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.keystrokePosition.getTranslationKey()));
     public static final StringConfigOption EQUIPMENT_ORDERING = new StringConfigOption("equipment_ordering", (config, value) -> config.equipmentOrdering = Equipments.Ordering.byId(config.equipmentOrdering.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentOrdering.getTranslationKey()));
     public static final StringConfigOption EQUIPMENT_DIRECTION = new StringConfigOption("equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentDirection.getTranslationKey()));
     public static final StringConfigOption EQUIPMENT_STATUS = new StringConfigOption("equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentStatus.getTranslationKey()));
@@ -237,8 +207,6 @@ public class ExtendedConfig
     public static final TextFieldConfigOption CPS_COLOR = new TextFieldConfigOption("cps_color", config -> config.cpsColor, (config, value) -> config.cpsColor = value);
     public static final TextFieldConfigOption RCPS_COLOR = new TextFieldConfigOption("rcps_color", config -> config.rcpsColor, (config, value) -> config.rcpsColor = value);
     public static final TextFieldConfigOption SLIME_CHUNK_COLOR = new TextFieldConfigOption("slime_chunk_color", config -> config.slimeChunkColor, (config, value) -> config.slimeChunkColor = value);
-    public static final TextFieldConfigOption TOP_DONATOR_NAME_COLOR = new TextFieldConfigOption("top_donator_name_color", config -> config.topDonatorNameColor, (config, value) -> config.topDonatorNameColor = value);
-    public static final TextFieldConfigOption RECENT_DONATOR_NAME_COLOR = new TextFieldConfigOption("recent_donator_name_color", config -> config.recentDonatorNameColor, (config, value) -> config.recentDonatorNameColor = value);
     public static final TextFieldConfigOption TPS_COLOR = new TextFieldConfigOption("tps_color", config -> config.tpsColor, (config, value) -> config.tpsColor = value);
     public static final TextFieldConfigOption REAL_TIME_COLOR = new TextFieldConfigOption("real_time_color", config -> config.realTimeColor, (config, value) -> config.realTimeColor = value);
     public static final TextFieldConfigOption GAME_TIME_COLOR = new TextFieldConfigOption("game_time_color", config -> config.gameTimeColor, (config, value) -> config.gameTimeColor = value);
@@ -261,8 +229,6 @@ public class ExtendedConfig
     public static final TextFieldConfigOption CPS_VALUE_COLOR = new TextFieldConfigOption("cps_value_color", config -> config.cpsValueColor, (config, value) -> config.cpsValueColor = value);
     public static final TextFieldConfigOption RCPS_VALUE_COLOR = new TextFieldConfigOption("rcps_value_color", config -> config.rcpsValueColor, (config, value) -> config.rcpsValueColor = value);
     public static final TextFieldConfigOption SLIME_CHUNK_VALUE_COLOR = new TextFieldConfigOption("slime_chunk_value_color", config -> config.slimeChunkValueColor, (config, value) -> config.slimeChunkValueColor = value);
-    public static final TextFieldConfigOption TOP_DONATOR_VALUE_COLOR = new TextFieldConfigOption("top_donator_value_color", config -> config.topDonatorValueColor, (config, value) -> config.topDonatorValueColor = value);
-    public static final TextFieldConfigOption RECENT_DONATOR_VALUE_COLOR = new TextFieldConfigOption("recent_donator_value_color", config -> config.recentDonatorValueColor, (config, value) -> config.recentDonatorValueColor = value);
     public static final TextFieldConfigOption TPS_VALUE_COLOR = new TextFieldConfigOption("tps_value_color", config -> config.tpsValueColor, (config, value) -> config.tpsValueColor = value);
     public static final TextFieldConfigOption REAL_TIME_HHMMSS_VALUE_COLOR = new TextFieldConfigOption("real_time_hhmmss_value_color", config -> config.realTimeHHMMSSValueColor, (config, value) -> config.realTimeHHMMSSValueColor = value);
     public static final TextFieldConfigOption REAL_TIME_DDMMYY_VALUE_COLOR = new TextFieldConfigOption("real_time_ddmmyy_value_color", config -> config.realTimeDDMMYYValueColor, (config, value) -> config.realTimeDDMMYYValueColor = value);
@@ -271,28 +237,19 @@ public class ExtendedConfig
     public static final TextFieldConfigOption MOON_PHASE_VALUE_COLOR = new TextFieldConfigOption("moon_phase_value_color", config -> config.moonPhaseValueColor, (config, value) -> config.moonPhaseValueColor = value);
     public static final TextFieldConfigOption YTCHAT_VIEW_COUNT_VALUE_COLOR = new TextFieldConfigOption("ytchat_view_count_value_color", config -> config.ytChatViewCountValueColor, (config, value) -> config.ytChatViewCountValueColor = value);
 
-
-    public static final TextFieldConfigOption KEYSTROKE_WASD_COLOR = new TextFieldConfigOption("keystroke_wasd_color", config -> config.keystrokeWASDColor, (config, value) -> config.keystrokeWASDColor = value);
-    public static final TextFieldConfigOption KEYSTROKE_MOUSE_BUTTON_COLOR = new TextFieldConfigOption("keystroke_mouse_button_color", config -> config.keystrokeMouseButtonColor, (config, value) -> config.keystrokeMouseButtonColor = value);
-    public static final TextFieldConfigOption KEYSTROKE_SPRINT_COLOR = new TextFieldConfigOption("keystroke_sprint_color", config -> config.keystrokeSprintColor, (config, value) -> config.keystrokeSprintColor = value);
-    public static final TextFieldConfigOption KEYSTROKE_SNEAK_COLOR = new TextFieldConfigOption("keystroke_sneak_color", config -> config.keystrokeSneakColor, (config, value) -> config.keystrokeSneakColor = value);
-    public static final TextFieldConfigOption KEYSTROKE_BLOCKING_COLOR = new TextFieldConfigOption("keystroke_blocking_color", config -> config.keystrokeBlockingColor, (config, value) -> config.keystrokeBlockingColor = value);
-    public static final TextFieldConfigOption KEYSTROKE_CPS_COLOR = new TextFieldConfigOption("keystroke_cps_color", config -> config.keystrokeCPSColor, (config, value) -> config.keystrokeCPSColor = value);
-    public static final TextFieldConfigOption KEYSTROKE_RCPS_COLOR = new TextFieldConfigOption("keystroke_rcps_color", config -> config.keystrokeRCPSColor, (config, value) -> config.keystrokeRCPSColor = value);
-
     private ExtendedConfig() {}
 
     public static void setCurrentProfile(String profileName)
     {
-        ExtendedConfig.file = new File(userDir, profileName + ".dat");
-        currentProfile = profileName;
+        ExtendedConfig.PROFILE_FILE = new File(USER_DIR, profileName + ".dat");
+        ExtendedConfig.CURRENT_PROFILE = profileName;
     }
 
     public void load()
     {
         try
         {
-            CompoundNBT nbt = CompressedStreamTools.read(ExtendedConfig.file);
+            CompoundNBT nbt = CompressedStreamTools.read(ExtendedConfig.PROFILE_FILE);
 
             if (nbt == null)
             {
@@ -310,10 +267,6 @@ public class ExtendedConfig
             this.serverIPMCVersion = this.getBoolean(nbt, "ServerIPMCVersion", this.serverIPMCVersion);
             this.equipmentHUD = this.getBoolean(nbt, "EquipmentHUD", this.equipmentHUD);
             this.potionHUD = this.getBoolean(nbt, "PotionHUD", this.potionHUD);
-            this.keystroke = this.getBoolean(nbt, "Keystroke", this.keystroke);
-            this.keystrokeMouse = this.getBoolean(nbt, "KeystrokeMouse", this.keystrokeMouse);
-            this.keystrokeSprintSneak = this.getBoolean(nbt, "KeystrokeSprintSneak", this.keystrokeSprintSneak);
-            this.keystrokeBlocking = this.getBoolean(nbt, "KeystrokeBlocking", this.keystrokeBlocking);
             this.cps = this.getBoolean(nbt, "CPS", this.cps);
             this.rcps = this.getBoolean(nbt, "RCPS", this.rcps);
             this.slimeChunkFinder = this.getBoolean(nbt, "SlimeChunkFinder", this.slimeChunkFinder);
@@ -330,7 +283,6 @@ public class ExtendedConfig
             this.swapRenderInfo = this.getBoolean(nbt, "SwapRenderInfo", this.swapRenderInfo);
             this.showCustomCape = this.getBoolean(nbt, "ShowCustomCape", this.showCustomCape);
             this.healthStatusMode = HealthStatusMode.byId(this.getInteger(nbt, "HealthStatusMode", this.healthStatusMode.getId()));
-            this.keystrokePosition = KeystrokePosition.byId(this.getInteger(nbt, "KeystrokePosition", this.keystrokePosition.getId()));
             this.equipmentOrdering = Equipments.Ordering.byId(this.getInteger(nbt, "EquipmentOrdering", this.equipmentOrdering.getId()));
             this.equipmentDirection = Equipments.Direction.byId(this.getInteger(nbt, "EquipmentDirection", this.equipmentDirection.getId()));
             this.equipmentStatus = Equipments.Status.byId(this.getInteger(nbt, "EquipmentStatus", this.equipmentStatus.getId()));
@@ -421,11 +373,6 @@ public class ExtendedConfig
             this.cpsCustomXOffset = this.getInteger(nbt, "CPSCustomOffsetX", this.cpsCustomXOffset);
             this.cpsCustomYOffset = this.getInteger(nbt, "CPSCustomOffsetY", this.cpsCustomYOffset);
             this.slimeChunkSeed = this.getLong(nbt, "SlimeChunkSeed", this.slimeChunkSeed);
-            this.topDonatorFilePath = this.getString(nbt, "TopDonatorFilePath", this.topDonatorFilePath);
-            this.recentDonatorFilePath = this.getString(nbt, "RecentDonatorFilePath", this.recentDonatorFilePath);
-            this.topDonatorText = this.getString(nbt, "TopDonatorText", this.topDonatorText);
-            this.recentDonatorText = this.getString(nbt, "RecentDonatorText", this.recentDonatorText);
-            this.realmsMessage = this.getString(nbt, "RealmsMessage", this.realmsMessage);
 
             // Hypixel
             this.rightClickToAddParty = this.getBoolean(nbt, "RightClickToAddParty", this.rightClickToAddParty);
@@ -433,17 +380,14 @@ public class ExtendedConfig
             this.selectedHypixelMinigame = this.getInteger(nbt, "SelectedHypixelMinigame", this.selectedHypixelMinigame);
             this.hypixelMinigameScrollPos = this.getInteger(nbt, "HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
 
-            ExtendedConfig.readAutoLoginData(nbt.getList("AutoLoginData", 10));
-            HideNameData.load(nbt.getList("HideNameList", 10));
-
-            IndicatiaMod.LOGGER.info("Loading extended config {}", ExtendedConfig.file.getPath());
+            IndicatiaMod.LOGGER.info("Loading extended config {}", ExtendedConfig.PROFILE_FILE.getPath());
         }
         catch (Exception e) {}
     }
 
     public void save()
     {
-        this.save(!ExtendedConfig.currentProfile.isEmpty() ? ExtendedConfig.currentProfile : "default");
+        this.save(!ExtendedConfig.CURRENT_PROFILE.isEmpty() ? ExtendedConfig.CURRENT_PROFILE : "default");
     }
 
     public void save(String profileName)
@@ -463,10 +407,6 @@ public class ExtendedConfig
             nbt.putBoolean("ServerIPMCVersion", this.serverIPMCVersion);
             nbt.putBoolean("EquipmentHUD", this.equipmentHUD);
             nbt.putBoolean("PotionHUD", this.potionHUD);
-            nbt.putBoolean("Keystroke", this.keystroke);
-            nbt.putBoolean("KeystrokeMouse", this.keystrokeMouse);
-            nbt.putBoolean("KeystrokeSprintSneak", this.keystrokeSprintSneak);
-            nbt.putBoolean("KeystrokeBlocking", this.keystrokeBlocking);
             nbt.putBoolean("CPS", this.cps);
             nbt.putBoolean("RCPS", this.rcps);
             nbt.putBoolean("SlimeChunkFinder", this.slimeChunkFinder);
@@ -483,7 +423,6 @@ public class ExtendedConfig
             nbt.putBoolean("ShowCustomCape", this.showCustomCape);
             nbt.putBoolean("SwapRenderInfo", this.swapRenderInfo);
             nbt.putInt("HealthStatusMode", this.healthStatusMode.getId());
-            nbt.putInt("KeystrokePosition", this.keystrokePosition.getId());
             nbt.putInt("EquipmentOrdering", this.equipmentOrdering.getId());
             nbt.putInt("EquipmentDirection", this.equipmentDirection.getId());
             nbt.putInt("EquipmentStatus", this.equipmentStatus.getId());
@@ -572,11 +511,6 @@ public class ExtendedConfig
             nbt.putInt("CPSCustomOffsetX", this.cpsCustomXOffset);
             nbt.putInt("CPSCustomOffsetY", this.cpsCustomYOffset);
             nbt.putLong("SlimeChunkSeed", this.slimeChunkSeed);
-            nbt.putString("TopDonatorFilePath", this.topDonatorFilePath);
-            nbt.putString("RecentDonatorFilePath", this.recentDonatorFilePath);
-            nbt.putString("TopDonatorText", this.topDonatorText);
-            nbt.putString("RecentDonatorText", this.recentDonatorText);
-            nbt.putString("RealmsMessage", this.realmsMessage);
 
             // Hypixel
             nbt.putBoolean("RightClickToAddParty", this.rightClickToAddParty);
@@ -584,17 +518,14 @@ public class ExtendedConfig
             nbt.putInt("SelectedHypixelMinigame", this.selectedHypixelMinigame);
             nbt.putInt("HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
 
-            nbt.put("AutoLoginData", ExtendedConfig.writeAutoLoginData());
-            nbt.put("HideNameList", HideNameData.save());
-
-            CompressedStreamTools.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(userDir, profileName + ".dat") : ExtendedConfig.file);
+            CompressedStreamTools.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(USER_DIR, profileName + ".dat") : ExtendedConfig.PROFILE_FILE);
         }
         catch (Exception e) {}
     }
 
     public static void saveProfileFile(String profileName)
     {
-        File profile = new File(ExtendedConfig.userDir, "profile.txt");
+        File profile = new File(ExtendedConfig.USER_DIR, "profile.txt");
 
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {
@@ -609,35 +540,9 @@ public class ExtendedConfig
 
     public static void resetConfig()
     {
-        ExtendedConfig.instance = new ExtendedConfig();
-        ExtendedConfig.instance.save(ExtendedConfig.currentProfile);
-        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", ExtendedConfig.currentProfile));
-    }
-
-    private static ListNBT writeAutoLoginData()
-    {
-        ListNBT list = new ListNBT();
-
-        for (AutoLoginData data : ExtendedConfig.loginData.getAutoLoginList())
-        {
-            CompoundNBT nbt = new CompoundNBT();
-            nbt.putString("ServerIP", data.getServerIP());
-            nbt.putString("CommandName", data.getCommand());
-            nbt.putString("Value", data.getValue());
-            nbt.putString("UUID", data.getUUID().toString());
-            nbt.putString("Function", data.getFunction());
-            list.add(nbt);
-        }
-        return list;
-    }
-
-    private static void readAutoLoginData(ListNBT list)
-    {
-        for (int i = 0; i < list.size(); ++i)
-        {
-            CompoundNBT nbt = list.getCompound(i);
-            ExtendedConfig.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), UUID.fromString(nbt.getString("UUID")), nbt.getString("Function"));
-        }
+        ExtendedConfig.INSTANCE = new ExtendedConfig();
+        ExtendedConfig.INSTANCE.save(ExtendedConfig.CURRENT_PROFILE);
+        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", ExtendedConfig.CURRENT_PROFILE));
     }
 
     private boolean getBoolean(CompoundNBT nbt, String key, boolean defaultValue)

@@ -33,9 +33,9 @@ public class DoubleConfigOption extends ExtendedConfigOption
     }
 
     @Override
-    public Widget createOptionButton(ExtendedConfig config, int x, int y, int width)
+    public Widget createOptionButton(int x, int y, int width)
     {
-        return new ConfigOptionSliderWidget(config, x, y, width, 20, this);
+        return new ConfigOptionSliderWidget(x, y, width, 20, this);
     }
 
     public double normalizeValue(double value)
@@ -72,18 +72,18 @@ public class DoubleConfigOption extends ExtendedConfigOption
         this.max = value;
     }
 
-    public void set(ExtendedConfig config, double value)
+    public void set(double value)
     {
-        this.setter.accept(config, value);
+        this.setter.accept(ExtendedConfig.INSTANCE, value);
     }
 
-    public double get(ExtendedConfig config)
+    public double get()
     {
-        return this.getter.apply(config);
+        return this.getter.apply(ExtendedConfig.INSTANCE);
     }
 
-    public String getDisplayString(ExtendedConfig config)
+    public String getDisplayString()
     {
-        return this.displayStringGetter.apply(config, this);
+        return this.displayStringGetter.apply(ExtendedConfig.INSTANCE, this);
     }
 }

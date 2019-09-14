@@ -1,5 +1,8 @@
 package stevekung.mods.indicatia.gui.screen;
 
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
+
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
@@ -8,10 +11,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.IndicatiaConfig;
-import stevekung.mods.indicatia.gui.hack.MultiplayerScreenIN;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class ConfirmDisconnectScreen extends Screen
@@ -37,15 +36,7 @@ public class ConfirmDisconnectScreen extends Screen
             {
                 this.minecraft.world.sendQuittingDisconnectingPacket();
                 this.minecraft.loadWorld(null);
-
-                if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
-                {
-                    this.minecraft.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
-                }
-                else
-                {
-                    this.minecraft.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
-                }
+                this.minecraft.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
             }
         }));
         boolean flag = this.minecraft.isSingleplayer() && !this.minecraft.getIntegratedServer().getPublic();

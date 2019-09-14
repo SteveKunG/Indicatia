@@ -11,9 +11,12 @@ import javax.annotation.Nonnull;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.client.ClientUtils;
+import com.stevekung.stevekungslib.utils.enums.CachedEnum;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
@@ -22,16 +25,8 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.status.IClientStatusNetHandler;
-import net.minecraft.client.renderer.entity.*;
-import net.minecraft.client.renderer.entity.layers.*;
-import net.minecraft.client.renderer.entity.model.*;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.entity.monster.GiantEntity;
-import net.minecraft.entity.monster.ZombieEntity;
-import net.minecraft.entity.monster.ZombieVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
@@ -45,7 +40,6 @@ import net.minecraft.network.status.server.SPongPacket;
 import net.minecraft.network.status.server.SServerInfoPacket;
 import net.minecraft.potion.Effects;
 import net.minecraft.realms.RealmsBridge;
-import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -53,40 +47,31 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ForgeIngameGui;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
 import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
-import stevekung.mods.indicatia.gui.hack.MultiplayerScreenIN;
 import stevekung.mods.indicatia.gui.screen.ConfirmDisconnectScreen;
-import stevekung.mods.indicatia.gui.screen.CustomCapeScreen;
-import stevekung.mods.indicatia.gui.screen.DonatorSettingsScreen;
 import stevekung.mods.indicatia.gui.screen.MojangStatusScreen;
 import stevekung.mods.indicatia.gui.widget.MojangStatusButton;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.*;
-import stevekung.mods.indicatia.utils.AutoLoginFunction;
-import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
-import stevekung.mods.stevekungslib.utils.client.ClientUtils;
-import stevekung.mods.stevekungslib.utils.enums.CachedEnum;
 
 public class IndicatiaEventHandler
 {
-    private Minecraft mc;
+    private final Minecraft mc;
     public static final List<Long> LEFT_CLICK = new ArrayList<>();
     public static final List<Long> RIGHT_CLICK = new ArrayList<>();
     public static int currentServerPing;
-    private static final ThreadPoolExecutor serverPinger = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
+    private static final ThreadPoolExecutor REALTIME_PINGER = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private static int pendingPingTicks = 100;
-    private static boolean initLayer = true;
     private int disconnectClickCount;
     private int disconnectClickCooldown;
     private boolean initVersionCheck;
@@ -96,9 +81,6 @@ public class IndicatiaEventHandler
     public static String afkReason;
     public static int afkMoveTicks;
     public static int afkTicks;
-
-    static boolean printAutoGG;
-    private static int printAutoGGTicks;
 
     public static boolean autoFish;
     private static int autoFishTick;
@@ -127,28 +109,7 @@ public class IndicatiaEventHandler
             {
                 IndicatiaEventHandler.runAFK(this.mc.player);
                 IndicatiaEventHandler.processAutoFish(this.mc);
-                AutoLoginFunction.runAutoLoginFunction();
-                CapeUtils.loadCapeTexture();
 
-                if (IndicatiaEventHandler.printAutoGG && IndicatiaEventHandler.printAutoGGTicks < IndicatiaConfig.GENERAL.autoGGDelay.get())
-                {
-                    IndicatiaEventHandler.printAutoGGTicks++;
-
-                    if (IndicatiaEventHandler.printAutoGGTicks == IndicatiaConfig.GENERAL.autoGGDelay.get())
-                    {
-                        this.mc.player.sendChatMessage(IndicatiaConfig.GENERAL.autoGGMessage.get());
-                        IndicatiaEventHandler.printAutoGG = false;
-                        IndicatiaEventHandler.printAutoGGTicks = 0;
-                    }
-                }
-                if (AutoLoginFunction.functionDelay > 0)
-                {
-                    AutoLoginFunction.functionDelay--;
-                }
-                if (AutoLoginFunction.functionDelay == 0)
-                {
-                    AutoLoginFunction.runAutoLoginFunctionTicks(this.mc);
-                }
                 if (this.disconnectClickCooldown > 0)
                 {
                     this.disconnectClickCooldown--;
@@ -192,7 +153,7 @@ public class IndicatiaEventHandler
                     }
                 }
 
-                for (UseAction action : CachedEnum.actionValues)
+                for (UseAction action : CachedEnum.USE_ACTION)
                 {
                     if (action != UseAction.NONE)
                     {
@@ -217,28 +178,28 @@ public class IndicatiaEventHandler
         if (IndicatiaConfig.GENERAL.enableCustomMovementHandler.get())
         {
             // canceled turn back
-            if (ExtendedConfig.instance.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+            if (ExtendedConfig.INSTANCE.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
             {
                 ++movement.moveForward;
             }
 
             // toggle sneak
-            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.instance.toggleSneak && !player.isSpectator();
+            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
 
-            if (ExtendedConfig.instance.toggleSneak && !player.isSpectator() && !player.isCreative())
+            if (ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator() && !player.isCreative())
             {
                 movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
                 movement.moveForward = (float)(movement.moveForward * 0.3D);
             }
 
             // toggle sprint
-            if (ExtendedConfig.instance.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.instance.toggleSneak)
+            if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.INSTANCE.toggleSneak)
             {
                 player.setSprinting(true);
             }
 
             // afk stuff
-            if (!IndicatiaEventHandler.afkMode.equals("360"))
+            if (IndicatiaEventHandler.afkMode.equals("360_move"))
             {
                 int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
 
@@ -263,15 +224,6 @@ public class IndicatiaEventHandler
                     movement.rightKeyDown = true;
                 }
             }
-
-            // auto login function
-            if (AutoLoginFunction.functionDelay == 0)
-            {
-                if (AutoLoginFunction.forwardTicks > 0 || AutoLoginFunction.forwardAfterCommandTicks > 0)
-                {
-                    movement.moveForward++;
-                }
-            }
         }
     }
 
@@ -288,85 +240,8 @@ public class IndicatiaEventHandler
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @SubscribeEvent
-    public void onPreRenderLiving(RenderLivingEvent.Pre<LivingEntity, EntityModel<LivingEntity>> event)
-    {
-        LivingRenderer<LivingEntity, EntityModel<LivingEntity>> renderer = event.getRenderer();
-        List<LayerRenderer<LivingEntity, EntityModel<LivingEntity>>> layerLists = renderer.layerRenderers;
-        LivingEntity entity = event.getEntity();
-        IReloadableResourceManager resource = (IReloadableResourceManager)Minecraft.getInstance().getResourceManager();
-        EntityRendererManager manager = this.mc.getRenderManager();
-        IndicatiaEventHandler.replaceArrowLayer(layerLists, new ArrowLayerIN<>(renderer));
-
-        if (entity instanceof AbstractClientPlayerEntity)
-        {
-            AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) entity;
-
-            if (player.getSkinType().equals("default"))
-            {
-                PlayerRenderer renderDefault = manager.getSkinMap().get("default");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(renderDefault, new BipedModel<>(0.5F), new BipedModel<>(1.0F)), renderDefault, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new CapeLayerIN(renderDefault));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new ElytraLayerIN<>(renderDefault));
-            }
-            else
-            {
-                PlayerRenderer renderSlim = manager.getSkinMap().get("slim");
-                IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(renderSlim, new BipedModel<>(0.5F), new BipedModel<>(1.0F)), renderer, entity);
-                IndicatiaEventHandler.replaceCapeLayer(layerLists, new CapeLayerIN(renderSlim));
-                IndicatiaEventHandler.replaceElytraLayer(layerLists, new ElytraLayerIN<>(renderSlim));
-            }
-        }
-        else if (entity instanceof ZombieVillagerEntity)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new ZombieVillagerRenderer(manager, resource), new ZombieVillagerModel<>(0.5F, true), new ZombieVillagerModel<>(1.0F, true)), renderer, entity);
-        }
-        else if (entity instanceof GiantEntity)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new GiantZombieRenderer(manager, 6.0F), new GiantModel(0.5F, true), new GiantModel(1.0F, true)), renderer, entity);
-        }
-        else if (entity instanceof ZombieEntity)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new ZombieRenderer(manager), new ZombieModel<>(0.5F, true), new ZombieModel<>(1.0F, true)), renderer, entity);
-        }
-        else if (entity instanceof AbstractSkeletonEntity)
-        {
-            IndicatiaEventHandler.replaceArmorLayer(layerLists, new BipedArmorLayerIN(new SkeletonRenderer(manager), new SkeletonModel<>(0.5F, true), new SkeletonModel<>(1.0F, true)), renderer, entity);
-        }
-    }
-
-    @SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent event)
-    {
-        if (event.getGui() != null && event.getGui().getClass().equals(MainMenuScreen.class) && IndicatiaEventHandler.initLayer)
-        {
-            PlayerRenderer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
-            PlayerRenderer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
-            renderDefault.addLayer(new CustomCapeLayer(renderDefault));
-            renderSlim.addLayer(new CustomCapeLayer(renderSlim));
-            IndicatiaEventHandler.initLayer = false;
-        }
-        if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get() && event.getGui() != null && event.getGui().getClass().equals(MultiplayerScreen.class))
-        {
-            event.setGui(new MultiplayerScreenIN(new MainMenuScreen()));
-        }
-    }
-
-    //    @SubscribeEvent TODO
-    //    public void onDisconnectedFromServerEvent(NetworkEvent.ClientDisconnectionFromServerEvent event)
-    //    {
-    //        IndicatiaEventHandler.stopCommandTicks();
-    //    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event)
-    {
-        IndicatiaEventHandler.stopCommandTicks();
-    }
-
-    @SubscribeEvent
-    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event)
+    public void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event)
     {
         IndicatiaEventHandler.stopCommandTicks();
     }
@@ -390,31 +265,17 @@ public class IndicatiaEventHandler
             ExtendedConfigScreen config = new ExtendedConfigScreen();
             this.mc.displayGuiScreen(config);
         }
-        if (KeyBindingHandler.KEY_REC_OVERLAY.isActiveAndMatches(input))
+        if (ExtendedConfig.INSTANCE.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isActiveAndMatches(input))
         {
-            HUDRenderEventHandler.recordEnable = !HUDRenderEventHandler.recordEnable;
+            ExtendedConfig.INSTANCE.toggleSprint = !ExtendedConfig.INSTANCE.toggleSprint;
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
+            ExtendedConfig.INSTANCE.save();
         }
-        if (IndicatiaConfig.GENERAL.enableCustomCape.get() && KeyBindingHandler.KEY_CUSTOM_CAPE_GUI.isActiveAndMatches(input))
+        if (ExtendedConfig.INSTANCE.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isActiveAndMatches(input))
         {
-            CustomCapeScreen customCapeGui = new CustomCapeScreen();
-            this.mc.displayGuiScreen(customCapeGui);
-        }
-        if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isActiveAndMatches(input))
-        {
-            ExtendedConfig.instance.toggleSprint = !ExtendedConfig.instance.toggleSprint;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
-            ExtendedConfig.instance.save();
-        }
-        if (ExtendedConfig.instance.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isActiveAndMatches(input))
-        {
-            ExtendedConfig.instance.toggleSneak = !ExtendedConfig.instance.toggleSneak;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
-            ExtendedConfig.instance.save();
-        }
-        if (KeyBindingHandler.KEY_DONATOR_GUI.isActiveAndMatches(input))
-        {
-            DonatorSettingsScreen donatorGui = new DonatorSettingsScreen();
-            this.mc.displayGuiScreen(donatorGui);
+            ExtendedConfig.INSTANCE.toggleSneak = !ExtendedConfig.INSTANCE.toggleSneak;
+            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
+            ExtendedConfig.INSTANCE.save();
         }
     }
 
@@ -431,15 +292,6 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
     {
-        if (event.getGui() instanceof MainMenuScreen)
-        {
-            if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get() && event.getButton().getMessage().equals(I18n.format("menu.multiplayer")))//TODO Testing
-            {
-                event.setCanceled(true);
-                event.getButton().playDownSound(this.mc.getSoundHandler());
-                this.mc.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
-            }
-        }
         if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && event.getGui() instanceof IngameMenuScreen && !this.mc.isSingleplayer())
         {
             if (event.getButton().getMessage().equals(I18n.format("menu.disconnect")))//TODO Testing
@@ -473,15 +325,7 @@ public class IndicatiaEventHandler
                         {
                             this.mc.world.sendQuittingDisconnectingPacket();
                             this.mc.loadWorld(null);
-
-                            if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
-                            {
-                                this.mc.displayGuiScreen(new MultiplayerScreenIN(new MainMenuScreen()));
-                            }
-                            else
-                            {
-                                this.mc.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
-                            }
+                            this.mc.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
                         }
                         this.disconnectClickCount = 0;
                     }
@@ -492,7 +336,7 @@ public class IndicatiaEventHandler
 
     private static void getRealTimeServerPing(ServerData server)
     {
-        IndicatiaEventHandler.serverPinger.submit(() ->
+        IndicatiaEventHandler.REALTIME_PINGER.submit(() ->
         {
             try
             {
@@ -603,122 +447,6 @@ public class IndicatiaEventHandler
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static void replaceArmorLayer(List<LayerRenderer<LivingEntity, EntityModel<LivingEntity>>> layerLists, LayerRenderer<LivingEntity, EntityModel<LivingEntity>> newLayer, LivingRenderer<?, ?> render, LivingEntity entity)
-    {
-        int armorLayerIndex = -1;
-
-        if (IndicatiaConfig.GENERAL.enableOldArmorRender.get())
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer<LivingEntity, EntityModel<LivingEntity>> layer = layerLists.get(i);
-
-                if (layer.getClass().equals(BipedArmorLayer.class))
-                {
-                    armorLayerIndex = i;
-                }
-            }
-            if (armorLayerIndex >= 0)
-            {
-                layerLists.set(armorLayerIndex, newLayer);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer<LivingEntity, EntityModel<LivingEntity>> layer = layerLists.get(i);
-
-                if (layer.getClass().equals(BipedArmorLayerIN.class))
-                {
-                    armorLayerIndex = i;
-                }
-            }
-            if (armorLayerIndex >= 0)
-            {
-                if (entity instanceof AbstractClientPlayerEntity)
-                {
-                    layerLists.set(armorLayerIndex, new BipedArmorLayer(render, new BipedModel<>(0.5F), new BipedModel<>(1.0F)));
-                }
-                else if ((entity instanceof ZombieEntity || entity instanceof GiantEntity) && !(entity instanceof ZombieVillagerEntity))
-                {
-                    layerLists.set(armorLayerIndex, new BipedArmorLayer(render, new ZombieModel<>(0.5F, true), new ZombieModel<>(1.0F, true)));
-                }
-                else if (entity instanceof AbstractSkeletonEntity)
-                {
-                    layerLists.set(armorLayerIndex, new BipedArmorLayer(render, new SkeletonModel<>(0.5F, true), new SkeletonModel<>(1.0F, true)));
-                }
-                else if (entity instanceof ZombieVillagerEntity)
-                {
-                    layerLists.set(armorLayerIndex, new BipedArmorLayer(render, new ZombieVillagerModel<>(0.5F, true), new ZombieVillagerModel<>(1.0F, true)));
-                }
-            }
-        }
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static void replaceCapeLayer(List<LayerRenderer<LivingEntity, EntityModel<LivingEntity>>> layerLists, LayerRenderer newLayer)
-    {
-        int capeLayerIndex = -1;
-
-        for (int i = 0; i < layerLists.size(); i++)
-        {
-            LayerRenderer<LivingEntity, EntityModel<LivingEntity>> layer = layerLists.get(i);
-
-            if (layer.getClass().equals(CapeLayer.class))
-            {
-                capeLayerIndex = i;
-            }
-        }
-        if (capeLayerIndex >= 0)
-        {
-            layerLists.set(capeLayerIndex, newLayer);
-        }
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static void replaceElytraLayer(List<LayerRenderer<LivingEntity, EntityModel<LivingEntity>>> layerLists, LayerRenderer newLayer)
-    {
-        int elytraLayerIndex = -1;
-
-        if (IndicatiaConfig.GENERAL.enableOldArmorRender.get())
-        {
-            for (int i = 0; i < layerLists.size(); i++)
-            {
-                LayerRenderer<LivingEntity, EntityModel<LivingEntity>> layer = layerLists.get(i);
-
-                if (layer.getClass().equals(ElytraLayer.class))
-                {
-                    elytraLayerIndex = i;
-                }
-            }
-            if (elytraLayerIndex >= 0)
-            {
-                layerLists.set(elytraLayerIndex, newLayer);
-            }
-        }
-    }
-
-    private static void replaceArrowLayer(List<LayerRenderer<LivingEntity, EntityModel<LivingEntity>>> layerLists, LayerRenderer<LivingEntity, EntityModel<LivingEntity>> newLayer)
-    {
-        int arrowLayerIndex = -1;
-
-        for (int i = 0; i < layerLists.size(); i++)
-        {
-            LayerRenderer<LivingEntity, EntityModel<LivingEntity>> layer = layerLists.get(i);
-
-            if (layer.getClass().equals(ArrowLayer.class))
-            {
-                arrowLayerIndex = i;
-            }
-        }
-        if (arrowLayerIndex >= 0)
-        {
-            layerLists.set(arrowLayerIndex, newLayer);
-        }
-    }
-
     private static void processAutoFish(Minecraft mc)
     {
         if (IndicatiaEventHandler.autoFish)
@@ -730,7 +458,7 @@ public class IndicatiaEventHandler
             {
                 if (IndicatiaEventHandler.autoFishTick % 4 == 0)
                 {
-                    for (Hand hand : CachedEnum.handValues)
+                    for (Hand hand : CachedEnum.HAND)
                     {
                         ItemStack itemStack = mc.player.getHeldItem(hand);
                         boolean fishingRod = mc.player.getHeldItem(hand).getItem() instanceof FishingRodItem;
@@ -768,7 +496,7 @@ public class IndicatiaEventHandler
                         {
                             IndicatiaEventHandler.autoFish = false;
                             IndicatiaEventHandler.autoFishTick = 0;
-                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).setStyle(JsonUtils.red()));
+                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).setStyle(JsonUtils.RED));
                             return;
                         }
 

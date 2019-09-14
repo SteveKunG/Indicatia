@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -8,7 +9,6 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.item.FishingRodItem;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class AutoFishCommand
 {

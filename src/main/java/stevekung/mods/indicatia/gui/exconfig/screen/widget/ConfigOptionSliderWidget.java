@@ -10,9 +10,9 @@ public class ConfigOptionSliderWidget extends ConfigSliderWidget
 {
     private final DoubleConfigOption option;
 
-    public ConfigOptionSliderWidget(ExtendedConfig config, int x, int y, int width, int height, DoubleConfigOption doubleOpt)
+    public ConfigOptionSliderWidget(int x, int y, int width, int height, DoubleConfigOption doubleOpt)
     {
-        super(config, x, y, width, height, (float)doubleOpt.normalizeValue(doubleOpt.get(config)));
+        super(x, y, width, height, (float)doubleOpt.normalizeValue(doubleOpt.get()));
         this.option = doubleOpt;
         this.updateMessage();
     }
@@ -20,13 +20,13 @@ public class ConfigOptionSliderWidget extends ConfigSliderWidget
     @Override
     protected void applyValue()
     {
-        this.option.set(this.options, this.option.denormalizeValue(this.value));
-        this.options.save();
+        this.option.set(this.option.denormalizeValue(this.value));
+        ExtendedConfig.INSTANCE.save();
     }
 
     @Override
     protected void updateMessage()
     {
-        this.setMessage(this.option.getDisplayString(this.options));
+        this.setMessage(this.option.getDisplayString());
     }
 }

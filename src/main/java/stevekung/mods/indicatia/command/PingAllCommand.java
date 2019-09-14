@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class PingAllCommand
 {

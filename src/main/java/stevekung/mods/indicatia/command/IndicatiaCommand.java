@@ -1,14 +1,14 @@
 package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class IndicatiaCommand
 {
@@ -43,49 +43,49 @@ public class IndicatiaCommand
 
     private static int startToggleSprint(CommandSource source)
     {
-        ExtendedConfig.instance.toggleSprint = true;
+        ExtendedConfig.INSTANCE.toggleSprint = true;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.enable"), false);
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 
     private static int stopToggleSprint(CommandSource source)
     {
-        ExtendedConfig.instance.toggleSprint = false;
+        ExtendedConfig.INSTANCE.toggleSprint = false;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sprint.disable"), false);
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 
     private static int setToggleSprintMode(CommandSource source, String mode)
     {
-        ExtendedConfig.instance.toggleSprintUseMode = mode;
+        ExtendedConfig.INSTANCE.toggleSprintUseMode = mode;
         source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sprint.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 
     private static int startToggleSneak(CommandSource source)
     {
-        ExtendedConfig.instance.toggleSneak = true;
+        ExtendedConfig.INSTANCE.toggleSneak = true;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.enable"), false);
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 
     private static int stopToggleSneak(CommandSource source)
     {
-        ExtendedConfig.instance.toggleSneak = false;
+        ExtendedConfig.INSTANCE.toggleSneak = false;
         source.sendFeedback(LangUtils.translateComponent("commands.indicatia.toggle_sneak.disable"), false);
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 
     private static int setToggleSneakMode(CommandSource source, String mode)
     {
-        ExtendedConfig.instance.toggleSneakUseMode = mode;
+        ExtendedConfig.INSTANCE.toggleSneakUseMode = mode;
         source.sendFeedback(JsonUtils.create(LangUtils.translate("commands.indicatia.toggle_sneak.set_mode") + " " + LangUtils.translate("commands.mode." + mode)), false);
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 }

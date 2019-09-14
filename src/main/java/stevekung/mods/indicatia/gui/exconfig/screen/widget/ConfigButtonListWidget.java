@@ -10,7 +10,6 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.list.AbstractOptionList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.exconfig.ExtendedConfigOption;
 
 @OnlyIn(Dist.CLIENT)
@@ -36,7 +35,7 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
 
     public void addButton(ExtendedConfigOption config1, ExtendedConfigOption config2)
     {
-        this.addEntry(ConfigButtonListWidget.ButtonItem.createItems(ExtendedConfig.instance, this.width, config1, config2));
+        this.addEntry(ConfigButtonListWidget.ButtonItem.createItems(this.width, config1, config2));
     }
 
     public void addAll(ExtendedConfigOption[] config)
@@ -73,10 +72,10 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
             return this.buttons;
         }
 
-        public static ConfigButtonListWidget.ButtonItem createItems(ExtendedConfig config, int x, ExtendedConfigOption configOpt1, ExtendedConfigOption configOpt2)
+        public static ConfigButtonListWidget.ButtonItem createItems(int x, ExtendedConfigOption configOpt1, ExtendedConfigOption configOpt2)
         {
-            Widget button = configOpt1.createOptionButton(config, x / 2 - 155, 0, 150);
-            return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createOptionButton(config, x / 2 - 155 + 160, 0, 150)));
+            Widget button = configOpt1.createOptionButton(x / 2 - 155, 0, 150);
+            return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createOptionButton(x / 2 - 155 + 160, 0, 150)));
         }
     }
 }

@@ -1,9 +1,10 @@
 package stevekung.mods.indicatia.integration;
 
+import com.stevekung.stevekungslib.utils.ColorUtils;
+
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 import net.minecraft.client.Minecraft;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 public class GalacticraftPlanetTime
 {
@@ -19,11 +20,11 @@ public class GalacticraftPlanetTime
 
         if (dayLength >= 1L && dayLength <= 24L)
         {
-            return ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeValueColor).toColoredFont() + "Fastest Day-Night Cycle";
+            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeValueColor).toColoredFont() + "Fastest Day-Night Cycle";
         }
         else if (dayLength == 0L)
         {
-            return ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeValueColor).toColoredFont() + "No Day-Night Cycle";
+            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeValueColor).toColoredFont() + "No Day-Night Cycle";
         }
 
         long spaceWorldTime = space.getWorldTime() % dayLength;
@@ -42,6 +43,6 @@ public class GalacticraftPlanetTime
         {
             sminutes = 0 + "" + minutes;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
+        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
     }
 }

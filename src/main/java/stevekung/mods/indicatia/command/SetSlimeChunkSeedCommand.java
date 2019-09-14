@@ -2,11 +2,11 @@ package stevekung.mods.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class SetSlimeChunkSeedCommand
 {
@@ -26,15 +26,15 @@ public class SetSlimeChunkSeedCommand
         try
         {
             long longSeed = Long.parseLong(seed);
-            ExtendedConfig.instance.slimeChunkSeed = longSeed;
+            ExtendedConfig.INSTANCE.slimeChunkSeed = longSeed;
             source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", longSeed), false);
         }
         catch (NumberFormatException e)
         {
-            ExtendedConfig.instance.slimeChunkSeed = seed.hashCode();
+            ExtendedConfig.INSTANCE.slimeChunkSeed = seed.hashCode();
             source.sendFeedback(LangUtils.translateComponent("commands.set_slime_seed.set", seed.hashCode()), false);
         }
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return 1;
     }
 }

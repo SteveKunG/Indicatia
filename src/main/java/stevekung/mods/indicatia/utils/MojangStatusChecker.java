@@ -22,11 +22,11 @@ public enum MojangStatusChecker
     MOJANG_PUBLIC_API("Mojang Public API", "api.mojang.com"),
     MOJANG_MAIN_WEBSITE("Mojang Main Website", "mojang.com");
 
-    private String name;
-    private String serviceURL;
-    public static final MojangStatusChecker[] values = MojangStatusChecker.values();
+    private final String name;
+    private final String serviceURL;
+    public static final MojangStatusChecker[] VALUES = MojangStatusChecker.values();
 
-    MojangStatusChecker(String name, String serviceURL)
+    private MojangStatusChecker(String name, String serviceURL)
     {
         this.name = name;
         this.serviceURL = serviceURL;
@@ -37,7 +37,7 @@ public enum MojangStatusChecker
         return this.name;
     }
 
-    public MojangServerStatus getServiceStatus()
+    public MojangServerStatus getStatus()
     {
         try
         {

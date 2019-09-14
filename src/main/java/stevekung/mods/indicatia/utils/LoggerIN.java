@@ -1,6 +1,6 @@
 package stevekung.mods.indicatia.utils;
 
-import stevekung.mods.stevekungslib.utils.LoggerBase;
+import com.stevekung.stevekungslib.utils.LoggerBase;
 
 public class LoggerIN extends LoggerBase
 {

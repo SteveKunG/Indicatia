@@ -1,16 +1,17 @@
 package stevekung.mods.indicatia.renderer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 public class HorizontalEquipment
 {
+    private final Minecraft mc;
     private final ItemStack itemStack;
     private final boolean isArmor;
     private int width;
@@ -21,6 +22,7 @@ public class HorizontalEquipment
     {
         this.itemStack = itemStack;
         this.isArmor = isArmor;
+        this.mc = Minecraft.getInstance();
         this.initSize();
     }
 
@@ -31,15 +33,15 @@ public class HorizontalEquipment
 
     public void render(int x, int y)
     {
-        boolean isRightSide = ExtendedConfig.instance.equipmentPosition == Equipments.Position.RIGHT;
+        boolean isRightSide = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
         HUDInfo.renderItem(this.itemStack, isRightSide ? x - 18 : x, y);
-        ColorUtils.coloredFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
+        this.mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + this.itemDamage, isRightSide ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
             int arrowCount = HUDInfo.getInventoryArrowCount(Minecraft.getInstance().player.inventory);
             GlStateManager.disableDepthTest();
-            ColorUtils.coloredFontRendererUnicode.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
+            this.mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + HUDInfo.getArrowStackCount(arrowCount), isRightSide ? x - 10 : x + 8, y + 8, 16777215);
             GlStateManager.enableDepthTest();
         }
     }
@@ -54,7 +56,7 @@ public class HorizontalEquipment
         }
         else
         {
-            this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : ExtendedConfig.instance.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
+            this.itemDamage = this.itemStack.isDamageable() ? HUDInfo.getArmorDurabilityStatus(this.itemStack) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(this.itemStack, Integer.parseInt(itemCount));
         }
         this.itemDamageWidth = Minecraft.getInstance().fontRenderer.getStringWidth(this.itemDamage);
         this.width = 20 + this.itemDamageWidth;

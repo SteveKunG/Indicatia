@@ -23,23 +23,23 @@ public class TextFieldConfigOption extends ExtendedConfigOption
     }
 
     @Override
-    public Widget createOptionButton(ExtendedConfig config, int x, int y, int width)
+    public Widget createOptionButton(int x, int y, int width)
     {
-        ExtendedTextFieldWidget textField = new ExtendedTextFieldWidget(x, y, width, config, this);
-        this.set(config, textField.getText());
-        textField.setText(this.get(config));
+        ExtendedTextFieldWidget textField = new ExtendedTextFieldWidget(x, y, width, this);
+        this.set(textField.getText());
+        textField.setText(this.get());
         textField.setDisplayName(this.getDisplayName());
         textField.setDisplayPrefix(this.getDisplayPrefix());
         return textField;
     }
 
-    public void set(ExtendedConfig config, String value)
+    public void set(String value)
     {
-        this.setter.accept(config, value);
+        this.setter.accept(ExtendedConfig.INSTANCE, value);
     }
 
-    public String get(ExtendedConfig config)
+    public String get()
     {
-        return this.getter.apply(config);
+        return this.getter.apply(ExtendedConfig.INSTANCE);
     }
 }

@@ -1,12 +1,15 @@
 package stevekung.mods.indicatia.gui.exconfig.screen;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.stevekung.stevekungslib.client.event.ClientEventHandler;
+import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringUtils;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,11 +18,7 @@ import stevekung.mods.indicatia.config.Equipments;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.HUDRenderEventHandler;
 import stevekung.mods.indicatia.renderer.HUDInfo;
-import stevekung.mods.indicatia.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekungslib.client.event.ClientEventHandler;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderPreviewScreen extends Screen
@@ -30,7 +29,7 @@ public class RenderPreviewScreen extends Screen
     private static String overallTPS = "";
     private static String overworldTPS = "";
     private static String tps = "";
-    private static List<String> allDimensionTPS = new LinkedList<>();
+    private static List<String> allDimensionTPS = new ArrayList<>();
 
     RenderPreviewScreen(Screen parent, String type)
     {
@@ -50,10 +49,9 @@ public class RenderPreviewScreen extends Screen
     {
         if (this.type.equals("offset"))
         {
-            KeystrokeRenderer.render(this.minecraft);
             HUDInfo.renderPotionHUD(this.minecraft);
 
-            if (ExtendedConfig.instance.equipmentDirection == Equipments.Direction.VERTICAL)
+            if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
             {
                 HUDInfo.renderVerticalEquippedItems(this.minecraft);
             }
@@ -64,8 +62,8 @@ public class RenderPreviewScreen extends Screen
         }
         if (this.type.equals("render_info"))
         {
-            List<String> leftInfo = new LinkedList<>();
-            List<String> rightInfo = new LinkedList<>();
+            List<String> leftInfo = new ArrayList<>();
+            List<String> rightInfo = new ArrayList<>();
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             HUDInfo.renderVerticalEquippedItems(this.minecraft);
 
@@ -99,25 +97,14 @@ public class RenderPreviewScreen extends Screen
             if (this.minecraft.player.dimension == DimensionType.OVERWORLD)
             {
                 String isSlimeChunk = InfoUtils.INSTANCE.isSlimeChunk(this.minecraft.player.getPosition()) ? "Yes" : "No";
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.instance.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.slimeChunkColor).toColoredFont() + "Slime Chunk: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.slimeChunkValueColor).toColoredFont() + isSlimeChunk);
             }
 
             leftInfo.add(HUDInfo.getCPS());
             leftInfo.add(HUDInfo.getRCPS());
 
-            if (!HUDRenderEventHandler.topDonator.isEmpty())
-            {
-                String text = ExtendedConfig.instance.topDonatorText.isEmpty() ? "" : ExtendedConfig.instance.topDonatorText + TextFormatting.RESET + " ";
-                leftInfo.add(text + HUDRenderEventHandler.topDonator);
-            }
-            if (!HUDRenderEventHandler.recentDonator.isEmpty())
-            {
-                String text = ExtendedConfig.instance.recentDonatorText.isEmpty() ? "" : ExtendedConfig.instance.recentDonatorText + TextFormatting.RESET + " ";
-                leftInfo.add(text + HUDRenderEventHandler.recentDonator);
-            }
-
             // server tps
-            if (ExtendedConfig.instance.tps && server != null)
+            if (ExtendedConfig.INSTANCE.tps && server != null)
             {
                 if (ClientEventHandler.ticks % 50 == 0)
                 {
@@ -125,11 +112,11 @@ public class RenderPreviewScreen extends Screen
                     double overworldTPS = HUDRenderEventHandler.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
                     double tps = Math.min(1000.0D / overallTPS, 20);
 
-                    RenderPreviewScreen.overallTPS = HUDRenderEventHandler.tpsFormat.format(overallTPS);
+                    RenderPreviewScreen.overallTPS = HUDRenderEventHandler.TPS.format(overallTPS);
                     RenderPreviewScreen.overworldTPS = "";
                     RenderPreviewScreen.allDimensionTPS.clear();
 
-                    if (ExtendedConfig.instance.tpsAllDims)
+                    if (ExtendedConfig.INSTANCE.tpsAllDims)
                     {
                         for (DimensionType dimension : DimensionType.getAll())
                         {
@@ -141,28 +128,28 @@ public class RenderPreviewScreen extends Screen
                                 return;
                             }
                             double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
-                            RenderPreviewScreen.allDimensionTPS.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Dimension " + dimensionName.substring(dimensionName.indexOf(":") + 1) + ": " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + HUDRenderEventHandler.tpsFormat.format(dimensionTPS));
+                            RenderPreviewScreen.allDimensionTPS.add(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsColor).toColoredFont() + "Dimension " + dimensionName.substring(dimensionName.indexOf(":") + 1) + ": " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsValueColor).toColoredFont() + HUDRenderEventHandler.TPS.format(dimensionTPS));
                         }
                     }
                     else
                     {
-                        RenderPreviewScreen.overworldTPS = HUDRenderEventHandler.tpsFormat.format(overworldTPS);
+                        RenderPreviewScreen.overworldTPS = HUDRenderEventHandler.TPS.format(overworldTPS);
                     }
-                    RenderPreviewScreen.tps = HUDRenderEventHandler.tpsFormat.format(tps);
+                    RenderPreviewScreen.tps = HUDRenderEventHandler.TPS.format(tps);
                 }
                 // overall tps
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + RenderPreviewScreen.overallTPS);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsColor).toColoredFont() + "Overall TPS: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsValueColor).toColoredFont() + RenderPreviewScreen.overallTPS);
                 // all dimension tps
                 leftInfo.addAll(RenderPreviewScreen.allDimensionTPS);
 
                 // overworld tps
                 if (!RenderPreviewScreen.overworldTPS.isEmpty())
                 {
-                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + RenderPreviewScreen.overworldTPS);
+                    leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsColor).toColoredFont() + "Overworld TPS: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsValueColor).toColoredFont() + RenderPreviewScreen.overworldTPS);
                 }
 
                 // tps
-                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.instance.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.instance.tpsValueColor).toColoredFont() + RenderPreviewScreen.tps);
+                leftInfo.add(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsColor).toColoredFont() + "TPS: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.tpsValueColor).toColoredFont() + RenderPreviewScreen.tps);
             }
 
             // right info
@@ -180,13 +167,13 @@ public class RenderPreviewScreen extends Screen
             for (int i = 0; i < leftInfo.size(); ++i)
             {
                 String string = leftInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
+                float fontHeight = this.font.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.minecraft.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.mainWindow.getScaledWidth() - 2 - this.font.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
+                    this.font.drawStringWithShadow(string, ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : 3.0625F, yOffset, 16777215);
                 }
             }
 
@@ -194,19 +181,15 @@ public class RenderPreviewScreen extends Screen
             for (int i = 0; i < rightInfo.size(); ++i)
             {
                 String string = rightInfo.get(i);
-                float fontHeight = ColorUtils.coloredFontRenderer.FONT_HEIGHT + 1;
+                float fontHeight = this.font.FONT_HEIGHT + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.minecraft.mainWindow.getScaledWidth() - 2 - ColorUtils.coloredFontRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.mainWindow.getScaledWidth() - 2 - this.font.getStringWidth(string);
 
                 if (!StringUtils.isNullOrEmpty(string))
                 {
-                    ColorUtils.coloredFontRenderer.drawStringWithShadow(string, ExtendedConfig.instance.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
+                    this.font.drawStringWithShadow(string, ExtendedConfig.INSTANCE.swapRenderInfo ? 3.0625F : xOffset, yOffset, 16777215);
                 }
             }
-        }
-        if (this.type.equals("keystroke"))
-        {
-            KeystrokeRenderer.render(this.minecraft);
         }
     }
 

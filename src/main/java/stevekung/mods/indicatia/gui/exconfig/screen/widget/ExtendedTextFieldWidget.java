@@ -10,25 +10,23 @@ import stevekung.mods.indicatia.gui.exconfig.TextFieldConfigOption;
 @OnlyIn(Dist.CLIENT)
 public class ExtendedTextFieldWidget extends TextFieldWidget
 {
-    private final ExtendedConfig options;
     private final TextFieldConfigOption textFieldOption;
     private String displayName;
     private String displayPrefix;
 
-    public ExtendedTextFieldWidget(int x, int y, int width, ExtendedConfig config, TextFieldConfigOption textFieldOption)
+    public ExtendedTextFieldWidget(int x, int y, int width, TextFieldConfigOption textFieldOption)
     {
         super(Minecraft.getInstance().fontRenderer, x, y, width, 20, "");
-        this.options = config;
         this.textFieldOption = textFieldOption;
-        this.setText(textFieldOption.get(config));
+        this.setText(textFieldOption.get());
         this.setVisible(true);
         this.setMaxStringLength(13);
     }
 
     public void setValue(String value)
     {
-        this.textFieldOption.set(this.options, value);
-        this.options.save();
+        this.textFieldOption.set(value);
+        ExtendedConfig.INSTANCE.save();
     }
 
     public void setDisplayName(String name)

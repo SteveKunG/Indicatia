@@ -3,6 +3,11 @@ package stevekung.mods.indicatia.gui.exconfig.screen;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.ColorUtils.RGB;
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -13,10 +18,6 @@ import stevekung.mods.indicatia.core.IndicatiaMod;
 import stevekung.mods.indicatia.gui.exconfig.ExtendedConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.screen.widget.ConfigTextFieldWidgetList;
 import stevekung.mods.indicatia.gui.exconfig.screen.widget.ExtendedTextFieldWidget;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
-import stevekung.mods.stevekungslib.utils.ColorUtils.RGB;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class CustomRenderInfoColorSettingsScreen extends Screen
@@ -39,8 +40,6 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         OPTIONS.add(ExtendedConfig.CPS_COLOR);
         OPTIONS.add(ExtendedConfig.RCPS_COLOR);
         OPTIONS.add(ExtendedConfig.SLIME_CHUNK_COLOR);
-        OPTIONS.add(ExtendedConfig.TOP_DONATOR_NAME_COLOR);
-        OPTIONS.add(ExtendedConfig.RECENT_DONATOR_NAME_COLOR);
         OPTIONS.add(ExtendedConfig.TPS_COLOR);
         OPTIONS.add(ExtendedConfig.REAL_TIME_COLOR);
         OPTIONS.add(ExtendedConfig.GAME_TIME_COLOR);
@@ -66,8 +65,6 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         OPTIONS.add(ExtendedConfig.CPS_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.RCPS_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.SLIME_CHUNK_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.TOP_DONATOR_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.RECENT_DONATOR_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.TPS_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.REAL_TIME_HHMMSS_VALUE_COLOR);
         OPTIONS.add(ExtendedConfig.REAL_TIME_DDMMYY_VALUE_COLOR);
@@ -94,13 +91,13 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         this.addButton(new Button(this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done"), button ->
         {
             this.optionsRowList.saveCurrentValue();
-            ExtendedConfig.instance.save();
+            ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
         this.addButton(new Button(this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"), button ->
         {
             this.optionsRowList.saveCurrentValue();
-            ExtendedConfig.instance.save();
+            ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new RenderPreviewScreen(this, "render_info"));
         }));
 
@@ -135,7 +132,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         this.optionsRowList.saveCurrentValue();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
@@ -151,7 +148,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         {
             ExtendedTextFieldWidget textField = this.optionsRowList.getFocused().getTextField();
             RGB rgb = ColorUtils.stringToRGB(textField.getText());
-            this.drawCenteredString(ColorUtils.coloredFontRenderer, LangUtils.translate("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
+            this.drawCenteredString(this.font, LangUtils.translate("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
         }
         else
         {

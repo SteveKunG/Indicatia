@@ -23,12 +23,12 @@ public class StringConfigOption extends ExtendedConfigOption
     }
 
     @Override
-    public Widget createOptionButton(ExtendedConfig config, int x, int y, int width)
+    public Widget createOptionButton(int x, int y, int width)
     {
-        return new Button(x, y, width, 20, this.get(config), button ->
+        return new Button(x, y, width, 20, this.get(ExtendedConfig.INSTANCE), button ->
         {
-            this.set(config, 1);
-            button.setMessage(this.get(config));
+            this.set(ExtendedConfig.INSTANCE, 1);
+            button.setMessage(this.get(ExtendedConfig.INSTANCE));
         });
     }
 

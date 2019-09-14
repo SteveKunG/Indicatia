@@ -1,16 +1,19 @@
 package stevekung.mods.indicatia.gui.hack;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
+
+import com.stevekung.stevekungslib.client.gui.IChatScreen;
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.CPSPosition;
@@ -21,15 +24,10 @@ import stevekung.mods.indicatia.gui.widget.MinigameButton;
 import stevekung.mods.indicatia.minigames.MinigameCommand;
 import stevekung.mods.indicatia.minigames.MinigameData;
 import stevekung.mods.indicatia.renderer.HUDInfo;
-import stevekung.mods.indicatia.utils.HideNameData;
 import stevekung.mods.indicatia.utils.InfoUtils;
-import stevekung.mods.stevekungslib.client.gui.IEntityHoverChat;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
-import stevekung.mods.stevekungslib.utils.client.ClientUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
+public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
 {
     private boolean isDragging;
     private double lastPosX;
@@ -61,10 +59,10 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            if (this.prevSelect != ExtendedConfig.instance.selectedHypixelMinigame)
+            if (this.prevSelect != ExtendedConfig.INSTANCE.selectedHypixelMinigame)
             {
                 this.updateButton(buttonList, width, height);
-                this.prevSelect = ExtendedConfig.instance.selectedHypixelMinigame;
+                this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
             }
 
             boolean clicked = !this.dropdown.dropdownClicked;
@@ -83,13 +81,13 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     @Override
     public void mouseClicked(double mouseX, double mouseY, int mouseButton)
     {
-        if (ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.CUSTOM)
+        if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM)
         {
-            String space = ExtendedConfig.instance.rcps ? " " : "";
-            int minX = ExtendedConfig.instance.cpsCustomXOffset;
-            int minY = ExtendedConfig.instance.cpsCustomYOffset;
-            int maxX = ExtendedConfig.instance.cpsCustomXOffset + Minecraft.getInstance().fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
-            int maxY = ExtendedConfig.instance.cpsCustomYOffset + 12;
+            String space = ExtendedConfig.INSTANCE.rcps ? " " : "";
+            int minX = ExtendedConfig.INSTANCE.cpsCustomXOffset;
+            int minY = ExtendedConfig.INSTANCE.cpsCustomYOffset;
+            int maxX = ExtendedConfig.INSTANCE.cpsCustomXOffset + Minecraft.getInstance().fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
+            int maxY = ExtendedConfig.INSTANCE.cpsCustomYOffset + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)
             {
@@ -103,12 +101,12 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     @Override
     public void mouseReleased(double mouseX, double mouseY, int state)
     {
-        if (ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.CUSTOM)
+        if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM)
         {
             if (state == 0 && this.isDragging)
             {
                 this.isDragging = false;
-                ExtendedConfig.instance.save();
+                ExtendedConfig.INSTANCE.save();
             }
         }
     }
@@ -116,12 +114,12 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     @Override
     public void mouseDragged(double mouseX, double mouseY, int mouseEvent, double dragX, double dragY)
     {
-        if (ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.CUSTOM)
+        if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM)
         {
             if (this.isDragging)
             {
-                ExtendedConfig.instance.cpsCustomXOffset += mouseX - this.lastPosX;
-                ExtendedConfig.instance.cpsCustomYOffset += mouseY - this.lastPosY;
+                ExtendedConfig.INSTANCE.cpsCustomXOffset += mouseX - this.lastPosX;
+                ExtendedConfig.INSTANCE.cpsCustomYOffset += mouseY - this.lastPosY;
                 this.lastPosX = mouseX;
                 this.lastPosY = mouseY;
             }
@@ -129,22 +127,9 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public ITextComponent addEntityComponent(ITextComponent component)
-    {
-        for (String hide : HideNameData.getHideNameList())
-        {
-            if (component.getUnformattedComponentText().contains(hide))
-            {
-                component = JsonUtils.create(component.getUnformattedComponentText().replace(hide, TextFormatting.OBFUSCATED + hide + TextFormatting.RESET));
-            }
-        }
-        return component;
-    }
-
-    @Override
     public void onGuiClosed()
     {
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
     }
 
     @Override
@@ -171,47 +156,41 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
     }
 
     @Override
-    public void keyTypedScrollDown() {}
-
-    @Override
-    public void keyTypedScrollUp() {}
-
-    @Override
     public void getSentHistory(int msgPos) {}
 
     @Override
     public void onSelectionChanged(DropdownMinigamesButton dropdown, int selection)
     {
-        ExtendedConfig.instance.selectedHypixelMinigame = selection;
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.selectedHypixelMinigame = selection;
+        ExtendedConfig.INSTANCE.save();
     }
 
     @Override
     public int getInitialSelection(DropdownMinigamesButton dropdown)
     {
-        return ExtendedConfig.instance.selectedHypixelMinigame;
+        return ExtendedConfig.INSTANCE.selectedHypixelMinigame;
     }
 
     private void updateButton(List<Widget> buttonList, int width, int height)
     {
         Minecraft mc = Minecraft.getInstance();
         ClientPlayerEntity player = mc.player;
-        boolean enableCPS = ExtendedConfig.instance.cps && ExtendedConfig.instance.cpsPosition == CPSPosition.CUSTOM;
+        boolean enableCPS = ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM;
 
         if (enableCPS)
         {
             buttonList.add(new Button(width - 63, height - 35, 60, 20, LangUtils.translate("menu.reset_cps"), button ->
             {
-                ExtendedConfig.instance.cpsCustomXOffset = mc.mainWindow.getScaledWidth() / 2 - (ExtendedConfig.instance.rcps ? 36 : 16);
-                ExtendedConfig.instance.cpsCustomYOffset = mc.mainWindow.getScaledHeight() / 2 - 5;
-                ExtendedConfig.instance.save();
+                ExtendedConfig.INSTANCE.cpsCustomXOffset = mc.mainWindow.getScaledWidth() / 2 - (ExtendedConfig.INSTANCE.rcps ? 36 : 16);
+                ExtendedConfig.INSTANCE.cpsCustomYOffset = mc.mainWindow.getScaledHeight() / 2 - 5;
+                ExtendedConfig.INSTANCE.save();
             }));
         }
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            List<String> list = new LinkedList<>();
+            List<String> list = new ArrayList<>();
 
-            for (MinigameData data : MinigameData.getMinigameData())
+            for (MinigameData data : MinigameData.getMinigames())
             {
                 list.add(data.getName());
             }
@@ -237,12 +216,12 @@ public class IndicatiaChatScreen implements IEntityHoverChat, IDropboxCallback
             }));
             buttonList.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
             this.dropdown.setWidth(length);
-            this.prevSelect = ExtendedConfig.instance.selectedHypixelMinigame;
+            this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
 
-            List<MinigameButton> gameBtn = new LinkedList<>();
+            List<MinigameButton> gameBtn = new ArrayList<>();
             int xPos2 = width - 99;
 
-            for (MinigameData data : MinigameData.getMinigameData())
+            for (MinigameData data : MinigameData.getMinigames())
             {
                 for (MinigameCommand command : data.getCommands())
                 {

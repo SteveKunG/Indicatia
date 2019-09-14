@@ -25,12 +25,12 @@ public class MinigameData
         return this.commands;
     }
 
-    public static List<MinigameData> getMinigameData()
+    public static List<MinigameData> getMinigames()
     {
         return MinigameData.DATA;
     }
 
-    public static void addMinigameData(MinigameData data)
+    public static void addMinigame(MinigameData data)
     {
         MinigameData.DATA.add(data);
     }

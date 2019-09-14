@@ -1,8 +1,8 @@
 package stevekung.mods.indicatia.utils;
 
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -14,7 +14,6 @@ import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.math.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 public class InfoUtils
 {
@@ -47,9 +46,7 @@ public class InfoUtils
 
         if (server != null)
         {
-            Pattern pattern = Pattern.compile("^(?:(?:(?:.*\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(server.serverIP);
-            return matcher.find();
+            return server.serverIP.equals("mc.hypixel.net");
         }
         return false;
     }
@@ -82,7 +79,7 @@ public class InfoUtils
         {
             sminutes = 0 + "" + minutes;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.instance.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
+        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
     }
 
     public String getMoonPhase(Minecraft mc)
@@ -119,14 +116,14 @@ public class InfoUtils
             status = "Waxing Gibbous";
             break;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.instance.moonPhaseColor).toColoredFont() + "Moon Phase: " + ColorUtils.stringToRGB(ExtendedConfig.instance.moonPhaseValueColor).toColoredFont() + status;
+        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.moonPhaseColor).toColoredFont() + "Moon Phase: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.moonPhaseValueColor).toColoredFont() + status;
     }
 
     public boolean isSlimeChunk(BlockPos pos)
     {
         int x = MathHelper.intFloorDiv(pos.getX(), 16);
         int z = MathHelper.intFloorDiv(pos.getZ(), 16);
-        Random rnd = new Random(ExtendedConfig.instance.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
+        Random rnd = new Random(ExtendedConfig.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rnd.nextInt(10) == 0;
     }
 

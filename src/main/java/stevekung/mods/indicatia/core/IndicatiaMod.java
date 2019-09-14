@@ -2,39 +2,34 @@ package stevekung.mods.indicatia.core;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.stevekung.stevekungslib.client.gui.ChatScreenRegistry;
+import com.stevekung.stevekungslib.utils.CommonUtils;
+import com.stevekung.stevekungslib.utils.VersionChecker;
 
 import net.minecraft.client.GameSettings;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
-import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import stevekung.mods.indicatia.command.*;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.config.IndicatiaConfig;
-import stevekung.mods.indicatia.event.*;
+import stevekung.mods.indicatia.event.HUDRenderEventHandler;
+import stevekung.mods.indicatia.event.HypixelEventHandler;
+import stevekung.mods.indicatia.event.IndicatiaEventHandler;
 import stevekung.mods.indicatia.gui.hack.IndicatiaChatScreen;
 import stevekung.mods.indicatia.handler.KeyBindingHandler;
-import stevekung.mods.indicatia.renderer.FishRendererIN;
-import stevekung.mods.indicatia.utils.CapeUtils;
 import stevekung.mods.indicatia.utils.LoggerIN;
 import stevekung.mods.indicatia.utils.ThreadMinigameData;
-import stevekung.mods.stevekungslib.client.gui.ChatScreenRegistry;
-import stevekung.mods.stevekungslib.utils.CommonUtils;
-import stevekung.mods.stevekungslib.utils.GameProfileUtils;
-import stevekung.mods.stevekungslib.utils.VersionChecker;
 
 @Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod
@@ -42,29 +37,21 @@ public class IndicatiaMod
     private static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
-    private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
+    private static final File PROFILE = new File(ExtendedConfig.USER_DIR, "profile.txt");
     public static VersionChecker CHECKER;
     public static boolean isGalacticraftLoaded;
     public static boolean isYoutubeChatLoaded;
     public static boolean isOptiFineLoaded;
-    private static final List<String> allowedUUID = new ArrayList<>();
-    public static LoggerIN LOGGER = new LoggerIN();
+    public static final LoggerIN LOGGER = new LoggerIN();
 
     static
     {
         IndicatiaMod.initProfileFile();
-        IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
-        IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
-        IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
-        IndicatiaMod.allowedUUID.add("4675476a-46e5-45ee-89a5-010dc02996d9");
-        IndicatiaMod.allowedUUID.add("e2d72023-34b9-45c2-825b-63ae2d1b2f36");
-
-        IndicatiaMod.allowedUUID.add("b996cae9-43ad-48ad-ba89-4f1c50f14943");
     }
 
     public IndicatiaMod()
     {
-        CommonUtils.addModListener(this::setup);
+        CommonUtils.addModListener(this::phaseOne);
         CommonUtils.addModListener(this::loadComplete);
         CommonUtils.addListener(this::serverStarting);
 
@@ -76,29 +63,13 @@ public class IndicatiaMod
         IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
     }
 
-    private void setup(FMLClientSetupEvent event)
+    private void phaseOne(FMLCommonSetupEvent event)
     {
         KeyBindingHandler.init();
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
-        CommonUtils.registerEventHandler(new ChatMessageEventHandler());
         CommonUtils.registerEventHandler(new HypixelEventHandler());
         CommonUtils.registerEventHandler(this);
-
-        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
-        {
-            try
-            {
-                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
-                clazz.getMethod("init").invoke(null);
-            }
-            catch (Exception e) {}
-        }
-        if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
-        {
-            //ModelLoader.setCustomModelResourceLocation(Items.FISHING_ROD, 0, new ModelResourceLocation("indicatia:fishing_rod", "inventory"));TODO
-            IndicatiaMod.LOGGER.info("Successfully replacing vanilla Fishing Rod item model");
-        }
 
         IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
 
@@ -106,23 +77,13 @@ public class IndicatiaMod
         {
             IndicatiaMod.CHECKER.startCheck();
         }
-
         IndicatiaMod.loadProfileOption();
-        CommonUtils.registerEventHandler(new BlockhitAnimationEventHandler());
-
-        if (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get())
-        {
-            Minecraft.getInstance().getRenderManager().renderers.keySet().removeIf(key -> key.equals(FishingBobberEntity.class));
-            Minecraft.getInstance().getRenderManager().renderers.put(FishingBobberEntity.class, new FishRendererIN(Minecraft.getInstance().getRenderManager()));
-            IndicatiaMod.LOGGER.info("Successfully replacing {}", FishingBobberEntity.class.getName());
-        }
     }
 
     private void loadComplete(FMLLoadCompleteEvent event)
     {
-        CapeUtils.loadCapeTextureAtStartup();
         ChatScreenRegistry.register(new IndicatiaChatScreen());
-        new ThreadMinigameData().run();
+        CommonUtils.execute(new ThreadMinigameData());
     }
 
     private void serverStarting(FMLServerStartingEvent event)
@@ -135,50 +96,36 @@ public class IndicatiaMod
         ProfileCommand.register(dispatcher);
         PingAllCommand.register(dispatcher);
         AutoFishCommand.register(dispatcher);
-        SwedenTimeCommand.register(dispatcher);
-        HideNameCommand.register(dispatcher);
-        AutoLoginCommand.register(dispatcher);
-
-        if (GameProfileUtils.isSteveKunG() || IndicatiaMod.allowedUUID.stream().anyMatch(uuid -> GameProfileUtils.getUUID().toString().trim().contains(uuid)))
-        {
-            try
-            {
-                Class<?> clazz = Class.forName("stevekung.mods.indicatia.extra.IndicatiaExtra");
-                clazz.getMethod("init").invoke(null);
-                clazz.getMethod("registerCommand", FMLServerStartingEvent.class).invoke(null, event);
-            }
-            catch (Exception e) {}
-        }
-
         IndicatiaMod.LOGGER.info("Registering client side commands");
     }
 
     private static void loadProfileOption()
     {
-        if (!profile.exists())
+        if (!PROFILE.exists())
         {
             return;
         }
-        if (!ExtendedConfig.defaultConfig.exists())
+        if (!ExtendedConfig.DEFAULT_CONFIG_FILE.exists())
         {
             IndicatiaMod.LOGGER.info("Initializing created default Indicatia profile...");
             ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.instance.save();
+            ExtendedConfig.INSTANCE.save();
         }
 
         CompoundNBT nbt = new CompoundNBT();
 
         try
         {
-            List<String> list = IOUtils.readLines(new FileInputStream(profile), StandardCharsets.UTF_8);
-
-            for (String option : list)
+            for (String option : IOUtils.readLines(new FileInputStream(PROFILE), StandardCharsets.UTF_8))
             {
                 Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
                 nbt.putString(iterator.next(), iterator.next());
             }
         }
-        catch (Exception e) {}
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         for (String property : nbt.keySet())
         {
@@ -188,30 +135,28 @@ public class IndicatiaMod
             {
                 IndicatiaMod.LOGGER.info("Loaded current profile by name '{}'", key);
                 ExtendedConfig.setCurrentProfile(key);
-                ExtendedConfig.instance.load();
+                ExtendedConfig.INSTANCE.load();
             }
         }
     }
 
     private static void initProfileFile()
     {
-        if (!ExtendedConfig.indicatiaDir.exists())
+        if (!ExtendedConfig.INDICATIA_DIR.exists())
         {
-            ExtendedConfig.indicatiaDir.mkdirs();
+            ExtendedConfig.INDICATIA_DIR.mkdirs();
         }
-        if (!ExtendedConfig.userDir.exists())
+        if (!ExtendedConfig.USER_DIR.exists())
         {
-            ExtendedConfig.userDir.mkdirs();
+            ExtendedConfig.USER_DIR.mkdirs();
         }
 
-        File profile = new File(ExtendedConfig.userDir, "profile.txt");
-
-        if (!profile.exists())
+        if (!IndicatiaMod.PROFILE.exists())
         {
-            try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
+            try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(IndicatiaMod.PROFILE), StandardCharsets.UTF_8)))
             {
                 writer.println("profile:default");
-                IndicatiaMod.LOGGER.info("Creating profile option at {}", profile.getPath());
+                IndicatiaMod.LOGGER.info("Creating profile option at {}", IndicatiaMod.PROFILE.getPath());
             }
             catch (IOException e)
             {

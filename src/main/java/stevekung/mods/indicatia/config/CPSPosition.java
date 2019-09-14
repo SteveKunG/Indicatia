@@ -9,8 +9,7 @@ public enum CPSPosition
 {
     LEFT(0, "indicatia.left"),
     RIGHT(1, "indicatia.right"),
-    KEYSTROKE(2, "cps.keystroke"),
-    CUSTOM(3, "cps.custom");
+    CUSTOM(2, "cps.custom");
 
     private static final CPSPosition[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(CPSPosition::getId)).toArray(id -> new CPSPosition[id]);
     private final int id;

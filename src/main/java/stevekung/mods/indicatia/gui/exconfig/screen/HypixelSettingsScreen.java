@@ -3,6 +3,9 @@ package stevekung.mods.indicatia.gui.exconfig.screen;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,8 +13,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.exconfig.ExtendedConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class HypixelSettingsScreen extends Screen
@@ -36,7 +37,7 @@ public class HypixelSettingsScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
         {
-            ExtendedConfig.instance.save();
+            ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
 
@@ -48,7 +49,7 @@ public class HypixelSettingsScreen extends Screen
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.instance.save();
+        ExtendedConfig.INSTANCE.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

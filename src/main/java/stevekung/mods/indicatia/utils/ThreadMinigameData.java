@@ -33,47 +33,34 @@ public class ThreadMinigameData extends Thread
             URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/" + MCPVersion.getMCVersion() + "/minigames.json");
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(in);
-            JsonArray minigames = element.getAsJsonArray();
+            JsonElement element = new JsonParser().parse(in);
 
-            for (Object obj : minigames)
+            for (JsonElement minigameEle : element.getAsJsonArray())
             {
-                JsonObject minigame = (JsonObject)obj;
-                JsonArray commands = minigame.getAsJsonArray("commands");
+                JsonObject minigame = (JsonObject)minigameEle;
                 String name = minigame.get("name").getAsString();
-                List<MinigameCommand> minigameCommandList = new ArrayList<>();
+                boolean sort = !minigame.has("sort") ? true : minigame.get("sort").getAsBoolean();
+                List<MinigameCommand> minigameCmds = new ArrayList<>();
 
-                for (Object obj2 : commands)
+                for (JsonElement commandEle : minigame.getAsJsonArray("commands"))
                 {
-                    JsonObject command = (JsonObject)obj2;
+                    JsonObject command = (JsonObject)commandEle;
                     String displayName = command.get("name").getAsString();
                     String minigameCommand = command.get("command").getAsString();
                     boolean isMinigame = command.get("minigame").getAsBoolean();
-                    minigameCommandList.add(new MinigameCommand(displayName, minigameCommand, isMinigame));
-                    minigameCommandList.sort((minigame1, minigame2) -> new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build());
+                    minigameCmds.add(new MinigameCommand(displayName, minigameCommand, isMinigame));
+                    minigameCmds.sort((minigame1, minigame2) -> !sort ? 1 : new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build());
                 }
-
-                MinigameData.addMinigameData(new MinigameData(name, minigameCommandList));
-                MinigameData.getMinigameData().sort((minigame1, minigame2) ->
-                {
-                    if (minigame1.getName().equals("Main"))
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return new CompareToBuilder().append(minigame1.getName(), minigame2.getName()).build();
-                    }
-                });
+                MinigameData.addMinigame(new MinigameData(name, minigameCmds));
+                MinigameData.getMinigames().sort((minigame1, minigame2) -> minigame1.getName().equals("Main") ? -1 : new CompareToBuilder().append(minigame1.getName(), minigame2.getName()).build());
             }
             IndicatiaMod.LOGGER.info("Successfully getting minigames data from GitHub!");
         }
-        catch (IOException | JsonSyntaxException e)
+        catch (IOException | JsonIOException | JsonSyntaxException e)
         {
             e.printStackTrace();
             IndicatiaMod.LOGGER.error("Could not get minigames data from GitHub!");
-            MinigameData.addMinigameData(new MinigameData("Could not get minigames data from Database!", new ArrayList<>()));
+            MinigameData.addMinigame(new MinigameData("Could not get minigames data from Database!", new ArrayList<>()));
         }
     }
 }

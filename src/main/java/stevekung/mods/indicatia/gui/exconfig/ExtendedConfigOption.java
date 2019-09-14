@@ -1,10 +1,10 @@
 package stevekung.mods.indicatia.gui.exconfig;
 
+import com.stevekung.stevekungslib.utils.LangUtils;
+
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ExtendedConfigOption
@@ -26,5 +26,5 @@ public abstract class ExtendedConfigOption
         return LangUtils.translate(this.key);
     }
 
-    public abstract Widget createOptionButton(ExtendedConfig options, int x, int y, int width);
+    public abstract Widget createOptionButton(int x, int y, int width);
 }

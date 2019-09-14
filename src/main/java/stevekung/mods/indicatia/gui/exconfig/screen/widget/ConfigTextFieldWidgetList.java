@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -11,10 +12,8 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.list.AbstractOptionList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import stevekung.mods.indicatia.config.ExtendedConfig;
 import stevekung.mods.indicatia.gui.exconfig.BooleanConfigOption;
 import stevekung.mods.indicatia.gui.exconfig.ExtendedConfigOption;
-import stevekung.mods.stevekungslib.utils.ColorUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFieldWidgetList.Row>
@@ -42,7 +41,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
 
     public void addButton(ExtendedConfigOption config)
     {
-        this.addEntry(ConfigTextFieldWidgetList.Row.createItems(ExtendedConfig.instance, this.width, config));
+        this.addEntry(ConfigTextFieldWidgetList.Row.createItems(this.width, config));
     }
 
     @Override
@@ -110,11 +109,11 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             return this.buttons;
         }
 
-        public static ConfigTextFieldWidgetList.Row createItems(ExtendedConfig config, int x, ExtendedConfigOption configOpt)
+        public static ConfigTextFieldWidgetList.Row createItems(int x, ExtendedConfigOption configOpt)
         {
             boolean isBoolean = configOpt instanceof BooleanConfigOption;
             int buttonX = isBoolean ? x / 2 - 80 : x / 2 + 40;
-            return isBoolean ? new ConfigTextFieldWidgetList.Row(ImmutableList.of(configOpt.createOptionButton(config, buttonX, 0, 150))) : new ConfigTextFieldWidgetList.Row(ImmutableList.of(configOpt.createOptionButton(config, buttonX, 0, 80)));
+            return isBoolean ? new ConfigTextFieldWidgetList.Row(ImmutableList.of(configOpt.createOptionButton(buttonX, 0, 150))) : new ConfigTextFieldWidgetList.Row(ImmutableList.of(configOpt.createOptionButton(buttonX, 0, 80)));
         }
 
         public ExtendedTextFieldWidget getTextField()

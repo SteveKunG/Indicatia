@@ -15,20 +15,20 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ResourceLocationException;
 import net.minecraft.util.text.StringTextComponent;
 import stevekung.mods.indicatia.config.ExtendedConfig;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
     private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.inprofile.not_found", obj)));
     private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.inprofile.cannot_remove_default")));
     private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new StringTextComponent(LangUtils.translate("argument.id.invalid")));
-    private Mode mode;
+    private final Mode mode;
 
     private ProfileNameArgumentType(Mode mode)
     {
@@ -48,7 +48,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
     {
-        ArrayList<File> files = new ArrayList<>(Arrays.asList(ExtendedConfig.userDir.listFiles()));
+        ArrayList<File> files = new ArrayList<>(Arrays.asList(ExtendedConfig.USER_DIR.listFiles()));
         List<String> resList = files.stream().filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
         return ProfileNameArgumentType.suggestIterable(resList, builder);
     }
@@ -60,9 +60,9 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         boolean exist = false;
         boolean remove = false;
 
-        if (ExtendedConfig.userDir.exists())
+        if (ExtendedConfig.USER_DIR.exists())
         {
-            for (File file : ExtendedConfig.userDir.listFiles())
+            for (File file : ExtendedConfig.USER_DIR.listFiles())
             {
                 String name = file.getName();
 

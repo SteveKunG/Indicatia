@@ -1,8 +1,10 @@
 package stevekung.mods.indicatia.gui.screen;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -10,8 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import stevekung.mods.indicatia.utils.MojangServerStatus;
 import stevekung.mods.indicatia.utils.MojangStatusChecker;
-import stevekung.mods.stevekungslib.utils.JsonUtils;
-import stevekung.mods.stevekungslib.utils.LangUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class MojangStatusScreen extends Screen
@@ -48,17 +48,13 @@ public class MojangStatusScreen extends Screen
             this.statusList.clear();
             Thread thread = new Thread(() ->
             {
-                try
+                for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
                 {
-                    Arrays.stream(MojangStatusChecker.values).forEach(checker ->
-                    {
-                        MojangServerStatus status = checker.getServiceStatus();
-                        this.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
-                    });
-                    this.refreshButton.active = true;
-                    this.doneButton.active = true;
+                    MojangServerStatus status = checker.getStatus();
+                    this.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
                 }
-                catch (Exception e) {}
+                this.refreshButton.active = true;
+                this.doneButton.active = true;
             });
 
             if (thread.getState() == Thread.State.NEW)
