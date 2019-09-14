@@ -225,7 +225,7 @@ public class IndicatiaEventHandler
             }
 
             // afk stuff
-            if (!IndicatiaEventHandler.afkMode.equals("360"))
+            if (IndicatiaEventHandler.afkMode.equals("360_move"))
             {
                 int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
 
