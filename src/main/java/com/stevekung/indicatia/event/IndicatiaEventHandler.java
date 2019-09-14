@@ -19,6 +19,7 @@ import com.stevekung.indicatia.gui.screen.ConfirmDisconnectScreen;
 import com.stevekung.indicatia.gui.screen.MojangStatusScreen;
 import com.stevekung.indicatia.gui.widget.MojangStatusButton;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
+import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -30,12 +31,11 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.status.IClientStatusNetHandler;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
@@ -71,18 +71,18 @@ public class IndicatiaEventHandler
     public static final List<Long> RIGHT_CLICK = new ArrayList<>();
     public static int currentServerPing;
     private static final ThreadPoolExecutor REALTIME_PINGER = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
-    private static int pendingPingTicks = 100;
+    private long lastPinger = -1L;
     private int disconnectClickCount;
     private int disconnectClickCooldown;
     private boolean initVersionCheck;
 
-    public static boolean isAFK;
-    public static String afkMode = "idle";
-    public static String afkReason;
+    public static boolean START_AFK;
+    public static AFKMode AFK_MODE = AFKMode.IDLE;
+    public static String AFK_REASON;
     public static int afkMoveTicks;
     public static int afkTicks;
 
-    public static boolean autoFish;
+    public static boolean START_AUTO_FISH;
     private static int autoFishTick;
 
     public IndicatiaEventHandler()
@@ -107,31 +107,28 @@ public class IndicatiaEventHandler
             }
             if (event.phase == TickEvent.Phase.START)
             {
-                IndicatiaEventHandler.runAFK(this.mc.player);
-                IndicatiaEventHandler.processAutoFish(this.mc);
+                IndicatiaEventHandler.afkTick(this.mc.player);
+                IndicatiaEventHandler.autoFishTick(this.mc);
 
                 if (this.disconnectClickCooldown > 0)
                 {
                     this.disconnectClickCooldown--;
                 }
-                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof IngameMenuScreen)//TODO Testing
+                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof IngameMenuScreen && IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK && !this.mc.isSingleplayer())//TODO Testing
                 {
-                    if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && !this.mc.isSingleplayer())
+                    for (Widget button : this.mc.currentScreen.buttons)
                     {
-                        for (Widget button : this.mc.currentScreen.buttons)
+                        if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
                         {
-                            if (button.getMessage().equals(LangUtils.translate("menu.disconnect")) && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK)
+                            if (this.disconnectClickCooldown < 60)
                             {
-                                if (this.disconnectClickCooldown < 60)
-                                {
-                                    int cooldownSec = 1 + this.disconnectClickCooldown / 20;
-                                    button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect") + " in " + cooldownSec + "...");
-                                }
-                                if (this.disconnectClickCooldown == 0)
-                                {
-                                    button.setMessage(LangUtils.translate("menu.disconnect"));
-                                    this.disconnectClickCount = 0;
-                                }
+                                int cooldownSec = 1 + this.disconnectClickCooldown / 20;
+                                button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect") + " in " + cooldownSec + "...");
+                            }
+                            if (this.disconnectClickCooldown == 0)
+                            {
+                                button.setMessage(LangUtils.translate("menu.disconnect"));
+                                this.disconnectClickCount = 0;
                             }
                         }
                     }
@@ -142,14 +139,14 @@ public class IndicatiaEventHandler
                     this.disconnectClickCooldown = 0;
                 }
 
-                if (IndicatiaEventHandler.pendingPingTicks > 0 && this.mc.getCurrentServerData() != null)
+                if (this.mc.getCurrentServerData() != null)
                 {
-                    IndicatiaEventHandler.pendingPingTicks--;
+                    long now = Util.milliTime();
 
-                    if (IndicatiaEventHandler.pendingPingTicks == 0)
+                    if (this.lastPinger == -1L || now - this.lastPinger > 5000L)
                     {
+                        this.lastPinger = now;
                         IndicatiaEventHandler.getRealTimeServerPing(this.mc.getCurrentServerData());
-                        IndicatiaEventHandler.pendingPingTicks = 100;
                     }
                 }
 
@@ -178,7 +175,7 @@ public class IndicatiaEventHandler
         if (IndicatiaConfig.GENERAL.enableCustomMovementHandler.get())
         {
             // canceled turn back
-            if (ExtendedConfig.INSTANCE.toggleSprintUseMode.equalsIgnoreCase("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+            if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
             {
                 ++movement.moveForward;
             }
@@ -199,7 +196,7 @@ public class IndicatiaEventHandler
             }
 
             // afk stuff
-            if (IndicatiaEventHandler.afkMode.equals("360_move"))
+            if (IndicatiaEventHandler.AFK_MODE == AFKMode.RANDOM_MOVE_360)
             {
                 int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
 
@@ -232,11 +229,11 @@ public class IndicatiaEventHandler
     {
         if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_1 && event.getAction() == GLFW.GLFW_PRESS)
         {
-            IndicatiaEventHandler.LEFT_CLICK.add(System.currentTimeMillis());
+            IndicatiaEventHandler.LEFT_CLICK.add(Util.milliTime());
         }
         if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_2 && event.getAction() == GLFW.GLFW_PRESS)
         {
-            IndicatiaEventHandler.RIGHT_CLICK.add(System.currentTimeMillis());
+            IndicatiaEventHandler.RIGHT_CLICK.add(Util.milliTime());
         }
     }
 
@@ -256,22 +253,20 @@ public class IndicatiaEventHandler
     }
 
     @SubscribeEvent
-    public void onPressKey(InputEvent.KeyInputEvent event)//TODO Figure out how to fix vanilla key repeating
+    public void onPressKey(InputEvent.KeyInputEvent event)
     {
-        InputMappings.Input input = InputMappings.Type.KEYSYM.getOrMakeInput(event.getKey());
-
-        if (KeyBindingHandler.KEY_QUICK_CONFIG.isActiveAndMatches(input))
+        if (KeyBindingHandler.KEY_QUICK_CONFIG.isPressed())
         {
             ExtendedConfigScreen config = new ExtendedConfigScreen();
             this.mc.displayGuiScreen(config);
         }
-        if (ExtendedConfig.INSTANCE.toggleSprintUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SPRINT.isActiveAndMatches(input))
+        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isPressed())
         {
             ExtendedConfig.INSTANCE.toggleSprint = !ExtendedConfig.INSTANCE.toggleSprint;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
             ExtendedConfig.INSTANCE.save();
         }
-        if (ExtendedConfig.INSTANCE.toggleSneakUseMode.equals("key_binding") && KeyBindingHandler.KEY_TOGGLE_SNEAK.isActiveAndMatches(input))
+        if (KeyBindingHandler.KEY_TOGGLE_SNEAK.isPressed())
         {
             ExtendedConfig.INSTANCE.toggleSneak = !ExtendedConfig.INSTANCE.toggleSneak;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
@@ -282,52 +277,59 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {
-        if (event.getGui() instanceof MainMenuScreen)
+        Screen screen = event.getGui();
+
+        if (screen instanceof MainMenuScreen)
         {
-            int height = event.getGui().height / 4 + 48;
-            event.addWidget(new MojangStatusButton(event.getGui().width / 2 + 104, height + 63, button -> this.mc.displayGuiScreen(new MojangStatusScreen(event.getGui()))));
+            int height = screen.height / 4 + 48;
+            event.addWidget(new MojangStatusButton(screen.width / 2 + 104, height + 63, button -> this.mc.displayGuiScreen(new MojangStatusScreen(screen))));
         }
     }
 
     @SubscribeEvent
-    public void onPreActionPerformedGui(GuiScreenEvent.ActionPerformedEvent.Pre event)
+    public void onScreenMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event)
     {
-        if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && event.getGui() instanceof IngameMenuScreen && !this.mc.isSingleplayer())
+        Screen screen = event.getGui();
+
+        if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && screen instanceof IngameMenuScreen && !this.mc.isSingleplayer())
         {
-            if (event.getButton().getMessage().equals(I18n.format("menu.disconnect")))//TODO Testing
+            for (Widget button : screen.buttons)
             {
-                event.setCanceled(true);
-                event.getButton().playDownSound(this.mc.getSoundHandler());
-
-                if (IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.GUI)
+                if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
                 {
-                    this.mc.displayGuiScreen(new ConfirmDisconnectScreen());
-                }
-                else
-                {
-                    this.disconnectClickCount++;
-                    event.getButton().setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect"));
+                    button.playDownSound(this.mc.getSoundHandler());
 
-                    if (this.disconnectClickCount == 1)
+                    if (IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.GUI)
                     {
-                        this.disconnectClickCooldown = 100;
+                        this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
                     }
-                    if (this.disconnectClickCount == 2)
+                    else //TODO Fix click mode
                     {
-                        if (this.mc.isConnectedToRealms())
+                        this.disconnectClickCount++;
+                        button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect"));
+
+                        if (this.disconnectClickCount == 1)
                         {
-                            this.mc.world.sendQuittingDisconnectingPacket();
-                            this.mc.loadWorld(null);
-                            RealmsBridge bridge = new RealmsBridge();
-                            bridge.switchToRealms(new MainMenuScreen());
+                            this.disconnectClickCooldown = 100;
                         }
-                        else
+                        if (this.disconnectClickCount == 2)
                         {
-                            this.mc.world.sendQuittingDisconnectingPacket();
-                            this.mc.loadWorld(null);
-                            this.mc.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
+                            if (this.mc.isConnectedToRealms())
+                            {
+                                this.mc.world.sendQuittingDisconnectingPacket();
+                                this.mc.loadWorld(null);
+                                RealmsBridge bridge = new RealmsBridge();
+                                bridge.switchToRealms(new MainMenuScreen());
+                            }
+                            else
+                            {
+                                this.mc.world.sendQuittingDisconnectingPacket();
+                                this.mc.loadWorld(null);
+                                this.mc.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
+                            }
+                            this.disconnectClickCount = 0;
                         }
-                        this.disconnectClickCount = 0;
+                        event.setCanceled(true);
                     }
                 }
             }
@@ -378,9 +380,9 @@ public class IndicatiaEventHandler
         });
     }
 
-    private static void runAFK(ClientPlayerEntity player)
+    private static void afkTick(ClientPlayerEntity player)
     {
-        if (IndicatiaEventHandler.isAFK)
+        if (IndicatiaEventHandler.START_AFK)
         {
             IndicatiaEventHandler.afkTicks++;
             int tick = IndicatiaEventHandler.afkTicks;
@@ -396,27 +398,27 @@ public class IndicatiaEventHandler
             {
                 if (tick % messageMin == 0)
                 {
-                    String reason = IndicatiaEventHandler.afkReason;
+                    String reason = IndicatiaEventHandler.AFK_REASON;
                     reason = reason.isEmpty() ? "" : ", Reason : " + reason;
                     player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + s + reason);
                 }
             }
 
-            switch (IndicatiaEventHandler.afkMode)
+            switch (IndicatiaEventHandler.AFK_MODE)
             {
-            case "idle":
+            case IDLE:
                 player.rotateTowards(angle, angle);
                 break;
-            case "360":
-                player.rotateTowards(1.0F, 0.0F);
-                break;
-            case "360_move":
-                player.rotateTowards(1.0F, 0.0F);
+            case RANDOM_MOVE:
+                player.rotateTowards(angle, angle);
                 IndicatiaEventHandler.afkMoveTicks++;
                 IndicatiaEventHandler.afkMoveTicks %= 8;
                 break;
-            case "move":
-                player.rotateTowards(angle, angle);
+            case RANDOM_360:
+                player.rotateTowards(1.0F, 0.0F);
+                break;
+            case RANDOM_MOVE_360:
+                player.rotateTowards(1.0F, 0.0F);
                 IndicatiaEventHandler.afkMoveTicks++;
                 IndicatiaEventHandler.afkMoveTicks %= 8;
                 break;
@@ -430,26 +432,26 @@ public class IndicatiaEventHandler
 
     private static void stopCommandTicks()
     {
-        if (IndicatiaEventHandler.isAFK)
+        if (IndicatiaEventHandler.START_AFK)
         {
-            IndicatiaEventHandler.isAFK = false;
-            IndicatiaEventHandler.afkReason = "";
+            IndicatiaEventHandler.START_AFK = false;
+            IndicatiaEventHandler.AFK_REASON = "";
             IndicatiaEventHandler.afkTicks = 0;
             IndicatiaEventHandler.afkMoveTicks = 0;
-            IndicatiaEventHandler.afkMode = "idle";
+            IndicatiaEventHandler.AFK_MODE = AFKMode.IDLE;
             IndicatiaMod.LOGGER.info("Stopping AFK Command");
         }
-        if (IndicatiaEventHandler.autoFish)
+        if (IndicatiaEventHandler.START_AUTO_FISH)
         {
-            IndicatiaEventHandler.autoFish = false;
+            IndicatiaEventHandler.START_AUTO_FISH = false;
             IndicatiaEventHandler.autoFishTick = 0;
             IndicatiaMod.LOGGER.info("Stopping Autofish Command");
         }
     }
 
-    private static void processAutoFish(Minecraft mc)
+    private static void autoFishTick(Minecraft mc)
     {
-        if (IndicatiaEventHandler.autoFish)
+        if (IndicatiaEventHandler.START_AUTO_FISH)
         {
             ++IndicatiaEventHandler.autoFishTick;
             IndicatiaEventHandler.autoFishTick %= 4;
@@ -494,7 +496,7 @@ public class IndicatiaEventHandler
                         }
                         else
                         {
-                            IndicatiaEventHandler.autoFish = false;
+                            IndicatiaEventHandler.START_AUTO_FISH = false;
                             IndicatiaEventHandler.autoFishTick = 0;
                             mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).setStyle(JsonUtils.RED));
                             return;

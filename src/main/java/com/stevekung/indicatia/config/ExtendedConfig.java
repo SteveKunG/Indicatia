@@ -137,8 +137,6 @@ public class ExtendedConfig
 
     // Misc
     public boolean showCustomCape = false;
-    public String toggleSprintUseMode = "command";
-    public String toggleSneakUseMode = "command";
     public int cpsCustomXOffset = 3;
     public int cpsCustomYOffset = 2;
     public long slimeChunkSeed = 0L;
@@ -368,8 +366,6 @@ public class ExtendedConfig
             this.keystrokeRCPSRainbow = this.getBoolean(nbt, "KeystrokeRCPSRainbow", this.keystrokeRCPSRainbow);
 
             // Misc
-            this.toggleSprintUseMode = this.getString(nbt, "ToggleSprintUseMode", this.toggleSprintUseMode);
-            this.toggleSneakUseMode = this.getString(nbt, "ToggleSneakUseMode", this.toggleSneakUseMode);
             this.cpsCustomXOffset = this.getInteger(nbt, "CPSCustomOffsetX", this.cpsCustomXOffset);
             this.cpsCustomYOffset = this.getInteger(nbt, "CPSCustomOffsetY", this.cpsCustomYOffset);
             this.slimeChunkSeed = this.getLong(nbt, "SlimeChunkSeed", this.slimeChunkSeed);
@@ -506,8 +502,6 @@ public class ExtendedConfig
             nbt.putBoolean("KeystrokeRCPSRainbow", this.keystrokeRCPSRainbow);
 
             // Misc
-            nbt.putString("ToggleSprintUseMode", this.toggleSprintUseMode);
-            nbt.putString("ToggleSneakUseMode", this.toggleSneakUseMode);
             nbt.putInt("CPSCustomOffsetX", this.cpsCustomXOffset);
             nbt.putInt("CPSCustomOffsetY", this.cpsCustomYOffset);
             nbt.putLong("SlimeChunkSeed", this.slimeChunkSeed);

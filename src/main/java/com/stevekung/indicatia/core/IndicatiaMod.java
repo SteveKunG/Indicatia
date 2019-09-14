@@ -90,9 +90,8 @@ public class IndicatiaMod
     {
         CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
         MojangStatusCheckCommand.register(dispatcher);
-        SetSlimeChunkSeedCommand.register(dispatcher);
+        SlimeSeedCommand.register(dispatcher);
         AFKCommand.register(dispatcher);
-        IndicatiaCommand.register(dispatcher);
         ProfileCommand.register(dispatcher);
         PingAllCommand.register(dispatcher);
         AutoFishCommand.register(dispatcher);

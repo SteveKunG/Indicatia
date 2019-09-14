@@ -61,8 +61,8 @@
     "commands.inprofile.list.entry": "- Profile Data : '%s' %s",
     "commands.inprofile.current_profile": "Currently used!",
 
-    "commands.set_slime_seed.not_allow_zero": "Zero is not allowed!",
-    "commands.set_slime_seed.set": "Set Slime Chunk seed to %s",
+    "commands.slime_seed.zero_not_allowed": "Zero is not allowed!",
+    "commands.slime_seed.set": "Set Slime Chunk seed to %s",
 
     "_comment": "EXTENDED CONFIG",
     "extended_config.main.title": "Extended Config",

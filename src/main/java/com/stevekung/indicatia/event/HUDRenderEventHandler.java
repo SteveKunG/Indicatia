@@ -320,9 +320,7 @@ public class HUDRenderEventHandler
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
         double maxDistance = 32.0D;
         double distance = entity.getDistanceSq(this.mc.getRenderManager().info.getProjectedView());
-
-        HealthStatusMode mode = ExtendedConfig.INSTANCE.healthStatusMode;
-        boolean flag = mode != HealthStatusMode.DISABLED && (mode != HealthStatusMode.POINTED || entity == InfoUtils.INSTANCE.extendedPointedEntity);
+        boolean flag = ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.DISABLED && (ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.POINTED || entity == InfoUtils.INSTANCE.extendedPointedEntity);
         Style color = halfHealth ? JsonUtils.RED : halfHealth1 ? JsonUtils.DARK_RED : JsonUtils.GREEN;
 
         if (!(distance > maxDistance * maxDistance))

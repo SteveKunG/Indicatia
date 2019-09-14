@@ -22,8 +22,8 @@ public class ProfileCommand
     {
         dispatcher.register(Commands.literal("inprofile").requires(requirement -> requirement.hasPermissionLevel(0))
                 .then(Commands.literal("add").then(Commands.argument("profile_name", StringArgumentType.word()).executes(requirement -> ProfileCommand.addProfile(requirement.getSource(), StringArgumentType.getString(requirement, "profile_name")))))
-                .then(Commands.literal("load").then(Commands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.NONE)).executes(requirement -> ProfileCommand.loadProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
-                .then(Commands.literal("save").then(Commands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.NONE)).executes(requirement -> ProfileCommand.saveProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
+                .then(Commands.literal("load").then(Commands.argument("profile_name", ProfileNameArgumentType.create()).executes(requirement -> ProfileCommand.loadProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
+                .then(Commands.literal("save").then(Commands.argument("profile_name", ProfileNameArgumentType.create()).executes(requirement -> ProfileCommand.saveProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
                 .then(Commands.literal("remove").then(Commands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.REMOVE)).executes(requirement -> ProfileCommand.removeProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
                 .then(Commands.literal("list").executes(requirement -> ProfileCommand.getProfileList(requirement.getSource()))));
     }

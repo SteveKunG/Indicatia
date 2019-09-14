@@ -35,6 +35,11 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         this.mode = mode;
     }
 
+    public static ProfileNameArgumentType create()
+    {
+        return ProfileNameArgumentType.create(Mode.NONE);
+    }
+
     public static ProfileNameArgumentType create(Mode mode)
     {
         return new ProfileNameArgumentType(mode);

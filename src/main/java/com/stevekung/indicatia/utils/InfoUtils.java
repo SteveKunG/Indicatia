@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.*;
 
 public class InfoUtils
@@ -53,13 +54,13 @@ public class InfoUtils
 
     public int getCPS()
     {
-        IndicatiaEventHandler.LEFT_CLICK.removeIf(cps -> cps < System.currentTimeMillis() - 1000L);
+        IndicatiaEventHandler.LEFT_CLICK.removeIf(cps -> cps < Util.milliTime() - 1000L);
         return IndicatiaEventHandler.LEFT_CLICK.size();
     }
 
     public int getRCPS()
     {
-        IndicatiaEventHandler.RIGHT_CLICK.removeIf(rcps -> rcps < System.currentTimeMillis() - 1000L);
+        IndicatiaEventHandler.RIGHT_CLICK.removeIf(rcps -> rcps < Util.milliTime() - 1000L);
         return IndicatiaEventHandler.RIGHT_CLICK.size();
     }
 

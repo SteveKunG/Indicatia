@@ -3,7 +3,6 @@ package com.stevekung.indicatia.gui.screen;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
-import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,9 +14,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ConfirmDisconnectScreen extends Screen
 {
-    public ConfirmDisconnectScreen()
+    private final Screen parent;
+
+    public ConfirmDisconnectScreen(Screen parent)
     {
         super(JsonUtils.create("Confirm Disconnect"));
+        this.parent = parent;
     }
 
     @Override
@@ -39,8 +41,7 @@ public class ConfirmDisconnectScreen extends Screen
                 this.minecraft.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
             }
         }));
-        boolean flag = this.minecraft.isSingleplayer() && !this.minecraft.getIntegratedServer().getPublic();
-        this.addButton(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.no"), button -> this.minecraft.displayGuiScreen(new IngameMenuScreen(flag))));
+        this.addButton(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, LangUtils.translate("gui.no"), button -> this.minecraft.displayGuiScreen(this.parent)));
     }
 
     @Override

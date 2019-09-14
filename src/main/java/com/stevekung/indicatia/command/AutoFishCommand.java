@@ -19,7 +19,7 @@ public class AutoFishCommand
 
     private static int doAutofish(CommandSource source)
     {
-        if (!IndicatiaEventHandler.autoFish)
+        if (!IndicatiaEventHandler.START_AUTO_FISH)
         {
             ClientPlayerEntity player = Minecraft.getInstance().player;
             boolean mainHand = player.getHeldItemMainhand().getItem() instanceof FishingRodItem;
@@ -32,7 +32,7 @@ public class AutoFishCommand
 
             if (mainHand || offHand)
             {
-                IndicatiaEventHandler.autoFish = true;
+                IndicatiaEventHandler.START_AUTO_FISH = true;
                 source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.enable"), false);
                 return 1;
             }
@@ -44,7 +44,7 @@ public class AutoFishCommand
         }
         else
         {
-            IndicatiaEventHandler.autoFish = false;
+            IndicatiaEventHandler.START_AUTO_FISH = false;
             source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.disable"), false);
             return 1;
         }
