@@ -41,20 +41,17 @@ configurations {
 }
 
 dependencies {
-    deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.4:deobf"
+    deobfCompile "stevekungs-lib:SteveKunG's-Lib-1.12.2:1.1.5:deobf"
     embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
 }
 
 repositories {
-    // Curse Gradle
     maven {
         url "https://plugins.gradle.org/m2/"
     }
-    // Mixin
     maven {
         url = "http://repo.spongepowered.org/maven/"
     }
-    // Curse Forge
     maven {
         url = "https://minecraft.curseforge.com/api/maven/"
     }
