@@ -28,11 +28,13 @@ import com.stevekung.stevekungslib.utils.enums.CachedEnum;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.status.IClientStatusNetHandler;
@@ -114,11 +116,11 @@ public class IndicatiaEventHandler
                 {
                     this.disconnectClickCooldown--;
                 }
-                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof IngameMenuScreen && IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK && !this.mc.isSingleplayer())//TODO Testing
+                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof IngameMenuScreen && IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK && !this.mc.isSingleplayer())
                 {
                     for (Widget button : this.mc.currentScreen.buttons)
                     {
-                        if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
+                        if (button.getMessage().contains(LangUtils.translate("menu.click_to_disconnect")))
                         {
                             if (this.disconnectClickCooldown < 60)
                             {
@@ -293,8 +295,12 @@ public class IndicatiaEventHandler
 
         if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && screen instanceof IngameMenuScreen && !this.mc.isSingleplayer())
         {
-            for (Widget button : screen.buttons)
+            IGuiEventListener listener = screen.children().get(7);
+
+            if (listener instanceof Button && listener.isMouseOver(event.getMouseX(), event.getMouseY()))
             {
+                Button button = (Button)listener;
+
                 if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
                 {
                     button.playDownSound(this.mc.getSoundHandler());
@@ -303,7 +309,7 @@ public class IndicatiaEventHandler
                     {
                         this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
                     }
-                    else //TODO Fix click mode
+                    else
                     {
                         this.disconnectClickCount++;
                         button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect"));
