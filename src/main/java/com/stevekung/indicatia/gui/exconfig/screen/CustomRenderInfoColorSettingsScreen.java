@@ -47,14 +47,14 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     public void init()
     {
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             this.optionsRowList.saveCurrentValue();
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
 
-        this.optionsRowList = new ConfigTextFieldWidgetList(this.width, this.height, 32, this.height - 32, 25);
+        this.optionsRowList = new ConfigTextFieldWidgetList(this.width, this.height, 28, this.height - 30, 25);
 
         for (ExtendedConfigOption option : OPTIONS)
         {

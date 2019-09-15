@@ -24,7 +24,7 @@ public class CustomColorSettingsScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.render_info_custom_color.title"), button -> this.minecraft.displayGuiScreen(new CustomRenderInfoColorSettingsScreen(this))));
         //this.addButton(new Button(this.width / 2 + 10, this.height / 6 - 12, 150, 20, LangUtils.translate("extended_config.keystroke_custom_color.title"), button -> this.minecraft.displayGuiScreen(new CustomKeystrokeColorSettingsScreen(this))));
-        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button -> this.minecraft.displayGuiScreen(this.parent)));
+        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, LangUtils.translate("gui.done"), button -> this.minecraft.displayGuiScreen(this.parent)));
     }
 
     @Override

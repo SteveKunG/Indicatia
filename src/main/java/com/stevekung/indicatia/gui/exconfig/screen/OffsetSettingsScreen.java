@@ -27,18 +27,18 @@ public class OffsetSettingsScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
-        this.addButton(new Button(this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"), button ->
+        this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translate("menu.preview"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new OffsetRenderPreviewScreen(this));
         }));
 
-        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 16, this.height - 32, 25);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 16, this.height - 30, 25);
         this.optionsRowList.addAll(OPTIONS);
         this.children.add(this.optionsRowList);
     }

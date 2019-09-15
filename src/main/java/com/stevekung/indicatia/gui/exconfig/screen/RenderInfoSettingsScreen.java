@@ -29,13 +29,13 @@ public class RenderInfoSettingsScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
 
-        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 16, this.height - 32, 25);
+        this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 16, this.height - 30, 25);
         this.optionsRowList.addAll(OPTIONS);
         this.children.add(this.optionsRowList);
     }
