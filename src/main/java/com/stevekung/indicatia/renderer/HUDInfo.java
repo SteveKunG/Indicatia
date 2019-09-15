@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.*;
 
 import com.google.common.collect.Ordering;
+import com.google.common.math.DoubleMath;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
@@ -26,6 +27,7 @@ import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -129,6 +131,26 @@ public class HUDInfo
             facing = 7;
         }
 
+        Direction coordDirection = entity.getHorizontalFacing();
+        String coord = "";
+
+        switch (coordDirection)
+        {
+        default:
+        case NORTH:
+            coord = "-Z";
+            break;
+        case SOUTH:
+            coord = "+Z";
+            break;
+        case WEST:
+            coord = "-X";
+            break;
+        case EAST:
+            coord = "+X";
+            break;
+        }
+
         switch (facing)
         {
         case 0:
@@ -159,6 +181,7 @@ public class HUDInfo
             direction = "Unknown";
             break;
         }
+        direction += " (" + coord + ")";
         return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.directionColor).toColoredFont() + "Direction: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.directionValueColor).toColoredFont() + direction;
     }
 
@@ -459,7 +482,7 @@ public class HUDInfo
         {
             leftItemStackList.add(mainHandItem);
             String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-            leftItemStatusList.add(mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
+            leftItemStatusList.add(!(ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.COUNT || ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.COUNT_AND_STACK) && mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
 
             if (mainHandItem.getItem() == Items.BOW)
             {
@@ -686,6 +709,8 @@ public class HUDInfo
         case ONLY_DAMAGE:
             return String.valueOf(itemStack.getMaxDamage() - itemStack.getDamage());
         case NONE:
+        case COUNT:
+        case COUNT_AND_STACK:
             return "";
         }
     }
@@ -742,13 +767,22 @@ public class HUDInfo
 
     static String getInventoryItemCount(PlayerInventory inventory, ItemStack other)
     {
+        Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
         int count = 0;
 
         for (int i = 0; i < inventory.getSizeInventory(); i++)
         {
             ItemStack playerItems = inventory.getStackInSlot(i);
 
-            if (!playerItems.isEmpty() && playerItems.getItem() == other.getItem() && playerItems.getDamage() == other.getDamage() && ItemStack.areItemStackTagsEqual(playerItems, other))
+            if (playerItems.isEmpty())
+            {
+                continue;
+            }
+            if (other.isDamageable() && (status == Equipments.Status.COUNT || status == Equipments.Status.COUNT_AND_STACK))
+            {
+                break;
+            }
+            if (playerItems.getItem() == other.getItem() && playerItems.getDamage() == other.getDamage() && ItemStack.areItemStackTagsEqual(playerItems, other))
             {
                 count += playerItems.getCount();
             }
@@ -774,7 +808,16 @@ public class HUDInfo
 
     static String getItemStackCount(ItemStack itemStack, int count)
     {
-        return count == 0 || count == 1 || count == 1 && itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(count);
+        Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
+        double stack = count / 64.0D;
+        int stackInt = count / 64;
+        String stackText = String.format("%.2f", stack);
+
+        if (DoubleMath.isMathematicalInteger(stack))
+        {
+            stackText = String.valueOf(stackInt);
+        }
+        return count == 0 || count == 1 || count == 1 && itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + stackText : count);
     }
 
     static String getArrowStackCount(int count)

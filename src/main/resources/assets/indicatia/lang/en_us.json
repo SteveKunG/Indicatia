@@ -83,6 +83,7 @@
     "extended_config.potion_hud_position": "Potion HUD Position",
     "extended_config.cps_position": "CPS Position",
     "extended_config.cps_opacity": "CPS Opacity",
+    "extended_config.ping_mode": "Ping Mode",
     "extended_config.fps": "FPS",
     "extended_config.xyz": "XYZ",
     "extended_config.direction": "Direction",
@@ -153,8 +154,6 @@
     "extended_config.ytchat_view_count_value_color": "[YTChat] View Count Value Color",
 
     "_comment": "EXTENDED CONFIG INFO",
-    "extended_config.render_info.tps.info": "This will show overall Server TPS to testing performance. (Only works with client)",
-    "extended_config.render_info.tps_all_dims.info": "This will show TPS each dimension if available.",
     "extended_config.current_profile.info": "Current Profile is '%s'",
 
     "_comment": "EXTENDED CONFIG VALUE",
@@ -174,8 +173,12 @@
     "equipment.damage_and_max_damage": "Damage/Max Damage",
     "equipment.percent": "Percent",
     "equipment.only_damage": "Only Damage",
+    "equipment.count": "Only Count",
+    "equipment.count_and_stack": "Count and Stack",
     "potion_hud.icon_and_time": "Icon/Time",
     "cps.custom": "Custom",
+    "indicatia.only_ping": "Only Ping",
+    "indicatia.ping_and_delay": "Ping and Delay",
 
     "_comment": "KEY BINDING",
     "key.indicatia.category": "Indicatia",

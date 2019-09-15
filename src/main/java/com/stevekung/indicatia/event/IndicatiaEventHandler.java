@@ -15,6 +15,7 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
+import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.gui.screen.ConfirmDisconnectScreen;
 import com.stevekung.indicatia.gui.screen.MojangStatusScreen;
 import com.stevekung.indicatia.gui.widget.MojangStatusButton;
@@ -58,10 +59,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ForgeIngameGui;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -164,7 +162,6 @@ public class IndicatiaEventHandler
                 }
             }
         }
-        ForgeIngameGui.renderBossHealth = IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get();
         ForgeIngameGui.renderObjective = IndicatiaConfig.GENERAL.enableSidebarScoreboardRender.get();
     }
 
@@ -204,22 +201,22 @@ public class IndicatiaEventHandler
 
                 if (afkMoveTick > 0 && afkMoveTick < 2)
                 {
-                    ++movement.moveForward;
+                    movement.moveForward += Math.random();
                     movement.forwardKeyDown = true;
                 }
                 else if (afkMoveTick > 2 && afkMoveTick < 4)
                 {
-                    ++movement.moveStrafe;
+                    movement.moveStrafe += Math.random();
                     movement.leftKeyDown = true;
                 }
                 else if (afkMoveTick > 4 && afkMoveTick < 6)
                 {
-                    --movement.moveForward;
+                    movement.moveForward -= Math.random();
                     movement.backKeyDown = true;
                 }
                 else if (afkMoveTick > 6 && afkMoveTick < 8)
                 {
-                    --movement.moveStrafe;
+                    movement.moveStrafe -= Math.random();
                     movement.rightKeyDown = true;
                 }
             }
@@ -342,6 +339,16 @@ public class IndicatiaEventHandler
         }
     }
 
+    @SubscribeEvent
+    public void onRenderHand(RenderHandEvent event)
+    {
+        if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
+        {
+            event.setCanceled(true);
+            return;
+        }
+    }
+
     private static void getRealTimeServerPing(ServerData server)
     {
         IndicatiaEventHandler.REALTIME_PINGER.submit(() ->
@@ -416,10 +423,10 @@ public class IndicatiaEventHandler
                 IndicatiaEventHandler.afkMoveTicks %= 8;
                 break;
             case RANDOM_360:
-                player.rotateTowards(1.0F, 0.0F);
+                player.rotateTowards((float)(Math.random() + 1.0F), 0.0F);
                 break;
             case RANDOM_MOVE_360:
-                player.rotateTowards(1.0F, 0.0F);
+                player.rotateTowards((float)(Math.random() + 1.0F), 0.0F);
                 IndicatiaEventHandler.afkMoveTicks++;
                 IndicatiaEventHandler.afkMoveTicks %= 8;
                 break;

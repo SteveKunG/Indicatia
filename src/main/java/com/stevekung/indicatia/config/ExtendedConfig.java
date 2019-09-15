@@ -62,6 +62,7 @@ public class ExtendedConfig
     public StatusEffects.Style potionHUDStyle = StatusEffects.Style.DEFAULT;
     public StatusEffects.Position potionHUDPosition = StatusEffects.Position.LEFT;
     public CPSPosition cpsPosition = CPSPosition.CUSTOM;
+    public PingMode pingMode = PingMode.ONLY_PING;
     public double cpsOpacity = 50.0D;
 
     // Offset
@@ -191,6 +192,7 @@ public class ExtendedConfig
     public static final StringConfigOption POTION_HUD_STYLE = new StringConfigOption("potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDStyle.getTranslationKey()));
     public static final StringConfigOption POTION_HUD_POSITION = new StringConfigOption("potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDPosition.getTranslationKey()));
     public static final StringConfigOption CPS_POSITION = new StringConfigOption("cps_position", (config, value) -> config.cpsPosition = CPSPosition.byId(config.cpsPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.cpsPosition.getTranslationKey()));
+    public static final StringConfigOption PING_MODE = new StringConfigOption("ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.pingMode.getTranslationKey()));
 
 
     public static final TextFieldConfigOption FPS_COLOR = new TextFieldConfigOption("fps_color", config -> config.fpsColor, (config, value) -> config.fpsColor = value);
@@ -288,6 +290,7 @@ public class ExtendedConfig
             this.potionHUDStyle = StatusEffects.Style.byId(this.getInteger(nbt, "PotionHUDStyle", this.potionHUDStyle.getId()));
             this.potionHUDPosition = StatusEffects.Position.byId(this.getInteger(nbt, "PotionHUDPosition", this.potionHUDPosition.getId()));
             this.cpsPosition = CPSPosition.byId(this.getInteger(nbt, "CPSPosition", this.cpsPosition.getId()));
+            this.pingMode = PingMode.byId(this.getInteger(nbt, "PingMode", this.pingMode.getId()));
             this.cpsOpacity = this.getDouble(nbt, "CPSOpacity", this.cpsOpacity);
 
             // Movement
@@ -426,6 +429,7 @@ public class ExtendedConfig
             nbt.putInt("PotionHUDStyle", this.potionHUDStyle.getId());
             nbt.putInt("PotionHUDPosition", this.potionHUDPosition.getId());
             nbt.putInt("CPSPosition", this.cpsPosition.getId());
+            nbt.putInt("PingMode", this.pingMode.getId());
             nbt.putDouble("CPSOpacity", this.cpsOpacity);
 
             // Movement

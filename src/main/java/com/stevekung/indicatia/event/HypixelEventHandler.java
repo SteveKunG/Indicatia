@@ -12,8 +12,6 @@ import com.stevekung.stevekungslib.utils.JsonUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.gui.screen.EditSignScreen;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ChatType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -45,9 +43,15 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onMouseClick(InputEvent.MouseInputEvent event)
     {
-        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.INSTANCE.rightClickToAddParty)
+        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof RemoteClientPlayerEntity && !this.mc.player.isSneaking() && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.INSTANCE.rightClickToAddParty)
         {
-            HypixelEventHandler.rightClickAddParty(this.mc);
+            RemoteClientPlayerEntity player = (RemoteClientPlayerEntity)this.mc.pointedEntity;
+
+            if (this.mc.player.connection.getPlayerInfoMap().stream().anyMatch(info -> info.getGameProfile().getName().equals(player.getGameProfile().getName())))
+            {
+                this.mc.player.sendChatMessage("/p " + player.getName());
+                event.setCanceled(true);
+            }
         }
     }
 
@@ -59,23 +63,23 @@ public class HypixelEventHandler
             return;
         }
 
-        String unformattedText = event.getMessage().getUnformattedComponentText();
+        String message = event.getMessage().getUnformattedComponentText();
 
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            Matcher nickMatcher = HypixelEventHandler.NICK_PATTERN.matcher(unformattedText);
+            Matcher nickMatcher = HypixelEventHandler.NICK_PATTERN.matcher(message);
 
             if (event.getType() == ChatType.CHAT)
             {
-                if (unformattedText.contains("Illegal characters in chat") || unformattedText.contains("A kick occurred in your connection, so you have been routed to limbo!") || unformattedText.contains("A kick occurred in your connection, so you were put in the"))
+                if (message.contains("Illegal characters in chat") || message.contains("A kick occurred in your connection"))
                 {
                     event.setMessage(null);
                 }
-                else if (unformattedText.contains("You were spawned in Limbo."))
+                else if (message.contains("You were spawned in Limbo."))
                 {
                     event.setMessage(JsonUtils.create("You were spawned in Limbo.").setStyle(JsonUtils.GREEN));
                 }
-                else if (unformattedText.contains("Your nick has been reset!"))
+                else if (message.contains("Your nick has been reset!"))
                 {
                     ExtendedConfig.INSTANCE.hypixelNickName = "";
                     ExtendedConfig.INSTANCE.save();
@@ -98,26 +102,17 @@ public class HypixelEventHandler
 
             if (gui.tileSign != null)
             {
+                if (!(gui.tileSign.signText[2].getUnformattedComponentText().contains("Enter your") && gui.tileSign.signText[3].getUnformattedComponentText().contains("username here")))
+                {
+                    return;
+                }
+
                 ExtendedConfig.INSTANCE.hypixelNickName = gui.tileSign.signText[0].getUnformattedComponentText();
 
                 if (mc.player.ticksExisted % 40 == 0)
                 {
                     ExtendedConfig.INSTANCE.save();
                 }
-            }
-        }
-    }
-
-    public static void rightClickAddParty(Minecraft mc)
-    {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == RayTraceResult.Type.ENTITY)
-        {
-            EntityRayTraceResult result = (EntityRayTraceResult)mc.objectMouseOver;
-
-            if (mc.player.getHeldItemMainhand().isEmpty() && result.getEntity() instanceof RemoteClientPlayerEntity)
-            {
-                RemoteClientPlayerEntity player = (RemoteClientPlayerEntity) result.getEntity();
-                mc.player.sendChatMessage("/p " + player.getName());
             }
         }
     }

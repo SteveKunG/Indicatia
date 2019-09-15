@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.gui.hack;
+package com.stevekung.indicatia.gui.screen;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +21,7 @@ import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.api.distmarker.Dist;
@@ -177,6 +178,11 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         ClientPlayerEntity player = mc.player;
         boolean enableCPS = ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM;
 
+        if (mc.player == null || !(mc.currentScreen instanceof ChatScreen))
+        {
+            return;
+        }
+
         if (enableCPS)
         {
             buttonList.add(new Button(width - 63, height - 35, 60, 20, LangUtils.translate("menu.reset_cps"), button ->
@@ -220,6 +226,13 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
 
             List<MinigameButton> gameBtn = new ArrayList<>();
             int xPos2 = width - 99;
+
+            if (this.prevSelect > list.size())
+            {
+                this.prevSelect = 0;
+                ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
+                ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
+            }
 
             for (MinigameData data : MinigameData.getMinigames())
             {

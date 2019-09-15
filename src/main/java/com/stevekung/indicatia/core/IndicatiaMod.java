@@ -13,7 +13,7 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.HypixelEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
-import com.stevekung.indicatia.gui.hack.IndicatiaChatScreen;
+import com.stevekung.indicatia.gui.screen.IndicatiaChatScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.LoggerIN;
 import com.stevekung.indicatia.utils.ThreadMinigameData;

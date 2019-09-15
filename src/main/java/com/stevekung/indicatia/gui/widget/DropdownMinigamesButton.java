@@ -29,9 +29,9 @@ public class DropdownMinigamesButton extends Button
         this.parentClass = parentClass;
         this.minigameLists = minigameLists;
 
-        if (this.minigameLists.size() == 1)
+        if (this.minigameLists.size() <= 6)
         {
-            this.displayLength = 1;
+            this.displayLength = this.minigameLists.size();
         }
         else
         {
@@ -135,11 +135,7 @@ public class DropdownMinigamesButton extends Button
         ExtendedConfig.INSTANCE.hypixelMinigameScrollPos += amount;
         int i = this.minigameLists.size();
 
-        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength)
-        {
-            ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = i - this.displayLength;
-        }
-        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)
+        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength || ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)
         {
             ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
         }

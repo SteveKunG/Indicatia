@@ -74,7 +74,9 @@ public class Equipments
         DAMAGE_AND_MAX_DAMAGE(0, "equipment.damage_and_max_damage"),
         PERCENT(1, "equipment.percent"),
         ONLY_DAMAGE(2, "equipment.only_damage"),
-        NONE(3, "indicatia.none");
+        NONE(3, "indicatia.none"),
+        COUNT(4, "equipment.count"),
+        COUNT_AND_STACK(5, "equipment.count_and_stack");
 
         private static final Status[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Status::getId)).toArray(id -> new Status[id]);
         private final int id;
