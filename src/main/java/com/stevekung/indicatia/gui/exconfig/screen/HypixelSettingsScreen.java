@@ -1,8 +1,5 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
@@ -19,14 +16,9 @@ public class HypixelSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigButtonListWidget optionsRowList;
-    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
+    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.RIGHT_CLICK_ADD_PARTY };
 
-    static
-    {
-        OPTIONS.add(ExtendedConfig.RIGHT_CLICK_ADD_PARTY);
-    }
-
-    HypixelSettingsScreen(Screen parent)
+    public HypixelSettingsScreen(Screen parent)
     {
         super(JsonUtils.create("Hypixel Settings"));
         this.parent = parent;
@@ -42,7 +34,7 @@ public class HypixelSettingsScreen extends Screen
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
-        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
+        this.optionsRowList.addAll(OPTIONS);
         this.children.add(this.optionsRowList);
     }
 

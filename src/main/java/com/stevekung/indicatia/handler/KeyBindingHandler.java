@@ -19,9 +19,9 @@ public class KeyBindingHandler
 
     public static void init()
     {
-        KeyBindingHandler.KEY_TOGGLE_SPRINT = new KeyBindingBase("key.toggle_sprint.desc", IndicatiaMod.MOD_ID, KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputMappings.Type.KEYSYM.getOrMakeInput(GLFW.GLFW_KEY_S));
-        KeyBindingHandler.KEY_TOGGLE_SNEAK = new KeyBindingBase("key.toggle_sneak.desc", IndicatiaMod.MOD_ID, KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputMappings.Type.KEYSYM.getOrMakeInput(GLFW.GLFW_KEY_LEFT_SHIFT));
-        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBinding("key.quick_config.desc", GLFW.GLFW_KEY_F4, "key.indicatia.category");
+        KeyBindingHandler.KEY_TOGGLE_SPRINT = new KeyBindingBase("key.toggle_sprint.desc", KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_S, IndicatiaMod.MOD_ID);
+        KeyBindingHandler.KEY_TOGGLE_SNEAK = new KeyBindingBase("key.toggle_sneak.desc", KeyConflictContext.IN_GAME, KeyModifier.CONTROL, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_SHIFT, IndicatiaMod.MOD_ID);
+        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBindingBase("key.quick_config.desc", IndicatiaMod.MOD_ID, GLFW.GLFW_KEY_F4);
 
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SPRINT);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SNEAK);

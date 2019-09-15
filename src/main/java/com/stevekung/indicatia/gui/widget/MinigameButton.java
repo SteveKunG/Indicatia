@@ -12,12 +12,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MinigameButton extends Button
 {
+    private final Minecraft mc;
     private static final ResourceLocation MAIN = new ResourceLocation("indicatia:textures/gui/main_lobby.png");
     private static final ResourceLocation PLAY = new ResourceLocation("indicatia:textures/gui/play_icon.png");
     private final boolean isPlay;
     private final int parentWidth;
     private final String tooltips;
-    public String command;
+    public final String command;
 
     public MinigameButton(int parentWidth, String tooltips, String command, boolean isPlay)
     {
@@ -26,12 +27,13 @@ public class MinigameButton extends Button
         this.parentWidth = parentWidth;
         this.tooltips = tooltips;
         this.command = command.startsWith("/") ? command : isPlay ? "/play " + command : "/lobby " + command;
+        this.mc = Minecraft.getInstance();
     }
 
     @Override
     public void onClick(double mouseX, double mouseZ)
     {
-        Minecraft.getInstance().player.sendChatMessage(this.command);
+        this.mc.player.sendChatMessage(this.command);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MinigameButton extends Button
     {
         if (this.visible)
         {
-            Minecraft.getInstance().getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
+            this.mc.getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
@@ -55,7 +57,7 @@ public class MinigameButton extends Button
 
             if (isHover)
             {
-                int k = Minecraft.getInstance().fontRenderer.getStringWidth(this.tooltips);
+                int k = this.mc.fontRenderer.getStringWidth(this.tooltips);
                 int i1 = mouseX + 12;
                 int j1 = mouseY - 12;
                 int k1 = 8;
@@ -80,7 +82,7 @@ public class MinigameButton extends Button
             this.blit(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
             this.blit(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
             this.blit(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
-            Minecraft.getInstance().fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
+            this.mc.fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
             this.blitOffset = 0;
             GlStateManager.enableDepthTest();
             }

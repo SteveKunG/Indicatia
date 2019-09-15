@@ -74,7 +74,7 @@ public class MojangStatusScreen extends Screen
         if (this.doneButton.active && keyCode == 1)
         {
             this.statusList.clear();
-            this.minecraft.displayGuiScreen(null);
+            this.minecraft.displayGuiScreen(this.parent);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }

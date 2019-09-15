@@ -16,7 +16,7 @@ public class HorizontalEquipment
     private final boolean isArmor;
     private int width;
     private int itemDamageWidth;
-    private String itemDamage = "";
+    private String itemDamage;
 
     HorizontalEquipment(ItemStack itemStack, boolean isArmor)
     {

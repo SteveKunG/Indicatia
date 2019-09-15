@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.gui.exconfig.screen.widget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -10,7 +9,6 @@ import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.list.AbstractOptionList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,7 +16,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFieldWidgetList.Row>
 {
-    private final List<IGuiEventListener> textFields = new ArrayList<>();
     public boolean selected = false;
 
     public ConfigTextFieldWidgetList(int width, int height, int top, int bottom, int slotHeight)
@@ -56,11 +53,6 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
-    List<IGuiEventListener> getTextField()
-    {
-        return this.textFields;
-    }
-
     public void saveCurrentValue()
     {
         this.children().forEach(Row::saveCurrentValue);
@@ -79,51 +71,42 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
     @OnlyIn(Dist.CLIENT)
     public static class Row extends AbstractOptionList.Entry<Row>
     {
-        private final Minecraft mc = Minecraft.getInstance();
-        private final List<Widget> buttons;
+        private final List<ExtendedTextFieldWidget> textFields;
 
-        private Row(List<Widget> list)
+        private Row(List<ExtendedTextFieldWidget> list)
         {
-            this.buttons = list;
+            this.textFields = list;
         }
 
         @Override
         public void render(int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            for (Widget button : this.buttons)
+            for (ExtendedTextFieldWidget textField : this.textFields)
             {
-                button.y = rowTop;
-                button.render(mouseX, mouseY, partialTicks);
-
-                if (button instanceof ExtendedTextFieldWidget)
-                {
-                    ExtendedTextFieldWidget textField = (ExtendedTextFieldWidget)button;
-                    this.mc.fontRenderer.drawString(textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.rgbToDecimal(255, 255, 255));
-                }
+                textField.y = rowTop;
+                textField.render(mouseX, mouseY, partialTicks);
+                Minecraft.getInstance().fontRenderer.drawString(textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.rgbToDecimal(255, 255, 255));
             }
         }
 
         @Override
         public List<? extends IGuiEventListener> children()
         {
-            return this.buttons;
+            return this.textFields;
         }
 
         public static ConfigTextFieldWidgetList.Row createItems(int x, ExtendedConfigOption configOpt)
         {
             boolean isBoolean = configOpt instanceof BooleanConfigOption;
             int buttonX = isBoolean ? x / 2 - 80 : x / 2 + 40;
-            return isBoolean ? new ConfigTextFieldWidgetList.Row(ImmutableList.of(configOpt.createOptionButton(buttonX, 0, 150))) : new ConfigTextFieldWidgetList.Row(ImmutableList.of(configOpt.createOptionButton(buttonX, 0, 80)));
+            return isBoolean ? new ConfigTextFieldWidgetList.Row(ImmutableList.of((ExtendedTextFieldWidget)configOpt.createOptionButton(buttonX, 0, 150))) : new ConfigTextFieldWidgetList.Row(ImmutableList.of((ExtendedTextFieldWidget)configOpt.createOptionButton(buttonX, 0, 80)));
         }
 
         public ExtendedTextFieldWidget getTextField()
         {
-            for (Widget widget : this.buttons)
+            if ((ExtendedTextFieldWidget)this.getFocused() != null)
             {
-                if (widget instanceof ExtendedTextFieldWidget)
-                {
-                    return (ExtendedTextFieldWidget)widget;
-                }
+                return (ExtendedTextFieldWidget)this.getFocused();
             }
             return null;
         }

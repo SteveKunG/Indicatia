@@ -21,7 +21,7 @@ public class DropdownMinigamesButton extends Button
     private int selectedMinigame = -1;
     private final List<String> minigameLists;
     private final IDropboxCallback parentClass;
-    private int displayLength;
+    private final int displayLength;
 
     public DropdownMinigamesButton(IDropboxCallback parentClass, int x, int y, List<String> minigameLists)
     {

@@ -63,10 +63,10 @@ public abstract class ConfigSliderWidget extends Widget
     }
 
     @Override
-    protected void onDrag(double mouseX, double mouseY, double double_3, double double_4)
+    protected void onDrag(double mouseX, double mouseY, double dragX, double dragY)
     {
         this.setValueFromMouse(mouseX);
-        super.onDrag(mouseX, mouseY, double_3, double_4);
+        super.onDrag(mouseX, mouseY, dragX, dragY);
     }
 
     @Override

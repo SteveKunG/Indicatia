@@ -1,7 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
@@ -24,61 +23,21 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigTextFieldWidgetList optionsRowList;
-    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
+    private static ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.FPS_COLOR, ExtendedConfig.XYZ_COLOR, ExtendedConfig.BIOME_COLOR, ExtendedConfig.DIRECTION_COLOR, ExtendedConfig.PING_COLOR, ExtendedConfig.PING_TO_SECOND_COLOR,
+            ExtendedConfig.SERVER_IP_COLOR, ExtendedConfig.EQUIPMENT_STATUS_COLOR, ExtendedConfig.ARROW_COUNT_COLOR, ExtendedConfig.CPS_COLOR, ExtendedConfig.RCPS_COLOR, ExtendedConfig.SLIME_CHUNK_COLOR, ExtendedConfig.TPS_COLOR, ExtendedConfig.REAL_TIME_COLOR,
+            ExtendedConfig.GAME_TIME_COLOR, ExtendedConfig.GAME_WEATHER_COLOR, ExtendedConfig.MOON_PHASE_COLOR, ExtendedConfig.FPS_VALUE_COLOR, ExtendedConfig.FPS_26_AND_40_COLOR, ExtendedConfig.FPS_LOW_25_COLOR, ExtendedConfig.XYZ_VALUE_COLOR, ExtendedConfig.DIRECTION_VALUE_COLOR,
+            ExtendedConfig.BIOME_VALUE_COLOR, ExtendedConfig.PING_VALUE_COLOR, ExtendedConfig.PING_200_AND_300_COLOR, ExtendedConfig.PING_300_AND_500_COLOR, ExtendedConfig.PING_MAX_500_COLOR, ExtendedConfig.SERVER_IP_VALUE_COLOR, ExtendedConfig.CPS_VALUE_COLOR, ExtendedConfig.RCPS_VALUE_COLOR,
+            ExtendedConfig.SLIME_CHUNK_VALUE_COLOR, ExtendedConfig.TPS_VALUE_COLOR, ExtendedConfig.REAL_TIME_HHMMSS_VALUE_COLOR, ExtendedConfig.REAL_TIME_DDMMYY_VALUE_COLOR, ExtendedConfig.GAME_TIME_VALUE_COLOR, ExtendedConfig.GAME_WEATHER_VALUE_COLOR, ExtendedConfig.MOON_PHASE_VALUE_COLOR };
 
     static
     {
-        OPTIONS.add(ExtendedConfig.FPS_COLOR);
-        OPTIONS.add(ExtendedConfig.XYZ_COLOR);
-        OPTIONS.add(ExtendedConfig.BIOME_COLOR);
-        OPTIONS.add(ExtendedConfig.DIRECTION_COLOR);
-        OPTIONS.add(ExtendedConfig.PING_COLOR);
-        OPTIONS.add(ExtendedConfig.PING_TO_SECOND_COLOR);
-        OPTIONS.add(ExtendedConfig.SERVER_IP_COLOR);
-        OPTIONS.add(ExtendedConfig.EQUIPMENT_STATUS_COLOR);
-        OPTIONS.add(ExtendedConfig.ARROW_COUNT_COLOR);
-        OPTIONS.add(ExtendedConfig.CPS_COLOR);
-        OPTIONS.add(ExtendedConfig.RCPS_COLOR);
-        OPTIONS.add(ExtendedConfig.SLIME_CHUNK_COLOR);
-        OPTIONS.add(ExtendedConfig.TPS_COLOR);
-        OPTIONS.add(ExtendedConfig.REAL_TIME_COLOR);
-        OPTIONS.add(ExtendedConfig.GAME_TIME_COLOR);
-        OPTIONS.add(ExtendedConfig.GAME_WEATHER_COLOR);
-        OPTIONS.add(ExtendedConfig.MOON_PHASE_COLOR);
-
         if (IndicatiaMod.isYoutubeChatLoaded)
         {
-            OPTIONS.add(ExtendedConfig.YTCHAT_VIEW_COUNT_COLOR);
-        }
-
-        OPTIONS.add(ExtendedConfig.FPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.FPS_26_AND_40_COLOR);
-        OPTIONS.add(ExtendedConfig.FPS_LOW_25_COLOR);
-        OPTIONS.add(ExtendedConfig.XYZ_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.DIRECTION_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.BIOME_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.PING_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.PING_200_AND_300_COLOR);
-        OPTIONS.add(ExtendedConfig.PING_300_AND_500_COLOR);
-        OPTIONS.add(ExtendedConfig.PING_MAX_500_COLOR);
-        OPTIONS.add(ExtendedConfig.SERVER_IP_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.CPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.RCPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.SLIME_CHUNK_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.TPS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.REAL_TIME_HHMMSS_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.REAL_TIME_DDMMYY_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.GAME_TIME_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.GAME_WEATHER_VALUE_COLOR);
-        OPTIONS.add(ExtendedConfig.MOON_PHASE_VALUE_COLOR);
-
-        if (IndicatiaMod.isYoutubeChatLoaded)
-        {
-            OPTIONS.add(ExtendedConfig.YTCHAT_VIEW_COUNT_VALUE_COLOR);
+            OPTIONS = ArrayUtils.addAll(OPTIONS, ExtendedConfig.YTCHAT_VIEW_COUNT_COLOR, ExtendedConfig.YTCHAT_VIEW_COUNT_VALUE_COLOR);
         }
     }
 
-    CustomRenderInfoColorSettingsScreen(Screen parent)
+    public CustomRenderInfoColorSettingsScreen(Screen parent)
     {
         super(JsonUtils.create("Render Info Custom Color Settings"));
         this.parent = parent;
@@ -88,17 +47,11 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     public void init()
     {
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        this.addButton(new Button(this.width / 2 - 105, this.height - 27, 100, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height - 27, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             this.optionsRowList.saveCurrentValue();
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
-        }));
-        this.addButton(new Button(this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"), button ->
-        {
-            this.optionsRowList.saveCurrentValue();
-            ExtendedConfig.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new RenderPreviewScreen(this, "render_info"));
         }));
 
         this.optionsRowList = new ConfigTextFieldWidgetList(this.width, this.height, 32, this.height - 32, 25);

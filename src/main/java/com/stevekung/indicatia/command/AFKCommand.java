@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.command;
 
+import com.google.common.base.Strings;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.stevekung.indicatia.config.IndicatiaConfig;
@@ -35,7 +36,7 @@ public class AFKCommand
             IndicatiaEventHandler.START_AFK = true;
             IndicatiaEventHandler.AFK_REASON = reason;
 
-            if (reason.isEmpty())
+            if (Strings.isNullOrEmpty(reason))
             {
                 reason = "";
             }

@@ -1,8 +1,5 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.DoubleConfigOption;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
@@ -20,24 +17,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ExtendedConfigScreen extends Screen
 {
-    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
+    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.SWAP_INFO_POS, ExtendedConfig.HEALTH_STATUS, ExtendedConfig.EQUIPMENT_ORDERING, ExtendedConfig.EQUIPMENT_DIRECTION, ExtendedConfig.EQUIPMENT_STATUS,
+            ExtendedConfig.EQUIPMENT_POSITION, ExtendedConfig.POTION_HUD_STYLE, ExtendedConfig.POTION_HUD_POSITION, ExtendedConfig.CPS_POSITION, ExtendedConfig.CPS_OPACITY };
     public static boolean PREVIEW;
     private Button resetButton;
     private Button doneButton;
-
-    static
-    {
-        OPTIONS.add(ExtendedConfig.SWAP_INFO_POS);
-        OPTIONS.add(ExtendedConfig.HEALTH_STATUS);
-        OPTIONS.add(ExtendedConfig.EQUIPMENT_ORDERING);
-        OPTIONS.add(ExtendedConfig.EQUIPMENT_DIRECTION);
-        OPTIONS.add(ExtendedConfig.EQUIPMENT_STATUS);
-        OPTIONS.add(ExtendedConfig.EQUIPMENT_POSITION);
-        OPTIONS.add(ExtendedConfig.POTION_HUD_STYLE);
-        OPTIONS.add(ExtendedConfig.POTION_HUD_POSITION);
-        OPTIONS.add(ExtendedConfig.CPS_POSITION);
-        OPTIONS.add(ExtendedConfig.CPS_OPACITY);
-    }
 
     public ExtendedConfigScreen()
     {
@@ -53,7 +37,7 @@ public class ExtendedConfigScreen extends Screen
         {
             if (options instanceof DoubleConfigOption)
             {
-                this.addButton(options.createOptionButton(this.width / 2 - 160 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addButton(options.createOptionButton(this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else
             {
@@ -82,13 +66,13 @@ public class ExtendedConfigScreen extends Screen
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new HypixelSettingsScreen(this));
         }));
-        this.addButton(ExtendedConfig.PREVIEW.createOptionButton(this.width / 2 + 10, this.height / 6 + 103, 150));
-        this.addButton(this.doneButton = new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(ExtendedConfig.PREVIEW.createOptionButton(this.width / 2 - 160, this.height / 6 + 175, 160));
+        this.addButton(this.doneButton = new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(null);
         }));
-        this.addButton(this.resetButton = new Button(this.width / 2 + 10, this.height / 6 + 175, 100, 20, LangUtils.translate("extended_config.reset_config"), button ->
+        this.addButton(this.resetButton = new Button(this.width / 2 + 87, this.height / 6 + 175, 78, 20, LangUtils.translate("extended_config.reset_config"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
@@ -99,18 +83,16 @@ public class ExtendedConfigScreen extends Screen
     @Override
     public void tick()
     {
-        boolean shift = ClientUtils.isShiftKeyDown();
-
-        if (shift)
+        if (ClientUtils.isShiftKeyDown())
         {
-            this.doneButton.setWidth(100);
-            this.doneButton.x = this.width / 2 - 105;
+            this.doneButton.setWidth(78);
+            this.doneButton.x = this.width / 2 + 5;
             this.resetButton.visible = true;
         }
         else
         {
-            this.doneButton.setWidth(200);
-            this.doneButton.x = this.width / 2 - 100;
+            this.doneButton.setWidth(160);
+            this.doneButton.x = this.width / 2 + 5;
             this.resetButton.visible = false;
         }
     }

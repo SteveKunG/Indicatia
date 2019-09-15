@@ -257,18 +257,18 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onPressKey(InputEvent.KeyInputEvent event)
     {
-        if (KeyBindingHandler.KEY_QUICK_CONFIG.isPressed())
+        if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
         {
             ExtendedConfigScreen config = new ExtendedConfigScreen();
             this.mc.displayGuiScreen(config);
         }
-        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isPressed())
+        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
         {
             ExtendedConfig.INSTANCE.toggleSprint = !ExtendedConfig.INSTANCE.toggleSprint;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
             ExtendedConfig.INSTANCE.save();
         }
-        if (KeyBindingHandler.KEY_TOGGLE_SNEAK.isPressed())
+        if (KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
         {
             ExtendedConfig.INSTANCE.toggleSneak = !ExtendedConfig.INSTANCE.toggleSneak;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
@@ -393,20 +393,15 @@ public class IndicatiaEventHandler
             IndicatiaEventHandler.afkTicks++;
             int tick = IndicatiaEventHandler.afkTicks;
             int messageMin = 1200 * IndicatiaConfig.GENERAL.afkMessageTime.get();
-            String s = "s";
             float angle = tick % 2 == 0 ? 0.0001F : -0.0001F;
 
-            if (tick == 0)
-            {
-                s = "";
-            }
             if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
                 if (tick % messageMin == 0)
                 {
                     String reason = IndicatiaEventHandler.AFK_REASON;
                     reason = reason.isEmpty() ? "" : ", Reason : " + reason;
-                    player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + s + reason);
+                    player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + (tick == 0 ? "" : "s") + reason);
                 }
             }
 

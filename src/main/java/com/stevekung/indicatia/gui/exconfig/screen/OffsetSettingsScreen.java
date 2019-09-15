@@ -1,8 +1,5 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
@@ -19,18 +16,9 @@ public class OffsetSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigButtonListWidget optionsRowList;
-    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
+    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.ARMOR_HUD_Y, ExtendedConfig.POTION_HUD_Y, ExtendedConfig.MAXIMUM_POTION_DISPLAY, ExtendedConfig.POTION_LENGTH_Y_OFFSET, ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP };
 
-    static
-    {
-        OPTIONS.add(ExtendedConfig.ARMOR_HUD_Y);
-        OPTIONS.add(ExtendedConfig.POTION_HUD_Y);
-        OPTIONS.add(ExtendedConfig.MAXIMUM_POTION_DISPLAY);
-        OPTIONS.add(ExtendedConfig.POTION_LENGTH_Y_OFFSET);
-        OPTIONS.add(ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP);
-    }
-
-    OffsetSettingsScreen(Screen parent)
+    public OffsetSettingsScreen(Screen parent)
     {
         super(JsonUtils.create("Offset Settings"));
         this.parent = parent;
@@ -47,11 +35,11 @@ public class OffsetSettingsScreen extends Screen
         this.addButton(new Button(this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("menu.preview"), button ->
         {
             ExtendedConfig.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new RenderPreviewScreen(this, "offset"));
+            this.minecraft.displayGuiScreen(new OffsetRenderPreviewScreen(this));
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
-        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
+        this.optionsRowList.addAll(OPTIONS);
         this.children.add(this.optionsRowList);
     }
 

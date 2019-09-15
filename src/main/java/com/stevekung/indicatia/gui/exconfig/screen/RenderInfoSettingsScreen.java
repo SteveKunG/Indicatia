@@ -1,8 +1,5 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
@@ -19,34 +16,11 @@ public class RenderInfoSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigButtonListWidget optionsRowList;
-    private static final List<ExtendedConfigOption> OPTIONS = new ArrayList<>();
+    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.FPS, ExtendedConfig.XYZ, ExtendedConfig.DIRECTION, ExtendedConfig.BIOME, ExtendedConfig.PING, ExtendedConfig.PING_TO_SECOND, ExtendedConfig.SERVER_IP,
+            ExtendedConfig.SERVER_IP_MC, ExtendedConfig.EQUIPMENT_HUD, ExtendedConfig.POTION_HUD, ExtendedConfig.CPS, ExtendedConfig.RCPS, ExtendedConfig.SLIME_CHUNK, ExtendedConfig.REAL_TIME, ExtendedConfig.GAME_TIME, ExtendedConfig.GAME_WEATHER,
+            ExtendedConfig.MOON_PHASE, ExtendedConfig.POTION_ICON, ExtendedConfig.TPS, ExtendedConfig.TPS_ALL_DIMS, ExtendedConfig.ALTERNATE_POTION_COLOR };
 
-    static
-    {
-        OPTIONS.add(ExtendedConfig.FPS);
-        OPTIONS.add(ExtendedConfig.XYZ);
-        OPTIONS.add(ExtendedConfig.DIRECTION);
-        OPTIONS.add(ExtendedConfig.BIOME);
-        OPTIONS.add(ExtendedConfig.PING);
-        OPTIONS.add(ExtendedConfig.PING_TO_SECOND);
-        OPTIONS.add(ExtendedConfig.SERVER_IP);
-        OPTIONS.add(ExtendedConfig.SERVER_IP_MC);
-        OPTIONS.add(ExtendedConfig.EQUIPMENT_HUD);
-        OPTIONS.add(ExtendedConfig.POTION_HUD);
-        OPTIONS.add(ExtendedConfig.CPS);
-        OPTIONS.add(ExtendedConfig.RCPS);
-        OPTIONS.add(ExtendedConfig.SLIME_CHUNK);
-        OPTIONS.add(ExtendedConfig.REAL_TIME);
-        OPTIONS.add(ExtendedConfig.GAME_TIME);
-        OPTIONS.add(ExtendedConfig.GAME_WEATHER);
-        OPTIONS.add(ExtendedConfig.MOON_PHASE);
-        OPTIONS.add(ExtendedConfig.POTION_ICON);
-        OPTIONS.add(ExtendedConfig.TPS);
-        OPTIONS.add(ExtendedConfig.TPS_ALL_DIMS);
-        OPTIONS.add(ExtendedConfig.ALTERNATE_POTION_COLOR);
-    }
-
-    RenderInfoSettingsScreen(Screen parent)
+    public RenderInfoSettingsScreen(Screen parent)
     {
         super(JsonUtils.create("Render Info Settings"));
         this.parent = parent;
@@ -62,7 +36,7 @@ public class RenderInfoSettingsScreen extends Screen
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 32, this.height - 32, 25);
-        this.optionsRowList.addAll(OPTIONS.toArray(new ExtendedConfigOption[OPTIONS.size()]));
+        this.optionsRowList.addAll(OPTIONS);
         this.children.add(this.optionsRowList);
     }
 

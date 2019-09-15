@@ -7,7 +7,7 @@ import java.util.List;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.*;
 import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.indicatia.gui.exconfig.screen.RenderPreviewScreen;
+import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.renderer.HUDInfo;
 import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.client.event.ClientEventHandler;
@@ -77,14 +77,14 @@ public class HUDRenderEventHandler
     {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
         {
-            if (this.mc.currentScreen instanceof RenderPreviewScreen)
+            if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
             {
                 event.setCanceled(true);
             }
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof RenderPreviewScreen))
+            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof OffsetRenderPreviewScreen))
             {
                 List<String> leftInfo = new ArrayList<>();
                 List<String> rightInfo = new ArrayList<>();
@@ -296,7 +296,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
         {
-            if (this.mc.currentScreen instanceof RenderPreviewScreen)
+            if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
             {
                 event.setCanceled(true);
                 return;
@@ -304,7 +304,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof RenderPreviewScreen)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
             {
                 event.setCanceled(true);
             }
