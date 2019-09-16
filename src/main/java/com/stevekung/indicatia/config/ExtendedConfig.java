@@ -113,8 +113,7 @@ public class ExtendedConfig
     public String topDonatorValueColor = WHITE;
     public String recentDonatorValueColor = WHITE;
     public String tpsValueColor = WHITE;
-    public String realTimeHHMMSSValueColor = WHITE;
-    public String realTimeDDMMYYValueColor = WHITE;
+    public String realTimeValueColor = WHITE;
     public String gameTimeValueColor = WHITE;
     public String gameWeatherValueColor = WHITE;
     public String moonPhaseValueColor = WHITE;
@@ -230,8 +229,7 @@ public class ExtendedConfig
     public static final TextFieldConfigOption RCPS_VALUE_COLOR = new TextFieldConfigOption("rcps_value_color", config -> config.rcpsValueColor, (config, value) -> config.rcpsValueColor = value);
     public static final TextFieldConfigOption SLIME_CHUNK_VALUE_COLOR = new TextFieldConfigOption("slime_chunk_value_color", config -> config.slimeChunkValueColor, (config, value) -> config.slimeChunkValueColor = value);
     public static final TextFieldConfigOption TPS_VALUE_COLOR = new TextFieldConfigOption("tps_value_color", config -> config.tpsValueColor, (config, value) -> config.tpsValueColor = value);
-    public static final TextFieldConfigOption REAL_TIME_HHMMSS_VALUE_COLOR = new TextFieldConfigOption("real_time_hhmmss_value_color", config -> config.realTimeHHMMSSValueColor, (config, value) -> config.realTimeHHMMSSValueColor = value);
-    public static final TextFieldConfigOption REAL_TIME_DDMMYY_VALUE_COLOR = new TextFieldConfigOption("real_time_ddmmyy_value_color", config -> config.realTimeDDMMYYValueColor, (config, value) -> config.realTimeDDMMYYValueColor = value);
+    public static final TextFieldConfigOption REAL_TIME_VALUE_COLOR = new TextFieldConfigOption("real_time_value_color", config -> config.realTimeValueColor, (config, value) -> config.realTimeValueColor = value);
     public static final TextFieldConfigOption GAME_TIME_VALUE_COLOR = new TextFieldConfigOption("game_time_value_color", config -> config.gameTimeValueColor, (config, value) -> config.gameTimeValueColor = value);
     public static final TextFieldConfigOption GAME_WEATHER_VALUE_COLOR = new TextFieldConfigOption("game_weather_value_color", config -> config.gameWeatherValueColor, (config, value) -> config.gameWeatherValueColor = value);
     public static final TextFieldConfigOption MOON_PHASE_VALUE_COLOR = new TextFieldConfigOption("moon_phase_value_color", config -> config.moonPhaseValueColor, (config, value) -> config.moonPhaseValueColor = value);
@@ -345,8 +343,7 @@ public class ExtendedConfig
             this.topDonatorValueColor = this.getString(nbt, "TopDonatorValueColor", this.topDonatorValueColor);
             this.recentDonatorValueColor = this.getString(nbt, "RecentDonatorValueColor", this.recentDonatorValueColor);
             this.tpsValueColor = this.getString(nbt, "TPSValueColor", this.tpsValueColor);
-            this.realTimeHHMMSSValueColor = this.getString(nbt, "RealTimeHHMMSSValueColor", this.realTimeHHMMSSValueColor);
-            this.realTimeDDMMYYValueColor = this.getString(nbt, "RealTimeDDMMYYValueColor", this.realTimeDDMMYYValueColor);
+            this.realTimeValueColor = this.getString(nbt, "RealTimeValueColor", this.realTimeValueColor);
             this.gameTimeValueColor = this.getString(nbt, "GameTimeValueColor", this.gameTimeValueColor);
             this.gameWeatherValueColor = this.getString(nbt, "GameWeatherValueColor", this.gameWeatherValueColor);
             this.moonPhaseValueColor = this.getString(nbt, "MoonPhaseValueColor", this.moonPhaseValueColor);
@@ -483,8 +480,7 @@ public class ExtendedConfig
             nbt.putString("TopDonatorValueColor", this.topDonatorValueColor);
             nbt.putString("RecentDonatorValueColor", this.recentDonatorValueColor);
             nbt.putString("TPSValueColor", this.tpsValueColor);
-            nbt.putString("RealTimeHHMMSSValueColor", this.realTimeHHMMSSValueColor);
-            nbt.putString("RealTimeDDMMYYValueColor", this.realTimeDDMMYYValueColor);
+            nbt.putString("RealTimeValueColor", this.realTimeValueColor);
             nbt.putString("GameTimeValueColor", this.gameTimeValueColor);
             nbt.putString("GameWeatherValueColor", this.gameWeatherValueColor);
             nbt.putString("MoonPhaseValueColor", this.moonPhaseValueColor);

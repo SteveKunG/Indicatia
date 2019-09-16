@@ -247,7 +247,7 @@ public class IndicatiaEventHandler
     {
         if (event.phase == TickEvent.Phase.START)
         {
-            InfoUtils.INSTANCE.processMouseOverEntity(this.mc);
+            InfoUtils.INSTANCE.getMouseOverEntityExtended(this.mc);
         }
     }
 

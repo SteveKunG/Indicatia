@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.command;
 
-import com.google.common.base.Strings;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.stevekung.indicatia.config.IndicatiaConfig;
@@ -12,6 +11,7 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.util.StringUtils;
 
 public class AFKCommand
 {
@@ -36,7 +36,7 @@ public class AFKCommand
             IndicatiaEventHandler.START_AFK = true;
             IndicatiaEventHandler.AFK_REASON = reason;
 
-            if (Strings.isNullOrEmpty(reason))
+            if (StringUtils.isNullOrEmpty(reason))
             {
                 reason = "";
             }

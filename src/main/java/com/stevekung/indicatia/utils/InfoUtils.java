@@ -4,14 +4,12 @@ import java.util.Random;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
-import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.*;
@@ -19,13 +17,17 @@ import net.minecraft.util.math.*;
 public class InfoUtils
 {
     public static final InfoUtils INSTANCE = new InfoUtils();
+    private final Minecraft mc;
     public Entity extendedPointedEntity;
 
-    private InfoUtils() {}
+    private InfoUtils()
+    {
+        this.mc = Minecraft.getInstance();
+    }
 
     public int getPing()
     {
-        NetworkPlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(Minecraft.getInstance().player.getUniqueID());
+        NetworkPlayerInfo info = this.mc.getConnection().getPlayerInfo(this.mc.player.getUniqueID());
 
         if (info != null)
         {
@@ -43,7 +45,7 @@ public class InfoUtils
 
     public boolean isHypixel()
     {
-        ServerData server = Minecraft.getInstance().getCurrentServerData();
+        ServerData server = this.mc.getCurrentServerData();
 
         if (server != null)
         {
@@ -64,32 +66,12 @@ public class InfoUtils
         return IndicatiaEventHandler.RIGHT_CLICK.size();
     }
 
-    public String getCurrentGameTime(long worldTicks)
-    {
-        int hours = (int)((worldTicks / 1000 + 6) % 24);
-        int minutes = (int)(60 * (worldTicks % 1000) / 1000);
-        String sminutes = "" + minutes;
-        String shours = "" + hours;
-        String ampm = hours >= 12 ? "PM" : "AM";
-
-        if (hours <= 9)
-        {
-            shours = 0 + "" + hours;
-        }
-        if (minutes <= 9)
-        {
-            sminutes = 0 + "" + minutes;
-        }
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeColor).toColoredFont() + "Game: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameTimeValueColor).toColoredFont() + shours + ":" + sminutes + " " + ampm;
-    }
-
     public String getMoonPhase(Minecraft mc)
     {
         int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
-        int phase = moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getDayTime())];
         String status;
 
-        switch (phase)
+        switch (moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getDayTime())])
         {
         case 4:
         default:
@@ -117,52 +99,52 @@ public class InfoUtils
             status = "Waxing Gibbous";
             break;
         }
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.moonPhaseColor).toColoredFont() + "Moon Phase: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.moonPhaseValueColor).toColoredFont() + status;
+        return status;
     }
 
     public boolean isSlimeChunk(BlockPos pos)
     {
         int x = MathHelper.intFloorDiv(pos.getX(), 16);
         int z = MathHelper.intFloorDiv(pos.getZ(), 16);
-        Random rnd = new Random(ExtendedConfig.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
-        return rnd.nextInt(10) == 0;
+        Random rand = new Random(ExtendedConfig.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
+        return rand.nextInt(10) == 0;
     }
 
-    public void processMouseOverEntity(Minecraft mc)
+    public void getMouseOverEntityExtended(Minecraft mc)
     {
         Entity entity = mc.getRenderViewEntity();
         double distance = 12.0D;
 
-        if (entity != null && mc.world != null)
+        if (entity != null)
         {
             this.extendedPointedEntity = null;
             mc.objectMouseOver = entity.func_213324_a(distance, mc.getRenderPartialTicks(), false);
-            Vec3d vec3d = entity.getEyePosition(mc.getRenderPartialTicks());
+            Vec3d eyePos = entity.getEyePosition(mc.getRenderPartialTicks());
             distance *= distance;
 
             if (mc.objectMouseOver != null)
             {
-                distance = mc.objectMouseOver.getHitVec().squareDistanceTo(vec3d);
+                distance = mc.objectMouseOver.getHitVec().squareDistanceTo(eyePos);
             }
 
-            Vec3d vec3d1 = entity.getLook(1.0F);
-            Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
-            AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vec3d1.scale(distance)).expand(1.0D, 1.0D, 1.0D);
-            EntityRayTraceResult result = ProjectileHelper.func_221273_a(entity, vec3d, vec3d2, axisalignedbb, entity_1 -> !entity_1.isSpectator() && entity_1.canBeCollidedWith(), distance);
+            Vec3d vecLook = entity.getLook(1.0F);
+            Vec3d vec3d2 = eyePos.add(vecLook.x * distance, vecLook.y * distance, vecLook.z * distance);
+            AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vecLook.scale(distance)).expand(1.0D, 1.0D, 1.0D);
+            EntityRayTraceResult result = ProjectileHelper.func_221273_a(entity, eyePos, vec3d2, axisalignedbb, entityFilter -> !entityFilter.isSpectator() && entityFilter.canBeCollidedWith(), distance);
 
             if (result != null)
             {
-                Entity entity2 = result.getEntity();
-                Vec3d vec3d_4 = result.getHitVec();
-                double d3 = vec3d.squareDistanceTo(vec3d_4);
+                Entity pointedEntity = result.getEntity();
+                Vec3d hitVec = result.getHitVec();
+                double pointedDist = eyePos.squareDistanceTo(hitVec);
 
-                if (d3 < distance || mc.objectMouseOver == null)
+                if (pointedDist < distance || mc.objectMouseOver == null)
                 {
                     mc.objectMouseOver = result;
 
-                    if (entity2 instanceof LivingEntity || entity2 instanceof ItemFrameEntity)
+                    if (pointedEntity instanceof LivingEntity)
                     {
-                        this.extendedPointedEntity = entity2;
+                        this.extendedPointedEntity = pointedEntity;
                     }
                 }
             }

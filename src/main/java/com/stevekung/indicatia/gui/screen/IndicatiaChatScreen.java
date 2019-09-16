@@ -12,7 +12,7 @@ import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton.IDropboxCallba
 import com.stevekung.indicatia.gui.widget.MinigameButton;
 import com.stevekung.indicatia.minigames.MinigameCommand;
 import com.stevekung.indicatia.minigames.MinigameData;
-import com.stevekung.indicatia.renderer.HUDInfo;
+import com.stevekung.indicatia.renderer.InfoOverlays;
 import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.client.gui.IChatScreen;
 import com.stevekung.stevekungslib.utils.JsonUtils;
@@ -87,7 +87,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             String space = ExtendedConfig.INSTANCE.rcps ? " " : "";
             int minX = ExtendedConfig.INSTANCE.cpsCustomXOffset;
             int minY = ExtendedConfig.INSTANCE.cpsCustomYOffset;
-            int maxX = ExtendedConfig.INSTANCE.cpsCustomXOffset + Minecraft.getInstance().fontRenderer.getStringWidth(HUDInfo.getCPS() + space + HUDInfo.getRCPS()) + 4;
+            int maxX = ExtendedConfig.INSTANCE.cpsCustomXOffset + Minecraft.getInstance().fontRenderer.getStringWidth(InfoOverlays.getCPS() + space + InfoOverlays.getRCPS()) + 4;
             int maxY = ExtendedConfig.INSTANCE.cpsCustomYOffset + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)

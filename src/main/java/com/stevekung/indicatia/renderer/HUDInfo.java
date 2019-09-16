@@ -1,7 +1,8 @@
 package com.stevekung.indicatia.renderer;
 
-import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import com.google.common.collect.Ordering;
 import com.google.common.math.DoubleMath;
@@ -9,9 +10,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.StatusEffects;
-import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.indicatia.integration.GalacticraftPlanetTime;
-import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
@@ -19,7 +17,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.ItemStack;
@@ -27,204 +24,10 @@ import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.dimension.DimensionType;
 
 public class HUDInfo
 {
-    public static String getFPS()
-    {
-        int fps = Minecraft.getDebugFPS();
-        String color = ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.fpsValueColor).toColoredFont();
-
-        if (fps >= 26 && fps <= 49)
-        {
-            color = ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.fps26And49Color).toColoredFont();
-        }
-        else if (fps <= 25)
-        {
-            color = ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.fpsLow25Color).toColoredFont();
-        }
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.fpsColor).toColoredFont() + "FPS: " + color + fps;
-    }
-
-    public static String getXYZ(Minecraft mc)
-    {
-        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        String nether = mc.player.dimension == DimensionType.THE_NETHER ? "Nether " : "";
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.xyzColor).toColoredFont() + nether + "XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.xyzValueColor).toColoredFont() + x + " " + y + " " + z;
-    }
-
-    public static String getOverworldXYZFromNether(Minecraft mc)
-    {
-        BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.xyzColor).toColoredFont() + "Overworld XYZ: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.xyzValueColor).toColoredFont() + x * 8 + " " + y + " " + z * 8;
-    }
-
-    public static String getBiome(Minecraft mc)
-    {
-        BlockPos blockPos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
-        ChunkPos chunkPos = new ChunkPos(blockPos);
-        Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
-
-        if (worldChunk.isEmpty())
-        {
-            return "Waiting for chunk...";
-        }
-        else
-        {
-            String biomeName = worldChunk.getBiome(blockPos).getDisplayName().getFormattedText().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.biomeValueColor).toColoredFont() + biomeName;
-        }
-    }
-
-    public static String getPing()
-    {
-        int responseTime = InfoUtils.INSTANCE.getPing();
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.pingColor).toColoredFont() + "Ping: " + HUDInfo.getResponseTimeColor(responseTime) + responseTime + "ms";
-    }
-
-    public static String getPingToSecond()
-    {
-        double responseTime = InfoUtils.INSTANCE.getPing() / 1000D;
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.pingToSecondColor).toColoredFont() + "Delay: " + HUDInfo.getResponseTimeColor((int) (responseTime * 1000D)) + responseTime + "s";
-    }
-
-    public static String getServerIP(Minecraft mc)
-    {
-        String ip = ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.serverIPColor).toColoredFont() + "IP: " + "" + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.serverIPValueColor).toColoredFont() + mc.getCurrentServerData().serverIP;
-
-        if (ExtendedConfig.INSTANCE.serverIPMCVersion)
-        {
-            ip = ip + "/" + mc.getVersion();
-        }
-        return ip;
-    }
-
-    public static String renderDirection(Minecraft mc)
-    {
-        Entity entity = mc.getRenderViewEntity();
-        int yaw = (int)entity.rotationYaw + 22;
-        String direction;
-
-        yaw %= 360;
-
-        if (yaw < 0)
-        {
-            yaw += 360;
-        }
-
-        int facing = yaw / 45;
-
-        if (facing < 0)
-        {
-            facing = 7;
-        }
-
-        Direction coordDirection = entity.getHorizontalFacing();
-        String coord = "";
-
-        switch (coordDirection)
-        {
-        default:
-        case NORTH:
-            coord = "-Z";
-            break;
-        case SOUTH:
-            coord = "+Z";
-            break;
-        case WEST:
-            coord = "-X";
-            break;
-        case EAST:
-            coord = "+X";
-            break;
-        }
-
-        switch (facing)
-        {
-        case 0:
-            direction = "South";
-            break;
-        case 1:
-            direction = "South West";
-            break;
-        case 2:
-            direction = "West";
-            break;
-        case 3:
-            direction = "North West";
-            break;
-        case 4:
-            direction = "North";
-            break;
-        case 5:
-            direction = "North East";
-            break;
-        case 6:
-            direction = "East";
-            break;
-        case 7:
-            direction = "South East";
-            break;
-        default:
-            direction = "Unknown";
-            break;
-        }
-        direction += " (" + coord + ")";
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.directionColor).toColoredFont() + "Direction: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.directionValueColor).toColoredFont() + direction;
-    }
-
-    public static String getCPS()
-    {
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.cpsColor).toColoredFont() + "CPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.cpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getCPS();
-    }
-
-    public static String getRCPS()
-    {
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.rcpsColor).toColoredFont() + "RCPS: " + "" + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.rcpsValueColor).toColoredFont() + InfoUtils.INSTANCE.getRCPS();
-    }
-
-    public static String getCurrentTime()
-    {
-        Date date = new Date();
-        boolean isThai = Calendar.getInstance().getTimeZone().getID().equals("Asia/Bangkok");
-        String dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, isThai ? new Locale("th", "TH") : Locale.getDefault()).format(date);
-        String timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, isThai ? new Locale("th", "TH") : Locale.getDefault()).format(date);
-        String currentTime = ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.realTimeDDMMYYValueColor).toColoredFont() + dateFormat + " " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.realTimeHHMMSSValueColor).toColoredFont() + timeFormat;
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.realTimeColor).toColoredFont() + "Time: " + currentTime;
-    }
-
-    public static String getCurrentGameTime(Minecraft mc)
-    {
-        boolean isSpace = false;
-
-        try
-        {
-            Class<?> worldProvider = mc.player.world.dimension.getClass();
-            Class<?> spaceWorld = Class.forName("micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace");
-            isSpace = IndicatiaMod.isGalacticraftLoaded && spaceWorld.isAssignableFrom(worldProvider);
-        }
-        catch (Exception e) {}
-        return isSpace ? GalacticraftPlanetTime.getTime(mc) : InfoUtils.INSTANCE.getCurrentGameTime(mc.world.getDayTime() % 24000);
-    }
-
-    public static String getGameWeather(Minecraft mc)
-    {
-        String weather = mc.world.isRaining() && !mc.world.isThundering() ? "Raining" : mc.world.isRaining() && mc.world.isThundering() ? "Thunder" : "";
-        return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameWeatherColor).toColoredFont() + "Weather: " + ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.gameWeatherValueColor).toColoredFont() + weather;
-    }
-
     public static void renderHorizontalEquippedItems(Minecraft mc)
     {
         boolean isRightSide = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
@@ -720,7 +523,7 @@ public class HUDInfo
         return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getDamage() * 100 / itemStack.getMaxDamage();
     }
 
-    private static String getResponseTimeColor(int responseTime)
+    public static String getResponseTimeColor(int responseTime)
     {
         if (responseTime >= 200 && responseTime < 300)
         {
