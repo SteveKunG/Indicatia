@@ -103,8 +103,8 @@ public class InfoOverlays
     {
         if (ClientEventHandler.ticks % 2 == 0)
         {
-            double overallTPS = HUDRenderEventHandler.mean(server.tickTimeArray) * 1.0E-6D;
-            double overworldTPS = HUDRenderEventHandler.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
+            double overallTPS = InfoOverlays.mean(server.tickTimeArray) * 1.0E-6D;
+            double overworldTPS = InfoOverlays.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
             double tps = Math.min(1000.0D / overallTPS, 20);
 
             InfoOverlays.ALL_TPS.clear();
@@ -123,7 +123,7 @@ public class InfoOverlays
                     {
                         continue;
                     }
-                    double dimensionTPS = HUDRenderEventHandler.mean(values) * 1.0E-6D;
+                    double dimensionTPS = InfoOverlays.mean(values) * 1.0E-6D;
                     InfoOverlays.ALL_TPS.add(new InfoOverlay("Dimension " + dimensionName, HUDRenderEventHandler.TPS_FORMAT.format(dimensionTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
                 }
             }
@@ -188,5 +188,16 @@ public class InfoOverlays
         builder.append(minutes);
         builder.append(" " + (hours >= 12 ? "PM" : "AM"));
         return new InfoOverlay("Game", builder.toString(), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
+    }
+
+    private static long mean(long[] values)
+    {
+        long sum = 0L;
+
+        for (long value : values)
+        {
+            sum += value;
+        }
+        return sum / values.length;
     }
 }

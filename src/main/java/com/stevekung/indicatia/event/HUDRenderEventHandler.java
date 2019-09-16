@@ -306,15 +306,4 @@ public class HUDRenderEventHandler
         }
         return infos;
     }
-
-    public static long mean(long[] values)
-    {
-        long sum = 0L;
-
-        for (long value : values)
-        {
-            sum += value;
-        }
-        return sum / values.length;
-    }
 }
