@@ -10,6 +10,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.StatusEffects;
+import com.stevekung.indicatia.utils.EquipmentOverlay;
+import com.stevekung.indicatia.utils.HorizontalEquipmentOverlay;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
@@ -24,226 +26,100 @@ import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
+import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.MathHelper;
 
 public class HUDInfo
 {
     public static void renderHorizontalEquippedItems(Minecraft mc)
     {
-        boolean isRightSide = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        int baseXOffset = 2;
+        boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
         int baseYOffset = ExtendedConfig.INSTANCE.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getHeldItemMainhand();
         ItemStack offHandItem = mc.player.getHeldItemOffhand();
-        List<HorizontalEquipment> element = new ArrayList<>();
+        List<HorizontalEquipmentOverlay> equippedLists = new ArrayList<>();
         int prevX = 0;
         int rightWidth = 0;
-        element.clear();
 
-        // armor/held item stuff
-        switch (ExtendedConfig.INSTANCE.equipmentOrdering)
+        for (int i = 3; i >= 0; i--)
         {
-        case DEFAULT:
-            if (!mainHandItem.isEmpty())
-            {
-                element.add(new HorizontalEquipment(mainHandItem, false));
-            }
-            if (!offHandItem.isEmpty())
-            {
-                element.add(new HorizontalEquipment(offHandItem, false));
-            }
-            for (int i = 3; i >= 0; i--)
-            {
-                if (!mc.player.inventory.armorInventory.get(i).isEmpty())
-                {
-                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isDamageable()));
-                }
-            }
-            break;
-        case REVERSE:
-            for (int i = 0; i <= 3; i++)
-            {
-                if (!mc.player.inventory.armorInventory.get(i).isEmpty())
-                {
-                    element.add(new HorizontalEquipment(mc.player.inventory.armorInventory.get(i), mc.player.inventory.armorInventory.get(i).isDamageable()));
-                }
-            }
-            if (!mainHandItem.isEmpty())
-            {
-                element.add(new HorizontalEquipment(mainHandItem, false));
-            }
-            if (!offHandItem.isEmpty())
-            {
-                element.add(new HorizontalEquipment(offHandItem, false));
-            }
-            break;
+            equippedLists.add(new HorizontalEquipmentOverlay(mc.player.inventory.armorInventory.get(i)));
         }
+        equippedLists.add(new HorizontalEquipmentOverlay(mainHandItem));
+        equippedLists.add(new HorizontalEquipmentOverlay(offHandItem));
 
-        for (HorizontalEquipment equipment : element)
+        for (HorizontalEquipmentOverlay equipment : equippedLists)
         {
+            ItemStack itemStack = equipment.getItemStack();
+
+            if (itemStack.isEmpty())
+            {
+                continue;
+            }
             rightWidth += equipment.getWidth();
         }
-        for (HorizontalEquipment equipment : element)
+        for (HorizontalEquipmentOverlay equipment : equippedLists)
         {
-            int xBaseRight = mc.mainWindow.getScaledWidth() - rightWidth - baseXOffset;
-            equipment.render(isRightSide ? xBaseRight + prevX + equipment.getWidth() : baseXOffset + prevX, baseYOffset);
+            ItemStack itemStack = equipment.getItemStack();
+
+            if (itemStack.isEmpty())
+            {
+                continue;
+            }
+            int xBaseRight = mc.mainWindow.getScaledWidth() - rightWidth - 2;
+            equipment.render(right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
     }
 
     public static void renderVerticalEquippedItems(Minecraft mc)
     {
-        boolean isRightSide = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        List<ItemStack> itemStackList = new ArrayList<>();
-        List<String> itemStatusList = new ArrayList<>();
-        List<String> arrowCountList = new ArrayList<>();
-        int baseXOffset = isRightSide ? mc.mainWindow.getScaledWidth() - 18 : 2;
+        int i = 0;
+        List<EquipmentOverlay> equippedLists = new ArrayList<>();
+        ItemStack mainhandStack = mc.player.getHeldItemMainhand();
+        ItemStack offhandStack = mc.player.getHeldItemOffhand();
+        boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
+        int baseXOffset = right ? mc.mainWindow.getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.INSTANCE.armorHUDYOffset;
-        ItemStack mainHandItem = mc.player.getHeldItemMainhand();
-        ItemStack offHandItem = mc.player.getHeldItemOffhand();
-        int arrowCount = HUDInfo.getInventoryArrowCount(mc.player.inventory);
 
-        // held item stuff
-        if (ExtendedConfig.INSTANCE.equipmentOrdering == Equipments.Ordering.REVERSE)
+        for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
         {
-            if (!mainHandItem.isEmpty())
-            {
-                itemStackList.add(mainHandItem);
-                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-                itemStatusList.add(mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
-
-                if (mainHandItem.getItem() == Items.BOW)
-                {
-                    arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-                }
-                else
-                {
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
-            }
-            if (!offHandItem.isEmpty())
-            {
-                itemStackList.add(offHandItem);
-                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, offHandItem);
-                itemStatusList.add(offHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
-
-                if (offHandItem.getItem() == Items.BOW)
-                {
-                    arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-                }
-                else
-                {
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
-            }
+            equippedLists.add(new EquipmentOverlay(mc.player.inventory.armorInventory.get(armorSlot)));
         }
 
-        // armor stuff
-        switch (ExtendedConfig.INSTANCE.equipmentOrdering)
+        equippedLists.add(new EquipmentOverlay(mainhandStack));
+        equippedLists.add(new EquipmentOverlay(offhandStack));
+
+        for (EquipmentOverlay equipment : equippedLists)
         {
-        case DEFAULT:
-            for (int i = 3; i >= 0; i--)
+            ItemStack itemStack = equipment.getItemStack();
+
+            if (itemStack.isEmpty())
             {
-                if (!mc.player.inventory.armorInventory.get(i).isEmpty())
-                {
-                    String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
-                    itemStackList.add(mc.player.inventory.armorInventory.get(i));
-                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
+                continue;
             }
-            break;
-        case REVERSE:
-            for (int i = 0; i <= 3; i++)
+            int equipmentYOffset = baseYOffset + 16 * i;
+            String info = equipment.renderInfo();
+            String arrowInfo = equipment.renderArrowInfo();
+            float fontHeight = (mc.fontRenderer.FONT_HEIGHT + 7) * i;
+            float infoXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
+            float infoYOffset = baseYOffset + 4 + fontHeight;
+            float arrowXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            float arrowYOffset = baseYOffset + 8 + fontHeight;
+
+            HUDInfo.renderItem(itemStack, baseXOffset, equipmentYOffset);
+
+            if (!StringUtils.isNullOrEmpty(info))
             {
-                if (!mc.player.inventory.armorInventory.get(i).isEmpty())
-                {
-                    String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
-                    itemStackList.add(mc.player.inventory.armorInventory.get(i));
-                    itemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
+                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
             }
-            break;
-        }
-
-        // held item stuff
-        if (ExtendedConfig.INSTANCE.equipmentOrdering == Equipments.Ordering.DEFAULT)
-        {
-            if (!mainHandItem.isEmpty())
-            {
-                itemStackList.add(mainHandItem);
-                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-                itemStatusList.add(mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
-
-                if (mainHandItem.getItem() == Items.BOW)
-                {
-                    arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-                }
-                else
-                {
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
-            }
-            if (!offHandItem.isEmpty())
-            {
-                itemStackList.add(offHandItem);
-                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, offHandItem);
-                itemStatusList.add(offHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
-
-                if (offHandItem.getItem() == Items.BOW)
-                {
-                    arrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-                }
-                else
-                {
-                    arrowCountList.add(""); // dummy bow arrow count list size
-                }
-            }
-        }
-
-        // item render stuff
-        for (int i = 0; i < itemStackList.size(); ++i)
-        {
-            ItemStack itemStack = itemStackList.get(i);
-
-            if (!itemStackList.isEmpty())
-            {
-                int yOffset = baseYOffset + 16 * i;
-                HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
-                yOffset += 16;
-            }
-        }
-
-        float yOffset = 0;
-        float fontHeight = 0;
-
-        // durability/item count stuff
-        for (int i = 0; i < itemStatusList.size(); ++i)
-        {
-            String string = itemStatusList.get(i);
-            fontHeight = mc.fontRenderer.FONT_HEIGHT + 7.0625F;
-
-            if (!string.isEmpty())
-            {
-                yOffset = baseYOffset + 4 + fontHeight * i;
-                float xOffset = isRightSide ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
-                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
-            }
-        }
-
-        // arrow count stuff
-        for (int i = 0; i < arrowCountList.size(); ++i)
-        {
-            String string = arrowCountList.get(i);
-            yOffset = baseYOffset + 8 + fontHeight * i;
-
-            if (!string.isEmpty())
+            if (!StringUtils.isNullOrEmpty(arrowInfo))
             {
                 GlStateManager.disableDepthTest();
-                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + string, isRightSide ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215);
+                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                 GlStateManager.enableDepthTest();
             }
+            ++i;
         }
     }
 
@@ -543,7 +419,7 @@ public class HUDInfo
         }
     }
 
-    static void renderItem(ItemStack itemStack, int x, int y)
+    public static void renderItem(ItemStack itemStack, int x, int y)
     {
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.enableRescaleNormal();

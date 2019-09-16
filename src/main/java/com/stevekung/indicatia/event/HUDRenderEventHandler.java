@@ -22,7 +22,9 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -94,63 +96,63 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && !this.mc.gameSettings.showDebugInfo && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof OffsetRenderPreviewScreen))
+            if (!this.mc.gameSettings.showDebugInfo)
             {
-                int iLeft = 0;
-                int iRight = 0;
-
-                for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(this.mc))
+                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof OffsetRenderPreviewScreen))
                 {
-                    if (info.isEmpty())
-                    {
-                        continue;
-                    }
+                    int iLeft = 0;
+                    int iRight = 0;
 
-                    String value = info.toString();
-                    InfoOverlay.Position pos = info.getPos();
-                    float defaultPos = 3.0625F;
-                    float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
-                    float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
-                    float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
-                    this.mc.fontRenderer.drawStringWithShadow(value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
-
-                    if (pos == InfoOverlay.Position.LEFT)
+                    for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(this.mc))
                     {
-                        ++iLeft;
-                    }
-                    else
-                    {
-                        ++iRight;
-                    }
-                }
-
-                if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
-                {
-                    if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
-                    {
-                        HUDInfo.renderHotbarEquippedItems(this.mc);
-                    }
-                    else
-                    {
-                        if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
+                        if (info.isEmpty())
                         {
-                            HUDInfo.renderVerticalEquippedItems(this.mc);
+                            continue;
+                        }
+
+                        String value = info.toString();
+                        InfoOverlay.Position pos = info.getPos();
+                        float defaultPos = 3.0625F;
+                        float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
+                        float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
+                        float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
+                        this.mc.fontRenderer.drawStringWithShadow(value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
+
+                        if (pos == InfoOverlay.Position.LEFT)
+                        {
+                            ++iLeft;
                         }
                         else
                         {
-                            HUDInfo.renderHorizontalEquippedItems(this.mc);
+                            ++iRight;
                         }
+                    }
+
+                    if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
+                    {
+                        if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
+                        {
+                            HUDInfo.renderHotbarEquippedItems(this.mc);
+                        }
+                        else
+                        {
+                            if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
+                            {
+                                HUDInfo.renderVerticalEquippedItems(this.mc);
+                            }
+                            else
+                            {
+                                HUDInfo.renderHorizontalEquippedItems(this.mc);
+                            }
+                        }
+                    }
+
+                    if (ExtendedConfig.INSTANCE.potionHUD)
+                    {
+                        HUDInfo.renderPotionHUD(this.mc);
                     }
                 }
 
-                if (ExtendedConfig.INSTANCE.potionHUD)
-                {
-                    HUDInfo.renderPotionHUD(this.mc);
-                }
-            }
-
-            if (!this.mc.gameSettings.showDebugInfo)
-            {
                 if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM && (this.mc.currentScreen == null || this.mc.currentScreen instanceof ChatScreen))
                 {
                     String rcps = ExtendedConfig.INSTANCE.rcps ? " " + InfoOverlays.getRCPS() : "";
@@ -174,6 +176,16 @@ public class HUDRenderEventHandler
                 event.setCanceled(true);
             }
         }
+    }
+
+    public NonNullList<ItemStack> reverse(NonNullList<ItemStack> list) {
+
+        for (int i = 0; i < list.size() / 2; i++) {
+            ItemStack temp = list.get(i);
+            list.set(i, list.get(list.size() - i - 1));
+            list.set(list.size() - i - 1, temp);
+        }
+        return list;
     }
 
     @SubscribeEvent
