@@ -145,7 +145,7 @@ public class HUDRenderEventHandler
 
                 if (ExtendedConfig.INSTANCE.potionHUD)
                 {
-                    HUDInfo.renderPotionHUD(this.mc);
+                    EffectOverlays.renderPotionHUD(this.mc);
                 }
 
                 if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM && (this.mc.currentScreen == null || this.mc.currentScreen instanceof ChatScreen))

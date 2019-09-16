@@ -16,7 +16,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
 import net.minecraft.util.math.MathHelper;
 
-public class HUDInfo
+public class EffectOverlays
 {
     public static void renderPotionHUD(Minecraft mc)
     {
@@ -86,8 +86,6 @@ public class HUDInfo
 
                 if (duration > 16)
                 {
-                    effect.renderInventoryEffect(effectIns, null, xPotion, yPotion, mc.ingameGUI.blitOffset);
-
                     if (showIcon)
                     {
                         AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.ingameGUI.blitOffset, 18, 18, mc.getPotionSpriteUploader().getSprite(effect));
