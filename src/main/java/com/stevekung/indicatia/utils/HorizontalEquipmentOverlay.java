@@ -3,7 +3,6 @@ package com.stevekung.indicatia.utils;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.renderer.HUDInfo;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.item.BowItem;
@@ -28,7 +27,7 @@ public class HorizontalEquipmentOverlay extends EquipmentOverlay
     public void render(int x, int y)
     {
         boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        HUDInfo.renderItem(this.itemStack, right ? x - 18 : x, y);
+        EquipmentOverlay.renderItem(this.itemStack, right ? x - 18 : x, y);
         this.mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
 
         if (this.itemStack.getItem() instanceof BowItem)

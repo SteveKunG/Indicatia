@@ -1,10 +1,12 @@
 package com.stevekung.indicatia.utils;
 
 import com.google.common.math.DoubleMath;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
@@ -56,6 +58,31 @@ public class EquipmentOverlay
             return String.valueOf(arrowCount);
         }
         return "";
+    }
+
+    public static void renderItem(ItemStack itemStack, int x, int y)
+    {
+        RenderHelper.enableGUIStandardItemLighting();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
+        Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(itemStack, x, y);
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.disableBlend();
+        RenderHelper.disableStandardItemLighting();
+
+        if (itemStack.isDamageable())
+        {
+            RenderHelper.enableGUIStandardItemLighting();
+            GlStateManager.disableLighting();
+            GlStateManager.enableRescaleNormal();
+            GlStateManager.enableColorMaterial();
+            GlStateManager.disableLighting();
+            GlStateManager.enableCull();
+            Minecraft.getInstance().getItemRenderer().renderItemOverlays(Minecraft.getInstance().fontRenderer, itemStack, x, y);
+            GlStateManager.blendFunc(770, 771);
+            GlStateManager.disableLighting();
+        }
     }
 
     private static String getArmorDurabilityStatus(ItemStack itemStack)

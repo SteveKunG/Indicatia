@@ -1,13 +1,9 @@
 package com.stevekung.indicatia.renderer;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.google.common.collect.Ordering;
-import com.google.common.math.DoubleMath;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.StatusEffects;
 import com.stevekung.stevekungslib.utils.ColorUtils;
@@ -15,12 +11,7 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
@@ -28,148 +19,6 @@ import net.minecraft.util.math.MathHelper;
 
 public class HUDInfo
 {
-    public static void renderHotbarEquippedItems(Minecraft mc)
-    {
-        List<ItemStack> leftItemStackList = new ArrayList<>();
-        List<String> leftItemStatusList = new ArrayList<>();
-        List<String> leftArrowCountList = new ArrayList<>();
-        List<ItemStack> rightItemStackList = new ArrayList<>();
-        List<String> rightItemStatusList = new ArrayList<>();
-        List<String> rightArrowCountList = new ArrayList<>();
-        ItemStack mainHandItem = mc.player.getHeldItemMainhand();
-        ItemStack offHandItem = mc.player.getHeldItemOffhand();
-        int arrowCount = HUDInfo.getInventoryArrowCount(mc.player.inventory);
-
-        for (int i = 2; i <= 3; i++)
-        {
-            if (!mc.player.inventory.armorInventory.get(i).isEmpty())
-            {
-                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
-                leftItemStackList.add(mc.player.inventory.armorInventory.get(i));
-                leftItemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
-                leftArrowCountList.add(""); // dummy bow arrow count list size
-            }
-        }
-
-        for (int i = 0; i <= 1; i++)
-        {
-            if (!mc.player.inventory.armorInventory.get(i).isEmpty())
-            {
-                String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mc.player.inventory.armorInventory.get(i));
-                rightItemStackList.add(mc.player.inventory.armorInventory.get(i));
-                rightItemStatusList.add(mc.player.inventory.armorInventory.get(i).isDamageable() ? HUDInfo.getArmorDurabilityStatus(mc.player.inventory.armorInventory.get(i)) : HUDInfo.getItemStackCount(mc.player.inventory.armorInventory.get(i), Integer.parseInt(itemCount)));
-                rightArrowCountList.add(""); // dummy bow arrow count list size
-            }
-        }
-
-        if (!mainHandItem.isEmpty())
-        {
-            leftItemStackList.add(mainHandItem);
-            String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, mainHandItem);
-            leftItemStatusList.add(!(ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.COUNT || ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.COUNT_AND_STACK) && mainHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(mainHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(mainHandItem, Integer.parseInt(itemCount)));
-
-            if (mainHandItem.getItem() == Items.BOW)
-            {
-                leftArrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-            }
-            else
-            {
-                leftArrowCountList.add(""); // dummy bow arrow count list size
-            }
-        }
-        if (!offHandItem.isEmpty())
-        {
-            rightItemStackList.add(offHandItem);
-            String itemCount = HUDInfo.getInventoryItemCount(mc.player.inventory, offHandItem);
-            rightItemStatusList.add(offHandItem.isDamageable() ? HUDInfo.getArmorDurabilityStatus(offHandItem) : ExtendedConfig.INSTANCE.equipmentStatus == Equipments.Status.NONE ? "" : HUDInfo.getItemStackCount(offHandItem, Integer.parseInt(itemCount)));
-
-            if (offHandItem.getItem() == Items.BOW)
-            {
-                rightArrowCountList.add(HUDInfo.getArrowStackCount(arrowCount));
-            }
-            else
-            {
-                rightArrowCountList.add(""); // dummy bow arrow count list size
-            }
-        }
-
-        // left item render stuff
-        for (int i = 0; i < leftItemStackList.size(); ++i)
-        {
-            ItemStack itemStack = leftItemStackList.get(i);
-
-            if (!leftItemStackList.isEmpty())
-            {
-                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 - 91 - 20;
-                int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 40;
-                HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
-            }
-        }
-
-        // right item render stuff
-        for (int i = 0; i < rightItemStackList.size(); ++i)
-        {
-            ItemStack itemStack = rightItemStackList.get(i);
-
-            if (!rightItemStackList.isEmpty())
-            {
-                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 + 95;
-                int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 40;
-                HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
-            }
-        }
-
-        // left durability/item count stuff
-        for (int i = 0; i < leftItemStatusList.size(); ++i)
-        {
-            String string = leftItemStatusList.get(i);
-            int stringWidth = mc.fontRenderer.getStringWidth(string);
-            float xOffset = mc.mainWindow.getScaledWidth() / 2 - 114 - stringWidth;
-            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 36;
-            mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
-        }
-
-        // right durability/item count stuff
-        for (int i = 0; i < rightItemStatusList.size(); ++i)
-        {
-            String string = rightItemStatusList.get(i);
-            float xOffset = mc.mainWindow.getScaledWidth() / 2 + 114;
-            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 36;
-            mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
-        }
-
-        // left arrow count stuff
-        for (int i = 0; i < leftArrowCountList.size(); ++i)
-        {
-            String string = leftArrowCountList.get(i);
-            int stringWidth = mc.fontRenderer.getStringWidth(string);
-            float xOffset = mc.mainWindow.getScaledWidth() / 2 - 90 - stringWidth;
-            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 32;
-
-            if (!string.isEmpty())
-            {
-                GlStateManager.disableDepthTest();
-                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
-                GlStateManager.enableDepthTest();
-            }
-        }
-
-        // right arrow count stuff
-        for (int i = 0; i < rightArrowCountList.size(); ++i)
-        {
-            String string = rightArrowCountList.get(i);
-            float xOffset = mc.mainWindow.getScaledWidth() / 2 + 104;
-            int yOffset = mc.mainWindow.getScaledHeight() - 16 * i - 32;
-
-            if (!string.isEmpty())
-            {
-                GlStateManager.disableDepthTest();
-                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + string, xOffset, yOffset, 16777215);
-                GlStateManager.enableDepthTest();
-            }
-        }
-    }
-
     public static void renderPotionHUD(Minecraft mc)
     {
         boolean iconAndTime = ExtendedConfig.INSTANCE.potionHUDStyle == StatusEffects.Style.ICON_AND_TIME;
@@ -281,29 +130,6 @@ public class HUDInfo
         }
     }
 
-    static String getArmorDurabilityStatus(ItemStack itemStack)
-    {
-        switch (ExtendedConfig.INSTANCE.equipmentStatus)
-        {
-        case DAMAGE_AND_MAX_DAMAGE:
-        default:
-            return itemStack.getMaxDamage() - itemStack.getDamage() + "/" + itemStack.getMaxDamage();
-        case PERCENT:
-            return HUDInfo.calculateItemDurabilityPercent(itemStack) + "%";
-        case ONLY_DAMAGE:
-            return String.valueOf(itemStack.getMaxDamage() - itemStack.getDamage());
-        case NONE:
-        case COUNT:
-        case COUNT_AND_STACK:
-            return "";
-        }
-    }
-
-    private static int calculateItemDurabilityPercent(ItemStack itemStack)
-    {
-        return itemStack.getMaxDamage() <= 0 ? 0 : 100 - itemStack.getDamage() * 100 / itemStack.getMaxDamage();
-    }
-
     public static String getResponseTimeColor(int responseTime)
     {
         if (responseTime >= 200 && responseTime < 300)
@@ -322,90 +148,5 @@ public class HUDInfo
         {
             return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.pingValueColor).toColoredFont();
         }
-    }
-
-    public static void renderItem(ItemStack itemStack, int x, int y)
-    {
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
-        Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(itemStack, x, y);
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
-        RenderHelper.disableStandardItemLighting();
-
-        if (itemStack.isDamageable())
-        {
-            RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.enableColorMaterial();
-            GlStateManager.disableLighting();
-            GlStateManager.enableCull();
-            Minecraft.getInstance().getItemRenderer().renderItemOverlays(Minecraft.getInstance().fontRenderer, itemStack, x, y);
-            GlStateManager.blendFunc(770, 771);
-            GlStateManager.disableLighting();
-        }
-    }
-
-    static String getInventoryItemCount(PlayerInventory inventory, ItemStack other)
-    {
-        Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
-        int count = 0;
-
-        for (int i = 0; i < inventory.getSizeInventory(); i++)
-        {
-            ItemStack playerItems = inventory.getStackInSlot(i);
-
-            if (playerItems.isEmpty())
-            {
-                continue;
-            }
-            if (other.isDamageable() && (status == Equipments.Status.COUNT || status == Equipments.Status.COUNT_AND_STACK))
-            {
-                break;
-            }
-            if (playerItems.getItem() == other.getItem() && playerItems.getDamage() == other.getDamage() && ItemStack.areItemStackTagsEqual(playerItems, other))
-            {
-                count += playerItems.getCount();
-            }
-        }
-        return String.valueOf(count);
-    }
-
-    static int getInventoryArrowCount(PlayerInventory inventory)
-    {
-        int arrowCount = 0;
-
-        for (int i = 0; i < inventory.getSizeInventory(); ++i)
-        {
-            ItemStack itemStack = inventory.getStackInSlot(i);
-
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof ArrowItem)
-            {
-                arrowCount += itemStack.getCount();
-            }
-        }
-        return arrowCount;
-    }
-
-    static String getItemStackCount(ItemStack itemStack, int count)
-    {
-        Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
-        double stack = count / 64.0D;
-        int stackInt = count / 64;
-        String stackText = String.format("%.2f", stack);
-
-        if (DoubleMath.isMathematicalInteger(stack))
-        {
-            stackText = String.valueOf(stackInt);
-        }
-        return count == 0 || count == 1 || count == 1 && itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + stackText : count);
-    }
-
-    static String getArrowStackCount(int count)
-    {
-        return count == 0 ? "" : String.valueOf(count);
     }
 }

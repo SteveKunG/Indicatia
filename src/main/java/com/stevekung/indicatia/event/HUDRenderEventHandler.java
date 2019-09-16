@@ -23,9 +23,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -128,30 +126,30 @@ public class HUDRenderEventHandler
                             ++iRight;
                         }
                     }
+                }
 
-                    if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
+                if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
+                {
+                    if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
                     {
-                        if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
+                        EquipmentOverlays.renderHotbarEquippedItems(this.mc);
+                    }
+                    else
+                    {
+                        if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
                         {
-                            HUDInfo.renderHotbarEquippedItems(this.mc);
+                            EquipmentOverlays.renderVerticalEquippedItems(this.mc);
                         }
                         else
                         {
-                            if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
-                            {
-                                EquipmentOverlays.renderVerticalEquippedItems(this.mc);
-                            }
-                            else
-                            {
-                                EquipmentOverlays.renderHorizontalEquippedItems(this.mc);
-                            }
+                            EquipmentOverlays.renderHorizontalEquippedItems(this.mc);
                         }
                     }
+                }
 
-                    if (ExtendedConfig.INSTANCE.potionHUD)
-                    {
-                        HUDInfo.renderPotionHUD(this.mc);
-                    }
+                if (ExtendedConfig.INSTANCE.potionHUD)
+                {
+                    HUDInfo.renderPotionHUD(this.mc);
                 }
 
                 if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM && (this.mc.currentScreen == null || this.mc.currentScreen instanceof ChatScreen))
@@ -177,16 +175,6 @@ public class HUDRenderEventHandler
                 event.setCanceled(true);
             }
         }
-    }
-
-    public NonNullList<ItemStack> reverse(NonNullList<ItemStack> list) {
-
-        for (int i = 0; i < list.size() / 2; i++) {
-            ItemStack temp = list.get(i);
-            list.set(i, list.get(list.size() - i - 1));
-            list.set(list.size() - i - 1, temp);
-        }
-        return list;
     }
 
     @SubscribeEvent

@@ -8,6 +8,7 @@ import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.utils.EquipmentOverlay;
 import com.stevekung.indicatia.utils.HorizontalEquipmentOverlay;
+import com.stevekung.indicatia.utils.HotbarEquipmentOverlay;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
@@ -93,7 +94,7 @@ public class EquipmentOverlays
             float arrowXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
             float arrowYOffset = baseYOffset + 8 + fontHeight;
 
-            HUDInfo.renderItem(itemStack, baseXOffset, equipmentYOffset);
+            EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
 
             if (!StringUtils.isNullOrEmpty(info))
             {
@@ -106,6 +107,88 @@ public class EquipmentOverlays
                 GlStateManager.enableDepthTest();
             }
             ++i;
+        }
+    }
+
+    public static void renderHotbarEquippedItems(Minecraft mc)
+    {
+        List<HotbarEquipmentOverlay> equippedLists = new ArrayList<>();
+        ItemStack mainhandStack = mc.player.getHeldItemMainhand();
+        ItemStack offhandStack = mc.player.getHeldItemOffhand();
+        int iLeft = 0;
+        int iRight = 0;
+
+        for (int i = 2; i <= 3; i++)
+        {
+            equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.LEFT));
+        }
+        for (int i = 0; i <= 1; i++)
+        {
+            equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.RIGHT));
+        }
+
+        equippedLists.add(new HotbarEquipmentOverlay(mainhandStack, HotbarEquipmentOverlay.Side.LEFT));
+        equippedLists.add(new HotbarEquipmentOverlay(offhandStack, HotbarEquipmentOverlay.Side.RIGHT));
+
+        for (HotbarEquipmentOverlay equipment : equippedLists)
+        {
+            ItemStack itemStack = equipment.getItemStack();
+            String info = equipment.renderInfo();
+            String arrowInfo = equipment.renderArrowInfo();
+
+            if (itemStack.isEmpty())
+            {
+                continue;
+            }
+
+            if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
+            {
+                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 - 91 - 20;
+                int armorYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 40;
+                float infoXOffset = mc.mainWindow.getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
+                int infoYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 36;
+
+                EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
+
+                if (!StringUtils.isNullOrEmpty(info))
+                {
+                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                }
+                if (!StringUtils.isNullOrEmpty(info))
+                {
+                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 - 106;
+                    int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 32;
+
+                    GlStateManager.disableDepthTest();
+                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    GlStateManager.enableDepthTest();
+                }
+                ++iLeft;
+            }
+            else
+            {
+                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 + 95;
+                int armorYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 40;
+                float infoXOffset = mc.mainWindow.getScaledWidth() / 2 + 114;
+                int infoYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 36;
+
+                EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
+
+                if (!StringUtils.isNullOrEmpty(info))
+                {
+                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                }
+                if (!StringUtils.isNullOrEmpty(info))
+                {
+                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
+                    int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 32;
+
+                    GlStateManager.disableDepthTest();
+                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    GlStateManager.enableDepthTest();
+                }
+                ++iRight;
+            }
         }
     }
 }

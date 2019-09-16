@@ -2,6 +2,7 @@ package com.stevekung.indicatia.gui.exconfig.screen;
 
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.renderer.EquipmentOverlays;
 import com.stevekung.indicatia.renderer.HUDInfo;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 
@@ -33,11 +34,11 @@ public class OffsetRenderPreviewScreen extends Screen
 
         if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
         {
-            HUDInfo.renderVerticalEquippedItems(this.minecraft);
+            EquipmentOverlays.renderVerticalEquippedItems(this.minecraft);
         }
         else
         {
-            HUDInfo.renderHorizontalEquippedItems(this.minecraft);
+            EquipmentOverlays.renderHorizontalEquippedItems(this.minecraft);
         }
     }
 
