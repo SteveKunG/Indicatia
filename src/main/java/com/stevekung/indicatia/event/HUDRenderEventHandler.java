@@ -220,12 +220,12 @@ public class HUDRenderEventHandler
             if (ExtendedConfig.INSTANCE.ping)
             {
                 int responseTime = InfoUtils.INSTANCE.getPing();
-                infos.add(new InfoOverlay("Ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, HUDInfo.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("Ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
 
                 if (ExtendedConfig.INSTANCE.pingToSecond)
                 {
                     double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                    infos.add(new InfoOverlay("Delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, HUDInfo.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                    infos.add(new InfoOverlay("Delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
                 }
             }
             if (ExtendedConfig.INSTANCE.serverIP && mc.getCurrentServerData() != null)

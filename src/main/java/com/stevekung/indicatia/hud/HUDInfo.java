@@ -6,7 +6,6 @@ import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.StatusEffects;
-import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
@@ -127,26 +126,6 @@ public class HUDInfo
                     yPotion -= length;
                 }
             }
-        }
-    }
-
-    public static String getResponseTimeColor(int responseTime)
-    {
-        if (responseTime >= 200 && responseTime < 300)
-        {
-            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.ping200And300Color).toColoredFont();
-        }
-        else if (responseTime >= 300 && responseTime < 500)
-        {
-            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.ping300And500Color).toColoredFont();
-        }
-        else if (responseTime >= 500)
-        {
-            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.pingMax500Color).toColoredFont();
-        }
-        else
-        {
-            return ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.pingValueColor).toColoredFont();
         }
     }
 }

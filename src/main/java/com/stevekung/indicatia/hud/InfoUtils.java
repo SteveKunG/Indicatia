@@ -43,6 +43,26 @@ public class InfoUtils
         return 0;
     }
 
+    public String getResponseTimeColor(int responseTime)
+    {
+        if (responseTime >= 200 && responseTime < 300)
+        {
+            return ExtendedConfig.INSTANCE.ping200And300Color;
+        }
+        else if (responseTime >= 300 && responseTime < 500)
+        {
+            return ExtendedConfig.INSTANCE.ping300And500Color;
+        }
+        else if (responseTime >= 500)
+        {
+            return ExtendedConfig.INSTANCE.pingMax500Color;
+        }
+        else
+        {
+            return ExtendedConfig.INSTANCE.pingValueColor;
+        }
+    }
+
     public boolean isHypixel()
     {
         ServerData server = this.mc.getCurrentServerData();
