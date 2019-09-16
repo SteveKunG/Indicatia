@@ -8,6 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.*;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
+import com.stevekung.indicatia.renderer.EquipmentOverlays;
 import com.stevekung.indicatia.renderer.HUDInfo;
 import com.stevekung.indicatia.renderer.InfoOverlays;
 import com.stevekung.indicatia.utils.InfoOverlay;
@@ -138,11 +139,11 @@ public class HUDRenderEventHandler
                         {
                             if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
                             {
-                                HUDInfo.renderVerticalEquippedItems(this.mc);
+                                EquipmentOverlays.renderVerticalEquippedItems(this.mc);
                             }
                             else
                             {
-                                HUDInfo.renderHorizontalEquippedItems(this.mc);
+                                EquipmentOverlays.renderHorizontalEquippedItems(this.mc);
                             }
                         }
                     }
