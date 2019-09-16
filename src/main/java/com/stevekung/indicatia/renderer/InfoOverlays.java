@@ -10,8 +10,8 @@ import com.stevekung.indicatia.config.CPSPosition;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
-import com.stevekung.indicatia.event.InfoOverlay;
 import com.stevekung.indicatia.integration.GalacticraftPlanetsTime;
+import com.stevekung.indicatia.utils.InfoOverlay;
 import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.client.event.ClientEventHandler;
 
@@ -110,7 +110,7 @@ public class InfoOverlays
             double tps = Math.min(1000.0D / overallTPS, 20);
 
             InfoOverlays.ALL_TPS.clear();
-            InfoOverlays.OVERALL_TPS = (new InfoOverlay("Overall TPS", HUDRenderEventHandler.TPS_FORMAT.format(overallTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
+            InfoOverlays.OVERALL_TPS = new InfoOverlay("Overall TPS", HUDRenderEventHandler.TPS_FORMAT.format(overallTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
 
             if (ExtendedConfig.INSTANCE.tpsAllDims)
             {
@@ -131,9 +131,9 @@ public class InfoOverlays
             }
             else
             {
-                InfoOverlays.OVERWORLD_TPS = (new InfoOverlay("Overworld TPS", HUDRenderEventHandler.TPS_FORMAT.format(overworldTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
+                InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", HUDRenderEventHandler.TPS_FORMAT.format(overworldTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
             }
-            InfoOverlays.TPS = (new InfoOverlay("TPS", HUDRenderEventHandler.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
+            InfoOverlays.TPS = new InfoOverlay("TPS", HUDRenderEventHandler.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
         }
     }
 

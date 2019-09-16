@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.event;
+package com.stevekung.indicatia.utils;
 
 import com.stevekung.stevekungslib.utils.ColorUtils;
 
@@ -53,19 +53,15 @@ public class InfoOverlay
     @Override
     public String toString()
     {
-        if (this.isEmpty)
-        {
-            return "";
-        }
         StringBuilder builder = new StringBuilder();
         builder.append(ColorUtils.stringToRGB(this.titleColor).toColoredFont());
         builder.append(this.title);
         builder.append(": ");
         builder.append(ColorUtils.stringToRGB(this.valueColor).toColoredFont());
         builder.append(this.value);
-        return builder.toString();
+        return this.isEmpty ? "" : builder.toString();
     }
-    
+
     public boolean isEmpty()
     {
         return this.isEmpty;

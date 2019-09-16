@@ -10,6 +10,7 @@ import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.renderer.HUDInfo;
 import com.stevekung.indicatia.renderer.InfoOverlays;
+import com.stevekung.indicatia.utils.InfoOverlay;
 import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 
@@ -97,106 +98,8 @@ public class HUDRenderEventHandler
             {
                 int iLeft = 0;
                 int iRight = 0;
-                List<InfoOverlay> infos = new ArrayList<>();
-                BlockPos playerPos = new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
 
-                if (ExtendedConfig.INSTANCE.fps)
-                {
-                    int fps = Minecraft.getDebugFPS();
-                    infos.add(new InfoOverlay("FPS", String.valueOf(fps), ExtendedConfig.INSTANCE.fpsColor, fps <= 25 ? ExtendedConfig.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? ExtendedConfig.INSTANCE.fps26And49Color : ExtendedConfig.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
-                }
-
-                if (!this.mc.isSingleplayer())
-                {
-                    if (ExtendedConfig.INSTANCE.ping)
-                    {
-                        int responseTime = InfoUtils.INSTANCE.getPing();
-                        infos.add(new InfoOverlay("Ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, HUDInfo.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
-
-                        if (ExtendedConfig.INSTANCE.pingToSecond)
-                        {
-                            double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                            infos.add(new InfoOverlay("Delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, HUDInfo.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
-                        }
-                    }
-                    if (ExtendedConfig.INSTANCE.serverIP && this.mc.getCurrentServerData() != null)
-                    {
-                        infos.add(new InfoOverlay("IP", (this.mc.isConnectedToRealms() ? "Realms Server" : this.mc.getCurrentServerData().serverIP) + (ExtendedConfig.INSTANCE.serverIPMCVersion ? "/" + MCPVersion.getMCVersion() : ""), ExtendedConfig.INSTANCE.serverIPColor, ExtendedConfig.INSTANCE.serverIPValueColor, InfoOverlay.Position.RIGHT));
-                    }
-                }
-
-                if (ExtendedConfig.INSTANCE.xyz)
-                {
-                    String stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
-                    String nether = this.mc.player.dimension == DimensionType.THE_NETHER ? "Nether " : "";
-                    infos.add(new InfoOverlay(nether + "XYZ", stringPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
-
-                    if (this.mc.player.dimension == DimensionType.THE_NETHER)
-                    {
-                        String stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
-                        infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
-                    }
-                }
-
-                if (ExtendedConfig.INSTANCE.direction)
-                {
-                    infos.add(InfoOverlays.getDirection(this.mc));
-                }
-
-                if (ExtendedConfig.INSTANCE.biome)
-                {
-                    ChunkPos chunkPos = new ChunkPos(playerPos);
-                    Chunk worldChunk = this.mc.world.getChunk(chunkPos.x, chunkPos.z);
-                    String biomeName = worldChunk.getBiome(playerPos).getDisplayName().getFormattedText();
-                    infos.add(new InfoOverlay("Biome", !worldChunk.isEmpty() ? biomeName : "Waiting for chunk...", ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
-                }
-
-                if (ExtendedConfig.INSTANCE.slimeChunkFinder && this.mc.player.dimension == DimensionType.OVERWORLD)
-                {
-                    infos.add(new InfoOverlay("Slime Chunk", InfoUtils.INSTANCE.isSlimeChunk(this.mc.player.getPosition()) ? "Yes" : "No", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
-                }
-
-                if (ExtendedConfig.INSTANCE.tps)
-                {
-                    infos.add(InfoOverlays.OVERALL_TPS);
-                    infos.add(InfoOverlays.OVERWORLD_TPS);
-                    infos.addAll(InfoOverlays.ALL_TPS);
-                    infos.add(InfoOverlays.TPS);
-                }
-
-                if (ExtendedConfig.INSTANCE.realTime)
-                {
-                    infos.add(InfoOverlays.getRealWorldTime());
-                }
-                if (ExtendedConfig.INSTANCE.gameTime)
-                {
-                    infos.add(InfoOverlays.getGameTime(this.mc));
-                }
-                if (ExtendedConfig.INSTANCE.gameWeather && this.mc.world.isRaining())
-                {
-                    String weather = !this.mc.world.isThundering() ? "Raining" : "Thundering";
-                    infos.add(new InfoOverlay("Weather", weather, ExtendedConfig.INSTANCE.gameWeatherColor, ExtendedConfig.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
-                }
-                if (ExtendedConfig.INSTANCE.moonPhase)
-                {
-                    infos.add(new InfoOverlay("Moon Phase", InfoUtils.INSTANCE.getMoonPhase(this.mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
-                }
-
-                if (IndicatiaMod.isYoutubeChatLoaded && !StringUtils.isNullOrEmpty(HUDRenderEventHandler.currentLiveViewCount))
-                {
-                    infos.add(new InfoOverlay("Current watched", HUDRenderEventHandler.currentLiveViewCount, ExtendedConfig.INSTANCE.ytChatViewCountColor, ExtendedConfig.INSTANCE.ytChatViewCountValueColor, InfoOverlay.Position.RIGHT));
-                }
-
-                if (ExtendedConfig.INSTANCE.cps)
-                {
-                    infos.add(InfoOverlays.getCPS());
-                }
-                if (ExtendedConfig.INSTANCE.rcps)
-                {
-                    infos.add(InfoOverlays.getRCPS());
-                }
-
-                for (InfoOverlay info : infos)
+                for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(this.mc))
                 {
                     if (info.isEmpty())
                     {
@@ -302,6 +205,109 @@ public class HUDRenderEventHandler
         InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();
         InfoOverlays.TPS = InfoOverlay.empty();
         InfoOverlays.ALL_TPS.clear();
+    }
+
+    public static List<InfoOverlay> getInfoOverlays(Minecraft mc)
+    {
+        List<InfoOverlay> infos = new ArrayList<>();
+        BlockPos playerPos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
+
+        if (ExtendedConfig.INSTANCE.fps)
+        {
+            int fps = Minecraft.getDebugFPS();
+            infos.add(new InfoOverlay("FPS", String.valueOf(fps), ExtendedConfig.INSTANCE.fpsColor, fps <= 25 ? ExtendedConfig.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? ExtendedConfig.INSTANCE.fps26And49Color : ExtendedConfig.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
+        }
+
+        if (!mc.isSingleplayer())
+        {
+            if (ExtendedConfig.INSTANCE.ping)
+            {
+                int responseTime = InfoUtils.INSTANCE.getPing();
+                infos.add(new InfoOverlay("Ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, HUDInfo.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
+
+                if (ExtendedConfig.INSTANCE.pingToSecond)
+                {
+                    double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
+                    infos.add(new InfoOverlay("Delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, HUDInfo.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                }
+            }
+            if (ExtendedConfig.INSTANCE.serverIP && mc.getCurrentServerData() != null)
+            {
+                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServerData().serverIP) + (ExtendedConfig.INSTANCE.serverIPMCVersion ? "/" + MCPVersion.getMCVersion() : ""), ExtendedConfig.INSTANCE.serverIPColor, ExtendedConfig.INSTANCE.serverIPValueColor, InfoOverlay.Position.RIGHT));
+            }
+        }
+
+        if (ExtendedConfig.INSTANCE.xyz)
+        {
+            String stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
+            String nether = mc.player.dimension == DimensionType.THE_NETHER ? "Nether " : "";
+            infos.add(new InfoOverlay(nether + "XYZ", stringPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
+
+            if (mc.player.dimension == DimensionType.THE_NETHER)
+            {
+                String stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
+                infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
+            }
+        }
+
+        if (ExtendedConfig.INSTANCE.direction)
+        {
+            infos.add(InfoOverlays.getDirection(mc));
+        }
+
+        if (ExtendedConfig.INSTANCE.biome)
+        {
+            ChunkPos chunkPos = new ChunkPos(playerPos);
+            Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
+            String biomeName = worldChunk.getBiome(playerPos).getDisplayName().getFormattedText();
+            infos.add(new InfoOverlay("Biome", !worldChunk.isEmpty() ? biomeName : "Waiting for chunk...", ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
+        }
+
+        if (ExtendedConfig.INSTANCE.slimeChunkFinder && mc.player.dimension == DimensionType.OVERWORLD)
+        {
+            infos.add(new InfoOverlay("Slime Chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "Yes" : "No", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
+        }
+
+        if (ExtendedConfig.INSTANCE.tps)
+        {
+            infos.add(InfoOverlays.OVERALL_TPS);
+            infos.add(InfoOverlays.OVERWORLD_TPS);
+            infos.addAll(InfoOverlays.ALL_TPS);
+            infos.add(InfoOverlays.TPS);
+        }
+
+        if (ExtendedConfig.INSTANCE.realTime)
+        {
+            infos.add(InfoOverlays.getRealWorldTime());
+        }
+        if (ExtendedConfig.INSTANCE.gameTime)
+        {
+            infos.add(InfoOverlays.getGameTime(mc));
+        }
+        if (ExtendedConfig.INSTANCE.gameWeather && mc.world.isRaining())
+        {
+            String weather = !mc.world.isThundering() ? "Raining" : "Thundering";
+            infos.add(new InfoOverlay("Weather", weather, ExtendedConfig.INSTANCE.gameWeatherColor, ExtendedConfig.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
+        }
+        if (ExtendedConfig.INSTANCE.moonPhase)
+        {
+            infos.add(new InfoOverlay("Moon Phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
+        }
+
+        if (IndicatiaMod.isYoutubeChatLoaded && !StringUtils.isNullOrEmpty(HUDRenderEventHandler.currentLiveViewCount))
+        {
+            infos.add(new InfoOverlay("Current watched", HUDRenderEventHandler.currentLiveViewCount, ExtendedConfig.INSTANCE.ytChatViewCountColor, ExtendedConfig.INSTANCE.ytChatViewCountValueColor, InfoOverlay.Position.RIGHT));
+        }
+
+        if (ExtendedConfig.INSTANCE.cps)
+        {
+            infos.add(InfoOverlays.getCPS());
+        }
+        if (ExtendedConfig.INSTANCE.rcps)
+        {
+            infos.add(InfoOverlays.getRCPS());
+        }
+        return infos;
     }
 
     public static long mean(long[] values)
