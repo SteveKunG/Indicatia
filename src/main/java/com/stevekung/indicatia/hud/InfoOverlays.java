@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.renderer;
+package com.stevekung.indicatia.hud;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -11,8 +11,6 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.integration.GalacticraftPlanetsTime;
-import com.stevekung.indicatia.utils.InfoOverlay;
-import com.stevekung.indicatia.utils.InfoUtils;
 import com.stevekung.stevekungslib.client.event.ClientEventHandler;
 
 import net.minecraft.client.Minecraft;

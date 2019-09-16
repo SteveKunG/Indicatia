@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.utils;
+package com.stevekung.indicatia.hud;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;

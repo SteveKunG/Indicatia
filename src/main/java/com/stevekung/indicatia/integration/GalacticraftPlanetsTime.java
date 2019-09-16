@@ -1,7 +1,7 @@
 package com.stevekung.indicatia.integration;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.utils.InfoOverlay;
+import com.stevekung.indicatia.hud.InfoOverlay;
 
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 import net.minecraft.client.Minecraft;

@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.renderer;
+package com.stevekung.indicatia.hud;
 
 import java.util.Collection;
 

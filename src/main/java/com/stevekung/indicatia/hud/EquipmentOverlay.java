@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.utils;
+package com.stevekung.indicatia.hud;
 
 import com.google.common.math.DoubleMath;
 import com.mojang.blaze3d.platform.GlStateManager;

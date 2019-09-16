@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.renderer;
+package com.stevekung.indicatia.hud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,6 @@ import java.util.List;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.utils.EquipmentOverlay;
-import com.stevekung.indicatia.utils.HorizontalEquipmentOverlay;
-import com.stevekung.indicatia.utils.HotbarEquipmentOverlay;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;

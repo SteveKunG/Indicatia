@@ -2,8 +2,8 @@ package com.stevekung.indicatia.gui.exconfig.screen;
 
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.renderer.EquipmentOverlays;
-import com.stevekung.indicatia.renderer.HUDInfo;
+import com.stevekung.indicatia.hud.EquipmentOverlays;
+import com.stevekung.indicatia.hud.HUDInfo;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.gui.screen.Screen;

@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.utils;
+package com.stevekung.indicatia.hud;
 
 import java.util.Random;
 

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.lwjgl.glfw.GLFW;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.utils.InfoUtils;
+import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.Minecraft;

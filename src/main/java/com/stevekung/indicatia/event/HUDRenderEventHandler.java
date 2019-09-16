@@ -8,11 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.*;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
-import com.stevekung.indicatia.renderer.EquipmentOverlays;
-import com.stevekung.indicatia.renderer.HUDInfo;
-import com.stevekung.indicatia.renderer.InfoOverlays;
-import com.stevekung.indicatia.utils.InfoOverlay;
-import com.stevekung.indicatia.utils.InfoUtils;
+import com.stevekung.indicatia.hud.*;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.Minecraft;
