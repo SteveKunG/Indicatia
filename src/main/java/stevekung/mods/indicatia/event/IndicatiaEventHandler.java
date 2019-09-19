@@ -10,6 +10,7 @@ import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -203,10 +204,19 @@ public class IndicatiaEventHandler
                             return;
                         }
 
-                        if (!itemStack.isEmpty() && mc.interactionManager.interactItem(mc.player, mc.world, hand) == ActionResult.SUCCESS)
+                        if (!itemStack.isEmpty())
                         {
-                            mc.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
-                            return;
+                            TypedActionResult<ItemStack> result = mc.interactionManager.interactItem(mc.player, mc.world, hand);
+
+                            if (result.getResult() == ActionResult.SUCCESS)
+                            {
+                                if (result.method_22429())
+                                {
+                                    mc.player.swingHand(hand);
+                                }
+                                mc.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
+                                return;
+                            }
                         }
                     }
                 }

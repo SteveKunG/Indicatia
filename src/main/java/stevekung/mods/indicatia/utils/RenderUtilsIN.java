@@ -1,6 +1,7 @@
 package stevekung.mods.indicatia.utils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -37,7 +38,7 @@ public class RenderUtilsIN
             }
 
             GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            RenderSystem.blendFuncSeparate(GlStateManager.class_4535.SRC_ALPHA, GlStateManager.class_4534.ONE_MINUS_SRC_ALPHA, GlStateManager.class_4535.ONE, GlStateManager.class_4534.ZERO);
             TextRenderer fontrenderer = mc.textRenderer;
             int j = fontrenderer.getStringWidth(text) / 2;
             GlStateManager.disableTexture();
@@ -69,7 +70,7 @@ public class RenderUtilsIN
     public static void bindKeystrokeTexture(String texture)
     {
         RenderUtils.bindTexture(new Identifier("indicatia:textures/gui/" + texture + ".png"));
-        GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+        RenderSystem.color3f(1.0F, 1.0F, 1.0F);
     }
 
     public static void drawRect(int left, int top, int right, int bottom, int color, float alpha)

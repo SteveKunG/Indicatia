@@ -13,7 +13,7 @@
         "ArmorFeatureRendererMixin",
         "CapeFeatureRendererMixin",
         "ElytraFeatureRendererMixin",
-        "StuckArrowsFeatureRendererMixin"
+        "StickingOutThingsFeatureRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1

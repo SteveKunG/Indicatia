@@ -73,14 +73,14 @@ public class HUDInfo
         ChunkPos chunkPos = new ChunkPos(blockPos);
         WorldChunk worldChunk = mc.world.method_8497(chunkPos.x, chunkPos.z);
 
-        if (worldChunk.isEmpty())
+        if (!worldChunk.isEmpty() && blockPos.getY() >= 0 && blockPos.getY() < 256)
         {
-            return "Waiting for chunk...";
+            String biomeName = mc.world.getBiome(blockPos).getName().asFormattedString();
+            return ColorUtils.stringToRGB(ExtendedConfig.instance.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.instance.biomeValueColor).toColoredFont() + biomeName;
         }
         else
         {
-            String biomeName = worldChunk.getBiome(blockPos).getName().asFormattedString().replaceAll("(\\p{Ll})(\\p{Lu})", "$1 $2");
-            return ColorUtils.stringToRGB(ExtendedConfig.instance.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.instance.biomeValueColor).toColoredFont() + biomeName;
+            return "Waiting for chunk...";
         }
     }
 
