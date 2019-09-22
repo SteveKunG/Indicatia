@@ -8,7 +8,7 @@ def mcVersion = project.mc_version
 def version = project.version
 
 apply plugin: net.fabricmc.loom.LoomGradlePlugin
-archivesBaseName = "Indicatia"
+archivesBaseName = "Indicatia-" + mcVersion
 sourceCompatibility = targetCompatibility = 1.8
 
 minecraft {
