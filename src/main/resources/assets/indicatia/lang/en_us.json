@@ -19,8 +19,7 @@
     "indicatia.configgui.enable_custom_movement_handler": "Enable Custom Movement Handler",
 
     "_comment": "COMMAND",
-    "commands.mode.key_binding": "Key Binding",
-    "commands.mode.command": "Command",
+    "commands.not_allowed_hypixel": "This command is not allowed on Hypixel!",
 
     "commands.afk.reason": "Reason: %s",
     "commands.afk.afk_now": "AFK for now",

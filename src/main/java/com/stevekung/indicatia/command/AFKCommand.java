@@ -4,11 +4,13 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
+import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.StringUtils;
@@ -31,6 +33,11 @@ public class AFKCommand
 
     private static int startAFK(CommandSource source, String reason)
     {
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            throw new CommandException(LangUtils.translateComponent("commands.not_allowed_hypixel"));
+        }
+
         if (!IndicatiaEventHandler.START_AFK)
         {
             IndicatiaEventHandler.START_AFK = true;

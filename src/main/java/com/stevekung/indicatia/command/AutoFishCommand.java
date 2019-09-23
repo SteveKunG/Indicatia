@@ -2,10 +2,12 @@ package com.stevekung.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
+import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.item.FishingRodItem;
@@ -19,6 +21,11 @@ public class AutoFishCommand
 
     private static int doAutofish(CommandSource source)
     {
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            throw new CommandException(LangUtils.translateComponent("commands.not_allowed_hypixel"));
+        }
+
         if (!IndicatiaEventHandler.START_AUTO_FISH)
         {
             ClientPlayerEntity player = Minecraft.getInstance().player;

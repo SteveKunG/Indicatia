@@ -66,12 +66,7 @@ public class InfoUtils
     public boolean isHypixel()
     {
         ServerData server = this.mc.getCurrentServerData();
-
-        if (server != null)
-        {
-            return server.serverIP.equals("mc.hypixel.net");
-        }
-        return false;
+        return server != null && server.serverIP.equals("mc.hypixel.net");
     }
 
     public int getCPS()
