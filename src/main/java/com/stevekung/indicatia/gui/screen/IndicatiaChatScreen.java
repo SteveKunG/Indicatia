@@ -100,7 +100,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     }
 
     @Override
-    public void mouseReleased(double mouseX, double mouseY, int state)
+    public boolean mouseReleased(double mouseX, double mouseY, int state)
     {
         if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM)
         {
@@ -108,8 +108,10 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             {
                 this.isDragging = false;
                 ExtendedConfig.INSTANCE.save();
+                return true;
             }
         }
+        return false;
     }
 
     @Override

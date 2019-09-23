@@ -29,7 +29,6 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.BooleanValue enableBossHealthBarRender;
         public final ForgeConfigSpec.BooleanValue enableRenderBossHealthStatus;
         public final ForgeConfigSpec.BooleanValue enableSidebarScoreboardRender;
-        public final ForgeConfigSpec.BooleanValue enableCustomMovementHandler;
 
         General(ForgeConfigSpec.Builder builder)
         {
@@ -37,17 +36,14 @@ public class IndicatiaConfig
             .push("general");
 
             this.afkMessageTime = builder
-                    .comment("")
                     .translation("indicatia.configgui.afk_message_time")
                     .defineInRange("afkMessageTime", 5, 1, 60);
 
             this.confirmDisconnectMode = builder
-                    .comment("")
                     .translation("indicatia.configgui.confirm_disconnect_mode")
                     .defineEnum("confirmDisconnectMode", DisconnectMode.GUI);
 
             this.enableRenderInfo = builder
-                    .comment("")
                     .translation("indicatia.configgui.enable_render_info")
                     .define("enableRenderInfo", true);
 
@@ -67,12 +63,10 @@ public class IndicatiaConfig
                     .define("enableOldArmorRender", false);
 
             this.enableVersionChecker = builder
-                    .comment("")
                     .translation("indicatia.configgui.enable_version_checker")
                     .define("enableVersionChecker", true);
 
             this.enableAFKMessage = builder
-                    .comment("")
                     .translation("indicatia.configgui.enable_afk_message")
                     .define("enableAFKMessage", true);
 
@@ -97,24 +91,16 @@ public class IndicatiaConfig
                     .define("enableVanillaPotionHUD", true);
 
             this.enableBossHealthBarRender = builder
-                    .comment("")
                     .translation("indicatia.configgui.enable_boss_health_bar_render")
                     .define("enableBossHealthBarRender", true);
 
             this.enableRenderBossHealthStatus = builder
-                    .comment("")
                     .translation("indicatia.configgui.enable_boss_health_status_render")
                     .define("enableRenderBossHealthStatus", true);
 
             this.enableSidebarScoreboardRender = builder
-                    .comment("")
                     .translation("indicatia.configgui.enable_sidebar_scoreboard_render")
                     .define("enableSidebarScoreboardRender", true);
-
-            this.enableCustomMovementHandler = builder
-                    .comment("Allow controlled by custom player movement (Toggle Sprint/Sneak, AFK Stuff).")
-                    .translation("indicatia.configgui.enable_custom_movement_handler")
-                    .define("enableCustomMovementHandler", true);
 
             builder.pop();
         }

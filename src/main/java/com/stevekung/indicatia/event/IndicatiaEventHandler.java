@@ -171,54 +171,51 @@ public class IndicatiaEventHandler
         MovementInput movement = event.getMovementInput();
         PlayerEntity player = event.getPlayer();
 
-        if (IndicatiaConfig.GENERAL.enableCustomMovementHandler.get())
+        // canceled turn back
+        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
         {
-            // canceled turn back
-            if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
+            ++movement.moveForward;
+        }
+
+        // toggle sneak
+        movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
+
+        if (ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator() && !player.isCreative())
+        {
+            movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
+            movement.moveForward = (float)(movement.moveForward * 0.3D);
+        }
+
+        // toggle sprint
+        if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.INSTANCE.toggleSneak)
+        {
+            player.setSprinting(true);
+        }
+
+        // afk stuff
+        if (IndicatiaEventHandler.AFK_MODE == AFKMode.RANDOM_MOVE_360)
+        {
+            int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
+
+            if (afkMoveTick > 0 && afkMoveTick < 2)
             {
-                ++movement.moveForward;
+                movement.moveForward += Math.random();
+                movement.forwardKeyDown = true;
             }
-
-            // toggle sneak
-            movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
-
-            if (ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator() && !player.isCreative())
+            else if (afkMoveTick > 2 && afkMoveTick < 4)
             {
-                movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
-                movement.moveForward = (float)(movement.moveForward * 0.3D);
+                movement.moveStrafe += Math.random();
+                movement.leftKeyDown = true;
             }
-
-            // toggle sprint
-            if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.INSTANCE.toggleSneak)
+            else if (afkMoveTick > 4 && afkMoveTick < 6)
             {
-                player.setSprinting(true);
+                movement.moveForward -= Math.random();
+                movement.backKeyDown = true;
             }
-
-            // afk stuff
-            if (IndicatiaEventHandler.AFK_MODE == AFKMode.RANDOM_MOVE_360)
+            else if (afkMoveTick > 6 && afkMoveTick < 8)
             {
-                int afkMoveTick = IndicatiaEventHandler.afkMoveTicks;
-
-                if (afkMoveTick > 0 && afkMoveTick < 2)
-                {
-                    movement.moveForward += Math.random();
-                    movement.forwardKeyDown = true;
-                }
-                else if (afkMoveTick > 2 && afkMoveTick < 4)
-                {
-                    movement.moveStrafe += Math.random();
-                    movement.leftKeyDown = true;
-                }
-                else if (afkMoveTick > 4 && afkMoveTick < 6)
-                {
-                    movement.moveForward -= Math.random();
-                    movement.backKeyDown = true;
-                }
-                else if (afkMoveTick > 6 && afkMoveTick < 8)
-                {
-                    movement.moveStrafe -= Math.random();
-                    movement.rightKeyDown = true;
-                }
+                movement.moveStrafe -= Math.random();
+                movement.rightKeyDown = true;
             }
         }
     }

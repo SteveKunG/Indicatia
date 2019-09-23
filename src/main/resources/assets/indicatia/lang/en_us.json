@@ -16,7 +16,6 @@
     "indicatia.configgui.enable_boss_health_bar_render": "Enable Boss Health Bar Rendering",
     "indicatia.configgui.enable_boss_health_status_render": "Enable Boss Health Status Rendering",
     "indicatia.configgui.enable_sidebar_scoreboard_render": "Enable Scoreboard Sidebar Rendering",
-    "indicatia.configgui.enable_custom_movement_handler": "Enable Custom Movement Handler",
 
     "_comment": "COMMAND",
     "commands.not_allowed_hypixel": "This command is not allowed on Hypixel!",

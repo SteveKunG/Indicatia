@@ -1,25 +1,21 @@
 {
     "required": true,
-    "minVersion": "0.7.11",
+    "minVersion": "0.8",
     "compatibilityLevel": "JAVA_8",
-    "package": "stevekung.mods.indicatia.mixin",
+    "package": "com.stevekung.indicatia.mixin",
     "refmap": "mixins.indicatia.refmap.json",
     "target": "@env(DEFAULT)",
     "mixins": [],
     "client": [
-        "GuiPlayerTabOverlayMixin",
-        "GuiBossOverlayMixin",
-        "GuiMultiplayerMixin",
-        "ServerListEntryNormalMixin",
-        "GuiNewChatMixin",
-        "ItemRendererMixin",
-        "GuiIngameForgeMixin",
-        "LayerArmorBaseMixin",
-        "LayerCapeMixin",
-        "LayerElytraMixin",
-        "LayerArrowMixin",
-        "RenderPlayerMixin",
-        "RenderFishMixin"
+        "MixinArmorLayer",
+        "MixinArrowLayer",
+        "MixinBossOverlayGui",
+        "MixinCapeLayer",
+        "MixinElytraLayer",
+        "MixinFirstPersonRenderer",
+        "MixinForgeIngameGui",
+        "MixinMultiplayerScreen",
+        "MixinPlayerTabOverlayGui"
     ],
     "injectors": {
         "defaultRequire": 1
