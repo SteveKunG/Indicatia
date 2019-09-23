@@ -3,8 +3,6 @@ package stevekung.mods.indicatia.utils;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.google.common.base.Predicates;
 
@@ -49,14 +47,7 @@ public class InfoUtils
     public boolean isHypixel()
     {
         ServerData server = Minecraft.getMinecraft().getCurrentServerData();
-
-        if (server != null)
-        {
-            Pattern pattern = Pattern.compile("^(?:(?:(?:.*\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(server.serverIP);
-            return matcher.find();
-        }
-        return false;
+        return server != null && server.serverIP.equals("mc.hypixel.net");
     }
 
     public int getCPS()

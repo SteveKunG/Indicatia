@@ -157,6 +157,7 @@ key.custom_cape_gui.desc=Custom Cape GUI
 key.donator_gui.desc=Donator GUI
 
 # COMMAND
+commands.not_allowed_hypixel=This command is not allowed on Hypixel!
 commands.afk.usage=/afk <start:reason|stop|change_reason|mode...>
 commands.afk.mode.usage=/afk mode <idle|move|360|360_move>
 commands.autologin.usage=/autologin <add|remove|list> <command> <value>

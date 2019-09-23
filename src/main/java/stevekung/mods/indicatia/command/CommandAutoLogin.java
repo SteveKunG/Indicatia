@@ -20,6 +20,7 @@ import stevekung.mods.indicatia.gui.GuiAutoLoginFunction;
 import stevekung.mods.indicatia.gui.GuiAutoLoginFunctionHelp;
 import stevekung.mods.indicatia.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatia.utils.Base64Utils;
+import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.GameProfileUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -40,6 +41,10 @@ public class CommandAutoLogin extends ClientCommandBase
         ServerData data = mc.getCurrentServerData();
         UUID uuid = GameProfileUtils.getUUID();
 
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            throw new CommandException("commands.not_allowed_hypixel");
+        }
         if (mc.isSingleplayer())
         {
             sender.sendMessage(JsonUtils.create(LangUtils.translate("message.auto_login_singleplayer")).setStyle(JsonUtils.red()));

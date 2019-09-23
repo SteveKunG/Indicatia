@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatia.config.ConfigManagerIN;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.CommonUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
@@ -28,6 +29,11 @@ public class CommandAFK extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            throw new CommandException("commands.not_allowed_hypixel");
+        }
+
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.afk.usage");

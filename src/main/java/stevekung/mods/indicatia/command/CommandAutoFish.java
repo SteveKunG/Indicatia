@@ -12,6 +12,7 @@ import net.minecraft.item.ItemFishingRod;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatia.event.IndicatiaEventHandler;
+import stevekung.mods.indicatia.utils.InfoUtils;
 import stevekung.mods.stevekunglib.utils.JsonUtils;
 import stevekung.mods.stevekunglib.utils.LangUtils;
 import stevekung.mods.stevekunglib.utils.client.ClientCommandBase;
@@ -27,6 +28,11 @@ public class CommandAutoFish extends ClientCommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            throw new CommandException("commands.not_allowed_hypixel");
+        }
+
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.autofish.usage");
