@@ -111,8 +111,8 @@ public class EquipmentOverlay
     private static String getItemStackCount(ItemStack itemStack, int count)
     {
         Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
-        double stack = count / 64.0D;
-        int stackInt = count / 64;
+        double stack = count / (double)itemStack.getMaxStackSize();
+        int stackInt = count / itemStack.getMaxStackSize();
         String stackText = String.format("%.2f", stack);
 
         if (DoubleMath.isMathematicalInteger(stack))
