@@ -6,6 +6,7 @@
     "indicatia.configgui.enable_blockhit_animation": "Enable Blockhit Animation",
     "indicatia.configgui.enable_additional_blockhit_animation": "Enable Additional Blockhit Animation",
     "indicatia.configgui.enable_old_armor_render": "Enable Old Armor Rendering",
+    "indicatia.configgui.enable_old_fishing_rod_render": "Enable Old Fishing Rod Rendering",
     "indicatia.configgui.enable_version_checker": "Enable Version Checker",
     "indicatia.configgui.enable_afk_message": "Enable AFK Message",
     "indicatia.configgui.enable_custom_player_list": "Enable Custom Player List",

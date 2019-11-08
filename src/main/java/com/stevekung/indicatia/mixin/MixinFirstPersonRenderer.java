@@ -25,7 +25,7 @@ public abstract class MixinFirstPersonRenderer
                 @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 5),
                 @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 6)
         })
-    private void onItemUse(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
+    private void onItemUse(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo info)
     {
         if (IndicatiaConfig.GENERAL.enableBlockhitAnimation.get())
         {

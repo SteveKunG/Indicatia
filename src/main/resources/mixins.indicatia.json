@@ -15,7 +15,9 @@
         "MixinFirstPersonRenderer",
         "MixinForgeIngameGui",
         "MixinMultiplayerScreen",
-        "MixinPlayerTabOverlayGui"
+        "MixinPlayerTabOverlayGui",
+        "MixinFishRenderer",
+        "MixinServerSelectionList_NormalEntry"
     ],
     "injectors": {
         "defaultRequire": 1
