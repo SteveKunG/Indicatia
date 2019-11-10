@@ -10,7 +10,6 @@ import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import stevekung.mods.indicatia.config.ExtendedConfig;
@@ -73,13 +72,13 @@ public class IndicatiaEventHandler
             /*GuiCustomCape customCapeGui = new GuiCustomCape();
             this.mc.displayGuiScreen(customCapeGui);*/
         }
-        if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SPRINT.isPressed())
+        if (ExtendedConfig.instance.toggleSprintUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SPRINT.isPressed())
         {
             ExtendedConfig.instance.toggleSprint = !ExtendedConfig.instance.toggleSprint;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).asFormattedString());
             ExtendedConfig.instance.save();
         }
-        if (ExtendedConfig.instance.toggleSneakUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SNEAK.isPressed())
+        if (ExtendedConfig.instance.toggleSneakUseMode.equals("key_binding") && InputUtil.isKeyPressed(this.mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) && KeyBindingHandler.TOGGLE_SNEAK.isPressed())
         {
             ExtendedConfig.instance.toggleSneak = !ExtendedConfig.instance.toggleSneak;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.instance.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).asFormattedString());
@@ -163,7 +162,7 @@ public class IndicatiaEventHandler
             ++IndicatiaEventHandler.autoFishTick;
             IndicatiaEventHandler.autoFishTick %= 4;
 
-            if (mc.hitResult != null && mc.world != null && mc.interactionManager != null && mc.getEntityRenderManager() != null)
+            if (mc.crosshairTarget != null && mc.world != null && mc.interactionManager != null && mc.getEntityRenderManager() != null)
             {
                 if (IndicatiaEventHandler.autoFishTick % 4 == 0)
                 {
@@ -174,9 +173,9 @@ public class IndicatiaEventHandler
 
                         if (fishingRod)
                         {
-                            if (mc.hitResult.getType() == HitResult.Type.BLOCK)
+                            if (mc.crosshairTarget.getType() == HitResult.Type.BLOCK)
                             {
-                                BlockHitResult hitResult = (BlockHitResult)mc.hitResult;
+                                BlockHitResult hitResult = (BlockHitResult)mc.crosshairTarget;
                                 int amount = itemStack.getCount();
                                 ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, mc.world, hand, hitResult);
 
@@ -206,11 +205,11 @@ public class IndicatiaEventHandler
 
                         if (!itemStack.isEmpty())
                         {
-                            TypedActionResult<ItemStack> result = mc.interactionManager.interactItem(mc.player, mc.world, hand);
+                            ActionResult result = mc.interactionManager.interactItem(mc.player, mc.world, hand);
 
-                            if (result.getResult() == ActionResult.SUCCESS)
+                            if (result.isAccepted())
                             {
-                                if (result.method_22429())
+                                if (result.shouldSwingHand())
                                 {
                                     mc.player.swingHand(hand);
                                 }

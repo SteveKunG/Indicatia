@@ -124,13 +124,13 @@ public class InfoUtils
         if (entity != null && mc.world != null)
         {
             this.extendedPointedEntity = null;
-            mc.hitResult = entity.rayTrace(distance, mc.getTickDelta(), false);
+            mc.crosshairTarget = entity.rayTrace(distance, mc.getTickDelta(), false);
             Vec3d vec3d = entity.getCameraPosVec(mc.getTickDelta());
             distance *= distance;
 
-            if (mc.hitResult != null)
+            if (mc.crosshairTarget != null)
             {
-                distance = mc.hitResult.getPos().squaredDistanceTo(vec3d);
+                distance = mc.crosshairTarget.getPos().squaredDistanceTo(vec3d);
             }
 
             Vec3d vec3d1 = entity.getRotationVec(1.0F);
@@ -144,9 +144,9 @@ public class InfoUtils
                 Vec3d vec3d_4 = result.getPos();
                 double d3 = vec3d.squaredDistanceTo(vec3d_4);
 
-                if (d3 < distance || mc.hitResult == null)
+                if (d3 < distance || mc.crosshairTarget == null)
                 {
-                    mc.hitResult = result;
+                    mc.crosshairTarget = result;
 
                     if (entity2 instanceof LivingEntity || entity2 instanceof ItemFrameEntity)
                     {

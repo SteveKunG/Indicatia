@@ -2,7 +2,6 @@ package stevekung.mods.indicatia.core;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -26,19 +25,11 @@ public class IndicatiaMod implements ClientModInitializer
 {
     public static final String MOD_ID = "indicatia";
     private static final File profile = new File(ExtendedConfig.userDir, "profile.txt");
-    private static final List<String> allowedUUID = new ArrayList<>();
     public static final LoggerIN LOGGER = new LoggerIN();
 
     static
     {
         IndicatiaMod.initProfileFile();
-        IndicatiaMod.allowedUUID.add("84b5eb0f-11d8-464b-881d-4bba203cc77b");
-        IndicatiaMod.allowedUUID.add("f1dfdd47-6e03-4c2d-b766-e414c7b77f10");
-        IndicatiaMod.allowedUUID.add("7d06c93d-736c-4d63-a683-c7583f6763e7");
-        IndicatiaMod.allowedUUID.add("4675476a-46e5-45ee-89a5-010dc02996d9");
-        IndicatiaMod.allowedUUID.add("e2d72023-34b9-45c2-825b-63ae2d1b2f36");
-
-        IndicatiaMod.allowedUUID.add("b996cae9-43ad-48ad-ba89-4f1c50f14943");
     }
 
     @Override

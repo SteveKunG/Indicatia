@@ -103,7 +103,7 @@ public class RenderPreviewScreen extends Screen
                 String string = leftInfo.get(i);
                 float fontHeight = this.minecraft.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.minecraft.window.getScaledWidth() - 2 - this.minecraft.textRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.getWindow().getScaledWidth() - 2 - this.minecraft.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
@@ -117,7 +117,7 @@ public class RenderPreviewScreen extends Screen
                 String string = rightInfo.get(i);
                 float fontHeight = this.minecraft.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = this.minecraft.window.getScaledWidth() - 2 - this.minecraft.textRenderer.getStringWidth(string);
+                float xOffset = this.minecraft.getWindow().getScaledWidth() - 2 - this.minecraft.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {

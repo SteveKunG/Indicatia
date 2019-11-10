@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -50,7 +51,7 @@ public class HUDInfo
 
     public static String getXYZ(MinecraftClient mc)
     {
-        BlockPos pos = new BlockPos(mc.getCameraEntity().x, mc.getCameraEntity().getBoundingBox().minY, mc.getCameraEntity().z);
+        BlockPos pos = new BlockPos(mc.getCameraEntity().getX(), mc.getCameraEntity().getY(), mc.getCameraEntity().getZ());
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
@@ -60,7 +61,7 @@ public class HUDInfo
 
     public static String getOverworldXYZFromNether(MinecraftClient mc)
     {
-        BlockPos pos = new BlockPos(mc.getCameraEntity().x, mc.getCameraEntity().getBoundingBox().minY, mc.getCameraEntity().z);
+        BlockPos pos = new BlockPos(mc.getCameraEntity().getX(), mc.getCameraEntity().getY(), mc.getCameraEntity().getZ());
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
@@ -69,13 +70,13 @@ public class HUDInfo
 
     public static String getBiome(MinecraftClient mc)
     {
-        BlockPos blockPos = new BlockPos(mc.getCameraEntity().x, mc.getCameraEntity().getBoundingBox().minY, mc.getCameraEntity().z);
+        BlockPos blockPos = new BlockPos(mc.getCameraEntity().getX(), mc.getCameraEntity().getY(), mc.getCameraEntity().getZ());
         ChunkPos chunkPos = new ChunkPos(blockPos);
         WorldChunk worldChunk = mc.world.method_8497(chunkPos.x, chunkPos.z);
 
         if (!worldChunk.isEmpty() && blockPos.getY() >= 0 && blockPos.getY() < 256)
         {
-            String biomeName = mc.world.getBiome(blockPos).getName().asFormattedString();
+            String biomeName = mc.world.method_23753(blockPos).getName().asFormattedString();
             return ColorUtils.stringToRGB(ExtendedConfig.instance.biomeColor).toColoredFont() + "Biome: " + ColorUtils.stringToRGB(ExtendedConfig.instance.biomeValueColor).toColoredFont() + biomeName;
         }
         else
@@ -238,7 +239,7 @@ public class HUDInfo
         }
         for (HorizontalEquipment equipment : element)
         {
-            int xBaseRight = mc.window.getScaledWidth() - rightWidth - baseXOffset;
+            int xBaseRight = mc.getWindow().getScaledWidth() - rightWidth - baseXOffset;
             equipment.render(isRightSide ? xBaseRight + prevX + equipment.getWidth() : baseXOffset + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
@@ -250,7 +251,7 @@ public class HUDInfo
         List<String> itemStatusList = new LinkedList<>();
         List<String> arrowCountList = new LinkedList<>();
         boolean isRightSide = ExtendedConfig.instance.equipmentPosition == Equipments.Position.RIGHT;
-        int baseXOffset = isRightSide ? mc.window.getScaledWidth() - 18 : 2;
+        int baseXOffset = isRightSide ? mc.getWindow().getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.instance.armorHUDYOffset;
         ItemStack mainHandItem = mc.player.getMainHandStack();
         ItemStack offHandItem = mc.player.getOffHandStack();
@@ -380,7 +381,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 yOffset = baseYOffset + 4 + fontHeight * i;
-                float xOffset = isRightSide ? mc.window.getScaledWidth() - mc.textRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
+                float xOffset = isRightSide ? mc.getWindow().getScaledWidth() - mc.textRenderer.getStringWidth(string) - 20.0625F : baseXOffset + 18.0625F;
                 mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
             }
         }
@@ -394,7 +395,7 @@ public class HUDInfo
             if (!string.isEmpty())
             {
                 GlStateManager.disableDepthTest();
-                mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, isRightSide ? mc.window.getScaledWidth() - mc.textRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215);
+                mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.arrowCountColor).toColoredFont() + string, isRightSide ? mc.getWindow().getScaledWidth() - mc.textRenderer.getStringWidth(string) - 2.0625F : baseXOffset + 8.0625F, yOffset, 16777215);
                 GlStateManager.enableDepthTest();
             }
         }
@@ -472,8 +473,8 @@ public class HUDInfo
 
             if (!leftItemStackList.isEmpty())
             {
-                int baseXOffset = mc.window.getScaledWidth() / 2 - 91 - 20;
-                int yOffset = mc.window.getScaledHeight() - 16 * i - 40;
+                int baseXOffset = mc.getWindow().getScaledWidth() / 2 - 91 - 20;
+                int yOffset = mc.getWindow().getScaledHeight() - 16 * i - 40;
                 HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
             }
         }
@@ -485,8 +486,8 @@ public class HUDInfo
 
             if (!rightItemStackList.isEmpty())
             {
-                int baseXOffset = mc.window.getScaledWidth() / 2 + 95;
-                int yOffset = mc.window.getScaledHeight() - 16 * i - 40;
+                int baseXOffset = mc.getWindow().getScaledWidth() / 2 + 95;
+                int yOffset = mc.getWindow().getScaledHeight() - 16 * i - 40;
                 HUDInfo.renderItem(itemStack, baseXOffset, yOffset);
             }
         }
@@ -496,8 +497,8 @@ public class HUDInfo
         {
             String string = leftItemStatusList.get(i);
             int stringWidth = mc.textRenderer.getStringWidth(string);
-            float xOffset = mc.window.getScaledWidth() / 2 - 114 - stringWidth;
-            int yOffset = mc.window.getScaledHeight() - 16 * i - 36;
+            float xOffset = mc.getWindow().getScaledWidth() / 2 - 114 - stringWidth;
+            int yOffset = mc.getWindow().getScaledHeight() - 16 * i - 36;
             mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
         }
 
@@ -505,8 +506,8 @@ public class HUDInfo
         for (int i = 0; i < rightItemStatusList.size(); ++i)
         {
             String string = rightItemStatusList.get(i);
-            float xOffset = mc.window.getScaledWidth() / 2 + 114;
-            int yOffset = mc.window.getScaledHeight() - 16 * i - 36;
+            float xOffset = mc.getWindow().getScaledWidth() / 2 + 114;
+            int yOffset = mc.getWindow().getScaledHeight() - 16 * i - 36;
             mc.textRenderer.drawWithShadow(ColorUtils.stringToRGB(ExtendedConfig.instance.equipmentStatusColor).toColoredFont() + string, xOffset, yOffset, 16777215);
         }
 
@@ -515,8 +516,8 @@ public class HUDInfo
         {
             String string = leftArrowCountList.get(i);
             int stringWidth = mc.textRenderer.getStringWidth(string);
-            float xOffset = mc.window.getScaledWidth() / 2 - 90 - stringWidth;
-            int yOffset = mc.window.getScaledHeight() - 16 * i - 32;
+            float xOffset = mc.getWindow().getScaledWidth() / 2 - 90 - stringWidth;
+            int yOffset = mc.getWindow().getScaledHeight() - 16 * i - 32;
 
             if (!string.isEmpty())
             {
@@ -530,8 +531,8 @@ public class HUDInfo
         for (int i = 0; i < rightArrowCountList.size(); ++i)
         {
             String string = rightArrowCountList.get(i);
-            float xOffset = mc.window.getScaledWidth() / 2 + 104;
-            int yOffset = mc.window.getScaledHeight() - 16 * i - 32;
+            float xOffset = mc.getWindow().getScaledWidth() / 2 + 104;
+            int yOffset = mc.getWindow().getScaledHeight() - 16 * i - 32;
 
             if (!string.isEmpty())
             {
@@ -556,18 +557,18 @@ public class HUDInfo
 
         if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
         {
-            xPotion = mc.window.getScaledWidth() / 2 - 91 - 35;
-            yPotion = mc.window.getScaledHeight() - 46;
+            xPotion = mc.getWindow().getScaledWidth() / 2 - 91 - 35;
+            yPotion = mc.getWindow().getScaledHeight() - 46;
         }
         else if (ExtendedConfig.instance.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
         {
-            xPotion = mc.window.getScaledWidth() / 2 + 91 - 20;
-            yPotion = mc.window.getScaledHeight() - 42;
+            xPotion = mc.getWindow().getScaledWidth() / 2 + 91 - 20;
+            yPotion = mc.getWindow().getScaledHeight() - 42;
         }
         else
         {
-            xPotion = right ? mc.window.getScaledWidth() - 32 : -24;
-            yPotion = mc.window.getScaledHeight() - 220 + ExtendedConfig.instance.potionHUDYOffset + 90;
+            xPotion = right ? mc.getWindow().getScaledWidth() - 32 : -24;
+            yPotion = mc.getWindow().getScaledHeight() - 220 + ExtendedConfig.instance.potionHUDYOffset + 90;
         }
 
         if (!collection.isEmpty())
@@ -694,7 +695,8 @@ public class HUDInfo
 
     static void renderItem(ItemStack itemStack, int x, int y)
     {
-        GuiLighting.enableForItems();
+        MatrixStack matrixStack_1 = new MatrixStack();
+        GuiLighting.enableForItems(matrixStack_1.method_23760().method_23761());
         GlStateManager.enableLighting();
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
@@ -706,7 +708,7 @@ public class HUDInfo
 
         if (itemStack.isDamageable())
         {
-            GuiLighting.enableForItems();
+            GuiLighting.enableForItems(matrixStack_1.method_23760().method_23761());
             GlStateManager.disableLighting();
             GlStateManager.enableRescaleNormal();
             GlStateManager.enableColorMaterial();

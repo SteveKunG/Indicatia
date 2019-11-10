@@ -18,7 +18,7 @@ public class RenderUtilsIN
     {
         MinecraftClient mc = MinecraftClient.getInstance();
         boolean hasName = entityLivingBase.hasCustomName();
-        double distance = entityLivingBase.squaredDistanceTo(mc.getEntityRenderManager().camera.getPos());
+        double distance = mc.getEntityRenderManager().getSquaredDistanceToCamera(entityLivingBase);
         int maxDistance = 32;
 
         if (distance <= maxDistance * maxDistance)
@@ -38,12 +38,12 @@ public class RenderUtilsIN
             }
 
             GlStateManager.enableBlend();
-            RenderSystem.blendFuncSeparate(GlStateManager.class_4535.SRC_ALPHA, GlStateManager.class_4534.ONE_MINUS_SRC_ALPHA, GlStateManager.class_4535.ONE, GlStateManager.class_4534.ZERO);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             TextRenderer fontrenderer = mc.textRenderer;
             int j = fontrenderer.getStringWidth(text) / 2;
             GlStateManager.disableTexture();
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder vertexbuffer = tessellator.getBufferBuilder();
+            BufferBuilder vertexbuffer = tessellator.getBuffer();
             vertexbuffer.begin(7, VertexFormats.POSITION_COLOR);
             vertexbuffer.vertex(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).next();
             vertexbuffer.vertex(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).next();
@@ -93,7 +93,7 @@ public class RenderUtilsIN
             float g = (color >> 8 & 255) / 255.0F;
             float b = (color & 255) / 255.0F;
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder vertexbuffer = tessellator.getBufferBuilder();
+            BufferBuilder vertexbuffer = tessellator.getBuffer();
             GlStateManager.enableBlend();
             GlStateManager.disableTexture();
             GlStateManager.blendFuncSeparate(770, 771, 1, 0);

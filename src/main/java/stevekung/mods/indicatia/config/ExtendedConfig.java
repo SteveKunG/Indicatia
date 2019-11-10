@@ -403,7 +403,7 @@ public class ExtendedConfig
 
     private boolean getBoolean(CompoundTag nbt, String key, boolean defaultValue)
     {
-        if (nbt.containsKey(key, 99))
+        if (nbt.contains(key, 99))
         {
             return nbt.getBoolean(key);
         }
@@ -415,7 +415,7 @@ public class ExtendedConfig
 
     private int getInteger(CompoundTag nbt, String key, int defaultValue)
     {
-        if (nbt.containsKey(key, 99))
+        if (nbt.contains(key, 99))
         {
             return nbt.getInt(key);
         }
@@ -427,7 +427,7 @@ public class ExtendedConfig
 
     private String getString(CompoundTag nbt, String key, String defaultValue)
     {
-        if (nbt.containsKey(key, 8))
+        if (nbt.contains(key, 8))
         {
             return nbt.getString(key);
         }
@@ -439,7 +439,7 @@ public class ExtendedConfig
 
     private long getLong(CompoundTag nbt, String key, long defaultValue)
     {
-        if (nbt.containsKey(key, 99))
+        if (nbt.contains(key, 99))
         {
             return nbt.getLong(key);
         }

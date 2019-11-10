@@ -100,7 +100,7 @@ public class InGameHudMixin
                 String string = leftInfo.get(i);
                 float fontHeight = mc.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = mc.window.getScaledWidth() - 2 - mc.textRenderer.getStringWidth(string);
+                float xOffset = mc.getWindow().getScaledWidth() - 2 - mc.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
@@ -114,7 +114,7 @@ public class InGameHudMixin
                 String string = rightInfo.get(i);
                 float fontHeight = mc.textRenderer.fontHeight + 1;
                 float yOffset = 3 + fontHeight * i;
-                float xOffset = mc.window.getScaledWidth() - 2 - mc.textRenderer.getStringWidth(string);
+                float xOffset = mc.getWindow().getScaledWidth() - 2 - mc.textRenderer.getStringWidth(string);
 
                 if (!StringUtils.isEmpty(string))
                 {
