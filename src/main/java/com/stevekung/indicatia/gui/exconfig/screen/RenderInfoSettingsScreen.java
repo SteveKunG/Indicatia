@@ -17,7 +17,7 @@ public class RenderInfoSettingsScreen extends Screen
     private final Screen parent;
     private ConfigButtonListWidget optionsRowList;
     private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.FPS, ExtendedConfig.XYZ, ExtendedConfig.DIRECTION, ExtendedConfig.BIOME, ExtendedConfig.PING, ExtendedConfig.PING_TO_SECOND, ExtendedConfig.SERVER_IP,
-            ExtendedConfig.SERVER_IP_MC, ExtendedConfig.EQUIPMENT_HUD, ExtendedConfig.POTION_HUD, ExtendedConfig.CPS, ExtendedConfig.RCPS, ExtendedConfig.SLIME_CHUNK, ExtendedConfig.REAL_TIME, ExtendedConfig.GAME_TIME, ExtendedConfig.GAME_WEATHER,
+            ExtendedConfig.SERVER_IP_MC, ExtendedConfig.EQUIPMENT_HUD, ExtendedConfig.POTION_HUD, ExtendedConfig.SLIME_CHUNK, ExtendedConfig.REAL_TIME, ExtendedConfig.GAME_TIME, ExtendedConfig.GAME_WEATHER,
             ExtendedConfig.MOON_PHASE, ExtendedConfig.POTION_ICON, ExtendedConfig.TPS, ExtendedConfig.TPS_ALL_DIMS, ExtendedConfig.ALTERNATE_POTION_COLOR };
 
     public RenderInfoSettingsScreen(Screen parent)

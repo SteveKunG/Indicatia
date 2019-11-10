@@ -38,8 +38,6 @@ public class ExtendedConfig
     public boolean serverIPMCVersion = false;
     public boolean equipmentHUD = false;
     public boolean potionHUD = false;
-    public boolean cps = false;
-    public boolean rcps = false;
     public boolean slimeChunkFinder = false;
     public boolean realTime = true;
     public boolean gameTime = true;
@@ -60,12 +58,9 @@ public class ExtendedConfig
     public Equipments.Position equipmentPosition = Equipments.Position.HOTBAR;
     public StatusEffects.Style potionHUDStyle = StatusEffects.Style.DEFAULT;
     public StatusEffects.Position potionHUDPosition = StatusEffects.Position.LEFT;
-    public CPSPosition cpsPosition = CPSPosition.CUSTOM;
     public PingMode pingMode = PingMode.ONLY_PING;
-    public double cpsOpacity = 50.0D;
 
     // Offset
-    public int keystrokeYOffset = 0;
     public int armorHUDYOffset = 0;
     public int potionHUDYOffset = 0;
     public int maximumPotionDisplay = 2;
@@ -82,8 +77,6 @@ public class ExtendedConfig
     public String serverIPColor = WHITE;
     public String equipmentStatusColor = WHITE;
     public String arrowCountColor = WHITE;
-    public String cpsColor = WHITE;
-    public String rcpsColor = WHITE;
     public String slimeChunkColor = WHITE;
     public String topDonatorNameColor = WHITE;
     public String recentDonatorNameColor = WHITE;
@@ -106,8 +99,6 @@ public class ExtendedConfig
     public String ping300And500Color = "255,85,85";
     public String pingMax500Color = "170,0,0";
     public String serverIPValueColor = WHITE;
-    public String cpsValueColor = WHITE;
-    public String rcpsValueColor = WHITE;
     public String slimeChunkValueColor = WHITE;
     public String topDonatorValueColor = WHITE;
     public String recentDonatorValueColor = WHITE;
@@ -118,26 +109,8 @@ public class ExtendedConfig
     public String moonPhaseValueColor = WHITE;
     public String ytChatViewCountValueColor = WHITE;
 
-    // Custom Color : Keystroke
-    public String keystrokeWASDColor = WHITE;
-    public String keystrokeMouseButtonColor = WHITE;
-    public String keystrokeSprintColor = WHITE;
-    public String keystrokeSneakColor = WHITE;
-    public String keystrokeBlockingColor = WHITE;
-    public String keystrokeCPSColor = WHITE;
-    public String keystrokeRCPSColor = WHITE;
-    public boolean keystrokeWASDRainbow = false;
-    public boolean keystrokeMouseButtonRainbow = false;
-    public boolean keystrokeSprintRainbow = false;
-    public boolean keystrokeSneakRainbow = false;
-    public boolean keystrokeBlockingRainbow = false;
-    public boolean keystrokeCPSRainbow = false;
-    public boolean keystrokeRCPSRainbow = false;
-
     // Misc
     public boolean showCustomCape = false;
-    public int cpsCustomXOffset = 3;
-    public int cpsCustomYOffset = 2;
     public long slimeChunkSeed = 0L;
 
     // Hypixel
@@ -146,7 +119,6 @@ public class ExtendedConfig
     public int selectedHypixelMinigame = 0;
     public int hypixelMinigameScrollPos = 0;
 
-    public static final DoubleConfigOption CPS_OPACITY = new DoubleConfigOption("cps_opacity", 0.0D, 100.0D, 1.0F, config -> config.cpsOpacity, (config, value) -> config.cpsOpacity = value, (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + doubleOpt.normalizeValue(doubleOpt.get()));
     public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
     public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
     public static final DoubleConfigOption MAXIMUM_POTION_DISPLAY = new DoubleConfigOption("maximum_potion_display", 2.0D, 8.0D, 0.0F, config -> (double)config.maximumPotionDisplay, (config, value) -> config.maximumPotionDisplay = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
@@ -166,8 +138,6 @@ public class ExtendedConfig
     public static final BooleanConfigOption SERVER_IP_MC = new BooleanConfigOption("server_ip_mc", config -> config.serverIPMCVersion, (config, value) -> config.serverIPMCVersion = value);
     public static final BooleanConfigOption EQUIPMENT_HUD = new BooleanConfigOption("equipment_hud", config -> config.equipmentHUD, (config, value) -> config.equipmentHUD = value);
     public static final BooleanConfigOption POTION_HUD = new BooleanConfigOption("potion_hud", config -> config.potionHUD, (config, value) -> config.potionHUD = value);
-    public static final BooleanConfigOption CPS = new BooleanConfigOption("cps", config -> config.cps, (config, value) -> config.cps = value);
-    public static final BooleanConfigOption RCPS = new BooleanConfigOption("rcps", config -> config.rcps, (config, value) -> config.rcps = value);
     public static final BooleanConfigOption SLIME_CHUNK = new BooleanConfigOption("slime_chunk", config -> config.slimeChunkFinder, (config, value) -> config.slimeChunkFinder = value);
     public static final BooleanConfigOption REAL_TIME = new BooleanConfigOption("real_time", config -> config.realTime, (config, value) -> config.realTime = value);
     public static final BooleanConfigOption GAME_TIME = new BooleanConfigOption("game_time", config -> config.gameTime, (config, value) -> config.gameTime = value);
@@ -188,7 +158,6 @@ public class ExtendedConfig
     public static final StringConfigOption EQUIPMENT_POSITION = new StringConfigOption("equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentPosition.getTranslationKey()));
     public static final StringConfigOption POTION_HUD_STYLE = new StringConfigOption("potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDStyle.getTranslationKey()));
     public static final StringConfigOption POTION_HUD_POSITION = new StringConfigOption("potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDPosition.getTranslationKey()));
-    public static final StringConfigOption CPS_POSITION = new StringConfigOption("cps_position", (config, value) -> config.cpsPosition = CPSPosition.byId(config.cpsPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.cpsPosition.getTranslationKey()));
     public static final StringConfigOption PING_MODE = new StringConfigOption("ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.pingMode.getTranslationKey()));
 
 
@@ -201,8 +170,6 @@ public class ExtendedConfig
     public static final TextFieldConfigOption SERVER_IP_COLOR = new TextFieldConfigOption("server_ip_color", config -> config.serverIPColor, (config, value) -> config.serverIPColor = value);
     public static final TextFieldConfigOption EQUIPMENT_STATUS_COLOR = new TextFieldConfigOption("equipment_status_color", config -> config.equipmentStatusColor, (config, value) -> config.equipmentStatusColor = value);
     public static final TextFieldConfigOption ARROW_COUNT_COLOR = new TextFieldConfigOption("arrow_count_color", config -> config.arrowCountColor, (config, value) -> config.arrowCountColor = value);
-    public static final TextFieldConfigOption CPS_COLOR = new TextFieldConfigOption("cps_color", config -> config.cpsColor, (config, value) -> config.cpsColor = value);
-    public static final TextFieldConfigOption RCPS_COLOR = new TextFieldConfigOption("rcps_color", config -> config.rcpsColor, (config, value) -> config.rcpsColor = value);
     public static final TextFieldConfigOption SLIME_CHUNK_COLOR = new TextFieldConfigOption("slime_chunk_color", config -> config.slimeChunkColor, (config, value) -> config.slimeChunkColor = value);
     public static final TextFieldConfigOption TPS_COLOR = new TextFieldConfigOption("tps_color", config -> config.tpsColor, (config, value) -> config.tpsColor = value);
     public static final TextFieldConfigOption REAL_TIME_COLOR = new TextFieldConfigOption("real_time_color", config -> config.realTimeColor, (config, value) -> config.realTimeColor = value);
@@ -223,8 +190,6 @@ public class ExtendedConfig
     public static final TextFieldConfigOption PING_300_AND_500_COLOR = new TextFieldConfigOption("ping_300_and_500_color", config -> config.ping300And500Color, (config, value) -> config.ping300And500Color = value);
     public static final TextFieldConfigOption PING_MAX_500_COLOR = new TextFieldConfigOption("ping_max_500_color", config -> config.pingMax500Color, (config, value) -> config.pingMax500Color = value);
     public static final TextFieldConfigOption SERVER_IP_VALUE_COLOR = new TextFieldConfigOption("server_ip_value_color", config -> config.serverIPValueColor, (config, value) -> config.serverIPValueColor = value);
-    public static final TextFieldConfigOption CPS_VALUE_COLOR = new TextFieldConfigOption("cps_value_color", config -> config.cpsValueColor, (config, value) -> config.cpsValueColor = value);
-    public static final TextFieldConfigOption RCPS_VALUE_COLOR = new TextFieldConfigOption("rcps_value_color", config -> config.rcpsValueColor, (config, value) -> config.rcpsValueColor = value);
     public static final TextFieldConfigOption SLIME_CHUNK_VALUE_COLOR = new TextFieldConfigOption("slime_chunk_value_color", config -> config.slimeChunkValueColor, (config, value) -> config.slimeChunkValueColor = value);
     public static final TextFieldConfigOption TPS_VALUE_COLOR = new TextFieldConfigOption("tps_value_color", config -> config.tpsValueColor, (config, value) -> config.tpsValueColor = value);
     public static final TextFieldConfigOption REAL_TIME_VALUE_COLOR = new TextFieldConfigOption("real_time_value_color", config -> config.realTimeValueColor, (config, value) -> config.realTimeValueColor = value);
@@ -263,8 +228,6 @@ public class ExtendedConfig
             this.serverIPMCVersion = this.getBoolean(nbt, "ServerIPMCVersion", this.serverIPMCVersion);
             this.equipmentHUD = this.getBoolean(nbt, "EquipmentHUD", this.equipmentHUD);
             this.potionHUD = this.getBoolean(nbt, "PotionHUD", this.potionHUD);
-            this.cps = this.getBoolean(nbt, "CPS", this.cps);
-            this.rcps = this.getBoolean(nbt, "RCPS", this.rcps);
             this.slimeChunkFinder = this.getBoolean(nbt, "SlimeChunkFinder", this.slimeChunkFinder);
             this.realTime = this.getBoolean(nbt, "RealTime", this.realTime);
             this.gameTime = this.getBoolean(nbt, "GameTime", this.gameTime);
@@ -284,16 +247,13 @@ public class ExtendedConfig
             this.equipmentPosition = Equipments.Position.byId(this.getInteger(nbt, "EquipmentPosition", this.equipmentPosition.getId()));
             this.potionHUDStyle = StatusEffects.Style.byId(this.getInteger(nbt, "PotionHUDStyle", this.potionHUDStyle.getId()));
             this.potionHUDPosition = StatusEffects.Position.byId(this.getInteger(nbt, "PotionHUDPosition", this.potionHUDPosition.getId()));
-            this.cpsPosition = CPSPosition.byId(this.getInteger(nbt, "CPSPosition", this.cpsPosition.getId()));
             this.pingMode = PingMode.byId(this.getInteger(nbt, "PingMode", this.pingMode.getId()));
-            this.cpsOpacity = this.getDouble(nbt, "CPSOpacity", this.cpsOpacity);
 
             // Movement
             this.toggleSprint = this.getBoolean(nbt, "ToggleSprint", this.toggleSprint);
             this.toggleSneak = this.getBoolean(nbt, "ToggleSneak", this.toggleSneak);
 
             // Offset
-            this.keystrokeYOffset = this.getInteger(nbt, "KeystrokeYOffset", this.keystrokeYOffset);
             this.armorHUDYOffset = this.getInteger(nbt, "ArmorHUDYOffset", this.armorHUDYOffset);
             this.potionHUDYOffset = this.getInteger(nbt, "PotionHUDYOffset", this.potionHUDYOffset);
             this.maximumPotionDisplay = this.getInteger(nbt, "MaximumPotionDisplay", this.maximumPotionDisplay);
@@ -310,8 +270,6 @@ public class ExtendedConfig
             this.serverIPColor = this.getString(nbt, "ServerIPColor", this.serverIPColor);
             this.equipmentStatusColor = this.getString(nbt, "EquipmentStatusColor", this.equipmentStatusColor);
             this.arrowCountColor = this.getString(nbt, "ArrowCountColor", this.arrowCountColor);
-            this.cpsColor = this.getString(nbt, "CPSColor", this.cpsColor);
-            this.rcpsColor = this.getString(nbt, "RCPSColor", this.rcpsColor);
             this.slimeChunkColor = this.getString(nbt, "SlimeChunkColor", this.slimeChunkColor);
             this.topDonatorNameColor = this.getString(nbt, "TopDonatorNameColor", this.topDonatorNameColor);
             this.recentDonatorNameColor = this.getString(nbt, "RecentDonatorNameColor", this.recentDonatorNameColor);
@@ -334,8 +292,6 @@ public class ExtendedConfig
             this.ping300And500Color = this.getString(nbt, "Ping300And500Color", this.ping300And500Color);
             this.pingMax500Color = this.getString(nbt, "PingMax500Color", this.pingMax500Color);
             this.serverIPValueColor = this.getString(nbt, "ServerIPValueColor", this.serverIPValueColor);
-            this.cpsValueColor = this.getString(nbt, "CPSValueColor", this.cpsValueColor);
-            this.rcpsValueColor = this.getString(nbt, "RCPSValueColor", this.rcpsValueColor);
             this.slimeChunkValueColor = this.getString(nbt, "SlimeChunkValueColor", this.slimeChunkValueColor);
             this.topDonatorValueColor = this.getString(nbt, "TopDonatorValueColor", this.topDonatorValueColor);
             this.recentDonatorValueColor = this.getString(nbt, "RecentDonatorValueColor", this.recentDonatorValueColor);
@@ -346,25 +302,7 @@ public class ExtendedConfig
             this.moonPhaseValueColor = this.getString(nbt, "MoonPhaseValueColor", this.moonPhaseValueColor);
             this.ytChatViewCountValueColor = this.getString(nbt, "YTChatViewCountValueColor", this.ytChatViewCountValueColor);
 
-            // Custom Color : Keystroke
-            this.keystrokeWASDColor = this.getString(nbt, "KeystrokeWASDColor", this.keystrokeWASDColor);
-            this.keystrokeMouseButtonColor = this.getString(nbt, "KeystrokeMouseButtonColor", this.keystrokeMouseButtonColor);
-            this.keystrokeSprintColor = this.getString(nbt, "KeystrokeSprintColor", this.keystrokeSprintColor);
-            this.keystrokeSneakColor = this.getString(nbt, "KeystrokeSneakColor", this.keystrokeSneakColor);
-            this.keystrokeBlockingColor = this.getString(nbt, "KeystrokeBlockingColor", this.keystrokeBlockingColor);
-            this.keystrokeCPSColor = this.getString(nbt, "KeystrokeCPSColor", this.keystrokeCPSColor);
-            this.keystrokeRCPSColor = this.getString(nbt, "KeystrokeRCPSColor", this.keystrokeRCPSColor);
-            this.keystrokeWASDRainbow = this.getBoolean(nbt, "KeystrokeWASDRainbow", this.keystrokeWASDRainbow);
-            this.keystrokeMouseButtonRainbow = this.getBoolean(nbt, "KeystrokeMouseButtonRainbow", this.keystrokeMouseButtonRainbow);
-            this.keystrokeSprintRainbow = this.getBoolean(nbt, "KeystrokeSprintRainbow", this.keystrokeSprintRainbow);
-            this.keystrokeSneakRainbow = this.getBoolean(nbt, "KeystrokeSneakRainbow", this.keystrokeSneakRainbow);
-            this.keystrokeBlockingRainbow = this.getBoolean(nbt, "KeystrokeBlockingRainbow", this.keystrokeBlockingRainbow);
-            this.keystrokeCPSRainbow = this.getBoolean(nbt, "KeystrokeCPSRainbow", this.keystrokeCPSRainbow);
-            this.keystrokeRCPSRainbow = this.getBoolean(nbt, "KeystrokeRCPSRainbow", this.keystrokeRCPSRainbow);
-
             // Misc
-            this.cpsCustomXOffset = this.getInteger(nbt, "CPSCustomOffsetX", this.cpsCustomXOffset);
-            this.cpsCustomYOffset = this.getInteger(nbt, "CPSCustomOffsetY", this.cpsCustomYOffset);
             this.slimeChunkSeed = this.getLong(nbt, "SlimeChunkSeed", this.slimeChunkSeed);
 
             // Hypixel
@@ -400,8 +338,6 @@ public class ExtendedConfig
             nbt.putBoolean("ServerIPMCVersion", this.serverIPMCVersion);
             nbt.putBoolean("EquipmentHUD", this.equipmentHUD);
             nbt.putBoolean("PotionHUD", this.potionHUD);
-            nbt.putBoolean("CPS", this.cps);
-            nbt.putBoolean("RCPS", this.rcps);
             nbt.putBoolean("SlimeChunkFinder", this.slimeChunkFinder);
             nbt.putBoolean("RealTime", this.realTime);
             nbt.putBoolean("GameTime", this.gameTime);
@@ -421,16 +357,13 @@ public class ExtendedConfig
             nbt.putInt("EquipmentPosition", this.equipmentPosition.getId());
             nbt.putInt("PotionHUDStyle", this.potionHUDStyle.getId());
             nbt.putInt("PotionHUDPosition", this.potionHUDPosition.getId());
-            nbt.putInt("CPSPosition", this.cpsPosition.getId());
             nbt.putInt("PingMode", this.pingMode.getId());
-            nbt.putDouble("CPSOpacity", this.cpsOpacity);
 
             // Movement
             nbt.putBoolean("ToggleSprint", this.toggleSprint);
             nbt.putBoolean("ToggleSneak", this.toggleSneak);
 
             // Offset
-            nbt.putInt("KeystrokeYOffset", this.keystrokeYOffset);
             nbt.putInt("ArmorHUDYOffset", this.armorHUDYOffset);
             nbt.putInt("PotionHUDYOffset", this.potionHUDYOffset);
             nbt.putInt("MaximumPotionDisplay", this.maximumPotionDisplay);
@@ -447,8 +380,6 @@ public class ExtendedConfig
             nbt.putString("ServerIPColor", this.serverIPColor);
             nbt.putString("EquipmentStatusColor", this.equipmentStatusColor);
             nbt.putString("ArrowCountColor", this.arrowCountColor);
-            nbt.putString("CPSColor", this.cpsColor);
-            nbt.putString("RCPSColor", this.rcpsColor);
             nbt.putString("SlimeChunkColor", this.slimeChunkColor);
             nbt.putString("TopDonatorNameColor", this.topDonatorNameColor);
             nbt.putString("RecentDonatorNameColor", this.recentDonatorNameColor);
@@ -470,8 +401,6 @@ public class ExtendedConfig
             nbt.putString("Ping300And500Color", this.ping300And500Color);
             nbt.putString("PingMax500Color", this.pingMax500Color);
             nbt.putString("ServerIPValueColor", this.serverIPValueColor);
-            nbt.putString("CPSValueColor", this.cpsValueColor);
-            nbt.putString("RCPSValueColor", this.rcpsValueColor);
             nbt.putString("SlimeChunkValueColor", this.slimeChunkValueColor);
             nbt.putString("TopDonatorValueColor", this.topDonatorValueColor);
             nbt.putString("RecentDonatorValueColor", this.recentDonatorValueColor);
@@ -481,25 +410,7 @@ public class ExtendedConfig
             nbt.putString("GameWeatherValueColor", this.gameWeatherValueColor);
             nbt.putString("MoonPhaseValueColor", this.moonPhaseValueColor);
 
-            // Custom Color : Keystroke
-            nbt.putString("KeystrokeWASDColor", this.keystrokeWASDColor);
-            nbt.putString("KeystrokeMouseButtonColor", this.keystrokeMouseButtonColor);
-            nbt.putString("KeystrokeSprintColor", this.keystrokeSprintColor);
-            nbt.putString("KeystrokeSneakColor", this.keystrokeSneakColor);
-            nbt.putString("KeystrokeBlockingColor", this.keystrokeBlockingColor);
-            nbt.putString("KeystrokeCPSColor", this.keystrokeCPSColor);
-            nbt.putString("KeystrokeRCPSColor", this.keystrokeRCPSColor);
-            nbt.putBoolean("KeystrokeWASDRainbow", this.keystrokeWASDRainbow);
-            nbt.putBoolean("KeystrokeMouseButtonRainbow", this.keystrokeMouseButtonRainbow);
-            nbt.putBoolean("KeystrokeSprintRainbow", this.keystrokeSprintRainbow);
-            nbt.putBoolean("KeystrokeSneakRainbow", this.keystrokeSneakRainbow);
-            nbt.putBoolean("KeystrokeBlockingRainbow", this.keystrokeBlockingRainbow);
-            nbt.putBoolean("KeystrokeCPSRainbow", this.keystrokeCPSRainbow);
-            nbt.putBoolean("KeystrokeRCPSRainbow", this.keystrokeRCPSRainbow);
-
             // Misc
-            nbt.putInt("CPSCustomOffsetX", this.cpsCustomXOffset);
-            nbt.putInt("CPSCustomOffsetY", this.cpsCustomYOffset);
             nbt.putLong("SlimeChunkSeed", this.slimeChunkSeed);
 
             // Hypixel
@@ -552,18 +463,6 @@ public class ExtendedConfig
         if (nbt.contains(key, 99))
         {
             return nbt.getInt(key);
-        }
-        else
-        {
-            return defaultValue;
-        }
-    }
-
-    private double getDouble(CompoundNBT nbt, String key, double defaultValue)
-    {
-        if (nbt.contains(key, 99))
-        {
-            return nbt.getDouble(key);
         }
         else
         {

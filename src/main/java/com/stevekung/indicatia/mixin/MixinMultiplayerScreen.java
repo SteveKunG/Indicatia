@@ -16,13 +16,13 @@ import net.minecraft.util.text.ITextComponent;
 @Mixin(MultiplayerScreen.class)
 public abstract class MixinMultiplayerScreen extends Screen
 {
-    protected MixinMultiplayerScreen(ITextComponent title)
+    public MixinMultiplayerScreen(ITextComponent title)
     {
         super(title);
     }
 
     @Inject(method = "render(IIF)V", at = @At("RETURN"))
-    private void renderInfo(int mouseX, int mouseY, float partialTicks, CallbackInfo info)
+    private void render(int mouseX, int mouseY, float partialTicks, CallbackInfo info)
     {
         if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
         {

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.stevekung.indicatia.config.CPSPosition;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
@@ -133,16 +132,6 @@ public class InfoOverlays
             }
             InfoOverlays.TPS = new InfoOverlay("TPS", HUDRenderEventHandler.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
         }
-    }
-
-    public static InfoOverlay getCPS()
-    {
-        return new InfoOverlay("CPS", String.valueOf(InfoUtils.INSTANCE.getCPS()), ExtendedConfig.INSTANCE.cpsColor, ExtendedConfig.INSTANCE.cpsValueColor, ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.LEFT ? InfoOverlay.Position.LEFT : InfoOverlay.Position.RIGHT);
-    }
-
-    public static InfoOverlay getRCPS()
-    {
-        return new InfoOverlay("RCPS", String.valueOf(InfoUtils.INSTANCE.getRCPS()), ExtendedConfig.INSTANCE.rcpsColor, ExtendedConfig.INSTANCE.rcpsValueColor, ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.LEFT ? InfoOverlay.Position.LEFT : InfoOverlay.Position.RIGHT);
     }
 
     public static InfoOverlay getRealWorldTime()

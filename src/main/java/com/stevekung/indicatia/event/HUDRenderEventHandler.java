@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.stevekung.indicatia.config.*;
+import com.stevekung.indicatia.config.Equipments;
+import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.HealthStatusMode;
+import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
@@ -13,8 +16,6 @@ import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -146,13 +147,6 @@ public class HUDRenderEventHandler
                 if (ExtendedConfig.INSTANCE.potionHUD)
                 {
                     EffectOverlays.renderPotionHUD(this.mc);
-                }
-
-                if (ExtendedConfig.INSTANCE.cps && ExtendedConfig.INSTANCE.cpsPosition == CPSPosition.CUSTOM && (this.mc.currentScreen == null || this.mc.currentScreen instanceof ChatScreen))
-                {
-                    String rcps = ExtendedConfig.INSTANCE.rcps ? " " + InfoOverlays.getRCPS() : "";
-                    AbstractGui.fill(ExtendedConfig.INSTANCE.cpsCustomXOffset, ExtendedConfig.INSTANCE.cpsCustomYOffset, ExtendedConfig.INSTANCE.cpsCustomXOffset + this.mc.fontRenderer.getStringWidth(InfoOverlays.getCPS() + rcps) + 4, ExtendedConfig.INSTANCE.cpsCustomYOffset + 11, 16777215 | (int)ExtendedConfig.INSTANCE.cpsOpacity / 100 << 24);
-                    this.mc.fontRenderer.drawStringWithShadow(InfoOverlays.getCPS() + rcps, ExtendedConfig.INSTANCE.cpsCustomXOffset + 2, ExtendedConfig.INSTANCE.cpsCustomYOffset + 2, 16777215);
                 }
             }
         }
@@ -294,15 +288,6 @@ public class HUDRenderEventHandler
         if (IndicatiaMod.isYoutubeChatLoaded && !StringUtils.isNullOrEmpty(HUDRenderEventHandler.currentLiveViewCount))
         {
             infos.add(new InfoOverlay("Current watched", HUDRenderEventHandler.currentLiveViewCount, ExtendedConfig.INSTANCE.ytChatViewCountColor, ExtendedConfig.INSTANCE.ytChatViewCountValueColor, InfoOverlay.Position.RIGHT));
-        }
-
-        if (ExtendedConfig.INSTANCE.cps)
-        {
-            infos.add(InfoOverlays.getCPS());
-        }
-        if (ExtendedConfig.INSTANCE.rcps)
-        {
-            infos.add(InfoOverlays.getRCPS());
         }
         return infos;
     }
