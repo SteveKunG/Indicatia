@@ -7,7 +7,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.text.Style;
@@ -20,8 +22,8 @@ import stevekung.mods.stevekungslib.utils.JsonUtils;
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin<T extends LivingEntity>
 {
-    @Inject(at = @At("RETURN"), method = "method_4041(Lnet/minecraft/entity/LivingEntity;DDD)V")
-    public void draw(T entity, double x, double y, double z, CallbackInfo info)
+    @Inject(at = @At("RETURN"), method = "method_4054(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
+    public void draw(T entity, double x, double y, double z, MatrixStack stack, VertexConsumerProvider provider, int packedLight, CallbackInfo info)
     {
         MinecraftClient mc = MinecraftClient.getInstance();
         float health = entity.getHealth();

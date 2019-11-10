@@ -4,16 +4,12 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [],
     "client": [
-        "PlayerListHudMixin",
         "ChatHudMixin",
+        "FirstPersonRendererMixin",
+        "InGameHudMixin",
         "LivingEntityRendererMixin",
         "MinecraftClientMixin",
-        "InGameHudMixin",
-        "FirstPersonRendererMixin",
-        "ArmorFeatureRendererMixin",
-        "CapeFeatureRendererMixin",
-        "ElytraFeatureRendererMixin",
-        "StickingOutThingsFeatureRendererMixin"
+        "PlayerListHudMixin"
     ],
     "injectors": {
         "defaultRequire": 1

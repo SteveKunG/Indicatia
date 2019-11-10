@@ -9,6 +9,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.FirstPersonRenderer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -16,7 +18,7 @@ import net.minecraft.util.math.MathHelper;
 @Mixin(FirstPersonRenderer.class)
 public abstract class FirstPersonRendererMixin
 {
-    @Inject(method = "renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;F)V", cancellable = true, at =
+    @Inject(method = "renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", cancellable = true, at =
         {
                 @At(value = "INVOKE", target = "net/minecraft/client/render/FirstPersonRenderer.applyHandOffset(Lnet/minecraft/util/Arm;F)V", shift = At.Shift.AFTER, ordinal = 2),
                 @At(value = "INVOKE", target = "net/minecraft/client/render/FirstPersonRenderer.applyHandOffset(Lnet/minecraft/util/Arm;F)V", shift = At.Shift.AFTER, ordinal = 3),
@@ -24,7 +26,7 @@ public abstract class FirstPersonRendererMixin
                 @At(value = "INVOKE", target = "net/minecraft/client/render/FirstPersonRenderer.applyHandOffset(Lnet/minecraft/util/Arm;F)V", shift = At.Shift.AFTER, ordinal = 5),
                 @At(value = "INVOKE", target = "net/minecraft/client/render/FirstPersonRenderer.applyHandOffset(Lnet/minecraft/util/Arm;F)V", shift = At.Shift.AFTER, ordinal = 6)
         })
-    private void onItemUse(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo ci)
+    private void renderFirstPersonItem(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, MatrixStack stack, VertexConsumerProvider provider, int packedLight, CallbackInfo info)
     {
         float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
         float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
