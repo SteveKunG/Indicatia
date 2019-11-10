@@ -3,13 +3,8 @@ package com.stevekung.indicatia.utils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
-public class ThreadCheckMojangStatus extends Thread
+public class ThreadCheckMojangStatus implements Runnable
 {
-    public ThreadCheckMojangStatus()
-    {
-        super("Mojang Status Check Thread");
-    }
-
     @Override
     public void run()
     {

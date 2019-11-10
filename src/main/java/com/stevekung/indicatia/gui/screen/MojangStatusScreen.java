@@ -8,6 +8,7 @@ import com.stevekung.indicatia.utils.MojangStatusChecker;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MojangStatusScreen extends Screen
 {
-    private final List<String> statusList = new CopyOnWriteArrayList<>();
+    private List<String> statusList = new CopyOnWriteArrayList<>();
     private final Screen parent;
     private Button doneButton;
     private Button checkButton;
@@ -31,10 +32,8 @@ public class MojangStatusScreen extends Screen
     @Override
     public void init()
     {
-        this.statusList.clear();
         this.addButton(this.doneButton = new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button ->
         {
-            this.statusList.clear();
             this.minecraft.displayGuiScreen(this.parent);
         }));
         this.addButton(this.refreshButton = new Button(this.width / 2 + 1, this.height / 6 + 145, 100, 20, LangUtils.translate("selectServer.refresh"), button ->
@@ -66,6 +65,20 @@ public class MojangStatusScreen extends Screen
             }
         }));
         this.refreshButton.active = false;
+    }
+
+    @Override
+    public void resize(Minecraft mc, int width, int height)
+    {
+        List<String> temp = this.statusList;
+        this.statusList = temp;
+        super.resize(mc, width, height);
+    }
+
+    @Override
+    public void removed()
+    {
+        this.statusList.clear();
     }
 
     @Override

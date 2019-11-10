@@ -18,13 +18,8 @@ import com.stevekung.indicatia.minigames.MinigameData;
 
 import net.minecraftforge.versions.mcp.MCPVersion;
 
-public class ThreadMinigameData extends Thread
+public class ThreadMinigameData implements Runnable
 {
-    public ThreadMinigameData()
-    {
-        super("Minigame Data Thread");
-    }
-
     @Override
     public void run()
     {
