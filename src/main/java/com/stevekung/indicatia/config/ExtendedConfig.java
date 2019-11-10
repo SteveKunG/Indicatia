@@ -118,6 +118,7 @@ public class ExtendedConfig
     public String hypixelNickName = "";
     public int selectedHypixelMinigame = 0;
     public int hypixelMinigameScrollPos = 0;
+    public int chatMode = 0;
 
     public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
     public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
@@ -310,6 +311,7 @@ public class ExtendedConfig
             this.hypixelNickName = this.getString(nbt, "HypixelNickName", this.hypixelNickName);
             this.selectedHypixelMinigame = this.getInteger(nbt, "SelectedHypixelMinigame", this.selectedHypixelMinigame);
             this.hypixelMinigameScrollPos = this.getInteger(nbt, "HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
+            this.chatMode = this.getInteger(nbt, "ChatMode", this.chatMode);
 
             IndicatiaMod.LOGGER.info("Loading extended config {}", ExtendedConfig.PROFILE_FILE.getPath());
         }
@@ -418,6 +420,7 @@ public class ExtendedConfig
             nbt.putString("HypixelNickName", this.hypixelNickName);
             nbt.putInt("SelectedHypixelMinigame", this.selectedHypixelMinigame);
             nbt.putInt("HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
+            nbt.putInt("ChatMode", this.chatMode);
 
             CompressedStreamTools.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(USER_DIR, profileName + ".dat") : ExtendedConfig.PROFILE_FILE);
         }

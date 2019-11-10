@@ -48,7 +48,7 @@ public class MinigameButton extends Button
         }
     }
 
-    public void drawRegion(int mouseX, int mouseY)
+    public void render(int mouseX, int mouseY)
     {
         if (this.visible)
         {

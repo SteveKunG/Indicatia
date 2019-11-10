@@ -108,6 +108,7 @@ public class DropdownMinigamesButton extends Button
             if (this.active && this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height)
             {
                 this.dropdownClicked = true;
+                this.playDownSound(Minecraft.getInstance().getSoundHandler());
                 return true;
             }
         }
@@ -119,6 +120,7 @@ public class DropdownMinigamesButton extends Button
                 this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
+                this.playDownSound(Minecraft.getInstance().getSoundHandler());
                 return true;
             }
             else
@@ -132,7 +134,7 @@ public class DropdownMinigamesButton extends Button
 
     public void scroll(double amount)
     {
-        ExtendedConfig.INSTANCE.hypixelMinigameScrollPos += amount;
+        ExtendedConfig.INSTANCE.hypixelMinigameScrollPos -= amount;
         int i = this.minigameLists.size();
 
         if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength || ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)

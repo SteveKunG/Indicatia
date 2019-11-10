@@ -13,10 +13,10 @@
         "MixinCapeLayer",
         "MixinElytraLayer",
         "MixinFirstPersonRenderer",
+        "MixinFishRenderer",
         "MixinForgeIngameGui",
         "MixinMultiplayerScreen",
         "MixinPlayerTabOverlayGui",
-        "MixinFishRenderer",
         "MixinServerSelectionList_NormalEntry"
     ],
     "injectors": {

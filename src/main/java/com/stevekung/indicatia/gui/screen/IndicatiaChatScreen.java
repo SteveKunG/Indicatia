@@ -13,15 +13,19 @@ import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.minigames.MinigameCommand;
 import com.stevekung.indicatia.minigames.MinigameData;
 import com.stevekung.stevekungslib.client.gui.IChatScreen;
+import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,11 +34,13 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
 {
     private DropdownMinigamesButton dropdown;
     private int prevSelect = -1;
+    private ChatMode mode = ChatMode.ALL;
 
     @Override
     public void init(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
     {
-        this.updateButton(buttons, width, height);
+        this.updateButton(buttons, children, width, height);
+        this.mode = ChatMode.VALUES[ExtendedConfig.INSTANCE.chatMode];
     }
 
     @Override
@@ -45,19 +51,29 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             if (button instanceof MinigameButton)
             {
                 MinigameButton customButton = (MinigameButton) button;
-                customButton.drawRegion(mouseX, mouseY);
+                customButton.render(mouseX, mouseY);
             }
+        }
+
+        if (InfoUtils.INSTANCE.isHypixel())
+        {
+            Minecraft mc = Minecraft.getInstance();
+            String chatMode = "CHAT MODE: " + JsonUtils.create(this.mode.getDesc()).setStyle(new Style().setColor(this.mode.getColor()).setBold(true)).getFormattedText();
+            int x = 4;
+            int y = mc.currentScreen.height - 30;
+            AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
+            mc.fontRenderer.drawStringWithShadow(chatMode, x, y, ColorUtils.rgbToDecimal(255, 255, 255));
         }
     }
 
     @Override
-    public void tick(List<Widget> buttons, int width, int height)
+    public void tick(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
             if (this.prevSelect != ExtendedConfig.INSTANCE.selectedHypixelMinigame)
             {
-                this.updateButton(buttons, width, height);
+                this.updateButton(buttons, children, width, height);
                 this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
             }
 
@@ -83,7 +99,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double wheel)
     {
-        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(Minecraft.getInstance().mouseHelper.getMouseX(), Minecraft.getInstance().mouseHelper.getMouseY()))
+        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
         {
             if (wheel > 1.0D)
             {
@@ -116,10 +132,12 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         return ExtendedConfig.INSTANCE.selectedHypixelMinigame;
     }
 
-    private void updateButton(List<Widget> buttons, int width, int height)
+    private void updateButton(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
     {
         Minecraft mc = Minecraft.getInstance();
         ClientPlayerEntity player = mc.player;
+        buttons.clear();
+        children.clear();
 
         if (mc.player == null || !(mc.currentScreen instanceof ChatScreen))
         {
@@ -139,20 +157,23 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             int length = mc.fontRenderer.getStringWidth(max) + 32;
 
             // hypixel chat
-            buttons.add(new Button(width - 63, height - 35, 60, 20, "Reset Chat", button ->
+            buttons.add(new Button(width - 23, height - 35, 20, 20, "A", button ->
             {
+                this.mode = ChatMode.ALL;
                 player.sendChatMessage("/chat a");
-                player.sendMessage(JsonUtils.create("Reset Hypixel Chat"));
+                ExtendedConfig.INSTANCE.chatMode = 0;
             }));
-            buttons.add(new Button(width - 63,height - 56, 60, 20, "Party Chat", button ->
+            buttons.add(new Button(width - 23, height - 56, 20, 20, "P", button ->
             {
+                this.mode = ChatMode.PARTY;
                 player.sendChatMessage("/chat p");
-                player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Party Chat"));
+                ExtendedConfig.INSTANCE.chatMode = 1;
             }));
-            buttons.add(new Button(width - 63, height - 77, 60, 20, "Guild Chat", button ->
+            buttons.add(new Button(width - 23, height - 77, 20, 20, "G", button ->
             {
+                this.mode = ChatMode.GUILD;
                 player.sendChatMessage("/chat g");
-                player.sendMessage(JsonUtils.create("Set chat mode to Hypixel Guild Chat"));
+                ExtendedConfig.INSTANCE.chatMode = 2;
             }));
             buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
             this.dropdown.setWidth(length);
@@ -214,6 +235,41 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             {
                 button.visible = false;
             }
+        }
+        children.addAll(buttons);
+    }
+
+    public enum ChatMode
+    {
+        ALL("/achat", "All Chat", TextFormatting.GRAY),
+        PARTY("/pchat", "Party Chat", TextFormatting.BLUE),
+        GUILD("/gchat", "Guild Chat", TextFormatting.DARK_GREEN);
+
+        private final String command;
+        private final String desc;
+        private final TextFormatting color;
+        public static final ChatMode[] VALUES = ChatMode.values();
+
+        private ChatMode(String command, String desc, TextFormatting color)
+        {
+            this.command = command;
+            this.desc = desc;
+            this.color = color;
+        }
+
+        public String getCommand()
+        {
+            return this.command;
+        }
+
+        public String getDesc()
+        {
+            return this.desc;
+        }
+
+        public TextFormatting getColor()
+        {
+            return this.color;
         }
     }
 }
