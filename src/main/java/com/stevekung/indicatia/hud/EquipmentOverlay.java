@@ -5,6 +5,7 @@ import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
@@ -60,7 +61,10 @@ public class EquipmentOverlay
 
     public static void renderItem(ItemStack itemStack, int x, int y)
     {
-        Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(itemStack, x, y);
+        ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
+        itemRender.zLevel = -200.0F;
+        itemRender.renderItemAndEffectIntoGUI(itemStack, x, y);
+        itemRender.zLevel = 0.0F;
     }
 
     private static String getArmorDurabilityStatus(ItemStack itemStack)
