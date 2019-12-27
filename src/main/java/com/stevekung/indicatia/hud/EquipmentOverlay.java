@@ -119,7 +119,7 @@ public class EquipmentOverlay
         {
             stackText = String.valueOf(stackInt);
         }
-        return count == 1 && itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + stackText : count);
+        return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + stackText : count);
     }
 
     private static int getInventoryItemCount(PlayerInventory inventory, ItemStack other)
