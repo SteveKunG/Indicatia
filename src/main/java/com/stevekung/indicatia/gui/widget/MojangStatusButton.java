@@ -9,10 +9,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MojangStatusButton extends Button
 {
     private static final ResourceLocation TEXTURE = new ResourceLocation("indicatia:textures/gui/mojang.png");

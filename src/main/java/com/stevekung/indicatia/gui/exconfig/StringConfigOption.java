@@ -7,10 +7,7 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class StringConfigOption extends ExtendedConfigOption
 {
     private final BiConsumer<ExtendedConfig, Integer> getter;

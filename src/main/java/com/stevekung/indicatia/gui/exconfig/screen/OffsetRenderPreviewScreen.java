@@ -7,10 +7,7 @@ import com.stevekung.indicatia.hud.EquipmentOverlays;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class OffsetRenderPreviewScreen extends Screen
 {
     private final Screen parent;

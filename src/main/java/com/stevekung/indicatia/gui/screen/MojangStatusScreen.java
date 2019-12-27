@@ -11,10 +11,7 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MojangStatusScreen extends Screen
 {
     private List<String> statusList = new CopyOnWriteArrayList<>();

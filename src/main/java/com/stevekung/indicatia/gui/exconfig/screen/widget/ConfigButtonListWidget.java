@@ -9,10 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.list.AbstractOptionList;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListWidget.ButtonItem>
 {
     public ConfigButtonListWidget(int x, int y, int top, int bottom, int itemHeight)
@@ -46,7 +43,6 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class ButtonItem extends AbstractOptionList.Entry<ButtonItem>
     {
         private final List<Widget> buttons;

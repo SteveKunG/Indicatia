@@ -8,10 +8,7 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class HypixelSettingsScreen extends Screen
 {
     private final Screen parent;

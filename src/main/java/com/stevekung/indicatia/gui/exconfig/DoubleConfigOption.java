@@ -9,10 +9,7 @@ import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigOptionSliderWidg
 
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class DoubleConfigOption extends ExtendedConfigOption
 {
     protected final float interval;

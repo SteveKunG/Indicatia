@@ -10,10 +10,7 @@ import com.stevekung.stevekungslib.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.widget.list.AbstractOptionList;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFieldWidgetList.Row>
 {
     public boolean selected = false;
@@ -68,7 +65,6 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         this.children().forEach(Row::resize);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static class Row extends AbstractOptionList.Entry<Row>
     {
         private final List<ExtendedTextFieldWidget> textFields;
