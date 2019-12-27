@@ -1,5 +1,7 @@
 package com.stevekung.indicatia.gui.exconfig.screen.widget;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
@@ -49,12 +51,12 @@ public abstract class ConfigSliderWidget extends Widget
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        boolean boolean_1 = keyCode == 263;
+        boolean left = keyCode == GLFW.GLFW_KEY_LEFT;
 
-        if (boolean_1 || keyCode == 262)
+        if (left || keyCode == GLFW.GLFW_KEY_RIGHT)
         {
-            float float_1 = boolean_1 ? -1.0F : 1.0F;
-            this.setValue(this.value + float_1 / (this.width - 8));
+            float value = left ? -1.0F : 1.0F;
+            this.setValue(this.value + value / (this.width - 8));
         }
         return false;
     }

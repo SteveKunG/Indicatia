@@ -20,7 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class HypixelEventHandler
 {
-    private static final Pattern NICK_PATTERN = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
+    private static final Pattern NICK_PATTERN = Pattern.compile("You are now nicked as (?<nick>\\w+)!");
     private final Minecraft mc;
 
     public HypixelEventHandler()
@@ -58,11 +58,6 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onClientChatReceived(ClientChatReceivedEvent event)
     {
-        if (event.getMessage() == null)
-        {
-            return;
-        }
-
         String message = event.getMessage().getUnformattedComponentText();
 
         if (InfoUtils.INSTANCE.isHypixel())
@@ -98,7 +93,7 @@ public class HypixelEventHandler
     {
         if (InfoUtils.INSTANCE.isHypixel() && mc.currentScreen instanceof EditSignScreen)
         {
-            EditSignScreen gui = (EditSignScreen) mc.currentScreen;
+            EditSignScreen gui = (EditSignScreen)mc.currentScreen;
 
             if (gui.tileSign != null)
             {

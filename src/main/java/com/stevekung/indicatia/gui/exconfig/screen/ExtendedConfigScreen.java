@@ -7,6 +7,7 @@ import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -22,7 +23,7 @@ public class ExtendedConfigScreen extends Screen
 
     public ExtendedConfigScreen()
     {
-        super(JsonUtils.create("Indicatia Extended Config"));
+        super(NarratorChatListener.EMPTY);
     }
 
     @Override

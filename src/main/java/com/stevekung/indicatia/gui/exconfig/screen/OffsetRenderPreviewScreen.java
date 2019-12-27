@@ -4,8 +4,8 @@ import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 
 public class OffsetRenderPreviewScreen extends Screen
@@ -14,7 +14,7 @@ public class OffsetRenderPreviewScreen extends Screen
 
     public OffsetRenderPreviewScreen(Screen parent)
     {
-        super(JsonUtils.create("Render Preview"));
+        super(NarratorChatListener.EMPTY);
         this.parent = parent;
     }
 

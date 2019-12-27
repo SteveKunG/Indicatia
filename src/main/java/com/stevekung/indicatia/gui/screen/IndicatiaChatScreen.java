@@ -245,7 +245,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         private final String command;
         private final String desc;
         private final TextFormatting color;
-        public static final ChatMode[] VALUES = ChatMode.values();
+        protected static final ChatMode[] VALUES = ChatMode.values();
 
         private ChatMode(String command, String desc, TextFormatting color)
         {

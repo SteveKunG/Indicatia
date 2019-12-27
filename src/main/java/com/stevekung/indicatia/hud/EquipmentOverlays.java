@@ -130,7 +130,7 @@ public class EquipmentOverlays
 
             if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
             {
-                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 - 91 - 20;
+                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 - 111;
                 int armorYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 40;
                 float infoXOffset = mc.mainWindow.getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
                 int infoYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 36;

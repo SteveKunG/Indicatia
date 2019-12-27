@@ -11,7 +11,6 @@ import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.*;
 
 public class InfoUtils
@@ -66,19 +65,7 @@ public class InfoUtils
     public boolean isHypixel()
     {
         ServerData server = this.mc.getCurrentServerData();
-        return server != null && server.serverIP.equals("mc.hypixel.net");
-    }
-
-    public int getCPS()
-    {
-        IndicatiaEventHandler.LEFT_CLICK.removeIf(cps -> cps < Util.milliTime() - 1000L);
-        return IndicatiaEventHandler.LEFT_CLICK.size();
-    }
-
-    public int getRCPS()
-    {
-        IndicatiaEventHandler.RIGHT_CLICK.removeIf(rcps -> rcps < Util.milliTime() - 1000L);
-        return IndicatiaEventHandler.RIGHT_CLICK.size();
+        return server != null && server.serverIP.contains("hypixel");
     }
 
     public String getMoonPhase(Minecraft mc)

@@ -9,10 +9,10 @@ import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigTextFieldWidgetL
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedTextFieldWidget;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.ColorUtils.RGB;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 
@@ -36,7 +36,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
 
     public CustomRenderInfoColorSettingsScreen(Screen parent)
     {
-        super(JsonUtils.create("Render Info Custom Color Settings"));
+        super(NarratorChatListener.EMPTY);
         this.parent = parent;
     }
 
@@ -64,6 +64,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     public void onClose()
     {
         this.minecraft.keyboardListener.enableRepeatEvents(false);
+        this.minecraft.displayGuiScreen(this.parent);
     }
 
     @Override

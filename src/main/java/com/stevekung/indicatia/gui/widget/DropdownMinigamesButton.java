@@ -22,7 +22,7 @@ public class DropdownMinigamesButton extends Button
 
     public DropdownMinigamesButton(IDropboxCallback parentClass, int x, int y, List<String> minigameLists)
     {
-        super(x, y, 15, 15, "", null);
+        super(x, y, 15, 15, "Minigame Dropdown Button", null);
         this.parentClass = parentClass;
         this.minigameLists = minigameLists;
 
@@ -134,7 +134,11 @@ public class DropdownMinigamesButton extends Button
         ExtendedConfig.INSTANCE.hypixelMinigameScrollPos -= amount;
         int i = this.minigameLists.size();
 
-        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength || ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)
+        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength)
+        {
+            ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = i - this.displayLength;
+        }
+        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)
         {
             ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
         }

@@ -3,9 +3,9 @@ package com.stevekung.indicatia.gui.exconfig.screen;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 
@@ -17,7 +17,7 @@ public class HypixelSettingsScreen extends Screen
 
     public HypixelSettingsScreen(Screen parent)
     {
-        super(JsonUtils.create("Hypixel Settings"));
+        super(NarratorChatListener.EMPTY);
         this.parent = parent;
     }
 
@@ -40,6 +40,12 @@ public class HypixelSettingsScreen extends Screen
     {
         ExtendedConfig.INSTANCE.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public void onClose()
+    {
+        this.minecraft.displayGuiScreen(this.parent);
     }
 
     @Override

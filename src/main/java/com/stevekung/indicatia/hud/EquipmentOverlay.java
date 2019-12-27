@@ -14,8 +14,8 @@ import net.minecraft.item.ItemStack;
 
 public class EquipmentOverlay
 {
-    protected ItemStack itemStack;
-    protected Minecraft mc;
+    protected final ItemStack itemStack;
+    protected final Minecraft mc;
 
     public EquipmentOverlay(ItemStack itemStack)
     {
@@ -62,27 +62,14 @@ public class EquipmentOverlay
 
     public static void renderItem(ItemStack itemStack, int x, int y)
     {
-        RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
-        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        RenderHelper.enableGUIStandardItemLighting();
         Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(itemStack, x, y);
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
+        Minecraft.getInstance().getItemRenderer().renderItemOverlays(Minecraft.getInstance().fontRenderer, itemStack, x, y);
         RenderHelper.disableStandardItemLighting();
-
-        if (itemStack.isDamageable())
-        {
-            RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.enableColorMaterial();
-            GlStateManager.disableLighting();
-            GlStateManager.enableCull();
-            Minecraft.getInstance().getItemRenderer().renderItemOverlays(Minecraft.getInstance().fontRenderer, itemStack, x, y);
-            GlStateManager.blendFunc(770, 771);
-            GlStateManager.disableLighting();
-        }
+        GlStateManager.disableRescaleNormal();
     }
 
     private static String getArmorDurabilityStatus(ItemStack itemStack)
