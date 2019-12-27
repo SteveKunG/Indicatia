@@ -3,10 +3,7 @@ package com.stevekung.indicatia.gui.exconfig;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class ExtendedConfigOption
 {
     private final String key;

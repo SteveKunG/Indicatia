@@ -22,7 +22,6 @@ public class EquipmentOverlays
         ItemStack offhandStack = mc.player.getHeldItemOffhand();
         List<HorizontalEquipmentOverlay> equippedLists = new ArrayList<>();
         int prevX = 0;
-        int rightWidth = 0;
 
         for (int i = 3; i >= 0; i--)
         {
@@ -35,22 +34,13 @@ public class EquipmentOverlays
         for (HorizontalEquipmentOverlay equipment : equippedLists)
         {
             ItemStack itemStack = equipment.getItemStack();
+            int totalWidth = EquipmentOverlays.getTotalWidth(equippedLists);
 
             if (itemStack.isEmpty())
             {
                 continue;
             }
-            rightWidth += equipment.getWidth();
-        }
-        for (HorizontalEquipmentOverlay equipment : equippedLists)
-        {
-            ItemStack itemStack = equipment.getItemStack();
-
-            if (itemStack.isEmpty())
-            {
-                continue;
-            }
-            int xBaseRight = mc.func_228018_at_().getScaledWidth() - rightWidth - 2;
+            int xBaseRight = mc.func_228018_at_().getScaledWidth() - totalWidth - 2;
             equipment.render(right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
@@ -140,7 +130,7 @@ public class EquipmentOverlays
 
             if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
             {
-                int baseXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 91 - 20;
+                int baseXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 111;
                 int armorYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 40;
                 float infoXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
                 int infoYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 36;
@@ -187,5 +177,22 @@ public class EquipmentOverlays
                 ++iRight;
             }
         }
+    }
+
+    private static int getTotalWidth(List<HorizontalEquipmentOverlay> equippedLists)
+    {
+        int width = 0;
+
+        for (HorizontalEquipmentOverlay equipment : equippedLists)
+        {
+            ItemStack itemStack = equipment.getItemStack();
+
+            if (itemStack.isEmpty())
+            {
+                continue;
+            }
+            width += equipment.getWidth();
+        }
+        return width;
     }
 }

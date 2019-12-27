@@ -1,24 +1,21 @@
 package com.stevekung.indicatia.gui.screen;
 
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.realms.RealmsBridge;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfirmDisconnectScreen extends Screen
 {
     private final Screen parent;
 
     public ConfirmDisconnectScreen(Screen parent)
     {
-        super(JsonUtils.create("Confirm Disconnect"));
+        super(NarratorChatListener.EMPTY);
         this.parent = parent;
     }
 

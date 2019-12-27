@@ -32,14 +32,14 @@ public class ThreadMinigameData implements Runnable
 
             for (JsonElement minigameEle : element.getAsJsonArray())
             {
-                JsonObject minigame = (JsonObject)minigameEle;
+                JsonObject minigame = minigameEle.getAsJsonObject();
                 String name = minigame.get("name").getAsString();
                 boolean sort = !minigame.has("sort") ? true : minigame.get("sort").getAsBoolean();
                 List<MinigameCommand> minigameCmds = new ArrayList<>();
 
                 for (JsonElement commandEle : minigame.getAsJsonArray("commands"))
                 {
-                    JsonObject command = (JsonObject)commandEle;
+                    JsonObject command = commandEle.getAsJsonObject();
                     String displayName = command.get("name").getAsString();
                     String minigameCommand = command.get("command").getAsString();
                     boolean isMinigame = command.get("minigame").getAsBoolean();

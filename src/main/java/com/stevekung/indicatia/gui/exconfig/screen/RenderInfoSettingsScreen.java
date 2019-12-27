@@ -3,15 +3,12 @@ package com.stevekung.indicatia.gui.exconfig.screen;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class RenderInfoSettingsScreen extends Screen
 {
     private final Screen parent;
@@ -22,7 +19,7 @@ public class RenderInfoSettingsScreen extends Screen
 
     public RenderInfoSettingsScreen(Screen parent)
     {
-        super(JsonUtils.create("Render Info Settings"));
+        super(NarratorChatListener.EMPTY);
         this.parent = parent;
     }
 
@@ -45,6 +42,12 @@ public class RenderInfoSettingsScreen extends Screen
     {
         ExtendedConfig.INSTANCE.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public void onClose()
+    {
+        this.minecraft.displayGuiScreen(this.parent);
     }
 
     @Override

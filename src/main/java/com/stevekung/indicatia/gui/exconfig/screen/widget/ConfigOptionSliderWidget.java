@@ -3,10 +3,6 @@ package com.stevekung.indicatia.gui.exconfig.screen.widget;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.DoubleConfigOption;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-@OnlyIn(Dist.CLIENT)
 public class ConfigOptionSliderWidget extends ConfigSliderWidget
 {
     private final DoubleConfigOption option;

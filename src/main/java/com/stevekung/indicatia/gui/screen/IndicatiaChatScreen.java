@@ -26,10 +26,7 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
 {
     private DropdownMinigamesButton dropdown;
@@ -248,7 +245,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         private final String command;
         private final String desc;
         private final TextFormatting color;
-        public static final ChatMode[] VALUES = ChatMode.values();
+        protected static final ChatMode[] VALUES = ChatMode.values();
 
         private ChatMode(String command, String desc, TextFormatting color)
         {

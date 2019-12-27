@@ -60,7 +60,7 @@ public class HUDRenderEventHandler
 
             if (server != null)
             {
-                InfoOverlays.getTPS(ServerLifecycleHooks.getCurrentServer());
+                InfoOverlays.getTPS(server);
             }
 
             if (IndicatiaMod.isYoutubeChatLoaded)
@@ -180,12 +180,11 @@ public class HUDRenderEventHandler
         float health = entity.getHealth();
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
-        double maxDistance = 32.0D;
         double distance = this.mc.getRenderManager().func_229099_b_(entity);
         boolean flag = ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.DISABLED && (ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.POINTED || entity == InfoUtils.INSTANCE.extendedPointedEntity);
         Style color = halfHealth ? JsonUtils.RED : halfHealth1 ? JsonUtils.DARK_RED : JsonUtils.GREEN;
 
-        if (!(distance > maxDistance * maxDistance))
+        if (distance < 1024.0D)
         {
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof ClientPlayerEntity || entity instanceof ArmorStandEntity) && !InfoUtils.INSTANCE.isHypixel())
             {

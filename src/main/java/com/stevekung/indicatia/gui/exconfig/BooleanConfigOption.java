@@ -8,10 +8,7 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BooleanConfigOption extends ExtendedConfigOption
 {
     private final Predicate<ExtendedConfig> getter;

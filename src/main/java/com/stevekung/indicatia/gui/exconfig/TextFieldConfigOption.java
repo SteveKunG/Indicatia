@@ -7,10 +7,7 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedTextFieldWidget;
 
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class TextFieldConfigOption extends ExtendedConfigOption
 {
     private final Function<ExtendedConfig, String> getter;

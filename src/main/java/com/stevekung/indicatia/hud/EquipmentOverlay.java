@@ -13,8 +13,8 @@ import net.minecraft.item.ItemStack;
 
 public class EquipmentOverlay
 {
-    protected ItemStack itemStack;
-    protected Minecraft mc;
+    protected final ItemStack itemStack;
+    protected final Minecraft mc;
 
     public EquipmentOverlay(ItemStack itemStack)
     {

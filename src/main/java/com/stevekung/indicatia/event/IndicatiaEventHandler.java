@@ -1,14 +1,10 @@
 package com.stevekung.indicatia.event;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.annotation.Nonnull;
-
-import org.lwjgl.glfw.GLFW;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.stevekung.indicatia.config.ExtendedConfig;
@@ -53,22 +49,18 @@ import net.minecraft.network.status.server.SServerInfoPacket;
 import net.minecraft.potion.Effects;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class IndicatiaEventHandler
 {
     private final Minecraft mc;
-    public static final List<Long> LEFT_CLICK = new ArrayList<>();
-    public static final List<Long> RIGHT_CLICK = new ArrayList<>();
     public static int currentServerPing;
     private static final ThreadPoolExecutor REALTIME_PINGER = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private long lastPinger = -1L;
@@ -208,19 +200,6 @@ public class IndicatiaEventHandler
                 movement.moveStrafe -= Math.random();
                 movement.rightKeyDown = true;
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onMouseClick(InputEvent.MouseInputEvent event)
-    {
-        if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_1 && event.getAction() == GLFW.GLFW_PRESS)
-        {
-            IndicatiaEventHandler.LEFT_CLICK.add(Util.milliTime());
-        }
-        if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_2 && event.getAction() == GLFW.GLFW_PRESS)
-        {
-            IndicatiaEventHandler.RIGHT_CLICK.add(Util.milliTime());
         }
     }
 
@@ -443,44 +422,41 @@ public class IndicatiaEventHandler
     {
         if (IndicatiaEventHandler.START_AUTO_FISH)
         {
-            ++IndicatiaEventHandler.autoFishTick;
-            IndicatiaEventHandler.autoFishTick %= 4;
+            IndicatiaEventHandler.autoFishTick++;
 
-            if (mc.objectMouseOver != null && mc.world != null && mc.playerController != null && mc.gameRenderer != null)
+            if (mc.objectMouseOver != null && mc.world != null)
             {
                 if (IndicatiaEventHandler.autoFishTick % 4 == 0)
                 {
                     for (Hand hand : CachedEnum.HAND)
                     {
                         ItemStack itemStack = mc.player.getHeldItem(hand);
-                        boolean fishingRod = mc.player.getHeldItem(hand).getItem() instanceof FishingRodItem;
+                        boolean mainHand = mc.player.getHeldItemMainhand().getItem() instanceof FishingRodItem;
+                        boolean offHand = mc.player.getHeldItemOffhand().getItem() instanceof FishingRodItem;
 
-                        if (fishingRod)
+                        if (mc.player.getHeldItemMainhand().getItem() instanceof FishingRodItem)
+                        {
+                            offHand = false;
+                        }
+
+                        if (mainHand || offHand)
                         {
                             if (mc.objectMouseOver.getType() == RayTraceResult.Type.BLOCK)
                             {
                                 BlockRayTraceResult blockRayTrace = (BlockRayTraceResult)mc.objectMouseOver;
-                                BlockPos pos = blockRayTrace.getPos();
+                                ActionResultType result = mc.playerController.func_217292_a(mc.player, mc.world, hand, blockRayTrace);
 
-                                if (!mc.world.getBlockState(pos).isAir(mc.world, pos))
+                                if (result.func_226246_a_())
                                 {
-                                    int count = itemStack.getCount();
-                                    ActionResultType result = mc.playerController.func_217292_a(mc.player, mc.world, hand, blockRayTrace);
-
-                                    if (result == ActionResultType.SUCCESS)
+                                    if (result.func_226247_b_())
                                     {
                                         mc.player.swingArm(hand);
-
-                                        if (!itemStack.isEmpty() && (itemStack.getCount() != count || mc.playerController.isInCreativeMode()))
-                                        {
-                                            mc.gameRenderer.itemRenderer.resetEquippedProgress(hand);
-                                        }
-                                        return;
                                     }
-                                    if (result == ActionResultType.FAIL)
-                                    {
-                                        return;
-                                    }
+                                    return;
+                                }
+                                if (result == ActionResultType.FAIL)
+                                {
+                                    return;
                                 }
                             }
                         }
@@ -492,14 +468,19 @@ public class IndicatiaEventHandler
                             return;
                         }
 
-                        if (itemStack.isEmpty() && (mc.objectMouseOver == null || mc.objectMouseOver.getType() == RayTraceResult.Type.MISS))
+                        if (!itemStack.isEmpty())
                         {
-                            ForgeHooks.onEmptyClick(mc.player, hand);
-                        }
-                        if (!itemStack.isEmpty() && mc.playerController.processRightClick(mc.player, mc.world, hand) == ActionResultType.SUCCESS)
-                        {
-                            mc.gameRenderer.itemRenderer.resetEquippedProgress(hand);
-                            return;
+                            ActionResultType result = mc.playerController.processRightClick(mc.player, mc.world, hand);
+
+                            if (result.func_226246_a_())
+                            {
+                                if (result.func_226247_b_())
+                                {
+                                    mc.player.swingArm(hand);
+                                }
+                                mc.gameRenderer.itemRenderer.resetEquippedProgress(hand);
+                                return;
+                            }
                         }
                     }
                 }

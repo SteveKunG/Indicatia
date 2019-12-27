@@ -7,14 +7,12 @@ import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ExtendedConfigScreen extends Screen
 {
     private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.SWAP_INFO_POS, ExtendedConfig.HEALTH_STATUS, ExtendedConfig.EQUIPMENT_DIRECTION, ExtendedConfig.EQUIPMENT_STATUS,
@@ -25,7 +23,7 @@ public class ExtendedConfigScreen extends Screen
 
     public ExtendedConfigScreen()
     {
-        super(JsonUtils.create("Indicatia Extended Config"));
+        super(NarratorChatListener.EMPTY);
     }
 
     @Override

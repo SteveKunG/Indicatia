@@ -5,16 +5,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.stevekung.indicatia.utils.MojangServerStatus;
 import com.stevekung.indicatia.utils.MojangStatusChecker;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MojangStatusScreen extends Screen
 {
     private List<String> statusList = new CopyOnWriteArrayList<>();
@@ -25,7 +22,7 @@ public class MojangStatusScreen extends Screen
 
     public MojangStatusScreen(Screen parent)
     {
-        super(JsonUtils.create("Mojang Status Checker"));
+        super(NarratorChatListener.EMPTY);
         this.parent = parent;
     }
 
