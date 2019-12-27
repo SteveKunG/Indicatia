@@ -48,7 +48,6 @@ public class ExtendedConfig
     public boolean tpsAllDims = false;
     public boolean alternatePotionHUDTextColor = false;
     public boolean toggleSprint = false;
-    public boolean toggleSneak = false;
 
     // Main
     public boolean swapRenderInfo = false;
@@ -252,7 +251,6 @@ public class ExtendedConfig
 
             // Movement
             this.toggleSprint = this.getBoolean(nbt, "ToggleSprint", this.toggleSprint);
-            this.toggleSneak = this.getBoolean(nbt, "ToggleSneak", this.toggleSneak);
 
             // Offset
             this.armorHUDYOffset = this.getInteger(nbt, "ArmorHUDYOffset", this.armorHUDYOffset);
@@ -363,7 +361,6 @@ public class ExtendedConfig
 
             // Movement
             nbt.putBoolean("ToggleSprint", this.toggleSprint);
-            nbt.putBoolean("ToggleSneak", this.toggleSneak);
 
             // Offset
             nbt.putInt("ArmorHUDYOffset", this.armorHUDYOffset);

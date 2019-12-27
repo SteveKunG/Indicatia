@@ -37,10 +37,7 @@
 
     "commands.indicatia.toggle_sprint.enable": "Toggle Sprint Enabled",
     "commands.indicatia.toggle_sprint.disable": "Toggle Sprint Disabled",
-    "commands.indicatia.toggle_sneak.enable": "Toggle Sneak Enabled",
-    "commands.indicatia.toggle_sneak.disable": "Toggle Sneak Disabled",
     "commands.indicatia.toggle_sprint.set_mode": "Set Toggle Sprint to use",
-    "commands.indicatia.toggle_sneak.set_mode": "Set Toggle Sneak to use",
 
     "commands.ping_all.result": "%s: Ping %s ms",
 
@@ -180,7 +177,6 @@
     "_comment": "KEY BINDING",
     "key.indicatia.category": "Indicatia",
     "key.toggle_sprint.desc": "Toggle Sprint",
-    "key.toggle_sneak.desc": "Toggle Sneak",
     "key.quick_config.desc": "Quick Config GUI",
 
     "_comment": "MENU",

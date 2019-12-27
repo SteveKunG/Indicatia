@@ -177,17 +177,8 @@ public class IndicatiaEventHandler
             ++movement.moveForward;
         }
 
-        // toggle sneak
-        movement.field_228350_h_ = this.mc.gameSettings.field_228046_af_.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
-
-        if (ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator() && !player.isCreative())
-        {
-            movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
-            movement.moveForward = (float)(movement.moveForward * 0.3D);
-        }
-
         // toggle sprint
-        if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.INSTANCE.toggleSneak)
+        if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS))
         {
             player.setSprinting(true);
         }
@@ -260,12 +251,6 @@ public class IndicatiaEventHandler
         {
             ExtendedConfig.INSTANCE.toggleSprint = !ExtendedConfig.INSTANCE.toggleSprint;
             ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
-            ExtendedConfig.INSTANCE.save();
-        }
-        if (KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown())
-        {
-            ExtendedConfig.INSTANCE.toggleSneak = !ExtendedConfig.INSTANCE.toggleSneak;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSneak ? LangUtils.translate("commands.indicatia.toggle_sneak.enable") : LangUtils.translate("commands.indicatia.toggle_sneak.disable")).getFormattedText());
             ExtendedConfig.INSTANCE.save();
         }
     }
