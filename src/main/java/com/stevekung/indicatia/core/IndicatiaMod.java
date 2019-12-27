@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.apache.commons.io.IOUtils;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.*;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
@@ -20,16 +19,15 @@ import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.client.gui.ChatScreenRegistry;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.VersionChecker;
+import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 
 import net.minecraft.client.GameSettings;
-import net.minecraft.command.CommandSource;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod
@@ -53,7 +51,6 @@ public class IndicatiaMod
     {
         CommonUtils.addModListener(this::phaseOne);
         CommonUtils.addModListener(this::loadComplete);
-        CommonUtils.addListener(this::serverStarting);
 
         CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
         CommonUtils.registerModEventBus(IndicatiaConfig.class);
@@ -65,6 +62,7 @@ public class IndicatiaMod
 
     private void phaseOne(FMLCommonSetupEvent event)
     {
+        this.registerClientCommands();
         KeyBindingHandler.init();
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
@@ -86,15 +84,14 @@ public class IndicatiaMod
         CommonUtils.execute(new ThreadMinigameData());
     }
 
-    private void serverStarting(FMLServerStartingEvent event)
+    private void registerClientCommands()
     {
-        CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
-        MojangStatusCheckCommand.register(dispatcher);
-        SlimeSeedCommand.register(dispatcher);
-        AFKCommand.register(dispatcher);
-        ProfileCommand.register(dispatcher);
-        PingAllCommand.register(dispatcher);
-        AutoFishCommand.register(dispatcher);
+        ClientCommands.register(new AFKCommand());
+        ClientCommands.register(new AutoFishCommand());
+        ClientCommands.register(new MojangStatusCheckCommand());
+        ClientCommands.register(new PingAllCommand());
+        ClientCommands.register(new ProfileCommand());
+        ClientCommands.register(new SlimeSeedCommand());
         IndicatiaMod.LOGGER.info("Registering client side commands");
     }
 

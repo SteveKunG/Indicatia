@@ -5,17 +5,19 @@ import java.util.List;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
+import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
+import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
 
-public class PingAllCommand
+public class PingAllCommand implements IClientCommand
 {
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void register(CommandDispatcher<IClientSuggestionProvider> dispatcher)
     {
-        dispatcher.register(Commands.literal("pingall").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> PingAllCommand.getAllLatency()));
+        dispatcher.register(ClientCommands.literal("pingall").executes(command -> PingAllCommand.getAllLatency()));
     }
 
     private static int getAllLatency()

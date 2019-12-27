@@ -3,17 +3,18 @@ package com.stevekung.indicatia.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.utils.ThreadCheckMojangStatus;
 import com.stevekung.stevekungslib.utils.CommonUtils;
+import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
+import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
+import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-
-public class MojangStatusCheckCommand
+public class MojangStatusCheckCommand implements IClientCommand
 {
     private static final ThreadCheckMojangStatus THREAD = new ThreadCheckMojangStatus();
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void register(CommandDispatcher<IClientSuggestionProvider> dispatcher)
     {
-        dispatcher.register(Commands.literal("mojangstatus").requires(requirement -> requirement.hasPermissionLevel(0)).executes(command -> MojangStatusCheckCommand.runThread()));
+        dispatcher.register(ClientCommands.literal("mojangstatus").executes(command -> MojangStatusCheckCommand.runThread()));
     }
 
     private static int runThread()
