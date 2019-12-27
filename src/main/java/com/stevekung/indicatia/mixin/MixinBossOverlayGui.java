@@ -3,10 +3,7 @@ package com.stevekung.indicatia.mixin;
 import java.util.Map;
 import java.util.UUID;
 
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.IndicatiaConfig;
@@ -25,14 +22,17 @@ public abstract class MixinBossOverlayGui extends AbstractGui
 {
     @Shadow
     @Final
+    @Mutable
     private Minecraft client;
 
     @Shadow
     @Final
+    @Mutable
     private Map<UUID, ClientBossInfo> mapBossInfos;
 
     @Shadow
     @Final
+    @Mutable
     private static ResourceLocation GUI_BARS_TEXTURES;
 
     @Shadow

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,18 +32,22 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
 {
     @Shadow
     @Final
+    @Mutable
     private MultiplayerScreen owner;
 
     @Shadow
     @Final
+    @Mutable
     private Minecraft mc;
 
     @Shadow
     @Final
+    @Mutable
     private ServerData server;
 
     @Shadow
     @Final
+    @Mutable
     private ResourceLocation serverIcon;
 
     @Shadow

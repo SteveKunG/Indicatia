@@ -16,7 +16,7 @@ public abstract class MixinArmorLayer<T extends LivingEntity, M extends BipedMod
         super(renderer);
     }
 
-    //    @Override
+    //    @Override TODO Fix hurt overlay
     //    protected boolean func_225622_a_(T p_225622_1_, boolean p_225622_2_)
     //    {
     //       return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
