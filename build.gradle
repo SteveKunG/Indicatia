@@ -87,7 +87,7 @@ jar {
         exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
     }
     manifest {
-        attributes("MixinConfigs": "mixins.indicatia.json"
+        attributes("MixinConnector": "com.stevekung.indicatia.core.IndicatiaMixinConnector"
         )
     }
     baseName = "Indicatia-" + mcVersion
@@ -105,7 +105,7 @@ task deobfJar(type: Jar) {
         exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
     }
     manifest {
-        attributes("MixinConfigs": "mixins.indicatia.json"
+        attributes("MixinConnector": "com.stevekung.indicatia.core.IndicatiaMixinConnector"
         )
     }
     baseName = "Indicatia-" + mcVersion
