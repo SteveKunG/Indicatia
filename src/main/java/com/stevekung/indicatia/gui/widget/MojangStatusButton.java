@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.gui.widget;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -33,9 +33,9 @@ public class MojangStatusButton extends Button
             float f = main.showFadeInAnimation ? (Util.milliTime() - main.firstRenderTime) / 1000.0F : 1.0F;
             float f1 = main.showFadeInAnimation ? MathHelper.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
 
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, f1);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, f1);
             this.setAlpha(f1);
 
             mc.getTextureManager().bindTexture(MojangStatusButton.TEXTURE);

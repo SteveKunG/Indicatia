@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.PingMode;
@@ -162,10 +162,10 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
             int l2 = yOffset + j2 * 9;
 
             AbstractGui.fill(k2, l2, k2 + i1, l2 + 8, this.mc.gameSettings.func_216839_a(553648127));
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.enableAlphaTest();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.enableAlphaTest();
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
 
             if (size < list.size())
             {
@@ -267,7 +267,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         }
         else
         {
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
             int state;
 

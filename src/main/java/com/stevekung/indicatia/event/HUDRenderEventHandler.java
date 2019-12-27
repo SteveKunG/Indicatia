@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.HealthStatusMode;
@@ -16,7 +17,10 @@ import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
@@ -80,8 +84,8 @@ public class HUDRenderEventHandler
         if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
         {
             event.setCanceled(!IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get());
-            GlStateManager.enableDepthTest();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            RenderSystem.enableDepthTest();
+            RenderSystem.defaultBlendFunc();
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
         {
@@ -111,7 +115,7 @@ public class HUDRenderEventHandler
                         float defaultPos = 3.0625F;
                         float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                         float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
-                        float xOffset = this.mc.mainWindow.getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
+                        float xOffset = this.mc.func_228018_at_().getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
                         this.mc.fontRenderer.drawStringWithShadow(value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
                         if (pos == InfoOverlay.Position.LEFT)
@@ -171,11 +175,13 @@ public class HUDRenderEventHandler
     public void onRenderHealthStatus(RenderLivingEvent.Specials.Post<LivingEntity, EntityModel<LivingEntity>> event)
     {
         LivingEntity entity = event.getEntity();
+        MatrixStack stack = event.getMatrixStack();
+        IRenderTypeBuffer.Impl irendertypebuffer$impl = IRenderTypeBuffer.func_228455_a_(Tessellator.getInstance().getBuffer());
         float health = entity.getHealth();
         boolean halfHealth = health <= entity.getMaxHealth() / 2F;
         boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
         double maxDistance = 32.0D;
-        double distance = entity.getDistanceSq(this.mc.getRenderManager().info.getProjectedView());
+        double distance = this.mc.getRenderManager().func_229099_b_(entity);
         boolean flag = ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.DISABLED && (ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.POINTED || entity == InfoUtils.INSTANCE.extendedPointedEntity);
         Style color = halfHealth ? JsonUtils.RED : halfHealth1 ? JsonUtils.DARK_RED : JsonUtils.GREEN;
 
@@ -183,8 +189,19 @@ public class HUDRenderEventHandler
         {
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof ClientPlayerEntity || entity instanceof ArmorStandEntity) && !InfoUtils.INSTANCE.isHypixel())
             {
-                String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
-                GameRenderer.drawNameplate(this.mc.fontRenderer, heart + String.format("%.1f", health), (float)event.getX(), (float)event.getY(), (float)event.getZ(), 0, this.mc.getRenderManager().playerViewY, this.mc.getRenderManager().playerViewX, entity.shouldRenderSneaking());
+                String heartText = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText() + String.format("%.1f", health);
+                float height = entity.getHeight() + 0.5F;
+                stack.func_227860_a_();//push
+                stack.func_227861_a_(0.0D, height, 0.0D);//translate
+                stack.func_227863_a_(this.mc.getRenderManager().func_229098_b_());
+                stack.func_227862_a_(-0.025F, -0.025F, 0.025F);//size
+                Matrix4f matrix4f = stack.func_227866_c_().func_227870_a_();
+                float textBackgroundOpacity = Minecraft.getInstance().gameSettings.func_216840_a(0.25F);
+                int textColor = (int)(textBackgroundOpacity * 255.0F) << 24;
+                FontRenderer fontrenderer = this.mc.getRenderManager().getFontRenderer();
+                float textX = -fontrenderer.getStringWidth(heartText) / 2;
+                fontrenderer.func_228079_a_(heartText, textX, 0, 553648127, false, matrix4f, irendertypebuffer$impl, false, textColor, 0);
+                stack.func_227865_b_();//pop
             }
         }
     }
@@ -201,11 +218,11 @@ public class HUDRenderEventHandler
     public static List<InfoOverlay> getInfoOverlays(Minecraft mc)
     {
         List<InfoOverlay> infos = new ArrayList<>();
-        BlockPos playerPos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().posZ);
+        BlockPos playerPos = new BlockPos(mc.getRenderViewEntity().func_226277_ct_(), mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().func_226281_cx_());
 
         if (ExtendedConfig.INSTANCE.fps)
         {
-            int fps = Minecraft.getDebugFPS();
+            int fps = Minecraft.debugFPS;
             infos.add(new InfoOverlay("FPS", String.valueOf(fps), ExtendedConfig.INSTANCE.fpsColor, fps <= 25 ? ExtendedConfig.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? ExtendedConfig.INSTANCE.fps26And49Color : ExtendedConfig.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
         }
 
@@ -250,7 +267,7 @@ public class HUDRenderEventHandler
         {
             ChunkPos chunkPos = new ChunkPos(playerPos);
             Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
-            String biomeName = worldChunk.getBiome(playerPos).getDisplayName().getFormattedText();
+            String biomeName = mc.world.func_226691_t_(playerPos).getDisplayName().getFormattedText();
             infos.add(new InfoOverlay("Biome", !worldChunk.isEmpty() ? biomeName : "Waiting for chunk...", ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
         }
 

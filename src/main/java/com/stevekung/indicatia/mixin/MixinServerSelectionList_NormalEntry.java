@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
@@ -149,7 +149,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
                 }
             }
 
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             if (this.server.getBase64EncodedIconData() != null && !this.server.getBase64EncodedIconData().equals(this.lastIconB64))
             {
@@ -181,7 +181,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
             {
                 this.mc.getTextureManager().bindTexture(ServerSelectionList.field_214360_d);
                 AbstractGui.fill(x, y, x + 32, y + 32, -1601138544);
-                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 int k1 = mouseX - x;
                 int l1 = mouseY - y;
 

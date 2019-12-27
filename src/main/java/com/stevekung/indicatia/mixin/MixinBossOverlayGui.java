@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 
 import net.minecraft.client.Minecraft;
@@ -45,20 +45,20 @@ public abstract class MixinBossOverlayGui extends AbstractGui
 
         if (!this.mapBossInfos.isEmpty())
         {
-            int width = this.client.mainWindow.getScaledWidth();
-            int height = this.client.mainWindow.getScaledHeight();
+            int width = this.client.func_228018_at_().getScaledWidth();
+            int height = this.client.func_228018_at_().getScaledHeight();
             int baseHeight = 12;
 
             for (ClientBossInfo bossInfo : this.mapBossInfos.values())
             {
                 int realWidth = width / 2 - 91;
-                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(this.client.mainWindow, bossInfo, realWidth, baseHeight, 10 + this.client.fontRenderer.FONT_HEIGHT);
+                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(this.client.func_228018_at_(), bossInfo, realWidth, baseHeight, 10 + this.client.fontRenderer.FONT_HEIGHT);
 
                 if (!event.isCanceled())
                 {
                     if (render)
                     {
-                        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                         this.client.getTextureManager().bindTexture(GUI_BARS_TEXTURES);
                         this.render(realWidth, baseHeight, bossInfo);
                     }
@@ -67,7 +67,7 @@ public abstract class MixinBossOverlayGui extends AbstractGui
                 }
 
                 baseHeight += render ? event.getIncrement() : 12;
-                ForgeHooksClient.bossBarRenderPost(this.client.mainWindow);
+                ForgeHooksClient.bossBarRenderPost(this.client.func_228018_at_());
 
                 if (baseHeight >= height / (render ? 3.0D : 4.5D))
                 {

@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screen.widget;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
@@ -37,7 +37,7 @@ public abstract class ConfigSliderWidget extends Widget
     protected void renderBg(Minecraft mc, int x, int y)
     {
         mc.getTextureManager().bindTexture(WIDGETS_LOCATION);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int index = (this.isHovered() ? 2 : 1) * 20;
         this.blit(this.x + (int)(this.value * (this.width - 8)), this.y, 0, 46 + index, 4, 20);
         this.blit(this.x + (int)(this.value * (this.width - 8)) + 4, this.y, 196, 46 + index, 4, 20);

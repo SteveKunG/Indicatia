@@ -2,8 +2,6 @@ package com.stevekung.indicatia.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import com.stevekung.indicatia.config.IndicatiaConfig;
-
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArmorLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -18,9 +16,9 @@ public abstract class MixinArmorLayer<T extends LivingEntity, M extends BipedMod
         super(renderer);
     }
 
-    @Override
-    public boolean shouldCombineTextures()
-    {
-        return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
-    }
+    //    @Override
+    //    protected boolean func_225622_a_(T p_225622_1_, boolean p_225622_2_)
+    //    {
+    //       return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
+    //    }
 }

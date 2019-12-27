@@ -8,30 +8,32 @@ import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
+import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
+import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
 import net.minecraft.util.StringUtils;
 
-public class AFKCommand
+public class AFKCommand implements IClientCommand
 {
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
+    @Override
+    public void register(CommandDispatcher<IClientSuggestionProvider> dispatcher)
     {
-        dispatcher.register(Commands.literal("afk").requires(requirement -> requirement.hasPermissionLevel(0))
-                .then(Commands.literal("start").executes(requirement -> AFKCommand.startAFK(requirement.getSource(), null))
-                        .then(Commands.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.startAFK(requirement.getSource(), StringArgumentType.getString(requirement, "reason")))))
-                .then(Commands.literal("stop").executes(requirement -> AFKCommand.stopAFK(requirement.getSource())))
-                .then(Commands.literal("change_reason").then(Commands.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.setReason(requirement.getSource(), StringArgumentType.getString(requirement, "reason")))))
-                .then(Commands.literal("mode")
-                        .then(Commands.literal("idle").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.IDLE)))
-                        .then(Commands.literal("random_move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.RANDOM_MOVE)))
-                        .then(Commands.literal("random_360").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.RANDOM_360)))
-                        .then(Commands.literal("random_move_360").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.RANDOM_MOVE_360)))));
+        dispatcher.register(ClientCommands.literal("afk")
+                .then(ClientCommands.literal("start").executes(requirement -> AFKCommand.startAFK(requirement.getSource(), null))
+                        .then(ClientCommands.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.startAFK(requirement.getSource(), StringArgumentType.getString(requirement, "reason")))))
+                .then(ClientCommands.literal("stop").executes(requirement -> AFKCommand.stopAFK(requirement.getSource())))
+                .then(ClientCommands.literal("change_reason").then(ClientCommands.argument("reason", StringArgumentType.greedyString()).executes(requirement -> AFKCommand.setReason(requirement.getSource(), StringArgumentType.getString(requirement, "reason")))))
+                .then(ClientCommands.literal("mode")
+                        .then(ClientCommands.literal("idle").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.IDLE)))
+                        .then(ClientCommands.literal("random_move").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.RANDOM_MOVE)))
+                        .then(ClientCommands.literal("random_360").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.RANDOM_360)))
+                        .then(ClientCommands.literal("random_move_360").executes(requirement -> AFKCommand.changeAFKMode(requirement.getSource(), AFKMode.RANDOM_MOVE_360)))));
     }
 
-    private static int startAFK(CommandSource source, String reason)
+    private static int startAFK(IClientSuggestionProvider source, String reason)
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
@@ -67,7 +69,7 @@ public class AFKCommand
         }
     }
 
-    private static int stopAFK(CommandSource source)
+    private static int stopAFK(IClientSuggestionProvider source)
     {
         if (IndicatiaEventHandler.START_AFK)
         {
@@ -94,13 +96,13 @@ public class AFKCommand
         }
     }
 
-    private static int setReason(CommandSource source, String newReason)
+    private static int setReason(IClientSuggestionProvider source, String newReason)
     {
         if (IndicatiaEventHandler.START_AFK)
         {
             String oldReason = IndicatiaEventHandler.AFK_REASON;
             IndicatiaEventHandler.AFK_REASON = newReason;
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason), false);
+            source.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason));
             return 1;
         }
         else
@@ -110,10 +112,10 @@ public class AFKCommand
         }
     }
 
-    private static int changeAFKMode(CommandSource source, AFKMode mode)
+    private static int changeAFKMode(IClientSuggestionProvider source, AFKMode mode)
     {
         IndicatiaEventHandler.AFK_MODE = mode;
-        source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", mode), false);
+        source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", mode));
         return 1;
     }
 }

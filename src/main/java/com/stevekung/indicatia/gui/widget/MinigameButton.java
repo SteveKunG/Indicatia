@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.gui.widget;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -42,7 +42,7 @@ public class MinigameButton extends Button
         if (this.visible)
         {
             this.mc.getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
@@ -53,7 +53,7 @@ public class MinigameButton extends Button
         if (this.visible)
         {
             boolean isHover = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            GlStateManager.disableDepthTest();
+            RenderSystem.disableDepthTest();
 
             if (isHover)
             {
@@ -84,7 +84,7 @@ public class MinigameButton extends Button
             this.fillGradient(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
             this.mc.fontRenderer.drawStringWithShadow(this.tooltips, i1, j1, -1);
             this.blitOffset = 0;
-            GlStateManager.enableDepthTest();
+            RenderSystem.enableDepthTest();
             }
         }
     }

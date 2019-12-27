@@ -2,7 +2,7 @@ package com.stevekung.indicatia.gui.widget;
 
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 
@@ -60,8 +60,8 @@ public class DropdownMinigamesButton extends Button
         }
         if (this.visible)
         {
-            GlStateManager.pushMatrix();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.pushMatrix();
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             AbstractGui.fill(this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height), ColorUtils.to32BitColor(255, 0, 0, 0));
             AbstractGui.fill(this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength : this.height) - 1, ColorUtils.to32BitColor(255, hoverColor, hoverColor, hoverColor));
@@ -92,7 +92,7 @@ public class DropdownMinigamesButton extends Button
             }
             mc.getTextureManager().bindTexture(DropdownMinigamesButton.TEXTURE);
             AbstractGui.blit(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
         }
     }
 

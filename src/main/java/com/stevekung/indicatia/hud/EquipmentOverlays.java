@@ -3,7 +3,7 @@ package com.stevekung.indicatia.hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
@@ -50,7 +50,7 @@ public class EquipmentOverlays
             {
                 continue;
             }
-            int xBaseRight = mc.mainWindow.getScaledWidth() - rightWidth - 2;
+            int xBaseRight = mc.func_228018_at_().getScaledWidth() - rightWidth - 2;
             equipment.render(right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
@@ -63,7 +63,7 @@ public class EquipmentOverlays
         ItemStack mainhandStack = mc.player.getHeldItemMainhand();
         ItemStack offhandStack = mc.player.getHeldItemOffhand();
         boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        int baseXOffset = right ? mc.mainWindow.getScaledWidth() - 18 : 2;
+        int baseXOffset = right ? mc.func_228018_at_().getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.INSTANCE.armorHUDYOffset;
 
         for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
@@ -86,9 +86,9 @@ public class EquipmentOverlays
             String info = equipment.renderInfo();
             String arrowInfo = equipment.renderArrowInfo();
             float fontHeight = (mc.fontRenderer.FONT_HEIGHT + 7) * i;
-            float infoXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
+            float infoXOffset = right ? mc.func_228018_at_().getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
             float infoYOffset = baseYOffset + 4 + fontHeight;
-            float arrowXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            float arrowXOffset = right ? mc.func_228018_at_().getScaledWidth() - mc.fontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
             float arrowYOffset = baseYOffset + 8 + fontHeight;
 
             EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
@@ -99,9 +99,9 @@ public class EquipmentOverlays
             }
             if (!StringUtils.isNullOrEmpty(arrowInfo))
             {
-                GlStateManager.disableDepthTest();
+                RenderSystem.disableDepthTest();
                 mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
-                GlStateManager.enableDepthTest();
+                RenderSystem.enableDepthTest();
             }
             ++i;
         }
@@ -140,10 +140,10 @@ public class EquipmentOverlays
 
             if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
             {
-                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 - 91 - 20;
-                int armorYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 40;
-                float infoXOffset = mc.mainWindow.getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
-                int infoYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 36;
+                int baseXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 91 - 20;
+                int armorYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 40;
+                float infoXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
+                int infoYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
@@ -153,21 +153,21 @@ public class EquipmentOverlays
                 }
                 if (!StringUtils.isNullOrEmpty(info))
                 {
-                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 - 106;
-                    int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 32;
+                    float arrowXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 106;
+                    int arrowYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 32;
 
-                    GlStateManager.disableDepthTest();
+                    RenderSystem.disableDepthTest();
                     mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
-                    GlStateManager.enableDepthTest();
+                    RenderSystem.enableDepthTest();
                 }
                 ++iLeft;
             }
             else
             {
-                int baseXOffset = mc.mainWindow.getScaledWidth() / 2 + 95;
-                int armorYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 40;
-                float infoXOffset = mc.mainWindow.getScaledWidth() / 2 + 114;
-                int infoYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 36;
+                int baseXOffset = mc.func_228018_at_().getScaledWidth() / 2 + 95;
+                int armorYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iRight - 40;
+                float infoXOffset = mc.func_228018_at_().getScaledWidth() / 2 + 114;
+                int infoYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iRight - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
@@ -177,12 +177,12 @@ public class EquipmentOverlays
                 }
                 if (!StringUtils.isNullOrEmpty(info))
                 {
-                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
-                    int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 32;
+                    float arrowXOffset = mc.func_228018_at_().getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
+                    int arrowYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iRight - 32;
 
-                    GlStateManager.disableDepthTest();
+                    RenderSystem.disableDepthTest();
                     mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
-                    GlStateManager.enableDepthTest();
+                    RenderSystem.enableDepthTest();
                 }
                 ++iRight;
             }

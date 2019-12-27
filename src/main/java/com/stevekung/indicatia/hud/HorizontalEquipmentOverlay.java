@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.hud;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
@@ -32,9 +32,9 @@ public class HorizontalEquipmentOverlay extends EquipmentOverlay
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
-            GlStateManager.disableDepthTest();
+            RenderSystem.disableDepthTest();
             this.mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + this.renderArrowInfo(), right ? x - 10 : x + 8, y + 8, 16777215);
-            GlStateManager.enableDepthTest();
+            RenderSystem.enableDepthTest();
         }
     }
 

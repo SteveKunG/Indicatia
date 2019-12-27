@@ -133,7 +133,7 @@ public class InfoUtils
         if (entity != null)
         {
             this.extendedPointedEntity = null;
-            mc.objectMouseOver = entity.func_213324_a(distance, mc.getRenderPartialTicks(), false);
+            mc.objectMouseOver = entity.pick(distance, mc.getRenderPartialTicks(), false);
             Vec3d eyePos = entity.getEyePosition(mc.getRenderPartialTicks());
             distance *= distance;
 
@@ -145,7 +145,7 @@ public class InfoUtils
             Vec3d vecLook = entity.getLook(1.0F);
             Vec3d vec3d2 = eyePos.add(vecLook.x * distance, vecLook.y * distance, vecLook.z * distance);
             AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vecLook.scale(distance)).expand(1.0D, 1.0D, 1.0D);
-            EntityRayTraceResult result = ProjectileHelper.func_221273_a(entity, eyePos, vec3d2, axisalignedbb, entityFilter -> !entityFilter.isSpectator() && entityFilter.canBeCollidedWith(), distance);
+            EntityRayTraceResult result = ProjectileHelper.rayTraceEntities(entity, eyePos, vec3d2, axisalignedbb, entityFilter -> !entityFilter.isSpectator() && entityFilter.canBeCollidedWith(), distance);
 
             if (result != null)
             {

@@ -2,7 +2,7 @@ package com.stevekung.indicatia.gui.widget;
 
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -33,7 +33,7 @@ public class CustomizedTextureButton extends Button
         if (this.visible)
         {
             Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("indicatia:textures/gui/" + this.texture + ".png"));
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
@@ -44,7 +44,7 @@ public class CustomizedTextureButton extends Button
         if (this.visible)
         {
             boolean isHover = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            GlStateManager.disableDepthTest();
+            RenderSystem.disableDepthTest();
 
             if (this.tooltips != null && !this.tooltips.isEmpty() && isHover)
             {
@@ -94,7 +94,7 @@ public class CustomizedTextureButton extends Button
                 }
                 this.blitOffset = 0;
             }
-            GlStateManager.enableDepthTest();
+            RenderSystem.enableDepthTest();
         }
     }
 }

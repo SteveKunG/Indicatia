@@ -2,8 +2,6 @@ package com.stevekung.indicatia.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import com.stevekung.indicatia.config.IndicatiaConfig;
-
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -18,9 +16,9 @@ public abstract class MixinElytraLayer<T extends LivingEntity, M extends EntityM
         super(renderer);
     }
 
-    @Override
-    public boolean shouldCombineTextures()
-    {
-        return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
-    }
+    //    @Override
+    //    public boolean shouldCombineTextures()
+    //    {
+    //        return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
+    //    }
 }

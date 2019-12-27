@@ -3,14 +3,15 @@ package com.stevekung.indicatia.hud;
 import java.util.Collection;
 
 import com.google.common.collect.Ordering;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.StatusEffects;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.PotionSpriteUploader;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectUtils;
@@ -27,23 +28,24 @@ public class EffectOverlays
         int length = ExtendedConfig.INSTANCE.potionLengthYOffset;
         int lengthOverlap = ExtendedConfig.INSTANCE.potionLengthYOffsetOverlap;
         Collection<EffectInstance> collection = mc.player.getActivePotionEffects();
+        PotionSpriteUploader uploader = mc.getPotionSpriteUploader();
         int xPotion;
         int yPotion;
 
         if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
         {
-            xPotion = mc.mainWindow.getScaledWidth() / 2 - 91 - 35;
-            yPotion = mc.mainWindow.getScaledHeight() - 46;
+            xPotion = mc.func_228018_at_().getScaledWidth() / 2 - 91 - 35;
+            yPotion = mc.func_228018_at_().getScaledHeight() - 46;
         }
         else if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
         {
-            xPotion = mc.mainWindow.getScaledWidth() / 2 + 91 - 20;
-            yPotion = mc.mainWindow.getScaledHeight() - 42;
+            xPotion = mc.func_228018_at_().getScaledWidth() / 2 + 91 - 20;
+            yPotion = mc.func_228018_at_().getScaledHeight() - 42;
         }
         else
         {
-            xPotion = right ? mc.mainWindow.getScaledWidth() - 32 : -24;
-            yPotion = mc.mainWindow.getScaledHeight() - 220 + ExtendedConfig.INSTANCE.potionHUDYOffset + 90;
+            xPotion = right ? mc.func_228018_at_().getScaledWidth() - 32 : -24;
+            yPotion = mc.func_228018_at_().getScaledHeight() - 220 + ExtendedConfig.INSTANCE.potionHUDYOffset + 90;
         }
 
         if (!collection.isEmpty())
@@ -57,6 +59,7 @@ public class EffectOverlays
             {
                 float alpha = 1.0F;
                 int duration = effectIns.getDuration();
+                TextureAtlasSprite sprite = uploader.getSprite(effectIns.getPotion());
 
                 if (!effectIns.isAmbient() && duration <= 200)
                 {
@@ -64,9 +67,9 @@ public class EffectOverlays
                     alpha = MathHelper.clamp(duration / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + MathHelper.cos(duration * (float)Math.PI / 5.0F) * MathHelper.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
                 }
 
-                GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-                GlStateManager.disableLighting();
-                mc.getTextureManager().bindTexture(AtlasTexture.LOCATION_EFFECTS_TEXTURE);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+                RenderSystem.disableLighting();
+                mc.getTextureManager().bindTexture(sprite.func_229241_m_().func_229223_g_());
 
                 Effect effect = effectIns.getPotion();
                 int amplifier = effectIns.getAmplifier();

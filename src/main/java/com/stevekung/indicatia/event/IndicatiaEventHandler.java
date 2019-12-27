@@ -58,8 +58,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -178,7 +178,7 @@ public class IndicatiaEventHandler
         }
 
         // toggle sneak
-        movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
+        movement.field_228350_h_ = this.mc.gameSettings.field_228046_af_.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
 
         if (ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator() && !player.isCreative())
         {

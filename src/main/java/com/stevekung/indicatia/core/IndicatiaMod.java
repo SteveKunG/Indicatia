@@ -4,9 +4,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
-import org.apache.commons.io.IOUtils;
-
-import com.mojang.brigadier.CommandDispatcher;
+import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
+import com.google.common.io.Files;
 import com.stevekung.indicatia.command.*;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
@@ -20,16 +20,14 @@ import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.client.gui.ChatScreenRegistry;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.VersionChecker;
+import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 
-import net.minecraft.client.GameSettings;
-import net.minecraft.command.CommandSource;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod
@@ -43,6 +41,7 @@ public class IndicatiaMod
     public static boolean isYoutubeChatLoaded;
     public static boolean isOptiFineLoaded;
     public static final LoggerIN LOGGER = new LoggerIN();
+    private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
 
     static
     {
@@ -53,7 +52,6 @@ public class IndicatiaMod
     {
         CommonUtils.addModListener(this::phaseOne);
         CommonUtils.addModListener(this::loadComplete);
-        CommonUtils.addListener(this::serverStarting);
 
         CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
         CommonUtils.registerModEventBus(IndicatiaConfig.class);
@@ -65,6 +63,7 @@ public class IndicatiaMod
 
     private void phaseOne(FMLCommonSetupEvent event)
     {
+        this.registerClientCommands();
         KeyBindingHandler.init();
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
@@ -86,15 +85,14 @@ public class IndicatiaMod
         CommonUtils.execute(new ThreadMinigameData());
     }
 
-    private void serverStarting(FMLServerStartingEvent event)
+    private void registerClientCommands()
     {
-        CommandDispatcher<CommandSource> dispatcher = event.getCommandDispatcher();
-        MojangStatusCheckCommand.register(dispatcher);
-        SlimeSeedCommand.register(dispatcher);
-        AFKCommand.register(dispatcher);
-        ProfileCommand.register(dispatcher);
-        PingAllCommand.register(dispatcher);
-        AutoFishCommand.register(dispatcher);
+        ClientCommands.register(new AFKCommand());
+        ClientCommands.register(new AutoFishCommand());
+        ClientCommands.register(new MojangStatusCheckCommand());
+        ClientCommands.register(new PingAllCommand());
+        ClientCommands.register(new ProfileCommand());
+        ClientCommands.register(new SlimeSeedCommand());
         IndicatiaMod.LOGGER.info("Registering client side commands");
     }
 
@@ -113,13 +111,17 @@ public class IndicatiaMod
 
         CompoundNBT nbt = new CompoundNBT();
 
-        try
+        try (BufferedReader reader = Files.newReader(PROFILE, Charsets.UTF_8))
         {
-            for (String option : IOUtils.readLines(new FileInputStream(PROFILE), StandardCharsets.UTF_8))
+            reader.lines().forEach(option ->
             {
-                Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
-                nbt.putString(iterator.next(), iterator.next());
-            }
+                try
+                {
+                    Iterator<String> iterator = IndicatiaMod.COLON_SPLITTER.split(option).iterator();
+                    nbt.putString(iterator.next(), iterator.next());
+                }
+                catch (Exception e) {}
+            });
         }
         catch (IOException e)
         {

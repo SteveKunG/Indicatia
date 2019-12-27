@@ -17,8 +17,8 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
 
-import net.minecraft.command.CommandSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ResourceLocationException;
 import net.minecraft.util.text.StringTextComponent;
@@ -45,7 +45,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         return new ProfileNameArgumentType(mode);
     }
 
-    public static String getProfile(CommandContext<CommandSource> context, String name)
+    public static String getProfile(CommandContext<IClientSuggestionProvider> context, String name)
     {
         return context.getArgument(name, String.class);
     }

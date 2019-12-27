@@ -2,8 +2,6 @@ package com.stevekung.indicatia.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import com.stevekung.indicatia.config.IndicatiaConfig;
-
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CapeLayer;
@@ -18,9 +16,9 @@ public abstract class MixinCapeLayer extends LayerRenderer<AbstractClientPlayerE
         super(renderer);
     }
 
-    @Override
-    public boolean shouldCombineTextures()
-    {
-        return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
-    }
+    //    @Override
+    //    public boolean shouldCombineTextures()
+    //    {
+    //        return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
+    //    }
 }

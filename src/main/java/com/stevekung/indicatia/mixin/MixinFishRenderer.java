@@ -1,18 +1,19 @@
 package com.stevekung.indicatia.mixin;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.stevekungslib.utils.client.GLConstants;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.FishRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
@@ -25,112 +26,111 @@ import net.minecraft.util.math.Vec3d;
 @Mixin(FishRenderer.class)
 public abstract class MixinFishRenderer extends EntityRenderer<Entity>
 {
+    @Shadow
+    @Final
+    private static RenderType field_229103_e_;
+
     public MixinFishRenderer(EntityRendererManager manager)
     {
         super(manager);
     }
 
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void func_225623_a_(Entity entity, float yaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int color)
     {
         PlayerEntity player = ((FishingBobberEntity)entity).getAngler();
 
-        if (player != null && !this.renderOutlines)
+        if (player != null)
         {
-            GlStateManager.pushMatrix();
-            GlStateManager.translatef((float)x, (float)y, (float)z);
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-            this.bindEntityTexture(entity);
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder vertexbuffer = tessellator.getBuffer();
-            GlStateManager.rotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef((this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+            stack.func_227860_a_();
+            stack.func_227860_a_();
+            stack.func_227862_a_(0.5F, 0.5F, 0.5F);
+            stack.func_227863_a_(this.renderManager.func_229098_b_());
+            stack.func_227863_a_(Vector3f.field_229181_d_.func_229187_a_(180.0F));
+            MatrixStack.Entry matrixstack$entry = stack.func_227866_c_();
+            Matrix4f matrix4f = matrixstack$entry.func_227870_a_();
+            Matrix3f matrix3f = matrixstack$entry.func_227872_b_();
+            IVertexBuilder ivertexbuilder = buffer.getBuffer(field_229103_e_);
+            MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 0.0F, 0, 0, 1);
+            MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 1.0F, 0, 1, 1);
+            MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 1.0F, 1, 1, 0);
+            MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 0.0F, 1, 0, 0);
+            stack.func_227865_b_();
+            int i = player.getPrimaryHand() == HandSide.RIGHT ? 1 : -1;
+            ItemStack itemstack = player.getHeldItemMainhand();
 
-            if (this.renderOutlines)
+            if (!(itemstack.getItem() instanceof FishingRodItem))
             {
-                GlStateManager.enableColorMaterial();
-                GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
+                i = -i;
             }
 
-            vertexbuffer.begin(GLConstants.QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
-            vertexbuffer.pos(-0.5D, -0.5D, 0.0D).tex(0.0625D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
-            vertexbuffer.pos(0.5D, -0.5D, 0.0D).tex(0.125D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
-            vertexbuffer.pos(0.5D, 0.5D, 0.0D).tex(0.125D, 0.125D).normal(0.0F, 1.0F, 0.0F).endVertex();
-            vertexbuffer.pos(-0.5D, 0.5D, 0.0D).tex(0.0625D, 0.125D).normal(0.0F, 1.0F, 0.0F).endVertex();
-            tessellator.draw();
-
-            if (this.renderOutlines)
-            {
-                GlStateManager.tearDownSolidRenderingTextureCombine();
-                GlStateManager.disableColorMaterial();
-            }
-
-            GlStateManager.disableRescaleNormal();
-            GlStateManager.popMatrix();
-            int k = player.getPrimaryHand() == HandSide.RIGHT ? 1 : -1;
-            ItemStack itemStack = player.getHeldItemMainhand();
-
-            if (!(itemStack.getItem() instanceof FishingRodItem))
-            {
-                k = -k;
-            }
-
-            float f7 = player.getSwingProgress(partialTicks);
-            float f8 = MathHelper.sin(MathHelper.sqrt(f7) * (float)Math.PI);
-            float f9 = (player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * partialTicks) * 0.017453292F;
-            double d0 = MathHelper.sin(f9);
-            double d1 = MathHelper.cos(f9);
-            double d2 = k * 0.35D;
+            float f = player.getSwingProgress(partialTicks);
+            float f1 = MathHelper.sin(MathHelper.sqrt(f) * (float)Math.PI);
+            float f2 = MathHelper.lerp(partialTicks, player.prevRenderYawOffset, player.renderYawOffset) * ((float)Math.PI / 180F);
+            double d0 = MathHelper.sin(f2);
+            double d1 = MathHelper.cos(f2);
+            double d2 = i * 0.35D;
             double d4;
             double d5;
             double d6;
-            double d7;
-            double dz = 0.0D;
+            float f3;
+            float dz = 0.0F;
 
             if ((this.renderManager.options == null || this.renderManager.options.thirdPersonView <= 0) && player == Minecraft.getInstance().player)
             {
-                double f10 = this.renderManager.options.fov;
-                f10 = f10 / 100.0F;
-                Vec3d vec3d = IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? new Vec3d(k * -0.5D * f10, 0.025D * f10, 0.65D) : new Vec3d(k * -0.36D * f10, -0.045D * f10, 0.4D);
-                vec3d = vec3d.rotatePitch(-(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks) * 0.017453292F);
-                vec3d = vec3d.rotateYaw(-(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * partialTicks) * 0.017453292F);
-                vec3d = vec3d.rotateYaw(f8 * 0.5F);
-                vec3d = vec3d.rotatePitch(-f8 * 0.7F);
-                d4 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks + vec3d.x;
-                d5 = player.prevPosY + (player.posY - player.prevPosY) * partialTicks + vec3d.y;
-                d6 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks + vec3d.z;
-                d7 = player.getEyeHeight();
+                double d7 = this.renderManager.options.fov;
+                d7 = d7 / 100.0D;
+                Vec3d vec3d = IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? new Vec3d(i * -0.5D * d7, 0.025D * d7, 0.65D) : new Vec3d(i * -0.36D * d7, -0.045D * d7, 0.4D);
+                vec3d = vec3d.rotatePitch(-MathHelper.lerp(partialTicks, player.prevRotationPitch, player.rotationPitch) * ((float)Math.PI / 180F));
+                vec3d = vec3d.rotateYaw(-MathHelper.lerp(partialTicks, player.prevRotationYaw, player.rotationYaw) * ((float)Math.PI / 180F));
+                vec3d = vec3d.rotateYaw(f1 * 0.5F);
+                vec3d = vec3d.rotatePitch(-f1 * 0.7F);
+                d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.func_226277_ct_()) + vec3d.x;
+                d5 = MathHelper.lerp(partialTicks, player.prevPosY, player.func_226278_cu_()) + vec3d.y;
+                d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.func_226281_cx_()) + vec3d.z;
+                f3 = player.getEyeHeight();
             }
             else
             {
-                double xz = player.isSneaking() ? 0.775D : IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.9D : 0.8D;
-                d4 = player.prevPosX + (player.posX - player.prevPosX) * partialTicks - d1 * d2 - d0 * xz;
-                d5 = player.prevPosY + player.getEyeHeight() + (player.posY - player.prevPosY) * partialTicks - (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.4D : 0.45D);
-                d6 = player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks - d0 * d2 + d1 * xz;
-                d7 = player.isSneaking() ? IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? -0.55D : -0.1875D : 0.0D;
-                dz = IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() && player.isSneaking() ? 0.01D : 0.0D;
+                double xz = player.isCrouching() ? 0.775D : IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.9D : 0.8D;//TODO
+                d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.func_226277_ct_()) - d1 * d2 - d0 * xz;
+                d5 = player.prevPosY + player.getEyeHeight() + (player.func_226278_cu_() - player.prevPosY) * partialTicks - (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.4D : 0.45D);
+                d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.func_226281_cx_()) - d0 * d2 + d1 * xz;
+                f3 = player.isCrouching() ? IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? -0.55F : -0.1875F : 0.0F;
+                dz = IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() && player.isCrouching() ? 0.01F : 0.0F;
             }
 
-            double d13 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
-            double d8 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + 0.25D;
-            double d9 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
-            double d10 = (float)(d4 - d13) + dz;
-            double d11 = (float)(d5 - d8) + d7;
-            double d12 = (float)(d6 - d9);
-            GlStateManager.disableTexture();
-            GlStateManager.disableLighting();
-            vertexbuffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+            double d9 = MathHelper.lerp(partialTicks, entity.prevPosX, entity.func_226277_ct_());
+            double d10 = MathHelper.lerp(partialTicks, entity.prevPosY, entity.func_226278_cu_()) + 0.25D;
+            double d8 = MathHelper.lerp(partialTicks, entity.prevPosZ, entity.func_226281_cx_());
+            float f4 = (float)(d4 - d9) + dz;
+            float f5 = (float)(d5 - d10) + f3;
+            float f6 = (float)(d6 - d8);
+            IVertexBuilder ivertexbuilder1 = buffer.getBuffer(RenderType.func_228659_m_());
+            Matrix4f matrix4f1 = stack.func_227866_c_().func_227870_a_();
 
-            for (int i1 = 0; i1 <= 16; ++i1)
+            for (int k = 0; k < 16; ++k)
             {
-                float f11 = i1 / 16.0F;
-                vertexbuffer.pos(x + d10 * f11, y + d11 * (f11 * f11 + f11) * 0.5D + 0.25D, z + d12 * f11).color(0, 0, 0, 255).endVertex();
+                MixinFishRenderer.func_229104_a_(f4, f5, f6, ivertexbuilder1, matrix4f1, MixinFishRenderer.func_229105_a_(k, 16));
+                MixinFishRenderer.func_229104_a_(f4, f5, f6, ivertexbuilder1, matrix4f1, MixinFishRenderer.func_229105_a_(k + 1, 16));
             }
-            tessellator.draw();
-            GlStateManager.enableLighting();
-            GlStateManager.enableTexture();
-            super.doRender(entity, x, y, z, entityYaw, partialTicks);
+            stack.func_227865_b_();
+            super.func_225623_a_(entity, yaw, partialTicks, stack, buffer, color);
         }
+    }
+
+    private static float func_229105_a_(int p_229105_0_, int p_229105_1_)
+    {
+        return (float)p_229105_0_ / (float)p_229105_1_;
+    }
+
+    private static void func_229106_a_(IVertexBuilder p_229106_0_, Matrix4f p_229106_1_, Matrix3f p_229106_2_, int p_229106_3_, float p_229106_4_, int p_229106_5_, int p_229106_6_, int p_229106_7_)
+    {
+        p_229106_0_.func_227888_a_(p_229106_1_, p_229106_4_ - 0.5F, p_229106_5_ - 0.5F, 0.0F).func_225586_a_(255, 255, 255, 255).func_225583_a_(p_229106_6_, p_229106_7_).func_227891_b_(OverlayTexture.field_229196_a_).func_227886_a_(p_229106_3_).func_227887_a_(p_229106_2_, 0.0F, 1.0F, 0.0F).endVertex();
+    }
+
+    private static void func_229104_a_(float p_229104_0_, float p_229104_1_, float p_229104_2_, IVertexBuilder p_229104_3_, Matrix4f p_229104_4_, float p_229104_5_)
+    {
+        p_229104_3_.func_227888_a_(p_229104_4_, p_229104_0_ * p_229104_5_, p_229104_1_ * (p_229104_5_ * p_229104_5_ + p_229104_5_) * 0.5F + 0.25F, p_229104_2_ * p_229104_5_).func_225586_a_(0, 0, 0, 255).endVertex();
     }
 }
