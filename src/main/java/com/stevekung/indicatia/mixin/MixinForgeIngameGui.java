@@ -19,13 +19,13 @@ public abstract class MixinForgeIngameGui extends IngameGui
         super(mc);
     }
 
-    @Inject(method = "renderChat(II)V", cancellable = true, at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.translatef(FFF)V", shift = At.Shift.AFTER))
+    @Inject(method = "renderChat(II)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.translatef(FFF)V", shift = At.Shift.AFTER))
     private void renderChatBefore(int width, int height, CallbackInfo info)
     {
         RenderSystem.disableDepthTest();
     }
 
-    @Inject(method = "renderChat(II)V", cancellable = true, at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.popMatrix()V", shift = At.Shift.BEFORE))
+    @Inject(method = "renderChat(II)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.popMatrix()V", shift = At.Shift.BEFORE))
     private void renderChatAfter(int width, int height, CallbackInfo info)
     {
         RenderSystem.enableDepthTest();

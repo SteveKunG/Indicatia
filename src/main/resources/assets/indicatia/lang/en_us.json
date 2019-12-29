@@ -30,10 +30,10 @@
     "commands.afk.change_afk_reason": "Change Reason from '%s' to '%s'",
     "commands.afk.set_afk_mode": "Set AFK mode to '%s'",
 
-    "commands.auto_fish.enable": "Autofish Enabled",
-    "commands.auto_fish.disable": "Autofish Disabled",
+    "commands.auto_fish.enable": "AutoFish Enabled",
+    "commands.auto_fish.disable": "AutoFish Disabled",
     "commands.auto_fish.not_equipped_fishing_rod": "You aren't equip a Fishing Rod in the hand!",
-    "commands.auto_fish.auto_fish_started": "Autofish already started!",
+    "commands.auto_fish.auto_fish_started": "AutoFish already started!",
 
     "commands.indicatia.toggle_sprint.enable": "Toggle Sprint Enabled",
     "commands.indicatia.toggle_sprint.disable": "Toggle Sprint Disabled",
@@ -76,8 +76,6 @@
     "extended_config.equipment_position": "Equipment Position",
     "extended_config.potion_hud_style": "Potion HUD Style",
     "extended_config.potion_hud_position": "Potion HUD Position",
-    "extended_config.cps_position": "CPS Position",
-    "extended_config.cps_opacity": "CPS Opacity",
     "extended_config.ping_mode": "Ping Mode",
     "extended_config.fps": "FPS",
     "extended_config.xyz": "XYZ",
@@ -89,8 +87,6 @@
     "extended_config.server_ip_mc": "Server IP with MC",
     "extended_config.equipment_hud": "Equipment HUD",
     "extended_config.potion_hud": "Potion HUD",
-    "extended_config.cps": "CPS",
-    "extended_config.rcps": "RCPS",
     "extended_config.slime_chunk": "Slime Chunk",
     "extended_config.real_time": "Real Time",
     "extended_config.game_time": "Game Time",
@@ -114,8 +110,6 @@
     "extended_config.server_ip_color": "Server IP Color",
     "extended_config.equipment_status_color": "Equipment Status Color",
     "extended_config.arrow_count_color": "Arrow Count Color",
-    "extended_config.cps_color": "CPS Color",
-    "extended_config.rcps_color": "RCPS Color",
     "extended_config.slime_chunk_color": "Slime Chunk Color",
     "extended_config.tps_color": "TPS Color",
     "extended_config.real_time_color": "Real Time Color",
@@ -133,8 +127,6 @@
     "extended_config.ping_300_and_500_color": "Ping 300 & 500 Color",
     "extended_config.ping_max_500_color": "Ping > 500 Color",
     "extended_config.server_ip_value_color": "Server IP Value Color",
-    "extended_config.cps_value_color": "CPS Value Color",
-    "extended_config.rcps_value_color": "RCPS Value Color",
     "extended_config.slime_chunk_value_color": "Slime Chunk Value Color",
     "extended_config.tps_value_color": "TPS Value Color",
     "extended_config.real_time_value_color": "Real Time Value Color",
@@ -142,10 +134,6 @@
     "extended_config.game_weather_value_color": "Game Weather Value Color",
     "extended_config.moon_phase_value_color": "Moon Phase Value Color",
     "extended_config.right_click_add_party": "Right Click to Add Party",
-
-    "_comment": "YOUTUBE CHAT",
-    "extended_config.ytchat_view_count_color": "[YTChat] View Count Color",
-    "extended_config.ytchat_view_count_value_color": "[YTChat] View Count Value Color",
 
     "_comment": "EXTENDED CONFIG INFO",
     "extended_config.current_profile.info": "Current Profile is '%s'",
@@ -170,7 +158,6 @@
     "equipment.count": "Only Count",
     "equipment.count_and_stack": "Count and Stack",
     "potion_hud.icon_and_time": "Icon/Time",
-    "cps.custom": "Custom",
     "indicatia.only_ping": "Only Ping",
     "indicatia.ping_and_delay": "Ping and Delay",
 
@@ -186,7 +173,6 @@
     "menu.reset_config_confirm": "Do you want to restore default config?",
     "menu.preview": "Preview",
     "menu.example": "Example",
-    "menu.reset_cps": "Reset CPS",
 
     "_comment": "MISC",
     "misc.extended_config.reset_config": "Config '%s' has been reset to default setting!"

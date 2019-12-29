@@ -1,6 +1,7 @@
 package com.stevekung.indicatia.hud;
 
-import com.google.common.math.DoubleMath;
+import java.text.DecimalFormat;
+
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemStack;
 
 public class EquipmentOverlay
 {
+    private static final DecimalFormat STACK = new DecimalFormat("#.##");
     protected final ItemStack itemStack;
     protected final Minecraft mc;
 
@@ -94,14 +96,7 @@ public class EquipmentOverlay
     {
         Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
         double stack = count / (double)itemStack.getMaxStackSize();
-        int stackInt = count / itemStack.getMaxStackSize();
-        String stackText = String.format("%.2f", stack);
-
-        if (DoubleMath.isMathematicalInteger(stack))
-        {
-            stackText = String.valueOf(stackInt);
-        }
-        return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + stackText : count);
+        return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + EquipmentOverlay.STACK.format(stack) : count);
     }
 
     private static int getInventoryItemCount(PlayerInventory inventory, ItemStack other)

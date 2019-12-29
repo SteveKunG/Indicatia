@@ -146,14 +146,21 @@ public class InfoOverlays
     {
         boolean isSpace = false;
 
-        try
+        if (IndicatiaMod.isGalacticraftLoaded)
         {
-            Class<?> worldProvider = mc.player.world.dimension.getClass();
-            Class<?> spaceWorld = Class.forName("micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace");
-            isSpace = IndicatiaMod.isGalacticraftLoaded && spaceWorld.isAssignableFrom(worldProvider);
+            try
+            {
+                Class<?> spaceWorld = Class.forName("micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace");
+                isSpace = spaceWorld.isAssignableFrom(mc.player.world.dimension.getClass());
+            }
+            catch (Exception e) {}
+
+            if (isSpace)
+            {
+                return GalacticraftPlanetsTime.getSpaceTime(mc);
+            }
         }
-        catch (Exception e) {}
-        return isSpace ? GalacticraftPlanetsTime.getSpaceTime(mc) : InfoOverlays.getVanillaGameTime(mc.world.getDayTime() % 24000);
+        return InfoOverlays.getVanillaGameTime(mc.world.getDayTime() % 24000);
     }
 
     private static InfoOverlay getVanillaGameTime(long worldTicks)

@@ -1,9 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigTextFieldWidgetList;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedTextFieldWidget;
@@ -25,14 +22,6 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
             ExtendedConfig.GAME_TIME_COLOR, ExtendedConfig.GAME_WEATHER_COLOR, ExtendedConfig.MOON_PHASE_COLOR, ExtendedConfig.FPS_VALUE_COLOR, ExtendedConfig.FPS_26_AND_40_COLOR, ExtendedConfig.FPS_LOW_25_COLOR, ExtendedConfig.XYZ_VALUE_COLOR, ExtendedConfig.DIRECTION_VALUE_COLOR,
             ExtendedConfig.BIOME_VALUE_COLOR, ExtendedConfig.PING_VALUE_COLOR, ExtendedConfig.PING_200_AND_300_COLOR, ExtendedConfig.PING_300_AND_500_COLOR, ExtendedConfig.PING_MAX_500_COLOR, ExtendedConfig.SERVER_IP_VALUE_COLOR,
             ExtendedConfig.SLIME_CHUNK_VALUE_COLOR, ExtendedConfig.TPS_VALUE_COLOR, ExtendedConfig.REAL_TIME_VALUE_COLOR, ExtendedConfig.GAME_TIME_VALUE_COLOR, ExtendedConfig.GAME_WEATHER_VALUE_COLOR, ExtendedConfig.MOON_PHASE_VALUE_COLOR };
-
-    static
-    {
-        if (IndicatiaMod.isYoutubeChatLoaded)
-        {
-            OPTIONS = ArrayUtils.addAll(OPTIONS, ExtendedConfig.YTCHAT_VIEW_COUNT_COLOR, ExtendedConfig.YTCHAT_VIEW_COUNT_VALUE_COLOR);
-        }
-    }
 
     public CustomRenderInfoColorSettingsScreen(Screen parent)
     {
