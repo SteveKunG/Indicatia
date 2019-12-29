@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 @Mixin(ArrowLayer.class)
 public abstract class MixinArrowLayer
 {
-    @Redirect(method = "render(Lnet/minecraft/entity/LivingEntity;FFFFFFF)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/RenderHelper.enableStandardItemLighting()V"), expect = 0)
+    @Redirect(method = "render(Lnet/minecraft/entity/LivingEntity;FFFFFFF)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/RenderHelper.enableStandardItemLighting()V"))
     private void enableStandardItemLighting()
     {
         RenderUtils.enableLighting();

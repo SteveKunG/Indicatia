@@ -141,7 +141,7 @@ public class EquipmentOverlays
                 {
                     mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
                 }
-                if (!StringUtils.isNullOrEmpty(info))
+                if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
                     float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 - 106;
                     int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 32;
@@ -165,7 +165,7 @@ public class EquipmentOverlays
                 {
                     mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
                 }
-                if (!StringUtils.isNullOrEmpty(info))
+                if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
                     float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
                     int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 32;
