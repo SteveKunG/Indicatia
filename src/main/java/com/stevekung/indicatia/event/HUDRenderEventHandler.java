@@ -9,7 +9,6 @@ import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.HealthStatusMode;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
 import com.stevekung.stevekungslib.utils.JsonUtils;
@@ -21,11 +20,9 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -40,7 +37,6 @@ public class HUDRenderEventHandler
 {
     private final Minecraft mc;
     public static final DecimalFormat TPS_FORMAT = new DecimalFormat("########0.00");
-    public static String currentLiveViewCount;
 
     public HUDRenderEventHandler()
     {
@@ -57,19 +53,6 @@ public class HUDRenderEventHandler
             if (server != null)
             {
                 InfoOverlays.getTPS(server);
-            }
-
-            if (IndicatiaMod.isYoutubeChatLoaded)
-            {
-                try
-                {
-                    Class<?> clazz = Class.forName("stevekung.mods.ytchat.utils.YouTubeChatService");
-                    HUDRenderEventHandler.currentLiveViewCount = (String)clazz.getField("currentLiveViewCount").get(null);
-                }
-                catch (Exception e)
-                {
-                    HUDRenderEventHandler.currentLiveViewCount = TextFormatting.RED + "unavailable";
-                }
             }
         }
     }
@@ -282,11 +265,6 @@ public class HUDRenderEventHandler
         if (ExtendedConfig.INSTANCE.moonPhase)
         {
             infos.add(new InfoOverlay("Moon Phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
-        }
-
-        if (IndicatiaMod.isYoutubeChatLoaded && !StringUtils.isNullOrEmpty(HUDRenderEventHandler.currentLiveViewCount))
-        {
-            infos.add(new InfoOverlay("Current watched", HUDRenderEventHandler.currentLiveViewCount, ExtendedConfig.INSTANCE.ytChatViewCountColor, ExtendedConfig.INSTANCE.ytChatViewCountValueColor, InfoOverlay.Position.RIGHT));
         }
         return infos;
     }

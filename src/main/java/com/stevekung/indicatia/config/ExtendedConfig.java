@@ -85,7 +85,6 @@ public class ExtendedConfig
     public String gameTimeColor = WHITE;
     public String gameWeatherColor = WHITE;
     public String moonPhaseColor = WHITE;
-    public String ytChatViewCountColor = WHITE;
 
     // Custom Color : Value
     public String fpsValueColor = "85,255,85";
@@ -107,7 +106,6 @@ public class ExtendedConfig
     public String gameTimeValueColor = WHITE;
     public String gameWeatherValueColor = WHITE;
     public String moonPhaseValueColor = WHITE;
-    public String ytChatViewCountValueColor = WHITE;
 
     // Misc
     public boolean showCustomCape = false;
@@ -177,7 +175,6 @@ public class ExtendedConfig
     public static final TextFieldConfigOption GAME_TIME_COLOR = new TextFieldConfigOption("game_time_color", config -> config.gameTimeColor, (config, value) -> config.gameTimeColor = value);
     public static final TextFieldConfigOption GAME_WEATHER_COLOR = new TextFieldConfigOption("game_weather_color", config -> config.gameWeatherColor, (config, value) -> config.gameWeatherColor = value);
     public static final TextFieldConfigOption MOON_PHASE_COLOR = new TextFieldConfigOption("moon_phase_color", config -> config.moonPhaseColor, (config, value) -> config.moonPhaseColor = value);
-    public static final TextFieldConfigOption YTCHAT_VIEW_COUNT_COLOR = new TextFieldConfigOption("ytchat_view_count_color", config -> config.ytChatViewCountColor, (config, value) -> config.ytChatViewCountColor = value);
 
 
     public static final TextFieldConfigOption FPS_VALUE_COLOR = new TextFieldConfigOption("fps_value_color", config -> config.fpsValueColor, (config, value) -> config.fpsValueColor = value);
@@ -197,7 +194,6 @@ public class ExtendedConfig
     public static final TextFieldConfigOption GAME_TIME_VALUE_COLOR = new TextFieldConfigOption("game_time_value_color", config -> config.gameTimeValueColor, (config, value) -> config.gameTimeValueColor = value);
     public static final TextFieldConfigOption GAME_WEATHER_VALUE_COLOR = new TextFieldConfigOption("game_weather_value_color", config -> config.gameWeatherValueColor, (config, value) -> config.gameWeatherValueColor = value);
     public static final TextFieldConfigOption MOON_PHASE_VALUE_COLOR = new TextFieldConfigOption("moon_phase_value_color", config -> config.moonPhaseValueColor, (config, value) -> config.moonPhaseValueColor = value);
-    public static final TextFieldConfigOption YTCHAT_VIEW_COUNT_VALUE_COLOR = new TextFieldConfigOption("ytchat_view_count_value_color", config -> config.ytChatViewCountValueColor, (config, value) -> config.ytChatViewCountValueColor = value);
 
     private ExtendedConfig() {}
 
@@ -279,7 +275,6 @@ public class ExtendedConfig
             this.gameTimeColor = this.getString(nbt, "GameTimeColor", this.gameTimeColor);
             this.gameWeatherColor = this.getString(nbt, "GameWeatherColor", this.gameWeatherColor);
             this.moonPhaseColor = this.getString(nbt, "MoonPhaseColor", this.moonPhaseColor);
-            this.ytChatViewCountColor = this.getString(nbt, "YTChatViewCountColor", this.ytChatViewCountColor);
 
             // Custom Color : Value
             this.fpsValueColor = this.getString(nbt, "FPSValueColor", this.fpsValueColor);
@@ -301,7 +296,6 @@ public class ExtendedConfig
             this.gameTimeValueColor = this.getString(nbt, "GameTimeValueColor", this.gameTimeValueColor);
             this.gameWeatherValueColor = this.getString(nbt, "GameWeatherValueColor", this.gameWeatherValueColor);
             this.moonPhaseValueColor = this.getString(nbt, "MoonPhaseValueColor", this.moonPhaseValueColor);
-            this.ytChatViewCountValueColor = this.getString(nbt, "YTChatViewCountValueColor", this.ytChatViewCountValueColor);
 
             // Misc
             this.slimeChunkSeed = this.getLong(nbt, "SlimeChunkSeed", this.slimeChunkSeed);

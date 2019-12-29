@@ -38,8 +38,6 @@ public class IndicatiaMod
     private static final File PROFILE = new File(ExtendedConfig.USER_DIR, "profile.txt");
     public static VersionChecker CHECKER;
     public static boolean isGalacticraftLoaded;
-    public static boolean isYoutubeChatLoaded;
-    public static boolean isOptiFineLoaded;
     public static final LoggerIN LOGGER = new LoggerIN();
 
     static
@@ -56,8 +54,6 @@ public class IndicatiaMod
         CommonUtils.registerModEventBus(IndicatiaConfig.class);
 
         IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
-        IndicatiaMod.isYoutubeChatLoaded = ModList.get().isLoaded("youtube_chat");
-        IndicatiaMod.isOptiFineLoaded = ModList.get().isLoaded("optifine");
     }
 
     private void phaseOne(FMLCommonSetupEvent event)
