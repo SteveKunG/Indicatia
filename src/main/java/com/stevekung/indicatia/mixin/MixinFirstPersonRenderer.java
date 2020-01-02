@@ -3,6 +3,7 @@ package com.stevekung.indicatia.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -17,14 +18,14 @@ import net.minecraft.util.math.MathHelper;
 @Mixin(FirstPersonRenderer.class)
 public abstract class MixinFirstPersonRenderer
 {
-    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;F)V", at =
-        {
-                @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 2),
-                @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 3),
-                @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 4),
-                @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 5),
-                @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 6)
-        })
+    @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;F)V",
+            slice = @Slice(from = @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER)),
+            at = {
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 2),
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 3),
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 4),
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 5)
+    })
     private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo info)
     {
         if (IndicatiaConfig.GENERAL.enableBlockhitAnimation.get())
