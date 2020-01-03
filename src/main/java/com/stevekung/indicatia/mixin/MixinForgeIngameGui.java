@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.stevekung.indicatia.event.HUDRenderEventHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
@@ -29,5 +30,11 @@ public abstract class MixinForgeIngameGui extends IngameGui
     private void renderChatAfter(int width, int height, CallbackInfo info)
     {
         RenderSystem.enableDepthTest();
+    }
+
+    @Inject(method = "renderGameOverlay(F)V", at = @At(value = "INVOKE", target = "net/minecraftforge/client/gui/ForgeIngameGui.renderPotionEffects()V", shift = At.Shift.AFTER))
+    private void renderGameOverlay(float partialTicks, CallbackInfo info)
+    {
+        HUDRenderEventHandler.renderInfo(this.mc);
     }
 }

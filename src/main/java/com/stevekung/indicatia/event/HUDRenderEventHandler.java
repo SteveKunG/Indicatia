@@ -77,66 +77,6 @@ public class HUDRenderEventHandler
                 event.setCanceled(true);
             }
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
-        {
-            if (!this.mc.gameSettings.showDebugInfo)
-            {
-                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof OffsetRenderPreviewScreen))
-                {
-                    int iLeft = 0;
-                    int iRight = 0;
-
-                    for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(this.mc))
-                    {
-                        if (info.isEmpty())
-                        {
-                            continue;
-                        }
-
-                        String value = info.toString();
-                        InfoOverlay.Position pos = info.getPos();
-                        float defaultPos = 3.0625F;
-                        float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
-                        float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
-                        float xOffset = this.mc.func_228018_at_().getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
-                        this.mc.fontRenderer.drawStringWithShadow(value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
-
-                        if (pos == InfoOverlay.Position.LEFT)
-                        {
-                            ++iLeft;
-                        }
-                        else
-                        {
-                            ++iRight;
-                        }
-                    }
-                }
-
-                if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
-                {
-                    if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
-                    {
-                        EquipmentOverlays.renderHotbarEquippedItems(this.mc);
-                    }
-                    else
-                    {
-                        if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
-                        {
-                            EquipmentOverlays.renderVerticalEquippedItems(this.mc);
-                        }
-                        else
-                        {
-                            EquipmentOverlays.renderHorizontalEquippedItems(this.mc);
-                        }
-                    }
-                }
-
-                if (ExtendedConfig.INSTANCE.potionHUD)
-                {
-                    EffectOverlays.renderPotionHUD(this.mc);
-                }
-            }
-        }
         if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
         {
             if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
@@ -284,5 +224,66 @@ public class HUDRenderEventHandler
             infos.add(new InfoOverlay("Moon Phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
         }
         return infos;
+    }
+
+    public static void renderInfo(Minecraft mc)
+    {
+        if (!mc.gameSettings.showDebugInfo)
+        {
+            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && mc.player != null && mc.world != null && !(mc.currentScreen instanceof OffsetRenderPreviewScreen))
+            {
+                int iLeft = 0;
+                int iRight = 0;
+
+                for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(mc))
+                {
+                    if (info.isEmpty())
+                    {
+                        continue;
+                    }
+
+                    String value = info.toString();
+                    InfoOverlay.Position pos = info.getPos();
+                    float defaultPos = 3.0625F;
+                    float fontHeight = mc.fontRenderer.FONT_HEIGHT + 1;
+                    float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
+                    float xOffset = mc.func_228018_at_().getScaledWidth() - 2 - mc.fontRenderer.getStringWidth(value);
+                    mc.fontRenderer.drawStringWithShadow(value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
+
+                    if (pos == InfoOverlay.Position.LEFT)
+                    {
+                        ++iLeft;
+                    }
+                    else
+                    {
+                        ++iRight;
+                    }
+                }
+            }
+
+            if (!mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
+            {
+                if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
+                {
+                    EquipmentOverlays.renderHotbarEquippedItems(mc);
+                }
+                else
+                {
+                    if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
+                    {
+                        EquipmentOverlays.renderVerticalEquippedItems(mc);
+                    }
+                    else
+                    {
+                        EquipmentOverlays.renderHorizontalEquippedItems(mc);
+                    }
+                }
+            }
+
+            if (ExtendedConfig.INSTANCE.potionHUD)
+            {
+                EffectOverlays.renderPotionHUD(mc);
+            }
+        }
     }
 }
