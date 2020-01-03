@@ -4,8 +4,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
-import org.apache.commons.io.IOUtils;
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import com.stevekung.indicatia.command.*;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
@@ -106,13 +106,17 @@ public class IndicatiaMod
 
         CompoundNBT nbt = new CompoundNBT();
 
-        try
+        try (BufferedReader reader = Files.newReader(PROFILE, Charsets.UTF_8))
         {
-            for (String option : IOUtils.readLines(new FileInputStream(PROFILE), StandardCharsets.UTF_8))
+            reader.lines().forEach(option ->
             {
-                Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
-                nbt.putString(iterator.next(), iterator.next());
-            }
+                try
+                {
+                    Iterator<String> iterator = GameSettings.COLON_SPLITTER.omitEmptyStrings().limit(2).split(option).iterator();
+                    nbt.putString(iterator.next(), iterator.next());
+                }
+                catch (Exception e) {}
+            });
         }
         catch (IOException e)
         {
