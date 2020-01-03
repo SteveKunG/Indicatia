@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.FishRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
@@ -31,6 +30,24 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
     @Final
     @Mutable
     private static RenderType field_229103_e_;
+
+    @Shadow
+    private static float func_229105_a_(int p_229105_0_, int p_229105_1_)
+    {
+        throw new Error();
+    }
+
+    @Shadow
+    private static void func_229106_a_(IVertexBuilder p_229106_0_, Matrix4f p_229106_1_, Matrix3f p_229106_2_, int p_229106_3_, float p_229106_4_, int p_229106_5_, int p_229106_6_, int p_229106_7_)
+    {
+        throw new Error();
+    }
+
+    @Shadow
+    private static void func_229104_a_(float p_229104_0_, float p_229104_1_, float p_229104_2_, IVertexBuilder p_229104_3_, Matrix4f p_229104_4_, float p_229104_5_)
+    {
+        throw new Error();
+    }
 
     public MixinFishRenderer(EntityRendererManager manager)
     {
@@ -94,7 +111,7 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
             }
             else
             {
-                double xz = player.isCrouching() ? 0.775D : IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.9D : 0.8D;//TODO
+                double xz = player.isCrouching() ? 0.775D : IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.9D : 0.8D;
                 d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.func_226277_ct_()) - d1 * d2 - d0 * xz;
                 d5 = player.prevPosY + player.getEyeHeight() + (player.func_226278_cu_() - player.prevPosY) * partialTicks - (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.4D : 0.45D);
                 d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.func_226281_cx_()) - d0 * d2 + d1 * xz;
@@ -119,20 +136,5 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
             stack.func_227865_b_();
             super.func_225623_a_(entity, yaw, partialTicks, stack, buffer, color);
         }
-    }
-
-    private static float func_229105_a_(int p_229105_0_, int p_229105_1_)
-    {
-        return (float)p_229105_0_ / (float)p_229105_1_;
-    }
-
-    private static void func_229106_a_(IVertexBuilder p_229106_0_, Matrix4f p_229106_1_, Matrix3f p_229106_2_, int p_229106_3_, float p_229106_4_, int p_229106_5_, int p_229106_6_, int p_229106_7_)
-    {
-        p_229106_0_.func_227888_a_(p_229106_1_, p_229106_4_ - 0.5F, p_229106_5_ - 0.5F, 0.0F).func_225586_a_(255, 255, 255, 255).func_225583_a_(p_229106_6_, p_229106_7_).func_227891_b_(OverlayTexture.field_229196_a_).func_227886_a_(p_229106_3_).func_227887_a_(p_229106_2_, 0.0F, 1.0F, 0.0F).endVertex();
-    }
-
-    private static void func_229104_a_(float p_229104_0_, float p_229104_1_, float p_229104_2_, IVertexBuilder p_229104_3_, Matrix4f p_229104_4_, float p_229104_5_)
-    {
-        p_229104_3_.func_227888_a_(p_229104_4_, p_229104_0_ * p_229104_5_, p_229104_1_ * (p_229104_5_ * p_229104_5_ + p_229104_5_) * 0.5F + 0.25F, p_229104_2_ * p_229104_5_).func_225586_a_(0, 0, 0, 255).endVertex();
     }
 }
