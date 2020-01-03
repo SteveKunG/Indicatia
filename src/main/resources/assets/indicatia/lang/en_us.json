@@ -35,10 +35,6 @@
     "commands.auto_fish.not_equipped_fishing_rod": "You aren't equip a Fishing Rod in the hand!",
     "commands.auto_fish.auto_fish_started": "AutoFish already started!",
 
-    "commands.indicatia.toggle_sprint.enable": "Toggle Sprint Enabled",
-    "commands.indicatia.toggle_sprint.disable": "Toggle Sprint Disabled",
-    "commands.indicatia.toggle_sprint.set_mode": "Set Toggle Sprint to use",
-
     "commands.ping_all.result": "%s: Ping %s ms",
 
     "commands.inprofile.cannot_create_default": "Cannot create profile with name 'default'!",
@@ -163,7 +159,6 @@
 
     "_comment": "KEY BINDING",
     "key.indicatia.category": "Indicatia",
-    "key.toggle_sprint.desc": "Toggle Sprint",
     "key.quick_config.desc": "Quick Config GUI",
 
     "_comment": "MENU",

@@ -47,7 +47,6 @@ public class ExtendedConfig
     public boolean tps = false;
     public boolean tpsAllDims = false;
     public boolean alternatePotionHUDTextColor = false;
-    public boolean toggleSprint = false;
 
     // Main
     public boolean swapRenderInfo = false;
@@ -245,9 +244,6 @@ public class ExtendedConfig
             this.potionHUDPosition = StatusEffects.Position.byId(this.getInteger(nbt, "PotionHUDPosition", this.potionHUDPosition.getId()));
             this.pingMode = PingMode.byId(this.getInteger(nbt, "PingMode", this.pingMode.getId()));
 
-            // Movement
-            this.toggleSprint = this.getBoolean(nbt, "ToggleSprint", this.toggleSprint);
-
             // Offset
             this.armorHUDYOffset = this.getInteger(nbt, "ArmorHUDYOffset", this.armorHUDYOffset);
             this.potionHUDYOffset = this.getInteger(nbt, "PotionHUDYOffset", this.potionHUDYOffset);
@@ -352,9 +348,6 @@ public class ExtendedConfig
             nbt.putInt("PotionHUDStyle", this.potionHUDStyle.getId());
             nbt.putInt("PotionHUDPosition", this.potionHUDPosition.getId());
             nbt.putInt("PingMode", this.pingMode.getId());
-
-            // Movement
-            nbt.putBoolean("ToggleSprint", this.toggleSprint);
 
             // Offset
             nbt.putInt("ArmorHUDYOffset", this.armorHUDYOffset);

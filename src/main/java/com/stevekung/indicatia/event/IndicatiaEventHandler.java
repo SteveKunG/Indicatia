@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.annotation.Nonnull;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
@@ -20,7 +19,6 @@ import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
-import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import com.stevekung.stevekungslib.utils.enums.CachedEnum;
 
 import net.minecraft.client.Minecraft;
@@ -35,7 +33,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.status.IClientStatusNetHandler;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
@@ -161,16 +158,11 @@ public class IndicatiaEventHandler
     public void onInputUpdate(InputUpdateEvent event)
     {
         MovementInput movement = event.getMovementInput();
-        PlayerEntity player = event.getPlayer();
+        ClientPlayerEntity player = this.mc.player;
+        boolean flag4 = (float)player.getFoodStats().getFoodLevel() > 6.0F || player.abilities.allowFlying;
 
-        // canceled turn back
-        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
-        {
-            ++movement.moveForward;
-        }
-
-        // toggle sprint
-        if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS))
+        // Fixed vanilla toggle sprint
+        if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.field_228045_Z_)
         {
             player.setSprinting(true);
         }
@@ -225,12 +217,6 @@ public class IndicatiaEventHandler
         {
             ExtendedConfigScreen config = new ExtendedConfigScreen();
             this.mc.displayGuiScreen(config);
-        }
-        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
-        {
-            ExtendedConfig.INSTANCE.toggleSprint = !ExtendedConfig.INSTANCE.toggleSprint;
-            ClientUtils.setOverlayMessage(JsonUtils.create(ExtendedConfig.INSTANCE.toggleSprint ? LangUtils.translate("commands.indicatia.toggle_sprint.enable") : LangUtils.translate("commands.indicatia.toggle_sprint.disable")).getFormattedText());
-            ExtendedConfig.INSTANCE.save();
         }
     }
 
