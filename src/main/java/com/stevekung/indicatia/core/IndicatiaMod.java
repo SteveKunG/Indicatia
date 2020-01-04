@@ -15,10 +15,10 @@ import com.stevekung.indicatia.event.HypixelEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.screen.IndicatiaChatScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
-import com.stevekung.indicatia.utils.LoggerIN;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.client.gui.ChatScreenRegistry;
 import com.stevekung.stevekungslib.utils.CommonUtils;
+import com.stevekung.stevekungslib.utils.LoggerBase;
 import com.stevekung.stevekungslib.utils.VersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 
@@ -38,7 +38,7 @@ public class IndicatiaMod
     private static final File PROFILE = new File(ExtendedConfig.USER_DIR, "profile.txt");
     public static VersionChecker CHECKER;
     public static boolean isGalacticraftLoaded;
-    public static final LoggerIN LOGGER = new LoggerIN();
+    public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
     private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
 
     static
