@@ -10,9 +10,9 @@ import net.minecraft.util.math.MathHelper;
 
 public class ExtendedButton extends Button
 {
-    public ExtendedButton(int x, int u, int width, int height, String text, IPressable onPress)
+    public ExtendedButton(int x, int y, int width, int height, String text, IPressable onPress)
     {
-        super(x, u, width, height, text, onPress);
+        super(x, y, width, height, text, onPress);
     }
 
     @Override
