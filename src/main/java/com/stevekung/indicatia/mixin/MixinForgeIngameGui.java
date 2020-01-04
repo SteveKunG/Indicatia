@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 
-@Mixin(value = ForgeIngameGui.class, remap = false)
+@Mixin(ForgeIngameGui.class)
 public abstract class MixinForgeIngameGui extends IngameGui
 {
     public MixinForgeIngameGui(Minecraft mc)
