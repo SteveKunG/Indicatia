@@ -21,12 +21,12 @@ import net.minecraft.util.math.MathHelper;
 public abstract class MixinFirstPersonRenderer
 {
     @Inject(method = "func_228405_a_(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V",
-            slice = @Slice(from = @At(value = "INVOKE", target = "func_228406_b_", shift = At.Shift.AFTER, remap = false)),
+            slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.func_228406_b_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER)),
             at = {
-                    @At(value = "INVOKE", target = "func_228406_b_", shift = At.Shift.AFTER, ordinal = 2, remap = false),
-                    @At(value = "INVOKE", target = "func_228406_b_", shift = At.Shift.AFTER, ordinal = 3, remap = false),
-                    @At(value = "INVOKE", target = "func_228406_b_", shift = At.Shift.AFTER, ordinal = 4, remap = false),
-                    @At(value = "INVOKE", target = "func_228406_b_", shift = At.Shift.AFTER, ordinal = 5, remap = false)
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.func_228406_b_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 2),
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.func_228406_b_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 3),
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.func_228406_b_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 4),
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.func_228406_b_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 5)
     })
     private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, MatrixStack stack, IRenderTypeBuffer buffer, int color, CallbackInfo info)
     {
