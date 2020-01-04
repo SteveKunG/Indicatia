@@ -53,7 +53,7 @@ public class HypixelSettingsScreen extends Screen
     {
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.font, LangUtils.translate("extended_config.hypixel.title"), this.width / 2, 5, 16777215);
+        this.drawCenteredString(this.font, LangUtils.translate("menu.hypixel.title"), this.width / 2, 5, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 }

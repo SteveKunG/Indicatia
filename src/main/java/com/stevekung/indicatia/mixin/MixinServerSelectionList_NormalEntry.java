@@ -113,7 +113,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
 
             if (this.server.serverMOTD.contains(LangUtils.translate("multiplayer.status.cannot_connect")))
             {
-                ping = TextFormatting.DARK_RED + "Failed to ping...";
+                ping = TextFormatting.DARK_RED + LangUtils.translate("menu.failed_to_ping");
             }
             else if (responseTime < 0L)
             {
@@ -136,7 +136,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
                 ping = TextFormatting.GREEN + responseTimeText + "ms";
             }
 
-            String gameInfo = ClientUtils.isShiftKeyDown() ? this.server.gameVersion : "Not supported this version!";
+            String gameInfo = ClientUtils.isShiftKeyDown() ? this.server.gameVersion : LangUtils.translate("menu.server_not_support");
             String s2 = flag2 ? TextFormatting.DARK_RED + gameInfo : this.server.populationInfo + " " + ping;
             int j = this.mc.fontRenderer.getStringWidth(s2);
             this.mc.fontRenderer.drawString(s2, x + listWidth - j - 6, y + 1, 8421504);

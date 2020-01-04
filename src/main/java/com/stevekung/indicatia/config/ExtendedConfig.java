@@ -422,7 +422,7 @@ public class ExtendedConfig
         }
         catch (IOException e)
         {
-            IndicatiaMod.LOGGER.error("Failed to save profiles", (Throwable)e);
+            IndicatiaMod.LOGGER.error("Failed to save profile", (Throwable)e);
         }
     }
 

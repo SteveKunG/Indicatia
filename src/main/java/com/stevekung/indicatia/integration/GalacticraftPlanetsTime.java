@@ -2,6 +2,7 @@ package com.stevekung.indicatia.integration;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.hud.InfoOverlay;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,7 @@ public class GalacticraftPlanetsTime
         WorldProviderSpace space = (WorldProviderSpace) mc.world.dimension;
         long dayLength = space.getDayLength();
         StringBuilder builder = new StringBuilder();
+        String celestialName = space.getCelestialBody().getLocalizedName();
         long spaceWorldTime = space.getWorldTime() % dayLength;
         long worldTimeDivide = dayLength / 24;
         int hours = (int)((spaceWorldTime / worldTimeDivide + 6) % 24);
@@ -25,11 +27,11 @@ public class GalacticraftPlanetsTime
 
         if (dayLength >= 1L && dayLength <= 24L)
         {
-            return new InfoOverlay("Game", "Fastest Day-Night Cycle", ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
+            return new InfoOverlay(celestialName, LangUtils.translate("hud.time.galacticraft.fastest_dn_cycle"), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
         }
         else if (dayLength == 0L)
         {
-            return new InfoOverlay("Game", "No Day-Night Cycle", ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
+            return new InfoOverlay(celestialName, LangUtils.translate("hud.time.galacticraft.no_dn_cycle"), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
         }
 
         if (hours <= 9)
@@ -46,6 +48,6 @@ public class GalacticraftPlanetsTime
         }
         builder.append(minutes);
         builder.append(" " + (hours >= 12 ? "PM" : "AM"));
-        return new InfoOverlay("Game", builder.toString(), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
+        return new InfoOverlay(celestialName, builder.toString(), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 }

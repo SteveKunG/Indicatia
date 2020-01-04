@@ -15,6 +15,7 @@ import com.stevekung.indicatia.minigames.MinigameData;
 import com.stevekung.stevekungslib.client.gui.IChatScreen;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
@@ -55,7 +56,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         if (InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
-            String chatMode = "CHAT MODE: " + JsonUtils.create(this.mode.getDesc()).setStyle(new Style().setColor(this.mode.getColor()).setBold(true)).getFormattedText();
+            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).setStyle(new Style().setColor(this.mode.getColor()).setBold(true)).getFormattedText();
             int x = 4;
             int y = mc.currentScreen.height - 30;
             AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
@@ -238,9 +239,9 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
 
     public enum ChatMode
     {
-        ALL("/achat", "All Chat", TextFormatting.GRAY),
-        PARTY("/pchat", "Party Chat", TextFormatting.BLUE),
-        GUILD("/gchat", "Guild Chat", TextFormatting.DARK_GREEN);
+        ALL("/achat", "menu.chat_mode.all_chat", TextFormatting.GRAY),
+        PARTY("/pchat", "menu.chat_mode.party_chat", TextFormatting.BLUE),
+        GUILD("/gchat", "menu.chat_mode.guild_chat", TextFormatting.DARK_GREEN);
 
         private final String command;
         private final String desc;
@@ -261,7 +262,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
 
         public String getDesc()
         {
-            return this.desc;
+            return LangUtils.translate(this.desc);
         }
 
         public TextFormatting getColor()

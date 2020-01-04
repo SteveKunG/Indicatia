@@ -51,7 +51,7 @@ public class AFKCommand implements IClientCommand
             }
             else
             {
-                reason = ", " + LangUtils.translate("commands.afk.reason", reason);
+                reason = ", " + LangUtils.translate("commands.afk.reason") + ": " + reason;
             }
 
             String message = LangUtils.translate("commands.afk.afk_now");

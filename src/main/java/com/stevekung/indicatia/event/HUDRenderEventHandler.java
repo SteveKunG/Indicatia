@@ -13,6 +13,7 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
 import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -145,7 +146,7 @@ public class HUDRenderEventHandler
         if (ExtendedConfig.INSTANCE.fps)
         {
             int fps = Minecraft.debugFPS;
-            infos.add(new InfoOverlay("FPS", String.valueOf(fps), ExtendedConfig.INSTANCE.fpsColor, fps <= 25 ? ExtendedConfig.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? ExtendedConfig.INSTANCE.fps26And49Color : ExtendedConfig.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.fps", String.valueOf(fps), ExtendedConfig.INSTANCE.fpsColor, fps <= 25 ? ExtendedConfig.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? ExtendedConfig.INSTANCE.fps26And49Color : ExtendedConfig.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
         }
 
         if (!mc.isSingleplayer())
@@ -153,12 +154,12 @@ public class HUDRenderEventHandler
             if (ExtendedConfig.INSTANCE.ping)
             {
                 int responseTime = InfoUtils.INSTANCE.getPing();
-                infos.add(new InfoOverlay("Ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
 
                 if (ExtendedConfig.INSTANCE.pingToSecond)
                 {
                     double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                    infos.add(new InfoOverlay("Delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
                 }
             }
             if (ExtendedConfig.INSTANCE.serverIP && mc.getCurrentServerData() != null)
@@ -190,12 +191,12 @@ public class HUDRenderEventHandler
             ChunkPos chunkPos = new ChunkPos(playerPos);
             Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
             String biomeName = mc.world.func_226691_t_(playerPos).getDisplayName().getFormattedText();
-            infos.add(new InfoOverlay("Biome", !worldChunk.isEmpty() ? biomeName : "Waiting for chunk...", ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? biomeName : LangUtils.translate("hud.biome.waiting_for_chunk"), ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
         }
 
         if (ExtendedConfig.INSTANCE.slimeChunkFinder && mc.player.dimension == DimensionType.OVERWORLD)
         {
-            infos.add(new InfoOverlay("Slime Chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "Yes" : "No", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.slime_chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "gui.yes" : "gui.no", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
         }
 
         if (ExtendedConfig.INSTANCE.tps)
@@ -216,12 +217,12 @@ public class HUDRenderEventHandler
         }
         if (ExtendedConfig.INSTANCE.gameWeather && mc.world.isRaining())
         {
-            String weather = !mc.world.isThundering() ? "Raining" : "Thundering";
-            infos.add(new InfoOverlay("Weather", weather, ExtendedConfig.INSTANCE.gameWeatherColor, ExtendedConfig.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
+            String weather = !mc.world.isThundering() ? "hud.weather.raining" : "hud.weather.thundering";
+            infos.add(new InfoOverlay("hud.weather", weather, ExtendedConfig.INSTANCE.gameWeatherColor, ExtendedConfig.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
         }
         if (ExtendedConfig.INSTANCE.moonPhase)
         {
-            infos.add(new InfoOverlay("Moon Phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
+            infos.add(new InfoOverlay("hud.moon_phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
         }
         return infos;
     }

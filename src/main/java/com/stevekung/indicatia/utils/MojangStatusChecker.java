@@ -48,7 +48,7 @@ public enum MojangStatusChecker
         catch (IOException e)
         {
             e.printStackTrace();
-            IndicatiaMod.LOGGER.error("Cannot get status data from Mojang!");
+            IndicatiaMod.LOGGER.error("Couldn't get status data from Mojang Service!");
             return MojangServerStatus.UNKNOWN;
         }
     }

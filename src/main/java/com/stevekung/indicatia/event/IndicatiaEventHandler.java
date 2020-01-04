@@ -159,7 +159,7 @@ public class IndicatiaEventHandler
     {
         MovementInput movement = event.getMovementInput();
         ClientPlayerEntity player = this.mc.player;
-        boolean flag4 = (float)player.getFoodStats().getFoodLevel() > 6.0F || player.abilities.allowFlying;
+        boolean flag4 = player.getFoodStats().getFoodLevel() > 6.0F || player.abilities.allowFlying;
 
         // Fixed vanilla toggle sprint
         if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.field_228045_Z_)
@@ -354,7 +354,7 @@ public class IndicatiaEventHandler
                 if (tick % messageMin == 0)
                 {
                     String reason = IndicatiaEventHandler.AFK_REASON;
-                    reason = reason.isEmpty() ? "" : ", Reason : " + reason;
+                    reason = reason.isEmpty() ? "" : ", " + LangUtils.translate("commands.afk.reason") + ": " + reason;
                     player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + (tick == 0 ? "" : "s") + reason);
                 }
             }

@@ -1,6 +1,7 @@
 package com.stevekung.indicatia.hud;
 
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 public class InfoOverlay
 {
@@ -55,10 +56,10 @@ public class InfoOverlay
     {
         StringBuilder builder = new StringBuilder();
         builder.append(ColorUtils.stringToRGB(this.titleColor).toColoredFont());
-        builder.append(this.title);
+        builder.append(LangUtils.translate(this.title));
         builder.append(": ");
         builder.append(ColorUtils.stringToRGB(this.valueColor).toColoredFont());
-        builder.append(this.value);
+        builder.append(LangUtils.translate(this.value));
         return this.isEmpty ? "" : builder.toString();
     }
 

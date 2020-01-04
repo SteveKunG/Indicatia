@@ -11,6 +11,7 @@ import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.integration.GalacticraftPlanetsTime;
 import com.stevekung.stevekungslib.client.event.ClientEventHandler;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -67,35 +68,34 @@ public class InfoOverlays
         switch (facing)
         {
         case 0:
-            direction = "South";
+            direction = "hud.direction.south";
             break;
         case 1:
-            direction = "South West";
+            direction = "hud.direction.south_west";
             break;
         case 2:
-            direction = "West";
+            direction = "hud.direction.west";
             break;
         case 3:
-            direction = "North West";
-            break;
-        case 4:
-            direction = "North";
-            break;
-        case 5:
-            direction = "North East";
-            break;
-        case 6:
-            direction = "East";
-            break;
-        case 7:
-            direction = "South East";
+            direction = "hud.direction.north_west";
             break;
         default:
-            direction = "Unknown";
+        case 4:
+            direction = "hud.direction.north";
+            break;
+        case 5:
+            direction = "hud.direction.north_east";
+            break;
+        case 6:
+            direction = "hud.direction.east";
+            break;
+        case 7:
+            direction = "hud.direction.south_east";
             break;
         }
+        direction = LangUtils.translate(direction);
         direction += " (" + coord + ")";
-        return new InfoOverlay("Direction", direction, ExtendedConfig.INSTANCE.directionColor, ExtendedConfig.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
+        return new InfoOverlay("hud.direction", direction, ExtendedConfig.INSTANCE.directionColor, ExtendedConfig.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
     }
 
     public static void getTPS(MinecraftServer server)
@@ -139,7 +139,7 @@ public class InfoOverlays
         Date date = new Date();
         String dateIns = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
         String timeIns = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
-        return new InfoOverlay("Time", dateIns + " " + timeIns, ExtendedConfig.INSTANCE.realTimeColor, ExtendedConfig.INSTANCE.realTimeValueColor, InfoOverlay.Position.RIGHT);
+        return new InfoOverlay("hud.real_time", dateIns + " " + timeIns, ExtendedConfig.INSTANCE.realTimeColor, ExtendedConfig.INSTANCE.realTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 
     public static InfoOverlay getGameTime(Minecraft mc)
@@ -183,7 +183,7 @@ public class InfoOverlays
         }
         builder.append(minutes);
         builder.append(" " + (hours >= 12 ? "PM" : "AM"));
-        return new InfoOverlay("Game", builder.toString(), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
+        return new InfoOverlay("hud.time", builder.toString(), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 
     private static long mean(long[] values)
