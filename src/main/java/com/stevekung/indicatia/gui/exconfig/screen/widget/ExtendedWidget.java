@@ -18,9 +18,9 @@ public class ExtendedWidget extends Widget
     @Override
     public void renderButton(int mouseX, int mouseY, float partialTicks)
     {
-        Minecraft minecraft = Minecraft.getInstance();
-        FontRenderer fontRenderer = minecraft.fontRenderer;
-        minecraft.getTextureManager().bindTexture(WIDGETS_LOCATION);
+        Minecraft mc = Minecraft.getInstance();
+        FontRenderer fontRenderer = mc.fontRenderer;
+        mc.getTextureManager().bindTexture(WIDGETS_LOCATION);
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, this.alpha);
         int i = this.getYImage(this.isHovered());
         GlStateManager.enableBlend();
@@ -28,10 +28,10 @@ public class ExtendedWidget extends Widget
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         this.blit(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
         this.blit(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-        this.renderBg(minecraft, mouseX, mouseY);
+        this.renderBg(mc, mouseX, mouseY);
         int j = this.getFGColor();
 
-        if (this.getMessage().length() > 32)
+        if (this.getMessage().length() > 30)
         {
             fontRenderer = ClientUtils.unicodeFontRenderer;
         }
