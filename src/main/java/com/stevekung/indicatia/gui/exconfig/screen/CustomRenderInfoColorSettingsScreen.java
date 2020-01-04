@@ -82,7 +82,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     {
         this.renderBackground();
         this.optionsRowList.render(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.font, LangUtils.translate("extended_config.render_info_custom_color.title"), this.width / 2, 5, 16777215);
+        this.drawCenteredString(this.font, LangUtils.translate("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
 
         if (this.optionsRowList.selected && this.optionsRowList.getFocused() != null && this.optionsRowList.getFocused().getTextField() != null)
         {
@@ -92,7 +92,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         }
         else
         {
-            this.drawCenteredString(this.font, "Color Format is '255,255,255'", this.width / 2, 15, 16777215);
+            this.drawCenteredString(this.font, LangUtils.translate("menu.color_format_info"), this.width / 2, 15, 16777215);
         }
         super.render(mouseX, mouseY, partialTicks);
     }

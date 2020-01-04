@@ -1,13 +1,15 @@
 package com.stevekung.indicatia.utils;
 
+import com.stevekung.stevekungslib.utils.LangUtils;
+
 import net.minecraft.util.text.TextFormatting;
 
 public enum MojangServerStatus
 {
-    ONLINE("Online", TextFormatting.GREEN),
-    UNSTABLE("Unstable", TextFormatting.YELLOW),
-    OFFLINE("Offline", TextFormatting.DARK_RED),
-    UNKNOWN("Unknown", TextFormatting.RED);
+    ONLINE(LangUtils.translate("status.mojang.online"), TextFormatting.GREEN),
+    OFFLINE(LangUtils.translate("status.mojang.offline"), TextFormatting.DARK_RED),
+    UNSTABLE(LangUtils.translate("status.mojang.unstable"), TextFormatting.YELLOW),
+    UNKNOWN(LangUtils.translate("status.mojang.unknown"), TextFormatting.RED);
 
     private final String status;
     private final TextFormatting color;
@@ -30,20 +32,15 @@ public enum MojangServerStatus
 
     public static MojangServerStatus get(String status)
     {
-        if (status.equalsIgnoreCase("green"))
+        switch (status)
         {
+        case "green":
             return MojangServerStatus.ONLINE;
-        }
-        else if (status.equalsIgnoreCase("yellow"))
-        {
+        case "yellow":
             return MojangServerStatus.UNSTABLE;
-        }
-        else if (status.equalsIgnoreCase("red"))
-        {
+        case "red":
             return MojangServerStatus.OFFLINE;
-        }
-        else
-        {
+        default:
             return MojangServerStatus.UNKNOWN;
         }
     }

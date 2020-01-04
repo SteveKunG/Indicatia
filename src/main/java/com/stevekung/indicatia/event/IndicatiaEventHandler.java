@@ -384,7 +384,7 @@ public class IndicatiaEventHandler
                 if (tick % messageMin == 0)
                 {
                     String reason = IndicatiaEventHandler.AFK_REASON;
-                    reason = reason.isEmpty() ? "" : ", Reason : " + reason;
+                    reason = reason.isEmpty() ? "" : ", " + LangUtils.translate("commands.afk.reason") + ": " + reason;
                     player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + (tick == 0 ? "" : "s") + reason);
                 }
             }

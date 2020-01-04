@@ -77,28 +77,28 @@ public class InfoUtils
         {
         case 4:
         default:
-            status = "Full Moon";
+            status = "hud.moon_phase.full_moon";
             break;
         case 3:
-            status = "Waning Gibbous";
+            status = "hud.moon_phase.waning_gibbous";
             break;
         case 2:
-            status = "Last Quarter";
+            status = "hud.moon_phase.last_quarter";
             break;
         case 1:
-            status = "Waning Crescent";
+            status = "hud.moon_phase.waning_crescent";
             break;
         case 0:
-            status = "New Moon";
+            status = "hud.moon_phase.new_moon";
             break;
         case -1:
-            status = "Waxing Crescent";
+            status = "hud.moon_phase.waxing_crescent";
             break;
         case -2:
-            status = "First Quarter";
+            status = "hud.moon_phase.first_quarter";
             break;
         case -3:
-            status = "Waxing Gibbous";
+            status = "hud.moon_phase.waxing_gibbous";
             break;
         }
         return status;

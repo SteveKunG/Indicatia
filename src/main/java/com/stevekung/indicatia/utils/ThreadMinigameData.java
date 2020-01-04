@@ -49,13 +49,13 @@ public class ThreadMinigameData implements Runnable
                 MinigameData.addMinigame(new MinigameData(name, minigameCmds));
                 MinigameData.getMinigames().sort((minigame1, minigame2) -> minigame1.getName().equals("Main") ? -1 : new CompareToBuilder().append(minigame1.getName(), minigame2.getName()).build());
             }
-            IndicatiaMod.LOGGER.info("Successfully getting minigames data from GitHub!");
+            IndicatiaMod.LOGGER.info("Successfully getting Minigames data from GitHub!");
         }
         catch (IOException | JsonIOException | JsonSyntaxException e)
         {
             e.printStackTrace();
-            IndicatiaMod.LOGGER.error("Could not get minigames data from GitHub!");
-            MinigameData.addMinigame(new MinigameData("Could not get minigames data from Database!", new ArrayList<>()));
+            IndicatiaMod.LOGGER.error("Couldn't get Minigames data from GitHub!");
+            MinigameData.addMinigame(new MinigameData("Couldn't get Minigames data from GitHub!", new ArrayList<>()));
         }
     }
 }

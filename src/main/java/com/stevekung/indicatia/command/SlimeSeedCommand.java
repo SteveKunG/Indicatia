@@ -13,7 +13,7 @@ public class SlimeSeedCommand implements IClientCommand
     @Override
     public void register(CommandDispatcher<IClientSuggestionProvider> dispatcher)
     {
-        dispatcher.register(ClientCommands.literal("slimeseed").requires(requirement -> requirement.hasPermissionLevel(0)).then(ClientCommands.argument("seed", SlimeSeedArgumentType.string()).executes(requirement -> SlimeSeedCommand.setSlimeSeed(requirement.getSource(), SlimeSeedArgumentType.getString(requirement, "seed")))));
+        dispatcher.register(ClientCommands.literal("slimeseed").then(ClientCommands.argument("seed", SlimeSeedArgumentType.string()).executes(requirement -> SlimeSeedCommand.setSlimeSeed(requirement.getSource(), SlimeSeedArgumentType.getString(requirement, "seed")))));
     }
 
     private static int setSlimeSeed(IClientSuggestionProvider source, String seed)

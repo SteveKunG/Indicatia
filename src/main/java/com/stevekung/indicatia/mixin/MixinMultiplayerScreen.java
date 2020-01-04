@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.RenderUtils;
 
 import net.minecraft.client.gui.screen.MultiplayerScreen;
@@ -27,10 +28,8 @@ public abstract class MixinMultiplayerScreen extends Screen
         if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
         {
             RenderUtils.disableLighting();
-            String info1 = "Press <SHIFT> for";
-            String info2 = "server version info";
-            this.minecraft.fontRenderer.drawString(info1, 4, 3, ColorUtils.hexToRGB("#17F9DB").to32Bit());
-            this.minecraft.fontRenderer.drawString(info2, 4, 3 + this.minecraft.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRGB("#17F9DB").to32Bit());
+            this.minecraft.fontRenderer.drawString(LangUtils.translate("menu.multiplayer_screen_info_1"), 4, 3, ColorUtils.hexToRGB("#17F9DB").to32Bit());
+            this.minecraft.fontRenderer.drawString(LangUtils.translate("menu.multiplayer_screen_info_2"), 4, 3 + this.minecraft.fontRenderer.FONT_HEIGHT + 1, ColorUtils.hexToRGB("#17F9DB").to32Bit());
             RenderUtils.enableLighting();
         }
     }

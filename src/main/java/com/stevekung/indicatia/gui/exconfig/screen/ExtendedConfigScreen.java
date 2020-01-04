@@ -44,22 +44,22 @@ public class ExtendedConfigScreen extends Screen
             ++i;
         }
 
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.render_info.title"), button ->
+        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.render_info.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new RenderInfoSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("extended_config.custom_color.title"), button ->
+        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.custom_color.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new CustomColorSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.offset.title"), button ->
+        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.offset.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new OffsetSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("extended_config.hypixel.title"), button ->
+        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.hypixel.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new HypixelSettingsScreen(this));
@@ -70,7 +70,7 @@ public class ExtendedConfigScreen extends Screen
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(null);
         }));
-        this.addButton(this.resetButton = new Button(this.width / 2 + 87, this.height / 6 + 175, 78, 20, LangUtils.translate("extended_config.reset_config"), button ->
+        this.addButton(this.resetButton = new Button(this.width / 2 + 87, this.height / 6 + 175, 78, 20, LangUtils.translate("menu.reset_config"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
@@ -96,6 +96,13 @@ public class ExtendedConfigScreen extends Screen
     }
 
     @Override
+    public void onClose()
+    {
+        ExtendedConfigScreen.PREVIEW = false;
+        super.onClose();
+    }
+
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
         ExtendedConfig.INSTANCE.save();
@@ -109,7 +116,7 @@ public class ExtendedConfigScreen extends Screen
         {
             this.renderBackground();
         }
-        this.drawCenteredString(this.font, LangUtils.translate("extended_config.main.title") + " : " + LangUtils.translate("extended_config.current_profile.info", TextFormatting.YELLOW + ExtendedConfig.CURRENT_PROFILE + TextFormatting.RESET), this.width / 2, 10, 16777215);
+        this.drawCenteredString(this.font, LangUtils.translate("menu.main.title") + " : " + LangUtils.translate("menu.current_selected_profile", TextFormatting.YELLOW + ExtendedConfig.CURRENT_PROFILE + TextFormatting.RESET), this.width / 2, 10, 16777215);
         super.render(mouseX, mouseY, partialTicks);
     }
 
