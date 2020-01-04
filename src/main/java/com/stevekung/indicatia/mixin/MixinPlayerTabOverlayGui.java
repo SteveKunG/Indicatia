@@ -56,7 +56,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     @Overwrite
     public void render(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
-        List<NetworkPlayerInfo> list = MixinPlayerTabOverlayGui.ENTRY_ORDERING.sortedCopy(this.mc.player.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = ENTRY_ORDERING.sortedCopy(this.mc.player.connection.getPlayerInfoMap());
         int listWidth = 0;
         int j = 0;
 
@@ -152,6 +152,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         }
 
         AbstractGui.fill(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + playerCount * 9, Integer.MIN_VALUE);
+        int l4 = this.mc.gameSettings.func_216839_a(553648127);
 
         for (int size = 0; size < playerListSize; ++size)
         {
@@ -159,8 +160,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
             int j2 = size % playerCount;
             int k2 = j1 + j5 * i1 + j5 * 5;
             int l2 = yOffset + j2 * 9;
-
-            AbstractGui.fill(k2, l2, k2 + i1, l2 + 8, this.mc.gameSettings.func_216839_a(553648127));
+            AbstractGui.fill(k2, l2, k2 + i1, l2 + 8, l4);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlphaTest();
             GlStateManager.enableBlend();
@@ -202,7 +202,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
 
                 if (scoreObjective != null && info1.getGameType() != GameType.SPECTATOR)
                 {
-                    int l5 = j2 + listWidth + 1;
+                    int l5 = k2 + listWidth + 1;
                     int i6 = l5 + l;
 
                     if (i6 - l5 > 5)
@@ -221,8 +221,8 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
 
             for (String s3 : list2)
             {
-                int j5 = this.mc.fontRenderer.getStringWidth(s3);
-                this.mc.fontRenderer.drawStringWithShadow(s3, width / 2 - j5 / 2, yOffset, -1);
+                int k5 = this.mc.fontRenderer.getStringWidth(s3);
+                this.mc.fontRenderer.drawStringWithShadow(s3, width / 2 - k5 / 2, yOffset, -1);
                 yOffset += 9;
             }
         }
