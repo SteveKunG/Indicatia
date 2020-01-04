@@ -161,7 +161,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
             int k2 = j1 + j5 * i1 + j5 * 5;
             int l2 = yOffset + j2 * 9;
 
-            AbstractGui.fill(k2, l2, k2 + i1, l2 + 8, this.mc.gameSettings.func_216839_a(553648127));
+            AbstractGui.fill(k2, l2, k2 + i1, l2 + 8, l4);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.enableAlphaTest();
             RenderSystem.enableBlend();
