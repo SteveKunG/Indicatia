@@ -14,9 +14,11 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.PingMode;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.hud.InfoUtils;
+import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.overlay.PlayerTabOverlayGui;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.entity.player.PlayerEntity;
@@ -56,22 +58,25 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     @Overwrite
     public void render(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
+        boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
         List<NetworkPlayerInfo> list = ENTRY_ORDERING.sortedCopy(this.mc.player.connection.getPlayerInfoMap());
         int listWidth = 0;
         int j = 0;
+        int pingWidth = 0;
 
         for (NetworkPlayerInfo info : list)
         {
             int ping = info.getResponseTime();
+            String displayName = this.getDisplayName(info).getFormattedText();
             String pingText = String.valueOf(ping);
 
-            if (ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY)
+            if (pingDelay)
             {
                 pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
             }
 
-            int pingWidth = IndicatiaConfig.GENERAL.enableCustomPlayerList.get() ? this.mc.fontRenderer.getStringWidth(pingText) : 0;
-            int stringWidth = this.mc.fontRenderer.getStringWidth(this.getDisplayName(info).getFormattedText()) + pingWidth;
+            pingWidth = IndicatiaConfig.GENERAL.enableCustomPlayerList.get() ? pingDelay ? ClientUtils.unicodeFontRenderer.getStringWidth(pingText) : this.mc.fontRenderer.getStringWidth(pingText) : 0;
+            int stringWidth = this.mc.fontRenderer.getStringWidth(displayName) + (scoreObjective != null && scoreObjective.getRenderType() == ScoreCriteria.RenderType.HEARTS ? 0 : pingWidth);
             listWidth = Math.max(listWidth, stringWidth);
 
             if (scoreObjective != null && scoreObjective.getRenderType() != ScoreCriteria.RenderType.HEARTS)
@@ -98,7 +103,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         {
             if (scoreObjective.getRenderType() == ScoreCriteria.RenderType.HEARTS)
             {
-                l = 90;
+                l = 90 + pingWidth;
             }
             else
             {
@@ -231,6 +236,8 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     @Overwrite
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo info)
     {
+        boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+        FontRenderer fontRenderer = this.mc.fontRenderer;
         int ping = InfoUtils.INSTANCE.isHypixel() && info.getGameProfile().getName().equals(ExtendedConfig.INSTANCE.hypixelNickName) ? IndicatiaEventHandler.currentServerPing : info.getResponseTime();
 
         if (IndicatiaConfig.GENERAL.enableCustomPlayerList.get())
@@ -251,18 +258,12 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
                 color = TextFormatting.DARK_RED;
             }
 
-            if (ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY)
+            if (pingDelay)
             {
                 pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
-                //this.mc.fontRenderer.setUnicodeFlag(true);TODO
+                fontRenderer = ClientUtils.unicodeFontRenderer;
             }
-
-            this.mc.fontRenderer.drawStringWithShadow(color + pingText, x1 + x2 - this.mc.fontRenderer.getStringWidth(pingText), y + 0.625F, 0);
-
-            if (ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY)
-            {
-                //this.mc.fontRenderer.setUnicodeFlag(false);
-            }
+            fontRenderer.drawStringWithShadow(color + pingText, x1 + x2 - fontRenderer.getStringWidth(pingText), y + 0.625F, 0);
         }
         else
         {
