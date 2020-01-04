@@ -19,20 +19,20 @@ import net.minecraft.util.math.MathHelper;
 public abstract class MixinFirstPersonRenderer
 {
     @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;F)V",
-            slice = @Slice(from = @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, remap = false)),
+            slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER)),
             at = {
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 2, remap = false),
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 3, remap = false),
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 4, remap = false),
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 5, remap = false)
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 2),
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 3),
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 4),
+                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 5)
     })
-    private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo info)
+    private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float pitch, Hand hand, float swingProgress, ItemStack itemStack, float equippedProgress, CallbackInfo info)
     {
         if (IndicatiaConfig.GENERAL.enableBlockhitAnimation.get())
         {
             float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
             float f1 = MathHelper.sin(MathHelper.sqrt(swingProgress) * (float)Math.PI);
-            GlStateManager.translatef(0.0F, equipProgress * 0.6F, 0.0F);
+            GlStateManager.translatef(0.0F, equippedProgress * 0.6F, 0.0F);
             GlStateManager.rotatef(0.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotatef(f * 20.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotatef(f1 * 20.0F, 0.0F, 0.0F, 1.0F);
