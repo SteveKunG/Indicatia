@@ -4,9 +4,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedButton;
 
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TextFormatting;
 
 public class BooleanConfigOption extends ExtendedConfigOption
@@ -24,7 +24,7 @@ public class BooleanConfigOption extends ExtendedConfigOption
     @Override
     public Widget createOptionButton(int x, int y, int width)
     {
-        return new Button(x, y, width, 20, this.getDisplayString(), button ->
+        return new ExtendedButton(x, y, width, 20, this.getDisplayString(), button ->
         {
             this.set();
             button.setMessage(this.getDisplayString());

@@ -7,10 +7,9 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class ConfigSliderWidget extends Widget
+public abstract class ConfigSliderWidget extends ExtendedWidget
 {
     protected double value;
 

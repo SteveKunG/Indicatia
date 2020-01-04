@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -78,7 +79,7 @@ public class EquipmentOverlays
             float fontHeight = (mc.fontRenderer.FONT_HEIGHT + 7) * i;
             float infoXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
             float infoYOffset = baseYOffset + 4 + fontHeight;
-            float arrowXOffset = right ? mc.mainWindow.getScaledWidth() - mc.fontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            float arrowXOffset = right ? mc.mainWindow.getScaledWidth() - ClientUtils.unicodeFontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
             float arrowYOffset = baseYOffset + 8 + fontHeight;
 
             EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
@@ -90,7 +91,7 @@ public class EquipmentOverlays
             if (!StringUtils.isNullOrEmpty(arrowInfo))
             {
                 GlStateManager.disableDepthTest();
-                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                 GlStateManager.enableDepthTest();
             }
             ++i;
@@ -143,11 +144,11 @@ public class EquipmentOverlays
                 }
                 if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
-                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 - 106;
+                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 - 104;
                     int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iLeft - 32;
 
                     GlStateManager.disableDepthTest();
-                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                     GlStateManager.enableDepthTest();
                 }
                 ++iLeft;
@@ -167,11 +168,11 @@ public class EquipmentOverlays
                 }
                 if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
-                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
+                    float arrowXOffset = mc.mainWindow.getScaledWidth() / 2 + 112 - ClientUtils.unicodeFontRenderer.getStringWidth(arrowInfo);
                     int arrowYOffset = mc.mainWindow.getScaledHeight() - 16 * iRight - 32;
 
                     GlStateManager.disableDepthTest();
-                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                     GlStateManager.enableDepthTest();
                 }
                 ++iRight;
