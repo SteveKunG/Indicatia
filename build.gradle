@@ -58,15 +58,10 @@ minecraft {
     }
 }
 
-configurations {
-    embed
-    implementation.extendsFrom(embed)
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     compile files("libs/SteveKunG's-Lib-${mc_version}-2.0.0-deobf.jar")
-    embed("org.spongepowered:mixin:0.8-SNAPSHOT") { transitive = false }
+    compile "org.spongepowered:mixin:0.8-SNAPSHOT"
 }
 
 repositories {
@@ -83,9 +78,6 @@ mixin {
 }
 
 jar {
-    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
-    }
     manifest {
         attributes("MixinConnector": "com.stevekung.indicatia.core.IndicatiaMixinConnector"
         )
@@ -101,9 +93,6 @@ task sourcesJar(type: Jar) {
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
-    }
     manifest {
         attributes("MixinConnector": "com.stevekung.indicatia.core.IndicatiaMixinConnector"
         )

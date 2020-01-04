@@ -19,12 +19,12 @@ import net.minecraft.util.math.MathHelper;
 public abstract class MixinFirstPersonRenderer
 {
     @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;F)V",
-            slice = @Slice(from = @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER)),
+            slice = @Slice(from = @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, remap = false)),
             at = {
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 2),
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 3),
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 4),
-                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 5)
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 2, remap = false),
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 3, remap = false),
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 4, remap = false),
+                    @At(value = "INVOKE", target = "transformSideFirstPerson", shift = At.Shift.AFTER, ordinal = 5, remap = false)
     })
     private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, CallbackInfo info)
     {
