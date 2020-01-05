@@ -46,15 +46,21 @@ public class DropdownMinigamesButton extends Button
         {
             hoverColor = 180;
         }
+
         if (this.selectedMinigame == -1)
         {
-            this.selectedMinigame = this.parentClass.getInitialSelection(this);
+            int initSelect = this.parentClass.getInitialSelection(this);
+            int size = this.minigameLists.size() + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos;
 
-            if (this.selectedMinigame > this.minigameLists.size())
+            if (initSelect > size || ExtendedConfig.INSTANCE.selectedHypixelMinigame > size || size == 1)
             {
-                this.selectedMinigame = 0;
+                initSelect = 0;
+                ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
+                ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
             }
+            this.selectedMinigame = initSelect;
         }
+
         if (this.visible)
         {
             RenderSystem.pushMatrix();
