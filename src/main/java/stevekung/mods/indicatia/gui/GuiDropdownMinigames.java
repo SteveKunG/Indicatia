@@ -25,9 +25,9 @@ public class GuiDropdownMinigames extends GuiButton
         this.parentClass = parentClass;
         this.minigameLists = minigameLists;
 
-        if (this.minigameLists.size() == 1)
+        if (this.minigameLists.size() <= 6)
         {
-            this.displayLength = 1;
+            this.displayLength = this.minigameLists.size();
         }
         else
         {
@@ -44,15 +44,21 @@ public class GuiDropdownMinigames extends GuiButton
         {
             hoverColor = 180;
         }
+
         if (this.selectedMinigame == -1)
         {
-            this.selectedMinigame = this.parentClass.getInitialSelection(this);
+            int initSelect = this.parentClass.getInitialSelection(this);
+            int size = this.minigameLists.size() + ExtendedConfig.instance.hypixelMinigameScrollPos;
 
-            if (this.selectedMinigame > this.minigameLists.size())
+            if (initSelect > size || ExtendedConfig.instance.selectedHypixelMinigame > size || size == 1)
             {
-                this.selectedMinigame = 0;
+                initSelect = 0;
+                ExtendedConfig.instance.hypixelMinigameScrollPos = 0;
+                ExtendedConfig.instance.selectedHypixelMinigame = 0;
             }
+            this.selectedMinigame = initSelect;
         }
+
         if (this.visible)
         {
             GlStateManager.pushMatrix();
