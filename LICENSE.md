@@ -1,1 +1,0 @@
-ALL RIGHTS RESERVED - 2017 SteveKunG / Wasinthorn Suksri
