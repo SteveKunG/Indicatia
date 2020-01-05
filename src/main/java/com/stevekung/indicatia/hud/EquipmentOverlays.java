@@ -24,13 +24,19 @@ public class EquipmentOverlays
         List<HorizontalEquipmentOverlay> equippedLists = new ArrayList<>();
         int prevX = 0;
 
-        for (int i = 3; i >= 0; i--)
+        if (ExtendedConfig.INSTANCE.equipmentArmorItems)
         {
-            equippedLists.add(new HorizontalEquipmentOverlay(mc.player.inventory.armorInventory.get(i)));
+            for (int i = 3; i >= 0; i--)
+            {
+                equippedLists.add(new HorizontalEquipmentOverlay(mc.player.inventory.armorInventory.get(i)));
+            }
         }
 
-        equippedLists.add(new HorizontalEquipmentOverlay(mainhandStack));
-        equippedLists.add(new HorizontalEquipmentOverlay(offhandStack));
+        if (ExtendedConfig.INSTANCE.equipmentHandItems)
+        {
+            equippedLists.add(new HorizontalEquipmentOverlay(mainhandStack));
+            equippedLists.add(new HorizontalEquipmentOverlay(offhandStack));
+        }
 
         for (HorizontalEquipmentOverlay equipment : equippedLists)
         {
@@ -57,13 +63,19 @@ public class EquipmentOverlays
         int baseXOffset = right ? mc.mainWindow.getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.INSTANCE.armorHUDYOffset;
 
-        for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
+        if (ExtendedConfig.INSTANCE.equipmentArmorItems)
         {
-            equippedLists.add(new EquipmentOverlay(mc.player.inventory.armorInventory.get(armorSlot)));
+            for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
+            {
+                equippedLists.add(new EquipmentOverlay(mc.player.inventory.armorInventory.get(armorSlot)));
+            }
         }
 
-        equippedLists.add(new EquipmentOverlay(mainhandStack));
-        equippedLists.add(new EquipmentOverlay(offhandStack));
+        if (ExtendedConfig.INSTANCE.equipmentHandItems)
+        {
+            equippedLists.add(new EquipmentOverlay(mainhandStack));
+            equippedLists.add(new EquipmentOverlay(offhandStack));
+        }
 
         for (EquipmentOverlay equipment : equippedLists)
         {
@@ -106,17 +118,23 @@ public class EquipmentOverlays
         int iLeft = 0;
         int iRight = 0;
 
-        for (int i = 2; i <= 3; i++)
+        if (ExtendedConfig.INSTANCE.equipmentArmorItems)
         {
-            equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.LEFT));
-        }
-        for (int i = 0; i <= 1; i++)
-        {
-            equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.RIGHT));
+            for (int i = 2; i <= 3; i++)
+            {
+                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.LEFT));
+            }
+            for (int i = 0; i <= 1; i++)
+            {
+                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.RIGHT));
+            }
         }
 
-        equippedLists.add(new HotbarEquipmentOverlay(mainhandStack, HotbarEquipmentOverlay.Side.LEFT));
-        equippedLists.add(new HotbarEquipmentOverlay(offhandStack, HotbarEquipmentOverlay.Side.RIGHT));
+        if (ExtendedConfig.INSTANCE.equipmentHandItems)
+        {
+            equippedLists.add(new HotbarEquipmentOverlay(mainhandStack, HotbarEquipmentOverlay.Side.LEFT));
+            equippedLists.add(new HotbarEquipmentOverlay(offhandStack, HotbarEquipmentOverlay.Side.RIGHT));
+        }
 
         for (HotbarEquipmentOverlay equipment : equippedLists)
         {

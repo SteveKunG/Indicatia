@@ -82,6 +82,8 @@
     "extended_config.server_ip": "Server IP",
     "extended_config.server_ip_mc": "Server IP with MC",
     "extended_config.equipment_hud": "Equipment HUD",
+    "extended_config.equipment_armor_items": "Equipment Armor Items",
+    "extended_config.equipment_hand_items": "Equipment Hand Items",
     "extended_config.potion_hud": "Potion HUD",
     "extended_config.slime_chunk": "Slime Chunk",
     "extended_config.real_time": "Real Time",
