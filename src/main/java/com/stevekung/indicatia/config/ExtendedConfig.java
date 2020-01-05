@@ -37,6 +37,8 @@ public class ExtendedConfig
     public boolean serverIP = false;
     public boolean serverIPMCVersion = false;
     public boolean equipmentHUD = false;
+    public boolean equipmentArmorItems = true;
+    public boolean equipmentHandItems = true;
     public boolean potionHUD = false;
     public boolean slimeChunkFinder = false;
     public boolean realTime = true;
@@ -134,6 +136,8 @@ public class ExtendedConfig
     public static final BooleanConfigOption SERVER_IP = new BooleanConfigOption("server_ip", config -> config.serverIP, (config, value) -> config.serverIP = value);
     public static final BooleanConfigOption SERVER_IP_MC = new BooleanConfigOption("server_ip_mc", config -> config.serverIPMCVersion, (config, value) -> config.serverIPMCVersion = value);
     public static final BooleanConfigOption EQUIPMENT_HUD = new BooleanConfigOption("equipment_hud", config -> config.equipmentHUD, (config, value) -> config.equipmentHUD = value);
+    public static final BooleanConfigOption EQUIPMENT_ARMOR_ITEMS = new BooleanConfigOption("equipment_armor_items", config -> config.equipmentArmorItems, (config, value) -> config.equipmentArmorItems = value);
+    public static final BooleanConfigOption EQUIPMENT_HAND_ITEMS = new BooleanConfigOption("equipment_hand_items", config -> config.equipmentHandItems, (config, value) -> config.equipmentHandItems = value);
     public static final BooleanConfigOption POTION_HUD = new BooleanConfigOption("potion_hud", config -> config.potionHUD, (config, value) -> config.potionHUD = value);
     public static final BooleanConfigOption SLIME_CHUNK = new BooleanConfigOption("slime_chunk", config -> config.slimeChunkFinder, (config, value) -> config.slimeChunkFinder = value);
     public static final BooleanConfigOption REAL_TIME = new BooleanConfigOption("real_time", config -> config.realTime, (config, value) -> config.realTime = value);
@@ -222,6 +226,8 @@ public class ExtendedConfig
             this.serverIP = this.getBoolean(nbt, "ServerIP", this.serverIP);
             this.serverIPMCVersion = this.getBoolean(nbt, "ServerIPMCVersion", this.serverIPMCVersion);
             this.equipmentHUD = this.getBoolean(nbt, "EquipmentHUD", this.equipmentHUD);
+            this.equipmentArmorItems = this.getBoolean(nbt, "EquipmentArmorItems", this.equipmentArmorItems);
+            this.equipmentHandItems = this.getBoolean(nbt, "EquipmentHandItems", this.equipmentHandItems);
             this.potionHUD = this.getBoolean(nbt, "PotionHUD", this.potionHUD);
             this.slimeChunkFinder = this.getBoolean(nbt, "SlimeChunkFinder", this.slimeChunkFinder);
             this.realTime = this.getBoolean(nbt, "RealTime", this.realTime);
@@ -327,6 +333,8 @@ public class ExtendedConfig
             nbt.putBoolean("ServerIP", this.serverIP);
             nbt.putBoolean("ServerIPMCVersion", this.serverIPMCVersion);
             nbt.putBoolean("EquipmentHUD", this.equipmentHUD);
+            nbt.putBoolean("EquipmentArmorItems", this.equipmentArmorItems);
+            nbt.putBoolean("EquipmentHandItems", this.equipmentHandItems);
             nbt.putBoolean("PotionHUD", this.potionHUD);
             nbt.putBoolean("SlimeChunkFinder", this.slimeChunkFinder);
             nbt.putBoolean("RealTime", this.realTime);
