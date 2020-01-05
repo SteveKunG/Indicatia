@@ -16,8 +16,6 @@ import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.minigames.MinigameCommand;
 import com.stevekung.indicatia.minigames.MinigameData;
 
-import net.minecraftforge.versions.mcp.MCPVersion;
-
 public class ThreadMinigameData implements Runnable
 {
     @Override
@@ -25,7 +23,7 @@ public class ThreadMinigameData implements Runnable
     {
         try
         {
-            URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/" + MCPVersion.getMCVersion() + "/minigames.json");
+            URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/minigame_data/minigames.json");
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             JsonElement element = new JsonParser().parse(in);
