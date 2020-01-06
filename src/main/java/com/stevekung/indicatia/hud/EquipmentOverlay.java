@@ -1,9 +1,8 @@
 package com.stevekung.indicatia.hud;
 
-import java.text.DecimalFormat;
-
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -14,7 +13,7 @@ import net.minecraft.item.ItemStack;
 
 public class EquipmentOverlay
 {
-    private static final DecimalFormat STACK = new DecimalFormat("#.##");
+    private static final ModDecimalFormat STACK = new ModDecimalFormat("#.##");
     protected final ItemStack itemStack;
     protected final Minecraft mc;
 

@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.event;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -41,7 +41,7 @@ import net.minecraftforge.versions.mcp.MCPVersion;
 public class HUDRenderEventHandler
 {
     private final Minecraft mc;
-    public static final DecimalFormat TPS_FORMAT = new DecimalFormat("########0.00");
+    public static final ModDecimalFormat TPS_FORMAT = new ModDecimalFormat("########0.00");
 
     public HUDRenderEventHandler()
     {
