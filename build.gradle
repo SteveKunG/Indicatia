@@ -31,7 +31,7 @@ archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 1.8
 
 minecraft {
-    mappings channel: "snapshot", version: "${mcp_mapping}"
+    mappings channel: "stable", version: "${mcp_mapping}"
     accessTransformer = file("$rootDir/libs/accesstransformer.cfg")
 
     runs {
