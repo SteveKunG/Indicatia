@@ -19,6 +19,7 @@ public class MojangStatusScreen extends Screen
     private Button doneButton;
     private Button checkButton;
     private Button refreshButton;
+    private int state = -1;
 
     public MojangStatusScreen(Screen parent)
     {
@@ -38,6 +39,7 @@ public class MojangStatusScreen extends Screen
             this.statusList.clear();
             this.checkButton.active = true;
             this.refreshButton.active = false;
+            this.state = -1;
         }));
         this.addButton(this.checkButton = new Button(this.width / 2 - 101, this.height / 6 + 145, 100, 20, LangUtils.translate("menu.check"), button ->
         {
@@ -49,19 +51,37 @@ public class MojangStatusScreen extends Screen
                     MojangServerStatus status = checker.getStatus();
                     this.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
                 }
+                this.state = 2;
                 this.refreshButton.active = true;
                 this.doneButton.active = true;
             });
 
             if (thread.getState() == Thread.State.NEW)
             {
+                this.state = 1;
                 thread.start();
                 this.checkButton.active = false;
                 this.refreshButton.active = false;
                 this.doneButton.active = false;
             }
         }));
-        this.refreshButton.active = false;
+
+        if (this.state == 1)
+        {
+            this.checkButton.active = false;
+            this.refreshButton.active = false;
+            this.doneButton.active = false;
+        }
+        else if (this.state == 2)
+        {
+            this.checkButton.active = false;
+            this.refreshButton.active = true;
+            this.doneButton.active = true;
+        }
+        else
+        {
+            this.refreshButton.active = false;
+        }
     }
 
     @Override
@@ -70,12 +90,6 @@ public class MojangStatusScreen extends Screen
         List<String> temp = this.statusList;
         this.statusList = temp;
         super.resize(mc, width, height);
-    }
-
-    @Override
-    public void removed()
-    {
-        this.statusList.clear();
     }
 
     @Override
@@ -93,7 +107,7 @@ public class MojangStatusScreen extends Screen
     public void render(int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground();
-        this.drawCenteredString(this.font, "Mojang Status Checker", this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.font, LangUtils.translate("menu.mojang_status.title"), this.width / 2, 15, 16777215);
         int height = 0;
 
         for (String statusList : this.statusList)

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedButton;
+import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.text.TextFormatting;
@@ -13,12 +14,21 @@ public class BooleanConfigOption extends ExtendedConfigOption
 {
     private final Predicate<ExtendedConfig> getter;
     private final BiConsumer<ExtendedConfig, Boolean> setter;
+    private boolean yesNo;
 
     public BooleanConfigOption(String key, Predicate<ExtendedConfig> getter, BiConsumer<ExtendedConfig, Boolean> setter)
     {
         super(key);
         this.getter = getter;
         this.setter = setter;
+    }
+
+    public BooleanConfigOption(String key, Predicate<ExtendedConfig> getter, BiConsumer<ExtendedConfig, Boolean> setter, boolean yesNo)
+    {
+        super(key);
+        this.getter = getter;
+        this.setter = setter;
+        this.yesNo = yesNo;
     }
 
     @Override
@@ -54,6 +64,8 @@ public class BooleanConfigOption extends ExtendedConfigOption
 
     public String getDisplayString()
     {
-        return this.getDisplayPrefix() + (this.get() ? TextFormatting.GREEN + "true" : TextFormatting.RED + "false");
+        String on = this.yesNo ? LangUtils.translate("gui.yes") : "ON";
+        String off = this.yesNo ? LangUtils.translate("gui.no") : "OFF";
+        return this.getDisplayPrefix() + (this.get() ? TextFormatting.GREEN + on : TextFormatting.RED + off);
     }
 }

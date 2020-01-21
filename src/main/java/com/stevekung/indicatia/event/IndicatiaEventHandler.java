@@ -28,9 +28,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
@@ -47,13 +45,11 @@ import net.minecraft.network.status.client.CServerQueryPacket;
 import net.minecraft.network.status.server.SPongPacket;
 import net.minecraft.network.status.server.SServerInfoPacket;
 import net.minecraft.potion.Effects;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.TickEvent;
@@ -65,8 +61,6 @@ public class IndicatiaEventHandler
     public static int currentServerPing;
     private static final ThreadPoolExecutor REALTIME_PINGER = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private long lastPinger = -1L;
-    private int disconnectClickCount;
-    private int disconnectClickCooldown;
     private boolean initVersionCheck;
 
     public static boolean START_AFK;
@@ -102,35 +96,6 @@ public class IndicatiaEventHandler
             {
                 IndicatiaEventHandler.afkTick(this.mc.player);
                 IndicatiaEventHandler.autoFishTick(this.mc);
-
-                if (this.disconnectClickCooldown > 0)
-                {
-                    this.disconnectClickCooldown--;
-                }
-                if (this.mc.currentScreen != null && this.mc.currentScreen instanceof IngameMenuScreen && IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.CLICK && !this.mc.isSingleplayer())
-                {
-                    for (Widget button : this.mc.currentScreen.buttons)
-                    {
-                        if (button.getMessage().contains(LangUtils.translate("menu.click_to_disconnect")))
-                        {
-                            if (this.disconnectClickCooldown < 60)
-                            {
-                                int cooldownSec = 1 + this.disconnectClickCooldown / 20;
-                                button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect") + " in " + cooldownSec + "...");
-                            }
-                            if (this.disconnectClickCooldown == 0)
-                            {
-                                button.setMessage(LangUtils.translate("menu.disconnect"));
-                                this.disconnectClickCount = 0;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    this.disconnectClickCount = 0;
-                    this.disconnectClickCooldown = 0;
-                }
 
                 if (this.mc.getCurrentServerData() != null)
                 {
@@ -267,7 +232,7 @@ public class IndicatiaEventHandler
     {
         Screen screen = event.getGui();
 
-        if (IndicatiaConfig.GENERAL.enableConfirmDisconnectButton.get() && screen instanceof IngameMenuScreen && !this.mc.isSingleplayer())
+        if (IndicatiaConfig.GENERAL.enableConfirmToDisconnect.get() && screen instanceof IngameMenuScreen && !this.mc.isSingleplayer())
         {
             IGuiEventListener listener = screen.children().get(7);
 
@@ -278,39 +243,7 @@ public class IndicatiaEventHandler
                 if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
                 {
                     button.playDownSound(this.mc.getSoundHandler());
-
-                    if (IndicatiaConfig.GENERAL.confirmDisconnectMode.get() == IndicatiaConfig.DisconnectMode.GUI)
-                    {
-                        this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
-                    }
-                    else
-                    {
-                        this.disconnectClickCount++;
-                        button.setMessage(TextFormatting.RED + LangUtils.translate("menu.click_to_disconnect"));
-
-                        if (this.disconnectClickCount == 1)
-                        {
-                            this.disconnectClickCooldown = 100;
-                        }
-                        if (this.disconnectClickCount == 2)
-                        {
-                            if (this.mc.isConnectedToRealms())
-                            {
-                                this.mc.world.sendQuittingDisconnectingPacket();
-                                this.mc.loadWorld(null);
-                                RealmsBridge bridge = new RealmsBridge();
-                                bridge.switchToRealms(new MainMenuScreen());
-                            }
-                            else
-                            {
-                                this.mc.world.sendQuittingDisconnectingPacket();
-                                this.mc.loadWorld(null);
-                                this.mc.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
-                            }
-                            this.disconnectClickCount = 0;
-                        }
-                        event.setCanceled(true);
-                    }
+                    this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
                 }
             }
         }

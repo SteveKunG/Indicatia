@@ -89,7 +89,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     }
 
     @Override
-    public void removed()
+    public void onClose()
     {
         ExtendedConfig.INSTANCE.save();
     }

@@ -8,7 +8,6 @@ import com.stevekung.indicatia.gui.exconfig.BooleanConfigOption;
 import com.stevekung.indicatia.gui.exconfig.DoubleConfigOption;
 import com.stevekung.indicatia.gui.exconfig.StringConfigOption;
 import com.stevekung.indicatia.gui.exconfig.TextFieldConfigOption;
-import com.stevekung.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
 import com.stevekung.stevekungslib.utils.GameProfileUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
@@ -60,7 +59,7 @@ public class ExtendedConfig
     public Equipments.Position equipmentPosition = Equipments.Position.HOTBAR;
     public StatusEffects.Style potionHUDStyle = StatusEffects.Style.DEFAULT;
     public StatusEffects.Position potionHUDPosition = StatusEffects.Position.LEFT;
-    public PingMode pingMode = PingMode.ONLY_PING;
+    public PingMode pingMode = PingMode.PING;
 
     // Offset
     public int armorHUDYOffset = 0;
@@ -127,8 +126,7 @@ public class ExtendedConfig
     public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
 
 
-    public static final BooleanConfigOption PREVIEW = new BooleanConfigOption("preview", config -> ExtendedConfigScreen.PREVIEW, (config, value) -> ExtendedConfigScreen.PREVIEW = value);
-    public static final BooleanConfigOption SWAP_INFO_POS = new BooleanConfigOption("swap_info_pos", config -> config.swapRenderInfo, (config, value) -> config.swapRenderInfo = value);
+    public static final BooleanConfigOption SWAP_INFO_POS = new BooleanConfigOption("swap_info_pos", config -> config.swapRenderInfo, (config, value) -> config.swapRenderInfo = value, true);
     public static final BooleanConfigOption FPS = new BooleanConfigOption("fps", config -> config.fps, (config, value) -> config.fps = value);
     public static final BooleanConfigOption XYZ = new BooleanConfigOption("xyz", config -> config.xyz, (config, value) -> config.xyz = value);
     public static final BooleanConfigOption DIRECTION = new BooleanConfigOption("direction", config -> config.direction, (config, value) -> config.direction = value);
