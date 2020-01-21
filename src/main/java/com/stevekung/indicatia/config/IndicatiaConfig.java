@@ -29,6 +29,7 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.BooleanValue enableBossHealthBarRender;
         public final ForgeConfigSpec.BooleanValue enableRenderBossHealthStatus;
         public final ForgeConfigSpec.BooleanValue enableSidebarScoreboardRender;
+        public final ForgeConfigSpec.BooleanValue enableHypixelChatMode;
 
         General(ForgeConfigSpec.Builder builder)
         {
@@ -102,6 +103,10 @@ public class IndicatiaConfig
             this.enableSidebarScoreboardRender = builder
                     .translation("indicatia.configgui.enable_sidebar_scoreboard_render")
                     .define("enableSidebarScoreboardRender", true);
+
+            this.enableHypixelChatMode = builder
+                    .translation("indicatia.configgui.enable_hypixel_chat_mode")
+                    .define("enableHypixelChatMode", true);
 
             builder.pop();
         }
