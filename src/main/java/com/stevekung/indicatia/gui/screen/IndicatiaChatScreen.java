@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton;
 import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton.IDropboxCallback;
 import com.stevekung.indicatia.gui.widget.MinigameButton;
@@ -53,7 +54,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             }
         }
 
-        if (InfoUtils.INSTANCE.isHypixel())
+        if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
             String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).setStyle(new Style().setColor(this.mode.getColor()).setBold(true)).getFormattedText();
@@ -89,7 +90,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     }
 
     @Override
-    public void removed()
+    public void onClose()
     {
         ExtendedConfig.INSTANCE.save();
     }
@@ -155,24 +156,27 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             int length = mc.fontRenderer.getStringWidth(max) + 32;
 
             // hypixel chat
-            buttons.add(new Button(width - 23, height - 35, 20, 20, "A", button ->
+            if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
             {
-                this.mode = ChatMode.ALL;
-                player.sendChatMessage("/chat a");
-                ExtendedConfig.INSTANCE.chatMode = 0;
-            }));
-            buttons.add(new Button(width - 23, height - 56, 20, 20, "P", button ->
-            {
-                this.mode = ChatMode.PARTY;
-                player.sendChatMessage("/chat p");
-                ExtendedConfig.INSTANCE.chatMode = 1;
-            }));
-            buttons.add(new Button(width - 23, height - 77, 20, 20, "G", button ->
-            {
-                this.mode = ChatMode.GUILD;
-                player.sendChatMessage("/chat g");
-                ExtendedConfig.INSTANCE.chatMode = 2;
-            }));
+                buttons.add(new Button(width - 23, height - 35, 20, 20, "A", button ->
+                {
+                    this.mode = ChatMode.ALL;
+                    player.sendChatMessage("/chat a");
+                    ExtendedConfig.INSTANCE.chatMode = 0;
+                }));
+                buttons.add(new Button(width - 23, height - 56, 20, 20, "P", button ->
+                {
+                    this.mode = ChatMode.PARTY;
+                    player.sendChatMessage("/chat p");
+                    ExtendedConfig.INSTANCE.chatMode = 1;
+                }));
+                buttons.add(new Button(width - 23, height - 77, 20, 20, "G", button ->
+                {
+                    this.mode = ChatMode.GUILD;
+                    player.sendChatMessage("/chat g");
+                    ExtendedConfig.INSTANCE.chatMode = 2;
+                }));
+            }
             buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
             this.dropdown.setWidth(length);
             this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;

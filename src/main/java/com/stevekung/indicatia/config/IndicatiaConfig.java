@@ -15,7 +15,6 @@ public class IndicatiaConfig
     {
         // General
         public final ForgeConfigSpec.IntValue afkMessageTime;
-        public final ForgeConfigSpec.EnumValue<DisconnectMode> confirmDisconnectMode;
         public final ForgeConfigSpec.BooleanValue enableRenderInfo;
         public final ForgeConfigSpec.BooleanValue enableBlockhitAnimation;
         public final ForgeConfigSpec.BooleanValue enableAdditionalBlockhitAnimation;
@@ -25,11 +24,12 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.BooleanValue enableAFKMessage;
         public final ForgeConfigSpec.BooleanValue enableCustomPlayerList;
         public final ForgeConfigSpec.BooleanValue enableCustomServerSelectionGui;
-        public final ForgeConfigSpec.BooleanValue enableConfirmDisconnectButton;
+        public final ForgeConfigSpec.BooleanValue enableConfirmToDisconnect;
         public final ForgeConfigSpec.BooleanValue enableVanillaPotionHUD;
         public final ForgeConfigSpec.BooleanValue enableBossHealthBarRender;
         public final ForgeConfigSpec.BooleanValue enableRenderBossHealthStatus;
         public final ForgeConfigSpec.BooleanValue enableSidebarScoreboardRender;
+        public final ForgeConfigSpec.BooleanValue enableHypixelChatMode;
 
         General(ForgeConfigSpec.Builder builder)
         {
@@ -39,10 +39,6 @@ public class IndicatiaConfig
             this.afkMessageTime = builder
                     .translation("indicatia.configgui.afk_message_time")
                     .defineInRange("afkMessageTime", 5, 1, 60);
-
-            this.confirmDisconnectMode = builder
-                    .translation("indicatia.configgui.confirm_disconnect_mode")
-                    .defineEnum("confirmDisconnectMode", DisconnectMode.GUI);
 
             this.enableRenderInfo = builder
                     .translation("indicatia.configgui.enable_render_info")
@@ -86,10 +82,10 @@ public class IndicatiaConfig
                     .translation("indicatia.configgui.enable_custom_server_selection_gui")
                     .define("enableCustomServerSelectionGui", false);
 
-            this.enableConfirmDisconnectButton = builder
-                    .comment("This will display confirmation button if you clicked disconnect button.")
-                    .translation("indicatia.configgui.enable_confirm_disconnect_button")
-                    .define("enableConfirmDisconnectButton", false);
+            this.enableConfirmToDisconnect = builder
+                    .comment("This will display confirmation screen when try to disconnect.")
+                    .translation("indicatia.configgui.enable_confirm_to_disconnect")
+                    .define("enableConfirmToDisconnect", false);
 
             this.enableVanillaPotionHUD = builder
                     .comment("Show Vanilla Potion HUD in-game.")
@@ -108,13 +104,12 @@ public class IndicatiaConfig
                     .translation("indicatia.configgui.enable_sidebar_scoreboard_render")
                     .define("enableSidebarScoreboardRender", true);
 
+            this.enableHypixelChatMode = builder
+                    .translation("indicatia.configgui.enable_hypixel_chat_mode")
+                    .define("enableHypixelChatMode", true);
+
             builder.pop();
         }
-    }
-
-    public enum DisconnectMode
-    {
-        GUI, CLICK
     }
 
     @SubscribeEvent

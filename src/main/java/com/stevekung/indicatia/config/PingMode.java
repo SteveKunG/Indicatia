@@ -7,7 +7,7 @@ import net.minecraft.util.math.MathHelper;
 
 public enum PingMode
 {
-    ONLY_PING(0, "indicatia.only_ping"),
+    PING(0, "indicatia.ping"),
     PING_AND_DELAY(1, "indicatia.ping_and_delay");
 
     private static final PingMode[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(PingMode::getId)).toArray(id -> new PingMode[id]);

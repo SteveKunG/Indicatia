@@ -32,7 +32,7 @@ public class EquipmentOverlay
     {
         Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
 
-        if (status == Equipments.Status.NONE || this.itemStack.isDamageable() && (status == Equipments.Status.COUNT || status == Equipments.Status.COUNT_AND_STACK))
+        if (status == Equipments.Status.NONE || this.itemStack.isDamageable() && (status == Equipments.Status.AMOUNT || status == Equipments.Status.AMOUNT_AND_STACK))
         {
             return "";
         }
@@ -77,11 +77,11 @@ public class EquipmentOverlay
             return itemStack.getMaxDamage() - itemStack.getDamage() + "/" + itemStack.getMaxDamage();
         case PERCENT:
             return EquipmentOverlay.calculateItemDurabilityPercent(itemStack) + "%";
-        case ONLY_DAMAGE:
+        case DAMAGE:
             return String.valueOf(itemStack.getMaxDamage() - itemStack.getDamage());
         case NONE:
-        case COUNT:
-        case COUNT_AND_STACK:
+        case AMOUNT:
+        case AMOUNT_AND_STACK:
             return "";
         }
     }
@@ -95,7 +95,7 @@ public class EquipmentOverlay
     {
         Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
         double stack = count / (double)itemStack.getMaxStackSize();
-        return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.COUNT_AND_STACK ? count + "/" + EquipmentOverlay.STACK.format(stack) : count);
+        return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.AMOUNT_AND_STACK ? count + "/" + EquipmentOverlay.STACK.format(stack) : count);
     }
 
     private static int getInventoryItemCount(PlayerInventory inventory, ItemStack other)
