@@ -19,7 +19,7 @@ public class MojangStatusCheckCommand implements IClientCommand
 
     private static int runThread()
     {
-        CommonUtils.execute(MojangStatusCheckCommand.THREAD);
+        CommonUtils.runAsync(MojangStatusCheckCommand.THREAD);
         return 1;
     }
 }

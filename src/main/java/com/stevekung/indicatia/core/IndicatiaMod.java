@@ -77,7 +77,7 @@ public class IndicatiaMod
     private void loadComplete(FMLLoadCompleteEvent event)
     {
         ChatScreenRegistry.register(new IndicatiaChatScreen());
-        CommonUtils.execute(new ThreadMinigameData());
+        CommonUtils.runAsync(new ThreadMinigameData());
     }
 
     private void registerClientCommands()
