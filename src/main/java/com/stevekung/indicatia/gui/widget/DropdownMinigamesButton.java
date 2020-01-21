@@ -105,10 +105,10 @@ public class DropdownMinigamesButton extends Button
                     mc.fontRenderer.drawStringWithShadow(this.minigameLists.get(this.selectedMinigame), this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.minigameLists.get(this.selectedMinigame)) / 2, this.y + (this.height - 6) / 2, ColorUtils.to32BitColor(255, 255, 255, 255));
                 }
             }
-            mc.getTextureManager().bindTexture(DropdownMinigamesButton.TEXTURE);
-            AbstractGui.blit(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
-            RenderSystem.popMatrix();
         }
+        mc.getTextureManager().bindTexture(DropdownMinigamesButton.TEXTURE);
+        AbstractGui.blit(this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
+        RenderSystem.popMatrix();
     }
 
     @Override
