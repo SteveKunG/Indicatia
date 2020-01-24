@@ -45,14 +45,14 @@ public abstract class MixinBossOverlayGui extends AbstractGui
 
         if (!this.mapBossInfos.isEmpty())
         {
-            int width = this.client.func_228018_at_().getScaledWidth();
-            int height = this.client.func_228018_at_().getScaledHeight();
+            int width = this.client.getMainWindow().getScaledWidth();
+            int height = this.client.getMainWindow().getScaledHeight();
             int baseHeight = 12;
 
             for (ClientBossInfo bossInfo : this.mapBossInfos.values())
             {
                 int realWidth = width / 2 - 91;
-                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(this.client.func_228018_at_(), bossInfo, realWidth, baseHeight, 10 + this.client.fontRenderer.FONT_HEIGHT);
+                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(this.client.getMainWindow(), bossInfo, realWidth, baseHeight, 10 + this.client.fontRenderer.FONT_HEIGHT);
 
                 if (!event.isCanceled())
                 {
@@ -67,7 +67,7 @@ public abstract class MixinBossOverlayGui extends AbstractGui
                 }
 
                 baseHeight += render ? event.getIncrement() : 12;
-                ForgeHooksClient.bossBarRenderPost(this.client.func_228018_at_());
+                ForgeHooksClient.bossBarRenderPost(this.client.getMainWindow());
 
                 if (baseHeight >= height / (render ? 3.0D : 4.5D))
                 {

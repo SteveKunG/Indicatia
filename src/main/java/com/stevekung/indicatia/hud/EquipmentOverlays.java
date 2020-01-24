@@ -47,7 +47,7 @@ public class EquipmentOverlays
             {
                 continue;
             }
-            int xBaseRight = mc.func_228018_at_().getScaledWidth() - totalWidth - 2;
+            int xBaseRight = mc.getMainWindow().getScaledWidth() - totalWidth - 2;
             equipment.render(right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
@@ -60,7 +60,7 @@ public class EquipmentOverlays
         ItemStack mainhandStack = mc.player.getHeldItemMainhand();
         ItemStack offhandStack = mc.player.getHeldItemOffhand();
         boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        int baseXOffset = right ? mc.func_228018_at_().getScaledWidth() - 18 : 2;
+        int baseXOffset = right ? mc.getMainWindow().getScaledWidth() - 18 : 2;
         int baseYOffset = ExtendedConfig.INSTANCE.armorHUDYOffset;
 
         if (ExtendedConfig.INSTANCE.equipmentArmorItems)
@@ -89,9 +89,9 @@ public class EquipmentOverlays
             String info = equipment.renderInfo();
             String arrowInfo = equipment.renderArrowInfo();
             float fontHeight = (mc.fontRenderer.FONT_HEIGHT + 7) * i;
-            float infoXOffset = right ? mc.func_228018_at_().getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
+            float infoXOffset = right ? mc.getMainWindow().getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
             float infoYOffset = baseYOffset + 4 + fontHeight;
-            float arrowXOffset = right ? mc.func_228018_at_().getScaledWidth() - ClientUtils.unicodeFontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            float arrowXOffset = right ? mc.getMainWindow().getScaledWidth() - ClientUtils.unicodeFontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
             float arrowYOffset = baseYOffset + 8 + fontHeight;
 
             EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
@@ -149,10 +149,10 @@ public class EquipmentOverlays
 
             if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
             {
-                int baseXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 111;
-                int armorYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 40;
-                float infoXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
-                int infoYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 36;
+                int baseXOffset = mc.getMainWindow().getScaledWidth() / 2 - 111;
+                int armorYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 40;
+                float infoXOffset = mc.getMainWindow().getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
+                int infoYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
@@ -162,8 +162,8 @@ public class EquipmentOverlays
                 }
                 if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
-                    float arrowXOffset = mc.func_228018_at_().getScaledWidth() / 2 - 104;
-                    int arrowYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iLeft - 32;
+                    float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 - 104;
+                    int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 32;
 
                     RenderSystem.disableDepthTest();
                     ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
@@ -173,10 +173,10 @@ public class EquipmentOverlays
             }
             else
             {
-                int baseXOffset = mc.func_228018_at_().getScaledWidth() / 2 + 95;
-                int armorYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iRight - 40;
-                float infoXOffset = mc.func_228018_at_().getScaledWidth() / 2 + 114;
-                int infoYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iRight - 36;
+                int baseXOffset = mc.getMainWindow().getScaledWidth() / 2 + 95;
+                int armorYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 40;
+                float infoXOffset = mc.getMainWindow().getScaledWidth() / 2 + 114;
+                int infoYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
@@ -186,8 +186,8 @@ public class EquipmentOverlays
                 }
                 if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
-                    float arrowXOffset = mc.func_228018_at_().getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
-                    int arrowYOffset = mc.func_228018_at_().getScaledHeight() - 16 * iRight - 32;
+                    float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
+                    int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 32;
 
                     RenderSystem.disableDepthTest();
                     ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);

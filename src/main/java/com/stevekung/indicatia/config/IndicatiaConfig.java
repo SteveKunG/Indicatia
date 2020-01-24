@@ -119,7 +119,7 @@ public class IndicatiaConfig
     }
 
     @SubscribeEvent
-    public static void onFileChange(ModConfig.ConfigReloading event)
+    public static void onFileChange(ModConfig.Reloading event)
     {
         IndicatiaMod.LOGGER.info("Indicatia config just got changed on the file system");
     }

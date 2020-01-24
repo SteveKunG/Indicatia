@@ -8,16 +8,13 @@ import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 public class InfoUtils
 {
     public static final InfoUtils INSTANCE = new InfoUtils();
     private final Minecraft mc;
-    public Entity extendedPointedEntity;
 
     private InfoUtils()
     {
@@ -110,46 +107,5 @@ public class InfoUtils
         int z = MathHelper.intFloorDiv(pos.getZ(), 16);
         Random rand = new Random(ExtendedConfig.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rand.nextInt(10) == 0;
-    }
-
-    public void getMouseOverEntityExtended(Minecraft mc)
-    {
-        Entity entity = mc.getRenderViewEntity();
-        double distance = 12.0D;
-
-        if (entity != null)
-        {
-            this.extendedPointedEntity = null;
-            mc.objectMouseOver = entity.pick(distance, mc.getRenderPartialTicks(), false);
-            Vec3d eyePos = entity.getEyePosition(mc.getRenderPartialTicks());
-            distance *= distance;
-
-            if (mc.objectMouseOver != null)
-            {
-                distance = mc.objectMouseOver.getHitVec().squareDistanceTo(eyePos);
-            }
-
-            Vec3d vecLook = entity.getLook(1.0F);
-            Vec3d vec3d2 = eyePos.add(vecLook.x * distance, vecLook.y * distance, vecLook.z * distance);
-            AxisAlignedBB axisalignedbb = entity.getBoundingBox().expand(vecLook.scale(distance)).expand(1.0D, 1.0D, 1.0D);
-            EntityRayTraceResult result = ProjectileHelper.rayTraceEntities(entity, eyePos, vec3d2, axisalignedbb, entityFilter -> !entityFilter.isSpectator() && entityFilter.canBeCollidedWith(), distance);
-
-            if (result != null)
-            {
-                Entity pointedEntity = result.getEntity();
-                Vec3d hitVec = result.getHitVec();
-                double pointedDist = eyePos.squareDistanceTo(hitVec);
-
-                if (pointedDist < distance || mc.objectMouseOver == null)
-                {
-                    mc.objectMouseOver = result;
-
-                    if (pointedEntity instanceof LivingEntity)
-                    {
-                        this.extendedPointedEntity = pointedEntity;
-                    }
-                }
-            }
-        }
     }
 }

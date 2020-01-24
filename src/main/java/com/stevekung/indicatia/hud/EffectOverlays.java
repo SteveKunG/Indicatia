@@ -34,18 +34,18 @@ public class EffectOverlays
 
         if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
         {
-            xPotion = mc.func_228018_at_().getScaledWidth() / 2 - 91 - 35;
-            yPotion = mc.func_228018_at_().getScaledHeight() - 46;
+            xPotion = mc.getMainWindow().getScaledWidth() / 2 - 91 - 35;
+            yPotion = mc.getMainWindow().getScaledHeight() - 46;
         }
         else if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
         {
-            xPotion = mc.func_228018_at_().getScaledWidth() / 2 + 91 - 20;
-            yPotion = mc.func_228018_at_().getScaledHeight() - 42;
+            xPotion = mc.getMainWindow().getScaledWidth() / 2 + 91 - 20;
+            yPotion = mc.getMainWindow().getScaledHeight() - 42;
         }
         else
         {
-            xPotion = right ? mc.func_228018_at_().getScaledWidth() - 32 : -24;
-            yPotion = mc.func_228018_at_().getScaledHeight() - 220 + ExtendedConfig.INSTANCE.potionHUDYOffset + 90;
+            xPotion = right ? mc.getMainWindow().getScaledWidth() - 32 : -24;
+            yPotion = mc.getMainWindow().getScaledHeight() - 220 + ExtendedConfig.INSTANCE.potionHUDYOffset + 90;
         }
 
         if (!collection.isEmpty())
@@ -69,7 +69,7 @@ public class EffectOverlays
 
                 RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
                 RenderSystem.disableLighting();
-                mc.getTextureManager().bindTexture(sprite.func_229241_m_().func_229223_g_());
+                mc.getTextureManager().bindTexture(sprite.getAtlasTexture().getBasePath());
 
                 Effect effect = effectIns.getPotion();
                 int amplifier = effectIns.getAmplifier();

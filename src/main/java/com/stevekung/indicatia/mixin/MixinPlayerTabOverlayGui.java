@@ -157,7 +157,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         }
 
         AbstractGui.fill(width / 2 - l1 / 2 - 1, yOffset - 1, width / 2 + l1 / 2 + 1, yOffset + playerCount * 9, Integer.MIN_VALUE);
-        int l4 = this.mc.gameSettings.func_216839_a(553648127);
+        int l4 = this.mc.gameSettings.getChatBackgroundColor(553648127);
 
         for (int size = 0; size < playerListSize; ++size)
         {

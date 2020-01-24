@@ -55,26 +55,26 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
     }
 
     @Override
-    public void func_225623_a_(Entity entity, float yaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int color)
+    public void render(Entity entity, float yaw, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int color)
     {
         PlayerEntity player = ((FishingBobberEntity)entity).getAngler();
 
         if (player != null)
         {
-            stack.func_227860_a_();
-            stack.func_227860_a_();
-            stack.func_227862_a_(0.5F, 0.5F, 0.5F);
-            stack.func_227863_a_(this.renderManager.func_229098_b_());
-            stack.func_227863_a_(Vector3f.field_229181_d_.func_229187_a_(180.0F));
-            MatrixStack.Entry matrixstack$entry = stack.func_227866_c_();
-            Matrix4f matrix4f = matrixstack$entry.func_227870_a_();
-            Matrix3f matrix3f = matrixstack$entry.func_227872_b_();
+            stack.push();
+            stack.push();
+            stack.scale(0.5F, 0.5F, 0.5F);
+            stack.rotate(this.renderManager.getCameraOrientation());
+            stack.rotate(Vector3f.YP.rotationDegrees(180.0F));
+            MatrixStack.Entry matrixstack$entry = stack.getLast();
+            Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
+            Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
             IVertexBuilder ivertexbuilder = buffer.getBuffer(field_229103_e_);
             MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 0.0F, 0, 0, 1);
             MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 1.0F, 0, 1, 1);
             MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 1.0F, 1, 1, 0);
             MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 0.0F, 1, 0, 0);
-            stack.func_227865_b_();
+            stack.pop();
             int i = player.getPrimaryHand() == HandSide.RIGHT ? 1 : -1;
             ItemStack itemstack = player.getHeldItemMainhand();
 
@@ -104,37 +104,37 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
                 vec3d = vec3d.rotateYaw(-MathHelper.lerp(partialTicks, player.prevRotationYaw, player.rotationYaw) * ((float)Math.PI / 180F));
                 vec3d = vec3d.rotateYaw(f1 * 0.5F);
                 vec3d = vec3d.rotatePitch(-f1 * 0.7F);
-                d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.func_226277_ct_()) + vec3d.x;
-                d5 = MathHelper.lerp(partialTicks, player.prevPosY, player.func_226278_cu_()) + vec3d.y;
-                d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.func_226281_cx_()) + vec3d.z;
+                d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.getPosX()) + vec3d.x;
+                d5 = MathHelper.lerp(partialTicks, player.prevPosY, player.getPosY()) + vec3d.y;
+                d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.getPosZ()) + vec3d.z;
                 f3 = player.getEyeHeight();
             }
             else
             {
                 double xz = player.isCrouching() ? 0.775D : IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.9D : 0.8D;
-                d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.func_226277_ct_()) - d1 * d2 - d0 * xz;
-                d5 = player.prevPosY + player.getEyeHeight() + (player.func_226278_cu_() - player.prevPosY) * partialTicks - (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.4D : 0.45D);
-                d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.func_226281_cx_()) - d0 * d2 + d1 * xz;
+                d4 = MathHelper.lerp(partialTicks, player.prevPosX, player.getPosX()) - d1 * d2 - d0 * xz;
+                d5 = player.prevPosY + player.getEyeHeight() + (player.getPosY() - player.prevPosY) * partialTicks - (IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? 0.4D : 0.45D);
+                d6 = MathHelper.lerp(partialTicks, player.prevPosZ, player.getPosZ()) - d0 * d2 + d1 * xz;
                 f3 = player.isCrouching() ? IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() ? -0.55F : -0.1875F : 0.0F;
                 dz = IndicatiaConfig.GENERAL.enableOldFishingRodRender.get() && player.isCrouching() ? 0.01F : 0.0F;
             }
 
-            double d9 = MathHelper.lerp(partialTicks, entity.prevPosX, entity.func_226277_ct_());
-            double d10 = MathHelper.lerp(partialTicks, entity.prevPosY, entity.func_226278_cu_()) + 0.25D;
-            double d8 = MathHelper.lerp(partialTicks, entity.prevPosZ, entity.func_226281_cx_());
+            double d9 = MathHelper.lerp(partialTicks, entity.prevPosX, entity.getPosX());
+            double d10 = MathHelper.lerp(partialTicks, entity.prevPosY, entity.getPosY()) + 0.25D;
+            double d8 = MathHelper.lerp(partialTicks, entity.prevPosZ, entity.getPosZ());
             float f4 = (float)(d4 - d9) + dz;
             float f5 = (float)(d5 - d10) + f3;
             float f6 = (float)(d6 - d8);
-            IVertexBuilder ivertexbuilder1 = buffer.getBuffer(RenderType.func_228659_m_());
-            Matrix4f matrix4f1 = stack.func_227866_c_().func_227870_a_();
+            IVertexBuilder ivertexbuilder1 = buffer.getBuffer(RenderType.lines());
+            Matrix4f matrix4f1 = stack.getLast().getPositionMatrix();
 
             for (int k = 0; k < 16; ++k)
             {
                 MixinFishRenderer.func_229104_a_(f4, f5, f6, ivertexbuilder1, matrix4f1, MixinFishRenderer.func_229105_a_(k, 16));
                 MixinFishRenderer.func_229104_a_(f4, f5, f6, ivertexbuilder1, matrix4f1, MixinFishRenderer.func_229105_a_(k + 1, 16));
             }
-            stack.func_227865_b_();
-            super.func_225623_a_(entity, yaw, partialTicks, stack, buffer, color);
+            stack.pop();
+            super.render(entity, yaw, partialTicks, stack, buffer, color);
         }
     }
 }

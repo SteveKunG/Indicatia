@@ -15,7 +15,6 @@ import com.stevekung.indicatia.gui.screen.ConfirmDisconnectScreen;
 import com.stevekung.indicatia.gui.screen.MojangStatusScreen;
 import com.stevekung.indicatia.gui.widget.MojangStatusButton;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
-import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -127,7 +126,7 @@ public class IndicatiaEventHandler
         boolean flag4 = player.getFoodStats().getFoodLevel() > 6.0F || player.abilities.allowFlying;
 
         // Fixed vanilla toggle sprint
-        if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.field_228045_Z_)
+        if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.sprintToggleState)
         {
             player.setSprinting(true);
         }
@@ -164,15 +163,6 @@ public class IndicatiaEventHandler
     public void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event)
     {
         IndicatiaEventHandler.stopCommandTicks();
-    }
-
-    @SubscribeEvent
-    public void onRenderTick(TickEvent.RenderTickEvent event)
-    {
-        if (event.phase == TickEvent.Phase.START)
-        {
-            InfoUtils.INSTANCE.getMouseOverEntityExtended(this.mc);
-        }
     }
 
     @SubscribeEvent
