@@ -66,7 +66,6 @@
     "_comment": "EXTENDED CONFIG",
     "extended_config.preview": "Preview",
     "extended_config.swap_info_pos": "Swap Render Info",
-    "extended_config.health_status": "Health Status",
     "extended_config.equipment_direction": "Equipment Direction",
     "extended_config.equipment_status": "Equipment Status",
     "extended_config.equipment_position": "Equipment Position",
@@ -134,8 +133,6 @@
     "extended_config.right_click_add_party": "Right Click to Add Party",
 
     "_comment": "EXTENDED CONFIG VALUE",
-    "health_status.always": "Always",
-    "health_status.pointed": "Pointed",
     "indicatia.disabled": "Disabled",
     "indicatia.left": "Left",
     "indicatia.right": "Right",

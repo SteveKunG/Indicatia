@@ -16,7 +16,6 @@ import com.stevekung.indicatia.gui.screen.ConfirmDisconnectScreen;
 import com.stevekung.indicatia.gui.screen.MojangStatusScreen;
 import com.stevekung.indicatia.gui.widget.MojangStatusButton;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
-import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -182,15 +181,6 @@ public class IndicatiaEventHandler
     public void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event)
     {
         IndicatiaEventHandler.stopCommandTicks();
-    }
-
-    @SubscribeEvent
-    public void onRenderTick(TickEvent.RenderTickEvent event)
-    {
-        if (event.phase == TickEvent.Phase.START)
-        {
-            InfoUtils.INSTANCE.getMouseOverEntityExtended(this.mc);
-        }
     }
 
     @SubscribeEvent

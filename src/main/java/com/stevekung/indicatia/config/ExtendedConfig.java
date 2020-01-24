@@ -53,7 +53,6 @@ public class ExtendedConfig
 
     // Main
     public boolean swapRenderInfo = false;
-    public HealthStatusMode healthStatusMode = HealthStatusMode.DISABLED;
     public Equipments.Direction equipmentDirection = Equipments.Direction.VERTICAL;
     public Equipments.Status equipmentStatus = Equipments.Status.DAMAGE_AND_MAX_DAMAGE;
     public Equipments.Position equipmentPosition = Equipments.Position.HOTBAR;
@@ -153,7 +152,6 @@ public class ExtendedConfig
     public static final BooleanConfigOption RIGHT_CLICK_ADD_PARTY = new BooleanConfigOption("right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
 
 
-    public static final StringConfigOption HEALTH_STATUS = new StringConfigOption("health_status", (config, value) -> config.healthStatusMode = HealthStatusMode.byId(config.healthStatusMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.healthStatusMode.getTranslationKey()));
     public static final StringConfigOption EQUIPMENT_DIRECTION = new StringConfigOption("equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentDirection.getTranslationKey()));
     public static final StringConfigOption EQUIPMENT_STATUS = new StringConfigOption("equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentStatus.getTranslationKey()));
     public static final StringConfigOption EQUIPMENT_POSITION = new StringConfigOption("equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentPosition.getTranslationKey()));
@@ -242,7 +240,6 @@ public class ExtendedConfig
             // Main
             this.swapRenderInfo = this.getBoolean(nbt, "SwapRenderInfo", this.swapRenderInfo);
             this.showCustomCape = this.getBoolean(nbt, "ShowCustomCape", this.showCustomCape);
-            this.healthStatusMode = HealthStatusMode.byId(this.getInteger(nbt, "HealthStatusMode", this.healthStatusMode.getId()));
             this.equipmentDirection = Equipments.Direction.byId(this.getInteger(nbt, "EquipmentDirection", this.equipmentDirection.getId()));
             this.equipmentStatus = Equipments.Status.byId(this.getInteger(nbt, "EquipmentStatus", this.equipmentStatus.getId()));
             this.equipmentPosition = Equipments.Position.byId(this.getInteger(nbt, "EquipmentPosition", this.equipmentPosition.getId()));
@@ -353,7 +350,6 @@ public class ExtendedConfig
             // Main
             nbt.putBoolean("ShowCustomCape", this.showCustomCape);
             nbt.putBoolean("SwapRenderInfo", this.swapRenderInfo);
-            nbt.putInt("HealthStatusMode", this.healthStatusMode.getId());
             nbt.putInt("EquipmentDirection", this.equipmentDirection.getId());
             nbt.putInt("EquipmentStatus", this.equipmentStatus.getId());
             nbt.putInt("EquipmentPosition", this.equipmentPosition.getId());

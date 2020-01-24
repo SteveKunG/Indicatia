@@ -6,29 +6,20 @@ import java.util.List;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.config.HealthStatusMode;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ArmorStandEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.text.Style;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -147,27 +138,6 @@ public class HUDRenderEventHandler
             if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
             {
                 event.setCanceled(true);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post<LivingEntity, EntityModel<LivingEntity>> event)
-    {
-        LivingEntity entity = event.getEntity();
-        float health = entity.getHealth();
-        boolean halfHealth = health <= entity.getMaxHealth() / 2F;
-        boolean halfHealth1 = health <= entity.getMaxHealth() / 4F;
-        double distance = entity.getDistanceSq(this.mc.getRenderManager().info.getProjectedView());
-        boolean flag = ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.DISABLED && (ExtendedConfig.INSTANCE.healthStatusMode != HealthStatusMode.POINTED || entity == InfoUtils.INSTANCE.extendedPointedEntity);
-        Style color = halfHealth ? JsonUtils.RED : halfHealth1 ? JsonUtils.DARK_RED : JsonUtils.GREEN;
-
-        if (distance < 1024.0D)
-        {
-            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof ClientPlayerEntity || entity instanceof ArmorStandEntity) && !InfoUtils.INSTANCE.isHypixel())
-            {
-                String heart = JsonUtils.create("\u2764 ").setStyle(color).getFormattedText();
-                GameRenderer.drawNameplate(this.mc.fontRenderer, heart + String.format("%.1f", health), (float)event.getX(), (float)event.getY(), (float)event.getZ(), 0, this.mc.getRenderManager().playerViewY, this.mc.getRenderManager().playerViewX, entity.shouldRenderSneaking());
             }
         }
     }
