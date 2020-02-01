@@ -73,8 +73,10 @@ repositories {
     }
 }
 
-mixin {
-    add sourceSets.main, "mixins.indicatia.refmap.json"
+sourceSets {
+    main {
+        ext.refMap = "mixins.indicatia.refmap.json"
+    }
 }
 
 jar {
