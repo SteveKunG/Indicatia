@@ -43,17 +43,8 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     }
 
     @Override
-    public void render(List<Widget> buttons, int mouseX, int mouseY, float partialTicks)
+    public void renderPre(List<Widget> buttons, int mouseX, int mouseY, float partialTicks)
     {
-        for (Widget button : buttons)
-        {
-            if (button instanceof MinigameButton)
-            {
-                MinigameButton customButton = (MinigameButton) button;
-                customButton.render(mouseX, mouseY);
-            }
-        }
-
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
@@ -62,6 +53,19 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             int y = mc.currentScreen.height - 30;
             AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
             mc.fontRenderer.drawStringWithShadow(chatMode, x, y, ColorUtils.rgbToDecimal(255, 255, 255));
+        }
+    }
+
+    @Override
+    public void renderPost(List<Widget> buttons, int mouseX, int mouseY, float partialTicks)
+    {
+        for (Widget button : buttons)
+        {
+            if (button instanceof MinigameButton)
+            {
+                MinigameButton customButton = (MinigameButton) button;
+                customButton.render(mouseX, mouseY);
+            }
         }
     }
 
