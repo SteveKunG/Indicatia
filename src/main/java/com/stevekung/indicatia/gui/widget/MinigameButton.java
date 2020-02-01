@@ -17,7 +17,7 @@ public class MinigameButton extends Button
     private static final ResourceLocation PLAY = new ResourceLocation("indicatia:textures/gui/play_icon.png");
     private final boolean isPlay;
     private final String tooltips;
-    public final String command;
+    private final String command;
 
     public MinigameButton(int parentWidth, String tooltips, String command, boolean isPlay)
     {
@@ -37,20 +37,18 @@ public class MinigameButton extends Button
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
-        if (this.visible)
-        {
-            this.mc.getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
-        }
+        this.mc.getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+        AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
     }
 
     public void render(int mouseX, int mouseY)
     {
-        if (this.visible && this.isMouseOver(mouseX, mouseY))
+        if (this.isMouseOver(mouseX, mouseY))
         {
             GuiUtils.drawHoveringText(Collections.singletonList(this.tooltips), mouseX, mouseY, this.mc.currentScreen.width, this.mc.currentScreen.height, 128, this.mc.fontRenderer);
+            GlStateManager.disableLighting();
         }
     }
 }
