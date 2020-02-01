@@ -355,9 +355,9 @@ public class IndicatiaEventHandler
                                 BlockRayTraceResult blockRayTrace = (BlockRayTraceResult)mc.objectMouseOver;
                                 ActionResultType result = mc.playerController.func_217292_a(mc.player, mc.world, hand, blockRayTrace);
 
-                                if (result.func_226246_a_())
+                                if (result.isSuccessOrConsume())
                                 {
-                                    if (result.func_226247_b_())
+                                    if (result.isSuccess())
                                     {
                                         mc.player.swingArm(hand);
                                     }
@@ -381,9 +381,9 @@ public class IndicatiaEventHandler
                         {
                             ActionResultType result = mc.playerController.processRightClick(mc.player, mc.world, hand);
 
-                            if (result.func_226246_a_())
+                            if (result.isSuccessOrConsume())
                             {
-                                if (result.func_226247_b_())
+                                if (result.isSuccess())
                                 {
                                     mc.player.swingArm(hand);
                                 }
