@@ -51,6 +51,11 @@ public class InfoOverlay
         return this.pos;
     }
 
+    public boolean isEmpty()
+    {
+        return this.isEmpty;
+    }
+
     @Override
     public String toString()
     {
@@ -63,17 +68,12 @@ public class InfoOverlay
         return this.isEmpty ? "" : builder.toString();
     }
 
-    public boolean isEmpty()
-    {
-        return this.isEmpty;
-    }
-
     public static InfoOverlay empty()
     {
         return new InfoOverlay();
     }
 
-    public static enum Position
+    public enum Position
     {
         LEFT, RIGHT;
     }
