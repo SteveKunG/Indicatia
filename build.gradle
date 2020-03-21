@@ -114,7 +114,7 @@ curseforge {
         id = "272146"
         changelog = "Change Log"
         changelogType = "text"
-        releaseType = "beta"
+        releaseType = "release"
         addGameVersion mcVersion
 
         mainArtifact(jar) {
