@@ -16,10 +16,8 @@ public class MojangStatusScreen extends Screen
 {
     private List<String> statusList = new CopyOnWriteArrayList<>();
     private final Screen parent;
-    private Button doneButton;
     private Button checkButton;
-    private Button refreshButton;
-    private int state = -1;
+    private boolean check;
 
     public MojangStatusScreen(Screen parent)
     {
@@ -30,18 +28,11 @@ public class MojangStatusScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(this.doneButton = new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             this.minecraft.displayGuiScreen(this.parent);
         }));
-        this.addButton(this.refreshButton = new Button(this.width / 2 + 1, this.height / 6 + 145, 100, 20, LangUtils.translate("selectServer.refresh"), button ->
-        {
-            this.statusList.clear();
-            this.checkButton.active = true;
-            this.refreshButton.active = false;
-            this.state = -1;
-        }));
-        this.addButton(this.checkButton = new Button(this.width / 2 - 101, this.height / 6 + 145, 100, 20, LangUtils.translate("menu.check"), button ->
+        this.addButton(this.checkButton = new Button(this.width / 2 - 101, this.height / 6 + 145, 200, 20, LangUtils.translate("menu.check"), button ->
         {
             this.statusList.clear();
             Thread thread = new Thread(() ->
@@ -51,36 +42,21 @@ public class MojangStatusScreen extends Screen
                     MojangServerStatus status = checker.getStatus();
                     this.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
                 }
-                this.state = 2;
-                this.refreshButton.active = true;
-                this.doneButton.active = true;
+                this.check = false;
+                this.checkButton.active = true;
             });
 
             if (thread.getState() == Thread.State.NEW)
             {
-                this.state = 1;
+                this.check = true;
                 thread.start();
                 this.checkButton.active = false;
-                this.refreshButton.active = false;
-                this.doneButton.active = false;
             }
         }));
 
-        if (this.state == 1)
+        if (this.check)
         {
             this.checkButton.active = false;
-            this.refreshButton.active = false;
-            this.doneButton.active = false;
-        }
-        else if (this.state == 2)
-        {
-            this.checkButton.active = false;
-            this.refreshButton.active = true;
-            this.doneButton.active = true;
-        }
-        else
-        {
-            this.refreshButton.active = false;
         }
     }
 
@@ -90,17 +66,6 @@ public class MojangStatusScreen extends Screen
         List<String> temp = this.statusList;
         this.statusList = temp;
         super.resize(mc, width, height);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
-    {
-        if (this.doneButton.active && keyCode == 1)
-        {
-            this.statusList.clear();
-            this.minecraft.displayGuiScreen(this.parent);
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
