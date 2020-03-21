@@ -37,7 +37,7 @@ public class IndicatiaMod
     private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
     private static final File PROFILE = new File(ExtendedConfig.USER_DIR, "profile.txt");
     public static VersionChecker CHECKER;
-    public static boolean isGalacticraftLoaded;
+    public static boolean GALACTICRAFT_LOADED;
     public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
 
     static
@@ -53,7 +53,7 @@ public class IndicatiaMod
         CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
         CommonUtils.registerModEventBus(IndicatiaConfig.class);
 
-        IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
+        IndicatiaMod.GALACTICRAFT_LOADED = ModList.get().isLoaded("galacticraftcore");
     }
 
     private void phaseOne(FMLCommonSetupEvent event)

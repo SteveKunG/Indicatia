@@ -67,7 +67,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
     @Inject(method = "render(IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
-        if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
+        if (IndicatiaConfig.GENERAL.multiplayerScreenEnhancement.get())
         {
             if (!this.server.pinged)
             {

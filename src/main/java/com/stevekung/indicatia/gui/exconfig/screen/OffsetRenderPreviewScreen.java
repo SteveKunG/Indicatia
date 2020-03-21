@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.hud.EffectOverlays;
@@ -27,6 +28,7 @@ public class OffsetRenderPreviewScreen extends Screen
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        GlStateManager.enableBlend();
         EffectOverlays.renderPotionHUD(this.minecraft);
 
         if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)

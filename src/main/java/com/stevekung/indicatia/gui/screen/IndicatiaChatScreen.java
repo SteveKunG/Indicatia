@@ -59,12 +59,15 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     @Override
     public void renderPost(List<Widget> buttons, int mouseX, int mouseY, float partialTicks)
     {
-        for (Widget button : buttons)
+        if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
         {
-            if (button instanceof MinigameButton)
+            for (Widget button : buttons)
             {
-                MinigameButton customButton = (MinigameButton) button;
-                customButton.render(mouseX, mouseY);
+                if (button instanceof MinigameButton)
+                {
+                    MinigameButton customButton = (MinigameButton) button;
+                    customButton.render(mouseX, mouseY);
+                }
             }
         }
     }
@@ -72,7 +75,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     @Override
     public void tick(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
     {
-        if (InfoUtils.INSTANCE.isHypixel())
+        if (InfoUtils.INSTANCE.isHypixel() && IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
         {
             if (this.prevSelect != ExtendedConfig.INSTANCE.selectedHypixelMinigame)
             {
@@ -102,7 +105,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double wheel)
     {
-        if (this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
+        if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get() && this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
         {
             if (wheel > 1.0D)
             {
@@ -159,7 +162,6 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
             String max = Collections.max(list, Comparator.comparing(String::length));
             int length = mc.fontRenderer.getStringWidth(max) + 32;
 
-            // hypixel chat
             if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
             {
                 buttons.add(new Button(width - 23, height - 35, 20, 20, "A", button ->
@@ -181,68 +183,72 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
                     ExtendedConfig.INSTANCE.chatMode = 2;
                 }));
             }
-            buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
-            this.dropdown.setWidth(length);
-            this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
 
-            List<MinigameButton> gameBtn = new ArrayList<>();
-            int xPos2 = width - 99;
-
-            if (this.prevSelect > list.size())
+            if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
             {
-                this.prevSelect = 0;
-                ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
-                ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
-            }
+                buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
+                this.dropdown.setWidth(length);
+                this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
 
-            for (MinigameData data : MinigameData.getMinigames())
-            {
-                for (MinigameCommand command : data.getCommands())
+                List<MinigameButton> gameBtn = new ArrayList<>();
+                int xPos2 = width - 99;
+
+                if (this.prevSelect > list.size())
                 {
-                    if (data.getName().equals(list.get(this.prevSelect)))
+                    this.prevSelect = 0;
+                    ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
+                    ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
+                }
+
+                for (MinigameData data : MinigameData.getMinigames())
+                {
+                    for (MinigameCommand command : data.getCommands())
                     {
-                        gameBtn.add(new MinigameButton(width, command.getName(), command.getCommand(), command.isMinigame()));
+                        if (data.getName().equals(list.get(this.prevSelect)))
+                        {
+                            gameBtn.add(new MinigameButton(width, command.getName(), command.getCommand(), command.isMinigame()));
+                        }
                     }
                 }
+
+                for (int i = 0; i < gameBtn.size(); i++)
+                {
+                    MinigameButton button = gameBtn.get(i);
+
+                    if (i >= 6 && i <= 10)
+                    {
+                        button.x = xPos2 - 136;
+                        button.y = 41;
+                    }
+                    else if (i >= 11 && i <= 15)
+                    {
+                        button.x = xPos2 - 241;
+                        button.y = 62;
+                    }
+                    else if (i >= 16 && i <= 20)
+                    {
+                        button.x = xPos2 - 346;
+                        button.y = 83;
+                    }
+                    else if (i >= 21)
+                    {
+                        button.x = xPos2 - 451;
+                        button.y = 104;
+                    }
+                    button.x += 21 * i;
+                    buttons.add(button);
+                }
             }
 
-            for (int i = 0; i < gameBtn.size(); i++)
+            for (Widget button : buttons)
             {
-                MinigameButton button = gameBtn.get(i);
-
-                if (i >= 6 && i <= 10)
+                if (button instanceof MinigameButton)
                 {
-                    button.x = xPos2 - 136;
-                    button.y = 41;
+                    button.visible = false;
                 }
-                else if (i >= 11 && i <= 15)
-                {
-                    button.x = xPos2 - 241;
-                    button.y = 62;
-                }
-                else if (i >= 16 && i <= 20)
-                {
-                    button.x = xPos2 - 346;
-                    button.y = 83;
-                }
-                else if (i >= 21)
-                {
-                    button.x = xPos2 - 451;
-                    button.y = 104;
-                }
-                button.x += 21 * i;
-                buttons.add(button);
             }
+            children.addAll(buttons);
         }
-
-        for (Widget button : buttons)
-        {
-            if (button instanceof MinigameButton)
-            {
-                button.visible = false;
-            }
-        }
-        children.addAll(buttons);
     }
 
     public enum ChatMode

@@ -37,6 +37,10 @@ public class MinigameButton extends Button
     @Override
     public void render(int mouseX, int mouseY, float partialTicks)
     {
+        if (!this.visible)
+        {
+            return;
+        }
         this.mc.getTextureManager().bindTexture(this.isPlay ? MinigameButton.PLAY : MinigameButton.MAIN);
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
@@ -45,7 +49,7 @@ public class MinigameButton extends Button
 
     public void render(int mouseX, int mouseY)
     {
-        if (this.isMouseOver(mouseX, mouseY))
+        if (this.visible && this.isMouseOver(mouseX, mouseY))
         {
             GuiUtils.drawHoveringText(Collections.singletonList(this.tooltips), mouseX, mouseY, this.mc.currentScreen.width, this.mc.currentScreen.height, 128, this.mc.fontRenderer);
             GlStateManager.disableLighting();

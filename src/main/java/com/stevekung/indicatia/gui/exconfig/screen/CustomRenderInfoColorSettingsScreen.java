@@ -17,7 +17,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigTextFieldWidgetList optionsRowList;
-    private static ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.FPS_COLOR, ExtendedConfig.XYZ_COLOR, ExtendedConfig.BIOME_COLOR, ExtendedConfig.DIRECTION_COLOR, ExtendedConfig.PING_COLOR, ExtendedConfig.PING_TO_SECOND_COLOR,
+    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.FPS_COLOR, ExtendedConfig.XYZ_COLOR, ExtendedConfig.BIOME_COLOR, ExtendedConfig.DIRECTION_COLOR, ExtendedConfig.PING_COLOR, ExtendedConfig.PING_TO_SECOND_COLOR,
             ExtendedConfig.SERVER_IP_COLOR, ExtendedConfig.EQUIPMENT_STATUS_COLOR, ExtendedConfig.ARROW_COUNT_COLOR, ExtendedConfig.SLIME_CHUNK_COLOR, ExtendedConfig.TPS_COLOR, ExtendedConfig.REAL_TIME_COLOR,
             ExtendedConfig.GAME_TIME_COLOR, ExtendedConfig.GAME_WEATHER_COLOR, ExtendedConfig.MOON_PHASE_COLOR, ExtendedConfig.FPS_VALUE_COLOR, ExtendedConfig.FPS_26_AND_40_COLOR, ExtendedConfig.FPS_LOW_25_COLOR, ExtendedConfig.XYZ_VALUE_COLOR, ExtendedConfig.DIRECTION_VALUE_COLOR,
             ExtendedConfig.BIOME_VALUE_COLOR, ExtendedConfig.PING_VALUE_COLOR, ExtendedConfig.PING_200_AND_300_COLOR, ExtendedConfig.PING_300_AND_500_COLOR, ExtendedConfig.PING_MAX_500_COLOR, ExtendedConfig.SERVER_IP_VALUE_COLOR,

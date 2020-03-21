@@ -58,9 +58,9 @@ public class HUDRenderEventHandler
             GlStateManager.enableDepthTest();
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
+        if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
             {
                 event.setCanceled(true);
             }
@@ -125,17 +125,9 @@ public class HUDRenderEventHandler
                 }
             }
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
+        else
         {
             if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
-            {
-                event.setCanceled(true);
-                return;
-            }
-        }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
-        {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
             {
                 event.setCanceled(true);
             }
