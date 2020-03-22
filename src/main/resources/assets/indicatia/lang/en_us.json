@@ -187,7 +187,7 @@
     "hud.real_time": "Time",
 
     "_comment": "KEY BINDING",
-    "key.indicatia.category": "Indicatia",
+    "key.indicatia.categories": "Indicatia",
     "key.toggle_sprint.desc": "Toggle Sprint",
     "key.toggle_sneak.desc": "Toggle Sneak",
     "key.quick_config.desc": "Quick Config GUI",
