@@ -17,6 +17,8 @@ plugins {
 }
 
 def mcVersion = project.mc_version
+def username = project.username
+def password = project.password
 
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "org.spongepowered.mixin"
@@ -32,35 +34,20 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 minecraft {
     mappings channel: "stable", version: "${mcp_mapping}"
-    accessTransformer = file("$rootDir/libs/accesstransformer.cfg")
+    accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {
         client = {
-            workingDirectory project.file("run").canonicalPath
+            workingDirectory project.file("run")
             source sourceSets.main
-
-            mods {
-                indicatia {
-                    source sourceSets.main
-                }
-            }
-        }
-        server = {
-            workingDirectory project.file("run").canonicalPath
-            source sourceSets.main
-
-            mods {
-                indicatia {
-                    source sourceSets.main
-                }
-            }
+            args "--mixin", "mixins.indicatia.json", "--username", username, "--password", password
         }
     }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile files("libs/SteveKunG's-Lib-${mc_version}-2.0.0-deobf.jar")
+    compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:2.0.0:deobf"
     compile "org.spongepowered:mixin:0.8.1-SNAPSHOT"
 }
 
@@ -70,6 +57,9 @@ repositories {
     }
     maven {
         url "http://repo.spongepowered.org/maven/"
+    }
+    maven {
+        url = "https://minecraft.curseforge.com/api/maven/"
     }
 }
 
@@ -113,7 +103,7 @@ curseforge {
     project {
         id = "272146"
         changelog = "Change Log"
-        changelogType = "text"
+        changelogType = "html"
         releaseType = "release"
         addGameVersion mcVersion
 
