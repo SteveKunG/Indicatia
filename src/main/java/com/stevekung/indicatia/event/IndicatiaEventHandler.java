@@ -128,23 +128,11 @@ public class IndicatiaEventHandler
         MovementInput movement = event.getMovementInput();
         PlayerEntity player = event.getPlayer();
 
-        // canceled turn back
-        if (KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown())
-        {
-            ++movement.moveForward;
-        }
-
         // toggle sneak
         movement.sneak = this.mc.gameSettings.keyBindSneak.isKeyDown() || ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator();
 
-        if (ExtendedConfig.INSTANCE.toggleSneak && !player.isSpectator() && !player.isCreative())
-        {
-            movement.moveStrafe = (float)(movement.moveStrafe * 0.3D);
-            movement.moveForward = (float)(movement.moveForward * 0.3D);
-        }
-
         // toggle sprint
-        if (ExtendedConfig.INSTANCE.toggleSprint && !player.isPotionActive(Effects.BLINDNESS) && !ExtendedConfig.INSTANCE.toggleSneak)
+        if (ExtendedConfig.INSTANCE.toggleSprint && !movement.sneak && !player.isPotionActive(Effects.BLINDNESS))
         {
             player.setSprinting(true);
         }
