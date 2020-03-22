@@ -107,7 +107,7 @@ public class IndicatiaEventHandler
                 {
                     if (action != UseAction.NONE)
                     {
-                        if (IndicatiaConfig.GENERAL.enableAdditionalBlockhitAnimation.get() && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.getType() == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getUseAction() == action)
+                        if (IndicatiaConfig.GENERAL.enableBlockhitAnimation.get() && this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.objectMouseOver != null && this.mc.objectMouseOver.getType() == RayTraceResult.Type.BLOCK && !this.mc.player.getHeldItemMainhand().isEmpty() && this.mc.player.getHeldItemMainhand().getUseAction() == action)
                         {
                             this.mc.player.swingArm(Hand.MAIN_HAND);
                         }
@@ -126,7 +126,7 @@ public class IndicatiaEventHandler
         boolean flag4 = player.getFoodStats().getFoodLevel() > 6.0F || player.abilities.allowFlying;
 
         // Fixed vanilla toggle sprint
-        if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.sprintToggleState)
+        if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.toggleSprint)
         {
             player.setSprinting(true);
         }

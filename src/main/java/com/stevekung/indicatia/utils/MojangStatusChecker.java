@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.utils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -41,9 +40,8 @@ public enum MojangStatusChecker
         try
         {
             URL url = new URL("http://status.mojang.com/check?service=" + this.serviceURL);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
-            JsonElement jsonElement = new JsonParser().parse(bufferedReader).getAsJsonObject().get(this.serviceURL);
-            return MojangServerStatus.get(jsonElement.getAsString());
+            JsonElement element = new JsonParser().parse(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)).getAsJsonObject().get(this.serviceURL);
+            return MojangServerStatus.get(element.getAsString());
         }
         catch (IOException e)
         {

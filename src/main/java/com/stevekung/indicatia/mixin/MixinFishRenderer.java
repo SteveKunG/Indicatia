@@ -67,8 +67,8 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
             stack.rotate(this.renderManager.getCameraOrientation());
             stack.rotate(Vector3f.YP.rotationDegrees(180.0F));
             MatrixStack.Entry matrixstack$entry = stack.getLast();
-            Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
-            Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
+            Matrix4f matrix4f = matrixstack$entry.getMatrix();
+            Matrix3f matrix3f = matrixstack$entry.getNormal();
             IVertexBuilder ivertexbuilder = buffer.getBuffer(field_229103_e_);
             MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 0.0F, 0, 0, 1);
             MixinFishRenderer.func_229106_a_(ivertexbuilder, matrix4f, matrix3f, color, 1.0F, 0, 1, 1);
@@ -125,8 +125,8 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
             float f4 = (float)(d4 - d9) + dz;
             float f5 = (float)(d5 - d10) + f3;
             float f6 = (float)(d6 - d8);
-            IVertexBuilder ivertexbuilder1 = buffer.getBuffer(RenderType.lines());
-            Matrix4f matrix4f1 = stack.getLast().getPositionMatrix();
+            IVertexBuilder ivertexbuilder1 = buffer.getBuffer(RenderType.getLines());
+            Matrix4f matrix4f1 = stack.getLast().getMatrix();
 
             for (int k = 0; k < 16; ++k)
             {

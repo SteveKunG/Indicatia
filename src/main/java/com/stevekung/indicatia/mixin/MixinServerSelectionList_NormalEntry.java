@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.stevekungslib.utils.LangUtils;
-import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -68,7 +67,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
     @Inject(method = "render(IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
-        if (IndicatiaConfig.GENERAL.enableCustomServerSelectionGui.get())
+        if (IndicatiaConfig.GENERAL.multiplayerScreenEnhancement.get())
         {
             if (!this.server.pinged)
             {
@@ -136,8 +135,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
                 ping = TextFormatting.GREEN + responseTimeText + "ms";
             }
 
-            String gameInfo = ClientUtils.isShiftKeyDown() ? this.server.gameVersion : LangUtils.translate("menu.server_not_support");
-            String s2 = flag2 ? TextFormatting.DARK_RED + gameInfo : this.server.populationInfo + " " + ping;
+            String s2 = flag2 ? TextFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo + " " + ping;
             int j = this.mc.fontRenderer.getStringWidth(s2);
             this.mc.fontRenderer.drawString(s2, x + listWidth - j - 6, y + 1, 8421504);
             String s = null;
@@ -175,7 +173,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
             int i1 = mouseX - x;
             int j1 = mouseY - y;
 
-            if (i1 >= listWidth - j - 6 && i1 <= listWidth - 17 && j1 >= 0 && j1 <= 8)
+            if (i1 >= listWidth - j - 6 && i1 <= listWidth - 7 && j1 >= 0 && j1 <= 8)
             {
                 this.owner.setHoveringText(s);
             }

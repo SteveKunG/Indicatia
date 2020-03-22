@@ -58,26 +58,71 @@ public class HUDRenderEventHandler
             RenderSystem.enableDepthTest();
             RenderSystem.defaultBlendFunc();
         }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR || event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS)
-        {
-            if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
-            {
-                event.setCanceled(true);
-            }
-        }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.CHAT)
-        {
-            if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
-            {
-                event.setCanceled(true);
-                return;
-            }
-        }
         if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
         {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get() || this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
+            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
             {
                 event.setCanceled(true);
+            }
+        }
+        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
+        {
+            if (!this.mc.gameSettings.showDebugInfo)
+            {
+                if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof OffsetRenderPreviewScreen))
+                {
+                    int iLeft = 0;
+                    int iRight = 0;
+
+                    for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(this.mc))
+                    {
+                        if (info.isEmpty())
+                        {
+                            continue;
+                        }
+
+                        String value = info.toString();
+                        InfoOverlay.Position pos = info.getPos();
+                        float defaultPos = 3.0625F;
+                        float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
+                        float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
+                        float xOffset = this.mc.getMainWindow().getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
+                        this.mc.fontRenderer.drawStringWithShadow(value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
+
+                        if (pos == InfoOverlay.Position.LEFT)
+                        {
+                            ++iLeft;
+                        }
+                        else
+                        {
+                            ++iRight;
+                        }
+                    }
+                }
+
+                if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
+                {
+                    if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
+                    {
+                        EquipmentOverlays.renderHotbarEquippedItems(this.mc);
+                    }
+                    else
+                    {
+                        if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
+                        {
+                            EquipmentOverlays.renderVerticalEquippedItems(this.mc);
+                        }
+                        else
+                        {
+                            EquipmentOverlays.renderHorizontalEquippedItems(this.mc);
+                        }
+                    }
+                }
+
+                if (ExtendedConfig.INSTANCE.potionHUD)
+                {
+                    EffectOverlays.renderPotionHUD(this.mc);
+                }
             }
         }
     }

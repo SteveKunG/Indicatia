@@ -69,7 +69,7 @@ public class EffectOverlays
 
                 RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
                 RenderSystem.disableLighting();
-                mc.getTextureManager().bindTexture(sprite.getAtlasTexture().getBasePath());
+                mc.getTextureManager().bindTexture(sprite.getAtlasTexture().getTextureLocation());
 
                 Effect effect = effectIns.getPotion();
                 int amplifier = effectIns.getAmplifier();
