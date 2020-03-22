@@ -125,6 +125,13 @@ public class HUDRenderEventHandler
                 }
             }
         }
+        else
+        {
+            if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
+            {
+                event.setCanceled(true);
+            }
+        }
     }
 
     @SubscribeEvent
