@@ -33,6 +33,8 @@ import net.minecraft.world.GameType;
 @Mixin(PlayerTabOverlayGui.class)
 public abstract class MixinPlayerTabOverlayGui extends AbstractGui
 {
+    private final PlayerTabOverlayGui that = (PlayerTabOverlayGui) (Object) this;
+
     @Shadow
     @Final
     @Mutable
@@ -50,9 +52,6 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     private ITextComponent header;
 
     @Shadow
-    public abstract ITextComponent getDisplayName(NetworkPlayerInfo info);
-
-    @Shadow
     protected abstract void drawScoreboardValues(ScoreObjective objective, int p_175247_2_, String name, int p_175247_4_, int p_175247_5_, NetworkPlayerInfo info);
 
     @Overwrite
@@ -67,7 +66,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         for (NetworkPlayerInfo info : list)
         {
             int ping = info.getResponseTime();
-            String displayName = this.getDisplayName(info).getFormattedText();
+            String displayName = this.that.getDisplayName(info).getFormattedText();
             String pingText = String.valueOf(ping);
 
             if (pingDelay)
@@ -195,7 +194,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
                     k2 += 9;
                 }
 
-                String s4 = this.getDisplayName(info1).getFormattedText();
+                String s4 = this.that.getDisplayName(info1).getFormattedText();
 
                 if (info1.getGameType() == GameType.SPECTATOR)
                 {
