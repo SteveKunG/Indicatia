@@ -23,21 +23,21 @@ public class StringConfigOption extends ExtendedConfigOption
     @Override
     public Widget createOptionButton(int x, int y, int width)
     {
-        return new ExtendedButton(x, y, width, 20, this.get(ExtendedConfig.INSTANCE), button ->
+        return new ExtendedButton(x, y, width, 20, this.get(), button ->
         {
-            this.set(ExtendedConfig.INSTANCE, 1);
-            button.setMessage(this.get(ExtendedConfig.INSTANCE));
+            this.set(1);
+            button.setMessage(this.get());
         });
     }
 
-    public void set(ExtendedConfig config, int value)
+    public void set(int value)
     {
-        this.getter.accept(config, value);
-        config.save();
+        this.getter.accept(ExtendedConfig.INSTANCE, value);
+        ExtendedConfig.INSTANCE.save();
     }
 
-    public String get(ExtendedConfig config)
+    public String get()
     {
-        return this.setter.apply(config, this);
+        return this.setter.apply(ExtendedConfig.INSTANCE, this);
     }
 }
