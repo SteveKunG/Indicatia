@@ -8,7 +8,7 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 
 @Mixin(ElytraLayer.class)
-public abstract class MixinElytraLayer
+public class MixinElytraLayer
 {
     @Overwrite
     public boolean shouldCombineTextures()

@@ -9,7 +9,7 @@ import com.stevekung.stevekungslib.utils.client.RenderUtils;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 
 @Mixin(ArrowLayer.class)
-public abstract class MixinArrowLayer
+public class MixinArrowLayer
 {
     @Redirect(method = "render(Lnet/minecraft/entity/LivingEntity;FFFFFFF)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/RenderHelper.enableStandardItemLighting()V"))
     private void enableStandardItemLighting()

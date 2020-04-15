@@ -10,7 +10,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraftforge.client.ForgeIngameGui;
 
 @Mixin(value = ForgeIngameGui.class, remap = false)
-public abstract class MixinForgeIngameGui
+public class MixinForgeIngameGui
 {
     @Inject(method = "renderChat(II)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/platform/GlStateManager.translatef(FFF)V", shift = At.Shift.AFTER))
     private void renderChatBefore(int width, int height, CallbackInfo info)

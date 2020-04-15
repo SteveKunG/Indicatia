@@ -8,7 +8,7 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import net.minecraft.client.renderer.entity.layers.ArmorLayer;
 
 @Mixin(ArmorLayer.class)
-public abstract class MixinArmorLayer
+public class MixinArmorLayer
 {
     @Overwrite
     public boolean shouldCombineTextures()

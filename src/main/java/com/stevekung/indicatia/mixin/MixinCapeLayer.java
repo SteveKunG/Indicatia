@@ -8,7 +8,7 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import net.minecraft.client.renderer.entity.layers.CapeLayer;
 
 @Mixin(CapeLayer.class)
-public abstract class MixinCapeLayer
+public class MixinCapeLayer
 {
     @Overwrite
     public boolean shouldCombineTextures()
