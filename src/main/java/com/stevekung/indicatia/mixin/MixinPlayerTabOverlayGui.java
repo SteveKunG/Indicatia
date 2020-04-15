@@ -5,6 +5,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
@@ -53,6 +56,9 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
 
     @Shadow
     protected abstract void drawScoreboardValues(ScoreObjective objective, int p_175247_2_, String name, int p_175247_4_, int p_175247_5_, NetworkPlayerInfo info);
+
+    @Shadow
+    protected abstract void drawPing(int p_175245_1_, int p_175245_2_, int p_175245_3_, NetworkPlayerInfo networkPlayerInfoIn);
 
     @Overwrite
     public void render(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
@@ -233,12 +239,12 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         }
     }
 
-    @Overwrite
-    protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo info)
+    @Inject(method = "drawPing(IIILnet/minecraft/client/network/play/NetworkPlayerInfo;)V", cancellable = true, at = @At("HEAD"))
+    private void drawPing(int x1, int x2, int y, NetworkPlayerInfo playerInfo, CallbackInfo info)
     {
         boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
         FontRenderer fontRenderer = this.mc.fontRenderer;
-        int ping = InfoUtils.INSTANCE.isHypixel() && info.getGameProfile().getName().equals(ExtendedConfig.INSTANCE.hypixelNickName) ? IndicatiaEventHandler.currentServerPing : info.getResponseTime();
+        int ping = InfoUtils.INSTANCE.isHypixel() && playerInfo.getGameProfile().getName().equals(ExtendedConfig.INSTANCE.hypixelNickName) ? IndicatiaEventHandler.currentServerPing : playerInfo.getResponseTime();
 
         if (IndicatiaConfig.GENERAL.enableCustomPlayerList.get())
         {
@@ -264,40 +270,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
                 fontRenderer = ClientUtils.unicodeFontRenderer;
             }
             fontRenderer.drawStringWithShadow(color + pingText, x1 + x2 - fontRenderer.getStringWidth(pingText), y + 0.625F, 0);
-        }
-        else
-        {
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
-            int state;
-
-            if (ping < 0)
-            {
-                state = 5;
-            }
-            else if (ping < 150)
-            {
-                state = 0;
-            }
-            else if (ping < 300)
-            {
-                state = 1;
-            }
-            else if (ping < 600)
-            {
-                state = 2;
-            }
-            else if (ping < 1000)
-            {
-                state = 3;
-            }
-            else
-            {
-                state = 4;
-            }
-            this.blitOffset += 100.0F;
-            this.blit(x2 + x1 - 11, y, 0, 176 + state * 8, 10, 8);
-            this.blitOffset -= 100.0F;
+            info.cancel();
         }
     }
 }

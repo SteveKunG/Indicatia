@@ -18,7 +18,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 
 @Mixin(FirstPersonRenderer.class)
-public abstract class MixinFirstPersonRenderer
+public class MixinFirstPersonRenderer
 {
     @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V",
             slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER)),
