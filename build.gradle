@@ -1,7 +1,7 @@
 buildscript {
     repositories {
-        maven { url = "https://files.minecraftforge.net/maven" }
-        maven { url = "https://repo.spongepowered.org/maven" }
+        maven { url "https://files.minecraftforge.net/maven" }
+        maven { url "https://repo.spongepowered.org/maven" }
         jcenter()
         mavenCentral()
     }
@@ -37,7 +37,7 @@ minecraft {
     accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {
-        client = {
+        client {
             workingDirectory project.file("run")
             source sourceSets.main
             args "--mixin", "mixins.indicatia.json", "--username", username, "--password", password
@@ -59,7 +59,7 @@ repositories {
         url "http://repo.spongepowered.org/maven/"
     }
     maven {
-        url = "https://minecraft.curseforge.com/api/maven/"
+        url "https://minecraft.curseforge.com/api/maven/"
     }
 }
 
@@ -102,8 +102,8 @@ curseforge {
     apiKey = project.indicatia_api
     project {
         id = "272146"
-        changelog = "Change Log"
-        changelogType = "html"
+        changelog = file("CHANGE_LOG.md")
+        changelogType = "markdown"
         releaseType = "release"
         addGameVersion mcVersion
 
@@ -111,6 +111,7 @@ curseforge {
             displayName = "Indicatia-" + mcVersion + "-" + version
             relations {
                 requiredLibrary "stevekungs-lib"
+                requiredLibrary "mixinbootstrap"
             }
         }
         addArtifact sourcesJar
