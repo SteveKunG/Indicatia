@@ -7,18 +7,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IngameGui;
 import net.minecraftforge.client.ForgeIngameGui;
 
 @Mixin(value = ForgeIngameGui.class, remap = false)
-public abstract class MixinForgeIngameGui extends IngameGui
+public abstract class MixinForgeIngameGui
 {
-    public MixinForgeIngameGui(Minecraft mc)
-    {
-        super(mc);
-    }
-
     @Inject(method = "renderChat(II)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/platform/GlStateManager.translatef(FFF)V", shift = At.Shift.AFTER))
     private void renderChatBefore(int width, int height, CallbackInfo info)
     {
