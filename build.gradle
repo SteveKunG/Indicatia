@@ -1,6 +1,7 @@
 plugins {
-    id "fabric-loom" version "0.2.5-SNAPSHOT"
+    id "fabric-loom" version "0.2.7-SNAPSHOT"
     id "maven-publish"
+    id "signing"
     id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
@@ -9,7 +10,22 @@ def version = project.version
 
 apply plugin: net.fabricmc.loom.LoomGradlePlugin
 archivesBaseName = "Indicatia-" + mcVersion
-sourceCompatibility = targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 1.8
+
+dependencies {
+    minecraft "com.mojang:minecraft:${mc_version}"
+    mappings "net.fabricmc:yarn:${mc_version}+build.+:v2"
+    modApi "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    modImplementation "io.github.prospector:modmenu:${mod_menu_version}"
+    modImplementation("me.shedaniel.cloth:config-2:${cloth_config_version}") { transitive = false }
+    modImplementation "io.github.cottonmc:cotton-client-commands:1.0.0+1.15.2"
+    modImplementation "com.stevekung.stevekungslib:SteveKunG's-Lib:${mc_version}-1.0.0-dev"
+
+    include "me.shedaniel.cloth:config-2:${cloth_config_version}"
+
+    compile "com.google.code.findbugs:jsr305:3.0.2"
+}
 
 minecraft {
     refmapName = "indicatia-refmap.json"
@@ -23,7 +39,7 @@ repositories {
         url "https://minecraft.curseforge.com/api/maven"
     }
     maven {
-        url "http://server.bbkr.space:8081/artifactory/libs-snapshot"
+        url "https://server.bbkr.space/artifactory/libs-release"
     }
     maven {
         url "https://jitpack.io"
@@ -31,36 +47,31 @@ repositories {
     flatDir { dir "libs" }
 }
 
-dependencies {
-    minecraft "com.mojang:minecraft:19w45b"
-    mappings "net.fabricmc:yarn:19w45b+build.+"
-    modApi "net.fabricmc:fabric-loader:0.6.4+build.+"
-    modApi "net.fabricmc.fabric-api:fabric-api:0.4.9+build.+"
-
-    /*modImplementation("me.shedaniel.cloth:config-2:2.4-unstable.201911031154") {
-        force = true
-    }
-
-    modImplementation "io.github.prospector:modmenu:1.7.15-unstable.19w42a+build.11"
-    modImplementation "com.github.Chocohead:Fabric-ASM:1898883c7f"*/
-    modImplementation "io.github.cottonmc:cotton-client-commands:0.4.2+1.14.3-SNAPSHOT"
-    modImplementation "stevekung.mods.stevekungslib:SteveKunG's-Lib:19w45b-1.0.0-dev"
-}
-
 curseforge {
     apiKey = project.indicatia_api
     project {
         id = "272146"
-        changelog = "Change Log"
-        changelogType = "text"
-        releaseType = "beta"
+        changelog = file("CHANGE_LOG.md")
+        changelogType = "markdown"
+        releaseType = "release"
         addGameVersion mcVersion
+        addGameVersion "Fabric"
+        addGameVersion "Java 8"
 
         mainArtifact(jar) {
             displayName = "Indicatia-" + mcVersion + "-" + version
-            relations {
-                requiredLibrary "stevekungs-lib"
-            }
         }
+        relations {
+            requiredDependency "stevekungs-lib"
+            requiredDependency "fabric-api"
+        }
+        afterEvaluate {
+            uploadTask.dependsOn("remapJar")
+            uploadTask.dependsOn("remapSourcesJar")
+        }
+    }
+    options {
+        forgeGradleIntegration = false
+        javaVersionAutoDetect = false
     }
 }

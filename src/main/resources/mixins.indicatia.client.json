@@ -1,0 +1,17 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.stevekung.indicatia.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "mixins": [],
+    "client": [
+        "MixinChatHud",
+        "MixinHeldItemRenderer",
+        "MixinInGameHud",
+        "MixinPlayerListHud"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "refmap": "indicatia-refmap.json"
+}

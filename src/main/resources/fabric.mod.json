@@ -12,35 +12,35 @@
         "sources": "https://github.com/SteveKunG/Indicatia",
         "issues": "https://github.com/SteveKunG/Indicatia/issues"
     },
-    "license": "CC0-1.0",
+    "license": "MIT",
     "icon": "assets/indicatia/icon.png",
     "side": "client",
     "environment": "client",
     "entrypoints": {
         "client": [
-            "stevekung.mods.indicatia.core.IndicatiaMod"
+            "com.stevekung.indicatia.core.IndicatiaMod"
         ],
         "cotton-client-commands": [
-            "stevekung.mods.indicatia.command.AFKCommand",
-            "stevekung.mods.indicatia.command.AutoFishCommand",
-            "stevekung.mods.indicatia.command.IndicatiaCommand",
-            "stevekung.mods.indicatia.command.MojangStatusCheckCommand",
-            "stevekung.mods.indicatia.command.PingAllCommand",
-            "stevekung.mods.indicatia.command.ProfileCommand",
-            "stevekung.mods.indicatia.command.SetSlimeChunkSeedCommand",
-            "stevekung.mods.indicatia.command.SwedenTimeCommand",
-            "stevekung.mods.indicatia.extra.EntityDetectorCommand",
-            "stevekung.mods.indicatia.extra.AutoRightClickCommand"
+            "com.stevekung.indicatia.command.AFKCommand",
+            "com.stevekung.indicatia.command.AutoFishCommand",
+            "com.stevekung.indicatia.command.IndicatiaCommand",
+            "com.stevekung.indicatia.command.MojangStatusCheckCommand",
+            "com.stevekung.indicatia.command.PingAllCommand",
+            "com.stevekung.indicatia.command.ProfileCommand",
+            "com.stevekung.indicatia.command.SetSlimeChunkSeedCommand",
+            "com.stevekung.indicatia.extra.EntityDetectorCommand",
+            "com.stevekung.indicatia.extra.AutoRightClickCommand"
         ]
     },
     "depends": {
-        "fabricloader": ">=0.4.8",
+        "fabricloader": ">=0.8.2",
         "fabric": "*",
-        "cotton-client-commands": ">=0.4.0",
-        "stevekungs_lib": ">=1.0.0"
+        "cotton-client-commands": ">=1.0.0",
+        "stevekungs_lib": ">=1.0.0",
+        "minecraft": "1.15.2"
     },
     "mixins": [
-        "indicatia.client.json"
+        "mixins.indicatia.client.json"
     ],
     "custom": {
         "modmenu:clientsideOnly": true
