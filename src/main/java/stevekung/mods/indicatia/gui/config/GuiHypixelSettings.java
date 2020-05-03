@@ -33,7 +33,6 @@ public class GuiHypixelSettings extends GuiScreen
     {
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 27, LangUtils.translate("gui.done")));
-        //this.buttonList.add(new GuiButton(201, this.width / 2 + 5, this.height - 27, 100, 20, LangUtils.translate("message.preview")));TODO
 
         ExtendedConfig.Options[] options = new ExtendedConfig.Options[OPTIONS.size()];
         options = OPTIONS.toArray(options);
@@ -82,10 +81,6 @@ public class GuiHypixelSettings extends GuiScreen
             {
                 this.mc.displayGuiScreen(this.parent);
             }
-            /*if (button.id == 201)TODO
-            {
-                this.mc.displayGuiScreen(new GuiRenderPreview(this, "offset"));
-            }*/
         }
     }
 
