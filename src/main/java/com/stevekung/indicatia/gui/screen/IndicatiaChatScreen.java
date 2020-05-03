@@ -13,7 +13,7 @@ import com.stevekung.indicatia.gui.widget.MinigameButton;
 import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.minigames.MinigameCommand;
 import com.stevekung.indicatia.minigames.MinigameData;
-import com.stevekung.stevekungslib.client.gui.IChatScreen;
+import com.stevekung.stevekungslib.client.event.ChatScreenEvent;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -28,22 +28,23 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
+public class IndicatiaChatScreen implements IDropboxCallback
 {
     private DropdownMinigamesButton dropdown;
     private int prevSelect = -1;
     private ChatMode mode = ChatMode.ALL;
 
-    @Override
-    public void init(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
+    @SubscribeEvent
+    public void onChatInit(ChatScreenEvent.Init event)
     {
-        this.updateButton(buttons, children, width, height);
+        this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
         this.mode = ChatMode.VALUES[ExtendedConfig.INSTANCE.chatMode];
     }
 
-    @Override
-    public void renderPre(List<Widget> buttons, int mouseX, int mouseY, float partialTicks)
+    @SubscribeEvent
+    public void onChatRenderPre(ChatScreenEvent.RenderPre event)
     {
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
@@ -56,36 +57,36 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         }
     }
 
-    @Override
-    public void renderPost(List<Widget> buttons, int mouseX, int mouseY, float partialTicks)
+    @SubscribeEvent
+    public void onChatRenderPost(ChatScreenEvent.RenderPost event)
     {
         if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
         {
-            for (Widget button : buttons)
+            for (Widget button : event.getButtons())
             {
                 if (button instanceof MinigameButton)
                 {
                     MinigameButton customButton = (MinigameButton) button;
-                    customButton.render(mouseX, mouseY);
+                    customButton.render(event.getMouseX(), event.getMouseY());
                 }
             }
         }
     }
 
-    @Override
-    public void tick(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
+    @SubscribeEvent
+    public void onChatTick(ChatScreenEvent.Tick event)
     {
         if (InfoUtils.INSTANCE.isHypixel() && IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
         {
             if (this.prevSelect != ExtendedConfig.INSTANCE.selectedHypixelMinigame)
             {
-                this.updateButton(buttons, children, width, height);
+                this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
                 this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
             }
 
             boolean clicked = !this.dropdown.dropdownClicked;
 
-            for (Widget button : buttons)
+            for (Widget button : event.getButtons())
             {
                 if (button instanceof MinigameButton)
                 {
@@ -96,33 +97,34 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         }
     }
 
-    @Override
-    public void onClose()
+    @SubscribeEvent
+    public void onChatClose(ChatScreenEvent.Close event)
     {
         ExtendedConfig.INSTANCE.save();
     }
 
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double wheel)
+    @SubscribeEvent
+    public void onChatMouseScrolled(ChatScreenEvent.MouseScroll event)
     {
-        if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get() && this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
+        double delta = event.getScrollDelta();
+
+        if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get() && this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(event.getMouseX(), event.getMouseY()))
         {
-            if (wheel > 1.0D)
+            if (delta > 1.0D)
             {
-                wheel = 1.0D;
+                delta = 1.0D;
             }
-            if (wheel < -1.0D)
+            if (delta < -1.0D)
             {
-                wheel = -1.0D;
+                delta = -1.0D;
             }
             if (ClientUtils.isControlKeyDown())
             {
-                wheel *= 7;
+                delta *= 7;
             }
-            this.dropdown.scroll(wheel);
-            return true;
+            this.dropdown.scroll(delta);
+            event.setCanceled(true);
         }
-        return false;
     }
 
     @Override
@@ -145,7 +147,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         buttons.clear();
         children.clear();
 
-        if (mc.player == null || !(mc.currentScreen instanceof ChatScreen))
+        if (player == null || !(mc.currentScreen instanceof ChatScreen))
         {
             return;
         }
@@ -206,7 +208,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
                     {
                         if (data.getName().equals(list.get(this.prevSelect)))
                         {
-                            gameBtn.add(new MinigameButton(width, command.getName(), command.getCommand(), command.isMinigame()));
+                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand())));
                         }
                     }
                 }
@@ -251,7 +253,7 @@ public class IndicatiaChatScreen implements IChatScreen, IDropboxCallback
         }
     }
 
-    public enum ChatMode
+    enum ChatMode
     {
         ALL("/achat", "menu.chat_mode.all_chat", TextFormatting.GRAY),
         PARTY("/pchat", "menu.chat_mode.party_chat", TextFormatting.BLUE),

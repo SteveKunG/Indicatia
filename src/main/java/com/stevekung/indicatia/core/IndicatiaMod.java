@@ -15,7 +15,6 @@ import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.screen.IndicatiaChatScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
-import com.stevekung.stevekungslib.client.gui.ChatScreenRegistry;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LoggerBase;
 import com.stevekung.stevekungslib.utils.VersionChecker;
@@ -63,6 +62,7 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(new HUDRenderEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
         CommonUtils.registerEventHandler(new HypixelEventHandler());
+        CommonUtils.registerEventHandler(new IndicatiaChatScreen());
         CommonUtils.registerEventHandler(this);
 
         IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
@@ -76,7 +76,6 @@ public class IndicatiaMod
 
     private void loadComplete(FMLLoadCompleteEvent event)
     {
-        ChatScreenRegistry.register(new IndicatiaChatScreen());
         CommonUtils.runAsync(new ThreadMinigameData());
     }
 

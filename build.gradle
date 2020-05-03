@@ -47,7 +47,7 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:2.0.1:deobf"
+    compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:2.0.4:deobf"
     compile "org.spongepowered:mixin:0.8.1-SNAPSHOT"
 }
 
