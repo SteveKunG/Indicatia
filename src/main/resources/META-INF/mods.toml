@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
 
 [[mods]]
 modId="indicatia"
-version="3.0.2"
+version="3.0.3"
 displayName="Indicatia"
 description="Simple in-game info and utilities!"
 displayURL="https://minecraft.curseforge.com/projects/indicatia"
@@ -29,6 +29,6 @@ authors="SteveKunG"
 [[dependencies.indicatia]]
     modId="stevekungs_lib"
     mandatory=true
-    versionRange="[3.0.0,)"
+    versionRange="[3.0.4,)"
     ordering="NONE"
     side="CLIENT"
