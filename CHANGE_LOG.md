@@ -1,4 +1,4 @@
 # Change Log
-* * Re-enable old hurt overlay
-* * Compatible with OptiFine pre14
-* * Downgrade mixin version to 0.8
+
+* * Update Dropdown minigames API
+* * Required SteveKunG's Lib 3.0.4
