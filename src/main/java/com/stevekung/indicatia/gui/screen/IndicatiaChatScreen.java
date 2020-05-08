@@ -26,7 +26,6 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -49,7 +48,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
-            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).setStyle(new Style().setColor(this.mode.getColor()).setBold(true)).getFormattedText();
+            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).applyTextStyles(this.mode.getColor(), TextFormatting.BOLD).getFormattedText();
             int x = 4;
             int y = mc.currentScreen.height - 30;
             AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
