@@ -1,4 +1,5 @@
 # Change Log
 
-* * Update Dropdown minigames API
-* * Required SteveKunG's Lib 3.0.4
+* + Added ChatMode to IExtensibleEnum
+* * Fixed minigame command
+* * Required SteveKunG's Lib 3.0.5

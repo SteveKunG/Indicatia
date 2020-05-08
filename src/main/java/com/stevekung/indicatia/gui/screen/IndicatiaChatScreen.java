@@ -26,8 +26,8 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class IndicatiaChatScreen implements IDropboxCallback
@@ -49,7 +49,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
-            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).setStyle(new Style().setColor(this.mode.getColor()).setBold(true)).getFormattedText();
+            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).applyTextStyles(this.mode.getColor(), TextFormatting.BOLD).getFormattedText();
             int x = 4;
             int y = mc.currentScreen.height - 30;
             AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
@@ -208,7 +208,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                     {
                         if (data.getName().equals(list.get(this.prevSelect)))
                         {
-                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand())));
+                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand())));
                         }
                     }
                 }
@@ -253,7 +253,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    enum ChatMode
+    public enum ChatMode implements IExtensibleEnum
     {
         ALL("/achat", "menu.chat_mode.all_chat", TextFormatting.GRAY),
         PARTY("/pchat", "menu.chat_mode.party_chat", TextFormatting.BLUE),
@@ -284,6 +284,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
         public TextFormatting getColor()
         {
             return this.color;
+        }
+
+        public static ChatMode create(String name, String command, String desc, TextFormatting color)
+        {
+            throw new IllegalStateException("Enum not extended");
         }
     }
 }
