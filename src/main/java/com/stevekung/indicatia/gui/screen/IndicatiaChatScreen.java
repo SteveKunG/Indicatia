@@ -208,7 +208,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                     {
                         if (data.getName().equals(list.get(this.prevSelect)))
                         {
-                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand())));
+                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand())));
                         }
                     }
                 }
