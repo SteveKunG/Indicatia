@@ -49,6 +49,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.TickEvent;
@@ -393,7 +394,7 @@ public class IndicatiaEventHandler
                         {
                             IndicatiaEventHandler.START_AUTO_FISH = false;
                             IndicatiaEventHandler.autoFishTick = 0;
-                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).setStyle(JsonUtils.RED));
+                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).applyTextStyle(TextFormatting.RED));
                             return;
                         }
 

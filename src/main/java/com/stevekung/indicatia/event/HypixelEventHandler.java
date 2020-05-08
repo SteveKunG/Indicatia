@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.gui.screen.EditSignScreen;
 import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
@@ -72,7 +73,7 @@ public class HypixelEventHandler
                 }
                 else if (message.contains("You were spawned in Limbo."))
                 {
-                    event.setMessage(JsonUtils.create("You were spawned in Limbo.").setStyle(JsonUtils.GREEN));
+                    event.setMessage(JsonUtils.create("You were spawned in Limbo.").applyTextStyle(TextFormatting.GREEN));
                 }
                 else if (message.contains("Your nick has been reset!"))
                 {
