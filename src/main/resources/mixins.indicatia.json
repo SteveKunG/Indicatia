@@ -14,6 +14,8 @@
         "MixinFirstPersonRenderer",
         "MixinFishRenderer",
         "MixinForgeIngameGui",
+        "MixinHeadLayer",
+        "MixinItemStackTileEntityRenderer",
         "MixinPlayerTabOverlayGui",
         "MixinServerSelectionList_NormalEntry"
     ],
