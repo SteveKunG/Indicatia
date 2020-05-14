@@ -34,6 +34,16 @@
                 "minigame": true
             },
             {
+                "name": "SkyBlock: Crypt Ghoul",
+                "command": "/warp crypt",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Spider's Den",
+                "command": "/warp spider",
+                "minigame": true
+            },
+            {
                 "name": "SkyBlock: Castle",
                 "command": "/warp castle",
                 "minigame": true
@@ -44,13 +54,13 @@
                 "minigame": true
             },
             {
-                "name": "SkyBlock: Gold Mine",
-                "command": "/warp gold",
+                "name": "SkyBlock: Mushroom Island",
+                "command": "/warp desert",
                 "minigame": true
             },
             {
-                "name": "SkyBlock: Mushroom Island",
-                "command": "/warp desert",
+                "name": "SkyBlock: Gold Mine",
+                "command": "/warp gold",
                 "minigame": true
             },
             {
@@ -59,8 +69,18 @@
                 "minigame": true
             },
             {
-                "name": "SkyBlock: Crypt Ghoul",
-                "command": "/warp crypt",
+                "name": "SkyBlock: Blazing Fortress",
+                "command": "/warp nether",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Magma Fields",
+                "command": "/warp magma",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: The Park",
+                "command": "/warp park",
                 "minigame": true
             },
             {
@@ -76,11 +96,6 @@
             {
                 "name": "SkyBlock: Howling Cave",
                 "command": "/warp howl",
-                "minigame": true
-            },
-            {
-                "name": "SkyBlock: Spider's Den",
-                "command": "/warp spider",
                 "minigame": true
             },
             {
