@@ -21,6 +21,71 @@
                 "name": "SkyBlock: Hub",
                 "command": "/warp hub",
                 "minigame": true
+            },
+            {
+                "name": "SkyBlock: The End",
+                "command": "/warp end",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Dragon Nest",
+                "command": "/warp drag",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Castle",
+                "command": "/warp castle",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: The Barn",
+                "command": "/warp barn",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Gold Mine",
+                "command": "/warp gold",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Mushroom Island",
+                "command": "/warp desert",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Deep Cavern",
+                "command": "/warp deep",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Crypt Ghoul",
+                "command": "/warp crypt",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: The Park",
+                "command": "/warp park",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Jungle",
+                "command": "/warp jungle",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Howling Cave",
+                "command": "/warp howl",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Spider's Den",
+                "command": "/warp spider",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Dark Auction",
+                "command": "/warp da",
+                "minigame": true
             }
         ]
     },
