@@ -1,6 +1,7 @@
 [
     {
         "name": "Prototype: SkyBlock",
+        "sort": false,
         "commands": [
             {
                 "name": "Prototype Lobby",
