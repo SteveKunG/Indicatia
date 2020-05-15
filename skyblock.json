@@ -52,8 +52,8 @@
                 "name": "SkyBlock: The End",
                 "command": "/warp end",
                 "minigame": true,
-                "uuid": "d9ab9fb4-8362-42c8-8766-df51e001fabe",
-                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg0MGI4N2Q1MjI3MWQyYTc1NWRlZGM4Mjg3N2UwZWQzZGY2N2RjYzQyZWE0NzllYzE0NjE3NmIwMjc3OWE1In19fQ=="
+                "uuid": "c07240fc-5e4a-45c2-87e6-88f9551c84d3",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTFjZDZkMmQwM2YxMzVlN2M2YjVkNmNkYWUxYjNhNjg3NDNkYjRlYjc0OWZhZjczNDFlOWZiMzQ3YWEyODNiIn19fQ=="
             },
             {
                 "name": "SkyBlock: Dragon Nest",
@@ -66,8 +66,8 @@
                 "name": "SkyBlock: Spider's Den",
                 "command": "/warp spider",
                 "minigame": true,
-                "uuid": "96b85321-b0e4-4e6f-aed7-9d3d6d71845b",
-                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc1NDMxOGEzMzc2ZjQ3MGU0ODFkZmNkNmM4M2E1OWFhNjkwYWQ0YjRkZDc1NzdmZGFkMWMyZWYwOGQ4YWVlNiJ9fX0="
+                "uuid": "b9c86ede-5094-4c18-a27b-d44a1b1867c2",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQ3ZTNiMTlhYzRmM2RlZTljNTY3N2MxMzUzMzNiOWQzNWE3ZjU2OGI2M2QxZWY0YWRhNGIwNjhiNWEyNSJ9fX0="
             },
             {
                 "name": "SkyBlock: The Barn",
@@ -129,8 +129,8 @@
                 "name": "SkyBlock: Howling Cave",
                 "command": "/warp howl",
                 "minigame": true,
-                "uuid": "a7f2d204-16e3-40ea-9b6b-8509b359ebd0",
-                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="
+                "uuid": "ed1bdb05-5876-4ef6-aa6e-89ae8b66730a",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTgzMmQ1Mzk5N2I0NTE2MzVjOWNmOTAwNGIwZjIyYmIzZDk5YWI1YTA5Mzk0MmI1YjVmNmJiNGU0ZGU0NzA2NSJ9fX0="
             }
         ]
     },
