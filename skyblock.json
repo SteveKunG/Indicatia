@@ -16,92 +16,121 @@
             {
                 "name": "SkyBlock: Home",
                 "command": "/warp home",
-                "minigame": true
+                "minigame": true,
+                "uuid": "ba6a1a99-73c8-4f01-8db6-c97e36700227",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="
             },
             {
                 "name": "SkyBlock: Hub",
                 "command": "/warp hub",
-                "minigame": true
+                "minigame": true,
+                "uuid": "32edac82-4acc-4dd5-9ecc-3344dab6852b",
+                "texture": "eyJ0aW1lc3RhbXAiOjE1NTkyMTU0MTY5MDksInByb2ZpbGVJZCI6IjQxZDNhYmMyZDc0OTQwMGM5MDkwZDU0MzRkMDM4MzFiIiwicHJvZmlsZU5hbWUiOiJNZWdha2xvb24iLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2Q3Y2M2Njg3NDIzZDA1NzBkNTU2YWM1M2UwNjc2Y2I1NjNiYmRkOTcxN2NkODI2OWJkZWJlZDZmNmQ0ZTdiZjgifX19"
             },
             {
                 "name": "SkyBlock: The End",
                 "command": "/warp end",
-                "minigame": true
+                "minigame": true,
+                "uuid": "d9ab9fb4-8362-42c8-8766-df51e001fabe",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg0MGI4N2Q1MjI3MWQyYTc1NWRlZGM4Mjg3N2UwZWQzZGY2N2RjYzQyZWE0NzllYzE0NjE3NmIwMjc3OWE1In19fQ=="
             },
             {
                 "name": "SkyBlock: Dragon Nest",
                 "command": "/warp drag",
-                "minigame": true
+                "minigame": true,
+                "uuid": "a7f2d204-16e3-40ea-9b6b-8509b359ebd0",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="
             },
             {
                 "name": "SkyBlock: Crypt Ghoul",
                 "command": "/warp crypt",
-                "minigame": true
+                "minigame": true,
+                "uuid": "44e921b7-55e4-49c7-971b-582cca63b93d",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVkMmYzMWJhMTYyZmU2MjcyZTgzMWFlZDE3ZjUzMjEzZGI2ZmExYzRjYmU0ZmM4MjdmMzk2M2NjOThiOSJ9fX0="
             },
             {
                 "name": "SkyBlock: Spider's Den",
                 "command": "/warp spider",
-                "minigame": true
+                "minigame": true,
+                "uuid": "96b85321-b0e4-4e6f-aed7-9d3d6d71845b",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc1NDMxOGEzMzc2ZjQ3MGU0ODFkZmNkNmM4M2E1OWFhNjkwYWQ0YjRkZDc1NzdmZGFkMWMyZWYwOGQ4YWVlNiJ9fX0="
             },
             {
                 "name": "SkyBlock: Castle",
                 "command": "/warp castle",
-                "minigame": true
+                "minigame": true,
+                "uuid": "be730e2e-da44-4029-a7bb-adacf3ebde87",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ1NTlkNzU0NjRiMmU0MGE1MThlNGRlOGU2Y2YzMDg1ZjBhM2NhMGIxYjcwMTI2MTRjNGNkOTZmZWQ2MDM3OCJ9fX0="
             },
             {
                 "name": "SkyBlock: The Barn",
                 "command": "/warp barn",
-                "minigame": true
+                "minigame": true,
+                "uuid": "b80cb9a7-5536-4cf2-8cf9-59cceefc991c",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQzYTZiZDk4YWMxODMzYzY2NGM0OTA5ZmY4ZDJkYzYyY2U4ODdiZGNmM2NjNWIzODQ4NjUxYWU1YWY2YiJ9fX0="
             },
             {
                 "name": "SkyBlock: Mushroom Island",
                 "command": "/warp desert",
-                "minigame": true
+                "minigame": true,
+                "uuid": "7720c8e0-bea7-4684-93b3-454f06fb2aab",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjExNmI5ZDhkZjM0NmEyNWVkZDA1Zjg0MmU3YTkzNDViZWFmMTZkY2E0MTE4YWJmNWE2OGM3NWJjYWFlMTAifX19"
             },
             {
                 "name": "SkyBlock: Gold Mine",
                 "command": "/warp gold",
-                "minigame": true
+                "minigame": true,
+                "uuid": "a91bb5ac-5ccb-46cb-9ff4-ed573c6831e0",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzNiYzk2NWQ1NzljM2M2MDM5ZjBhMTdlYjdjMmU2ZmFmNTM4YzdhNWRlOGU2MGVjN2E3MTkzNjBkMGE4NTdhOSJ9fX0="
             },
             {
                 "name": "SkyBlock: Deep Cavern",
                 "command": "/warp deep",
-                "minigame": true
+                "minigame": true,
+                "uuid": "358c998d-0503-4c71-98d2-6e5f38f0abe0",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY5YTFmMTE0MTUxYjQ1MjEzNzNmMzRiYzE0YzI5NjNhNTAxMWNkYzI1YTY1NTRjNDhjNzA4Y2Q5NmViZmMifX19"
             },
             {
                 "name": "SkyBlock: Blazing Fortress",
                 "command": "/warp nether",
-                "minigame": true
+                "minigame": true,
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzM2ODdlMjVjNjMyYmNlOGFhNjFlMGQ2NGMyNGU2OTRjM2VlYTYyOWVhOTQ0ZjRjZjMwZGNmYjRmYmNlMDcxIn19fQ=="
             },
             {
                 "name": "SkyBlock: Magma Fields",
                 "command": "/warp magma",
-                "minigame": true
+                "minigame": true,
+                "uuid": "a7f2d204-16e3-40ea-9b6b-8509b359ebd0",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="
             },
             {
                 "name": "SkyBlock: The Park",
                 "command": "/warp park",
-                "minigame": true
-            },
-            {
-                "name": "SkyBlock: The Park",
-                "command": "/warp park",
-                "minigame": true
+                "minigame": true,
+                "uuid": "8d2669ee-79f8-468a-893d-65801864d0dc",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTIyMWY4MTNkYWNlZTBmZWY4YzU5Zjc2ODk0ZGJiMjY0MTU0NzhkOWRkZmM0NGMyZTcwOGE2ZDNiNzU0OWIifX19"
             },
             {
                 "name": "SkyBlock: Jungle",
                 "command": "/warp jungle",
-                "minigame": true
+                "minigame": true,
+                "uuid": "b3e429ac-ad17-495d-a9ca-2c207c34f5ba",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzljYTM1NDA2MjFjMWM3OWMzMmJmNDI0Mzg3MDhmZjFmNWY3ZDBhZjliMTRhMDc0NzMxMTA3ZWRmZWI2OTFjIn19fQ=="
             },
             {
                 "name": "SkyBlock: Howling Cave",
                 "command": "/warp howl",
-                "minigame": true
+                "minigame": true,
+                "uuid": "a7f2d204-16e3-40ea-9b6b-8509b359ebd0",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="
             },
             {
                 "name": "SkyBlock: Dark Auction",
                 "command": "/warp da",
-                "minigame": true
+                "minigame": true,
+                "uuid": "a7f2d204-16e3-40ea-9b6b-8509b359ebd0",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="
             }
         ]
     },
