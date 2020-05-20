@@ -31,8 +31,8 @@
                 "name": "SkyBlock: Dark Auction",
                 "command": "/warp da",
                 "minigame": true,
-                "uuid": "a7f2d204-16e3-40ea-9b6b-8509b359ebd0",
-                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="
+                "uuid": "618ae405-6461-429c-af71-89fb923388c4",
+                "texture": "eyJ0aW1lc3RhbXAiOjE1NDU3NzE0NDUyNjEsInByb2ZpbGVJZCI6IjkxZjA0ZmU5MGYzNjQzYjU4ZjIwZTMzNzVmODZkMzllIiwicHJvZmlsZU5hbWUiOiJTdG9ybVN0b3JteSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2FiODM4NThlYmM4ZWU4NWMzZTU0YWIxM2FhYmZjYzFlZjJhZDQ0NmQ2YTkwMGU0NzFjM2YzM2I3ODkwNmE1YiJ9fX0="
             },
             {
                 "name": "SkyBlock: Castle",
