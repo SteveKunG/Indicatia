@@ -8,10 +8,10 @@ import java.util.Locale;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.integration.GalacticraftPlanetsTime;
 import com.stevekung.stevekungslib.client.event.ClientEventHandler;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -25,6 +25,7 @@ public class InfoOverlays
     public static InfoOverlay OVERWORLD_TPS = InfoOverlay.empty();
     public static InfoOverlay TPS = InfoOverlay.empty();
     public static final List<InfoOverlay> ALL_TPS = new ArrayList<>();
+    private static final ModDecimalFormat TPS_FORMAT = new ModDecimalFormat("########0.00");
 
     public static InfoOverlay getDirection(Minecraft mc)
     {
@@ -107,7 +108,7 @@ public class InfoOverlays
             double tps = Math.min(1000.0D / overallTPS, 20);
 
             InfoOverlays.ALL_TPS.clear();
-            InfoOverlays.OVERALL_TPS = new InfoOverlay("Overall TPS", HUDRenderEventHandler.TPS_FORMAT.format(overallTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+            InfoOverlays.OVERALL_TPS = new InfoOverlay("Overall TPS", InfoOverlays.TPS_FORMAT.format(overallTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
 
             if (ExtendedConfig.INSTANCE.tpsAllDims)
             {
@@ -123,14 +124,14 @@ public class InfoOverlays
                         continue;
                     }
                     double dimensionTPS = InfoOverlays.mean(values) * 1.0E-6D;
-                    InfoOverlays.ALL_TPS.add(new InfoOverlay("Dimension " + dimensionName, HUDRenderEventHandler.TPS_FORMAT.format(dimensionTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
+                    InfoOverlays.ALL_TPS.add(new InfoOverlay("Dimension " + dimensionName, InfoOverlays.TPS_FORMAT.format(dimensionTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
                 }
             }
             else
             {
-                InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", HUDRenderEventHandler.TPS_FORMAT.format(overworldTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+                InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworldTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
             }
-            InfoOverlays.TPS = new InfoOverlay("TPS", HUDRenderEventHandler.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+            InfoOverlays.TPS = new InfoOverlay("TPS", InfoOverlays.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
         }
     }
 

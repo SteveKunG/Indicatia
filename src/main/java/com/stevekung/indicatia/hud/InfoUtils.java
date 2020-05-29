@@ -36,7 +36,7 @@ public class InfoUtils
                 return IndicatiaEventHandler.currentServerPing;
             }
         }
-        return 0;
+        return IndicatiaEventHandler.currentServerPing;
     }
 
     public String getResponseTimeColor(int responseTime)

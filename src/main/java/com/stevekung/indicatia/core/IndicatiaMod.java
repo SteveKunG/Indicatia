@@ -63,7 +63,6 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(new IndicatiaEventHandler());
         CommonUtils.registerEventHandler(new HypixelEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaChatScreen());
-        CommonUtils.registerEventHandler(this);
 
         IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
 

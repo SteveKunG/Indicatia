@@ -10,7 +10,6 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
 import com.stevekung.stevekungslib.utils.LangUtils;
-import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
@@ -28,7 +27,6 @@ import net.minecraftforge.versions.mcp.MCPVersion;
 public class HUDRenderEventHandler
 {
     private final Minecraft mc;
-    public static final ModDecimalFormat TPS_FORMAT = new ModDecimalFormat("########0.00");
 
     public HUDRenderEventHandler()
     {
