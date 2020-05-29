@@ -1,16 +1,24 @@
 package com.stevekung.indicatia.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 
 import com.stevekung.indicatia.config.IndicatiaConfig;
 
+import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.LivingEntity;
 
 @Mixin(ElytraLayer.class)
-public class MixinElytraLayer
+public abstract class MixinElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M>
 {
-    @Overwrite
+    public MixinElytraLayer(IEntityRenderer<T, M> renderer)
+    {
+        super(renderer);
+    }
+
+    @Override
     public boolean shouldCombineTextures()
     {
         return IndicatiaConfig.GENERAL.enableOldArmorRender.get();
