@@ -40,7 +40,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
     public void onChatInit(ChatScreenEvent.Init event)
     {
         this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
-        this.mode = ChatMode.VALUES[ExtendedConfig.INSTANCE.chatMode];
+
+        if (ExtendedConfig.INSTANCE.chatMode < ChatMode.values().length)
+        {
+            this.mode = ChatMode.values()[ExtendedConfig.INSTANCE.chatMode];
+        }
     }
 
     @SubscribeEvent
@@ -49,7 +53,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
-            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(this.mode.getDesc()).applyTextStyles(this.mode.getColor(), TextFormatting.BOLD).getFormattedText();
+            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(LangUtils.translate(this.mode.desc)).applyTextStyles(this.mode.color, TextFormatting.BOLD).getFormattedText();
             int x = 4;
             int y = mc.currentScreen.height - 30;
             AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
@@ -166,24 +170,15 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
             if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
             {
-                buttons.add(new Button(width - 23, height - 35, 20, 20, "A", button ->
+                for (ChatMode mode : ChatMode.values())
                 {
-                    this.mode = ChatMode.ALL;
-                    player.sendChatMessage("/chat a");
-                    ExtendedConfig.INSTANCE.chatMode = 0;
-                }));
-                buttons.add(new Button(width - 23, height - 56, 20, 20, "P", button ->
-                {
-                    this.mode = ChatMode.PARTY;
-                    player.sendChatMessage("/chat p");
-                    ExtendedConfig.INSTANCE.chatMode = 1;
-                }));
-                buttons.add(new Button(width - 23, height - 77, 20, 20, "G", button ->
-                {
-                    this.mode = ChatMode.GUILD;
-                    player.sendChatMessage("/chat g");
-                    ExtendedConfig.INSTANCE.chatMode = 2;
-                }));
+                    buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, mode.message, button ->
+                    {
+                        this.mode = mode;
+                        player.sendChatMessage(mode.command);
+                        ExtendedConfig.INSTANCE.chatMode = mode.ordinal();
+                    }));
+                }
             }
 
             if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
@@ -255,38 +250,32 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
     public enum ChatMode implements IExtensibleEnum
     {
-        ALL("/achat", "menu.chat_mode.all_chat", TextFormatting.GRAY),
-        PARTY("/pchat", "menu.chat_mode.party_chat", TextFormatting.BLUE),
-        GUILD("/gchat", "menu.chat_mode.guild_chat", TextFormatting.DARK_GREEN);
+        ALL("menu.chat_mode.all_chat", TextFormatting.GRAY, 23, 35, 20, 20, "A", "/chat a"),
+        PARTY("menu.chat_mode.party_chat", TextFormatting.BLUE, 23, 56, 20, 20, "P", "/chat p"),
+        GUILD("menu.chat_mode.guild_chat", TextFormatting.DARK_GREEN, 23, 77, 20, 20, "G", "/chat g");
 
-        private final String command;
-        private final String desc;
-        private final TextFormatting color;
-        protected static final ChatMode[] VALUES = ChatMode.values();
+        protected final String desc;
+        protected final TextFormatting color;
+        protected final int x;
+        protected final int y;
+        protected final int width;
+        protected final int height;
+        protected final String message;
+        protected final String command;
 
-        private ChatMode(String command, String desc, TextFormatting color)
+        private ChatMode(String desc, TextFormatting color, int x, int y, int width, int height, String message, String command)
         {
-            this.command = command;
             this.desc = desc;
             this.color = color;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.message = message;
+            this.command = command;
         }
 
-        public String getCommand()
-        {
-            return this.command;
-        }
-
-        public String getDesc()
-        {
-            return LangUtils.translate(this.desc);
-        }
-
-        public TextFormatting getColor()
-        {
-            return this.color;
-        }
-
-        public static ChatMode create(String name, String command, String desc, TextFormatting color)
+        public static ChatMode create(String name, String desc, TextFormatting color, int x, int y, int width, int height, String message, String command)
         {
             throw new IllegalStateException("Enum not extended");
         }
