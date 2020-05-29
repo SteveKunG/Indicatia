@@ -15,8 +15,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.PingMode;
-import com.stevekung.indicatia.event.IndicatiaEventHandler;
-import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
@@ -244,7 +242,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     {
         boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
         FontRenderer fontRenderer = this.mc.fontRenderer;
-        int ping = InfoUtils.INSTANCE.isHypixel() && playerInfo.getGameProfile().getName().equals(ExtendedConfig.INSTANCE.hypixelNickName) ? IndicatiaEventHandler.currentServerPing : playerInfo.getResponseTime();
+        int ping = playerInfo.getResponseTime();
 
         if (IndicatiaConfig.GENERAL.enableCustomPlayerList.get())
         {

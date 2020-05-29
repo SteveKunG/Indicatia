@@ -113,7 +113,6 @@ public class ExtendedConfig
 
     // Hypixel
     public boolean rightClickToAddParty = false;
-    public String hypixelNickName = "";
     public int selectedHypixelMinigame = 0;
     public int hypixelMinigameScrollPos = 0;
     public int chatMode = 0;
@@ -303,7 +302,6 @@ public class ExtendedConfig
 
             // Hypixel
             this.rightClickToAddParty = this.getBoolean(nbt, "RightClickToAddParty", this.rightClickToAddParty);
-            this.hypixelNickName = this.getString(nbt, "HypixelNickName", this.hypixelNickName);
             this.selectedHypixelMinigame = this.getInteger(nbt, "SelectedHypixelMinigame", this.selectedHypixelMinigame);
             this.hypixelMinigameScrollPos = this.getInteger(nbt, "HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
             this.chatMode = this.getInteger(nbt, "ChatMode", this.chatMode);
@@ -413,7 +411,6 @@ public class ExtendedConfig
 
             // Hypixel
             nbt.putBoolean("RightClickToAddParty", this.rightClickToAddParty);
-            nbt.putString("HypixelNickName", this.hypixelNickName);
             nbt.putInt("SelectedHypixelMinigame", this.selectedHypixelMinigame);
             nbt.putInt("HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
             nbt.putInt("ChatMode", this.chatMode);
