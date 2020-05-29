@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.stevekung.indicatia.minigames.EnchantedSkullTileEntityRenderer;
+import com.stevekung.indicatia.utils.EnchantedSkullTileEntityRenderer;
 
 import net.minecraft.block.SkullBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

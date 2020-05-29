@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.minigames;
+package com.stevekung.indicatia.utils;
 
 import javax.annotation.Nullable;
 
