@@ -43,13 +43,13 @@ public class ThreadMinigameData implements Runnable
                     String displayName = command.get("name").getAsString();
                     String minigameCommand = command.get("command").getAsString();
                     boolean isMinigame = command.get("minigame").getAsBoolean();
-                    
+
                     if (command.has("uuid"))
                     {
                         uuid = command.get("uuid").getAsString();
                         texture = command.get("texture").getAsString();
                     }
-                    
+
                     minigameCmds.add(new MinigameCommand(displayName, minigameCommand, isMinigame, uuid, texture));
                     minigameCmds.sort((minigame1, minigame2) -> !sort ? 1 : new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build());
                 }

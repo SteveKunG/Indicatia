@@ -50,7 +50,7 @@ public class MinigameButton extends Button
                 GlStateManager.blendFuncSeparate(770, 771, 1, 0);
                 RenderHelper.enableGUIStandardItemLighting();
                 GlStateManager.enableLighting();
-                mc.getItemRenderer().renderItemAndEffectIntoGUI(this.head, this.x + 2, this.y + 2);
+                this.mc.getItemRenderer().renderItemAndEffectIntoGUI(this.head, this.x + 2, this.y + 2);
             }
         }
     }
