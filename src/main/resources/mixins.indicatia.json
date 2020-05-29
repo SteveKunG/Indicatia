@@ -13,7 +13,6 @@
         "MixinCapeLayer",
         "MixinElytraLayer",
         "MixinFirstPersonRenderer",
-        "MixinFishRenderer",
         "MixinForgeIngameGui",
         "MixinPlayerTabOverlayGui",
         "MixinServerSelectionList_NormalEntry"

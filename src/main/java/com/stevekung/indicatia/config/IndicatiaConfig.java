@@ -18,7 +18,6 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.BooleanValue enableRenderInfo;
         public final ForgeConfigSpec.BooleanValue enableBlockhitAnimation;
         public final ForgeConfigSpec.BooleanValue enableOldArmorRender;
-        public final ForgeConfigSpec.BooleanValue enableOldFishingRodRender;
         public final ForgeConfigSpec.BooleanValue enableVersionChecker;
         public final ForgeConfigSpec.BooleanValue enableAFKMessage;
         public final ForgeConfigSpec.BooleanValue enableCustomPlayerList;
@@ -53,11 +52,6 @@ public class IndicatiaConfig
                     .comment("This will using old armor hurt effect render. (red overlay)")
                     .translation("indicatia.configgui.enable_old_armor_render")
                     .define("enableOldArmorRender", false);
-
-            this.enableOldFishingRodRender = builder
-                    .comment("Replacing vanilla fishing line and fishing rod model rendering.")
-                    .translation("indicatia.configgui.enable_old_fishing_rod_render")
-                    .define("enableOldFishingRodRender", false);
 
             this.enableVersionChecker = builder
                     .translation("indicatia.configgui.enable_version_checker")
