@@ -26,6 +26,11 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -203,7 +208,13 @@ public class IndicatiaChatScreen implements IDropboxCallback
                     {
                         if (data.getName().equals(list.get(this.prevSelect)))
                         {
-                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand())));
+                            ItemStack skull = ItemStack.EMPTY;
+
+                            if (!StringUtils.isNullOrEmpty(command.getUUID()))
+                            {
+                                skull = this.getSkullItemStack(command.getUUID(), command.getTexture());
+                            }
+                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
                         }
                     }
                 }
@@ -246,6 +257,24 @@ public class IndicatiaChatScreen implements IDropboxCallback
             }
             children.addAll(buttons);
         }
+    }
+
+    private ItemStack getSkullItemStack(String skullId, String skullValue)
+    {
+        ItemStack itemStack = new ItemStack(Items.PLAYER_HEAD);
+        CompoundNBT compound = new CompoundNBT();
+        CompoundNBT properties = new CompoundNBT();
+        properties.putString("Id", skullId);
+        CompoundNBT texture = new CompoundNBT();
+        ListNBT list = new ListNBT();
+        CompoundNBT value = new CompoundNBT();
+        value.putString("Value", skullValue);
+        list.add(value);
+        texture.put("textures", list);
+        properties.put("Properties", texture);
+        compound.put("SkullOwner", properties);
+        itemStack.setTag(compound);
+        return itemStack;
     }
 
     public enum ChatMode implements IExtensibleEnum
