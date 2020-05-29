@@ -13,8 +13,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import com.google.gson.*;
 import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.indicatia.minigames.MinigameCommand;
-import com.stevekung.indicatia.minigames.MinigameData;
 
 public class ThreadMinigameData implements Runnable
 {
@@ -33,7 +31,7 @@ public class ThreadMinigameData implements Runnable
                 JsonObject minigame = minigameEle.getAsJsonObject();
                 String name = minigame.get("name").getAsString();
                 boolean sort = !minigame.has("sort") ? true : minigame.get("sort").getAsBoolean();
-                List<MinigameCommand> minigameCmds = new ArrayList<>();
+                List<MinigameData.Command> minigameCmds = new ArrayList<>();
 
                 for (JsonElement commandEle : minigame.getAsJsonArray("commands"))
                 {
@@ -50,7 +48,7 @@ public class ThreadMinigameData implements Runnable
                         texture = command.get("texture").getAsString();
                     }
 
-                    minigameCmds.add(new MinigameCommand(displayName, minigameCommand, isMinigame, uuid, texture));
+                    minigameCmds.add(new MinigameData.Command(displayName, minigameCommand, isMinigame, uuid, texture));
                     minigameCmds.sort((minigame1, minigame2) -> !sort ? 1 : new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build());
                 }
                 MinigameData.addMinigame(new MinigameData(name, minigameCmds));

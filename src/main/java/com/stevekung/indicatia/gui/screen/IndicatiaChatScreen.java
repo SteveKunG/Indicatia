@@ -11,8 +11,7 @@ import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton;
 import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton.IDropboxCallback;
 import com.stevekung.indicatia.gui.widget.MinigameButton;
 import com.stevekung.indicatia.hud.InfoUtils;
-import com.stevekung.indicatia.minigames.MinigameCommand;
-import com.stevekung.indicatia.minigames.MinigameData;
+import com.stevekung.indicatia.utils.MinigameData;
 import com.stevekung.stevekungslib.client.event.ChatScreenEvent;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.JsonUtils;
@@ -204,7 +203,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
                 for (MinigameData data : MinigameData.getMinigames())
                 {
-                    for (MinigameCommand command : data.getCommands())
+                    for (MinigameData.Command command : data.getCommands())
                     {
                         if (data.getName().equals(list.get(this.prevSelect)))
                         {
