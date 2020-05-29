@@ -1,10 +1,10 @@
 package com.stevekung.indicatia.mixin;
 
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.stevekungslib.utils.client.GLConstants;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -53,7 +53,7 @@ public abstract class MixinFishRenderer extends EntityRenderer<Entity>
                 GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
             }
 
-            bufferbuilder.begin(GLConstants.QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
+            bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
             bufferbuilder.pos(-0.5D, -0.5D, 0.0D).tex(0.0D, 1.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
             bufferbuilder.pos(0.5D, -0.5D, 0.0D).tex(1.0D, 1.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
             bufferbuilder.pos(0.5D, 0.5D, 0.0D).tex(1.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
