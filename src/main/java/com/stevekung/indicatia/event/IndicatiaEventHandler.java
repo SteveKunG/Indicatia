@@ -20,7 +20,6 @@ import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
-import com.stevekung.stevekungslib.utils.enums.CachedEnum;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -108,7 +107,7 @@ public class IndicatiaEventHandler
                     }
                 }
 
-                for (UseAction action : CachedEnum.USE_ACTION)
+                for (UseAction action : UseAction.values())
                 {
                     if (action != UseAction.NONE)
                     {
@@ -356,7 +355,7 @@ public class IndicatiaEventHandler
             {
                 if (IndicatiaEventHandler.autoFishTick % 4 == 0)
                 {
-                    for (Hand hand : CachedEnum.HAND)
+                    for (Hand hand : Hand.values())
                     {
                         ItemStack itemStack = mc.player.getHeldItem(hand);
                         boolean mainHand = mc.player.getHeldItemMainhand().getItem() instanceof FishingRodItem;

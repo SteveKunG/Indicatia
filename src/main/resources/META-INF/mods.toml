@@ -29,6 +29,6 @@ authors="SteveKunG"
 [[dependencies.indicatia]]
     modId="stevekungs_lib"
     mandatory=true
-    versionRange="[2.0.7,)"
+    versionRange="[2.0.8,)"
     ordering="NONE"
     side="CLIENT"
