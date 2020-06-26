@@ -39,7 +39,6 @@ import net.minecraft.network.status.client.CPingPacket;
 import net.minecraft.network.status.client.CServerQueryPacket;
 import net.minecraft.network.status.server.SPongPacket;
 import net.minecraft.network.status.server.SServerInfoPacket;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -122,14 +121,6 @@ public class IndicatiaEventHandler
     public void onInputUpdate(InputUpdateEvent event)
     {
         MovementInput movement = event.getMovementInput();
-        ClientPlayerEntity player = this.mc.player;
-        boolean flag4 = player.getFoodStats().getFoodLevel() > 6.0F || player.abilities.allowFlying;
-
-        // Fixed vanilla toggle sprint
-        if (!player.isSprinting() && (!player.isInWater() || player.canSwim()) && player.func_223110_ee() && flag4 && !player.isHandActive() && !player.isPotionActive(Effects.BLINDNESS) && this.mc.gameSettings.toggleSprint)
-        {
-            player.setSprinting(true);
-        }
 
         // afk stuff
         if (IndicatiaEventHandler.AFK_MODE == AFKMode.RANDOM_MOVE_360)
