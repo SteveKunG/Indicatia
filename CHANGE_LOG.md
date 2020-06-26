@@ -1,7 +1,6 @@
 # Change Log
 
-* + Added player head on SkyBlock minigame
-* * Required SteveKunG's Lib 3.0.7
-* * Fixed chat mode not extensible
-* - Removed hypixel nickname detection
-* - Removed old fishing rod config
+* * Required SteveKunG's Lib 3.0.8
+* * Chinese language support
+* * Fixed Optifine incompatibility
+* - Remove toggle sprint hack
