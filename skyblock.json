@@ -145,6 +145,13 @@
                 "minigame": true,
                 "uuid": "ed1bdb05-5876-4ef6-aa6e-89ae8b66730a",
                 "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTgzMmQ1Mzk5N2I0NTE2MzVjOWNmOTAwNGIwZjIyYmIzZDk5YWI1YTA5Mzk0MmI1YjVmNmJiNGU0ZGU0NzA2NSJ9fX0="
+            },
+            {
+                "name": "SkyBlock: Jerry's Workshop",
+                "command": "/savethejerrys",
+                "minigame": true,
+                "uuid": "7732c5e4-1800-3b90-a70f-727d2969254b",
+                "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTBmNTM5ODUxMGIxYTA1YWZjNWIyMDFlYWQ4YmZjNTgzZTU3ZDcyMDJmNTE5M2IwYjc2MWZjYmQwYWUyIn19fQ=="
             }
         ]
     },
