@@ -160,7 +160,7 @@ public class ProfileCommand implements IClientCommand
             }
 
             ITextComponent translation = LangUtils.translateComponent("commands.inprofile.list.count", size);
-            translation.getStyle().setColor(TextFormatting.DARK_GREEN);
+            translation.getStyle().setFormatting(TextFormatting.DARK_GREEN);
             source.sendFeedback(translation);
 
             collection.stream().filter(file -> file.getName().endsWith(".dat")).forEach(file ->
@@ -168,7 +168,7 @@ public class ProfileCommand implements IClientCommand
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
                 boolean current = realName.equals(ExtendedConfig.CURRENT_PROFILE);
-                source.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translate("commands.inprofile.current_profile") : ""));
+                source.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translateComponent("commands.inprofile.current_profile").getString() : ""));
             });
             return 1;
         }

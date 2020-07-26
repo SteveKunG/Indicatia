@@ -2,25 +2,26 @@ package com.stevekung.indicatia.utils;
 
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public enum MojangServerStatus
 {
-    ONLINE(LangUtils.translate("status.mojang.online"), TextFormatting.GREEN),
-    OFFLINE(LangUtils.translate("status.mojang.offline"), TextFormatting.DARK_RED),
-    UNSTABLE(LangUtils.translate("status.mojang.unstable"), TextFormatting.YELLOW),
-    UNKNOWN(LangUtils.translate("status.mojang.unknown"), TextFormatting.RED);
+    ONLINE(LangUtils.translateComponent("status.mojang.online"), TextFormatting.GREEN),
+    OFFLINE(LangUtils.translateComponent("status.mojang.offline"), TextFormatting.DARK_RED),
+    UNSTABLE(LangUtils.translateComponent("status.mojang.unstable"), TextFormatting.YELLOW),
+    UNKNOWN(LangUtils.translateComponent("status.mojang.unknown"), TextFormatting.RED);
 
-    private final String status;
+    private final ITextComponent status;
     private final TextFormatting color;
 
-    private MojangServerStatus(String status, TextFormatting color)
+    private MojangServerStatus(ITextComponent status, TextFormatting color)
     {
         this.status = status;
         this.color = color;
     }
 
-    public String getStatus()
+    public ITextComponent getStatus()
     {
         return this.status;
     }

@@ -15,12 +15,12 @@ public abstract class ExtendedConfigOption
 
     public String getDisplayPrefix()
     {
-        return LangUtils.translate(this.key) + ": ";
+        return LangUtils.translateComponent(this.key).getString() + ": ";
     }
 
     public String getDisplayName()
     {
-        return LangUtils.translate(this.key);
+        return LangUtils.translateComponent(this.key).getString();
     }
 
     public abstract Widget createOptionButton(int x, int y, int width);

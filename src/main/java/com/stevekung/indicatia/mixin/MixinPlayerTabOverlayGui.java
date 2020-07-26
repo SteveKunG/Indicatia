@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.google.common.collect.Ordering;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.PingMode;
@@ -40,8 +41,8 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     @Mutable
     private static Ordering<NetworkPlayerInfo> ENTRY_ORDERING;
 
-    @Redirect(method = "render(ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/FontRenderer.getStringWidth(Ljava/lang/String;)I", ordinal = 0))
-    private int addStringWidth(FontRenderer fontRenderer, String text, int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
+    @Redirect(method = "func_238523_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/FontRenderer.getStringWidth(Ljava/lang/String;)I", ordinal = 0))
+    private int addStringWidth(FontRenderer fontRenderer, String text, MatrixStack matrixStack, int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
         boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
         int pingWidth = 0;
@@ -60,8 +61,8 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
         return fontRenderer.getStringWidth(text) + (scoreObjective != null && scoreObjective.getRenderType() == ScoreCriteria.RenderType.HEARTS ? 0 : pingWidth);
     }
 
-    @Inject(method = "drawPing(IIILnet/minecraft/client/network/play/NetworkPlayerInfo;)V", cancellable = true, at = @At("HEAD"))
-    private void drawPing(int x1, int x2, int y, NetworkPlayerInfo playerInfo, CallbackInfo info)
+    @Inject(method = "func_238522_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;IIILnet/minecraft/client/network/play/NetworkPlayerInfo;)V", cancellable = true, at = @At("HEAD"))
+    private void drawPing(MatrixStack matrixStack, int x1, int x2, int y, NetworkPlayerInfo playerInfo, CallbackInfo info)
     {
         boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
         FontRenderer fontRenderer = this.mc.fontRenderer;
@@ -90,7 +91,7 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
                 pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
                 fontRenderer = ClientUtils.unicodeFontRenderer;
             }
-            fontRenderer.drawStringWithShadow(color + pingText, x1 + x2 - fontRenderer.getStringWidth(pingText), y + 0.625F, 0);
+            fontRenderer.drawStringWithShadow(matrixStack, color + pingText, x1 + x2 - fontRenderer.getStringWidth(pingText), y + 0.625F, 0);
             info.cancel();
         }
     }

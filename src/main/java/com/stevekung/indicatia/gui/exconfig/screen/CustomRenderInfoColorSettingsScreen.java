@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigTextFieldWidgetList;
@@ -33,7 +34,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     public void init()
     {
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translateComponent("gui.done"), button ->
         {
             this.optionsRowList.saveCurrentValue();
             ExtendedConfig.INSTANCE.save();
@@ -78,22 +79,22 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground();
-        this.optionsRowList.render(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.font, LangUtils.translate("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
+        this.renderBackground(matrixStack);
+        this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
 
-        if (this.optionsRowList.selected && this.optionsRowList.getFocused() != null && this.optionsRowList.getFocused().getTextField() != null)
+        if (this.optionsRowList.selected && this.optionsRowList.getSelected() != null && this.optionsRowList.getSelected().getTextField() != null)
         {
-            ExtendedTextFieldWidget textField = this.optionsRowList.getFocused().getTextField();
+            ExtendedTextFieldWidget textField = this.optionsRowList.getSelected().getTextField();
             RGB rgb = ColorUtils.stringToRGB(textField.getText());
-            this.drawCenteredString(this.font, LangUtils.translate("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
+            this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
         }
         else
         {
-            this.drawCenteredString(this.font, LangUtils.translate("menu.color_format_info"), this.width / 2, 15, 16777215);
+            this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.color_format_info"), this.width / 2, 15, 16777215);
         }
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

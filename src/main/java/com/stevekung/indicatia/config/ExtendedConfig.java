@@ -149,12 +149,12 @@ public class ExtendedConfig
     public static final BooleanConfigOption RIGHT_CLICK_ADD_PARTY = new BooleanConfigOption("right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
 
 
-    public static final StringConfigOption EQUIPMENT_DIRECTION = new StringConfigOption("equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentDirection.getTranslationKey()));
-    public static final StringConfigOption EQUIPMENT_STATUS = new StringConfigOption("equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentStatus.getTranslationKey()));
-    public static final StringConfigOption EQUIPMENT_POSITION = new StringConfigOption("equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.equipmentPosition.getTranslationKey()));
-    public static final StringConfigOption POTION_HUD_STYLE = new StringConfigOption("potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDStyle.getTranslationKey()));
-    public static final StringConfigOption POTION_HUD_POSITION = new StringConfigOption("potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.potionHUDPosition.getTranslationKey()));
-    public static final StringConfigOption PING_MODE = new StringConfigOption("ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translate(config.pingMode.getTranslationKey()));
+    public static final StringConfigOption EQUIPMENT_DIRECTION = new StringConfigOption("equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateComponent(config.equipmentDirection.getTranslationKey()));
+    public static final StringConfigOption EQUIPMENT_STATUS = new StringConfigOption("equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateComponent(config.equipmentStatus.getTranslationKey()));
+    public static final StringConfigOption EQUIPMENT_POSITION = new StringConfigOption("equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateComponent(config.equipmentPosition.getTranslationKey()));
+    public static final StringConfigOption POTION_HUD_STYLE = new StringConfigOption("potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateComponent(config.potionHUDStyle.getTranslationKey()));
+    public static final StringConfigOption POTION_HUD_POSITION = new StringConfigOption("potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateComponent(config.potionHUDPosition.getTranslationKey()));
+    public static final StringConfigOption PING_MODE = new StringConfigOption("ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateComponent(config.pingMode.getTranslationKey()));
 
 
     public static final TextFieldConfigOption FPS_COLOR = new TextFieldConfigOption("fps_color", config -> config.fpsColor, (config, value) -> config.fpsColor = value);
@@ -429,7 +429,7 @@ public class ExtendedConfig
     {
         ExtendedConfig.INSTANCE = new ExtendedConfig();
         ExtendedConfig.INSTANCE.save(ExtendedConfig.CURRENT_PROFILE);
-        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", ExtendedConfig.CURRENT_PROFILE));
+        ClientUtils.printClientMessage(LangUtils.translateComponent("misc.extended_config.reset_config", ExtendedConfig.CURRENT_PROFILE));
     }
 
     private boolean getBoolean(CompoundNBT nbt, String key, boolean defaultValue)

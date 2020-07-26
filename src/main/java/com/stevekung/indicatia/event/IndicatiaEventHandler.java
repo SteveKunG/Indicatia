@@ -16,7 +16,6 @@ import com.stevekung.indicatia.gui.screen.MojangStatusScreen;
 import com.stevekung.indicatia.gui.widget.MojangStatusButton;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.AFKMode;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
@@ -185,13 +184,13 @@ public class IndicatiaEventHandler
 
         if (IndicatiaConfig.GENERAL.enableConfirmToDisconnect.get() && screen instanceof IngameMenuScreen && !this.mc.isSingleplayer())
         {
-            IGuiEventListener listener = screen.children().get(7);
+            IGuiEventListener listener = screen.getEventListeners().get(7);
 
             if (listener instanceof Button && listener.isMouseOver(event.getMouseX(), event.getMouseY()))
             {
                 Button button = (Button)listener;
 
-                if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
+                if (button.getMessage().equals(LangUtils.translateComponent("menu.disconnect")))
                 {
                     button.playDownSound(this.mc.getSoundHandler());
                     this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
@@ -268,7 +267,7 @@ public class IndicatiaEventHandler
                 if (tick % messageMin == 0)
                 {
                     String reason = IndicatiaEventHandler.AFK_REASON;
-                    reason = StringUtils.isNullOrEmpty(reason) ? "" : ", " + LangUtils.translate("commands.afk.reason") + ": " + reason;
+                    reason = StringUtils.isNullOrEmpty(reason) ? "" : ", " + LangUtils.translateComponent("commands.afk.reason") + ": " + reason;
                     player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + (tick == 0 ? "" : "s") + reason);
                 }
             }
@@ -364,7 +363,7 @@ public class IndicatiaEventHandler
                         {
                             IndicatiaEventHandler.START_AUTO_FISH = false;
                             IndicatiaEventHandler.autoFishTick = 0;
-                            mc.player.sendMessage(JsonUtils.create(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod")).applyTextStyle(TextFormatting.RED));
+                            mc.player.sendMessage(LangUtils.translateComponent("commands.auto_fish.not_equipped_fishing_rod").deepCopy().mergeStyle(TextFormatting.RED), Util.DUMMY_UUID);
                             return;
                         }
 

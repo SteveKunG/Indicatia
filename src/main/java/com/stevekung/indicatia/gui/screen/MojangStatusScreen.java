@@ -3,6 +3,7 @@ package com.stevekung.indicatia.gui.screen;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.utils.MojangServerStatus;
 import com.stevekung.indicatia.utils.MojangStatusChecker;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -28,11 +29,11 @@ public class MojangStatusScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 168, 200, 20, LangUtils.translateComponent("gui.done"), button ->
         {
             this.minecraft.displayGuiScreen(this.parent);
         }));
-        this.addButton(this.checkButton = new Button(this.width / 2 - 101, this.height / 6 + 145, 200, 20, LangUtils.translate("menu.check"), button ->
+        this.addButton(this.checkButton = new Button(this.width / 2 - 101, this.height / 6 + 145, 200, 20, LangUtils.translateComponent("menu.check"), button ->
         {
             this.statusList.clear();
             Thread thread = new Thread(() ->
@@ -69,17 +70,17 @@ public class MojangStatusScreen extends Screen
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground();
-        this.drawCenteredString(this.font, LangUtils.translate("menu.mojang_status.title"), this.width / 2, 15, 16777215);
+        this.renderBackground(matrixStack);
+        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.mojang_status.title"), this.width / 2, 15, 16777215);
         int height = 0;
 
         for (String statusList : this.statusList)
         {
-            this.drawString(this.font, statusList, this.width / 2 - 120, 35 + height, 16777215);
+            this.drawString(matrixStack, this.font, statusList, this.width / 2 - 120, 35 + height, 16777215);
             height += 12;
         }
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

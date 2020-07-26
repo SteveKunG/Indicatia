@@ -2,6 +2,7 @@ package com.stevekung.indicatia.gui.exconfig.screen.widget;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.DoubleConfigOption;
+import com.stevekung.stevekungslib.utils.JsonUtils;
 
 public class ConfigOptionSliderWidget extends ConfigSliderWidget
 {
@@ -24,6 +25,6 @@ public class ConfigOptionSliderWidget extends ConfigSliderWidget
     @Override
     protected void updateMessage()
     {
-        this.setMessage(this.option.getDisplayString());
+        this.setMessage(JsonUtils.create(this.option.getDisplayString()));
     }
 }

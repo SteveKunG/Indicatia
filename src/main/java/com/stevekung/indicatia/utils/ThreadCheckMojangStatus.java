@@ -10,7 +10,7 @@ public class ThreadCheckMojangStatus implements Runnable
     {
         for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
         {
-            ClientUtils.printClientMessage(JsonUtils.create(checker.getName() + ": ").appendSibling(JsonUtils.create(checker.getStatus().getColor() + checker.getStatus().getStatus())));
+            ClientUtils.printClientMessage(JsonUtils.create(checker.getName() + ": ").append(checker.getStatus().getStatus().deepCopy().mergeStyle(checker.getStatus().getColor())));
         }
     }
 }

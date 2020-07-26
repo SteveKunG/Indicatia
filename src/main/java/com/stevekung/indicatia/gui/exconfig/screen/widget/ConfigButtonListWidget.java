@@ -3,6 +3,7 @@ package com.stevekung.indicatia.gui.exconfig.screen.widget;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 
 import net.minecraft.client.Minecraft;
@@ -53,17 +54,17 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         }
 
         @Override
-        public void render(int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(MatrixStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
             for (Widget button : this.buttons)
             {
                 button.y = rowTop;
-                button.render(mouseX, mouseY, partialTicks);
+                button.render(matrixStack, mouseX, mouseY, partialTicks);
             }
         }
 
         @Override
-        public List<? extends IGuiEventListener> children()
+        public List<? extends IGuiEventListener> getEventListeners()
         {
             return this.buttons;
         }

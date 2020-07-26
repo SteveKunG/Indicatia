@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.indicatia.integration.GalacticraftPlanetsTime;
-import com.stevekung.stevekungslib.client.event.ClientEventHandler;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
@@ -17,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
-import net.minecraft.world.dimension.DimensionType;
 
 public class InfoOverlays
 {
@@ -94,17 +90,17 @@ public class InfoOverlays
             direction = "hud.direction.south_east";
             break;
         }
-        direction = LangUtils.translate(direction);
+        direction = LangUtils.translateComponent(direction).getString();
         direction += " (" + coord + ")";
         return new InfoOverlay("hud.direction", direction, ExtendedConfig.INSTANCE.directionColor, ExtendedConfig.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
     }
 
     public static void getTPS(MinecraftServer server)
     {
-        if (ClientEventHandler.ticks % 2 == 0)
+        /*if (ClientEventHandler.ticks % 2 == 0)TODO
         {
             double overallTPS = InfoOverlays.mean(server.tickTimeArray) * 1.0E-6D;
-            double overworldTPS = InfoOverlays.mean(server.getTickTime(DimensionType.OVERWORLD)) * 1.0E-6D;
+            double overworldTPS = InfoOverlays.mean(server.getTickTime(server.getWorld(DimensionType.OVERWORLD))) * 1.0E-6D;
             double tps = Math.min(1000.0D / overallTPS, 20);
 
             InfoOverlays.ALL_TPS.clear();
@@ -132,7 +128,7 @@ public class InfoOverlays
                 InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworldTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
             }
             InfoOverlays.TPS = new InfoOverlay("TPS", InfoOverlays.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
-        }
+        }*/
     }
 
     public static InfoOverlay getRealWorldTime()
@@ -147,7 +143,7 @@ public class InfoOverlays
     {
         boolean isSpace = false;
 
-        if (IndicatiaMod.GALACTICRAFT_LOADED)
+        /*if (IndicatiaMod.GALACTICRAFT_LOADED)TODO
         {
             try
             {
@@ -160,7 +156,7 @@ public class InfoOverlays
             {
                 return GalacticraftPlanetsTime.getSpaceTime(mc);
             }
-        }
+        }*/
         return InfoOverlays.getVanillaGameTime(mc.world.getDayTime() % 24000);
     }
 

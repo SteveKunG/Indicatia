@@ -57,11 +57,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
-            String chatMode = LangUtils.translate("menu.chat_mode") + ": " + JsonUtils.create(LangUtils.translate(this.mode.desc)).applyTextStyles(this.mode.color, TextFormatting.BOLD).getFormattedText();
+            String chatMode = LangUtils.translateComponent("menu.chat_mode") + ": " + LangUtils.translateComponent(this.mode.desc).deepCopy().mergeStyle(this.mode.color, TextFormatting.BOLD).getString();
             int x = 4;
             int y = mc.currentScreen.height - 30;
-            AbstractGui.fill(x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
-            mc.fontRenderer.drawStringWithShadow(chatMode, x, y, ColorUtils.rgbToDecimal(255, 255, 255));
+            AbstractGui.fill(event.getMatrixStack(), x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
+            mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(), chatMode, x, y, ColorUtils.rgbToDecimal(255, 255, 255));
         }
     }
 
@@ -75,7 +75,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 if (button instanceof MinigameButton)
                 {
                     MinigameButton customButton = (MinigameButton) button;
-                    customButton.render(event.getMouseX(), event.getMouseY());
+                    customButton.render(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
                 }
             }
         }
@@ -176,7 +176,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             {
                 for (ChatMode mode : ChatMode.values())
                 {
-                    buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, mode.message, button ->
+                    buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, JsonUtils.create(mode.message), button ->
                     {
                         this.mode = mode;
                         player.sendChatMessage(mode.command);

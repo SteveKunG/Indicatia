@@ -47,16 +47,13 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:${stevekung_lib_version}:deobf"
-    compile "org.spongepowered:mixin:0.8.1-SNAPSHOT"
+    //compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:${stevekung_lib_version}:deobf"
+    compile files("libs/SteveKunG's-Lib-1.16.1-4.0.0-deobf.jar")
 }
 
 repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
-    }
-    maven {
-        url "http://repo.spongepowered.org/maven/"
     }
     maven {
         url "https://minecraft.curseforge.com/api/maven/"
@@ -111,7 +108,6 @@ curseforge {
             displayName = "Indicatia-" + mcVersion + "-" + version
             relations {
                 requiredLibrary "stevekungs-lib"
-                requiredLibrary "mixinbootstrap"
             }
         }
         addArtifact sourcesJar

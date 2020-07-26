@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedButton;
+import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.widget.Widget;
@@ -37,7 +38,7 @@ public class BooleanConfigOption extends ExtendedConfigOption
         return new ExtendedButton(x, y, width, 20, this.getDisplayString(), button ->
         {
             this.set();
-            button.setMessage(this.getDisplayString());
+            button.setMessage(JsonUtils.create(this.getDisplayString()));
         });
     }
 
@@ -64,8 +65,8 @@ public class BooleanConfigOption extends ExtendedConfigOption
 
     public String getDisplayString()
     {
-        String on = this.yesNo ? LangUtils.translate("gui.yes") : "ON";
-        String off = this.yesNo ? LangUtils.translate("gui.no") : "OFF";
+        String on = this.yesNo ? LangUtils.translateComponent("gui.yes").getString() : "ON";
+        String off = this.yesNo ? LangUtils.translateComponent("gui.no").getString() : "OFF";
         return this.getDisplayPrefix() + (this.get() ? TextFormatting.GREEN + on : TextFormatting.RED + off);
     }
 }

@@ -3,6 +3,7 @@ package com.stevekung.indicatia.gui.exconfig.screen.widget;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.gui.exconfig.BooleanConfigOption;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.stevekungslib.utils.ColorUtils;
@@ -41,9 +42,9 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
-        if (this.getFocused() != null && this.getFocused().getTextField() != null)
+        if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
-            ExtendedTextFieldWidget text = this.getFocused().getTextField();
+            ExtendedTextFieldWidget text = this.getSelected().getTextField();
             this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeight();
             text.setFocused2(false);
         }
@@ -52,17 +53,17 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
 
     public void saveCurrentValue()
     {
-        this.children().forEach(Row::saveCurrentValue);
+        this.getEventListeners().forEach(Row::saveCurrentValue);
     }
 
     public void tick()
     {
-        this.children().forEach(Row::tick);
+        this.getEventListeners().forEach(Row::tick);
     }
 
     public void resize()
     {
-        this.children().forEach(Row::resize);
+        this.getEventListeners().forEach(Row::resize);
     }
 
     public static class Row extends AbstractOptionList.Entry<Row>
@@ -75,18 +76,18 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         }
 
         @Override
-        public void render(int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(MatrixStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
             for (ExtendedTextFieldWidget textField : this.textFields)
             {
                 textField.y = rowTop;
-                textField.render(mouseX, mouseY, partialTicks);
-                Minecraft.getInstance().fontRenderer.drawString(textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.rgbToDecimal(255, 255, 255));
+                textField.render(matrixStack, mouseX, mouseY, partialTicks);
+                Minecraft.getInstance().fontRenderer.drawString(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.rgbToDecimal(255, 255, 255));
             }
         }
 
         @Override
-        public List<? extends IGuiEventListener> children()
+        public List<? extends IGuiEventListener> getEventListeners()
         {
             return this.textFields;
         }
@@ -100,9 +101,9 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
 
         public ExtendedTextFieldWidget getTextField()
         {
-            if ((ExtendedTextFieldWidget)this.getFocused() != null)
+            if ((ExtendedTextFieldWidget)this.getListener() != null)
             {
-                return (ExtendedTextFieldWidget)this.getFocused();
+                return (ExtendedTextFieldWidget)this.getListener();
             }
             return null;
         }

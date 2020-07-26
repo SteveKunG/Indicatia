@@ -24,7 +24,7 @@ public class PingAllCommand implements IClientCommand
     {
         List<NetworkPlayerInfo> infoList = new ArrayList<>(Minecraft.getInstance().player.connection.getPlayerInfoMap());
         infoList.sort((info1, info2) -> Integer.compare(info2.getResponseTime(), info1.getResponseTime()));
-        infoList.forEach(info -> Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.ping_all.result", info.getGameProfile().getName(), info.getResponseTime())));
+        infoList.forEach(info -> Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.ping_all.result", info.getGameProfile().getName(), info.getResponseTime()).getString()));
         return 1;
     }
 }

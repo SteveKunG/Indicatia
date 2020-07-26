@@ -16,18 +16,17 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.inprofile.not_found", obj)));
-    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.inprofile.cannot_remove_default")));
-    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new StringTextComponent(LangUtils.translate("argument.id.invalid")));
+    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.inprofile.not_found", obj));
+    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.inprofile.cannot_remove_default"));
+    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslationTextComponent("argument.id.invalid"));
     private final Mode mode;
 
     private ProfileNameArgumentType(Mode mode)

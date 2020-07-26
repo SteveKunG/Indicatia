@@ -3,6 +3,7 @@ package com.stevekung.indicatia.hud;
 import java.util.Collection;
 
 import com.google.common.collect.Ordering;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.StatusEffects;
@@ -19,7 +20,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class EffectOverlays
 {
-    public static void renderPotionHUD(Minecraft mc)
+    public static void renderPotionHUD(Minecraft mc, MatrixStack matrixStack)
     {
         boolean iconAndTime = ExtendedConfig.INSTANCE.potionHUDStyle == StatusEffects.Style.ICON_AND_TIME;
         boolean right = ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.RIGHT;
@@ -73,7 +74,7 @@ public class EffectOverlays
 
                 Effect effect = effectIns.getPotion();
                 int amplifier = effectIns.getAmplifier();
-                String name = LangUtils.translate(effect.getName());
+                String name = LangUtils.translateComponent(effect.getName()).getString();
                 String durationTxt = EffectUtils.getPotionDurationString(effectIns, 1.0F);
                 int stringwidth1 = mc.fontRenderer.getStringWidth(name);
                 int stringwidth2 = mc.fontRenderer.getStringWidth(durationTxt);
@@ -84,14 +85,14 @@ public class EffectOverlays
 
                 if (amplifier >= 1 && amplifier <= 9)
                 {
-                    name = name + ' ' + LangUtils.translate("enchantment.level." + (amplifier + 1));
+                    name = name + ' ' + LangUtils.translateComponent("enchantment.level." + (amplifier + 1));
                 }
 
                 if (duration > 16)
                 {
                     if (showIcon)
                     {
-                        AbstractGui.blit(right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.ingameGUI.blitOffset, 18, 18, mc.getPotionSpriteUploader().getSprite(effect));
+                        AbstractGui.blit(matrixStack, right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.ingameGUI.getBlitOffset(), 18, 18, mc.getPotionSpriteUploader().getSprite(effect));
                     }
                     if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
@@ -99,9 +100,9 @@ public class EffectOverlays
 
                         if (!iconAndTime)
                         {
-                            mc.fontRenderer.drawStringWithShadow(name, xPotion + xOffset - stringwidth2, yPotion + 6, textColor);
+                            mc.fontRenderer.drawStringWithShadow(matrixStack, name, xPotion + xOffset - stringwidth2, yPotion + 6, textColor);
                         }
-                        mc.fontRenderer.drawStringWithShadow(durationTxt, xPotion + xOffset - stringwidth1, yPotion + yOffset, textColor);
+                        mc.fontRenderer.drawStringWithShadow(matrixStack, durationTxt, xPotion + xOffset - stringwidth1, yPotion + yOffset, textColor);
                     }
                     else if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                     {
@@ -109,9 +110,9 @@ public class EffectOverlays
 
                         if (!iconAndTime)
                         {
-                            mc.fontRenderer.drawStringWithShadow(name, xPotion + xOffset, yPotion + 6, textColor);
+                            mc.fontRenderer.drawStringWithShadow(matrixStack, name, xPotion + xOffset, yPotion + 6, textColor);
                         }
-                        mc.fontRenderer.drawStringWithShadow(durationTxt, xPotion + xOffset, yPotion + yOffset, textColor);
+                        mc.fontRenderer.drawStringWithShadow(matrixStack, durationTxt, xPotion + xOffset, yPotion + yOffset, textColor);
                     }
                     else
                     {
@@ -120,9 +121,9 @@ public class EffectOverlays
 
                         if (!iconAndTime)
                         {
-                            mc.fontRenderer.drawStringWithShadow(name, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, textColor);
+                            mc.fontRenderer.drawStringWithShadow(matrixStack, name, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, textColor);
                         }
-                        mc.fontRenderer.drawStringWithShadow(durationTxt, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, textColor);
+                        mc.fontRenderer.drawStringWithShadow(matrixStack, durationTxt, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, textColor);
                     }
                     yPotion -= length;
                 }

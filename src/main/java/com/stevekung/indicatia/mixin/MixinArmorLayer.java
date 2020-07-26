@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.ArmorLayer;
+import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -21,7 +21,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.ResourceLocation;
 
-@Mixin(ArmorLayer.class)
+@Mixin(BipedArmorLayer.class)
 public abstract class MixinArmorLayer<T extends LivingEntity, M extends BipedModel<T>, A extends BipedModel<T>> extends LayerRenderer<T, M>
 {
     public MixinArmorLayer(IEntityRenderer<T, M> renderer)
@@ -29,9 +29,9 @@ public abstract class MixinArmorLayer<T extends LivingEntity, M extends BipedMod
         super(renderer);
     }
 
-    @Redirect(method = "renderArmorPart(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;Lnet/minecraft/entity/LivingEntity;FFFFFFLnet/minecraft/inventory/EquipmentSlotType;I)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/ArmorLayer.renderArmor(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;IZLnet/minecraft/client/renderer/entity/model/BipedModel;FFFLnet/minecraft/util/ResourceLocation;)V", remap = false),
+    @Redirect(method = "func_241739_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/inventory/EquipmentSlotType;ILnet/minecraft/client/renderer/entity/model/BipedModel;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/BipedArmorLayer.func_241738_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;IZLnet/minecraft/client/renderer/entity/model/BipedModel;FFFLnet/minecraft/util/ResourceLocation;)V", remap = false),
             require = 3, allow = 3)
-    private void renderArmor(ArmorLayer<T, M, A> armorLayer, MatrixStack _matrixStackIn, IRenderTypeBuffer _bufferIn, int _packedLightIn, boolean glintIn, A modelIn, float red, float green, float blue, ResourceLocation armorResource, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, T entityLivingBaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, EquipmentSlotType slotIn, int packedLightIn)
+    private void renderArmor(BipedArmorLayer<T, M, A> armorLayer, MatrixStack _matrixStackIn, IRenderTypeBuffer _bufferIn, int _packedLightIn, boolean glintIn, A modelIn, float red, float green, float blue, ResourceLocation armorResource, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, T entityLivingBaseIn, EquipmentSlotType slotIn, int packedLightIn, A model)
     {
         this.renderArmorModified(_matrixStackIn, _bufferIn, entityLivingBaseIn, _packedLightIn, glintIn, modelIn, red, green, blue, armorResource);
     }

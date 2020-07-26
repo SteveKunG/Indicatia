@@ -70,7 +70,7 @@ public class InfoUtils
         int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
         String status;
 
-        switch (moonPhaseFactors[mc.world.dimension.getMoonPhase(mc.world.getDayTime())])
+        switch (moonPhaseFactors[mc.world.func_230315_m_().func_236035_c_(mc.world.getDayTime())])
         {
         case 4:
         default:

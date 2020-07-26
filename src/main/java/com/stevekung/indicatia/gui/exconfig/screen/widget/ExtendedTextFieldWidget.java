@@ -4,6 +4,7 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.TextFieldConfigOption;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
 public class ExtendedTextFieldWidget extends TextFieldWidget
@@ -14,7 +15,7 @@ public class ExtendedTextFieldWidget extends TextFieldWidget
 
     public ExtendedTextFieldWidget(int x, int y, int width, TextFieldConfigOption textFieldOption)
     {
-        super(Minecraft.getInstance().fontRenderer, x, y, width, 20, "");
+        super(Minecraft.getInstance().fontRenderer, x, y, width, 20, NarratorChatListener.EMPTY);
         this.textFieldOption = textFieldOption;
         this.setText(textFieldOption.get());
         this.setVisible(true);

@@ -2,7 +2,9 @@ package com.stevekung.indicatia.gui.widget;
 
 import java.util.Collections;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.client.RenderUtils;
 
 import net.minecraft.client.Minecraft;
@@ -25,7 +27,7 @@ public class MinigameButton extends Button
 
     public MinigameButton(int parentWidth, String tooltips, boolean isPlay, Button.IPressable pressable, ItemStack head)
     {
-        super(parentWidth - 130, 20, 20, 20, "Minigame Button", pressable);
+        super(parentWidth - 130, 20, 20, 20, JsonUtils.create("Minigame Button"), pressable);
         this.isPlay = isPlay;
         this.tooltips = tooltips;
         this.mc = Minecraft.getInstance();
@@ -33,14 +35,14 @@ public class MinigameButton extends Button
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         if (this.visible)
         {
             RenderUtils.bindTexture(this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
+            AbstractGui.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
 
             if (!this.head.isEmpty())
             {
@@ -55,11 +57,11 @@ public class MinigameButton extends Button
         }
     }
 
-    public void render(int mouseX, int mouseY)
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY)
     {
         if (this.visible && this.isMouseOver(mouseX, mouseY))
         {
-            GuiUtils.drawHoveringText(Collections.singletonList(this.tooltips), mouseX, mouseY, this.mc.currentScreen.width, this.mc.currentScreen.height, 128, this.mc.fontRenderer);
+            GuiUtils.drawHoveringText(matrixStack, Collections.singletonList(JsonUtils.create(this.tooltips)), mouseX, mouseY, this.mc.currentScreen.width, this.mc.currentScreen.height, 128, this.mc.fontRenderer);
             RenderSystem.disableLighting();
         }
     }

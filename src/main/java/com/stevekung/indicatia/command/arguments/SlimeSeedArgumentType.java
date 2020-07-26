@@ -8,13 +8,12 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
-import com.stevekung.stevekungslib.utils.LangUtils;
 
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class SlimeSeedArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType ZERO_NOT_ALLOWED = new DynamicCommandExceptionType(obj -> new StringTextComponent(LangUtils.translate("commands.slime_seed.zero_not_allowed")));
+    private static final DynamicCommandExceptionType ZERO_NOT_ALLOWED = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.slime_seed.zero_not_allowed"));
 
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException

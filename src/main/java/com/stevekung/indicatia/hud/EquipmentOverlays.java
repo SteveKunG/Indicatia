@@ -3,6 +3,7 @@ package com.stevekung.indicatia.hud;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
@@ -15,7 +16,7 @@ import net.minecraft.util.StringUtils;
 
 public class EquipmentOverlays
 {
-    public static void renderHorizontalEquippedItems(Minecraft mc)
+    public static void renderHorizontalEquippedItems(Minecraft mc, MatrixStack matrixStack)
     {
         boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
         int baseYOffset = ExtendedConfig.INSTANCE.armorHUDYOffset;
@@ -48,12 +49,12 @@ public class EquipmentOverlays
                 continue;
             }
             int xBaseRight = mc.getMainWindow().getScaledWidth() - totalWidth - 2;
-            equipment.render(right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
+            equipment.render(matrixStack, right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
     }
 
-    public static void renderVerticalEquippedItems(Minecraft mc)
+    public static void renderVerticalEquippedItems(Minecraft mc, MatrixStack matrixStack)
     {
         int i = 0;
         List<EquipmentOverlay> equippedLists = new ArrayList<>();
@@ -98,19 +99,19 @@ public class EquipmentOverlays
 
             if (!StringUtils.isNullOrEmpty(info))
             {
-                mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
             }
             if (!StringUtils.isNullOrEmpty(arrowInfo))
             {
                 RenderSystem.disableDepthTest();
-                ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                 RenderSystem.enableDepthTest();
             }
             ++i;
         }
     }
 
-    public static void renderHotbarEquippedItems(Minecraft mc)
+    public static void renderHotbarEquippedItems(Minecraft mc, MatrixStack matrixStack)
     {
         List<HotbarEquipmentOverlay> equippedLists = new ArrayList<>();
         ItemStack mainhandStack = mc.player.getHeldItemMainhand();
@@ -158,7 +159,7 @@ public class EquipmentOverlays
 
                 if (!StringUtils.isNullOrEmpty(info))
                 {
-                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                    mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
                 }
                 if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
@@ -166,7 +167,7 @@ public class EquipmentOverlays
                     int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 32;
 
                     RenderSystem.disableDepthTest();
-                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                     RenderSystem.enableDepthTest();
                 }
                 ++iLeft;
@@ -182,7 +183,7 @@ public class EquipmentOverlays
 
                 if (!StringUtils.isNullOrEmpty(info))
                 {
-                    mc.fontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                    mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
                 }
                 if (!StringUtils.isNullOrEmpty(arrowInfo))
                 {
@@ -190,7 +191,7 @@ public class EquipmentOverlays
                     int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 32;
 
                     RenderSystem.disableDepthTest();
-                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
                     RenderSystem.enableDepthTest();
                 }
                 ++iRight;

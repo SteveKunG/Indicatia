@@ -61,10 +61,10 @@ public class InfoOverlay
     {
         StringBuilder builder = new StringBuilder();
         builder.append(ColorUtils.stringToRGB(this.titleColor).toColoredFont());
-        builder.append(LangUtils.translate(this.title));
+        builder.append(LangUtils.translateComponent(this.title).getString());
         builder.append(": ");
         builder.append(ColorUtils.stringToRGB(this.valueColor).toColoredFont());
-        builder.append(LangUtils.translate(this.value));
+        builder.append(LangUtils.translateComponent(this.value).getString());
         return this.isEmpty ? "" : builder.toString();
     }
 

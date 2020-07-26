@@ -53,7 +53,7 @@ public class HypixelEventHandler
                 }
                 else if (message.contains("You were spawned in Limbo."))
                 {
-                    event.setMessage(JsonUtils.create("You were spawned in Limbo.").applyTextStyle(TextFormatting.GREEN));
+                    event.setMessage(JsonUtils.create("You were spawned in Limbo.").mergeStyle(TextFormatting.GREEN));
                 }
             }
         }

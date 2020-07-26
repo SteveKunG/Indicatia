@@ -1,6 +1,8 @@
 package com.stevekung.indicatia.gui.widget;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.stevekung.stevekungslib.utils.JsonUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -17,12 +19,12 @@ public class MojangStatusButton extends Button
 
     public MojangStatusButton(int xPos, int yPos, Button.IPressable button)
     {
-        super(xPos, yPos, 20, 20, "Mojang Status Button", button);
+        super(xPos, yPos, 20, 20, JsonUtils.create("Mojang Status Button"), button);
         this.mc = Minecraft.getInstance();
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         if (this.mc.currentScreen instanceof MainMenuScreen)
         {
@@ -37,7 +39,7 @@ public class MojangStatusButton extends Button
 
             this.mc.getTextureManager().bindTexture(MojangStatusButton.TEXTURE);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            AbstractGui.blit(this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
+            AbstractGui.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
     }
 }

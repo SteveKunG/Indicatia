@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.stevekung.indicatia.event.HUDRenderEventHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
@@ -20,21 +20,15 @@ public class MixinForgeIngameGui extends IngameGui
         super(mc);
     }
 
-    @Inject(method = "renderChat(II)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.translatef(FFF)V", shift = At.Shift.AFTER))
-    private void renderChatBefore(int width, int height, CallbackInfo info)
+    @Inject(method = "renderChat(IILcom/mojang/blaze3d/matrix/MatrixStack;)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.translatef(FFF)V", shift = At.Shift.AFTER))
+    private void renderChatBefore(int width, int height, MatrixStack matrixStack, CallbackInfo info)
     {
         RenderSystem.disableDepthTest();
     }
 
-    @Inject(method = "renderChat(II)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.popMatrix()V", shift = At.Shift.BEFORE))
-    private void renderChatAfter(int width, int height, CallbackInfo info)
+    @Inject(method = "renderChat(IILcom/mojang/blaze3d/matrix/MatrixStack;)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.popMatrix()V", shift = At.Shift.BEFORE))
+    private void renderChatAfter(int width, int height, MatrixStack matrixStack, CallbackInfo info)
     {
         RenderSystem.enableDepthTest();
-    }
-
-    @Inject(method = "renderGameOverlay(F)V", at = @At(value = "INVOKE", target = "net/minecraftforge/client/gui/ForgeIngameGui.renderPotionEffects()V", shift = At.Shift.AFTER))
-    private void renderGameOverlay(float partialTicks, CallbackInfo info)
-    {
-        HUDRenderEventHandler.renderInfo(this.mc);
     }
 }

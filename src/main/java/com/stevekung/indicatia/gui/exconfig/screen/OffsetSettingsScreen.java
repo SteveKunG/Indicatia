@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
@@ -24,12 +25,12 @@ public class OffsetSettingsScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translate("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translateComponent("gui.done"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
-        this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translate("menu.preview"), button ->
+        this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translateComponent("menu.preview"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new OffsetRenderPreviewScreen(this));
@@ -54,11 +55,11 @@ public class OffsetSettingsScreen extends Screen
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground();
-        this.optionsRowList.render(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.font, LangUtils.translate("menu.offset.title"), this.width / 2, 5, 16777215);
-        super.render(mouseX, mouseY, partialTicks);
+        this.renderBackground(matrixStack);
+        this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.offset.title"), this.width / 2, 5, 16777215);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

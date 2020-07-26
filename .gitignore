@@ -3,6 +3,7 @@
 .gradle
 bin
 build
+libs
 run
 
 # file
