@@ -49,7 +49,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     compile "org.spongepowered:mixin:0.8.1-SNAPSHOT"
 
-    if (new File("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar").exists())
+    if (file("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar").exists())
     {
         compile files("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar")
         println("Using existing deobf artifact")
