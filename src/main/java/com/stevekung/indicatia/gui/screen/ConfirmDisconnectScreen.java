@@ -3,6 +3,7 @@ package com.stevekung.indicatia.gui.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
@@ -46,7 +47,7 @@ public class ConfirmDisconnectScreen extends Screen
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.confirm_disconnect"), this.width / 2, 70, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.confirm_disconnect"), this.width / 2, 70, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

@@ -1,5 +1,6 @@
 modLoader="javafml"
-loaderVersion="[32,)"
+loaderVersion="[33,)"
+license="MIT License"
 updateJSONURL="https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
 
@@ -8,21 +9,21 @@ modId="indicatia"
 version="4.0.0"
 displayName="Indicatia"
 description="Simple in-game info and small utilities!"
-displayURL="https://minecraft.curseforge.com/projects/indicatia"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/indicatia"
 logoFile="logo.png"
 authors="SteveKunG"
 
 [[dependencies.indicatia]]
     modId="forge"
     mandatory=true
-    versionRange="[32.0.0,)"
+    versionRange="[33.0.0,)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.indicatia]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.1]"
+    versionRange="[1.16.2]"
     ordering="NONE"
     side="CLIENT"
 

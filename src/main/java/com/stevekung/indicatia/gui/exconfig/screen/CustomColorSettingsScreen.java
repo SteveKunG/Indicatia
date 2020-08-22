@@ -3,6 +3,7 @@ package com.stevekung.indicatia.gui.exconfig.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -34,7 +35,7 @@ public class CustomColorSettingsScreen extends Screen
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.custom_color.title"), this.width / 2, 15, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.custom_color.title"), this.width / 2, 15, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

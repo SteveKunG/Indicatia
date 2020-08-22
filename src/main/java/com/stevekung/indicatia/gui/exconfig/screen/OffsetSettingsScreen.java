@@ -6,6 +6,7 @@ import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -59,7 +60,7 @@ public class OffsetSettingsScreen extends Screen
     {
         this.renderBackground(matrixStack);
         this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.offset.title"), this.width / 2, 5, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.offset.title"), this.width / 2, 5, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

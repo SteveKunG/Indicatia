@@ -45,7 +45,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
             ExtendedTextFieldWidget text = this.getSelected().getTextField();
-            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeight();
+            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getWidth_CLASH();//FIXME BRUH
             text.setFocused2(false);
         }
         return super.mouseClicked(mouseX, mouseY, button);

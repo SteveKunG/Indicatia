@@ -3,10 +3,12 @@ package com.stevekung.indicatia.mixin;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.Nullable;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,10 +26,10 @@ import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.ClientHooks;
@@ -39,22 +41,18 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
 
     @Shadow
     @Final
-    @Mutable
     private MultiplayerScreen owner;
 
     @Shadow
     @Final
-    @Mutable
     private Minecraft mc;
 
     @Shadow
     @Final
-    @Mutable
     private ServerData server;
 
     @Shadow
     @Final
-    @Mutable
     private ResourceLocation serverIcon;
 
     @Shadow
@@ -64,15 +62,15 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
     private DynamicTexture icon;
 
     @Shadow
-    protected abstract void prepareServerIcon();
+    protected abstract void func_238859_a_(MatrixStack matrixStack, int x, int y, ResourceLocation resource);
 
     @Shadow
-    protected abstract void drawTextureAt(int x, int y, ResourceLocation resource);
+    protected abstract boolean func_241614_a_(@Nullable String icon);
 
     @Shadow
     protected abstract boolean canJoin();
 
-    @Inject(method = "render(IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
+    @Inject(method = "render(Lcom/mojang/blaze3d/matrix/MatrixStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(MatrixStack matrixStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
         if (IndicatiaConfig.GENERAL.multiplayerScreenEnhancement.get())
@@ -107,11 +105,11 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
             boolean flag1 = this.server.version < SharedConstants.getVersion().getProtocolVersion();
             boolean flag2 = flag || flag1;
             this.mc.fontRenderer.drawString(matrixStack, this.server.serverName, x + 32 + 3, y + 1, 16777215);
-            List<ITextProperties> list = this.mc.fontRenderer.func_238425_b_(this.server.serverMOTD, listWidth - 50);
+            List<IReorderingProcessor> list = this.mc.fontRenderer.func_238425_b_(this.server.serverMOTD, listWidth - 50);
 
             for (int i = 0; i < Math.min(list.size(), 2); ++i)
             {
-                this.mc.fontRenderer.func_238422_b_(matrixStack, list.get(i), x + 32 + 3, y + 12 + 9 * i, 8421504);
+                this.mc.fontRenderer.func_238422_b_(matrixStack, list.get(i), x + 35, y + 12 + 9 * i, 8421504);
             }
 
             ITextComponent ping = StringTextComponent.EMPTY;
@@ -162,20 +160,28 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
 
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-            if (this.server.getBase64EncodedIconData() != null && !this.server.getBase64EncodedIconData().equals(this.lastIconB64))
+            String icon = this.server.getBase64EncodedIconData();
+
+            if (!Objects.equals(icon, this.lastIconB64))
             {
-                this.lastIconB64 = this.server.getBase64EncodedIconData();
-                this.prepareServerIcon();
-                this.owner.getServerList().saveServerList();
+                if (this.func_241614_a_(icon))
+                {
+                    this.lastIconB64 = icon;
+                }
+                else
+                {
+                    this.server.setBase64EncodedIconData((String)null);
+                    that.func_241613_a_();
+                }
             }
 
             if (this.icon != null)
             {
-                this.drawTextureAt(x, y, this.serverIcon);
+                this.func_238859_a_(matrixStack, x, y, this.serverIcon);
             }
             else
             {
-                this.drawTextureAt(x, y, ServerSelectionList.field_214359_c);
+                this.func_238859_a_(matrixStack, x, y, ServerSelectionList.field_214359_c);
             }
 
             int i1 = mouseX - x;

@@ -10,6 +10,7 @@ import com.stevekung.stevekungslib.utils.ColorUtils.RGB;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -83,17 +84,17 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     {
         this.renderBackground(matrixStack);
         this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
 
         if (this.optionsRowList.selected && this.optionsRowList.getSelected() != null && this.optionsRowList.getSelected().getTextField() != null)
         {
             ExtendedTextFieldWidget textField = this.optionsRowList.getSelected().getTextField();
             RGB rgb = ColorUtils.stringToRGB(textField.getText());
-            this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
+            AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
         }
         else
         {
-            this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.color_format_info"), this.width / 2, 15, 16777215);
+            AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.color_format_info"), this.width / 2, 15, 16777215);
         }
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }

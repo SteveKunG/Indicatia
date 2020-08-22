@@ -7,6 +7,7 @@ import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -84,7 +85,7 @@ public class ExtendedConfigScreen extends Screen
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.main.title") + " : " + LangUtils.translateComponent("menu.current_selected_profile", TextFormatting.YELLOW + ExtendedConfig.CURRENT_PROFILE + TextFormatting.RESET), this.width / 2, 10, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.main.title") + " : " + LangUtils.translateComponent("menu.current_selected_profile", TextFormatting.YELLOW + ExtendedConfig.CURRENT_PROFILE + TextFormatting.RESET), this.width / 2, 10, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 

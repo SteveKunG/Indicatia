@@ -14,9 +14,12 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.DimensionType;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -72,8 +75,6 @@ public class HUDRenderEventHandler
             {
                 if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && this.mc.player != null && this.mc.world != null && !(this.mc.currentScreen instanceof OffsetRenderPreviewScreen))
                 {
-                    HUDRenderEventHandler.renderInfo(matrixStack, this.mc);
-
                     int iLeft = 0;
                     int iRight = 0;
 
@@ -84,13 +85,13 @@ public class HUDRenderEventHandler
                             continue;
                         }
 
-                        String value = info.toString();
+                        IFormattableTextComponent value = info.toFormatted();
                         InfoOverlay.Position pos = info.getPos();
                         float defaultPos = 3.0625F;
                         float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                         float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
-                        float xOffset = this.mc.getMainWindow().getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value);
-                        this.mc.fontRenderer.drawStringWithShadow(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
+                        float xOffset = this.mc.getMainWindow().getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value.getString());
+                        this.mc.fontRenderer.func_243246_a(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
                         if (pos == InfoOverlay.Position.LEFT)
                         {
@@ -179,10 +180,10 @@ public class HUDRenderEventHandler
         if (ExtendedConfig.INSTANCE.xyz)
         {
             String stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
-            String nether = mc.player.world.func_234922_V_() == DimensionType.THE_NETHER ? "Nether " : "";
+            String nether = mc.player.world.func_230315_m_().func_241509_i_() ? "Nether " : "";
             infos.add(new InfoOverlay(nether + "XYZ", stringPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
 
-            if (mc.player.world.func_234922_V_() == DimensionType.THE_NETHER)
+            if (mc.player.world.func_230315_m_().func_241509_i_())
             {
                 String stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
                 infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
@@ -198,11 +199,12 @@ public class HUDRenderEventHandler
         {
             ChunkPos chunkPos = new ChunkPos(playerPos);
             Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
-            String biomeName = mc.world.getBiome(playerPos).getDisplayName().getString();
-            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? biomeName : LangUtils.translateComponent("hud.biome.waiting_for_chunk").getString(), ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
+            ResourceLocation biomeResource = mc.world.func_241828_r().func_243612_b(Registry.BIOME_KEY).getKey(mc.world.getBiome(playerPos));
+            String biomeName = "biome." + biomeResource.getNamespace() + "." + biomeResource.getPath();
+            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? new TranslationTextComponent(biomeName).getString() : LangUtils.translateComponent("hud.biome.waiting_for_chunk").getString(), ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
         }
 
-        if (ExtendedConfig.INSTANCE.slimeChunkFinder && mc.player.world.func_234922_V_() == DimensionType.OVERWORLD)
+        if (ExtendedConfig.INSTANCE.slimeChunkFinder && !mc.player.world.func_230315_m_().func_241509_i_())
         {
             infos.add(new InfoOverlay("hud.slime_chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "gui.yes" : "gui.no", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
         }
@@ -233,66 +235,5 @@ public class HUDRenderEventHandler
             infos.add(new InfoOverlay("hud.moon_phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
         }
         return infos;
-    }
-
-    public static void renderInfo(MatrixStack matrixStack, Minecraft mc)
-    {
-        if (!mc.gameSettings.showDebugInfo)
-        {
-            if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && mc.player != null && mc.world != null && !(mc.currentScreen instanceof OffsetRenderPreviewScreen))
-            {
-                int iLeft = 0;
-                int iRight = 0;
-
-                for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(mc))
-                {
-                    if (info.isEmpty())
-                    {
-                        continue;
-                    }
-
-                    String value = info.toString();
-                    InfoOverlay.Position pos = info.getPos();
-                    float defaultPos = 3.0625F;
-                    float fontHeight = mc.fontRenderer.FONT_HEIGHT + 1;
-                    float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
-                    float xOffset = mc.getMainWindow().getScaledWidth() - 2 - mc.fontRenderer.getStringWidth(value);
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
-
-                    if (pos == InfoOverlay.Position.LEFT)
-                    {
-                        ++iLeft;
-                    }
-                    else
-                    {
-                        ++iRight;
-                    }
-                }
-            }
-
-            if (!mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
-            {
-                if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
-                {
-                    EquipmentOverlays.renderHotbarEquippedItems(mc, matrixStack);
-                }
-                else
-                {
-                    if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
-                    {
-                        EquipmentOverlays.renderVerticalEquippedItems(mc, matrixStack);
-                    }
-                    else
-                    {
-                        EquipmentOverlays.renderHorizontalEquippedItems(mc, matrixStack);
-                    }
-                }
-            }
-
-            if (ExtendedConfig.INSTANCE.potionHUD)
-            {
-                EffectOverlays.renderPotionHUD(mc, matrixStack);
-            }
-        }
     }
 }

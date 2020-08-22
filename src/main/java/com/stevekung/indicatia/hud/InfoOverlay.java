@@ -3,6 +3,10 @@ package com.stevekung.indicatia.hud;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+
 public class InfoOverlay
 {
     private String title;
@@ -56,16 +60,19 @@ public class InfoOverlay
         return this.isEmpty;
     }
 
-    @Override
-    public String toString()
+    public IFormattableTextComponent toFormatted()
     {
-        StringBuilder builder = new StringBuilder();
-        builder.append(ColorUtils.stringToRGB(this.titleColor).toColoredFont());
-        builder.append(LangUtils.translateComponent(this.title).getString());
-        builder.append(": ");
-        builder.append(ColorUtils.stringToRGB(this.valueColor).toColoredFont());
-        builder.append(LangUtils.translateComponent(this.value).getString());
-        return this.isEmpty ? "" : builder.toString();
+        IFormattableTextComponent formatted = new StringTextComponent("");
+        IFormattableTextComponent title = LangUtils.translateComponent(this.title).deepCopy();
+
+        String titleHex = String.format("#%02x%02x%02x", ColorUtils.stringToRGB(this.titleColor).red(), ColorUtils.stringToRGB(this.titleColor).green(), ColorUtils.stringToRGB(this.titleColor).blue());
+        formatted.append(title.setStyle(title.getStyle().setColor(Color.func_240745_a_(titleHex))).appendString(": "));
+
+        IFormattableTextComponent value = LangUtils.translateComponent(this.value).deepCopy();
+
+        String valueHex = String.format("#%02x%02x%02x", ColorUtils.stringToRGB(this.valueColor).red(), ColorUtils.stringToRGB(this.valueColor).green(), ColorUtils.stringToRGB(this.valueColor).blue());
+        formatted.append(value.setStyle(value.getStyle().setColor(Color.func_240745_a_(valueHex))));
+        return this.isEmpty ? new StringTextComponent("") : formatted;
     }
 
     public static InfoOverlay empty()

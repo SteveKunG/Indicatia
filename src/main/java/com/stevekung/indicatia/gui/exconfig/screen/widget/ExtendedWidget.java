@@ -7,6 +7,7 @@ import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.MathHelper;
@@ -38,6 +39,6 @@ public class ExtendedWidget extends Widget
         {
             fontRenderer = ClientUtils.unicodeFontRenderer;
         }
-        this.drawCenteredString(matrixStack, fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        AbstractGui.drawCenteredString(matrixStack, fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
     }
 }

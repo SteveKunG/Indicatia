@@ -9,6 +9,7 @@ import com.stevekung.indicatia.utils.MojangStatusChecker;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -41,7 +42,7 @@ public class MojangStatusScreen extends Screen
                 for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
                 {
                     MojangServerStatus status = checker.getStatus();
-                    this.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus());
+                    this.statusList.add(checker.getName() + ": " + status.getColor() + status.getStatus().getString());
                 }
                 this.check = false;
                 this.checkButton.active = true;
@@ -73,12 +74,12 @@ public class MojangStatusScreen extends Screen
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        this.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.mojang_status.title"), this.width / 2, 15, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.mojang_status.title"), this.width / 2, 15, 16777215);
         int height = 0;
 
         for (String statusList : this.statusList)
         {
-            this.drawString(matrixStack, this.font, statusList, this.width / 2 - 120, 35 + height, 16777215);
+            AbstractGui.drawString(matrixStack, this.font, statusList, this.width / 2 - 120, 35 + height, 16777215);
             height += 12;
         }
         super.render(matrixStack, mouseX, mouseY, partialTicks);
