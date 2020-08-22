@@ -23,7 +23,6 @@ def password = project.password
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "org.spongepowered.mixin"
 apply plugin: "eclipse"
-apply plugin: "maven-publish"
 
 import net.minecraftforge.gradle.common.task.SignJar
 
@@ -31,10 +30,11 @@ version = project.version
 group = "com.stevekung.indicatia"
 archivesBaseName = "Indicatia-All"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 1.8
+println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty("java.vendor") + ") Arch: " + System.getProperty("os.arch"))
 
 minecraft {
     mappings channel: "snapshot", version: "${mcp_mapping}"
-    accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
+    accessTransformer file("src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {
         client {
@@ -47,8 +47,18 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:${stevekung_lib_version}:deobf"
     compile "org.spongepowered:mixin:0.8.1-SNAPSHOT"
+
+    if (new File("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar").exists())
+    {
+        compile files("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar")
+        println("Using existing deobf artifact")
+    }
+    else
+    {
+        compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:${stevekung_lib_version}:deobf"
+        println("Using CurseForge deobf artifact")
+    }
 }
 
 repositories {
@@ -99,7 +109,7 @@ artifacts {
 }
 
 curseforge {
-    apiKey = project.indicatia_api
+    apiKey = project.upload_api_key
     project {
         id = "272146"
         changelog = file("CHANGE_LOG.md")
