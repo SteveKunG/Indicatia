@@ -26,7 +26,7 @@ public abstract class MixinElytraLayer<T extends LivingEntity, M extends EntityM
     }
 
     @Redirect(method = "Lnet/minecraft/client/renderer/entity/layers/ElytraLayer;render(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/model/ElytraModel;render(Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;IIFFFF)V"))
-    private void renderCape(ElytraModel<T> modelElytra, MatrixStack _matrixStackIn, IVertexBuilder _bufferIn, int _packedLightIn, int _packedOverlayIn, float red, float green, float blue, float alpha, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+    private void renderElytra(ElytraModel<T> modelElytra, MatrixStack _matrixStackIn, IVertexBuilder _bufferIn, int _packedLightIn, int _packedOverlayIn, float red, float green, float blue, float alpha, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
     {
         modelElytra.render(_matrixStackIn, _bufferIn, _packedLightIn, IndicatiaConfig.GENERAL.enableOldArmorRender.get() ? LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0F) : _packedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
     }
