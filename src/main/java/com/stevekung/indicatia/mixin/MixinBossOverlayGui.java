@@ -15,11 +15,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 public abstract class MixinBossOverlayGui extends AbstractGui
 {
     @Inject(method = "render(IILnet/minecraft/world/BossInfo;)V", cancellable = true, at = @At("HEAD"))
-    private void render(int x, int y, BossInfo info, CallbackInfo ci)
+    private void render(int x, int y, BossInfo bossInfo, CallbackInfo info)
     {
         if (!IndicatiaConfig.GENERAL.enableBossHealthBarRender.get())
         {
-            ci.cancel();
+            info.cancel();
         }
     }
 
