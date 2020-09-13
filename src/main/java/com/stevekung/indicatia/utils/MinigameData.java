@@ -3,15 +3,19 @@ package com.stevekung.indicatia.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 public class MinigameData
 {
-    private static final List<MinigameData> DATA = new ArrayList<>();
+    public static List<MinigameData> DATA = new ArrayList<>();
     private final String name;
+    private final boolean sort;
     private final List<MinigameData.Command> commands;
 
-    public MinigameData(String name, List<MinigameData.Command> commands)
+    public MinigameData(String name, boolean sort, List<MinigameData.Command> commands)
     {
         this.name = name;
+        this.sort = sort;
         this.commands = commands;
     }
 
@@ -20,14 +24,14 @@ public class MinigameData
         return this.name;
     }
 
+    public boolean isSorted()
+    {
+        return this.sort;
+    }
+
     public List<MinigameData.Command> getCommands()
     {
         return this.commands;
-    }
-
-    public static List<MinigameData> getMinigames()
-    {
-        return MinigameData.DATA;
     }
 
     public static void addMinigame(MinigameData data)
@@ -39,6 +43,7 @@ public class MinigameData
     {
         private final String name;
         private final String command;
+        @SerializedName("minigame")
         private final boolean isMinigame;
         private final String uuid;
         private final String texture;

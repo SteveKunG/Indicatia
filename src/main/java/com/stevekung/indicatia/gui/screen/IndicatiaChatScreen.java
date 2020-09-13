@@ -164,7 +164,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         {
             List<String> list = new ArrayList<>();
 
-            for (MinigameData data : MinigameData.getMinigames())
+            for (MinigameData data : MinigameData.DATA)
             {
                 list.add(data.getName());
             }
@@ -201,7 +201,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                     ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
                 }
 
-                for (MinigameData data : MinigameData.getMinigames())
+                for (MinigameData data : MinigameData.DATA)
                 {
                     for (MinigameData.Command command : data.getCommands())
                     {
