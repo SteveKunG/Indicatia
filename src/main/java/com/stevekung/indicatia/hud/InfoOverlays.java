@@ -147,7 +147,7 @@ public class InfoOverlays
     {
         boolean isSpace = false;
 
-        if (IndicatiaMod.GALACTICRAFT_LOADED)
+        if (IndicatiaMod.isGalacticraftLoaded)
         {
             try
             {

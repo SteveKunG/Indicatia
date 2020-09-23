@@ -25,7 +25,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
 @Mod(IndicatiaMod.MOD_ID)
@@ -33,10 +33,10 @@ public class IndicatiaMod
 {
     private static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
-    private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
+    private static final String URL = "https://www.curseforge.com/minecraft/mc-mods/indicatia";
     private static final File PROFILE = new File(ExtendedConfig.USER_DIR, "profile.txt");
     public static VersionChecker CHECKER;
-    public static boolean GALACTICRAFT_LOADED;
+    public static boolean isGalacticraftLoaded;
     public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
     private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
 
@@ -53,10 +53,10 @@ public class IndicatiaMod
         CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
         CommonUtils.registerModEventBus(IndicatiaConfig.class);
 
-        IndicatiaMod.GALACTICRAFT_LOADED = ModList.get().isLoaded("galacticraftcore");
+        IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
     }
 
-    private void phaseOne(FMLCommonSetupEvent event)
+    private void phaseOne(FMLClientSetupEvent event)
     {
         this.registerClientCommands();
         KeyBindingHandler.init();
