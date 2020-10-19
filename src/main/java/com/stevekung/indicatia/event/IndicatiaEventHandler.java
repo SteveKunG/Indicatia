@@ -190,7 +190,7 @@ public class IndicatiaEventHandler
             {
                 Button button = (Button)listener;
 
-                if (button.getMessage().equals(LangUtils.translateComponent("menu.disconnect")))
+                if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
                 {
                     button.playDownSound(this.mc.getSoundHandler());
                     this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
@@ -267,7 +267,7 @@ public class IndicatiaEventHandler
                 if (tick % messageMin == 0)
                 {
                     String reason = IndicatiaEventHandler.AFK_REASON;
-                    reason = StringUtils.isNullOrEmpty(reason) ? "" : ", " + LangUtils.translateComponent("commands.afk.reason") + ": " + reason;
+                    reason = StringUtils.isNullOrEmpty(reason) ? "" : ", " + LangUtils.translate("commands.afk.reason") + ": " + reason;
                     player.sendChatMessage("AFK : " + StringUtils.ticksToElapsedTime(tick) + " minute" + (tick == 0 ? "" : "s") + reason);
                 }
             }
@@ -363,7 +363,7 @@ public class IndicatiaEventHandler
                         {
                             IndicatiaEventHandler.START_AUTO_FISH = false;
                             IndicatiaEventHandler.autoFishTick = 0;
-                            mc.player.sendMessage(LangUtils.translateComponent("commands.auto_fish.not_equipped_fishing_rod").deepCopy().mergeStyle(TextFormatting.RED), Util.DUMMY_UUID);
+                            mc.player.sendMessage(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod").deepCopy().mergeStyle(TextFormatting.RED), Util.DUMMY_UUID);
                             return;
                         }
 

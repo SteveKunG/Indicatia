@@ -22,12 +22,12 @@ public class SlimeSeedCommand implements IClientCommand
         {
             long longSeed = Long.parseLong(seed);
             ExtendedConfig.INSTANCE.slimeChunkSeed = longSeed;
-            source.sendFeedback(LangUtils.translateComponent("commands.slime_seed.set", longSeed));
+            source.sendFeedback(LangUtils.translate("commands.slime_seed.set", longSeed));
         }
         catch (NumberFormatException e)
         {
             ExtendedConfig.INSTANCE.slimeChunkSeed = seed.hashCode();
-            source.sendFeedback(LangUtils.translateComponent("commands.slime_seed.set", seed.hashCode()));
+            source.sendFeedback(LangUtils.translate("commands.slime_seed.set", seed.hashCode()));
         }
         ExtendedConfig.INSTANCE.save();
         return 1;

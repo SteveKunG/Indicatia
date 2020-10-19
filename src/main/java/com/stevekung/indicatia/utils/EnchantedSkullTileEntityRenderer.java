@@ -20,7 +20,7 @@ public class EnchantedSkullTileEntityRenderer
         matrixStack.push();
         matrixStack.translate(0.5D, 0.0D, 0.5D);
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
-        IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(buffer, SkullTileEntityRenderer.getRenderType(skullType, gameProfile), false, glint);
+        IVertexBuilder ivertexbuilder = gameProfile == null ? ItemRenderer.getArmorVertexBuilder(buffer, SkullTileEntityRenderer.getRenderType(skullType, gameProfile), false, glint) : ItemRenderer.getEntityGlintVertexBuilder(buffer, SkullTileEntityRenderer.getRenderType(skullType, gameProfile), false, glint);
         genericheadmodel.func_225603_a_(0.0F, 180.0F, 0.0F);
         genericheadmodel.render(matrixStack, ivertexbuilder, combinedLight, combinedHurt, 1.0F, 1.0F, 1.0F, 1.0F);
         matrixStack.pop();

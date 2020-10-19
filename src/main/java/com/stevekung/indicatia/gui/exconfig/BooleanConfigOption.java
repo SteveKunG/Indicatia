@@ -5,10 +5,11 @@ import java.util.function.Predicate;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedButton;
-import com.stevekung.stevekungslib.utils.JsonUtils;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
+import net.minecraft.client.gui.DialogTexts;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public class BooleanConfigOption extends ExtendedConfigOption
@@ -38,7 +39,7 @@ public class BooleanConfigOption extends ExtendedConfigOption
         return new ExtendedButton(x, y, width, 20, this.getDisplayString(), button ->
         {
             this.set();
-            button.setMessage(JsonUtils.create(this.getDisplayString()));
+            button.setMessage(this.getDisplayString());
         });
     }
 
@@ -63,10 +64,13 @@ public class BooleanConfigOption extends ExtendedConfigOption
         return this.getter.test(ExtendedConfig.INSTANCE);
     }
 
-    public String getDisplayString()
+    public ITextComponent getDisplayString()
     {
-        String on = this.yesNo ? LangUtils.translateComponent("gui.yes").getString() : "ON";
-        String off = this.yesNo ? LangUtils.translateComponent("gui.no").getString() : "OFF";
-        return this.getDisplayPrefix() + (this.get() ? TextFormatting.GREEN + on : TextFormatting.RED + off);
+        return TextComponentUtils.component(this.getDisplayPrefix()).append(this.optionsEnabled(this.get()));
+    }
+
+    private ITextComponent optionsEnabled(boolean isEnabled)
+    {
+        return isEnabled ? this.yesNo ? DialogTexts.GUI_YES.deepCopy().mergeStyle(TextFormatting.GREEN) : DialogTexts.OPTIONS_ON.deepCopy().mergeStyle(TextFormatting.GREEN) : this.yesNo ? DialogTexts.GUI_NO.deepCopy().mergeStyle(TextFormatting.RED) : DialogTexts.OPTIONS_OFF.deepCopy().mergeStyle(TextFormatting.RED);
     }
 }

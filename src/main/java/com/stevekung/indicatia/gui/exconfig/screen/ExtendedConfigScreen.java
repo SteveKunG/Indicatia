@@ -4,14 +4,14 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.DoubleConfigOption;
 import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.chat.NarratorChatListener;
+import net.minecraft.client.gui.DialogTexts;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public class ExtendedConfigScreen extends Screen
@@ -21,7 +21,7 @@ public class ExtendedConfigScreen extends Screen
 
     public ExtendedConfigScreen()
     {
-        super(NarratorChatListener.EMPTY);
+        super(StringTextComponent.EMPTY);
     }
 
     @Override
@@ -42,35 +42,35 @@ public class ExtendedConfigScreen extends Screen
             ++i;
         }
 
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translateComponent("menu.render_info.title"), button ->
+        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.render_info.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new RenderInfoSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translateComponent("menu.custom_color.title"), button ->
+        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.custom_color.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new CustomColorSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translateComponent("menu.offset.title"), button ->
+        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.offset.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new OffsetSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translateComponent("menu.hypixel.title"), button ->
+        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.hypixel.title"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new HypixelSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, LangUtils.translateComponent("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, DialogTexts.GUI_DONE, button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(null);
         }));
-        this.addButton(new Button(this.width / 2 - 160, this.height / 6 + 175, 160, 20, LangUtils.translateComponent("menu.reset_config"), button ->
+        this.addButton(new Button(this.width / 2 - 160, this.height / 6 + 175, 160, 20, LangUtils.translate("menu.reset_config"), button ->
         {
             ExtendedConfig.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translateComponent("menu.reset_config_confirm"), JsonUtils.create("")));
+            this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translate("menu.reset_config_confirm"), StringTextComponent.EMPTY));
         }));
     }
 
@@ -85,7 +85,7 @@ public class ExtendedConfigScreen extends Screen
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.main.title") + " : " + LangUtils.translateComponent("menu.current_selected_profile", TextFormatting.YELLOW + ExtendedConfig.CURRENT_PROFILE + TextFormatting.RESET), this.width / 2, 10, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.main.title").deepCopy().appendString(" : ").append(LangUtils.formatted("menu.current_selected_profile", TextFormatting.YELLOW, ExtendedConfig.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 

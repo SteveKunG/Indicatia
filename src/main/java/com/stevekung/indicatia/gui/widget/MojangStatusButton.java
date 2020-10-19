@@ -2,7 +2,7 @@ package com.stevekung.indicatia.gui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -19,10 +19,11 @@ public class MojangStatusButton extends Button
 
     public MojangStatusButton(int xPos, int yPos, Button.IPressable button)
     {
-        super(xPos, yPos, 20, 20, JsonUtils.create("Mojang Status Button"), button);
+        super(xPos, yPos, 20, 20, TextComponentUtils.component("Mojang Status Button"), button);
         this.mc = Minecraft.getInstance();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {

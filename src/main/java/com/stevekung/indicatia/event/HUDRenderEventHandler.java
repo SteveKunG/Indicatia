@@ -180,10 +180,10 @@ public class HUDRenderEventHandler
         if (ExtendedConfig.INSTANCE.xyz)
         {
             String stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
-            String nether = mc.player.world.func_230315_m_().func_241509_i_() ? "Nether " : "";
+            String nether = mc.player.world.getDimensionType().isPiglinSafe() ? "Nether " : "";
             infos.add(new InfoOverlay(nether + "XYZ", stringPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
 
-            if (mc.player.world.func_230315_m_().func_241509_i_())
+            if (mc.player.world.getDimensionType().isPiglinSafe())
             {
                 String stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
                 infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
@@ -199,12 +199,12 @@ public class HUDRenderEventHandler
         {
             ChunkPos chunkPos = new ChunkPos(playerPos);
             Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
-            ResourceLocation biomeResource = mc.world.func_241828_r().func_243612_b(Registry.BIOME_KEY).getKey(mc.world.getBiome(playerPos));
+            ResourceLocation biomeResource = mc.world.func_241828_r().getRegistry(Registry.BIOME_KEY).getKey(mc.world.getBiome(playerPos));
             String biomeName = "biome." + biomeResource.getNamespace() + "." + biomeResource.getPath();
-            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? new TranslationTextComponent(biomeName).getString() : LangUtils.translateComponent("hud.biome.waiting_for_chunk").getString(), ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? new TranslationTextComponent(biomeName).getString() : LangUtils.translate("hud.biome.waiting_for_chunk").getString(), ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
         }
 
-        if (ExtendedConfig.INSTANCE.slimeChunkFinder && !mc.player.world.func_230315_m_().func_241509_i_())
+        if (ExtendedConfig.INSTANCE.slimeChunkFinder && !mc.player.world.getDimensionType().isPiglinSafe())
         {
             infos.add(new InfoOverlay("hud.slime_chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "gui.yes" : "gui.no", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
         }

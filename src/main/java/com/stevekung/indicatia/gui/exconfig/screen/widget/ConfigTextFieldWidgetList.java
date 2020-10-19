@@ -45,7 +45,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
             ExtendedTextFieldWidget text = this.getSelected().getTextField();
-            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getWidth_CLASH();//FIXME BRUH
+            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeightRealms();//FIXME STILL BRUH
             text.setFocused2(false);
         }
         return super.mouseClicked(mouseX, mouseY, button);
@@ -82,7 +82,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             {
                 textField.y = rowTop;
                 textField.render(matrixStack, mouseX, mouseY, partialTicks);
-                Minecraft.getInstance().fontRenderer.drawString(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.rgbToDecimal(255, 255, 255));
+                Minecraft.getInstance().fontRenderer.drawString(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
             }
         }
 
@@ -114,7 +114,6 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             {
                 ExtendedTextFieldWidget text = this.getTextField();
                 text.setValue(text.getText());
-                ColorUtils.stringToRGB(text.getText(), false, text.getDisplayName());
             }
         }
 

@@ -5,10 +5,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.IFormattableTextComponent;
 
 public class HorizontalEquipmentOverlay extends EquipmentOverlay
 {
@@ -29,14 +31,15 @@ public class HorizontalEquipmentOverlay extends EquipmentOverlay
     public void render(MatrixStack matrixStack, int x, int y)
     {
         boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        String arrowInfo = this.renderArrowInfo();
+        IFormattableTextComponent arrowInfo = TextComponentUtils.component(this.renderArrowInfo()).deepCopy();
+        arrowInfo.setStyle(arrowInfo.getStyle().setFontId(ClientUtils.UNICODE));
         EquipmentOverlay.renderItem(this.itemStack, right ? x - 18 : x, y);
-        this.mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, 16777215);
+        this.mc.fontRenderer.drawStringWithShadow(matrixStack, this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.equipmentStatusColor));
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
             RenderSystem.disableDepthTest();
-            ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, right ? x - ClientUtils.unicodeFontRenderer.getStringWidth(arrowInfo) : x + 6, y + 8, 16777215);
+            this.mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, right ? x - this.mc.fontRenderer.getStringPropertyWidth(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.arrowCountColor));
             RenderSystem.enableDepthTest();
         }
     }

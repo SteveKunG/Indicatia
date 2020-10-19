@@ -6,14 +6,14 @@ import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigTextFieldWidgetList;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedTextFieldWidget;
 import com.stevekung.stevekungslib.utils.ColorUtils;
-import com.stevekung.stevekungslib.utils.ColorUtils.RGB;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.chat.NarratorChatListener;
+import net.minecraft.client.gui.DialogTexts;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 
 public class CustomRenderInfoColorSettingsScreen extends Screen
 {
@@ -27,7 +27,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
 
     public CustomRenderInfoColorSettingsScreen(Screen parent)
     {
-        super(NarratorChatListener.EMPTY);
+        super(StringTextComponent.EMPTY);
         this.parent = parent;
     }
 
@@ -35,7 +35,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     public void init()
     {
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translateComponent("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, DialogTexts.GUI_DONE, button ->
         {
             this.optionsRowList.saveCurrentValue();
             ExtendedConfig.INSTANCE.save();
@@ -52,7 +52,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     }
 
     @Override
-    public void onClose()
+    public void closeScreen()
     {
         this.minecraft.keyboardListener.enableRepeatEvents(false);
         this.minecraft.displayGuiScreen(this.parent);
@@ -84,17 +84,16 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     {
         this.renderBackground(matrixStack);
         this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
 
         if (this.optionsRowList.selected && this.optionsRowList.getSelected() != null && this.optionsRowList.getSelected().getTextField() != null)
         {
             ExtendedTextFieldWidget textField = this.optionsRowList.getSelected().getTextField();
-            RGB rgb = ColorUtils.stringToRGB(textField.getText());
-            AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.example") + ": " + rgb.toColoredFont() + textField.getDisplayName(), this.width / 2, 15, 16777215);
+            AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.example") + ": " + textField.getDisplayName(), this.width / 2, 15, ColorUtils.rgbToDecimal(textField.getText()));
         }
         else
         {
-            AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.color_format_info"), this.width / 2, 15, 16777215);
+            AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.color_format_info"), this.width / 2, 15, 16777215);
         }
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }

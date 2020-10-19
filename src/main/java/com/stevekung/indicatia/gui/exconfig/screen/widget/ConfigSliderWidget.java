@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 public abstract class ConfigSliderWidget extends ExtendedWidget
 {
@@ -17,7 +18,7 @@ public abstract class ConfigSliderWidget extends ExtendedWidget
 
     protected ConfigSliderWidget(int x, int y, int width, int height, double value)
     {
-        super(x, y, width, height, "");
+        super(x, y, width, height, StringTextComponent.EMPTY);
         this.value = value;
     }
 
@@ -30,9 +31,10 @@ public abstract class ConfigSliderWidget extends ExtendedWidget
     @Override
     protected IFormattableTextComponent getNarrationMessage()
     {
-        return LangUtils.translateComponent("gui.narrate.slider", this.getMessage()).deepCopy();
+        return LangUtils.translate("gui.narrate.slider", this.getMessage()).deepCopy();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(MatrixStack matrixStack, Minecraft mc, int x, int y)
     {

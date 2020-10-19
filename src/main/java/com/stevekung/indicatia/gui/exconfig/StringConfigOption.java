@@ -5,9 +5,10 @@ import java.util.function.BiFunction;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ExtendedButton;
-import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.ITextComponent;
 
 public class StringConfigOption extends ExtendedConfigOption
 {
@@ -27,7 +28,7 @@ public class StringConfigOption extends ExtendedConfigOption
         return new ExtendedButton(x, y, width, 20, this.get(), button ->
         {
             this.set(1);
-            button.setMessage(JsonUtils.create(this.get()));
+            button.setMessage(this.get());
         });
     }
 
@@ -37,8 +38,8 @@ public class StringConfigOption extends ExtendedConfigOption
         ExtendedConfig.INSTANCE.save();
     }
 
-    public String get()
+    public ITextComponent get()
     {
-        return this.setter.apply(ExtendedConfig.INSTANCE, this);
+        return TextComponentUtils.component(this.setter.apply(ExtendedConfig.INSTANCE, this));
     }
 }

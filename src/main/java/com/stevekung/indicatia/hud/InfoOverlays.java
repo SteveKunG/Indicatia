@@ -90,7 +90,7 @@ public class InfoOverlays
             direction = "hud.direction.south_east";
             break;
         }
-        direction = LangUtils.translateComponent(direction).getString();
+        direction = LangUtils.translateString(direction);
         direction += " (" + coord + ")";
         return new InfoOverlay("hud.direction", direction, ExtendedConfig.INSTANCE.directionColor, ExtendedConfig.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
     }

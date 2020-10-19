@@ -8,11 +8,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.text.IFormattableTextComponent;
 
 public class EquipmentOverlays
 {
@@ -88,23 +90,24 @@ public class EquipmentOverlays
             }
             int equipmentYOffset = baseYOffset + 16 * i;
             String info = equipment.renderInfo();
-            String arrowInfo = equipment.renderArrowInfo();
+            IFormattableTextComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).deepCopy();
+            arrowInfo.setStyle(arrowInfo.getStyle().setFontId(ClientUtils.UNICODE));
             float fontHeight = (mc.fontRenderer.FONT_HEIGHT + 7) * i;
             float infoXOffset = right ? mc.getMainWindow().getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
             float infoYOffset = baseYOffset + 4 + fontHeight;
-            float arrowXOffset = right ? mc.getMainWindow().getScaledWidth() - ClientUtils.unicodeFontRenderer.getStringWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            float arrowXOffset = right ? mc.getMainWindow().getScaledWidth() - mc.fontRenderer.getStringPropertyWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
             float arrowYOffset = baseYOffset + 8 + fontHeight;
 
             EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
 
             if (!StringUtils.isNullOrEmpty(info))
             {
-                mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                mc.fontRenderer.drawStringWithShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.equipmentStatusColor));
             }
-            if (!StringUtils.isNullOrEmpty(arrowInfo))
+            if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
             {
                 RenderSystem.disableDepthTest();
-                ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.arrowCountColor));
                 RenderSystem.enableDepthTest();
             }
             ++i;
@@ -141,7 +144,8 @@ public class EquipmentOverlays
         {
             ItemStack itemStack = equipment.getItemStack();
             String info = equipment.renderInfo();
-            String arrowInfo = equipment.renderArrowInfo();
+            IFormattableTextComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).deepCopy();
+            arrowInfo.setStyle(arrowInfo.getStyle().setFontId(ClientUtils.UNICODE));
 
             if (itemStack.isEmpty())
             {
@@ -159,15 +163,15 @@ public class EquipmentOverlays
 
                 if (!StringUtils.isNullOrEmpty(info))
                 {
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                    mc.fontRenderer.drawStringWithShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.equipmentStatusColor));
                 }
-                if (!StringUtils.isNullOrEmpty(arrowInfo))
+                if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
                 {
                     float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 - 104;
                     int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 32;
 
                     RenderSystem.disableDepthTest();
-                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iLeft;
@@ -183,15 +187,15 @@ public class EquipmentOverlays
 
                 if (!StringUtils.isNullOrEmpty(info))
                 {
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.equipmentStatusColor).toColoredFont() + info, infoXOffset, infoYOffset, 16777215);
+                    mc.fontRenderer.drawStringWithShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.equipmentStatusColor));
                 }
-                if (!StringUtils.isNullOrEmpty(arrowInfo))
+                if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
                 {
-                    float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringWidth(arrowInfo);
+                    float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringPropertyWidth(arrowInfo);
                     int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 32;
 
                     RenderSystem.disableDepthTest();
-                    ClientUtils.unicodeFontRenderer.drawStringWithShadow(matrixStack, ColorUtils.stringToRGB(ExtendedConfig.INSTANCE.arrowCountColor).toColoredFont() + arrowInfo, arrowXOffset, arrowYOffset, 16777215);
+                    mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iRight;

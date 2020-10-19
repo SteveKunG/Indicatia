@@ -7,9 +7,9 @@ import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 
 public class OffsetSettingsScreen extends Screen
 {
@@ -19,19 +19,19 @@ public class OffsetSettingsScreen extends Screen
 
     public OffsetSettingsScreen(Screen parent)
     {
-        super(NarratorChatListener.EMPTY);
+        super(StringTextComponent.EMPTY);
         this.parent = parent;
     }
 
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translateComponent("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
-        this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translateComponent("menu.preview"), button ->
+        this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translate("menu.preview"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(new OffsetRenderPreviewScreen(this));
@@ -50,7 +50,7 @@ public class OffsetSettingsScreen extends Screen
     }
 
     @Override
-    public void onClose()
+    public void closeScreen()
     {
         this.minecraft.displayGuiScreen(this.parent);
     }
@@ -60,7 +60,7 @@ public class OffsetSettingsScreen extends Screen
     {
         this.renderBackground(matrixStack);
         this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.offset.title"), this.width / 2, 5, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.offset.title"), this.width / 2, 5, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

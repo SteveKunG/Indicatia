@@ -8,16 +8,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IngameGui;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 
 @Mixin(ForgeIngameGui.class)
 public class MixinForgeIngameGui extends IngameGui
 {
-    public MixinForgeIngameGui(Minecraft mc)
+    private MixinForgeIngameGui()
     {
-        super(mc);
+        super(null);
     }
 
     @Inject(method = "renderChat(IILcom/mojang/blaze3d/matrix/MatrixStack;)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/systems/RenderSystem.translatef(FFF)V", shift = At.Shift.AFTER))

@@ -63,15 +63,13 @@ public class InfoOverlay
     public IFormattableTextComponent toFormatted()
     {
         IFormattableTextComponent formatted = new StringTextComponent("");
-        IFormattableTextComponent title = LangUtils.translateComponent(this.title).deepCopy();
+        IFormattableTextComponent title = LangUtils.translate(this.title).deepCopy();
 
-        String titleHex = String.format("#%02x%02x%02x", ColorUtils.stringToRGB(this.titleColor).red(), ColorUtils.stringToRGB(this.titleColor).green(), ColorUtils.stringToRGB(this.titleColor).blue());
-        formatted.append(title.setStyle(title.getStyle().setColor(Color.func_240745_a_(titleHex))).appendString(": "));
+        formatted.append(title.setStyle(title.getStyle().setColor(Color.fromInt(ColorUtils.rgbToDecimal(this.titleColor)))).appendString(": "));
 
-        IFormattableTextComponent value = LangUtils.translateComponent(this.value).deepCopy();
+        IFormattableTextComponent value = LangUtils.translate(this.value).deepCopy();
 
-        String valueHex = String.format("#%02x%02x%02x", ColorUtils.stringToRGB(this.valueColor).red(), ColorUtils.stringToRGB(this.valueColor).green(), ColorUtils.stringToRGB(this.valueColor).blue());
-        formatted.append(value.setStyle(value.getStyle().setColor(Color.func_240745_a_(valueHex))));
+        formatted.append(value.setStyle(value.getStyle().setColor(Color.fromInt(ColorUtils.rgbToDecimal(this.valueColor)))));
         return this.isEmpty ? new StringTextComponent("") : formatted;
     }
 

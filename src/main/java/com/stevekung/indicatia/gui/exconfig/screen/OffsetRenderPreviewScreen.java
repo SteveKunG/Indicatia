@@ -7,8 +7,8 @@ import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
 
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.StringTextComponent;
 
 public class OffsetRenderPreviewScreen extends Screen
 {
@@ -16,12 +16,12 @@ public class OffsetRenderPreviewScreen extends Screen
 
     public OffsetRenderPreviewScreen(Screen parent)
     {
-        super(NarratorChatListener.EMPTY);
+        super(StringTextComponent.EMPTY);
         this.parent = parent;
     }
 
     @Override
-    public void onClose()
+    public void closeScreen()
     {
         this.minecraft.displayGuiScreen(this.parent);
     }

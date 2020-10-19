@@ -20,6 +20,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class EffectOverlays
 {
+    @SuppressWarnings("deprecation")
     public static void renderPotionHUD(Minecraft mc, MatrixStack matrixStack)
     {
         boolean iconAndTime = ExtendedConfig.INSTANCE.potionHUDStyle == StatusEffects.Style.ICON_AND_TIME;
@@ -74,7 +75,7 @@ public class EffectOverlays
 
                 Effect effect = effectIns.getPotion();
                 int amplifier = effectIns.getAmplifier();
-                String name = LangUtils.translateComponent(effect.getName()).getString();
+                String name = LangUtils.translateString(effect.getName());
                 String durationTxt = EffectUtils.getPotionDurationString(effectIns, 1.0F);
                 int stringwidth1 = mc.fontRenderer.getStringWidth(name);
                 int stringwidth2 = mc.fontRenderer.getStringWidth(durationTxt);
@@ -85,7 +86,7 @@ public class EffectOverlays
 
                 if (amplifier >= 1 && amplifier <= 9)
                 {
-                    name = name + ' ' + LangUtils.translateComponent("enchantment.level." + (amplifier + 1));
+                    name = name + ' ' + LangUtils.translateString("enchantment.level." + (amplifier + 1));
                 }
 
                 if (duration > 16)

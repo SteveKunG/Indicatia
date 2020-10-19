@@ -37,7 +37,7 @@ public class AFKCommand implements IClientCommand
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.not_allowed_hypixel"));
+            throw new CommandException(LangUtils.translate("commands.not_allowed_hypixel"));
         }
 
         if (!IndicatiaEventHandler.START_AFK)
@@ -51,10 +51,10 @@ public class AFKCommand implements IClientCommand
             }
             else
             {
-                reason = ", " + LangUtils.translateComponent("commands.afk.reason").getString() + ": " + reason;
+                reason = ", " + LangUtils.translate("commands.afk.reason").getString() + ": " + reason;
             }
 
-            String message = LangUtils.translateComponent("commands.afk.afk_now").getString();
+            String message = LangUtils.translate("commands.afk.afk_now").getString();
 
             if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
@@ -64,7 +64,7 @@ public class AFKCommand implements IClientCommand
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_started"));
+            source.sendErrorMessage(LangUtils.translate("commands.afk.afk_started"));
             return 1;
         }
     }
@@ -80,18 +80,18 @@ public class AFKCommand implements IClientCommand
             {
                 if (IndicatiaEventHandler.AFK_REASON.isEmpty())
                 {
-                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
                 }
                 else
                 {
-                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translateComponent("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.AFK_REASON, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.AFK_REASON, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
                 }
             }
             return 1;
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_not_started"));
+            source.sendErrorMessage(LangUtils.translate("commands.afk.afk_not_started"));
             return 1;
         }
     }
@@ -102,12 +102,12 @@ public class AFKCommand implements IClientCommand
         {
             String oldReason = IndicatiaEventHandler.AFK_REASON;
             IndicatiaEventHandler.AFK_REASON = newReason;
-            source.sendFeedback(LangUtils.translateComponent("commands.afk.change_afk_reason", oldReason, newReason));
+            source.sendFeedback(LangUtils.translate("commands.afk.change_afk_reason", oldReason, newReason));
             return 1;
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.afk.afk_not_started"));
+            source.sendErrorMessage(LangUtils.translate("commands.afk.afk_not_started"));
             return 1;
         }
     }
@@ -115,7 +115,7 @@ public class AFKCommand implements IClientCommand
     private static int changeAFKMode(IClientSuggestionProvider source, AFKMode mode)
     {
         IndicatiaEventHandler.AFK_MODE = mode;
-        source.sendFeedback(LangUtils.translateComponent("commands.afk.set_afk_mode", mode));
+        source.sendFeedback(LangUtils.translate("commands.afk.set_afk_mode", mode));
         return 1;
     }
 }

@@ -41,6 +41,7 @@ minecraft {
             workingDirectory project.file("run")
             source sourceSets.main
             args "--mixin", "mixins.indicatia.json", "--username", username, "--password", password
+            jvmArgs "-Dmixin.debug.export=true"
         }
     }
 }
@@ -105,7 +106,7 @@ artifacts {
 }
 
 curseforge {
-	if (project.hasProperty('upload_api_key')) {
+	if (project.hasProperty("upload_api_key")) {
 	    apiKey = project.upload_api_key
 	    project {
 	        id = "272146"
@@ -127,7 +128,7 @@ curseforge {
 }
 
 task signJar(type: SignJar, dependsOn: jar) {
-	if (project.hasProperty('upload_api_key')) {
+	if (project.hasProperty("upload_api_key")) {
 	    keyStore = project.keystore_path
 	    alias = project.alias
 	    storePass = project.keystore_pass

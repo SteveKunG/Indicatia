@@ -7,9 +7,9 @@ import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 
 public class RenderInfoSettingsScreen extends Screen
 {
@@ -21,14 +21,14 @@ public class RenderInfoSettingsScreen extends Screen
 
     public RenderInfoSettingsScreen(Screen parent)
     {
-        super(NarratorChatListener.EMPTY);
+        super(StringTextComponent.EMPTY);
         this.parent = parent;
     }
 
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translateComponent("gui.done"), button ->
+        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, LangUtils.translate("gui.done"), button ->
         {
             ExtendedConfig.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
@@ -47,7 +47,7 @@ public class RenderInfoSettingsScreen extends Screen
     }
 
     @Override
-    public void onClose()
+    public void closeScreen()
     {
         this.minecraft.displayGuiScreen(this.parent);
     }
@@ -57,7 +57,7 @@ public class RenderInfoSettingsScreen extends Screen
     {
         this.renderBackground(matrixStack);
         this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translateComponent("menu.render_info.title"), this.width / 2, 5, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.render_info.title"), this.width / 2, 5, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

@@ -15,6 +15,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.PingMode;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,7 @@ import net.minecraft.client.network.play.NetworkPlayerInfo;
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 @Mixin(PlayerTabOverlayGui.class)
@@ -53,7 +55,8 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
             {
                 pingText = pingText + "/" + String.format("%.2f", ping / 1000.0F) + "s";
             }
-            pingWidth = IndicatiaConfig.GENERAL.enableCustomPlayerList.get() ? pingDelay ? ClientUtils.unicodeFontRenderer.getStringWidth(pingText) : this.mc.fontRenderer.getStringWidth(pingText) : 0;
+            //TODO
+//            pingWidth = IndicatiaConfig.GENERAL.enableCustomPlayerList.get() ? pingDelay ? ClientUtils.unicodeFontRenderer.getStringWidth(pingText) : this.mc.fontRenderer.getStringWidth(pingText) : 0;
         }
         return fontRenderer.getStringWidth(text) + (scoreObjective != null && scoreObjective.getRenderType() == ScoreCriteria.RenderType.HEARTS ? 0 : pingWidth);
     }
@@ -62,13 +65,11 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
     private void drawPing(MatrixStack matrixStack, int x1, int x2, int y, NetworkPlayerInfo playerInfo, CallbackInfo info)
     {
         boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
-        FontRenderer fontRenderer = this.mc.fontRenderer;
         int ping = playerInfo.getResponseTime();
 
         if (IndicatiaConfig.GENERAL.enableCustomPlayerList.get())
         {
             TextFormatting color = TextFormatting.GREEN;
-            String pingText = String.valueOf(ping);
 
             if (ping >= 200 && ping < 300)
             {
@@ -83,12 +84,14 @@ public abstract class MixinPlayerTabOverlayGui extends AbstractGui
                 color = TextFormatting.DARK_RED;
             }
 
+            IFormattableTextComponent pingText = TextComponentUtils.formatted(String.valueOf(ping), color);
+
             if (pingDelay)
             {
-                pingText = String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s";
-                fontRenderer = ClientUtils.unicodeFontRenderer;
+                pingText = TextComponentUtils.formatted(String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s", color);
+                pingText.setStyle(pingText.getStyle().setFontId(ClientUtils.UNICODE));
             }
-            fontRenderer.drawStringWithShadow(matrixStack, color + pingText, x1 + x2 - fontRenderer.getStringWidth(pingText), y + 0.625F, 0);
+            this.mc.fontRenderer.func_243246_a(matrixStack, pingText, x1 + x2 - this.mc.fontRenderer.getStringPropertyWidth(pingText), y + 0.625F, 0);
             info.cancel();
         }
     }

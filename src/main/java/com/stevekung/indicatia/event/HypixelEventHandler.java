@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.hud.InfoUtils;
-import com.stevekung.stevekungslib.utils.JsonUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
@@ -53,7 +53,7 @@ public class HypixelEventHandler
                 }
                 else if (message.contains("You were spawned in Limbo."))
                 {
-                    event.setMessage(JsonUtils.create("You were spawned in Limbo.").mergeStyle(TextFormatting.GREEN));
+                    event.setMessage(TextComponentUtils.formatted("You were spawned in Limbo.", TextFormatting.GREEN));
                 }
             }
         }

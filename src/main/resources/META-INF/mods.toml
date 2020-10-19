@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[33,)"
+loaderVersion="[34,)"
 license="MIT License"
 updateJSONURL="https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
@@ -16,14 +16,14 @@ authors="SteveKunG"
 [[dependencies.indicatia]]
     modId="forge"
     mandatory=true
-    versionRange="[33.0.0,)"
+    versionRange="[34.0.0,)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.indicatia]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.2]"
+    versionRange="[1.16.3]"
     ordering="NONE"
     side="CLIENT"
 

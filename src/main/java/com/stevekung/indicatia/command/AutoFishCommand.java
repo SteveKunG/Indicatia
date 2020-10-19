@@ -25,7 +25,7 @@ public class AutoFishCommand implements IClientCommand
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            throw new CommandException(LangUtils.translateComponent("commands.not_allowed_hypixel"));
+            throw new CommandException(LangUtils.translate("commands.not_allowed_hypixel"));
         }
 
         if (!IndicatiaEventHandler.START_AUTO_FISH)
@@ -42,19 +42,19 @@ public class AutoFishCommand implements IClientCommand
             if (mainHand || offHand)
             {
                 IndicatiaEventHandler.START_AUTO_FISH = true;
-                source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.enable"));
+                source.sendFeedback(LangUtils.translate("commands.auto_fish.enable"));
                 return 1;
             }
             else
             {
-                source.sendErrorMessage(LangUtils.translateComponent("commands.auto_fish.not_equipped_fishing_rod"));
+                source.sendErrorMessage(LangUtils.translate("commands.auto_fish.not_equipped_fishing_rod"));
                 return 0;
             }
         }
         else
         {
             IndicatiaEventHandler.START_AUTO_FISH = false;
-            source.sendFeedback(LangUtils.translateComponent("commands.auto_fish.disable"));
+            source.sendFeedback(LangUtils.translate("commands.auto_fish.disable"));
             return 1;
         }
     }

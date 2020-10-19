@@ -36,7 +36,7 @@ public class ProfileCommand implements IClientCommand
 
         if (name.equalsIgnoreCase("default"))
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.cannot_create_default"));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_create_default"));
             return 0;
         }
 
@@ -50,12 +50,12 @@ public class ProfileCommand implements IClientCommand
 
         if (exist)
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.profile_already_created", name));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_already_created", name));
             return 0;
         }
         else
         {
-            source.sendFeedback(LangUtils.translateComponent("commands.inprofile.created", name));
+            source.sendFeedback(LangUtils.translate("commands.inprofile.created", name));
             ExtendedConfig.INSTANCE.save(name);
             return 1;
         }
@@ -67,14 +67,14 @@ public class ProfileCommand implements IClientCommand
         {
             if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
             {
-                source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.cannot_load"));
+                source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_load"));
                 return 0;
             }
         }
         ExtendedConfig.setCurrentProfile(name);
         ExtendedConfig.saveProfileFile(name);
         ExtendedConfig.INSTANCE.load();
-        source.sendFeedback(LangUtils.translateComponent("commands.inprofile.load", name));
+        source.sendFeedback(LangUtils.translate("commands.inprofile.load", name));
         ExtendedConfig.INSTANCE.save(name); // save current settings
         return 1;
     }
@@ -94,12 +94,12 @@ public class ProfileCommand implements IClientCommand
         if (exist)
         {
             ExtendedConfig.INSTANCE.save(name);
-            source.sendFeedback(LangUtils.translateComponent("commands.inprofile.save", name));
+            source.sendFeedback(LangUtils.translate("commands.inprofile.save", name));
             return 1;
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.cannot_save", name));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_save", name));
             return 0;
         }
     }
@@ -108,7 +108,7 @@ public class ProfileCommand implements IClientCommand
     {
         if (name.equals("default"))
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.cannot_remove_default", name));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_remove_default", name));
             return 0;
         }
 
@@ -128,12 +128,12 @@ public class ProfileCommand implements IClientCommand
             toDel.delete();
             ExtendedConfig.setCurrentProfile("default");
             ExtendedConfig.INSTANCE.load();
-            source.sendFeedback(LangUtils.translateComponent("commands.inprofile.remove", name));
+            source.sendFeedback(LangUtils.translate("commands.inprofile.remove", name));
             return 1;
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.cannot_remove", name));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_remove", name));
             return 0;
         }
     }
@@ -144,7 +144,7 @@ public class ProfileCommand implements IClientCommand
 
         if (collection.isEmpty())
         {
-            source.sendErrorMessage(LangUtils.translateComponent("commands.inprofile.list.empty"));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.list.empty"));
             return 0;
         }
         else
@@ -159,7 +159,7 @@ public class ProfileCommand implements IClientCommand
                 }
             }
 
-            ITextComponent translation = LangUtils.translateComponent("commands.inprofile.list.count", size);
+            ITextComponent translation = LangUtils.translate("commands.inprofile.list.count", size);
             translation.getStyle().setFormatting(TextFormatting.DARK_GREEN);
             source.sendFeedback(translation);
 
@@ -168,7 +168,7 @@ public class ProfileCommand implements IClientCommand
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
                 boolean current = realName.equals(ExtendedConfig.CURRENT_PROFILE);
-                source.sendFeedback(LangUtils.translateComponent("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translateComponent("commands.inprofile.current_profile").getString() : ""));
+                source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
             });
             return 1;
         }

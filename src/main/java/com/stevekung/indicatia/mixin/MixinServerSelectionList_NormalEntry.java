@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -70,6 +70,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
     @Shadow
     protected abstract boolean canJoin();
 
+    @SuppressWarnings("deprecation")
     @Inject(method = "render(Lcom/mojang/blaze3d/matrix/MatrixStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(MatrixStack matrixStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
@@ -91,12 +92,12 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
                     catch (UnknownHostException e)
                     {
                         this.server.pingToServer = -1L;
-                        this.server.serverMOTD = LangUtils.translateComponent("multiplayer.status.cannot_resolve").deepCopy().mergeStyle(TextFormatting.DARK_RED);
+                        this.server.serverMOTD = LangUtils.formatted("multiplayer.status.cannot_resolve", TextFormatting.DARK_RED);
                     }
                     catch (Exception e)
                     {
                         this.server.pingToServer = -1L;
-                        this.server.serverMOTD = LangUtils.translateComponent("multiplayer.status.cannot_connect").deepCopy().mergeStyle(TextFormatting.DARK_RED);
+                        this.server.serverMOTD = LangUtils.formatted("multiplayer.status.cannot_connect", TextFormatting.DARK_RED);
                     }
                 });
             }
@@ -105,7 +106,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
             boolean flag1 = this.server.version < SharedConstants.getVersion().getProtocolVersion();
             boolean flag2 = flag || flag1;
             this.mc.fontRenderer.drawString(matrixStack, this.server.serverName, x + 32 + 3, y + 1, 16777215);
-            List<IReorderingProcessor> list = this.mc.fontRenderer.func_238425_b_(this.server.serverMOTD, listWidth - 50);
+            List<IReorderingProcessor> list = this.mc.fontRenderer.trimStringToWidth(this.server.serverMOTD, listWidth - 50);
 
             for (int i = 0; i < Math.min(list.size(), 2); ++i)
             {
@@ -116,34 +117,34 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
             long responseTime = this.server.pingToServer;
             String responseTimeText = String.valueOf(responseTime);
 
-            if (this.server.serverMOTD.getString().contains(LangUtils.translateComponent("multiplayer.status.cannot_connect").getString()))
+            if (this.server.serverMOTD.getString().contains(LangUtils.translateString("multiplayer.status.cannot_connect")))
             {
-                ping = LangUtils.translateComponent("menu.failed_to_ping").deepCopy().mergeStyle(TextFormatting.DARK_RED);
+                ping = LangUtils.formatted("menu.failed_to_ping", TextFormatting.DARK_RED);
             }
             else if (responseTime < 0L)
             {
-                ping = LangUtils.translateComponent("multiplayer.status.pinging").deepCopy().mergeStyle(TextFormatting.GRAY);
+                ping = LangUtils.formatted("multiplayer.status.pinging", TextFormatting.GRAY);
             }
             else if (responseTime >= 200 && responseTime < 300)
             {
-                ping = JsonUtils.create(responseTimeText + "ms").deepCopy().mergeStyle(TextFormatting.YELLOW);
+                ping = TextComponentUtils.formatted(responseTimeText + "ms", TextFormatting.YELLOW);
             }
             else if (responseTime >= 300 && responseTime < 500)
             {
-                ping = JsonUtils.create(responseTimeText + "ms").deepCopy().mergeStyle(TextFormatting.RED);
+                ping = TextComponentUtils.formatted(responseTimeText + "ms", TextFormatting.RED);
             }
             else if (responseTime >= 500)
             {
-                ping = JsonUtils.create(responseTimeText + "ms").deepCopy().mergeStyle(TextFormatting.DARK_RED);
+                ping = TextComponentUtils.formatted(responseTimeText + "ms", TextFormatting.DARK_RED);
             }
             else
             {
-                ping = JsonUtils.create(responseTimeText + "ms").deepCopy().mergeStyle(TextFormatting.GREEN);
+                ping = TextComponentUtils.formatted(responseTimeText + "ms", TextFormatting.GREEN);
             }
 
-            String s2 = flag2 ? this.server.gameVersion.deepCopy().mergeStyle(TextFormatting.DARK_RED).getString() : this.server.populationInfo + " " + ping;
-            int j = this.mc.fontRenderer.getStringWidth(s2);
-            this.mc.fontRenderer.drawString(matrixStack, s2, x + listWidth - j - 6, y + 1, 8421504);
+            ITextComponent s2 = flag2 ? this.server.gameVersion.deepCopy().mergeStyle(TextFormatting.DARK_RED) : this.server.populationInfo.deepCopy().appendString(" ").append(ping);
+            int j = this.mc.fontRenderer.getStringPropertyWidth(s2);
+            this.mc.fontRenderer.func_243248_b(matrixStack, s2, x + listWidth - j - 6, y + 1, 8421504);
             List<ITextComponent> s = Collections.emptyList();
 
             if (flag2)
@@ -171,7 +172,7 @@ public abstract class MixinServerSelectionList_NormalEntry extends ServerSelecti
                 else
                 {
                     this.server.setBase64EncodedIconData((String)null);
-                    that.func_241613_a_();
+                    this.that.func_241613_a_();
                 }
             }
 

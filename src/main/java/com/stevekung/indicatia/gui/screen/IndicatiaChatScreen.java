@@ -14,8 +14,8 @@ import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.MinigameData;
 import com.stevekung.stevekungslib.client.event.ChatScreenEvent;
 import com.stevekung.stevekungslib.utils.ColorUtils;
-import com.stevekung.stevekungslib.utils.JsonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
@@ -30,6 +30,8 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -57,11 +59,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
         if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
         {
             Minecraft mc = Minecraft.getInstance();
-            String chatMode = LangUtils.translateComponent("menu.chat_mode") + ": " + LangUtils.translateComponent(this.mode.desc).deepCopy().mergeStyle(this.mode.color, TextFormatting.BOLD).getString();
+            IFormattableTextComponent chatMode = LangUtils.translate("menu.chat_mode").deepCopy().appendString(": ").append(LangUtils.translate(this.mode.desc).deepCopy().mergeStyle(this.mode.color, TextFormatting.BOLD));
             int x = 4;
             int y = mc.currentScreen.height - 30;
-            AbstractGui.fill(event.getMatrixStack(), x - 2, y - 3, x + mc.fontRenderer.getStringWidth(chatMode) + 2, y + 10, ColorUtils.to32BitColor(128, 0, 0, 0));
-            mc.fontRenderer.drawStringWithShadow(event.getMatrixStack(), chatMode, x, y, ColorUtils.rgbToDecimal(255, 255, 255));
+            AbstractGui.fill(event.getMatrixStack(), x - 2, y - 3, x + mc.fontRenderer.getStringPropertyWidth(chatMode) + 2, y + 10, ColorUtils.to32Bit(0, 0, 0, 128));
+            mc.fontRenderer.func_243246_a(event.getMatrixStack(), chatMode, x, y, ColorUtils.toDecimal(255, 255, 255));
         }
     }
 
@@ -176,7 +178,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             {
                 for (ChatMode mode : ChatMode.values())
                 {
-                    buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, JsonUtils.create(mode.message), button ->
+                    buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, mode.message, button ->
                     {
                         this.mode = mode;
                         player.sendChatMessage(mode.command);
@@ -213,7 +215,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                             {
                                 skull = this.getSkullItemStack(command.getUUID(), command.getTexture());
                             }
-                            gameBtn.add(new MinigameButton(width, command.getName(), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
+                            gameBtn.add(new MinigameButton(width, TextComponentUtils.component(command.getName()), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
                         }
                     }
                 }
@@ -288,7 +290,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         protected final int y;
         protected final int width;
         protected final int height;
-        protected final String message;
+        protected final ITextComponent message;
         protected final String command;
 
         private ChatMode(String desc, TextFormatting color, int x, int y, int width, int height, String message, String command)
@@ -299,7 +301,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             this.y = y;
             this.width = width;
             this.height = height;
-            this.message = message;
+            this.message = LangUtils.translate(message);
             this.command = command;
         }
 
