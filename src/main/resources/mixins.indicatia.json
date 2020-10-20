@@ -4,10 +4,12 @@
     "compatibilityLevel": "JAVA_8",
     "package": "com.stevekung.indicatia.mixin",
     "refmap": "mixins.indicatia.refmap.json",
+    "plugin": "com.stevekung.indicatia.core.IndicatiaMixinConfigPlugin",
     "target": "@env(DEFAULT)",
     "mixins": [],
     "client": [
-        "MixinArmorLayer",
+        "MixinBipedArmorLayer",
+        "MixinBipedArmorLayerOptifine",
         "MixinBossOverlayGui",
         "MixinCapeLayer",
         "MixinElytraLayer",
@@ -15,6 +17,7 @@
         "MixinForgeIngameGui",
         "MixinHeadLayer",
         "MixinItemStackTileEntityRenderer",
+        "MixinItemStackTileEntityRendererOptifine",
         "MixinPlayerTabOverlayGui",
         "MixinServerSelectionList_NormalEntry"
     ],
