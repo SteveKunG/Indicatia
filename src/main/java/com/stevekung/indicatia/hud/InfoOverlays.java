@@ -1,11 +1,11 @@
 package com.stevekung.indicatia.hud;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.common.collect.Lists;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
@@ -22,7 +22,7 @@ public class InfoOverlays
     public static InfoOverlay OVERALL_TPS = InfoOverlay.empty();
     public static InfoOverlay OVERWORLD_TPS = InfoOverlay.empty();
     public static InfoOverlay TPS = InfoOverlay.empty();
-    public static final List<InfoOverlay> ALL_TPS = new ArrayList<>();
+    public static final List<InfoOverlay> ALL_TPS = Lists.newArrayList();
     private static final ModDecimalFormat TPS_FORMAT = new ModDecimalFormat("########0.00");
 
     public static InfoOverlay getDirection(Minecraft mc)

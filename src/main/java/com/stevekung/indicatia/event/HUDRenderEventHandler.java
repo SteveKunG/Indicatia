@@ -1,8 +1,8 @@
 package com.stevekung.indicatia.event;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
@@ -149,7 +149,7 @@ public class HUDRenderEventHandler
 
     public static List<InfoOverlay> getInfoOverlays(Minecraft mc)
     {
-        List<InfoOverlay> infos = new ArrayList<>();
+        List<InfoOverlay> infos = Lists.newArrayList();
         BlockPos playerPos = new BlockPos(mc.getRenderViewEntity().getPosX(), mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().getPosZ());
 
         if (IndicatiaSettings.INSTANCE.fps)

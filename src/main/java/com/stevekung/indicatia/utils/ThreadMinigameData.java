@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
+import com.google.common.collect.Lists;
 import com.google.gson.*;
 import com.stevekung.indicatia.core.IndicatiaMod;
 
@@ -31,7 +31,7 @@ public class ThreadMinigameData implements Runnable
                 JsonObject minigame = minigameEle.getAsJsonObject();
                 String name = minigame.get("name").getAsString();
                 boolean sort = !minigame.has("sort") ? true : minigame.get("sort").getAsBoolean();
-                List<MinigameData.Command> minigameCmds = new ArrayList<>();
+                List<MinigameData.Command> minigameCmds = Lists.newArrayList();
 
                 for (JsonElement commandEle : minigame.getAsJsonArray("commands"))
                 {
@@ -60,7 +60,7 @@ public class ThreadMinigameData implements Runnable
         {
             e.printStackTrace();
             IndicatiaMod.LOGGER.error("Couldn't get Minigames data from GitHub!");
-            MinigameData.addMinigame(new MinigameData("Couldn't get Minigames data from GitHub!", new ArrayList<>()));
+            MinigameData.addMinigame(new MinigameData("Couldn't get Minigames data from GitHub!", Lists.newArrayList()));
         }
     }
 }

@@ -1,11 +1,12 @@
 package com.stevekung.indicatia.utils;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 public class MinigameData
 {
-    private static final List<MinigameData> DATA = new ArrayList<>();
+    private static final List<MinigameData> DATA = Lists.newArrayList();
     private final String name;
     private final List<MinigameData.Command> commands;
 

@@ -1,10 +1,10 @@
 package com.stevekung.indicatia.gui.screen;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton;
@@ -164,7 +164,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            List<String> list = new ArrayList<>();
+            List<String> list = Lists.newArrayList();
 
             for (MinigameData data : MinigameData.getMinigames())
             {
@@ -193,7 +193,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 this.dropdown.setWidth(length);
                 this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
 
-                List<MinigameButton> gameBtn = new ArrayList<>();
+                List<MinigameButton> gameBtn = Lists.newArrayList();
                 int xPos2 = width - 99;
 
                 if (this.prevSelect > list.size())

@@ -1,8 +1,8 @@
 package com.stevekung.indicatia.hud;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
@@ -24,7 +24,7 @@ public class EquipmentOverlays
         int baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
         ItemStack mainhandStack = mc.player.getHeldItemMainhand();
         ItemStack offhandStack = mc.player.getHeldItemOffhand();
-        List<HorizontalEquipmentOverlay> equippedLists = new ArrayList<>();
+        List<HorizontalEquipmentOverlay> equippedLists = Lists.newArrayList();
         int prevX = 0;
 
         if (IndicatiaSettings.INSTANCE.equipmentArmorItems)
@@ -59,7 +59,7 @@ public class EquipmentOverlays
     public static void renderVerticalEquippedItems(Minecraft mc, MatrixStack matrixStack)
     {
         int i = 0;
-        List<EquipmentOverlay> equippedLists = new ArrayList<>();
+        List<EquipmentOverlay> equippedLists = Lists.newArrayList();
         ItemStack mainhandStack = mc.player.getHeldItemMainhand();
         ItemStack offhandStack = mc.player.getHeldItemOffhand();
         boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
@@ -116,7 +116,7 @@ public class EquipmentOverlays
 
     public static void renderHotbarEquippedItems(Minecraft mc, MatrixStack matrixStack)
     {
-        List<HotbarEquipmentOverlay> equippedLists = new ArrayList<>();
+        List<HotbarEquipmentOverlay> equippedLists = Lists.newArrayList();
         ItemStack mainhandStack = mc.player.getHeldItemMainhand();
         ItemStack offhandStack = mc.player.getHeldItemOffhand();
         int iLeft = 0;
