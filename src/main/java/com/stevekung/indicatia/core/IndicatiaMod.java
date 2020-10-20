@@ -76,7 +76,7 @@ public class IndicatiaMod
 
     private void loadComplete(FMLLoadCompleteEvent event)
     {
-        CommonUtils.runAsync(new ThreadMinigameData());
+        CommonUtils.runAsync(ThreadMinigameData::new);
     }
 
     private void registerClientCommands()

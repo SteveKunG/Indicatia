@@ -9,8 +9,6 @@ import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvide
 
 public class MojangStatusCheckCommand implements IClientCommand
 {
-    private static final ThreadCheckMojangStatus THREAD = new ThreadCheckMojangStatus();
-
     @Override
     public void register(CommandDispatcher<IClientSuggestionProvider> dispatcher)
     {
@@ -19,7 +17,7 @@ public class MojangStatusCheckCommand implements IClientCommand
 
     private static int runThread()
     {
-        CommonUtils.runAsync(MojangStatusCheckCommand.THREAD);
+        CommonUtils.runAsync(ThreadCheckMojangStatus::new);
         return 1;
     }
 }
