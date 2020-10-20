@@ -271,7 +271,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         protected final int width;
         protected final int height;
         protected final ITextComponent message;
-        protected final String command;
+        public final String command;
 
         private ChatMode(String desc, TextFormatting color, int x, int y, int width, int height, String message, String command)
         {

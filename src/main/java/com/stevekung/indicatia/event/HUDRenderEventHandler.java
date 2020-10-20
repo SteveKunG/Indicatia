@@ -10,6 +10,8 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
+import com.stevekung.indicatia.utils.event.InfoOverlayEvent;
+import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
@@ -234,6 +236,7 @@ public class HUDRenderEventHandler
         {
             infos.add(new InfoOverlay("hud.moon_phase", InfoUtils.INSTANCE.getMoonPhase(mc), IndicatiaSettings.INSTANCE.moonPhaseColor, IndicatiaSettings.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
         }
+        CommonUtils.post(new InfoOverlayEvent(infos));
         return infos;
     }
 }
