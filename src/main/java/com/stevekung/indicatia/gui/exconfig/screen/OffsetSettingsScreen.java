@@ -1,10 +1,11 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.config.AbstractSettings;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,7 +16,7 @@ public class OffsetSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigButtonListWidget optionsRowList;
-    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.ARMOR_HUD_Y, ExtendedConfig.POTION_HUD_Y, ExtendedConfig.MAXIMUM_POTION_DISPLAY, ExtendedConfig.POTION_LENGTH_Y_OFFSET, ExtendedConfig.POTION_LENGTH_Y_OFFSET_OVERLAP };
+    private static final ImmutableList<AbstractSettings<IndicatiaSettings>> OPTIONS = ImmutableList.of(IndicatiaSettings.ARMOR_HUD_Y, IndicatiaSettings.POTION_HUD_Y, IndicatiaSettings.MAXIMUM_POTION_DISPLAY, IndicatiaSettings.POTION_LENGTH_Y_OFFSET, IndicatiaSettings.POTION_LENGTH_Y_OFFSET_OVERLAP);
 
     public OffsetSettingsScreen(Screen parent)
     {
@@ -28,12 +29,12 @@ public class OffsetSettingsScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translate("gui.done"), button ->
         {
-            ExtendedConfig.INSTANCE.save();
+            IndicatiaSettings.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
         this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translate("menu.preview"), button ->
         {
-            ExtendedConfig.INSTANCE.save();
+            IndicatiaSettings.INSTANCE.save();
             this.minecraft.displayGuiScreen(new OffsetRenderPreviewScreen(this));
         }));
 
@@ -45,7 +46,7 @@ public class OffsetSettingsScreen extends Screen
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.INSTANCE.save();
+        IndicatiaSettings.INSTANCE.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

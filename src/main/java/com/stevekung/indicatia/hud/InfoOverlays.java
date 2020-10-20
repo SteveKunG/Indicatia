@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
@@ -14,6 +14,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class InfoOverlays
 {
@@ -92,43 +94,40 @@ public class InfoOverlays
         }
         direction = LangUtils.translateString(direction);
         direction += " (" + coord + ")";
-        return new InfoOverlay("hud.direction", direction, ExtendedConfig.INSTANCE.directionColor, ExtendedConfig.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
+        return new InfoOverlay("hud.direction", direction, IndicatiaSettings.INSTANCE.directionColor, IndicatiaSettings.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
     }
 
     public static void getTPS(MinecraftServer server)
     {
-        /*if (ClientEventHandler.ticks % 2 == 0)TODO
+        double overallTPS = InfoOverlays.mean(server.tickTimeArray) * 1.0E-6D;
+        double overworldTPS = InfoOverlays.mean(server.getTickTime(World.OVERWORLD)) * 1.0E-6D;
+        double tps = Math.min(1000.0D / overallTPS, 20);
+
+        InfoOverlays.ALL_TPS.clear();
+        InfoOverlays.OVERALL_TPS = new InfoOverlay("Overall TPS", InfoOverlays.TPS_FORMAT.format(overallTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+
+        if (IndicatiaSettings.INSTANCE.tpsAllDims)
         {
-            double overallTPS = InfoOverlays.mean(server.tickTimeArray) * 1.0E-6D;
-            double overworldTPS = InfoOverlays.mean(server.getTickTime(server.getWorld(DimensionType.OVERWORLD))) * 1.0E-6D;
-            double tps = Math.min(1000.0D / overallTPS, 20);
+            InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();
 
-            InfoOverlays.ALL_TPS.clear();
-            InfoOverlays.OVERALL_TPS = new InfoOverlay("Overall TPS", InfoOverlays.TPS_FORMAT.format(overallTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
-
-            if (ExtendedConfig.INSTANCE.tpsAllDims)
+            for (ServerWorld world : server.getWorlds())
             {
-                InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();
+                long[] values = server.getTickTime(world.getDimensionKey());
+                String dimensionName = world.getDimensionKey().getLocation().toString();
 
-                for (DimensionType dimension : DimensionType.getAll())
+                if (values == null)
                 {
-                    long[] values = server.getTickTime(dimension);
-                    String dimensionName = DimensionType.getKey(dimension).getPath();
-
-                    if (values == null)
-                    {
-                        continue;
-                    }
-                    double dimensionTPS = InfoOverlays.mean(values) * 1.0E-6D;
-                    InfoOverlays.ALL_TPS.add(new InfoOverlay("Dimension " + dimensionName, InfoOverlays.TPS_FORMAT.format(dimensionTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
+                    continue;
                 }
+                double dimensionTPS = InfoOverlays.mean(values) * 1.0E-6D;
+                InfoOverlays.ALL_TPS.add(new InfoOverlay("Dimension " + dimensionName, InfoOverlays.TPS_FORMAT.format(dimensionTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
             }
-            else
-            {
-                InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworldTPS), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
-            }
-            InfoOverlays.TPS = new InfoOverlay("TPS", InfoOverlays.TPS_FORMAT.format(tps), ExtendedConfig.INSTANCE.tpsColor, ExtendedConfig.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
-        }*/
+        }
+        else
+        {
+            InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworldTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+        }
+        InfoOverlays.TPS = new InfoOverlay("TPS", InfoOverlays.TPS_FORMAT.format(tps), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
     }
 
     public static InfoOverlay getRealWorldTime()
@@ -136,14 +135,14 @@ public class InfoOverlays
         Date date = new Date();
         String dateIns = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
         String timeIns = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
-        return new InfoOverlay("hud.real_time", dateIns + " " + timeIns, ExtendedConfig.INSTANCE.realTimeColor, ExtendedConfig.INSTANCE.realTimeValueColor, InfoOverlay.Position.RIGHT);
+        return new InfoOverlay("hud.real_time", dateIns + " " + timeIns, IndicatiaSettings.INSTANCE.realTimeColor, IndicatiaSettings.INSTANCE.realTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 
     public static InfoOverlay getGameTime(Minecraft mc)
     {
-        boolean isSpace = false;
+        /*boolean isSpace = false; //TODO Rewrite
 
-        /*if (IndicatiaMod.GALACTICRAFT_LOADED)TODO
+        if (IndicatiaMod.isGalacticraftLoaded)
         {
             try
             {
@@ -180,7 +179,7 @@ public class InfoOverlays
         }
         builder.append(minutes);
         builder.append(" " + (hours >= 12 ? "PM" : "AM"));
-        return new InfoOverlay("hud.time", builder.toString(), ExtendedConfig.INSTANCE.gameTimeColor, ExtendedConfig.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
+        return new InfoOverlay("hud.time", builder.toString(), IndicatiaSettings.INSTANCE.gameTimeColor, IndicatiaSettings.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 
     private static long mean(long[] values)

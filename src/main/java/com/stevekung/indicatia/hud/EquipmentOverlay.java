@@ -1,7 +1,7 @@
 package com.stevekung.indicatia.hud;
 
 import com.stevekung.indicatia.config.Equipments;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 
 import net.minecraft.client.Minecraft;
@@ -30,7 +30,7 @@ public class EquipmentOverlay
 
     public String renderInfo()
     {
-        Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
+        Equipments.Status status = IndicatiaSettings.INSTANCE.equipmentStatus;
 
         if (status == Equipments.Status.NONE || this.itemStack.isDamageable() && (status == Equipments.Status.AMOUNT || status == Equipments.Status.AMOUNT_AND_STACK))
         {
@@ -70,7 +70,7 @@ public class EquipmentOverlay
 
     private static String getArmorDurabilityStatus(ItemStack itemStack)
     {
-        switch (ExtendedConfig.INSTANCE.equipmentStatus)
+        switch (IndicatiaSettings.INSTANCE.equipmentStatus)
         {
         case DAMAGE_AND_MAX_DAMAGE:
         default:
@@ -93,7 +93,7 @@ public class EquipmentOverlay
 
     private static String getItemStackCount(ItemStack itemStack, int count)
     {
-        Equipments.Status status = ExtendedConfig.INSTANCE.equipmentStatus;
+        Equipments.Status status = IndicatiaSettings.INSTANCE.equipmentStatus;
         double stack = count / (double)itemStack.getMaxStackSize();
         return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.AMOUNT_AND_STACK ? count + "/" + EquipmentOverlay.STACK.format(stack) : count);
     }

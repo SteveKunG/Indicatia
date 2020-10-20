@@ -1,7 +1,5 @@
 package com.stevekung.indicatia.mixin;
 
-import javax.annotation.Nullable;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,10 +8,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.config.PingMode;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
@@ -23,48 +20,46 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.overlay.PlayerTabOverlayGui;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
-import net.minecraft.scoreboard.ScoreCriteria;
-import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TextFormatting;
 
 @Mixin(PlayerTabOverlayGui.class)
 public abstract class MixinPlayerTabOverlayGui extends AbstractGui
 {
+    private int pingWidth;
+
     @Shadow
     @Final
     private Minecraft mc;
 
-    @Shadow
-    @Final
-    private static Ordering<NetworkPlayerInfo> ENTRY_ORDERING;
-
-    @Redirect(method = "func_238523_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/FontRenderer.getStringWidth(Ljava/lang/String;)I", ordinal = 0))
-    private int addStringWidth(FontRenderer fontRenderer, String text, MatrixStack matrixStack, int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
+    @Redirect(method = "func_238523_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/FontRenderer.getStringPropertyWidth(Lnet/minecraft/util/text/ITextProperties;)I"))
+    private int addPingWidth(FontRenderer font, ITextProperties properties)
     {
-        boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
-        int pingWidth = 0;
+        return this.mc.fontRenderer.getStringPropertyWidth(properties) + this.pingWidth;
+    }
 
-        for (NetworkPlayerInfo info : ENTRY_ORDERING.sortedCopy(this.mc.player.connection.getPlayerInfoMap()))
+    @Redirect(method = "func_238523_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/overlay/PlayerTabOverlayGui.getDisplayName(Lnet/minecraft/client/network/play/NetworkPlayerInfo;)Lnet/minecraft/util/text/ITextComponent;", ordinal = 0))
+    private ITextComponent getPingPlayerInfo(PlayerTabOverlayGui overlay, NetworkPlayerInfo networkPlayerInfoIn)
+    {
+        boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+        int ping = networkPlayerInfoIn.getResponseTime();
+        IFormattableTextComponent pingText = TextComponentUtils.component(String.valueOf(ping));
+
+        if (pingDelay)
         {
-            int ping = info.getResponseTime();
-            String pingText = String.valueOf(ping);
-
-            if (pingDelay)
-            {
-                pingText = pingText + "/" + String.format("%.2f", ping / 1000.0F) + "s";
-            }
-            //TODO
-//            pingWidth = IndicatiaConfig.GENERAL.enableCustomPlayerList.get() ? pingDelay ? ClientUtils.unicodeFontRenderer.getStringWidth(pingText) : this.mc.fontRenderer.getStringWidth(pingText) : 0;
+            pingText = pingText.appendString("/" + String.format("%.2f", ping / 1000.0F) + "s");
+            pingText.setStyle(pingText.getStyle().setFontId(ClientUtils.UNICODE));
         }
-        return fontRenderer.getStringWidth(text) + (scoreObjective != null && scoreObjective.getRenderType() == ScoreCriteria.RenderType.HEARTS ? 0 : pingWidth);
+        this.pingWidth = IndicatiaConfig.GENERAL.enableCustomPlayerList.get() ? this.mc.fontRenderer.getStringPropertyWidth(pingText) : 0;
+        return overlay.getDisplayName(networkPlayerInfoIn);
     }
 
     @Inject(method = "func_238522_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;IIILnet/minecraft/client/network/play/NetworkPlayerInfo;)V", cancellable = true, at = @At("HEAD"))
     private void drawPing(MatrixStack matrixStack, int x1, int x2, int y, NetworkPlayerInfo playerInfo, CallbackInfo info)
     {
-        boolean pingDelay = ExtendedConfig.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+        boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
         int ping = playerInfo.getResponseTime();
 
         if (IndicatiaConfig.GENERAL.enableCustomPlayerList.get())

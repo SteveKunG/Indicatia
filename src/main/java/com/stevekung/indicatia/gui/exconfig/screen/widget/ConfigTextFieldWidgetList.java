@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.stevekung.indicatia.gui.exconfig.BooleanConfigOption;
-import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.config.AbstractSettings;
+import com.stevekung.stevekungslib.utils.config.TextFieldSettingsWidget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -34,7 +35,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         return super.getScrollbarPosition() + 40;
     }
 
-    public void addButton(ExtendedConfigOption config)
+    public void addButton(AbstractSettings<IndicatiaSettings> config)
     {
         this.addEntry(ConfigTextFieldWidgetList.Row.createItems(this.width, config));
     }
@@ -44,7 +45,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
     {
         if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
-            ExtendedTextFieldWidget text = this.getSelected().getTextField();
+            TextFieldSettingsWidget<IndicatiaSettings> text = this.getSelected().getTextField();
             this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeightRealms();//FIXME STILL BRUH
             text.setFocused2(false);
         }
@@ -68,9 +69,9 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
 
     public static class Row extends AbstractOptionList.Entry<Row>
     {
-        private final List<ExtendedTextFieldWidget> textFields;
+        private final List<TextFieldSettingsWidget<IndicatiaSettings>> textFields;
 
-        private Row(List<ExtendedTextFieldWidget> list)
+        private Row(List<TextFieldSettingsWidget<IndicatiaSettings>> list)
         {
             this.textFields = list;
         }
@@ -78,11 +79,11 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         @Override
         public void render(MatrixStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            for (ExtendedTextFieldWidget textField : this.textFields)
+            for (TextFieldSettingsWidget<IndicatiaSettings> textField : this.textFields)
             {
                 textField.y = rowTop;
                 textField.render(matrixStack, mouseX, mouseY, partialTicks);
-                Minecraft.getInstance().fontRenderer.drawString(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
+                Minecraft.getInstance().fontRenderer.func_243248_b(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
             }
         }
 
@@ -92,18 +93,18 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             return this.textFields;
         }
 
-        public static ConfigTextFieldWidgetList.Row createItems(int x, ExtendedConfigOption configOpt)
+        @SuppressWarnings("unchecked")
+        public static ConfigTextFieldWidgetList.Row createItems(int x, AbstractSettings<IndicatiaSettings> configOpt)
         {
-            boolean isBoolean = configOpt instanceof BooleanConfigOption;
-            int buttonX = isBoolean ? x / 2 - 80 : x / 2 + 40;
-            return isBoolean ? new ConfigTextFieldWidgetList.Row(ImmutableList.of((ExtendedTextFieldWidget)configOpt.createOptionButton(buttonX, 0, 150))) : new ConfigTextFieldWidgetList.Row(ImmutableList.of((ExtendedTextFieldWidget)configOpt.createOptionButton(buttonX, 0, 80)));
+            return new ConfigTextFieldWidgetList.Row(ImmutableList.of((TextFieldSettingsWidget<IndicatiaSettings>)configOpt.createWidget(IndicatiaSettings.INSTANCE, x / 2 + 40, 0, 80)));
         }
 
-        public ExtendedTextFieldWidget getTextField()
+        @SuppressWarnings("unchecked")
+        public TextFieldSettingsWidget<IndicatiaSettings> getTextField()
         {
-            if ((ExtendedTextFieldWidget)this.getListener() != null)
+            if ((TextFieldSettingsWidget<IndicatiaSettings>)this.getListener() != null)
             {
-                return (ExtendedTextFieldWidget)this.getListener();
+                return (TextFieldSettingsWidget<IndicatiaSettings>)this.getListener();
             }
             return null;
         }
@@ -112,8 +113,8 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         {
             if (this.getTextField() != null)
             {
-                ExtendedTextFieldWidget text = this.getTextField();
-                text.setValue(text.getText());
+                TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
+                text.setValue(IndicatiaSettings.INSTANCE, text.getText());
             }
         }
 
@@ -121,7 +122,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         {
             if (this.getTextField() != null)
             {
-                ExtendedTextFieldWidget text = this.getTextField();
+                TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
                 text.tick();
             }
         }
@@ -130,7 +131,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         {
             if (this.getTextField() != null)
             {
-                ExtendedTextFieldWidget text = this.getTextField();
+                TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
                 String textTemp = text.getText();
                 text.setText(textTemp);
             }

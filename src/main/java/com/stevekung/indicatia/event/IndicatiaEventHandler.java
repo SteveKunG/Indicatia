@@ -54,7 +54,6 @@ public class IndicatiaEventHandler
     public static int currentServerPing;
     private static final ThreadPoolExecutor REALTIME_PINGER = new ScheduledThreadPoolExecutor(5, new ThreadFactoryBuilder().setNameFormat("Real Time Server Pinger #%d").setDaemon(true).build());
     private long lastPinger = -1L;
-    private boolean initVersionCheck;
 
     public static boolean START_AFK;
     public static AFKMode AFK_MODE = AFKMode.IDLE;
@@ -75,7 +74,7 @@ public class IndicatiaEventHandler
     {
         if (this.mc.player != null)
         {
-            if (!this.initVersionCheck)
+            if (!IndicatiaMod.CHECKER.isChecked())
             {
                 IndicatiaMod.CHECKER.startCheckIfFailed();
 
@@ -83,7 +82,7 @@ public class IndicatiaEventHandler
                 {
                     IndicatiaMod.CHECKER.printInfo(this.mc.player);
                 }
-                this.initVersionCheck = true;
+                IndicatiaMod.CHECKER.setChecked(true);
             }
             if (event.phase == TickEvent.Phase.START)
             {

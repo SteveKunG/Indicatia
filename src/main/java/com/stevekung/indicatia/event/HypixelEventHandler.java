@@ -2,7 +2,7 @@ package com.stevekung.indicatia.event;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
@@ -26,7 +26,7 @@ public class HypixelEventHandler
     @SubscribeEvent
     public void onMouseClick(InputEvent.MouseInputEvent event)
     {
-        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof RemoteClientPlayerEntity && !this.mc.player.isCrouching() && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && ExtendedConfig.INSTANCE.rightClickToAddParty)
+        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof RemoteClientPlayerEntity && !this.mc.player.isCrouching() && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && IndicatiaSettings.INSTANCE.rightClickToAddParty)
         {
             RemoteClientPlayerEntity player = (RemoteClientPlayerEntity)this.mc.pointedEntity;
 

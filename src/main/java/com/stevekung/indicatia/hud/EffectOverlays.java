@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.config.StatusEffects;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
@@ -23,23 +23,23 @@ public class EffectOverlays
     @SuppressWarnings("deprecation")
     public static void renderPotionHUD(Minecraft mc, MatrixStack matrixStack)
     {
-        boolean iconAndTime = ExtendedConfig.INSTANCE.potionHUDStyle == StatusEffects.Style.ICON_AND_TIME;
-        boolean right = ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.RIGHT;
-        boolean showIcon = ExtendedConfig.INSTANCE.potionHUDIcon;
-        int size = ExtendedConfig.INSTANCE.maximumPotionDisplay;
-        int length = ExtendedConfig.INSTANCE.potionLengthYOffset;
-        int lengthOverlap = ExtendedConfig.INSTANCE.potionLengthYOffsetOverlap;
+        boolean iconAndTime = IndicatiaSettings.INSTANCE.potionHUDStyle == StatusEffects.Style.ICON_AND_TIME;
+        boolean right = IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.RIGHT;
+        boolean showIcon = IndicatiaSettings.INSTANCE.potionHUDIcon;
+        int size = IndicatiaSettings.INSTANCE.maximumPotionDisplay;
+        int length = IndicatiaSettings.INSTANCE.potionLengthYOffset;
+        int lengthOverlap = IndicatiaSettings.INSTANCE.potionLengthYOffsetOverlap;
         Collection<EffectInstance> collection = mc.player.getActivePotionEffects();
         PotionSpriteUploader uploader = mc.getPotionSpriteUploader();
         int xPotion;
         int yPotion;
 
-        if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
+        if (IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
         {
             xPotion = mc.getMainWindow().getScaledWidth() / 2 - 91 - 35;
             yPotion = mc.getMainWindow().getScaledHeight() - 46;
         }
-        else if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
+        else if (IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
         {
             xPotion = mc.getMainWindow().getScaledWidth() / 2 + 91 - 20;
             yPotion = mc.getMainWindow().getScaledHeight() - 42;
@@ -47,7 +47,7 @@ public class EffectOverlays
         else
         {
             xPotion = right ? mc.getMainWindow().getScaledWidth() - 32 : -24;
-            yPotion = mc.getMainWindow().getScaledHeight() - 220 + ExtendedConfig.INSTANCE.potionHUDYOffset + 90;
+            yPotion = mc.getMainWindow().getScaledHeight() - 220 + IndicatiaSettings.INSTANCE.potionHUDYOffset + 90;
         }
 
         if (!collection.isEmpty())
@@ -82,7 +82,7 @@ public class EffectOverlays
                 int yOffset = iconAndTime ? 11 : 16;
                 alpha = alpha * 255.0F;
                 int alphaRGB = (int)alpha << 24 & -16777216;
-                int textColor = ExtendedConfig.INSTANCE.alternatePotionHUDTextColor ? effect.getLiquidColor() | alphaRGB : 16777215 | alphaRGB;
+                int textColor = IndicatiaSettings.INSTANCE.alternatePotionHUDTextColor ? effect.getLiquidColor() | alphaRGB : 16777215 | alphaRGB;
 
                 if (amplifier >= 1 && amplifier <= 9)
                 {
@@ -95,7 +95,7 @@ public class EffectOverlays
                     {
                         AbstractGui.blit(matrixStack, right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.ingameGUI.getBlitOffset(), 18, 18, mc.getPotionSpriteUploader().getSprite(effect));
                     }
-                    if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
+                    if (IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
                         int xOffset = showIcon ? 8 : 28;
 
@@ -105,7 +105,7 @@ public class EffectOverlays
                         }
                         mc.fontRenderer.drawStringWithShadow(matrixStack, durationTxt, xPotion + xOffset - stringwidth1, yPotion + yOffset, textColor);
                     }
-                    else if (ExtendedConfig.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
+                    else if (IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                     {
                         int xOffset = showIcon ? 46 : 28;
 

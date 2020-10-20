@@ -4,25 +4,22 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.indicatia.gui.exconfig.BooleanConfigOption;
-import com.stevekung.indicatia.gui.exconfig.DoubleConfigOption;
-import com.stevekung.indicatia.gui.exconfig.StringConfigOption;
-import com.stevekung.indicatia.gui.exconfig.TextFieldConfigOption;
 import com.stevekung.stevekungslib.utils.GameProfileUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
+import com.stevekung.stevekungslib.utils.config.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 
-public class ExtendedConfig
+public class IndicatiaSettings extends Settings
 {
-    public static ExtendedConfig INSTANCE = new ExtendedConfig();
+    public static IndicatiaSettings INSTANCE = new IndicatiaSettings();
     private static final String WHITE = "255,255,255";
     public static final File INDICATIA_DIR = new File(Minecraft.getInstance().gameDir, "indicatia");
-    public static final File USER_DIR = new File(ExtendedConfig.INDICATIA_DIR, GameProfileUtils.getUUID().toString());
-    public static final File DEFAULT_CONFIG_FILE = new File(ExtendedConfig.USER_DIR, "default.dat");
+    public static final File USER_DIR = new File(IndicatiaSettings.INDICATIA_DIR, GameProfileUtils.getUUID().toString());
+    public static final File DEFAULT_CONFIG_FILE = new File(IndicatiaSettings.USER_DIR, "default.dat");
     public static String CURRENT_PROFILE = "";
     private static File PROFILE_FILE;
 
@@ -115,96 +112,96 @@ public class ExtendedConfig
     public int hypixelMinigameScrollPos = 0;
     public int chatMode = 0;
 
-    public static final DoubleConfigOption ARMOR_HUD_Y = new DoubleConfigOption("armor_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.armorHUDYOffset, (config, value) -> config.armorHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
-    public static final DoubleConfigOption POTION_HUD_Y = new DoubleConfigOption("potion_hud_y", -512.0D, 512.0D, 1.0F, config -> (double)config.potionHUDYOffset, (config, value) -> config.potionHUDYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
-    public static final DoubleConfigOption MAXIMUM_POTION_DISPLAY = new DoubleConfigOption("maximum_potion_display", 2.0D, 8.0D, 0.0F, config -> (double)config.maximumPotionDisplay, (config, value) -> config.maximumPotionDisplay = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
-    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET = new DoubleConfigOption("potion_length_y_offset", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffset, (config, value) -> config.potionLengthYOffset = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
-    public static final DoubleConfigOption POTION_LENGTH_Y_OFFSET_OVERLAP = new DoubleConfigOption("potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, config -> (double)config.potionLengthYOffsetOverlap, (config, value) -> config.potionLengthYOffsetOverlap = value.intValue(), (config, doubleOpt) -> doubleOpt.getDisplayPrefix() + (int)doubleOpt.get());
+    public static final SliderPercentageSettings<IndicatiaSettings> ARMOR_HUD_Y = new SliderPercentageSettings<>("indicatia_setting.armor_hud_y", -512.0D, 512.0D, 1.0F, setting -> (double)setting.armorHUDYOffset, (setting, value) -> setting.armorHUDYOffset = value.intValue(), (setting, doubleOpt) -> doubleOpt.getMessageWithValue((int)doubleOpt.get(setting)));
+    public static final SliderPercentageSettings<IndicatiaSettings> POTION_HUD_Y = new SliderPercentageSettings<>("indicatia_setting.potion_hud_y", -512.0D, 512.0D, 1.0F, setting -> (double)setting.potionHUDYOffset, (setting, value) -> setting.potionHUDYOffset = value.intValue(), (setting, doubleOpt) -> doubleOpt.getMessageWithValue((int)doubleOpt.get(setting)));
+    public static final SliderPercentageSettings<IndicatiaSettings> MAXIMUM_POTION_DISPLAY = new SliderPercentageSettings<>("indicatia_setting.maximum_potion_display", 2.0D, 8.0D, 0.0F, setting -> (double)setting.maximumPotionDisplay, (setting, value) -> setting.maximumPotionDisplay = value.intValue(), (setting, doubleOpt) -> doubleOpt.getMessageWithValue((int)doubleOpt.get(setting)));
+    public static final SliderPercentageSettings<IndicatiaSettings> POTION_LENGTH_Y_OFFSET = new SliderPercentageSettings<>("indicatia_setting.potion_length_y_offset", 1.0D, 256.0D, 1.0F, setting -> (double)setting.potionLengthYOffset, (setting, value) -> setting.potionLengthYOffset = value.intValue(), (setting, doubleOpt) -> doubleOpt.getMessageWithValue((int)doubleOpt.get(setting)));
+    public static final SliderPercentageSettings<IndicatiaSettings> POTION_LENGTH_Y_OFFSET_OVERLAP = new SliderPercentageSettings<>("indicatia_setting.potion_length_y_offset_overlap", 1.0D, 256.0D, 1.0F, setting -> (double)setting.potionLengthYOffsetOverlap, (setting, value) -> setting.potionLengthYOffsetOverlap = value.intValue(), (setting, doubleOpt) -> doubleOpt.getMessageWithValue((int)doubleOpt.get(setting)));
 
 
-    public static final BooleanConfigOption SWAP_INFO_POS = new BooleanConfigOption("swap_info_pos", config -> config.swapRenderInfo, (config, value) -> config.swapRenderInfo = value, true);
-    public static final BooleanConfigOption FPS = new BooleanConfigOption("fps", config -> config.fps, (config, value) -> config.fps = value);
-    public static final BooleanConfigOption XYZ = new BooleanConfigOption("xyz", config -> config.xyz, (config, value) -> config.xyz = value);
-    public static final BooleanConfigOption DIRECTION = new BooleanConfigOption("direction", config -> config.direction, (config, value) -> config.direction = value);
-    public static final BooleanConfigOption BIOME = new BooleanConfigOption("biome", config -> config.biome, (config, value) -> config.biome = value);
-    public static final BooleanConfigOption PING = new BooleanConfigOption("ping", config -> config.ping, (config, value) -> config.ping = value);
-    public static final BooleanConfigOption PING_TO_SECOND = new BooleanConfigOption("ping_to_second", config -> config.pingToSecond, (config, value) -> config.pingToSecond = value);
-    public static final BooleanConfigOption SERVER_IP = new BooleanConfigOption("server_ip", config -> config.serverIP, (config, value) -> config.serverIP = value);
-    public static final BooleanConfigOption SERVER_IP_MC = new BooleanConfigOption("server_ip_mc", config -> config.serverIPMCVersion, (config, value) -> config.serverIPMCVersion = value);
-    public static final BooleanConfigOption EQUIPMENT_HUD = new BooleanConfigOption("equipment_hud", config -> config.equipmentHUD, (config, value) -> config.equipmentHUD = value);
-    public static final BooleanConfigOption EQUIPMENT_ARMOR_ITEMS = new BooleanConfigOption("equipment_armor_items", config -> config.equipmentArmorItems, (config, value) -> config.equipmentArmorItems = value);
-    public static final BooleanConfigOption EQUIPMENT_HAND_ITEMS = new BooleanConfigOption("equipment_hand_items", config -> config.equipmentHandItems, (config, value) -> config.equipmentHandItems = value);
-    public static final BooleanConfigOption POTION_HUD = new BooleanConfigOption("potion_hud", config -> config.potionHUD, (config, value) -> config.potionHUD = value);
-    public static final BooleanConfigOption SLIME_CHUNK = new BooleanConfigOption("slime_chunk", config -> config.slimeChunkFinder, (config, value) -> config.slimeChunkFinder = value);
-    public static final BooleanConfigOption REAL_TIME = new BooleanConfigOption("real_time", config -> config.realTime, (config, value) -> config.realTime = value);
-    public static final BooleanConfigOption GAME_TIME = new BooleanConfigOption("game_time", config -> config.gameTime, (config, value) -> config.gameTime = value);
-    public static final BooleanConfigOption GAME_WEATHER = new BooleanConfigOption("game_weather", config -> config.gameWeather, (config, value) -> config.gameWeather = value);
-    public static final BooleanConfigOption MOON_PHASE = new BooleanConfigOption("moon_phase", config -> config.moonPhase, (config, value) -> config.moonPhase = value);
-    public static final BooleanConfigOption POTION_ICON = new BooleanConfigOption("potion_icon", config -> config.potionHUDIcon, (config, value) -> config.potionHUDIcon = value);
-    public static final BooleanConfigOption TPS = new BooleanConfigOption("tps", config -> config.tps, (config, value) -> config.tps = value);
-    public static final BooleanConfigOption TPS_ALL_DIMS = new BooleanConfigOption("tps_all_dims", config -> config.tpsAllDims, (config, value) -> config.tpsAllDims = value);
-    public static final BooleanConfigOption ALTERNATE_POTION_COLOR = new BooleanConfigOption("alternate_potion_color", config -> config.alternatePotionHUDTextColor, (config, value) -> config.alternatePotionHUDTextColor = value);
+    public static final BooleanSettings<IndicatiaSettings> SWAP_INFO_POS = new BooleanSettings<>("indicatia_setting.swap_info_pos", config -> config.swapRenderInfo, (config, value) -> config.swapRenderInfo = value);
+    public static final BooleanSettings<IndicatiaSettings> FPS = new BooleanSettings<>("indicatia_setting.fps", config -> config.fps, (config, value) -> config.fps = value);
+    public static final BooleanSettings<IndicatiaSettings> XYZ = new BooleanSettings<>("indicatia_setting.xyz", config -> config.xyz, (config, value) -> config.xyz = value);
+    public static final BooleanSettings<IndicatiaSettings> DIRECTION = new BooleanSettings<>("indicatia_setting.direction", config -> config.direction, (config, value) -> config.direction = value);
+    public static final BooleanSettings<IndicatiaSettings> BIOME = new BooleanSettings<>("indicatia_setting.biome", config -> config.biome, (config, value) -> config.biome = value);
+    public static final BooleanSettings<IndicatiaSettings> PING = new BooleanSettings<>("indicatia_setting.ping", config -> config.ping, (config, value) -> config.ping = value);
+    public static final BooleanSettings<IndicatiaSettings> PING_TO_SECOND = new BooleanSettings<>("indicatia_setting.ping_to_second", config -> config.pingToSecond, (config, value) -> config.pingToSecond = value);
+    public static final BooleanSettings<IndicatiaSettings> SERVER_IP = new BooleanSettings<>("indicatia_setting.server_ip", config -> config.serverIP, (config, value) -> config.serverIP = value);
+    public static final BooleanSettings<IndicatiaSettings> SERVER_IP_MC = new BooleanSettings<>("indicatia_setting.server_ip_mc", config -> config.serverIPMCVersion, (config, value) -> config.serverIPMCVersion = value);
+    public static final BooleanSettings<IndicatiaSettings> EQUIPMENT_HUD = new BooleanSettings<>("indicatia_setting.equipment_hud", config -> config.equipmentHUD, (config, value) -> config.equipmentHUD = value);
+    public static final BooleanSettings<IndicatiaSettings> EQUIPMENT_ARMOR_ITEMS = new BooleanSettings<>("indicatia_setting.equipment_armor_items", config -> config.equipmentArmorItems, (config, value) -> config.equipmentArmorItems = value);
+    public static final BooleanSettings<IndicatiaSettings> EQUIPMENT_HAND_ITEMS = new BooleanSettings<>("indicatia_setting.equipment_hand_items", config -> config.equipmentHandItems, (config, value) -> config.equipmentHandItems = value);
+    public static final BooleanSettings<IndicatiaSettings> POTION_HUD = new BooleanSettings<>("indicatia_setting.potion_hud", config -> config.potionHUD, (config, value) -> config.potionHUD = value);
+    public static final BooleanSettings<IndicatiaSettings> SLIME_CHUNK = new BooleanSettings<>("indicatia_setting.slime_chunk", config -> config.slimeChunkFinder, (config, value) -> config.slimeChunkFinder = value);
+    public static final BooleanSettings<IndicatiaSettings> REAL_TIME = new BooleanSettings<>("indicatia_setting.real_time", config -> config.realTime, (config, value) -> config.realTime = value);
+    public static final BooleanSettings<IndicatiaSettings> GAME_TIME = new BooleanSettings<>("indicatia_setting.game_time", config -> config.gameTime, (config, value) -> config.gameTime = value);
+    public static final BooleanSettings<IndicatiaSettings> GAME_WEATHER = new BooleanSettings<>("indicatia_setting.game_weather", config -> config.gameWeather, (config, value) -> config.gameWeather = value);
+    public static final BooleanSettings<IndicatiaSettings> MOON_PHASE = new BooleanSettings<>("indicatia_setting.moon_phase", config -> config.moonPhase, (config, value) -> config.moonPhase = value);
+    public static final BooleanSettings<IndicatiaSettings> POTION_ICON = new BooleanSettings<>("indicatia_setting.potion_icon", config -> config.potionHUDIcon, (config, value) -> config.potionHUDIcon = value);
+    public static final BooleanSettings<IndicatiaSettings> TPS = new BooleanSettings<>("indicatia_setting.tps", config -> config.tps, (config, value) -> config.tps = value);
+    public static final BooleanSettings<IndicatiaSettings> TPS_ALL_DIMS = new BooleanSettings<>("indicatia_setting.tps_all_dims", config -> config.tpsAllDims, (config, value) -> config.tpsAllDims = value);
+    public static final BooleanSettings<IndicatiaSettings> ALTERNATE_POTION_COLOR = new BooleanSettings<>("indicatia_setting.alternate_potion_color", config -> config.alternatePotionHUDTextColor, (config, value) -> config.alternatePotionHUDTextColor = value);
 
 
-    public static final BooleanConfigOption RIGHT_CLICK_ADD_PARTY = new BooleanConfigOption("right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
+    public static final BooleanSettings<IndicatiaSettings> RIGHT_CLICK_ADD_PARTY = new BooleanSettings<>("indicatia_setting.right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
 
 
-    public static final StringConfigOption EQUIPMENT_DIRECTION = new StringConfigOption("equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateString(config.equipmentDirection.getTranslationKey()));
-    public static final StringConfigOption EQUIPMENT_STATUS = new StringConfigOption("equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateString(config.equipmentStatus.getTranslationKey()));
-    public static final StringConfigOption EQUIPMENT_POSITION = new StringConfigOption("equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateString(config.equipmentPosition.getTranslationKey()));
-    public static final StringConfigOption POTION_HUD_STYLE = new StringConfigOption("potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateString(config.potionHUDStyle.getTranslationKey()));
-    public static final StringConfigOption POTION_HUD_POSITION = new StringConfigOption("potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateString(config.potionHUDPosition.getTranslationKey()));
-    public static final StringConfigOption PING_MODE = new StringConfigOption("ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getDisplayPrefix() + LangUtils.translateString(config.pingMode.getTranslationKey()));
+    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_DIRECTION = new IteratableSettings<>("indicatia_setting.equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentDirection.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_STATUS = new IteratableSettings<>("indicatia_setting.equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentStatus.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_POSITION = new IteratableSettings<>("indicatia_setting.equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentPosition.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> POTION_HUD_STYLE = new IteratableSettings<>("indicatia_setting.potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.potionHUDStyle.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> POTION_HUD_POSITION = new IteratableSettings<>("indicatia_setting.potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.potionHUDPosition.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> PING_MODE = new IteratableSettings<>("indicatia_setting.ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.pingMode.getTranslationKey())));
 
 
-    public static final TextFieldConfigOption FPS_COLOR = new TextFieldConfigOption("fps_color", config -> config.fpsColor, (config, value) -> config.fpsColor = value);
-    public static final TextFieldConfigOption XYZ_COLOR = new TextFieldConfigOption("xyz_color", config -> config.xyzColor, (config, value) -> config.xyzColor = value);
-    public static final TextFieldConfigOption BIOME_COLOR = new TextFieldConfigOption("biome_color", config -> config.biomeColor, (config, value) -> config.biomeColor = value);
-    public static final TextFieldConfigOption DIRECTION_COLOR = new TextFieldConfigOption("direction_color", config -> config.directionColor, (config, value) -> config.directionColor = value);
-    public static final TextFieldConfigOption PING_COLOR = new TextFieldConfigOption("ping_color", config -> config.pingColor, (config, value) -> config.pingColor = value);
-    public static final TextFieldConfigOption PING_TO_SECOND_COLOR = new TextFieldConfigOption("ping_to_second_color", config -> config.pingToSecondColor, (config, value) -> config.pingToSecondColor = value);
-    public static final TextFieldConfigOption SERVER_IP_COLOR = new TextFieldConfigOption("server_ip_color", config -> config.serverIPColor, (config, value) -> config.serverIPColor = value);
-    public static final TextFieldConfigOption EQUIPMENT_STATUS_COLOR = new TextFieldConfigOption("equipment_status_color", config -> config.equipmentStatusColor, (config, value) -> config.equipmentStatusColor = value);
-    public static final TextFieldConfigOption ARROW_COUNT_COLOR = new TextFieldConfigOption("arrow_count_color", config -> config.arrowCountColor, (config, value) -> config.arrowCountColor = value);
-    public static final TextFieldConfigOption SLIME_CHUNK_COLOR = new TextFieldConfigOption("slime_chunk_color", config -> config.slimeChunkColor, (config, value) -> config.slimeChunkColor = value);
-    public static final TextFieldConfigOption TPS_COLOR = new TextFieldConfigOption("tps_color", config -> config.tpsColor, (config, value) -> config.tpsColor = value);
-    public static final TextFieldConfigOption REAL_TIME_COLOR = new TextFieldConfigOption("real_time_color", config -> config.realTimeColor, (config, value) -> config.realTimeColor = value);
-    public static final TextFieldConfigOption GAME_TIME_COLOR = new TextFieldConfigOption("game_time_color", config -> config.gameTimeColor, (config, value) -> config.gameTimeColor = value);
-    public static final TextFieldConfigOption GAME_WEATHER_COLOR = new TextFieldConfigOption("game_weather_color", config -> config.gameWeatherColor, (config, value) -> config.gameWeatherColor = value);
-    public static final TextFieldConfigOption MOON_PHASE_COLOR = new TextFieldConfigOption("moon_phase_color", config -> config.moonPhaseColor, (config, value) -> config.moonPhaseColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> FPS_COLOR = new TextFieldSettings<>("indicatia_setting.fps_color", config -> config.fpsColor, (config, value) -> config.fpsColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> XYZ_COLOR = new TextFieldSettings<>("indicatia_setting.xyz_color", config -> config.xyzColor, (config, value) -> config.xyzColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> BIOME_COLOR = new TextFieldSettings<>("indicatia_setting.biome_color", config -> config.biomeColor, (config, value) -> config.biomeColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> DIRECTION_COLOR = new TextFieldSettings<>("indicatia_setting.direction_color", config -> config.directionColor, (config, value) -> config.directionColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> PING_COLOR = new TextFieldSettings<>("indicatia_setting.ping_color", config -> config.pingColor, (config, value) -> config.pingColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> PING_TO_SECOND_COLOR = new TextFieldSettings<>("indicatia_setting.ping_to_second_color", config -> config.pingToSecondColor, (config, value) -> config.pingToSecondColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> SERVER_IP_COLOR = new TextFieldSettings<>("indicatia_setting.server_ip_color", config -> config.serverIPColor, (config, value) -> config.serverIPColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> EQUIPMENT_STATUS_COLOR = new TextFieldSettings<>("indicatia_setting.equipment_status_color", config -> config.equipmentStatusColor, (config, value) -> config.equipmentStatusColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> ARROW_COUNT_COLOR = new TextFieldSettings<>("indicatia_setting.arrow_count_color", config -> config.arrowCountColor, (config, value) -> config.arrowCountColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> SLIME_CHUNK_COLOR = new TextFieldSettings<>("indicatia_setting.slime_chunk_color", config -> config.slimeChunkColor, (config, value) -> config.slimeChunkColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> TPS_COLOR = new TextFieldSettings<>("indicatia_setting.tps_color", config -> config.tpsColor, (config, value) -> config.tpsColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> REAL_TIME_COLOR = new TextFieldSettings<>("indicatia_setting.real_time_color", config -> config.realTimeColor, (config, value) -> config.realTimeColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> GAME_TIME_COLOR = new TextFieldSettings<>("indicatia_setting.game_time_color", config -> config.gameTimeColor, (config, value) -> config.gameTimeColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> GAME_WEATHER_COLOR = new TextFieldSettings<>("indicatia_setting.game_weather_color", config -> config.gameWeatherColor, (config, value) -> config.gameWeatherColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> MOON_PHASE_COLOR = new TextFieldSettings<>("indicatia_setting.moon_phase_color", config -> config.moonPhaseColor, (config, value) -> config.moonPhaseColor = value);
 
 
-    public static final TextFieldConfigOption FPS_VALUE_COLOR = new TextFieldConfigOption("fps_value_color", config -> config.fpsValueColor, (config, value) -> config.fpsValueColor = value);
-    public static final TextFieldConfigOption FPS_26_AND_40_COLOR = new TextFieldConfigOption("fps_26_and_40_color", config -> config.fps26And49Color, (config, value) -> config.fps26And49Color = value);
-    public static final TextFieldConfigOption FPS_LOW_25_COLOR = new TextFieldConfigOption("fps_low_25_color", config -> config.fpsLow25Color, (config, value) -> config.fpsLow25Color = value);
-    public static final TextFieldConfigOption XYZ_VALUE_COLOR = new TextFieldConfigOption("xyz_value_color", config -> config.xyzValueColor, (config, value) -> config.xyzValueColor = value);
-    public static final TextFieldConfigOption DIRECTION_VALUE_COLOR = new TextFieldConfigOption("direction_value_color", config -> config.directionValueColor, (config, value) -> config.directionValueColor = value);
-    public static final TextFieldConfigOption BIOME_VALUE_COLOR = new TextFieldConfigOption("biome_value_color", config -> config.biomeValueColor, (config, value) -> config.biomeValueColor = value);
-    public static final TextFieldConfigOption PING_VALUE_COLOR = new TextFieldConfigOption("ping_value_color", config -> config.pingValueColor, (config, value) -> config.pingValueColor = value);
-    public static final TextFieldConfigOption PING_200_AND_300_COLOR = new TextFieldConfigOption("ping_200_and_300_color", config -> config.ping200And300Color, (config, value) -> config.ping200And300Color = value);
-    public static final TextFieldConfigOption PING_300_AND_500_COLOR = new TextFieldConfigOption("ping_300_and_500_color", config -> config.ping300And500Color, (config, value) -> config.ping300And500Color = value);
-    public static final TextFieldConfigOption PING_MAX_500_COLOR = new TextFieldConfigOption("ping_max_500_color", config -> config.pingMax500Color, (config, value) -> config.pingMax500Color = value);
-    public static final TextFieldConfigOption SERVER_IP_VALUE_COLOR = new TextFieldConfigOption("server_ip_value_color", config -> config.serverIPValueColor, (config, value) -> config.serverIPValueColor = value);
-    public static final TextFieldConfigOption SLIME_CHUNK_VALUE_COLOR = new TextFieldConfigOption("slime_chunk_value_color", config -> config.slimeChunkValueColor, (config, value) -> config.slimeChunkValueColor = value);
-    public static final TextFieldConfigOption TPS_VALUE_COLOR = new TextFieldConfigOption("tps_value_color", config -> config.tpsValueColor, (config, value) -> config.tpsValueColor = value);
-    public static final TextFieldConfigOption REAL_TIME_VALUE_COLOR = new TextFieldConfigOption("real_time_value_color", config -> config.realTimeValueColor, (config, value) -> config.realTimeValueColor = value);
-    public static final TextFieldConfigOption GAME_TIME_VALUE_COLOR = new TextFieldConfigOption("game_time_value_color", config -> config.gameTimeValueColor, (config, value) -> config.gameTimeValueColor = value);
-    public static final TextFieldConfigOption GAME_WEATHER_VALUE_COLOR = new TextFieldConfigOption("game_weather_value_color", config -> config.gameWeatherValueColor, (config, value) -> config.gameWeatherValueColor = value);
-    public static final TextFieldConfigOption MOON_PHASE_VALUE_COLOR = new TextFieldConfigOption("moon_phase_value_color", config -> config.moonPhaseValueColor, (config, value) -> config.moonPhaseValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> FPS_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.fps_value_color", config -> config.fpsValueColor, (config, value) -> config.fpsValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> FPS_26_AND_40_COLOR = new TextFieldSettings<>("indicatia_setting.fps_26_and_40_color", config -> config.fps26And49Color, (config, value) -> config.fps26And49Color = value);
+    public static final TextFieldSettings<IndicatiaSettings> FPS_LOW_25_COLOR = new TextFieldSettings<>("indicatia_setting.fps_low_25_color", config -> config.fpsLow25Color, (config, value) -> config.fpsLow25Color = value);
+    public static final TextFieldSettings<IndicatiaSettings> XYZ_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.xyz_value_color", config -> config.xyzValueColor, (config, value) -> config.xyzValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> DIRECTION_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.direction_value_color", config -> config.directionValueColor, (config, value) -> config.directionValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> BIOME_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.biome_value_color", config -> config.biomeValueColor, (config, value) -> config.biomeValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> PING_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.ping_value_color", config -> config.pingValueColor, (config, value) -> config.pingValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> PING_200_AND_300_COLOR = new TextFieldSettings<>("indicatia_setting.ping_200_and_300_color", config -> config.ping200And300Color, (config, value) -> config.ping200And300Color = value);
+    public static final TextFieldSettings<IndicatiaSettings> PING_300_AND_500_COLOR = new TextFieldSettings<>("indicatia_setting.ping_300_and_500_color", config -> config.ping300And500Color, (config, value) -> config.ping300And500Color = value);
+    public static final TextFieldSettings<IndicatiaSettings> PING_MAX_500_COLOR = new TextFieldSettings<>("indicatia_setting.ping_max_500_color", config -> config.pingMax500Color, (config, value) -> config.pingMax500Color = value);
+    public static final TextFieldSettings<IndicatiaSettings> SERVER_IP_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.server_ip_value_color", config -> config.serverIPValueColor, (config, value) -> config.serverIPValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> SLIME_CHUNK_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.slime_chunk_value_color", config -> config.slimeChunkValueColor, (config, value) -> config.slimeChunkValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> TPS_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.tps_value_color", config -> config.tpsValueColor, (config, value) -> config.tpsValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> REAL_TIME_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.real_time_value_color", config -> config.realTimeValueColor, (config, value) -> config.realTimeValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> GAME_TIME_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.game_time_value_color", config -> config.gameTimeValueColor, (config, value) -> config.gameTimeValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> GAME_WEATHER_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.game_weather_value_color", config -> config.gameWeatherValueColor, (config, value) -> config.gameWeatherValueColor = value);
+    public static final TextFieldSettings<IndicatiaSettings> MOON_PHASE_VALUE_COLOR = new TextFieldSettings<>("indicatia_setting.moon_phase_value_color", config -> config.moonPhaseValueColor, (config, value) -> config.moonPhaseValueColor = value);
 
-    private ExtendedConfig() {}
+    private IndicatiaSettings() {}
 
     public static void setCurrentProfile(String profileName)
     {
-        ExtendedConfig.PROFILE_FILE = new File(USER_DIR, profileName + ".dat");
-        ExtendedConfig.CURRENT_PROFILE = profileName;
+        IndicatiaSettings.PROFILE_FILE = new File(USER_DIR, profileName + ".dat");
+        IndicatiaSettings.CURRENT_PROFILE = profileName;
     }
 
     public void load()
     {
         try
         {
-            CompoundNBT nbt = CompressedStreamTools.read(ExtendedConfig.PROFILE_FILE);
+            CompoundNBT nbt = CompressedStreamTools.read(IndicatiaSettings.PROFILE_FILE);
 
             if (nbt == null)
             {
@@ -300,14 +297,15 @@ public class ExtendedConfig
             this.hypixelMinigameScrollPos = this.getInteger(nbt, "HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
             this.chatMode = this.getInteger(nbt, "ChatMode", this.chatMode);
 
-            IndicatiaMod.LOGGER.info("Loading extended config {}", ExtendedConfig.PROFILE_FILE.getPath());
+            IndicatiaMod.LOGGER.info("Loading extended config {}", IndicatiaSettings.PROFILE_FILE.getPath());
         }
         catch (Exception e) {}
     }
 
+    @Override
     public void save()
     {
-        this.save(!ExtendedConfig.CURRENT_PROFILE.isEmpty() ? ExtendedConfig.CURRENT_PROFILE : "default");
+        this.save(!IndicatiaSettings.CURRENT_PROFILE.isEmpty() ? IndicatiaSettings.CURRENT_PROFILE : "default");
     }
 
     public void save(String profileName)
@@ -405,14 +403,14 @@ public class ExtendedConfig
             nbt.putInt("HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
             nbt.putInt("ChatMode", this.chatMode);
 
-            CompressedStreamTools.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(USER_DIR, profileName + ".dat") : ExtendedConfig.PROFILE_FILE);
+            CompressedStreamTools.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(USER_DIR, profileName + ".dat") : IndicatiaSettings.PROFILE_FILE);
         }
         catch (Exception e) {}
     }
 
     public static void saveProfileFile(String profileName)
     {
-        File profile = new File(ExtendedConfig.USER_DIR, "profile.txt");
+        File profile = new File(IndicatiaSettings.USER_DIR, "profile.txt");
 
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {
@@ -427,9 +425,9 @@ public class ExtendedConfig
 
     public static void resetConfig()
     {
-        ExtendedConfig.INSTANCE = new ExtendedConfig();
-        ExtendedConfig.INSTANCE.save(ExtendedConfig.CURRENT_PROFILE);
-        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", ExtendedConfig.CURRENT_PROFILE));
+        IndicatiaSettings.INSTANCE = new IndicatiaSettings();
+        IndicatiaSettings.INSTANCE.save(IndicatiaSettings.CURRENT_PROFILE);
+        ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", IndicatiaSettings.CURRENT_PROFILE));
     }
 
     private boolean getBoolean(CompoundNBT nbt, String key, boolean defaultValue)

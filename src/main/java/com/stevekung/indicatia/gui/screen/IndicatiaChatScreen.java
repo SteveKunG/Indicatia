@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton;
 import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton.IDropboxCallback;
 import com.stevekung.indicatia.gui.widget.MinigameButton;
@@ -47,9 +47,9 @@ public class IndicatiaChatScreen implements IDropboxCallback
     {
         this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
 
-        if (ExtendedConfig.INSTANCE.chatMode < ChatMode.values().length)
+        if (IndicatiaSettings.INSTANCE.chatMode < ChatMode.values().length)
         {
-            this.mode = ChatMode.values()[ExtendedConfig.INSTANCE.chatMode];
+            this.mode = ChatMode.values()[IndicatiaSettings.INSTANCE.chatMode];
         }
     }
 
@@ -88,10 +88,10 @@ public class IndicatiaChatScreen implements IDropboxCallback
     {
         if (InfoUtils.INSTANCE.isHypixel() && IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
         {
-            if (this.prevSelect != ExtendedConfig.INSTANCE.selectedHypixelMinigame)
+            if (this.prevSelect != IndicatiaSettings.INSTANCE.selectedHypixelMinigame)
             {
                 this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
-                this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
+                this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
             }
 
             boolean clicked = !this.dropdown.dropdownClicked;
@@ -110,7 +110,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
     @SubscribeEvent
     public void onChatClose(ChatScreenEvent.Close event)
     {
-        ExtendedConfig.INSTANCE.save();
+        IndicatiaSettings.INSTANCE.save();
     }
 
     @SubscribeEvent
@@ -140,14 +140,14 @@ public class IndicatiaChatScreen implements IDropboxCallback
     @Override
     public void onSelectionChanged(DropdownMinigamesButton dropdown, int selection)
     {
-        ExtendedConfig.INSTANCE.selectedHypixelMinigame = selection;
-        ExtendedConfig.INSTANCE.save();
+        IndicatiaSettings.INSTANCE.selectedHypixelMinigame = selection;
+        IndicatiaSettings.INSTANCE.save();
     }
 
     @Override
     public int getInitialSelection(DropdownMinigamesButton dropdown)
     {
-        return ExtendedConfig.INSTANCE.selectedHypixelMinigame;
+        return IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
     }
 
     private void updateButton(List<Widget> buttons, List<IGuiEventListener> children, int width, int height)
@@ -182,7 +182,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                     {
                         this.mode = mode;
                         player.sendChatMessage(mode.command);
-                        ExtendedConfig.INSTANCE.chatMode = mode.ordinal();
+                        IndicatiaSettings.INSTANCE.chatMode = mode.ordinal();
                     }));
                 }
             }
@@ -191,7 +191,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             {
                 buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
                 this.dropdown.setWidth(length);
-                this.prevSelect = ExtendedConfig.INSTANCE.selectedHypixelMinigame;
+                this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
 
                 List<MinigameButton> gameBtn = new ArrayList<>();
                 int xPos2 = width - 99;
@@ -199,8 +199,8 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 if (this.prevSelect > list.size())
                 {
                     this.prevSelect = 0;
-                    ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
-                    ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
+                    IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos = 0;
+                    IndicatiaSettings.INSTANCE.selectedHypixelMinigame = 0;
                 }
 
                 for (MinigameData data : MinigameData.getMinigames())

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
@@ -55,13 +55,13 @@ public class DropdownMinigamesButton extends Button
         if (this.selectedMinigame == -1)
         {
             int initSelect = this.parentClass.getInitialSelection(this);
-            int size = this.minigameLists.size() + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos;
+            int size = this.minigameLists.size() + IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos;
 
-            if (initSelect > size || ExtendedConfig.INSTANCE.selectedHypixelMinigame > size || size == 1)
+            if (initSelect > size || IndicatiaSettings.INSTANCE.selectedHypixelMinigame > size || size == 1)
             {
                 initSelect = 0;
-                ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
-                ExtendedConfig.INSTANCE.selectedHypixelMinigame = 0;
+                IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos = 0;
+                IndicatiaSettings.INSTANCE.selectedHypixelMinigame = 0;
             }
             this.selectedMinigame = initSelect;
         }
@@ -92,9 +92,9 @@ public class DropdownMinigamesButton extends Button
             }
         }
 
-        for (int i = 0; i + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
+        for (int i = 0; i + IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos < this.minigameLists.size() && i < this.displayLength; ++i)
         {
-            String minigames = this.minigameLists.get(i + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos);
+            String minigames = this.minigameLists.get(i + IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos);
 
             if (minigames != null)
             {
@@ -134,7 +134,7 @@ public class DropdownMinigamesButton extends Button
         {
             if (mouseX >= this.x && mouseY >= this.y + 15 && mouseX < this.x + this.width - 16 && mouseY < this.y + 15 + this.height * this.displayLength)
             {
-                double optionClicked = (mouseY - this.y - 16) / this.height + ExtendedConfig.INSTANCE.hypixelMinigameScrollPos;
+                double optionClicked = (mouseY - this.y - 16) / this.height + IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos;
                 this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
@@ -152,16 +152,16 @@ public class DropdownMinigamesButton extends Button
 
     public void scroll(double amount)
     {
-        ExtendedConfig.INSTANCE.hypixelMinigameScrollPos -= amount;
+        IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos -= amount;
         int i = this.minigameLists.size();
 
-        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength)
+        if (IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos > i - this.displayLength)
         {
-            ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = i - this.displayLength;
+            IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos = i - this.displayLength;
         }
-        if (ExtendedConfig.INSTANCE.hypixelMinigameScrollPos <= 0)
+        if (IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos <= 0)
         {
-            ExtendedConfig.INSTANCE.hypixelMinigameScrollPos = 0;
+            IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos = 0;
         }
     }
 

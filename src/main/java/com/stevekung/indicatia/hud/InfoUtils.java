@@ -2,7 +2,7 @@ package com.stevekung.indicatia.hud;
 
 import java.util.Random;
 
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 
 import net.minecraft.client.Minecraft;
@@ -43,19 +43,19 @@ public class InfoUtils
     {
         if (responseTime >= 200 && responseTime < 300)
         {
-            return ExtendedConfig.INSTANCE.ping200And300Color;
+            return IndicatiaSettings.INSTANCE.ping200And300Color;
         }
         else if (responseTime >= 300 && responseTime < 500)
         {
-            return ExtendedConfig.INSTANCE.ping300And500Color;
+            return IndicatiaSettings.INSTANCE.ping300And500Color;
         }
         else if (responseTime >= 500)
         {
-            return ExtendedConfig.INSTANCE.pingMax500Color;
+            return IndicatiaSettings.INSTANCE.pingMax500Color;
         }
         else
         {
-            return ExtendedConfig.INSTANCE.pingValueColor;
+            return IndicatiaSettings.INSTANCE.pingValueColor;
         }
     }
 
@@ -105,7 +105,7 @@ public class InfoUtils
     {
         int x = MathHelper.intFloorDiv(pos.getX(), 16);
         int z = MathHelper.intFloorDiv(pos.getZ(), 16);
-        Random rand = new Random(ExtendedConfig.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
+        Random rand = new Random(IndicatiaSettings.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rand.nextInt(10) == 0;
     }
 }

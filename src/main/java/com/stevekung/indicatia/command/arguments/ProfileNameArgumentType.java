@@ -15,7 +15,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
 
 import net.minecraft.util.ResourceLocation;
@@ -52,7 +52,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
     {
-        ArrayList<File> files = new ArrayList<>(Arrays.asList(ExtendedConfig.USER_DIR.listFiles()));
+        ArrayList<File> files = new ArrayList<>(Arrays.asList(IndicatiaSettings.USER_DIR.listFiles()));
         List<String> resList = files.stream().filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
         return ProfileNameArgumentType.suggestIterable(resList, builder);
     }
@@ -64,9 +64,9 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         boolean exist = false;
         boolean remove = false;
 
-        if (ExtendedConfig.USER_DIR.exists())
+        if (IndicatiaSettings.USER_DIR.exists())
         {
-            for (File file : ExtendedConfig.USER_DIR.listFiles())
+            for (File file : IndicatiaSettings.USER_DIR.listFiles())
             {
                 String name = file.getName();
 

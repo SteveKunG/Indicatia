@@ -2,7 +2,7 @@ package com.stevekung.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.SlimeSeedArgumentType;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
@@ -21,15 +21,15 @@ public class SlimeSeedCommand implements IClientCommand
         try
         {
             long longSeed = Long.parseLong(seed);
-            ExtendedConfig.INSTANCE.slimeChunkSeed = longSeed;
+            IndicatiaSettings.INSTANCE.slimeChunkSeed = longSeed;
             source.sendFeedback(LangUtils.translate("commands.slime_seed.set", longSeed));
         }
         catch (NumberFormatException e)
         {
-            ExtendedConfig.INSTANCE.slimeChunkSeed = seed.hashCode();
+            IndicatiaSettings.INSTANCE.slimeChunkSeed = seed.hashCode();
             source.sendFeedback(LangUtils.translate("commands.slime_seed.set", seed.hashCode()));
         }
-        ExtendedConfig.INSTANCE.save();
+        IndicatiaSettings.INSTANCE.save();
         return 1;
     }
 }

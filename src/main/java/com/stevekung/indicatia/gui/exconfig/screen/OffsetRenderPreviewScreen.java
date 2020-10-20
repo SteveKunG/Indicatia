@@ -3,7 +3,7 @@ package com.stevekung.indicatia.gui.exconfig.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.stevekung.indicatia.config.Equipments;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
 
@@ -32,7 +32,7 @@ public class OffsetRenderPreviewScreen extends Screen
         GlStateManager.enableBlend();
         EffectOverlays.renderPotionHUD(this.minecraft, matrixStack);
 
-        if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
+        if (IndicatiaSettings.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
         {
             EquipmentOverlays.renderVerticalEquippedItems(this.minecraft, matrixStack);
         }

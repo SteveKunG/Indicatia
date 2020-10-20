@@ -8,8 +8,8 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.stevekung.indicatia.command.*;
-import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.HypixelEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
@@ -33,10 +33,10 @@ public class IndicatiaMod
 {
     private static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
-    private static final String URL = "https://minecraft.curseforge.com/projects/indicatia";
-    private static final File PROFILE = new File(ExtendedConfig.USER_DIR, "profile.txt");
+    private static final String URL = "https://www.curseforge.com/minecraft/mc-mods/indicatia";
+    private static final File PROFILE = new File(IndicatiaSettings.USER_DIR, "profile.txt");
     public static VersionChecker CHECKER;
-    public static boolean GALACTICRAFT_LOADED;
+    public static boolean isGalacticraftLoaded;
     public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
     private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
 
@@ -53,7 +53,7 @@ public class IndicatiaMod
         CommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
         CommonUtils.registerModEventBus(IndicatiaConfig.class);
 
-        IndicatiaMod.GALACTICRAFT_LOADED = ModList.get().isLoaded("galacticraftcore");
+        IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
     }
 
     private void phaseOne(FMLCommonSetupEvent event)
@@ -96,11 +96,11 @@ public class IndicatiaMod
         {
             return;
         }
-        if (!ExtendedConfig.DEFAULT_CONFIG_FILE.exists())
+        if (!IndicatiaSettings.DEFAULT_CONFIG_FILE.exists())
         {
             IndicatiaMod.LOGGER.info("Initializing created default Indicatia profile...");
-            ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.INSTANCE.save();
+            IndicatiaSettings.setCurrentProfile("default");
+            IndicatiaSettings.INSTANCE.save();
         }
 
         CompoundNBT nbt = new CompoundNBT();
@@ -129,21 +129,21 @@ public class IndicatiaMod
             if ("profile".equals(property))
             {
                 IndicatiaMod.LOGGER.info("Loaded current profile by name '{}'", key);
-                ExtendedConfig.setCurrentProfile(key);
-                ExtendedConfig.INSTANCE.load();
+                IndicatiaSettings.setCurrentProfile(key);
+                IndicatiaSettings.INSTANCE.load();
             }
         }
     }
 
     private static void initProfileFile()
     {
-        if (!ExtendedConfig.INDICATIA_DIR.exists())
+        if (!IndicatiaSettings.INDICATIA_DIR.exists())
         {
-            ExtendedConfig.INDICATIA_DIR.mkdirs();
+            IndicatiaSettings.INDICATIA_DIR.mkdirs();
         }
-        if (!ExtendedConfig.USER_DIR.exists())
+        if (!IndicatiaSettings.USER_DIR.exists())
         {
-            ExtendedConfig.USER_DIR.mkdirs();
+            IndicatiaSettings.USER_DIR.mkdirs();
         }
 
         if (!IndicatiaMod.PROFILE.exists())

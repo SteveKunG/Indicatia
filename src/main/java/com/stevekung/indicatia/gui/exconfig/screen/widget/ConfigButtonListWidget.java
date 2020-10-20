@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
+import com.stevekung.indicatia.config.IndicatiaSettings;
+import com.stevekung.stevekungslib.utils.config.AbstractSettings;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
@@ -31,16 +32,16 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         return super.getScrollbarPosition() + 32;
     }
 
-    public void addButton(ExtendedConfigOption config1, ExtendedConfigOption config2)
+    public void addButton(AbstractSettings<IndicatiaSettings> config1, AbstractSettings<IndicatiaSettings> config2)
     {
         this.addEntry(ConfigButtonListWidget.ButtonItem.createItems(this.width, config1, config2));
     }
 
-    public void addAll(ExtendedConfigOption[] config)
+    public void addAll(List<AbstractSettings<IndicatiaSettings>> config)
     {
-        for (int i = 0; i < config.length; i += 2)
+        for (int i = 0; i < config.size(); i += 2)
         {
-            this.addButton(config[i], i < config.length - 1 ? config[i + 1] : null);
+            this.addButton(config.get(i), i < config.size() - 1 ? config.get(i + 1) : null);
         }
     }
 
@@ -69,10 +70,10 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
             return this.buttons;
         }
 
-        public static ConfigButtonListWidget.ButtonItem createItems(int x, ExtendedConfigOption configOpt1, ExtendedConfigOption configOpt2)
+        public static ConfigButtonListWidget.ButtonItem createItems(int x, AbstractSettings<IndicatiaSettings> configOpt1, AbstractSettings<IndicatiaSettings> configOpt2)
         {
-            Widget button = configOpt1.createOptionButton(x / 2 - 155, 0, 150);
-            return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createOptionButton(x / 2 - 155 + 160, 0, 150)));
+            Widget button = configOpt1.createWidget(IndicatiaSettings.INSTANCE, x / 2 - 155, 0, 150);
+            return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createWidget(IndicatiaSettings.INSTANCE, x / 2 - 155 + 160, 0, 150)));
         }
     }
 }

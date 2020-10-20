@@ -6,8 +6,8 @@ import java.util.List;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
-import com.stevekung.indicatia.config.ExtendedConfig;
 import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.*;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -91,7 +91,7 @@ public class HUDRenderEventHandler
                         float fontHeight = this.mc.fontRenderer.FONT_HEIGHT + 1;
                         float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
                         float xOffset = this.mc.getMainWindow().getScaledWidth() - 2 - this.mc.fontRenderer.getStringWidth(value.getString());
-                        this.mc.fontRenderer.func_243246_a(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !ExtendedConfig.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
+                        this.mc.fontRenderer.func_243246_a(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
                         if (pos == InfoOverlay.Position.LEFT)
                         {
@@ -104,15 +104,15 @@ public class HUDRenderEventHandler
                     }
                 }
 
-                if (!this.mc.player.isSpectator() && ExtendedConfig.INSTANCE.equipmentHUD)
+                if (!this.mc.player.isSpectator() && IndicatiaSettings.INSTANCE.equipmentHUD)
                 {
-                    if (ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
+                    if (IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
                     {
                         EquipmentOverlays.renderHotbarEquippedItems(this.mc, matrixStack);
                     }
                     else
                     {
-                        if (ExtendedConfig.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
+                        if (IndicatiaSettings.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
                         {
                             EquipmentOverlays.renderVerticalEquippedItems(this.mc, matrixStack);
                         }
@@ -123,7 +123,7 @@ public class HUDRenderEventHandler
                     }
                 }
 
-                if (ExtendedConfig.INSTANCE.potionHUD)
+                if (IndicatiaSettings.INSTANCE.potionHUD)
                 {
                     EffectOverlays.renderPotionHUD(this.mc, matrixStack);
                 }
@@ -152,64 +152,64 @@ public class HUDRenderEventHandler
         List<InfoOverlay> infos = new ArrayList<>();
         BlockPos playerPos = new BlockPos(mc.getRenderViewEntity().getPosX(), mc.getRenderViewEntity().getBoundingBox().minY, mc.getRenderViewEntity().getPosZ());
 
-        if (ExtendedConfig.INSTANCE.fps)
+        if (IndicatiaSettings.INSTANCE.fps)
         {
             int fps = Minecraft.debugFPS;
-            infos.add(new InfoOverlay("hud.fps", String.valueOf(fps), ExtendedConfig.INSTANCE.fpsColor, fps <= 25 ? ExtendedConfig.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? ExtendedConfig.INSTANCE.fps26And49Color : ExtendedConfig.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.fps", String.valueOf(fps), IndicatiaSettings.INSTANCE.fpsColor, fps <= 25 ? IndicatiaSettings.INSTANCE.fpsLow25Color : fps >= 26 && fps <= 49 ? IndicatiaSettings.INSTANCE.fps26And49Color : IndicatiaSettings.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
         }
 
         if (!mc.isSingleplayer())
         {
-            if (ExtendedConfig.INSTANCE.ping)
+            if (IndicatiaSettings.INSTANCE.ping)
             {
                 int responseTime = InfoUtils.INSTANCE.getPing();
-                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", ExtendedConfig.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", IndicatiaSettings.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
 
-                if (ExtendedConfig.INSTANCE.pingToSecond)
+                if (IndicatiaSettings.INSTANCE.pingToSecond)
                 {
                     double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", ExtendedConfig.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
                 }
             }
-            if (ExtendedConfig.INSTANCE.serverIP && mc.getCurrentServerData() != null)
+            if (IndicatiaSettings.INSTANCE.serverIP && mc.getCurrentServerData() != null)
             {
-                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServerData().serverIP) + (ExtendedConfig.INSTANCE.serverIPMCVersion ? "/" + MCPVersion.getMCVersion() : ""), ExtendedConfig.INSTANCE.serverIPColor, ExtendedConfig.INSTANCE.serverIPValueColor, InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServerData().serverIP) + (IndicatiaSettings.INSTANCE.serverIPMCVersion ? "/" + MCPVersion.getMCVersion() : ""), IndicatiaSettings.INSTANCE.serverIPColor, IndicatiaSettings.INSTANCE.serverIPValueColor, InfoOverlay.Position.RIGHT));
             }
         }
 
-        if (ExtendedConfig.INSTANCE.xyz)
+        if (IndicatiaSettings.INSTANCE.xyz)
         {
             String stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
             String nether = mc.player.world.getDimensionType().isPiglinSafe() ? "Nether " : "";
-            infos.add(new InfoOverlay(nether + "XYZ", stringPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay(nether + "XYZ", stringPos, IndicatiaSettings.INSTANCE.xyzColor, IndicatiaSettings.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
 
             if (mc.player.world.getDimensionType().isPiglinSafe())
             {
                 String stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
-                infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, ExtendedConfig.INSTANCE.xyzColor, ExtendedConfig.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
+                infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, IndicatiaSettings.INSTANCE.xyzColor, IndicatiaSettings.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
             }
         }
 
-        if (ExtendedConfig.INSTANCE.direction)
+        if (IndicatiaSettings.INSTANCE.direction)
         {
             infos.add(InfoOverlays.getDirection(mc));
         }
 
-        if (ExtendedConfig.INSTANCE.biome)
+        if (IndicatiaSettings.INSTANCE.biome)
         {
             ChunkPos chunkPos = new ChunkPos(playerPos);
             Chunk worldChunk = mc.world.getChunk(chunkPos.x, chunkPos.z);
             ResourceLocation biomeResource = mc.world.func_241828_r().getRegistry(Registry.BIOME_KEY).getKey(mc.world.getBiome(playerPos));
             String biomeName = "biome." + biomeResource.getNamespace() + "." + biomeResource.getPath();
-            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? new TranslationTextComponent(biomeName).getString() : LangUtils.translate("hud.biome.waiting_for_chunk").getString(), ExtendedConfig.INSTANCE.biomeColor, ExtendedConfig.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? new TranslationTextComponent(biomeName).getString() : LangUtils.translate("hud.biome.waiting_for_chunk").getString(), IndicatiaSettings.INSTANCE.biomeColor, IndicatiaSettings.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
         }
 
-        if (ExtendedConfig.INSTANCE.slimeChunkFinder && !mc.player.world.getDimensionType().isPiglinSafe())
+        if (IndicatiaSettings.INSTANCE.slimeChunkFinder && !mc.player.world.getDimensionType().isPiglinSafe())
         {
-            infos.add(new InfoOverlay("hud.slime_chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "gui.yes" : "gui.no", ExtendedConfig.INSTANCE.slimeChunkColor, ExtendedConfig.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
+            infos.add(new InfoOverlay("hud.slime_chunk", InfoUtils.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "gui.yes" : "gui.no", IndicatiaSettings.INSTANCE.slimeChunkColor, IndicatiaSettings.INSTANCE.slimeChunkValueColor, InfoOverlay.Position.LEFT));
         }
 
-        if (ExtendedConfig.INSTANCE.tps)
+        if (IndicatiaSettings.INSTANCE.tps)
         {
             infos.add(InfoOverlays.OVERALL_TPS);
             infos.add(InfoOverlays.OVERWORLD_TPS);
@@ -217,22 +217,22 @@ public class HUDRenderEventHandler
             infos.add(InfoOverlays.TPS);
         }
 
-        if (ExtendedConfig.INSTANCE.realTime)
+        if (IndicatiaSettings.INSTANCE.realTime)
         {
             infos.add(InfoOverlays.getRealWorldTime());
         }
-        if (ExtendedConfig.INSTANCE.gameTime)
+        if (IndicatiaSettings.INSTANCE.gameTime)
         {
             infos.add(InfoOverlays.getGameTime(mc));
         }
-        if (ExtendedConfig.INSTANCE.gameWeather && mc.world.isRaining())
+        if (IndicatiaSettings.INSTANCE.gameWeather && mc.world.isRaining())
         {
             String weather = !mc.world.isThundering() ? "hud.weather.raining" : "hud.weather.thundering";
-            infos.add(new InfoOverlay("hud.weather", weather, ExtendedConfig.INSTANCE.gameWeatherColor, ExtendedConfig.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
+            infos.add(new InfoOverlay("hud.weather", weather, IndicatiaSettings.INSTANCE.gameWeatherColor, IndicatiaSettings.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
         }
-        if (ExtendedConfig.INSTANCE.moonPhase)
+        if (IndicatiaSettings.INSTANCE.moonPhase)
         {
-            infos.add(new InfoOverlay("hud.moon_phase", InfoUtils.INSTANCE.getMoonPhase(mc), ExtendedConfig.INSTANCE.moonPhaseColor, ExtendedConfig.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
+            infos.add(new InfoOverlay("hud.moon_phase", InfoUtils.INSTANCE.getMoonPhase(mc), IndicatiaSettings.INSTANCE.moonPhaseColor, IndicatiaSettings.INSTANCE.moonPhaseValueColor, InfoOverlay.Position.RIGHT));
         }
         return infos;
     }

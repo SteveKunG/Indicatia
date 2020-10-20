@@ -1,10 +1,11 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.stevekung.indicatia.config.ExtendedConfig;
-import com.stevekung.indicatia.gui.exconfig.ExtendedConfigOption;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
 import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekungslib.utils.config.AbstractSettings;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DialogTexts;
@@ -16,7 +17,7 @@ public class HypixelSettingsScreen extends Screen
 {
     private final Screen parent;
     private ConfigButtonListWidget optionsRowList;
-    private static final ExtendedConfigOption[] OPTIONS = new ExtendedConfigOption[] { ExtendedConfig.RIGHT_CLICK_ADD_PARTY };
+    private static final ImmutableList<AbstractSettings<IndicatiaSettings>> OPTIONS = ImmutableList.of(IndicatiaSettings.RIGHT_CLICK_ADD_PARTY);
 
     public HypixelSettingsScreen(Screen parent)
     {
@@ -29,7 +30,7 @@ public class HypixelSettingsScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, DialogTexts.GUI_DONE, button ->
         {
-            ExtendedConfig.INSTANCE.save();
+            IndicatiaSettings.INSTANCE.save();
             this.minecraft.displayGuiScreen(this.parent);
         }));
 
@@ -41,7 +42,7 @@ public class HypixelSettingsScreen extends Screen
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers)
     {
-        ExtendedConfig.INSTANCE.save();
+        IndicatiaSettings.INSTANCE.save();
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 

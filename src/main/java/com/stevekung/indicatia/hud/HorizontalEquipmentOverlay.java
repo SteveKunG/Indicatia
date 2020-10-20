@@ -3,7 +3,7 @@ package com.stevekung.indicatia.hud;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
@@ -30,16 +30,16 @@ public class HorizontalEquipmentOverlay extends EquipmentOverlay
 
     public void render(MatrixStack matrixStack, int x, int y)
     {
-        boolean right = ExtendedConfig.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
+        boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
         IFormattableTextComponent arrowInfo = TextComponentUtils.component(this.renderArrowInfo()).deepCopy();
         arrowInfo.setStyle(arrowInfo.getStyle().setFontId(ClientUtils.UNICODE));
         EquipmentOverlay.renderItem(this.itemStack, right ? x - 18 : x, y);
-        this.mc.fontRenderer.drawStringWithShadow(matrixStack, this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.equipmentStatusColor));
+        this.mc.fontRenderer.drawStringWithShadow(matrixStack, this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
             RenderSystem.disableDepthTest();
-            this.mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, right ? x - this.mc.fontRenderer.getStringPropertyWidth(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(ExtendedConfig.INSTANCE.arrowCountColor));
+            this.mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, right ? x - this.mc.fontRenderer.getStringPropertyWidth(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
             RenderSystem.enableDepthTest();
         }
     }

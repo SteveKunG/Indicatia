@@ -8,7 +8,7 @@ import java.util.Collection;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.stevekung.indicatia.command.arguments.ProfileNameArgumentType;
-import com.stevekung.indicatia.config.ExtendedConfig;
+import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
@@ -40,7 +40,7 @@ public class ProfileCommand implements IClientCommand
             return 0;
         }
 
-        for (File file : ExtendedConfig.USER_DIR.listFiles())
+        for (File file : IndicatiaSettings.USER_DIR.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -56,14 +56,14 @@ public class ProfileCommand implements IClientCommand
         else
         {
             source.sendFeedback(LangUtils.translate("commands.inprofile.created", name));
-            ExtendedConfig.INSTANCE.save(name);
+            IndicatiaSettings.INSTANCE.save(name);
             return 1;
         }
     }
 
     private static int loadProfile(IClientSuggestionProvider source, String name)
     {
-        for (File file : ExtendedConfig.USER_DIR.listFiles())
+        for (File file : IndicatiaSettings.USER_DIR.listFiles())
         {
             if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
             {
@@ -71,11 +71,11 @@ public class ProfileCommand implements IClientCommand
                 return 0;
             }
         }
-        ExtendedConfig.setCurrentProfile(name);
-        ExtendedConfig.saveProfileFile(name);
-        ExtendedConfig.INSTANCE.load();
+        IndicatiaSettings.setCurrentProfile(name);
+        IndicatiaSettings.saveProfileFile(name);
+        IndicatiaSettings.INSTANCE.load();
         source.sendFeedback(LangUtils.translate("commands.inprofile.load", name));
-        ExtendedConfig.INSTANCE.save(name); // save current settings
+        IndicatiaSettings.INSTANCE.save(name); // save current settings
         return 1;
     }
 
@@ -83,7 +83,7 @@ public class ProfileCommand implements IClientCommand
     {
         boolean exist = false;
 
-        for (File file : ExtendedConfig.USER_DIR.listFiles())
+        for (File file : IndicatiaSettings.USER_DIR.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -93,7 +93,7 @@ public class ProfileCommand implements IClientCommand
 
         if (exist)
         {
-            ExtendedConfig.INSTANCE.save(name);
+            IndicatiaSettings.INSTANCE.save(name);
             source.sendFeedback(LangUtils.translate("commands.inprofile.save", name));
             return 1;
         }
@@ -114,7 +114,7 @@ public class ProfileCommand implements IClientCommand
 
         boolean exist = false;
 
-        for (File file : ExtendedConfig.USER_DIR.listFiles())
+        for (File file : IndicatiaSettings.USER_DIR.listFiles())
         {
             if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
             {
@@ -124,10 +124,10 @@ public class ProfileCommand implements IClientCommand
 
         if (exist)
         {
-            File toDel = new File(ExtendedConfig.USER_DIR, name + ".dat");
+            File toDel = new File(IndicatiaSettings.USER_DIR, name + ".dat");
             toDel.delete();
-            ExtendedConfig.setCurrentProfile("default");
-            ExtendedConfig.INSTANCE.load();
+            IndicatiaSettings.setCurrentProfile("default");
+            IndicatiaSettings.INSTANCE.load();
             source.sendFeedback(LangUtils.translate("commands.inprofile.remove", name));
             return 1;
         }
@@ -140,7 +140,7 @@ public class ProfileCommand implements IClientCommand
 
     private static int getProfileList(IClientSuggestionProvider source)
     {
-        Collection<File> collection = new ArrayList<>(Arrays.asList(ExtendedConfig.USER_DIR.listFiles()));
+        Collection<File> collection = new ArrayList<>(Arrays.asList(IndicatiaSettings.USER_DIR.listFiles()));
 
         if (collection.isEmpty())
         {
@@ -167,7 +167,7 @@ public class ProfileCommand implements IClientCommand
             {
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
-                boolean current = realName.equals(ExtendedConfig.CURRENT_PROFILE);
+                boolean current = realName.equals(IndicatiaSettings.CURRENT_PROFILE);
                 source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + TextFormatting.RED + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
             });
             return 1;
