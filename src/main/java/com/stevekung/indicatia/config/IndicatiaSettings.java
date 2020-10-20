@@ -12,6 +12,7 @@ import com.stevekung.stevekungslib.utils.config.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraftforge.common.util.Constants;
 
 public class IndicatiaSettings extends Settings
 {
@@ -432,7 +433,7 @@ public class IndicatiaSettings extends Settings
 
     private boolean getBoolean(CompoundNBT nbt, String key, boolean defaultValue)
     {
-        if (nbt.contains(key, 99))
+        if (nbt.contains(key, Constants.NBT.TAG_ANY_NUMERIC))
         {
             return nbt.getBoolean(key);
         }
@@ -444,7 +445,7 @@ public class IndicatiaSettings extends Settings
 
     private int getInteger(CompoundNBT nbt, String key, int defaultValue)
     {
-        if (nbt.contains(key, 99))
+        if (nbt.contains(key, Constants.NBT.TAG_ANY_NUMERIC))
         {
             return nbt.getInt(key);
         }
@@ -456,7 +457,7 @@ public class IndicatiaSettings extends Settings
 
     private String getString(CompoundNBT nbt, String key, String defaultValue)
     {
-        if (nbt.contains(key, 8))
+        if (nbt.contains(key, Constants.NBT.TAG_STRING))
         {
             return nbt.getString(key);
         }
@@ -468,7 +469,7 @@ public class IndicatiaSettings extends Settings
 
     private long getLong(CompoundNBT nbt, String key, long defaultValue)
     {
-        if (nbt.contains(key, 99))
+        if (nbt.contains(key, Constants.NBT.TAG_ANY_NUMERIC))
         {
             return nbt.getLong(key);
         }

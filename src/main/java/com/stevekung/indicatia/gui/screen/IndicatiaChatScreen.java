@@ -14,6 +14,7 @@ import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.MinigameData;
 import com.stevekung.stevekungslib.client.event.ChatScreenEvent;
 import com.stevekung.stevekungslib.utils.ColorUtils;
+import com.stevekung.stevekungslib.utils.ItemUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
@@ -26,9 +27,6 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -166,7 +164,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         {
             List<String> list = Lists.newArrayList();
 
-            for (MinigameData data : MinigameData.getMinigames())
+            for (MinigameData data : MinigameData.DATA)
             {
                 list.add(data.getName());
             }
@@ -203,7 +201,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                     IndicatiaSettings.INSTANCE.selectedHypixelMinigame = 0;
                 }
 
-                for (MinigameData data : MinigameData.getMinigames())
+                for (MinigameData data : MinigameData.DATA)
                 {
                     for (MinigameData.Command command : data.getCommands())
                     {
@@ -213,7 +211,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
                             if (!StringUtils.isNullOrEmpty(command.getUUID()))
                             {
-                                skull = this.getSkullItemStack(command.getUUID(), command.getTexture());
+                                skull = ItemUtils.getSkullItemStack(command.getUUID(), command.getTexture());
                             }
                             gameBtn.add(new MinigameButton(width, TextComponentUtils.component(command.getName()), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
                         }
@@ -258,24 +256,6 @@ public class IndicatiaChatScreen implements IDropboxCallback
             }
             children.addAll(buttons);
         }
-    }
-
-    private ItemStack getSkullItemStack(String skullId, String skullValue)
-    {
-        ItemStack itemStack = new ItemStack(Items.PLAYER_HEAD);
-        CompoundNBT compound = new CompoundNBT();
-        CompoundNBT properties = new CompoundNBT();
-        properties.putString("Id", skullId);
-        CompoundNBT texture = new CompoundNBT();
-        ListNBT list = new ListNBT();
-        CompoundNBT value = new CompoundNBT();
-        value.putString("Value", skullValue);
-        list.add(value);
-        texture.put("textures", list);
-        properties.put("Properties", texture);
-        compound.put("SkullOwner", properties);
-        itemStack.setTag(compound);
-        return itemStack;
     }
 
     public enum ChatMode implements IExtensibleEnum

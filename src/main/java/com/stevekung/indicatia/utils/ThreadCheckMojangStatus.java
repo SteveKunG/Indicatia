@@ -5,6 +5,11 @@ import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 public class ThreadCheckMojangStatus implements Runnable
 {
+    public ThreadCheckMojangStatus()
+    {
+        this.run();
+    }
+
     @Override
     public void run()
     {

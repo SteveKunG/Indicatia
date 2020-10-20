@@ -25,7 +25,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
 @Mod(IndicatiaMod.MOD_ID)
@@ -56,7 +56,7 @@ public class IndicatiaMod
         IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
     }
 
-    private void phaseOne(FMLCommonSetupEvent event)
+    private void phaseOne(FMLClientSetupEvent event)
     {
         this.registerClientCommands();
         KeyBindingHandler.init();
