@@ -4,6 +4,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
@@ -15,12 +17,15 @@ import com.stevekung.indicatia.event.HypixelEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.screen.IndicatiaChatScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
+import com.stevekung.indicatia.key.KeypadChatKey;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LoggerBase;
 import com.stevekung.stevekungslib.utils.VersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -39,6 +44,7 @@ public class IndicatiaMod
     public static boolean isGalacticraftLoaded;
     public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
     private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
+    public static final KeyBinding keyBindAltChat = new KeyBinding("key.chatAlt", new KeypadChatKey(), InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
 
     static
     {

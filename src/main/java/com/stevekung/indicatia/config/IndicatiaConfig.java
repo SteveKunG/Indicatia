@@ -29,6 +29,7 @@ public class IndicatiaConfig
         public final ForgeConfigSpec.BooleanValue enableSidebarScoreboardRender;
         public final ForgeConfigSpec.BooleanValue enableHypixelChatMode;
         public final ForgeConfigSpec.BooleanValue enableHypixelDropdownShortcutGame;
+        public final ForgeConfigSpec.BooleanValue enableAlternateChatKey;
 
         General(ForgeConfigSpec.Builder builder)
         {
@@ -100,6 +101,11 @@ public class IndicatiaConfig
             this.enableHypixelDropdownShortcutGame = builder
                     .translation("indicatia.configgui.enable_hypixel_dropdown_shortcut_game")
                     .define("enableHypixelDropdownShortcutGame", true);
+
+            this.enableAlternateChatKey = builder
+                    .comment("This allowed to use Numpad Enter key to open chat.")
+                    .translation("indicatia.configgui.enable_alternate_chat_key")
+                    .define("enableAlternateChatKey", true);
 
             builder.pop();
         }

@@ -12,13 +12,16 @@
         "MixinBipedArmorLayerOptifine",
         "MixinBossOverlayGui",
         "MixinCapeLayer",
+        "MixinCreativeScreen",
         "MixinElytraLayer",
         "MixinFirstPersonRenderer",
         "MixinForgeIngameGui",
         "MixinHeadLayer",
         "MixinItemStackTileEntityRenderer",
         "MixinItemStackTileEntityRendererOptifine",
+        "MixinMinecraft",
         "MixinPlayerTabOverlayGui",
+        "MixinRecipeBookGui",
         "MixinServerSelectionList_NormalEntry"
     ],
     "injectors": {

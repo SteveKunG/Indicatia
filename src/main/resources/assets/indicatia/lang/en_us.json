@@ -16,6 +16,7 @@
     "indicatia.configgui.enable_sidebar_scoreboard_render": "Enable Scoreboard Sidebar Rendering",
     "indicatia.configgui.enable_hypixel_chat_mode": "Enable Hypixel Chat Mode",
     "indicatia.configgui.enable_hypixel_dropdown_shortcut_game": "Enable Hypixel Dropdown Shortcut Game",
+    "indicatia.configgui.enable_alternate_chat_key": "Enable Alternate Chat Key",
 
     "_comment": "COMMAND",
     "commands.not_allowed_hypixel": "This command is not allowed on Hypixel!",
@@ -179,8 +180,9 @@
     "hud.real_time": "Time",
 
     "_comment": "KEY BINDING",
-    "key.indicatia.categories": "Indicatia",
+    "key.categories.indicatia": "Indicatia",
     "key.quick_config.desc": "Quick Config GUI",
+    "key.chatAlt.desc": "Alternate Chat",
 
     "_comment": "MENU",
     "menu.main.title": "Extended Config",
