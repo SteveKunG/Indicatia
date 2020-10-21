@@ -1,6 +1,7 @@
 # Change Log
 
-* * Required SteveKunG's Lib 3.0.8
-* * Chinese language support
-* * Fixed Optifine incompatibility
-* - Remove toggle sprint hack
+* + Added Alternate Chat Key config
+* * Restore missing features (TPS)
+* * Update to 1.16.3
+* * Efficient code for MinigameData
+* * Bug fixes
