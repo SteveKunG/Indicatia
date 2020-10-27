@@ -2,7 +2,7 @@ package com.stevekung.indicatia.utils.event;
 
 import java.util.List;
 
-import com.stevekung.indicatia.hud.InfoOverlay;
+import com.stevekung.indicatia.utils.hud.InfoOverlay;
 
 import net.minecraftforge.eventbus.api.Event;
 

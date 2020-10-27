@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.hud;
+package com.stevekung.indicatia.utils.hud;
 
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;

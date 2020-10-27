@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.hud;
+package com.stevekung.indicatia.utils.hud;
 
 import net.minecraft.item.ItemStack;
 

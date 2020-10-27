@@ -9,8 +9,12 @@ import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
-import com.stevekung.indicatia.hud.*;
+import com.stevekung.indicatia.hud.EffectOverlays;
+import com.stevekung.indicatia.hud.EquipmentOverlays;
+import com.stevekung.indicatia.hud.InfoOverlays;
+import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.event.InfoOverlayEvent;
+import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 
