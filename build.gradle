@@ -63,10 +63,12 @@ dependencies {
 
 repositories {
     maven {
+        name "CurseGradle"
         url "https://plugins.gradle.org/m2/"
     }
     maven {
-        url "https://minecraft.curseforge.com/api/maven/"
+        name "CurseForge"
+        url "https://www.curseforge.com/api/maven/"
     }
 }
 
