@@ -30,6 +30,6 @@ authors="SteveKunG"
 [[dependencies.indicatia]]
     modId="stevekungs_lib"
     mandatory=true
-    versionRange="[4.0.0,)"
+    versionRange="[4.0.1,)"
     ordering="NONE"
     side="CLIENT"
