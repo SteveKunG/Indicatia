@@ -116,6 +116,7 @@ curseforge {
 	        changelogType = "markdown"
 	        releaseType = "release"
 	        addGameVersion mcVersion
+	        addGameVersion "1.16.3"
 	
 	        mainArtifact(jar) {
 	            displayName = "Indicatia-" + mcVersion + "-" + version
