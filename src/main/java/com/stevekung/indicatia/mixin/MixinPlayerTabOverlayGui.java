@@ -16,7 +16,6 @@ import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.overlay.PlayerTabOverlayGui;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
@@ -26,7 +25,7 @@ import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TextFormatting;
 
 @Mixin(PlayerTabOverlayGui.class)
-public abstract class MixinPlayerTabOverlayGui extends AbstractGui
+public class MixinPlayerTabOverlayGui
 {
     private int pingWidth;
 

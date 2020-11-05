@@ -10,7 +10,7 @@ import net.minecraft.client.gui.recipebook.RecipeBookGui;
 import net.minecraft.client.settings.KeyBinding;
 
 @Mixin(RecipeBookGui.class)
-public abstract class MixinRecipeBookGui
+public class MixinRecipeBookGui
 {
     @Redirect(method = "keyPressed(III)Z", at = @At(value = "INVOKE", target = "net/minecraft/client/settings/KeyBinding.matchesKey(II)Z"))
     private boolean addAltChatKey(KeyBinding key, int keysym, int scancode)

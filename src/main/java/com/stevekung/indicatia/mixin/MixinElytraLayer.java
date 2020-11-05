@@ -11,19 +11,13 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.ElytraModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.LivingEntity;
 
 @Mixin(ElytraLayer.class)
-public abstract class MixinElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends LayerRenderer<T, M>
+public class MixinElytraLayer<T extends LivingEntity, M extends EntityModel<T>>
 {
-    private MixinElytraLayer()
-    {
-        super(null);
-    }
-
     @Redirect(method = "render(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/model/ElytraModel.render(Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;IIFFFF)V"))
     private void renderElytra(ElytraModel<T> modelElytra, MatrixStack _matrixStackIn, IVertexBuilder _bufferIn, int _packedLightIn, int _packedOverlayIn, float red, float green, float blue, float alpha, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
     {

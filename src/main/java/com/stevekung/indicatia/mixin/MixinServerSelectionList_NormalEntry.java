@@ -35,7 +35,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.ClientHooks;
 
 @Mixin(ServerSelectionList.NormalEntry.class)
-public abstract class MixinServerSelectionList_NormalEntry extends ServerSelectionList.Entry
+public abstract class MixinServerSelectionList_NormalEntry
 {
     private final ServerSelectionList.NormalEntry that = (ServerSelectionList.NormalEntry) (Object) this;
 

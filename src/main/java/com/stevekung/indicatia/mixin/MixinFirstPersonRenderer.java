@@ -21,13 +21,9 @@ import net.minecraft.util.math.vector.Vector3f;
 public class MixinFirstPersonRenderer
 {
     @Inject(method = "renderItemInFirstPerson(Lnet/minecraft/client/entity/player/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V",
-            slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER)),
-            at = {
-                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 2),
-                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 3),
-                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 4),
-                    @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER, ordinal = 5)
-    })
+            slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformEatFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;FLnet/minecraft/util/HandSide;Lnet/minecraft/item/ItemStack;)V"),
+            to = @At(value = "INVOKE", target = "net/minecraft/client/entity/player/AbstractClientPlayerEntity.isSpinAttacking()Z")),
+            at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/FirstPersonRenderer.transformSideFirstPerson(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/util/HandSide;F)V", shift = At.Shift.AFTER))
     private void renderItemInFirstPerson(AbstractClientPlayerEntity player, float partialTicks, float rotationPitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, MatrixStack stack, IRenderTypeBuffer buffer, int color, CallbackInfo info)
     {
         if (IndicatiaConfig.GENERAL.enableBlockhitAnimation.get())

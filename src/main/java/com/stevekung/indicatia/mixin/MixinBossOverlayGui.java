@@ -7,12 +7,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.overlay.BossOverlayGui;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 @Mixin(BossOverlayGui.class)
-public abstract class MixinBossOverlayGui extends AbstractGui
+public class MixinBossOverlayGui
 {
     @Inject(method = "func_238484_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;)V", cancellable = true, at = @At("HEAD"))
     private void render(MatrixStack matrixStack, CallbackInfo info)
