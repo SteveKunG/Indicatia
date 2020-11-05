@@ -31,7 +31,7 @@ public class MixinBipedArmorLayer<T extends LivingEntity, M extends BipedModel<T
 
     private void renderArmorModified(MatrixStack matrixStack, IRenderTypeBuffer buffer, T entity, int packedLight, boolean glint, A model, float red, float green, float blue, ResourceLocation armorResource)
     {
-        IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(buffer, RenderType.getEntityCutoutNoCull(armorResource), false, glint);
+        IVertexBuilder ivertexbuilder = ItemRenderer.getArmorVertexBuilder(buffer, RenderType.getArmorCutoutNoCull(armorResource), false, glint);
         model.render(matrixStack, ivertexbuilder, packedLight, IndicatiaConfig.GENERAL.enableOldArmorRender.get() ? LivingRenderer.getPackedOverlay(entity, 0.0F) : OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
     }
 }
