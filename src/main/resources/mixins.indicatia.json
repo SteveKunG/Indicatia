@@ -17,6 +17,7 @@
         "MixinFirstPersonRenderer",
         "MixinForgeIngameGui",
         "MixinHeadLayer",
+        "MixinIngameMenuScreen",
         "MixinItemStackTileEntityRenderer",
         "MixinItemStackTileEntityRendererOptifine",
         "MixinMinecraft",

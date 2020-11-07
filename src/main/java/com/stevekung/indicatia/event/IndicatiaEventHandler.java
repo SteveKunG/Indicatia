@@ -11,7 +11,6 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.core.IndicatiaMod;
 import com.stevekung.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
-import com.stevekung.indicatia.gui.screen.ConfirmDisconnectScreen;
 import com.stevekung.indicatia.gui.screen.MojangStatusScreen;
 import com.stevekung.indicatia.gui.widget.MojangStatusButton;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
@@ -20,11 +19,8 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.network.status.IClientStatusNetHandler;
@@ -159,8 +155,7 @@ public class IndicatiaEventHandler
     {
         if (KeyBindingHandler.KEY_QUICK_CONFIG.isKeyDown())
         {
-            ExtendedConfigScreen config = new ExtendedConfigScreen();
-            this.mc.displayGuiScreen(config);
+            this.mc.displayGuiScreen(new ExtendedConfigScreen());
         }
     }
 
@@ -177,34 +172,11 @@ public class IndicatiaEventHandler
     }
 
     @SubscribeEvent
-    public void onScreenMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event)
-    {
-        Screen screen = event.getGui();
-
-        if (IndicatiaConfig.GENERAL.enableConfirmToDisconnect.get() && screen instanceof IngameMenuScreen && !this.mc.isSingleplayer())
-        {
-            IGuiEventListener listener = screen.getEventListeners().get(7);
-
-            if (listener instanceof Button && listener.isMouseOver(event.getMouseX(), event.getMouseY()))
-            {
-                Button button = (Button)listener;
-
-                if (button.getMessage().equals(LangUtils.translate("menu.disconnect")))
-                {
-                    button.playDownSound(this.mc.getSoundHandler());
-                    this.mc.displayGuiScreen(new ConfirmDisconnectScreen(screen));
-                }
-            }
-        }
-    }
-
-    @SubscribeEvent
     public void onRenderHand(RenderHandEvent event)
     {
         if (this.mc.currentScreen instanceof OffsetRenderPreviewScreen)
         {
             event.setCanceled(true);
-            return;
         }
     }
 

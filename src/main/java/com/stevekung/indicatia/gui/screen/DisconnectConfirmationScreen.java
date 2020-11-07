@@ -5,18 +5,20 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DialogTexts;
+import net.minecraft.client.gui.screen.DirtMessageScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.realms.RealmsBridgeScreen;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
-public class ConfirmDisconnectScreen extends Screen
+public class DisconnectConfirmationScreen extends Screen
 {
     private final Screen parent;
 
-    public ConfirmDisconnectScreen(Screen parent)
+    public DisconnectConfirmationScreen(Screen parent)
     {
         super(StringTextComponent.EMPTY);
         this.parent = parent;
@@ -27,17 +29,30 @@ public class ConfirmDisconnectScreen extends Screen
     {
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 96, 150, 20, DialogTexts.GUI_YES, button ->
         {
-            if (this.minecraft.isConnectedToRealms())
+            boolean flag = this.minecraft.isIntegratedServerRunning();
+            boolean flag1 = this.minecraft.isConnectedToRealms();
+            this.minecraft.world.sendQuittingDisconnectingPacket();
+
+            if (flag)
             {
-                this.minecraft.world.sendQuittingDisconnectingPacket();
-                this.minecraft.unloadWorld();
-                RealmsBridgeScreen bridge = new RealmsBridgeScreen();
-                bridge.func_231394_a_(new MainMenuScreen());
+                this.minecraft.unloadWorld(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
             }
             else
             {
-                this.minecraft.world.sendQuittingDisconnectingPacket();
                 this.minecraft.unloadWorld();
+            }
+
+            if (flag)
+            {
+                this.minecraft.displayGuiScreen(new MainMenuScreen());
+            }
+            else if (flag1)
+            {
+                RealmsBridgeScreen realmsbridgescreen = new RealmsBridgeScreen();
+                realmsbridgescreen.func_231394_a_(new MainMenuScreen());
+            }
+            else
+            {
                 this.minecraft.displayGuiScreen(new MultiplayerScreen(new MainMenuScreen()));
             }
         }));
