@@ -88,7 +88,7 @@ jar {
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
-	baseName = "Indicatia-" + mcVersion
+    baseName = "Indicatia-" + mcVersion
     classifier = "sources"
 }
 
@@ -108,36 +108,36 @@ artifacts {
 }
 
 curseforge {
-	if (project.hasProperty("upload_api_key")) {
-	    apiKey = project.upload_api_key
-	    project {
-	        id = "272146"
-	        changelog = file("CHANGE_LOG.md")
-	        changelogType = "markdown"
-	        releaseType = "release"
-	        addGameVersion mcVersion
-	        addGameVersion "1.16.3"
-	
-	        mainArtifact(jar) {
-	            displayName = "Indicatia-" + mcVersion + "-" + version
-	            relations {
-	                requiredLibrary "stevekungs-lib"
-	            }
-	        }
-	        addArtifact sourcesJar
-	        addArtifact deobfJar
-	    }
-	}
+    if (project.hasProperty("upload_api_key")) {
+        apiKey = project.upload_api_key
+        project {
+            id = "272146"
+            changelog = file("CHANGE_LOG.md")
+            changelogType = "markdown"
+            releaseType = "release"
+            addGameVersion mcVersion
+            addGameVersion "1.16.3"
+    
+            mainArtifact(jar) {
+                displayName = "Indicatia-" + mcVersion + "-" + version
+                relations {
+                    requiredLibrary "stevekungs-lib"
+                }
+            }
+            addArtifact sourcesJar
+            addArtifact deobfJar
+        }
+    }
 }
 
 task signJar(type: SignJar, dependsOn: jar) {
-	if (project.hasProperty("upload_api_key")) {
-	    keyStore = project.keystore_path
-	    alias = project.alias
-	    storePass = project.keystore_pass
-	    keyPass = project.keystore_pass
-	    inputFile = jar.archivePath
-	    outputFile = jar.archivePath
+    if (project.hasProperty("upload_api_key")) {
+        keyStore = project.keystore_path
+        alias = project.alias
+        storePass = project.keystore_pass
+        keyPass = project.keystore_pass
+        inputFile = jar.archivePath
+        outputFile = jar.archivePath
     }
 }
 
