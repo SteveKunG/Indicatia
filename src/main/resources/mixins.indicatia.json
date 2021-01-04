@@ -9,7 +9,6 @@
     "mixins": [],
     "client": [
         "MixinBipedArmorLayer",
-        "MixinBipedArmorLayerOptifine",
         "MixinBossOverlayGui",
         "MixinCapeLayer",
         "MixinCreativeScreen",
@@ -19,11 +18,12 @@
         "MixinHeadLayer",
         "MixinIngameMenuScreen",
         "MixinItemStackTileEntityRenderer",
-        "MixinItemStackTileEntityRendererOptifine",
         "MixinMinecraft",
         "MixinPlayerTabOverlayGui",
         "MixinRecipeBookGui",
-        "MixinServerSelectionList_NormalEntry"
+        "MixinServerSelectionList_NormalEntry",
+        "optifine.MixinBipedArmorLayerOptifine",
+        "optifine.MixinItemStackTileEntityRendererOptifine"
     ],
     "injectors": {
         "defaultRequire": 1

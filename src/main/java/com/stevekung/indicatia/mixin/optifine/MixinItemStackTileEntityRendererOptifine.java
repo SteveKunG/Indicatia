@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin;
+package com.stevekung.indicatia.mixin.optifine;
 
 import javax.annotation.Nullable;
 
