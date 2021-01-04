@@ -5,7 +5,6 @@ import java.util.Collections;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
-import com.stevekung.stevekungslib.utils.client.RenderUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -41,7 +40,7 @@ public class MinigameButton extends Button
     {
         if (this.visible)
         {
-            RenderUtils.bindTexture(this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
+            this.mc.getTextureManager().bindTexture(this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             AbstractGui.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);

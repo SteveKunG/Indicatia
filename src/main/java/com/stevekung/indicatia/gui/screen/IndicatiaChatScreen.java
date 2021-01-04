@@ -12,12 +12,12 @@ import com.stevekung.indicatia.gui.widget.DropdownMinigamesButton.IDropboxCallba
 import com.stevekung.indicatia.gui.widget.MinigameButton;
 import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.MinigameData;
-import com.stevekung.stevekungslib.client.event.ChatScreenEvent;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.ItemUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
+import com.stevekung.stevekungslib.utils.client.event.ChatScreenEvent;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
