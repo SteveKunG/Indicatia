@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.entity.layers.HeadLayer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.IHasHead;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.tileentity.SkullTileEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItem;
@@ -29,9 +30,17 @@ import net.minecraft.util.Direction;
 public class MixinHeadLayer<T extends LivingEntity, M extends EntityModel<T> & IHasHead>
 {
     @Redirect(method = "render(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/tileentity/SkullTileEntityRenderer.render(Lnet/minecraft/util/Direction;FLnet/minecraft/block/SkullBlock$ISkullType;Lcom/mojang/authlib/GameProfile;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V"))
-    private void renderEnchantedSkull(@Nullable Direction direction, float rotationY, SkullBlock.ISkullType skullType, @Nullable GameProfile gameProfile, float animationProgress, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, MatrixStack matrixStackIn_, IRenderTypeBuffer bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+    private void renderEnchantedSkull(@Nullable Direction direction, float rotationY, SkullBlock.ISkullType skullType, @Nullable GameProfile gameProfile, float animationProgress, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, MatrixStack _matrixStack, IRenderTypeBuffer _buffer, int _packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
     {
-        ItemStack itemstack = entitylivingbaseIn.getItemStackFromSlot(EquipmentSlotType.HEAD);
-        EnchantedSkullTileEntityRenderer.render(((AbstractSkullBlock)((BlockItem)itemstack.getItem()).getBlock()).getSkullType(), gameProfile, matrixStack, bufferIn, packedLightIn, IndicatiaConfig.GENERAL.enableOldArmorRender.get() ? LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0F) : OverlayTexture.NO_OVERLAY, itemstack.hasEffect());
+        ItemStack itemStack = entity.getItemStackFromSlot(EquipmentSlotType.HEAD);
+
+        if (EnchantedSkullTileEntityRenderer.isVanillaHead(skullType))
+        {
+            EnchantedSkullTileEntityRenderer.render(((AbstractSkullBlock)((BlockItem)itemStack.getItem()).getBlock()).getSkullType(), gameProfile, _matrixStack, _buffer, _packedLight, IndicatiaConfig.GENERAL.enableOldArmorRender.get() ? LivingRenderer.getPackedOverlay(entity, 0.0F) : OverlayTexture.NO_OVERLAY, itemStack.hasEffect());
+        }
+        else
+        {
+            SkullTileEntityRenderer.render(null, 180.0F, ((AbstractSkullBlock)((BlockItem)itemStack.getItem()).getBlock()).getSkullType(), gameProfile, limbSwing, _matrixStack, _buffer, _packedLight);
+        }
     }
 }

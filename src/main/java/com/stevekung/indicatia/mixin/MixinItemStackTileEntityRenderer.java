@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.SkullTileEntityRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 
@@ -22,8 +23,15 @@ import net.minecraft.util.Direction;
 public class MixinItemStackTileEntityRenderer
 {
     @Redirect(method = "func_239207_a_(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/model/ItemCameraTransforms$TransformType;Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;II)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/tileentity/SkullTileEntityRenderer.render(Lnet/minecraft/util/Direction;FLnet/minecraft/block/SkullBlock$ISkullType;Lcom/mojang/authlib/GameProfile;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V"))
-    private void renderEnchantedSkull(@Nullable Direction directionIn, float p_228879_1_, SkullBlock.ISkullType skullType, @Nullable GameProfile gameProfileIn, float animationProgress, MatrixStack matrixStackIn_, IRenderTypeBuffer buffer, int combinedLight, ItemStack itemStackIn, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
+    private void renderEnchantedSkull(@Nullable Direction direction, float rotationYaw, SkullBlock.ISkullType skullType, @Nullable GameProfile gameProfile, float animationProgress, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack _matrixStack, IRenderTypeBuffer _buffer, int _combinedLight, int _combinedOverlay)
     {
-        EnchantedSkullTileEntityRenderer.render(skullType, gameProfileIn, matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, itemStackIn.hasEffect());
+        if (EnchantedSkullTileEntityRenderer.isVanillaHead(skullType))
+        {
+            EnchantedSkullTileEntityRenderer.render(skullType, gameProfile, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, itemStack.hasEffect());
+        }
+        else
+        {
+            SkullTileEntityRenderer.render(direction, rotationYaw, skullType, gameProfile, animationProgress, matrixStack, buffer, combinedLight);
+        }
     }
 }
