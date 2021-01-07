@@ -28,7 +28,7 @@ import net.minecraftforge.gradle.common.task.SignJar
 
 version = project.version
 group = "com.stevekung.indicatia"
-archivesBaseName = "Indicatia-All"
+archivesBaseName = "Indicatia"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 1.8
 println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty("java.vendor") + ") Arch: " + System.getProperty("os.arch"))
 
@@ -41,7 +41,7 @@ minecraft {
             workingDirectory project.file("run")
             source sourceSets.main
             args "--mixin", "mixins.indicatia.json", "--username", username, "--password", password
-            jvmArgs "-Dmixin.debug.export=true"
+            jvmArgs "-Dmixin.debug.export=true", "-Dmixin.debug.verbose=true"
         }
     }
 }
@@ -116,7 +116,6 @@ curseforge {
             changelogType = "markdown"
             releaseType = "release"
             addGameVersion mcVersion
-            addGameVersion "1.16.3"
     
             mainArtifact(jar) {
                 displayName = "Indicatia-" + mcVersion + "-" + version
