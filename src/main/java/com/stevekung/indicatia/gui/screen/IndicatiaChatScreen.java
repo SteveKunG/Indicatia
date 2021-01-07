@@ -43,18 +43,21 @@ public class IndicatiaChatScreen implements IDropboxCallback
     @SubscribeEvent
     public void onChatInit(ChatScreenEvent.Init event)
     {
-        this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
-
-        if (IndicatiaSettings.INSTANCE.chatMode < ChatMode.values().length)
+        if (InfoUtils.INSTANCE.isHypixel())
         {
-            this.mode = ChatMode.values()[IndicatiaSettings.INSTANCE.chatMode];
+            this.updateButton(event.getButtons(), event.getChildren(), event.getWidth(), event.getHeight());
+
+            if (IndicatiaSettings.INSTANCE.chatMode < ChatMode.values().length)
+            {
+                this.mode = ChatMode.values()[IndicatiaSettings.INSTANCE.chatMode];
+            }
         }
     }
 
     @SubscribeEvent
     public void onChatRenderPre(ChatScreenEvent.RenderPre event)
     {
-        if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get() && InfoUtils.INSTANCE.isHypixel())
+        if (InfoUtils.INSTANCE.isHypixel() && IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
         {
             Minecraft mc = Minecraft.getInstance();
             IFormattableTextComponent chatMode = LangUtils.translate("menu.chat_mode").deepCopy().appendString(": ").append(LangUtils.translate(this.mode.desc).deepCopy().mergeStyle(this.mode.color, TextFormatting.BOLD));
@@ -68,7 +71,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
     @SubscribeEvent
     public void onChatRenderPost(ChatScreenEvent.RenderPost event)
     {
-        if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
+        if (InfoUtils.INSTANCE.isHypixel() && IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
         {
             for (Widget button : event.getButtons())
             {
@@ -160,102 +163,99 @@ public class IndicatiaChatScreen implements IDropboxCallback
             return;
         }
 
-        if (InfoUtils.INSTANCE.isHypixel())
+        List<String> list = Lists.newArrayList();
+
+        for (MinigameData data : MinigameData.DATA)
         {
-            List<String> list = Lists.newArrayList();
+            list.add(data.getName());
+        }
+
+        String max = Collections.max(list, Comparator.comparing(String::length));
+        int length = mc.fontRenderer.getStringWidth(max) + 32;
+
+        if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
+        {
+            for (ChatMode mode : ChatMode.values())
+            {
+                buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, mode.message, button ->
+                {
+                    this.mode = mode;
+                    player.sendChatMessage(mode.command);
+                    IndicatiaSettings.INSTANCE.chatMode = mode.ordinal();
+                }));
+            }
+        }
+
+        if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
+        {
+            buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
+            this.dropdown.setWidth(length);
+            this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
+
+            List<MinigameButton> gameBtn = Lists.newArrayList();
+            int xPos2 = width - 99;
+
+            if (this.prevSelect > list.size())
+            {
+                this.prevSelect = 0;
+                IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos = 0;
+                IndicatiaSettings.INSTANCE.selectedHypixelMinigame = 0;
+            }
 
             for (MinigameData data : MinigameData.DATA)
             {
-                list.add(data.getName());
-            }
-
-            String max = Collections.max(list, Comparator.comparing(String::length));
-            int length = mc.fontRenderer.getStringWidth(max) + 32;
-
-            if (IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
-            {
-                for (ChatMode mode : ChatMode.values())
+                for (MinigameData.Command command : data.getCommands())
                 {
-                    buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, mode.message, button ->
+                    if (data.getName().equals(list.get(this.prevSelect)))
                     {
-                        this.mode = mode;
-                        player.sendChatMessage(mode.command);
-                        IndicatiaSettings.INSTANCE.chatMode = mode.ordinal();
-                    }));
-                }
-            }
+                        ItemStack skull = ItemStack.EMPTY;
 
-            if (IndicatiaConfig.GENERAL.enableHypixelDropdownShortcutGame.get())
-            {
-                buttons.add(this.dropdown = new DropdownMinigamesButton(this, width - length, 2, list));
-                this.dropdown.setWidth(length);
-                this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
-
-                List<MinigameButton> gameBtn = Lists.newArrayList();
-                int xPos2 = width - 99;
-
-                if (this.prevSelect > list.size())
-                {
-                    this.prevSelect = 0;
-                    IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos = 0;
-                    IndicatiaSettings.INSTANCE.selectedHypixelMinigame = 0;
-                }
-
-                for (MinigameData data : MinigameData.DATA)
-                {
-                    for (MinigameData.Command command : data.getCommands())
-                    {
-                        if (data.getName().equals(list.get(this.prevSelect)))
+                        if (!StringUtils.isNullOrEmpty(command.getUUID()))
                         {
-                            ItemStack skull = ItemStack.EMPTY;
-
-                            if (!StringUtils.isNullOrEmpty(command.getUUID()))
-                            {
-                                skull = ItemUtils.getSkullItemStack(command.getUUID(), command.getTexture());
-                            }
-                            gameBtn.add(new MinigameButton(width, TextComponentUtils.component(command.getName()), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
+                            skull = ItemUtils.getSkullItemStack(command.getUUID(), command.getTexture());
                         }
+                        gameBtn.add(new MinigameButton(width, TextComponentUtils.component(command.getName()), command.isMinigame(), button -> player.sendChatMessage(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
                     }
-                }
-
-                for (int i = 0; i < gameBtn.size(); i++)
-                {
-                    MinigameButton button = gameBtn.get(i);
-
-                    if (i >= 6 && i <= 10)
-                    {
-                        button.x = xPos2 - 136;
-                        button.y = 41;
-                    }
-                    else if (i >= 11 && i <= 15)
-                    {
-                        button.x = xPos2 - 241;
-                        button.y = 62;
-                    }
-                    else if (i >= 16 && i <= 20)
-                    {
-                        button.x = xPos2 - 346;
-                        button.y = 83;
-                    }
-                    else if (i >= 21)
-                    {
-                        button.x = xPos2 - 451;
-                        button.y = 104;
-                    }
-                    button.x += 21 * i;
-                    buttons.add(button);
                 }
             }
 
-            for (Widget button : buttons)
+            for (int i = 0; i < gameBtn.size(); i++)
             {
-                if (button instanceof MinigameButton)
+                MinigameButton button = gameBtn.get(i);
+
+                if (i >= 6 && i <= 10)
                 {
-                    button.visible = false;
+                    button.x = xPos2 - 136;
+                    button.y = 41;
                 }
+                else if (i >= 11 && i <= 15)
+                {
+                    button.x = xPos2 - 241;
+                    button.y = 62;
+                }
+                else if (i >= 16 && i <= 20)
+                {
+                    button.x = xPos2 - 346;
+                    button.y = 83;
+                }
+                else if (i >= 21)
+                {
+                    button.x = xPos2 - 451;
+                    button.y = 104;
+                }
+                button.x += 21 * i;
+                buttons.add(button);
             }
-            children.addAll(buttons);
         }
+
+        for (Widget button : buttons)
+        {
+            if (button instanceof MinigameButton)
+            {
+                button.visible = false;
+            }
+        }
+        children.addAll(buttons);
     }
 
     public enum ChatMode implements IExtensibleEnum
