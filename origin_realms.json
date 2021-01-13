@@ -1,38 +1,38 @@
 [
     {
-        "name": "Origin Realms: Spawn",
+        "name": "Origin Realms",
         "sort": false,
         "commands": [
             {
                 "name": "Spawn",
-                "command": "spawn",
-                "minigame": false
+                "command": "/spawn",
+                "icon": "spawn"
+            },
+            {
+                "name": "%s's Realms",
+                "command": "/realm tp @s"
             },
             {
                 "name": "Red Balloon",
                 "command": "/balloon red-balloon",
-                "minigame": true,
                 "uuid": "b7685f9f-c378-41d8-a636-a07320b6c9ae",
                 "texture": "52dd11da04252f76b6934bc26612f54f264f30eed74df89941209e191bebc0a2"
             },
             {
                 "name": "Green Balloon",
                 "command": "/balloon green-balloon",
-                "minigame": true,
                 "uuid": "f43e4b11-3e51-4daf-b800-d35fa32bdac3",
                 "texture": "a26ec7cd3b6ae249997137c1b94867c66e97499da071bf50adfd37034132fa03"
             },
             {
                 "name": "Blue Balloon",
                 "command": "/balloon blue-balloon",
-                "minigame": true,
                 "uuid": "8cf45dd8-3421-4841-97b9-71d986a77b25",
                 "texture": "f868e6a5c4a445d60a3050b5bec1d37af1b25943745d2d479800c8436488065a"
             },
             {
                 "name": "Yellow Balloon",
                 "command": "/balloon yellow-balloon",
-                "minigame": true,
                 "uuid": "574beff9-8720-4157-a5c8-7482d5654432",
                 "texture": "a7f381a20a9c640428077070cc7bd95d688592d1104ccbcd713649a49e41ebfb"
             }
