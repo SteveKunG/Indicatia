@@ -6,7 +6,8 @@
             {
                 "name": "Spawn",
                 "command": "/spawn",
-                "icon": "spawn"
+                "uuid": "09a9bff5-2a58-4b08-9b39-676bfafa2bf1",
+                "texture": "c69196b330c6b8962f23ad5627fb6ecce472eaf5c9d44f791f6709c7d0f4dece"
             },
             {
                 "name": "%s's Realms",
