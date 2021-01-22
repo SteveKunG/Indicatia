@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin;
+package com.stevekung.indicatia.mixin.gui.screen;
 
 import java.net.UnknownHostException;
 import java.util.Collections;

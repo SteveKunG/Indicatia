@@ -31,11 +31,11 @@ public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        if (mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.MixinItemStackTileEntityRendererOptifine") || mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.MixinBipedArmorLayerOptifine"))
+        if (mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.renderer.entity.layers.MixinBipedArmorLayerOptifine") || mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.renderer.tileentity.MixinItemStackTileEntityRendererOptifine"))
         {
             return foundOptifine;
         }
-        else if (mixinClassName.equals("com.stevekung.indicatia.mixin.MixinItemStackTileEntityRenderer") || mixinClassName.equals("com.stevekung.indicatia.mixin.MixinBipedArmorLayer"))
+        else if (mixinClassName.equals("com.stevekung.indicatia.mixin.renderer.entity.layers.MixinBipedArmorLayer") || mixinClassName.equals("com.stevekung.indicatia.mixin.renderer.tileentity.MixinItemStackTileEntityRenderer"))
         {
             return !foundOptifine;
         }

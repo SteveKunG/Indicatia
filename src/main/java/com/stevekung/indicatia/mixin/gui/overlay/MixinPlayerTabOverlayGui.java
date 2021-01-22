@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin;
+package com.stevekung.indicatia.mixin.gui.overlay;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

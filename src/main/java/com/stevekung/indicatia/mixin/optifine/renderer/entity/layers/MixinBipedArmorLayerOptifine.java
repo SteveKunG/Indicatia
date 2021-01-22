@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.optifine;
+package com.stevekung.indicatia.mixin.optifine.renderer.entity.layers;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

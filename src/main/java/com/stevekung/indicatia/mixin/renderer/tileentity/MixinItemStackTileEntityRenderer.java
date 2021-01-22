@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin;
+package com.stevekung.indicatia.mixin.renderer.tileentity;
 
 import javax.annotation.Nullable;
 
