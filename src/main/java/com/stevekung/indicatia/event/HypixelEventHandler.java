@@ -4,13 +4,9 @@ import org.lwjgl.glfw.GLFW;
 
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.hud.InfoUtils;
-import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -34,27 +30,6 @@ public class HypixelEventHandler
             {
                 this.mc.player.sendChatMessage("/p " + player.getName());
                 event.setCanceled(true);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onClientChatReceived(ClientChatReceivedEvent event)
-    {
-        String message = event.getMessage().getUnformattedComponentText();
-
-        if (InfoUtils.INSTANCE.isHypixel())
-        {
-            if (event.getType() == ChatType.CHAT)
-            {
-                if (message.contains("Illegal characters in chat") || message.contains("A kick occurred in your connection"))
-                {
-                    event.setMessage(null);
-                }
-                else if (message.contains("You were spawned in Limbo."))
-                {
-                    event.setMessage(TextComponentUtils.formatted("You were spawned in Limbo.", TextFormatting.GREEN));
-                }
             }
         }
     }

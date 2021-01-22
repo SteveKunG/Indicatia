@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/SteveKunG/Indicatia/issues"
 
 [[mods]]
 modId="indicatia"
-version="4.0.2"
+version="${file.jarVersion}"
 displayName="Indicatia"
 description="Simple in-game info and small utilities!"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/indicatia"

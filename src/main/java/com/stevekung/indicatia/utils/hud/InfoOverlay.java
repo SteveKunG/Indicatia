@@ -62,7 +62,7 @@ public class InfoOverlay
 
     public IFormattableTextComponent toFormatted()
     {
-        IFormattableTextComponent formatted = new StringTextComponent("");
+        IFormattableTextComponent formatted = StringTextComponent.EMPTY.deepCopy();
         IFormattableTextComponent title = LangUtils.translate(this.title).deepCopy();
 
         formatted.append(title.setStyle(title.getStyle().setColor(Color.fromInt(ColorUtils.rgbToDecimal(this.titleColor)))).appendString(": "));
@@ -70,7 +70,7 @@ public class InfoOverlay
         IFormattableTextComponent value = LangUtils.translate(this.value).deepCopy();
 
         formatted.append(value.setStyle(value.getStyle().setColor(Color.fromInt(ColorUtils.rgbToDecimal(this.valueColor)))));
-        return this.isEmpty ? new StringTextComponent("") : formatted;
+        return this.isEmpty ? StringTextComponent.EMPTY.deepCopy() : formatted;
     }
 
     public static InfoOverlay empty()

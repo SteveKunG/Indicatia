@@ -1,8 +1,8 @@
 package com.stevekung.indicatia.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
@@ -22,7 +22,7 @@ public class PingAllCommand implements IClientCommand
 
     private static int getAllLatency()
     {
-        List<NetworkPlayerInfo> infoList = new ArrayList<>(Minecraft.getInstance().player.connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> infoList = Lists.newArrayList(Minecraft.getInstance().player.connection.getPlayerInfoMap());
         infoList.sort((info1, info2) -> Integer.compare(info2.getResponseTime(), info1.getResponseTime()));
         infoList.forEach(info -> Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.ping_all.result", info.getGameProfile().getName(), info.getResponseTime()).getString()));
         return 1;

@@ -1,9 +1,9 @@
 package com.stevekung.indicatia.command;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -140,7 +140,7 @@ public class ProfileCommand implements IClientCommand
 
     private static int getProfileList(IClientSuggestionProvider source)
     {
-        Collection<File> collection = new ArrayList<>(Arrays.asList(IndicatiaSettings.USER_DIR.listFiles()));
+        Collection<File> collection = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> file.getName().endsWith(".dat")).collect(Collectors.toList());
 
         if (collection.isEmpty())
         {
@@ -149,21 +149,11 @@ public class ProfileCommand implements IClientCommand
         }
         else
         {
-            int size = 0;
-
-            for (File file : collection)
-            {
-                if (file.getName().endsWith(".dat"))
-                {
-                    ++size;
-                }
-            }
-
-            ITextComponent translation = LangUtils.translate("commands.inprofile.list.count", size);
+            ITextComponent translation = LangUtils.translate("commands.inprofile.list.count", collection.size());
             translation.getStyle().setFormatting(TextFormatting.DARK_GREEN);
             source.sendFeedback(translation);
 
-            collection.stream().filter(file -> file.getName().endsWith(".dat")).forEach(file ->
+            collection.forEach(file ->
             {
                 String name = file.getName();
                 String realName = name.replace(".dat", "");

@@ -294,7 +294,7 @@ public class IndicatiaEventHandler
         {
             IndicatiaEventHandler.autoFishTick++;
 
-            if (mc.objectMouseOver != null && mc.world != null)
+            if (mc.objectMouseOver != null)
             {
                 if (IndicatiaEventHandler.autoFishTick % 4 == 0)
                 {

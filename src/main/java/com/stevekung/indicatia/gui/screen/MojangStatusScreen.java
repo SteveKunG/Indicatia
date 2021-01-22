@@ -1,8 +1,8 @@
 package com.stevekung.indicatia.gui.screen;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.stevekung.indicatia.utils.MojangServerStatus;
 import com.stevekung.indicatia.utils.MojangStatusChecker;
@@ -19,7 +19,7 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class MojangStatusScreen extends Screen
 {
-    private List<ITextComponent> statusList = new CopyOnWriteArrayList<>();
+    private List<ITextComponent> statusList = Lists.newCopyOnWriteArrayList();
     private final Screen parent;
     private Button checkButton;
     private boolean check;

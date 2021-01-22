@@ -1,12 +1,16 @@
 package com.stevekung.indicatia.command.arguments;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -52,7 +56,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
     {
-        ArrayList<File> files = new ArrayList<>(Arrays.asList(IndicatiaSettings.USER_DIR.listFiles()));
+        List<File> files = Lists.newArrayList(IndicatiaSettings.USER_DIR.listFiles());
         List<String> resList = files.stream().filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
         return ProfileNameArgumentType.suggestIterable(resList, builder);
     }
