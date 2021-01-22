@@ -78,13 +78,13 @@ public class AFKCommand implements IClientCommand
 
             if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
-                if (IndicatiaEventHandler.AFK_REASON.isEmpty())
+                if (StringUtils.isNullOrEmpty(IndicatiaEventHandler.AFK_REASON))
                 {
-                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.afk.afk_stopped", CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getString());
                 }
                 else
                 {
-                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.AFK_REASON, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getUnformattedComponentText());
+                    Minecraft.getInstance().player.sendChatMessage(LangUtils.translate("commands.afk.afk_stopped_with_reason", IndicatiaEventHandler.AFK_REASON, CommonUtils.ticksToElapsedTime(IndicatiaEventHandler.afkTicks)).getString());
                 }
             }
             return 1;

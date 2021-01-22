@@ -7,13 +7,13 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class SlimeSeedArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType ZERO_NOT_ALLOWED = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.slime_seed.zero_not_allowed"));
+    private static final SimpleCommandExceptionType ZERO_NOT_ALLOWED = new SimpleCommandExceptionType(new TranslationTextComponent("commands.slime_seed.zero_not_allowed"));
 
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException
@@ -22,9 +22,19 @@ public class SlimeSeedArgumentType implements ArgumentType<String>
 
         if (text.equals("0"))
         {
-            throw SlimeSeedArgumentType.ZERO_NOT_ALLOWED.create(text);
+            try
+            {
+                throw SlimeSeedArgumentType.ZERO_NOT_ALLOWED.create();
+            }
+            catch (Exception e)
+            {
+                return "1";
+            }
         }
-        return text;
+        else
+        {
+            return text;
+        }
     }
 
     @Override
