@@ -1,16 +1,12 @@
 package com.stevekung.indicatia.command.arguments;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -29,7 +25,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
     private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.inprofile.not_found", obj));
-    private static final DynamicCommandExceptionType CANNOT_REMOVE_DEFAULT = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.inprofile.cannot_remove_default"));
+    private static final SimpleCommandExceptionType CANNOT_REMOVE_DEFAULT = new SimpleCommandExceptionType(new TranslationTextComponent("commands.inprofile.cannot_remove_default"));
+    private static final SimpleCommandExceptionType CANNOT_CREATE_DEFAULT = new SimpleCommandExceptionType(new TranslationTextComponent("commands.inprofile.cannot_create_default"));
     private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslationTextComponent("argument.id.invalid"));
     private final Mode mode;
 
@@ -56,9 +53,8 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
     {
-        List<File> files = Lists.newArrayList(IndicatiaSettings.USER_DIR.listFiles());
-        List<String> resList = files.stream().filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
-        return ProfileNameArgumentType.suggestIterable(resList, builder);
+        List<String> resList = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
+        return this.mode == Mode.ADD ? Suggestions.empty() : ProfileNameArgumentType.suggestIterable(resList, builder);
     }
 
     @Override
@@ -78,7 +74,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
                 {
                     exist = true;
                 }
-                if (this.mode == Mode.REMOVE && fileName.equals("default") && name.equals(fileName + ".dat"))
+                if ((this.mode == Mode.REMOVE || this.mode == Mode.ADD) && fileName.equals("default") && name.equals(fileName + ".dat"))
                 {
                     remove = true;
                 }
@@ -87,16 +83,37 @@ public class ProfileNameArgumentType implements ArgumentType<String>
 
         if (remove)
         {
-            throw ProfileNameArgumentType.CANNOT_REMOVE_DEFAULT.create(fileName);
+            if (this.mode == Mode.ADD)
+            {
+                throw ProfileNameArgumentType.CANNOT_CREATE_DEFAULT.create();
+            }
+            else
+            {
+                throw ProfileNameArgumentType.CANNOT_REMOVE_DEFAULT.create();
+            }
         }
 
-        if (exist)
+        if (this.mode == Mode.REMOVE)
         {
-            return fileName;
+            try
+            {
+                if (exist)
+                {
+                    return fileName;
+                }
+                else
+                {
+                    throw ProfileNameArgumentType.PROFILE_NOT_FOUND.create(fileName);
+                }
+            }
+            catch (Exception e)
+            {
+                return fileName;
+            }
         }
         else
         {
-            throw ProfileNameArgumentType.PROFILE_NOT_FOUND.create(fileName);
+            return fileName;
         }
     }
 
@@ -151,6 +168,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     public enum Mode
     {
         NONE,
+        ADD,
         REMOVE
     }
 }

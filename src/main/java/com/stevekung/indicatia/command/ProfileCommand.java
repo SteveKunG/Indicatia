@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.stevekung.indicatia.command.arguments.ProfileNameArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -23,7 +22,7 @@ public class ProfileCommand implements IClientCommand
     public void register(CommandDispatcher<IClientSuggestionProvider> dispatcher)
     {
         dispatcher.register(ClientCommands.literal("inprofile")
-                .then(ClientCommands.literal("add").then(ClientCommands.argument("profile_name", StringArgumentType.word()).executes(requirement -> ProfileCommand.addProfile(requirement.getSource(), StringArgumentType.getString(requirement, "profile_name")))))
+                .then(ClientCommands.literal("add").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.ADD)).executes(requirement -> ProfileCommand.addProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
                 .then(ClientCommands.literal("load").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create()).executes(requirement -> ProfileCommand.loadProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
                 .then(ClientCommands.literal("save").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create()).executes(requirement -> ProfileCommand.saveProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
                 .then(ClientCommands.literal("remove").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.REMOVE)).executes(requirement -> ProfileCommand.removeProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
@@ -65,7 +64,7 @@ public class ProfileCommand implements IClientCommand
     {
         for (File file : IndicatiaSettings.USER_DIR.listFiles())
         {
-            if (!file.getName().contains(name) && file.getName().endsWith(".dat") && !file.exists())
+            if (!file.getName().equals(name + ".dat"))
             {
                 source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_load"));
                 return 0;
@@ -108,7 +107,7 @@ public class ProfileCommand implements IClientCommand
     {
         if (name.equals("default"))
         {
-            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_remove_default", name));
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_remove_default"));
             return 0;
         }
 
