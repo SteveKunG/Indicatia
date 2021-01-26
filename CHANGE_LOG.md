@@ -1,6 +1,5 @@
 # Change Log
 
-* * Fixed enchanted skull rendering incompatible with non-vanilla head, closed #22
-* * Fixed alternate key for chat
-* * Fixed enchanted glint for armor
-* - Removed dirty hack for confirm to disconnect feature
+* * Update to 1.16.5
+* * Fixed minigame button list conflict with another mod
+* * Fixed crash when executed command
