@@ -31,9 +31,9 @@
     "commands.afk.set_afk_mode": "กำหนดโหมด AFK เป็น '%s'",
 
     "commands.auto_fish.enable": "เปิดการใช้งาน AutoFish",
-    "commands.auto_fish.disable": "เปิดการใช้งาน AutoFish",
+    "commands.auto_fish.disable": "ปิดการใช้งาน AutoFish",
     "commands.auto_fish.not_equipped_fishing_rod": "คุณยังไม่ได้ถือเบ็ดตกปลา!",
-    "commands.auto_fish.auto_fish_started": "เริ่ม Autofish แล้ว!",
+    "commands.auto_fish.auto_fish_started": "มีการเริ่ม Autofish ไปแล้ว!",
 
     "commands.ping_all.result": "%s: Ping %s ms",
 
