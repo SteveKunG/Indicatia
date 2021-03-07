@@ -21,7 +21,7 @@ import com.stevekung.indicatia.key.KeypadChatKey;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LoggerBase;
-import com.stevekung.stevekungslib.utils.VersionChecker;
+import com.stevekung.stevekungslib.utils.ModVersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 
 import net.minecraft.client.settings.KeyBinding;
@@ -36,11 +36,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 @Mod(IndicatiaMod.MOD_ID)
 public class IndicatiaMod
 {
-    private static final String NAME = "Indicatia";
     public static final String MOD_ID = "indicatia";
-    private static final String URL = "https://www.curseforge.com/minecraft/mc-mods/indicatia";
     private static final File PROFILE = new File(IndicatiaSettings.USER_DIR, "profile.txt");
-    public static VersionChecker CHECKER;
+    public static final ModVersionChecker CHECKER = new ModVersionChecker(MOD_ID);
     public static boolean isGalacticraftLoaded;
     public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
     private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
@@ -71,18 +69,17 @@ public class IndicatiaMod
         CommonUtils.registerEventHandler(new HypixelEventHandler());
         CommonUtils.registerEventHandler(new IndicatiaChatScreen());
 
-        IndicatiaMod.CHECKER = new VersionChecker(this, IndicatiaMod.NAME, IndicatiaMod.URL);
-
-        if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
-        {
-            IndicatiaMod.CHECKER.startCheck();
-        }
         IndicatiaMod.loadProfileOption();
     }
 
     private void loadComplete(FMLLoadCompleteEvent event)
     {
         CommonUtils.runAsync(ThreadMinigameData::new);
+
+        if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
+        {
+            IndicatiaMod.CHECKER.startCheck();
+        }
     }
 
     private void registerClientCommands()
@@ -104,7 +101,7 @@ public class IndicatiaMod
         }
         if (!IndicatiaSettings.DEFAULT_CONFIG_FILE.exists())
         {
-            IndicatiaMod.LOGGER.info("Initializing created default Indicatia profile...");
+            IndicatiaMod.LOGGER.info("Creating default profile...");
             IndicatiaSettings.setCurrentProfile("default");
             IndicatiaSettings.INSTANCE.save();
         }
@@ -134,7 +131,7 @@ public class IndicatiaMod
 
             if ("profile".equals(property))
             {
-                IndicatiaMod.LOGGER.info("Loaded current profile by name '{}'", key);
+                IndicatiaMod.LOGGER.info("Load current profile '{}'", key);
                 IndicatiaSettings.setCurrentProfile(key);
                 IndicatiaSettings.INSTANCE.load();
             }

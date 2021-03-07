@@ -2,7 +2,7 @@ buildscript {
     repositories {
         maven { url "https://files.minecraftforge.net/maven" }
         maven { url "https://repo.spongepowered.org/maven" }
-        jcenter()
+        gradlePluginPortal()
         mavenCentral()
     }
     dependencies {
@@ -49,15 +49,15 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
 
-    if (file("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar").exists())
+    if (file("libs/SteveKunG's-Lib-${mc_version}-4.0.4-deobf.jar").exists())
     {
-        compile files("libs/SteveKunG's-Lib-${mc_version}-${stevekung_lib_version}-deobf.jar")
-        println("Using existing deobf artifact")
+        compile files("libs/SteveKunG's-Lib-${mc_version}-4.0.4-deobf.jar")
+        println("Use existing deobf artifact")
     }
     else
     {
-        compile "stevekungs-lib:SteveKunG's-Lib-${mc_version}:${stevekung_lib_version}:deobf"
-        println("Using CurseForge deobf artifact")
+        compile fg.deobf("curse.maven:SteveKunGs-Lib-296019:${stevekung_lib_deobf}")
+        println("Use CurseForge deobf artifact")
     }
 }
 
@@ -67,8 +67,8 @@ repositories {
         url "https://plugins.gradle.org/m2/"
     }
     maven {
-        name "CurseForge"
-        url "https://www.curseforge.com/api/maven/"
+        name "CurseMaven"
+        url "https://www.cursemaven.com/"
     }
 }
 
@@ -81,7 +81,7 @@ sourceSets {
 jar {
     manifest {
         attributes([
-            "MixinConnector": "com.stevekung.indicatia.core.IndicatiaMixinConnector",
+            "MixinConfigs": "mixins.indicatia.json",
             "Implementation-Title": "${archivesBaseName}",
             "Implementation-Version": "${version}",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -100,7 +100,7 @@ task deobfJar(type: Jar) {
     from sourceSets.main.output
     manifest {
         attributes([
-            "MixinConnector": "com.stevekung.indicatia.core.IndicatiaMixinConnector",
+            "MixinConfigs": "mixins.indicatia.json",
             "Implementation-Title": "${archivesBaseName}",
             "Implementation-Version": "${version}",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")

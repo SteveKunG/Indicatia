@@ -5,8 +5,6 @@
     "package": "com.stevekung.indicatia.mixin",
     "refmap": "mixins.indicatia.refmap.json",
     "plugin": "com.stevekung.indicatia.core.IndicatiaMixinConfigPlugin",
-    "target": "@env(DEFAULT)",
-    "mixins": [],
     "client": [
         "MixinMinecraft",
         "gui.MixinForgeIngameGui",

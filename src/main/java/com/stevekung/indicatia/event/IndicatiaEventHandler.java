@@ -70,16 +70,16 @@ public class IndicatiaEventHandler
     {
         if (this.mc.player != null)
         {
-            if (!IndicatiaMod.CHECKER.isChecked())
+            if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
             {
-                IndicatiaMod.CHECKER.startCheckIfFailed();
-
-                if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
+                if (!IndicatiaMod.CHECKER.hasChecked())
                 {
-                    IndicatiaMod.CHECKER.printInfo(this.mc.player);
+                    IndicatiaMod.CHECKER.checkFail();
+                    IndicatiaMod.CHECKER.printInfo();
+                    IndicatiaMod.CHECKER.setChecked(true);
                 }
-                IndicatiaMod.CHECKER.setChecked(true);
             }
+
             if (event.phase == TickEvent.Phase.START)
             {
                 IndicatiaEventHandler.afkTick(this.mc.player);
