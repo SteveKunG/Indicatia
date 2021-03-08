@@ -1,152 +1,57 @@
-buildscript {
-    repositories {
-        maven { url "https://files.minecraftforge.net/maven" }
-        maven { url "https://repo.spongepowered.org/maven" }
-        gradlePluginPortal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
-        classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
-    }
-}
-
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "architectury-plugin" version "3.0.97"
+    id "forgified-fabric-loom" version "0.6.78" apply false
 }
 
-def mcVersion = project.mc_version
-def username = project.username
-def password = project.password
+architectury {
+    minecraft = rootProject.mc_version
+}
 
-apply plugin: "net.minecraftforge.gradle"
-apply plugin: "org.spongepowered.mixin"
-apply plugin: "eclipse"
+subprojects {
+    apply plugin: "forgified-fabric-loom"
 
-import net.minecraftforge.gradle.common.task.SignJar
+    loom {
+        silentMojangMappingsLicense()
+    }
 
-version = project.version
-group = "com.stevekung.indicatia"
-archivesBaseName = "Indicatia"
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = 1.8
-println("Java: " + System.getProperty("java.version") + " JVM: " + System.getProperty("java.vm.version") + "(" + System.getProperty("java.vendor") + ") Arch: " + System.getProperty("os.arch"))
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.mc_version}"
+        mappings loom.officialMojangMappings()
+    }
+}
 
-minecraft {
-    mappings channel: "snapshot", version: "${mcp_mapping}"
-    accessTransformer file("src/main/resources/META-INF/accesstransformer.cfg")
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
 
-    runs {
-        client {
-            workingDirectory project.file("run")
-            source sourceSets.main
-            args "--mixin", "mixins.indicatia.json", "--username", username, "--password", password
-            jvmArgs "-Dmixin.debug.export=true", "-Dmixin.debug.verbose=true"
+    archivesBaseName = rootProject.archives_base_name
+    version = rootProject.mod_version
+    group = rootProject.maven_group
+
+    repositories {
+        maven {
+            name "CurseGradle"
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name "CurseMaven"
+            url "https://www.cursemaven.com/"
         }
     }
-}
 
-dependencies {
-    minecraft "net.minecraftforge:forge:${forge_version}"
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
 
-    if (file("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar").exists())
-    {
-        compile files("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar")
-        println("Use existing deobf artifact")
-    }
-    else
-    {
-        implementation fg.deobf("curse.maven:stevekungs-lib-296019:${stevekung_lib_deobf}")
-        println("Use CurseForge deobf artifact")
-    }
-}
-
-repositories {
-    maven {
-        name "CurseGradle"
-        url "https://plugins.gradle.org/m2/"
-    }
-    maven {
-        name "CurseMaven"
-        url "https://www.cursemaven.com/"
-    }
-}
-
-sourceSets {
-    main {
-        ext.refMap = "mixins.indicatia.refmap.json"
-    }
-}
-
-jar {
-    manifest {
-        attributes([
-            "MixinConfigs": "mixins.indicatia.json",
-            "Implementation-Title": "${archivesBaseName}",
-            "Implementation-Version": "${version}",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-    baseName = "Indicatia-" + mcVersion
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    baseName = "Indicatia-" + mcVersion
-    classifier = "sources"
-}
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    manifest {
-        attributes([
-            "MixinConfigs": "mixins.indicatia.json",
-            "Implementation-Title": "${archivesBaseName}",
-            "Implementation-Version": "${version}",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-    baseName = "Indicatia-" + mcVersion
-    classifier = "deobf"
-}
-
-artifacts {
-    archives sourcesJar
-    archives deobfJar
-}
-
-curseforge {
-    if (project.hasProperty("upload_api_key")) {
-        apiKey = project.upload_api_key
-        project {
-            id = "272146"
-            changelog = file("CHANGE_LOG.md")
-            changelogType = "markdown"
-            releaseType = "release"
-            addGameVersion mcVersion
-    
-            mainArtifact(jar) {
-                displayName = "Indicatia-" + mcVersion + "-" + version
-                relations {
-                    requiredLibrary "stevekungs-lib"
-                }
-            }
-            addArtifact sourcesJar
-            addArtifact deobfJar
+        // The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
+        // JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
+        // We'll use that if it's available, but otherwise we'll use the older option.
+        def targetVersion = 8
+        if (JavaVersion.current().isJava9Compatible()) {
+            options.release = targetVersion
         }
     }
-}
 
-task signJar(type: SignJar, dependsOn: jar) {
-    if (project.hasProperty("upload_api_key")) {
-        keyStore = project.keystore_path
-        alias = project.alias
-        storePass = project.keystore_pass
-        keyPass = project.keystore_pass
-        inputFile = jar.archivePath
-        outputFile = jar.archivePath
+    java {
+        withSourcesJar()
     }
 }
-
-build.dependsOn signJar
-tasks.curseforge.dependsOn(build)

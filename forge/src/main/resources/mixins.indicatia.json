@@ -1,0 +1,29 @@
+{
+    "required": true,
+    "minVersion": "0.8.2",
+    "compatibilityLevel": "JAVA_8",
+    "package": "com.stevekung.indicatia.mixin",
+    "refmap": "mixins.indicatia.refmap.json",
+    "plugin": "com.stevekung.indicatia.core.IndicatiaMixinConfigPlugin",
+    "client": [
+        "MixinMinecraft",
+        "gui.MixinForgeIngameGui",
+        "gui.overlay.MixinBossOverlayGui",
+        "gui.overlay.MixinPlayerTabOverlayGui",
+        "gui.recipebook.MixinRecipeBookGui",
+        "gui.screen.MixinIngameMenuScreen",
+        "gui.screen.MixinServerSelectionList_NormalEntry",
+        "gui.screen.inventory.MixinCreativeScreen",
+        "renderer.MixinFirstPersonRenderer",
+        "renderer.entity.layers.MixinBipedArmorLayer",
+        "renderer.entity.layers.MixinCapeLayer",
+        "renderer.entity.layers.MixinElytraLayer",
+        "renderer.entity.layers.MixinHeadLayer",
+        "renderer.tileentity.MixinItemStackTileEntityRenderer",
+        "optifine.renderer.entity.layers.MixinBipedArmorLayerOptifine",
+        "optifine.renderer.tileentity.MixinItemStackTileEntityRendererOptifine"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

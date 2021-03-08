@@ -1,0 +1,83 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+}
+
+configurations {
+    shadowCommon
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+loom {
+    mixinConfig "mixins.indicatia.json"
+    useFabricMixin = true
+
+    /*launches {
+        client {
+            args "--mixin", "mixins.indicatia.json", "--username", project.username, "--password", project.password
+            jvmArgs "-Dmixin.debug.export=true", "-Dmixin.debug.verbose=true"
+        }
+    }*/
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
+    modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
+
+    implementation(project(path: ":common")) {
+        transitive = false
+    }
+    developmentForge(project(path: ":common")) {
+        transitive = false
+    }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
+        transitive = false
+    }
+
+    if (file("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar").exists()) {
+        compile files("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar")
+        println("Use existing deobf artifact")
+    } else {
+        modCompile("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_deobf}")
+        println("Use CurseForge deobf artifact")
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "forge"
+}
+
+jar {
+    classifier "dev"
+}
+
+java {
+    withSourcesJar()
+}
+
+sourcesJar {
+    def commonSources = project(":common").remapSourcesJar
+    dependsOn commonSources
+    from zipTree(commonSources.output)
+}
