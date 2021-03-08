@@ -49,14 +49,14 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
 
-    if (file("libs/SteveKunG's-Lib-${mc_version}-4.0.4-deobf.jar").exists())
+    if (file("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar").exists())
     {
-        compile files("libs/SteveKunG's-Lib-${mc_version}-4.0.4-deobf.jar")
+        compile files("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar")
         println("Use existing deobf artifact")
     }
     else
     {
-        compile fg.deobf("curse.maven:SteveKunGs-Lib-296019:${stevekung_lib_deobf}")
+        implementation fg.deobf("curse.maven:stevekungs-lib-296019:${stevekung_lib_deobf}")
         println("Use CurseForge deobf artifact")
     }
 }
