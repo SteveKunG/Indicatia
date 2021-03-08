@@ -853,6 +853,13 @@
                 "texture": "569a1f114151b4521373f34bc14c2963a5011cdc25a6554c48c708cd96ebfc"
             },
             {
+                "name": "SkyBlock: Dwarven Mines",
+                "command": "/warp mines",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
                 "name": "SkyBlock: Blazing Fortress",
                 "command": "/warp nether",
                 "minigame": true,
