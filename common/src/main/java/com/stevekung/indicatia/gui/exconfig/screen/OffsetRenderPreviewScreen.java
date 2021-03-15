@@ -1,14 +1,13 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
-
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TextComponent;
 
 public class OffsetRenderPreviewScreen extends Screen
 {
@@ -16,20 +15,20 @@ public class OffsetRenderPreviewScreen extends Screen
 
     public OffsetRenderPreviewScreen(Screen parent)
     {
-        super(StringTextComponent.EMPTY);
+        super(TextComponent.EMPTY);
         this.parent = parent;
     }
 
     @Override
-    public void closeScreen()
+    public void onClose()
     {
-        this.minecraft.displayGuiScreen(this.parent);
+        this.minecraft.setScreen(this.parent);
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
-        GlStateManager.enableBlend();
+        GlStateManager._enableBlend();
         EffectOverlays.renderPotionHUD(this.minecraft, matrixStack);
 
         if (IndicatiaSettings.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)

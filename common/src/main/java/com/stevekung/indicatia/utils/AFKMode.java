@@ -5,5 +5,5 @@ public enum AFKMode
     IDLE,
     RANDOM_MOVE,
     RANDOM_360,
-    RANDOM_MOVE_360;
+    RANDOM_MOVE_360
 }

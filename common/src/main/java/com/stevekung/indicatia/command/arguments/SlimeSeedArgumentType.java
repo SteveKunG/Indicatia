@@ -8,12 +8,11 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class SlimeSeedArgumentType implements ArgumentType<String>
 {
-    private static final SimpleCommandExceptionType ZERO_NOT_ALLOWED = new SimpleCommandExceptionType(new TranslationTextComponent("commands.slime_seed.zero_not_allowed"));
+    private static final SimpleCommandExceptionType ZERO_NOT_ALLOWED = new SimpleCommandExceptionType(new TranslatableComponent("commands.slime_seed.zero_not_allowed"));
 
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException

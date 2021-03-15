@@ -3,13 +3,12 @@ package com.stevekung.indicatia.hud;
 import java.util.Random;
 
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.indicatia.event.IndicatiaEventHandler;
-
+import com.stevekung.indicatia.utils.hud.HUDHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.network.play.NetworkPlayerInfo;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 
 public class InfoUtils
 {
@@ -23,20 +22,20 @@ public class InfoUtils
 
     public int getPing()
     {
-        NetworkPlayerInfo info = this.mc.getConnection().getPlayerInfo(this.mc.player.getUniqueID());
+        PlayerInfo info = this.mc.getConnection().getPlayerInfo(this.mc.player.getUUID());
 
         if (info != null)
         {
-            if (info.getResponseTime() > 0)
+            if (info.getLatency() > 0)
             {
-                return info.getResponseTime();
+                return info.getLatency();
             }
             else
             {
-                return IndicatiaEventHandler.currentServerPing;
+                return HUDHelper.currentServerPing;
             }
         }
-        return IndicatiaEventHandler.currentServerPing;
+        return HUDHelper.currentServerPing;
     }
 
     public String getResponseTimeColor(int responseTime)
@@ -61,51 +60,51 @@ public class InfoUtils
 
     public boolean isHypixel()
     {
-        ServerData server = this.mc.getCurrentServerData();
-        return server != null && server.serverIP.contains("hypixel");
+        ServerData server = this.mc.getCurrentServer();
+        return server != null && server.ip.contains("hypixel");
     }
 
     public String getMoonPhase(Minecraft mc)
     {
-        int[] moonPhaseFactors = { 4, 3, 2, 1, 0, -1, -2, -3 };
+        int[] moonPhaseFactors = {4, 3, 2, 1, 0, -1, -2, -3};
         String status;
 
-        switch (moonPhaseFactors[mc.world.getDimensionType().getMoonPhase(mc.world.getDayTime())])
+        switch (moonPhaseFactors[mc.level.dimensionType().moonPhase(mc.level.getDayTime())])
         {
-        case 4:
-        default:
-            status = "hud.moon_phase.full_moon";
-            break;
-        case 3:
-            status = "hud.moon_phase.waning_gibbous";
-            break;
-        case 2:
-            status = "hud.moon_phase.last_quarter";
-            break;
-        case 1:
-            status = "hud.moon_phase.waning_crescent";
-            break;
-        case 0:
-            status = "hud.moon_phase.new_moon";
-            break;
-        case -1:
-            status = "hud.moon_phase.waxing_crescent";
-            break;
-        case -2:
-            status = "hud.moon_phase.first_quarter";
-            break;
-        case -3:
-            status = "hud.moon_phase.waxing_gibbous";
-            break;
+            case 4:
+            default:
+                status = "hud.moon_phase.full_moon";
+                break;
+            case 3:
+                status = "hud.moon_phase.waning_gibbous";
+                break;
+            case 2:
+                status = "hud.moon_phase.last_quarter";
+                break;
+            case 1:
+                status = "hud.moon_phase.waning_crescent";
+                break;
+            case 0:
+                status = "hud.moon_phase.new_moon";
+                break;
+            case -1:
+                status = "hud.moon_phase.waxing_crescent";
+                break;
+            case -2:
+                status = "hud.moon_phase.first_quarter";
+                break;
+            case -3:
+                status = "hud.moon_phase.waxing_gibbous";
+                break;
         }
         return status;
     }
 
     public boolean isSlimeChunk(BlockPos pos)
     {
-        int x = MathHelper.intFloorDiv(pos.getX(), 16);
-        int z = MathHelper.intFloorDiv(pos.getZ(), 16);
-        Random rand = new Random(IndicatiaSettings.INSTANCE.slimeChunkSeed + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
+        int x = Mth.intFloorDiv(pos.getX(), 16);
+        int z = Mth.intFloorDiv(pos.getZ(), 16);
+        Random rand = new Random(IndicatiaSettings.INSTANCE.slimeChunkSeed + x * x * 4987142L + x * 5947611L + z * z * 4392871L + z * 389711L ^ 987234911L);
         return rand.nextInt(10) == 0;
     }
 }

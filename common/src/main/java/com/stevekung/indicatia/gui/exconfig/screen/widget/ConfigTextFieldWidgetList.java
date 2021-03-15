@@ -3,17 +3,16 @@ package com.stevekung.indicatia.gui.exconfig.screen.widget;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.config.AbstractSettings;
 import com.stevekung.stevekungslib.utils.config.TextFieldSettingsWidget;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.widget.list.AbstractOptionList;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
-public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFieldWidgetList.Row>
+public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<ConfigTextFieldWidgetList.Row>
 {
     public boolean selected = false;
 
@@ -46,28 +45,28 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
             TextFieldSettingsWidget<IndicatiaSettings> text = this.getSelected().getTextField();
-            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeightRealms();//FIXME STILL BRUH
-            text.setFocused2(false);
+            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeight();
+            text.setFocus(false);
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
     public void saveCurrentValue()
     {
-        this.getEventListeners().forEach(Row::saveCurrentValue);
+        this.children().forEach(Row::saveCurrentValue);
     }
 
     public void tick()
     {
-        this.getEventListeners().forEach(Row::tick);
+        this.children().forEach(Row::tick);
     }
 
     public void resize()
     {
-        this.getEventListeners().forEach(Row::resize);
+        this.children().forEach(Row::resize);
     }
 
-    public static class Row extends AbstractOptionList.Entry<Row>
+    public static class Row extends ContainerObjectSelectionList.Entry<Row>
     {
         private final List<TextFieldSettingsWidget<IndicatiaSettings>> textFields;
 
@@ -77,18 +76,18 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         }
 
         @Override
-        public void render(MatrixStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(PoseStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
             for (TextFieldSettingsWidget<IndicatiaSettings> textField : this.textFields)
             {
                 textField.y = rowTop;
                 textField.render(matrixStack, mouseX, mouseY, partialTicks);
-                Minecraft.getInstance().fontRenderer.func_243248_b(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
+                Minecraft.getInstance().font.draw(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
             }
         }
 
         @Override
-        public List<? extends IGuiEventListener> getEventListeners()
+        public List<? extends GuiEventListener> children()
         {
             return this.textFields;
         }
@@ -102,9 +101,9 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         @SuppressWarnings("unchecked")
         public TextFieldSettingsWidget<IndicatiaSettings> getTextField()
         {
-            if ((TextFieldSettingsWidget<IndicatiaSettings>)this.getListener() != null)
+            if (this.getFocused() != null)
             {
-                return (TextFieldSettingsWidget<IndicatiaSettings>)this.getListener();
+                return (TextFieldSettingsWidget<IndicatiaSettings>)this.getFocused();
             }
             return null;
         }
@@ -114,7 +113,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             if (this.getTextField() != null)
             {
                 TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
-                text.setValue(IndicatiaSettings.INSTANCE, text.getText());
+                text.setValue(IndicatiaSettings.INSTANCE, text.getValue());
             }
         }
 
@@ -132,8 +131,8 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             if (this.getTextField() != null)
             {
                 TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
-                String textTemp = text.getText();
-                text.setText(textTemp);
+                String textTemp = text.getValue();
+                text.setValue(textTemp);
             }
         }
     }

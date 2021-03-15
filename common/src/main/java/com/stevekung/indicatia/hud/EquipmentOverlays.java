@@ -3,8 +3,8 @@ package com.stevekung.indicatia.hud;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.utils.hud.EquipmentOverlay;
@@ -13,20 +13,19 @@ import com.stevekung.indicatia.utils.hud.HotbarEquipmentOverlay;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StringUtils;
-import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.StringUtil;
+import net.minecraft.world.item.ItemStack;
 
 public class EquipmentOverlays
 {
-    public static void renderHorizontalEquippedItems(Minecraft mc, MatrixStack matrixStack)
+    public static void renderHorizontalEquippedItems(Minecraft mc, PoseStack matrixStack)
     {
         boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
         int baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
-        ItemStack mainhandStack = mc.player.getHeldItemMainhand();
-        ItemStack offhandStack = mc.player.getHeldItemOffhand();
+        ItemStack mainhandStack = mc.player.getMainHandItem();
+        ItemStack offhandStack = mc.player.getOffhandItem();
         List<HorizontalEquipmentOverlay> equippedLists = Lists.newArrayList();
         int prevX = 0;
 
@@ -34,7 +33,7 @@ public class EquipmentOverlays
         {
             for (int i = 3; i >= 0; i--)
             {
-                equippedLists.add(new HorizontalEquipmentOverlay(mc.player.inventory.armorInventory.get(i)));
+                equippedLists.add(new HorizontalEquipmentOverlay(mc.player.inventory.armor.get(i)));
             }
         }
 
@@ -53,27 +52,27 @@ public class EquipmentOverlays
             {
                 continue;
             }
-            int xBaseRight = mc.getMainWindow().getScaledWidth() - totalWidth - 2;
+            int xBaseRight = mc.getWindow().getGuiScaledWidth() - totalWidth - 2;
             equipment.render(matrixStack, right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
     }
 
-    public static void renderVerticalEquippedItems(Minecraft mc, MatrixStack matrixStack)
+    public static void renderVerticalEquippedItems(Minecraft mc, PoseStack matrixStack)
     {
         int i = 0;
         List<EquipmentOverlay> equippedLists = Lists.newArrayList();
-        ItemStack mainhandStack = mc.player.getHeldItemMainhand();
-        ItemStack offhandStack = mc.player.getHeldItemOffhand();
+        ItemStack mainhandStack = mc.player.getMainHandItem();
+        ItemStack offhandStack = mc.player.getOffhandItem();
         boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        int baseXOffset = right ? mc.getMainWindow().getScaledWidth() - 18 : 2;
+        int baseXOffset = right ? mc.getWindow().getGuiScaledWidth() - 18 : 2;
         int baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
 
         if (IndicatiaSettings.INSTANCE.equipmentArmorItems)
         {
             for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
             {
-                equippedLists.add(new EquipmentOverlay(mc.player.inventory.armorInventory.get(armorSlot)));
+                equippedLists.add(new EquipmentOverlay(mc.player.inventory.armor.get(armorSlot)));
             }
         }
 
@@ -93,35 +92,35 @@ public class EquipmentOverlays
             }
             int equipmentYOffset = baseYOffset + 16 * i;
             String info = equipment.renderInfo();
-            IFormattableTextComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).deepCopy();
-            arrowInfo.setStyle(arrowInfo.getStyle().setFontId(ClientUtils.UNICODE));
-            float fontHeight = (mc.fontRenderer.FONT_HEIGHT + 7) * i;
-            float infoXOffset = right ? mc.getMainWindow().getScaledWidth() - mc.fontRenderer.getStringWidth(info) - 20.0625F : baseXOffset + 18.0625F;
+            MutableComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).copy();
+            arrowInfo.setStyle(arrowInfo.getStyle().withFont(ClientUtils.UNICODE));
+            float fontHeight = (mc.font.lineHeight + 7) * i;
+            float infoXOffset = right ? mc.getWindow().getGuiScaledWidth() - mc.font.width(info) - 20.0625F : baseXOffset + 18.0625F;
             float infoYOffset = baseYOffset + 4 + fontHeight;
-            float arrowXOffset = right ? mc.getMainWindow().getScaledWidth() - mc.fontRenderer.getStringPropertyWidth(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            float arrowXOffset = right ? mc.getWindow().getGuiScaledWidth() - mc.font.width(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
             float arrowYOffset = baseYOffset + 8 + fontHeight;
 
             EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
 
-            if (!StringUtils.isNullOrEmpty(info))
+            if (!StringUtil.isNullOrEmpty(info))
             {
-                mc.fontRenderer.drawStringWithShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+                mc.font.drawShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
             }
-            if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
+            if (!StringUtil.isNullOrEmpty(arrowInfo.getString()))
             {
                 RenderSystem.disableDepthTest();
-                mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                mc.font.drawShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                 RenderSystem.enableDepthTest();
             }
             ++i;
         }
     }
 
-    public static void renderHotbarEquippedItems(Minecraft mc, MatrixStack matrixStack)
+    public static void renderHotbarEquippedItems(Minecraft mc, PoseStack matrixStack)
     {
         List<HotbarEquipmentOverlay> equippedLists = Lists.newArrayList();
-        ItemStack mainhandStack = mc.player.getHeldItemMainhand();
-        ItemStack offhandStack = mc.player.getHeldItemOffhand();
+        ItemStack mainhandStack = mc.player.getMainHandItem();
+        ItemStack offhandStack = mc.player.getOffhandItem();
         int iLeft = 0;
         int iRight = 0;
 
@@ -129,11 +128,11 @@ public class EquipmentOverlays
         {
             for (int i = 2; i <= 3; i++)
             {
-                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.LEFT));
+                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armor.get(i), HotbarEquipmentOverlay.Side.LEFT));
             }
             for (int i = 0; i <= 1; i++)
             {
-                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armorInventory.get(i), HotbarEquipmentOverlay.Side.RIGHT));
+                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armor.get(i), HotbarEquipmentOverlay.Side.RIGHT));
             }
         }
 
@@ -147,8 +146,8 @@ public class EquipmentOverlays
         {
             ItemStack itemStack = equipment.getItemStack();
             String info = equipment.renderInfo();
-            IFormattableTextComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).deepCopy();
-            arrowInfo.setStyle(arrowInfo.getStyle().setFontId(ClientUtils.UNICODE));
+            MutableComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).copy();
+            arrowInfo.setStyle(arrowInfo.getStyle().withFont(ClientUtils.UNICODE));
 
             if (itemStack.isEmpty())
             {
@@ -157,48 +156,48 @@ public class EquipmentOverlays
 
             if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
             {
-                int baseXOffset = mc.getMainWindow().getScaledWidth() / 2 - 111;
-                int armorYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 40;
-                float infoXOffset = mc.getMainWindow().getScaledWidth() / 2 - 114 - mc.fontRenderer.getStringWidth(info);
-                int infoYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 36;
+                int baseXOffset = mc.getWindow().getGuiScaledWidth() / 2 - 111;
+                int armorYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 40;
+                float infoXOffset = mc.getWindow().getGuiScaledWidth() / 2F - 114 - mc.font.width(info);
+                int infoYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
-                if (!StringUtils.isNullOrEmpty(info))
+                if (!StringUtil.isNullOrEmpty(info))
                 {
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+                    mc.font.drawShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
                 }
-                if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
+                if (!StringUtil.isNullOrEmpty(arrowInfo.getString()))
                 {
-                    float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 - 104;
-                    int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 32;
+                    float arrowXOffset = mc.getWindow().getGuiScaledWidth() / 2F - 104;
+                    int arrowYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 32;
 
                     RenderSystem.disableDepthTest();
-                    mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                    mc.font.drawShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iLeft;
             }
             else
             {
-                int baseXOffset = mc.getMainWindow().getScaledWidth() / 2 + 95;
-                int armorYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 40;
-                float infoXOffset = mc.getMainWindow().getScaledWidth() / 2 + 114;
-                int infoYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 36;
+                int baseXOffset = mc.getWindow().getGuiScaledWidth() / 2 + 95;
+                int armorYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 40;
+                float infoXOffset = mc.getWindow().getGuiScaledWidth() / 2F + 114;
+                int infoYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
-                if (!StringUtils.isNullOrEmpty(info))
+                if (!StringUtil.isNullOrEmpty(info))
                 {
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+                    mc.font.drawShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
                 }
-                if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
+                if (!StringUtil.isNullOrEmpty(arrowInfo.getString()))
                 {
-                    float arrowXOffset = mc.getMainWindow().getScaledWidth() / 2 + 112 - mc.fontRenderer.getStringPropertyWidth(arrowInfo);
-                    int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 32;
+                    float arrowXOffset = mc.getWindow().getGuiScaledWidth() / 2F + 112 - mc.font.width(arrowInfo);
+                    int arrowYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 32;
 
                     RenderSystem.disableDepthTest();
-                    mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                    mc.font.drawShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iRight;

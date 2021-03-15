@@ -1,25 +1,24 @@
 package com.stevekung.indicatia.utils;
 
 import com.stevekung.stevekungslib.utils.LangUtils;
-
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 public enum MojangServerStatus
 {
-    ONLINE(LangUtils.formatted("status.mojang.online", TextFormatting.GREEN)),
-    OFFLINE(LangUtils.formatted("status.mojang.offline", TextFormatting.DARK_RED)),
-    UNSTABLE(LangUtils.formatted("status.mojang.unstable", TextFormatting.YELLOW)),
-    UNKNOWN(LangUtils.formatted("status.mojang.unknown", TextFormatting.RED));
+    ONLINE(LangUtils.formatted("status.mojang.online", ChatFormatting.GREEN)),
+    OFFLINE(LangUtils.formatted("status.mojang.offline", ChatFormatting.DARK_RED)),
+    UNSTABLE(LangUtils.formatted("status.mojang.unstable", ChatFormatting.YELLOW)),
+    UNKNOWN(LangUtils.formatted("status.mojang.unknown", ChatFormatting.RED));
 
-    private final ITextComponent status;
+    private final Component status;
 
-    private MojangServerStatus(ITextComponent status)
+    MojangServerStatus(Component status)
     {
         this.status = status;
     }
 
-    public ITextComponent getStatus()
+    public Component getStatus()
     {
         return this.status;
     }
@@ -28,14 +27,14 @@ public enum MojangServerStatus
     {
         switch (status)
         {
-        case "green":
-            return MojangServerStatus.ONLINE;
-        case "yellow":
-            return MojangServerStatus.UNSTABLE;
-        case "red":
-            return MojangServerStatus.OFFLINE;
-        default:
-            return MojangServerStatus.UNKNOWN;
+            case "green":
+                return MojangServerStatus.ONLINE;
+            case "yellow":
+                return MojangServerStatus.UNSTABLE;
+            case "red":
+                return MojangServerStatus.OFFLINE;
+            default:
+                return MojangServerStatus.UNKNOWN;
         }
     }
 }

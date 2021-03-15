@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.utils.hud;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class HotbarEquipmentOverlay extends EquipmentOverlay
 {
@@ -19,6 +19,7 @@ public class HotbarEquipmentOverlay extends EquipmentOverlay
 
     public enum Side
     {
-        LEFT, RIGHT;
+        LEFT,
+        RIGHT
     }
 }

@@ -1,19 +1,15 @@
 package com.stevekung.indicatia.gui.widget;
 
-import java.util.Collections;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fml.client.gui.GuiUtils;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class MinigameButton extends Button
 {
@@ -22,10 +18,10 @@ public class MinigameButton extends Button
     private static final ResourceLocation PLAY = new ResourceLocation("indicatia:textures/gui/play_icon.png");
     private final Minecraft mc;
     private final boolean isPlay;
-    private final ITextComponent tooltips;
+    private final Component tooltips;
     private final ItemStack head;
 
-    public MinigameButton(int parentWidth, ITextComponent tooltips, boolean isPlay, Button.IPressable pressable, ItemStack head)
+    public MinigameButton(int parentWidth, Component tooltips, boolean isPlay, Button.OnPress pressable, ItemStack head)
     {
         super(parentWidth - 130, 20, 20, 20, TextComponentUtils.component("Minigame Button"), pressable);
         this.isPlay = isPlay;
@@ -36,14 +32,14 @@ public class MinigameButton extends Button
 
     @SuppressWarnings("deprecation")
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         if (this.visible)
         {
-            this.mc.getTextureManager().bindTexture(this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
+            this.mc.getTextureManager().bind(this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            AbstractGui.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
+            GuiComponent.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
 
             if (!this.head.isEmpty())
             {
@@ -51,19 +47,19 @@ public class MinigameButton extends Button
                 RenderSystem.enableRescaleNormal();
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-                RenderHelper.enableStandardItemLighting();
+                Lighting.turnBackOn();
                 RenderSystem.enableLighting();
-                this.mc.getItemRenderer().renderItemAndEffectIntoGUI(this.head, this.x + 2, this.y + 2);
+                this.mc.getItemRenderer().renderAndDecorateItem(this.head, this.x + 2, this.y + 2);
             }
         }
     }
 
     @SuppressWarnings("deprecation")
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY)
     {
         if (this.visible && this.isMouseOver(mouseX, mouseY))
         {
-            GuiUtils.drawHoveringText(matrixStack, Collections.singletonList(this.tooltips), mouseX, mouseY, this.mc.currentScreen.width, this.mc.currentScreen.height, 128, this.mc.fontRenderer);
+            this.mc.screen.renderTooltip(matrixStack, this.tooltips, mouseX, mouseY);
             RenderSystem.disableLighting();
         }
     }

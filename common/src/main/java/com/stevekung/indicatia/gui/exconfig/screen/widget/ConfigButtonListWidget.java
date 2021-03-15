@@ -3,16 +3,15 @@ package com.stevekung.indicatia.gui.exconfig.screen.widget;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.config.AbstractSettings;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IGuiEventListener;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.list.AbstractOptionList;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
-public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListWidget.ButtonItem>
+public class ConfigButtonListWidget extends ContainerObjectSelectionList<ConfigButtonListWidget.ButtonItem>
 {
     public ConfigButtonListWidget(int x, int y, int top, int bottom, int itemHeight)
     {
@@ -45,19 +44,19 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         }
     }
 
-    public static class ButtonItem extends AbstractOptionList.Entry<ButtonItem>
+    public static class ButtonItem extends ContainerObjectSelectionList.Entry<ButtonItem>
     {
-        private final List<Widget> buttons;
+        private final List<AbstractWidget> buttons;
 
-        private ButtonItem(List<Widget> list)
+        private ButtonItem(List<AbstractWidget> list)
         {
             this.buttons = list;
         }
 
         @Override
-        public void render(MatrixStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(PoseStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            for (Widget button : this.buttons)
+            for (AbstractWidget button : this.buttons)
             {
                 button.y = rowTop;
                 button.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -65,14 +64,14 @@ public class ConfigButtonListWidget extends AbstractOptionList<ConfigButtonListW
         }
 
         @Override
-        public List<? extends IGuiEventListener> getEventListeners()
+        public List<? extends GuiEventListener> children()
         {
             return this.buttons;
         }
 
         public static ConfigButtonListWidget.ButtonItem createItems(int x, AbstractSettings<IndicatiaSettings> configOpt1, AbstractSettings<IndicatiaSettings> configOpt2)
         {
-            Widget button = configOpt1.createWidget(IndicatiaSettings.INSTANCE, x / 2 - 155, 0, 150);
+            AbstractWidget button = configOpt1.createWidget(IndicatiaSettings.INSTANCE, x / 2 - 155, 0, 150);
             return configOpt2 == null ? new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button)) : new ConfigButtonListWidget.ButtonItem(ImmutableList.of(button, configOpt2.createWidget(IndicatiaSettings.INSTANCE, x / 2 - 155 + 160, 0, 150)));
         }
     }

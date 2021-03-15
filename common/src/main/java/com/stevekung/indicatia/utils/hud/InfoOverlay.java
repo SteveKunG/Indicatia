@@ -2,10 +2,9 @@ package com.stevekung.indicatia.utils.hud;
 
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
-
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
 
 public class InfoOverlay
 {
@@ -60,17 +59,17 @@ public class InfoOverlay
         return this.isEmpty;
     }
 
-    public IFormattableTextComponent toFormatted()
+    public MutableComponent toFormatted()
     {
-        IFormattableTextComponent formatted = StringTextComponent.EMPTY.deepCopy();
-        IFormattableTextComponent title = LangUtils.translate(this.title).deepCopy();
+        MutableComponent formatted = TextComponent.EMPTY.copy();
+        MutableComponent title = LangUtils.translate(this.title).copy();
 
-        formatted.append(title.setStyle(title.getStyle().setColor(Color.fromInt(ColorUtils.rgbToDecimal(this.titleColor)))).appendString(": "));
+        formatted.append(title.setStyle(title.getStyle().withColor(TextColor.fromRgb(ColorUtils.rgbToDecimal(this.titleColor)))).append(": "));
 
-        IFormattableTextComponent value = LangUtils.translate(this.value).deepCopy();
+        MutableComponent value = LangUtils.translate(this.value).copy();
 
-        formatted.append(value.setStyle(value.getStyle().setColor(Color.fromInt(ColorUtils.rgbToDecimal(this.valueColor)))));
-        return this.isEmpty ? StringTextComponent.EMPTY.deepCopy() : formatted;
+        formatted.append(value.setStyle(value.getStyle().withColor(TextColor.fromRgb(ColorUtils.rgbToDecimal(this.valueColor)))));
+        return this.isEmpty ? TextComponent.EMPTY.copy() : formatted;
     }
 
     public static InfoOverlay empty()
@@ -80,6 +79,7 @@ public class InfoOverlay
 
     public enum Position
     {
-        LEFT, RIGHT;
+        LEFT,
+        RIGHT
     }
 }

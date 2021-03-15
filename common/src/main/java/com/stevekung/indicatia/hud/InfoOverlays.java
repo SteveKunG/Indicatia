@@ -7,16 +7,16 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.stevekung.indicatia.config.IndicatiaSettings;
+import com.stevekung.indicatia.utils.MinecraftServerTick;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
+import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 
 public class InfoOverlays
 {
@@ -28,9 +28,9 @@ public class InfoOverlays
 
     public static InfoOverlay getDirection(Minecraft mc)
     {
-        Entity entity = mc.getRenderViewEntity();
-        Direction coordDirection = entity.getHorizontalFacing();
-        int yaw = (int)entity.rotationYaw + 22;
+        Entity entity = mc.getCameraEntity();
+        Direction coordDirection = entity.getDirection();
+        int yaw = (int)entity.yRot + 22;
         String direction;
         String coord;
 
@@ -43,55 +43,50 @@ public class InfoOverlays
 
         int facing = yaw / 45;
 
-        if (facing < 0)
-        {
-            facing = 7;
-        }
-
         switch (coordDirection)
         {
-        default:
-        case NORTH:
-            coord = "-Z";
-            break;
-        case SOUTH:
-            coord = "+Z";
-            break;
-        case WEST:
-            coord = "-X";
-            break;
-        case EAST:
-            coord = "+X";
-            break;
+            default:
+            case NORTH:
+                coord = "-Z";
+                break;
+            case SOUTH:
+                coord = "+Z";
+                break;
+            case WEST:
+                coord = "-X";
+                break;
+            case EAST:
+                coord = "+X";
+                break;
         }
 
         switch (facing)
         {
-        case 0:
-            direction = "hud.direction.south";
-            break;
-        case 1:
-            direction = "hud.direction.south_west";
-            break;
-        case 2:
-            direction = "hud.direction.west";
-            break;
-        case 3:
-            direction = "hud.direction.north_west";
-            break;
-        default:
-        case 4:
-            direction = "hud.direction.north";
-            break;
-        case 5:
-            direction = "hud.direction.north_east";
-            break;
-        case 6:
-            direction = "hud.direction.east";
-            break;
-        case 7:
-            direction = "hud.direction.south_east";
-            break;
+            case 0:
+                direction = "hud.direction.south";
+                break;
+            case 1:
+                direction = "hud.direction.south_west";
+                break;
+            case 2:
+                direction = "hud.direction.west";
+                break;
+            case 3:
+                direction = "hud.direction.north_west";
+                break;
+            default:
+            case 4:
+                direction = "hud.direction.north";
+                break;
+            case 5:
+                direction = "hud.direction.north_east";
+                break;
+            case 6:
+                direction = "hud.direction.east";
+                break;
+            case 7:
+                direction = "hud.direction.south_east";
+                break;
         }
         direction = LangUtils.translateString(direction);
         direction += " (" + coord + ")";
@@ -100,8 +95,8 @@ public class InfoOverlays
 
     public static void getTPS(MinecraftServer server)
     {
-        double overallTPS = InfoOverlays.mean(server.tickTimeArray) * 1.0E-6D;
-        double overworldTPS = InfoOverlays.mean(server.getTickTime(World.OVERWORLD)) * 1.0E-6D;
+        double overallTPS = InfoOverlays.mean(server.tickTimes) * 1.0E-6D;
+        double overworldTPS = InfoOverlays.mean(MinecraftServerTick.getTickTime(server, Level.OVERWORLD)) * 1.0E-6D;
         double tps = Math.min(1000.0D / overallTPS, 20);
 
         InfoOverlays.ALL_TPS.clear();
@@ -111,10 +106,10 @@ public class InfoOverlays
         {
             InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();
 
-            for (ServerWorld world : server.getWorlds())
+            for (ServerLevel world : server.getAllLevels())
             {
-                long[] values = server.getTickTime(world.getDimensionKey());
-                String dimensionName = world.getDimensionKey().getLocation().toString();
+                long[] values = MinecraftServerTick.getTickTime(server, world.dimension());
+                String dimensionName = world.dimension().location().toString();
 
                 if (values == null)
                 {
@@ -157,7 +152,7 @@ public class InfoOverlays
                 return GalacticraftPlanetsTime.getSpaceTime(mc);
             }
         }*/
-        return InfoOverlays.getVanillaGameTime(mc.world.getDayTime() % 24000);
+        return InfoOverlays.getVanillaGameTime(mc.level.getDayTime() % 24000);
     }
 
     private static InfoOverlay getVanillaGameTime(long worldTicks)
@@ -179,7 +174,7 @@ public class InfoOverlays
             builder.append(0);
         }
         builder.append(minutes);
-        builder.append(" " + (hours >= 12 ? "PM" : "AM"));
+        builder.append(" ").append(hours >= 12 ? "PM" : "AM");
         return new InfoOverlay("hud.time", builder.toString(), IndicatiaSettings.INSTANCE.gameTimeColor, IndicatiaSettings.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 

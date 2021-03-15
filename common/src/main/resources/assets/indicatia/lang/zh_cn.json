@@ -16,10 +16,8 @@
     "indicatia.configgui.enable_sidebar_scoreboard_render": "启用(计分板边栏?)渲染",
     "indicatia.configgui.enable_hypixel_chat_mode": "启用Hypixel Chat Mode",
     "indicatia.configgui.enable_hypixel_dropdown_shortcut_game": "启用Hypixel速开游戏(?)",
-
     "_comment": "命令",
     "commands.not_allowed_hypixel": "Hypixel上不允许使用此命令！",
-
     "commands.afk.reason": "原因",
     "commands.afk.afk_now": "(现在AFK?)AFK for now",
     "commands.afk.afk_started": "(已在AFK?)AFK already started!",
@@ -28,14 +26,11 @@
     "commands.afk.afk_not_started": "未在AFK中！(?)",
     "commands.afk.change_afk_reason": "Change Reason from '%s' to '%s'",
     "commands.afk.set_afk_mode": "Set AFK mode to '%s'",
-
     "commands.auto_fish.enable": "AutoFish启用",
     "commands.auto_fish.disable": "AutoFish禁用",
     "commands.auto_fish.not_equipped_fishing_rod": "你手中没有钓鱼竿！",
     "commands.auto_fish.auto_fish_started": "AutoFish已经开始！",
-
     "commands.ping_all.result": "%s: Ping %s ms",
-
     "commands.inprofile.cannot_create_default": "无法创建profile 'default'！",
     "commands.inprofile.profile_already_created": "Profile '%s' 已经创建过了！",
     "commands.inprofile.created": "Profile '%s' 已创建",
@@ -51,10 +46,8 @@
     "commands.inprofile.list.count": "显示 %s profile 数据条目",
     "commands.inprofile.list.entry": "- Profile Data : '%s' %s",
     "commands.inprofile.current_profile": "当前使用！",
-
     "commands.slime_seed.zero_not_allowed": "不允许为零！",
     "commands.slime_seed.set": "设置史莱姆区块种子为 %s",
-
     "_comment": "扩展配置",
     "extended_config.preview": "预览",
     "extended_config.swap_info_pos": "显示信息左右对调",
@@ -123,7 +116,6 @@
     "extended_config.game_weather_value_color": "游戏天气 值 颜色",
     "extended_config.moon_phase_value_color": "月相 值 颜色",
     "extended_config.right_click_add_party": "右键点击以邀请至Party",
-
     "_comment": "扩展配置 可选值",
     "indicatia.disabled": "禁用",
     "indicatia.left": "左侧",
@@ -144,7 +136,6 @@
     "potion_hud.icon_and_time": "图标/时间",
     "indicatia.ping": "Ping",
     "indicatia.ping_and_delay": "Ping和延迟",
-
     "_comment": "HUD信息",
     "hud.fps": "FPS",
     "hud.ping": "Ping",
@@ -177,11 +168,9 @@
     "hud.time.galacticraft.fastest_dn_cycle": "最快的昼夜周期(?)",
     "hud.time.galacticraft.no_dn_cycle": "没有的昼夜周期(?)",
     "hud.real_time": "现实时间",
-
     "_comment": "按键绑定",
     "key.indicatia.categories": "Indicatia按键设置",
     "key.quick_config.desc": "快速配置GUI",
-
     "_comment": "菜单",
     "menu.main.title": "扩展配置",
     "menu.current_selected_profile": "当前Profile：'%s'",
@@ -203,7 +192,6 @@
     "menu.chat_mode.guild_chat": "Guild Chat",
     "menu.color_format_info": "颜色格式：'255,255,255'",
     "menu.mojang_status.title": "Mojang Status Checker",
-
     "_comment": "杂项",
     "misc.extended_config.reset_config": "Config '%s' 已重设为default设置！",
     "status.mojang.online": "Online",

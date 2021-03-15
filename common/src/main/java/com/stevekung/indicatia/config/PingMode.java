@@ -3,18 +3,18 @@ package com.stevekung.indicatia.config;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 public enum PingMode
 {
     PING(0, "indicatia.ping"),
     PING_AND_DELAY(1, "indicatia.ping_and_delay");
 
-    private static final PingMode[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(PingMode::getId)).toArray(id -> new PingMode[id]);
+    private static final PingMode[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(PingMode::getId)).toArray(PingMode[]::new);
     private final int id;
     private final String key;
 
-    private PingMode(int id, String key)
+    PingMode(int id, String key)
     {
         this.id = id;
         this.key = key;
@@ -32,6 +32,6 @@ public enum PingMode
 
     public static PingMode byId(int id)
     {
-        return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
+        return VALUES[Mth.positiveModulo(id, VALUES.length)];
     }
 }

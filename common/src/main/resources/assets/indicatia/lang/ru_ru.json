@@ -17,10 +17,8 @@
     "indicatia.configgui.enable_sidebar_scoreboard_render": "Отображение боковой панели счёта",
     "indicatia.configgui.enable_hypixel_chat_mode": "Режим чата Hypixel",
     "indicatia.configgui.enable_hypixel_dropdown_shortcut_game": "Ярлык игры с раскрывающимся списком Hypixel",
-
     "_comment": "КОММАНДЫ",
     "commands.not_allowed_hypixel": "Эти команды не разрешены на Hypixel!",
-
     "commands.afk.reason": "Причина",
     "commands.afk.afk_now": "Сейчас AFK",
     "commands.afk.afk_started": "Уже в AFK!",
@@ -29,14 +27,11 @@
     "commands.afk.afk_not_started": "Ещё не в AFK!",
     "commands.afk.change_afk_reason": "Изменить причину с '%s' на '%s'",
     "commands.afk.set_afk_mode": "Установить режим AFK для '%s'",
-
     "commands.auto_fish.enable": "Авто-рыбалка включена",
     "commands.auto_fish.disable": "Авто-рыбалка выключена",
     "commands.auto_fish.not_equipped_fishing_rod": "Вы не взяли удочку в руку!",
     "commands.auto_fish.auto_fish_started": "Авто-рыбалка уже запущена!",
-
     "commands.ping_all.result": "%s: Пинг %s мс",
-
     "commands.inprofile.cannot_create_default": "Невозможно создать профиль с именем 'default'!",
     "commands.inprofile.profile_already_created": "Профиль '%s' уже создан!",
     "commands.inprofile.created": "Профиль '%s' создан",
@@ -52,10 +47,8 @@
     "commands.inprofile.list.count": "Отображение данных ввода профиля %s",
     "commands.inprofile.list.entry": "- Данные профиля: '%s' %s",
     "commands.inprofile.current_profile": "В настоящее время используется!",
-
     "commands.slime_seed.zero_not_allowed": "Ноль не допускается!",
     "commands.slime_seed.set": "Установить начальное число чанка слизи равным %s",
-
     "_comment": "РАСШИРЕННЫЕ ПАРАМЕТРЫ",
     "extended_config.preview": "Предпросмотр",
     "extended_config.swap_info_pos": "Информация о отображении смены",
@@ -124,7 +117,6 @@
     "extended_config.game_weather_value_color": "Цвет игровой погоды",
     "extended_config.moon_phase_value_color": "Цвет фазы луны",
     "extended_config.right_click_add_party": "Нажмите правой кнопкой чтобы добавить в команду",
-
     "_comment": "РАСШИРЕННЫЕ ПАРАМЕТРЫ ЗНАЧЕНИЙ",
     "indicatia.disabled": "Отключён",
     "indicatia.left": "Слева",
@@ -145,7 +137,6 @@
     "potion_hud.icon_and_time": "Иконка/Время",
     "indicatia.ping": "Пинг",
     "indicatia.ping_and_delay": "Пинг и задержка",
-
     "_comment": "HUD ИНФОРМАЦИИ",
     "hud.fps": "FPS",
     "hud.ping": "Пинг",
@@ -178,11 +169,9 @@
     "hud.time.galacticraft.fastest_dn_cycle": "Ускоренный цикл дня-ночи",
     "hud.time.galacticraft.no_dn_cycle": "Отключить цикл дня-ночи",
     "hud.real_time": "Время",
-
     "_comment": "ПРИВЯЗКА КЛАВИШ",
     "key.indicatia.categories": "Indicatia",
     "key.quick_config.desc": "GUI быстрых параметров",
-
     "_comment": "МЕНЮ",
     "menu.main.title": "Расширенный параметры",
     "menu.current_selected_profile": "Текущий профиль '%s'",
@@ -204,7 +193,6 @@
     "menu.chat_mode.guild_chat": "Чат гильдии",
     "menu.color_format_info": "Формат цвета '255,255,255'",
     "menu.mojang_status.title": "Проверка статуса Mojang",
-
     "_comment": "РАЗНОЕ",
     "misc.extended_config.reset_config": "Параметры '%s' восстановлены по умолчанию!",
     "status.mojang.online": "В сети",

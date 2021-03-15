@@ -2,16 +2,15 @@ package com.stevekung.indicatia.gui.widget;
 
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.resources.ResourceLocation;
 
 public class DropdownMinigamesButton extends Button
 {
@@ -27,20 +26,12 @@ public class DropdownMinigamesButton extends Button
         super(x, y, 15, 15, TextComponentUtils.component("Minigame Dropdown Button"), null);
         this.parentClass = parentClass;
         this.minigameLists = minigameLists;
-
-        if (this.minigameLists.size() <= 6)
-        {
-            this.displayLength = this.minigameLists.size();
-        }
-        else
-        {
-            this.displayLength = 6;
-        }
+        this.displayLength = Math.min(this.minigameLists.size(), 6);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         Minecraft mc = Minecraft.getInstance();
         int hoverColor = 150;
@@ -69,26 +60,26 @@ public class DropdownMinigamesButton extends Button
         RenderSystem.pushMatrix();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        AbstractGui.fill(matrixStack, this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength + 15 : this.height), ColorUtils.to32Bit(0, 0, 0, 255));
-        AbstractGui.fill(matrixStack, this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength + 15 : this.height) - 1, ColorUtils.to32Bit(hoverColor, hoverColor, hoverColor, 255));
+        GuiComponent.fill(matrixStack, this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength + 15 : this.height), ColorUtils.to32Bit(0, 0, 0, 255));
+        GuiComponent.fill(matrixStack, this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength + 15 : this.height) - 1, ColorUtils.to32Bit(hoverColor, hoverColor, hoverColor, 255));
 
         if (this.dropdownClicked)
         {
-            AbstractGui.fill(matrixStack, this.x + 1, this.y + 1, this.x + this.width - 16, this.y - 1 + this.height, ColorUtils.to32Bit(120, 120, 120, 255));
+            GuiComponent.fill(matrixStack, this.x + 1, this.y + 1, this.x + this.width - 16, this.y - 1 + this.height, ColorUtils.to32Bit(120, 120, 120, 255));
         }
 
-        AbstractGui.fill(matrixStack, this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtils.to32Bit(0, 0, 0, 255));
-        AbstractGui.fill(matrixStack, this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtils.to32Bit(150, 150, 150, 255));
+        GuiComponent.fill(matrixStack, this.x + this.width - 15, this.y, this.x + this.width - 1, this.y + this.height, ColorUtils.to32Bit(0, 0, 0, 255));
+        GuiComponent.fill(matrixStack, this.x + this.width - 15, this.y + 1, this.x + this.width - 2, this.y + this.height - 1, ColorUtils.to32Bit(150, 150, 150, 255));
 
         if (this.displayLength > 1 && this.dropdownClicked)
         {
             if (this.isHoverDropdown(mouseX, mouseY))
             {
-                AbstractGui.fill(matrixStack, this.x + 1, this.y + 2 + this.height * hoverPos - 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32Bit(180, 180, 180, 255));
+                GuiComponent.fill(matrixStack, this.x + 1, this.y + 2 + this.height * hoverPos - 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 1, ColorUtils.to32Bit(180, 180, 180, 255));
             }
             if (mouseX >= this.x && mouseY >= this.y + 16 && mouseX < this.x + this.width - 16 && mouseY < this.y + this.height * this.displayLength + 15)
             {
-                AbstractGui.fill(matrixStack, this.x + 1, this.y + this.height * hoverPos - 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 2, ColorUtils.to32Bit(180, 180, 180, 255));
+                GuiComponent.fill(matrixStack, this.x + 1, this.y + this.height * hoverPos - 1, this.x + this.width - 16, this.y + this.height * (hoverPos + 1) - 2, ColorUtils.to32Bit(180, 180, 180, 255));
             }
         }
 
@@ -100,17 +91,13 @@ public class DropdownMinigamesButton extends Button
             {
                 if (this.dropdownClicked)
                 {
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, minigames, this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(minigames) / 2, this.y + (this.height + 22) / 2 + this.height * i, ColorUtils.to32Bit(255, 255, 255, 255));
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, this.minigameLists.get(this.selectedMinigame), this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.minigameLists.get(this.selectedMinigame)) / 2, this.y + (this.height - 6) / 2, ColorUtils.to32Bit(255, 255, 255, 255));
+                    mc.font.drawShadow(matrixStack, minigames, this.x + this.width / 2F - 7 - mc.font.width(minigames) / 2F, this.y + (this.height + 22) / 2F + this.height * i, ColorUtils.to32Bit(255, 255, 255, 255));
                 }
-                else
-                {
-                    mc.fontRenderer.drawStringWithShadow(matrixStack, this.minigameLists.get(this.selectedMinigame), this.x + this.width / 2 - 7 - mc.fontRenderer.getStringWidth(this.minigameLists.get(this.selectedMinigame)) / 2, this.y + (this.height - 6) / 2, ColorUtils.to32Bit(255, 255, 255, 255));
-                }
+                mc.font.drawShadow(matrixStack, this.minigameLists.get(this.selectedMinigame), this.x + this.width / 2F - 7 - mc.font.width(this.minigameLists.get(this.selectedMinigame)) / 2F, this.y + (this.height - 6) / 2F, ColorUtils.to32Bit(255, 255, 255, 255));
             }
         }
-        mc.getTextureManager().bindTexture(DropdownMinigamesButton.TEXTURE);
-        AbstractGui.blit(matrixStack, this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
+        mc.getTextureManager().bind(DropdownMinigamesButton.TEXTURE);
+        GuiComponent.blit(matrixStack, this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
         RenderSystem.popMatrix();
     }
 
@@ -126,7 +113,7 @@ public class DropdownMinigamesButton extends Button
             if (this.isHovered)
             {
                 this.dropdownClicked = true;
-                this.playDownSound(Minecraft.getInstance().getSoundHandler());
+                this.playDownSound(Minecraft.getInstance().getSoundManager());
                 return true;
             }
         }
@@ -138,7 +125,7 @@ public class DropdownMinigamesButton extends Button
                 this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
-                this.playDownSound(Minecraft.getInstance().getSoundHandler());
+                this.playDownSound(Minecraft.getInstance().getSoundManager());
                 return true;
             }
             else

@@ -1,21 +1,18 @@
 package com.stevekung.indicatia.handler;
 
 import org.lwjgl.glfw.GLFW;
-
 import com.stevekung.indicatia.core.IndicatiaMod;
-import com.stevekung.stevekungslib.keybinding.KeyBindingBase;
-
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import me.shedaniel.architectury.registry.KeyBindings;
+import net.minecraft.client.KeyMapping;
 
 public class KeyBindingHandler
 {
-    public static KeyBinding KEY_QUICK_CONFIG;
+    public static KeyMapping KEY_QUICK_CONFIG;
 
     public static void init()
     {
-        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyBindingBase("key.quick_config.desc", IndicatiaMod.MOD_ID, GLFW.GLFW_KEY_F4);
+        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyMapping("key.quick_config.desc", GLFW.GLFW_KEY_F4, IndicatiaMod.MOD_ID);
 
-        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_QUICK_CONFIG);
+        KeyBindings.registerKeyBinding(KeyBindingHandler.KEY_QUICK_CONFIG);
     }
 }

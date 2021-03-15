@@ -16,18 +16,16 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.stevekungslib.utils.client.command.IClientSuggestionProvider;
-
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ResourceLocationException;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslationTextComponent("commands.inprofile.not_found", obj));
-    private static final SimpleCommandExceptionType CANNOT_REMOVE_DEFAULT = new SimpleCommandExceptionType(new TranslationTextComponent("commands.inprofile.cannot_remove_default"));
-    private static final SimpleCommandExceptionType CANNOT_CREATE_DEFAULT = new SimpleCommandExceptionType(new TranslationTextComponent("commands.inprofile.cannot_create_default"));
-    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslationTextComponent("argument.id.invalid"));
+    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslatableComponent("commands.inprofile.not_found", obj));
+    private static final SimpleCommandExceptionType CANNOT_REMOVE_DEFAULT = new SimpleCommandExceptionType(new TranslatableComponent("commands.inprofile.cannot_remove_default"));
+    private static final SimpleCommandExceptionType CANNOT_CREATE_DEFAULT = new SimpleCommandExceptionType(new TranslatableComponent("commands.inprofile.cannot_create_default"));
+    private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableComponent("argument.id.invalid"));
     private final Mode mode;
 
     private ProfileNameArgumentType(Mode mode)
@@ -45,7 +43,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
         return new ProfileNameArgumentType(mode);
     }
 
-    public static String getProfile(CommandContext<IClientSuggestionProvider> context, String name)
+    public static String getProfile(CommandContext<?> context, String name)
     {
         return context.getArgument(name, String.class);
     }
@@ -147,7 +145,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     {
         int cursor = reader.getCursor();
 
-        while (reader.canRead() && ResourceLocation.isValidPathCharacter(reader.peek()))
+        while (reader.canRead() && ResourceLocation.isAllowedInResourceLocation(reader.peek()))
         {
             reader.skip();
         }

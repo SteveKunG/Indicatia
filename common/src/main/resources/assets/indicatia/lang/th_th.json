@@ -16,10 +16,8 @@
     "indicatia.configgui.enable_sidebar_scoreboard_render": "เปิดใช้งานการแสดงผลกระดานคะแนนด้านข้าง",
     "indicatia.configgui.enable_hypixel_chat_mode": "เปิดใช้งานโหมดแชท Hypixel",
     "indicatia.configgui.enable_hypixel_dropdown_shortcut_game": "เปิดใช้งานเกมทางลัดแบบเลื่อนลงใน Hypixel",
-
     "_comment": "คำสั่ง",
     "commands.not_allowed_hypixel": "คำสั่งนี้ไม่สามารถใช้ได้บน Hypixel!",
-
     "commands.afk.reason": "เหตุผล",
     "commands.afk.afk_now": "ตอนนี้ AFK",
     "commands.afk.afk_started": "เริ่ม AFK แล้ว!",
@@ -28,14 +26,11 @@
     "commands.afk.afk_not_started": "ตอนนี้ยังไม่ได้เริ่ม AFK!",
     "commands.afk.change_afk_reason": "เปลี่ยนเหตุผลจาก '%s' เป็น '%s'",
     "commands.afk.set_afk_mode": "กำหนดโหมด AFK เป็น '%s'",
-
     "commands.auto_fish.enable": "เปิดการใช้งาน AutoFish",
     "commands.auto_fish.disable": "เปิดการใช้งาน AutoFish",
     "commands.auto_fish.not_equipped_fishing_rod": "คุณยังไม่ได้ถือเบ็ดตกปลา!",
     "commands.auto_fish.auto_fish_started": "เริ่ม Autofish แล้ว!",
-
     "commands.ping_all.result": "%s: Ping %s ms",
-
     "commands.inprofile.cannot_create_default": "ไม่สามารถสร้างไฟล์ข้อมูลด้วยชื่อ 'default'!",
     "commands.inprofile.profile_already_created": "ไฟล์ข้อมูล '%s' เคยถูกสร้างแล้ว!",
     "commands.inprofile.created": "สร้างไฟล์ข้อมูล '%s' สำเร็จ",
@@ -51,10 +46,8 @@
     "commands.inprofile.list.count": "กำลังโชว์ข้อมูลของ %s ไฟล์ข้อมูล",
     "commands.inprofile.list.entry": "- ข้อมูลของไฟล์ข้อมูล: '%s' %s",
     "commands.inprofile.current_profile": "กำลังใช้อยู่ตอนนี้!",
-
     "commands.slime_seed.zero_not_allowed": "ใช้เลขศูนย์ไม่ได้!",
     "commands.slime_seed.set": "ตั้ง Slime Chunk seed เป็น %s",
-
     "_comment": "การกำหนดค่าเพิ่มเติม",
     "extended_config.preview": "ตัวอย่าง",
     "extended_config.swap_info_pos": "สลับข้อมูล Render",
@@ -123,7 +116,6 @@
     "extended_config.game_weather_value_color": "สีของค่าสภาพอากาศในเกม",
     "extended_config.moon_phase_value_color": "สีของค่าดิถีดวงจันทร์",
     "extended_config.right_click_add_party": "คลิกขวาเพื่อเพิ่มคณะ",
-
     "_comment": "ค่าการกำหนดค่าเพิ่มเติม",
     "indicatia.disabled": "ปิดการใช้งาน",
     "indicatia.left": "ซ้าย",
@@ -144,7 +136,6 @@
     "potion_hud.icon_and_time": "ไอคอน/เวลา",
     "indicatia.ping": "Ping",
     "indicatia.ping_and_delay": "Ping และความหน่วง",
-
     "_comment": "ข้อมูลการแสดงผล",
     "hud.fps": "FPS",
     "hud.ping": "Ping",
@@ -177,11 +168,9 @@
     "hud.time.galacticraft.fastest_dn_cycle": "รอบกลางวันและกลางคืนที่เร็วที่สุด",
     "hud.time.galacticraft.no_dn_cycle": "ไม่มีรอบกลางวันและกลางคืน",
     "hud.real_time": "เวลา",
-
     "_comment": "KEY BINDING",
     "key.indicatia.categories": "Indicatia",
     "key.quick_config.desc": "Quick Config GUI",
-
     "_comment": "เมนู",
     "menu.main.title": "การกำหนดค่าเพิ่มเติม",
     "menu.current_selected_profile": "ไฟล์ข้อมูลปัจจุบันคือ '%s'",
@@ -203,7 +192,6 @@
     "menu.chat_mode.guild_chat": "แชทกิลด์",
     "menu.color_format_info": "รูปแบบสีคือ '255,255,255'",
     "menu.mojang_status.title": "เครื่องมือตรวจสอบสถานะ Mojang",
-
     "_comment": "MISC",
     "misc.extended_config.reset_config": "การกำหนดค่า '%s' ได้รับการรีเซ็ตเป็นค่าเริ่มต้น!",
     "status.mojang.online": "ออนไลน์",

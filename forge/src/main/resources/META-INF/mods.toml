@@ -1,35 +1,42 @@
 modLoader = "javafml"
 loaderVersion = "[35,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+license = "MIT License"
+issueTrackerURL = "https://github.com/SteveKunG/Indicatia/issues"
 
 [[mods]]
-modId = "examplemod"
+modId = "indicatia"
 version = "${version}"
-displayName = "Example Mod"
-authors = "Me!"
-description = '''
-This is an example description! Tell everyone what your mod is about!
-'''
-#logoFile = ""
+displayName = "Indicatia"
+description = "Simple in-game info and small utilities!"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/indicatia"
+updateJSONURL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
+logoFile = "logo.png"
+authors = "SteveKunG"
 
-[[dependencies.examplemod]]
+[[dependencies.indicatia]]
 modId = "forge"
 mandatory = true
-versionRange = "[35,)"
+versionRange = "[35.1.0,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
-[[dependencies.examplemod]]
+[[dependencies.indicatia]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16.2,)"
+versionRange = "[1.16.4,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
-[[dependencies.examplemod]]
+[[dependencies.stevekungs_lib]]
 modId = "architectury"
 mandatory = true
-versionRange = "[1.1.55,)"
-ordering = "AFTER"
-side = "BOTH"
+versionRange = "[1.8.131,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.indicatia]]
+modId = "stevekungs_lib"
+mandatory = true
+versionRange = "[4.1.0,)"
+ordering = "NONE"
+side = "CLIENT"

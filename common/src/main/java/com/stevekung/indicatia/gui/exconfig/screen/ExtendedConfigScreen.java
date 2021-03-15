@@ -1,29 +1,27 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.config.BooleanSettings;
 import com.stevekung.stevekungslib.utils.config.IteratableSettings;
 import com.stevekung.stevekungslib.utils.config.SliderPercentageSettings;
-
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.DialogTexts;
-import net.minecraft.client.gui.screen.ConfirmScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TextComponent;
 
 public class ExtendedConfigScreen extends Screen
 {
-    private static final ImmutableList<?> OPTIONS = ImmutableList.of(IndicatiaSettings.SWAP_INFO_POS, IndicatiaSettings.EQUIPMENT_DIRECTION, IndicatiaSettings.EQUIPMENT_STATUS,
-            IndicatiaSettings.EQUIPMENT_POSITION, IndicatiaSettings.POTION_HUD_STYLE, IndicatiaSettings.POTION_HUD_POSITION, IndicatiaSettings.PING_MODE);
+    private static final ImmutableList<?> OPTIONS = ImmutableList.of(IndicatiaSettings.SWAP_INFO_POS, IndicatiaSettings.EQUIPMENT_DIRECTION, IndicatiaSettings.EQUIPMENT_STATUS, IndicatiaSettings.EQUIPMENT_POSITION, IndicatiaSettings.POTION_HUD_STYLE, IndicatiaSettings.POTION_HUD_POSITION, IndicatiaSettings.PING_MODE);
 
     public ExtendedConfigScreen()
     {
-        super(StringTextComponent.EMPTY);
+        super(TextComponent.EMPTY);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,32 +50,32 @@ public class ExtendedConfigScreen extends Screen
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.render_info.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new RenderInfoSettingsScreen(this));
+            this.minecraft.setScreen(new RenderInfoSettingsScreen(this));
         }));
         this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.custom_color.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new CustomColorSettingsScreen(this));
+            this.minecraft.setScreen(new CustomColorSettingsScreen(this));
         }));
         this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.offset.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new OffsetSettingsScreen(this));
+            this.minecraft.setScreen(new OffsetSettingsScreen(this));
         }));
         this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.hypixel.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new HypixelSettingsScreen(this));
+            this.minecraft.setScreen(new HypixelSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, DialogTexts.GUI_DONE, button ->
+        this.addButton(new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, CommonComponents.GUI_DONE, button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(null);
+            this.minecraft.setScreen(null);
         }));
         this.addButton(new Button(this.width / 2 - 160, this.height / 6 + 175, 160, 20, LangUtils.translate("menu.reset_config"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new ConfirmScreen(this::resetConfig, LangUtils.translate("menu.reset_config_confirm"), StringTextComponent.EMPTY));
+            this.minecraft.setScreen(new ConfirmScreen(this::resetConfig, LangUtils.translate("menu.reset_config_confirm"), TextComponent.EMPTY));
         }));
     }
 
@@ -89,10 +87,10 @@ public class ExtendedConfigScreen extends Screen
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.main.title").deepCopy().appendString(" : ").append(LangUtils.formatted("menu.current_selected_profile", TextFormatting.YELLOW, IndicatiaSettings.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
+        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.main.title").copy().append(" : ").append(LangUtils.formatted("menu.current_selected_profile", ChatFormatting.YELLOW, IndicatiaSettings.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
@@ -101,11 +99,7 @@ public class ExtendedConfigScreen extends Screen
         if (condition)
         {
             IndicatiaSettings.resetConfig();
-            this.minecraft.displayGuiScreen(this);
         }
-        else
-        {
-            this.minecraft.displayGuiScreen(this);
-        }
+        this.minecraft.setScreen(this);
     }
 }

@@ -8,17 +8,15 @@ import com.stevekung.stevekungslib.utils.GameProfileUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import com.stevekung.stevekungslib.utils.config.*;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
 
 public class IndicatiaSettings extends Settings
 {
     public static IndicatiaSettings INSTANCE = new IndicatiaSettings();
     private static final String WHITE = "255,255,255";
-    public static final File INDICATIA_DIR = new File(Minecraft.getInstance().gameDir, "indicatia");
+    public static final File INDICATIA_DIR = new File(Minecraft.getInstance().gameDirectory, "indicatia");
     public static final File USER_DIR = new File(IndicatiaSettings.INDICATIA_DIR, GameProfileUtils.getUUID().toString());
     public static final File DEFAULT_CONFIG_FILE = new File(IndicatiaSettings.USER_DIR, "default.dat");
     public static String CURRENT_PROFILE = "";
@@ -202,7 +200,7 @@ public class IndicatiaSettings extends Settings
     {
         try
         {
-            CompoundNBT nbt = CompressedStreamTools.read(IndicatiaSettings.PROFILE_FILE);
+            CompoundTag nbt = NbtIo.read(IndicatiaSettings.PROFILE_FILE);
 
             if (nbt == null)
             {
@@ -300,7 +298,7 @@ public class IndicatiaSettings extends Settings
 
             IndicatiaMod.LOGGER.info("Loading extended config {}", IndicatiaSettings.PROFILE_FILE.getPath());
         }
-        catch (Exception e) {}
+        catch (Exception ignored) {}
     }
 
     @Override
@@ -313,7 +311,7 @@ public class IndicatiaSettings extends Settings
     {
         try
         {
-            CompoundNBT nbt = new CompoundNBT();
+            CompoundTag nbt = new CompoundTag();
 
             // Render Info
             nbt.putBoolean("FPS", this.fps);
@@ -404,9 +402,9 @@ public class IndicatiaSettings extends Settings
             nbt.putInt("HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
             nbt.putInt("ChatMode", this.chatMode);
 
-            CompressedStreamTools.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(USER_DIR, profileName + ".dat") : IndicatiaSettings.PROFILE_FILE);
+            NbtIo.write(nbt, !profileName.equalsIgnoreCase("default") ? new File(USER_DIR, profileName + ".dat") : IndicatiaSettings.PROFILE_FILE);
         }
-        catch (Exception e) {}
+        catch (Exception ignored) {}
     }
 
     public static void saveProfileFile(String profileName)
@@ -420,7 +418,7 @@ public class IndicatiaSettings extends Settings
         }
         catch (IOException e)
         {
-            IndicatiaMod.LOGGER.error("Failed to save profile", (Throwable)e);
+            IndicatiaMod.LOGGER.error("Failed to save profile", e);
         }
     }
 
@@ -431,9 +429,9 @@ public class IndicatiaSettings extends Settings
         ClientUtils.printClientMessage(LangUtils.translate("misc.extended_config.reset_config", IndicatiaSettings.CURRENT_PROFILE));
     }
 
-    private boolean getBoolean(CompoundNBT nbt, String key, boolean defaultValue)
+    private boolean getBoolean(CompoundTag nbt, String key, boolean defaultValue)
     {
-        if (nbt.contains(key, Constants.NBT.TAG_ANY_NUMERIC))
+        if (nbt.contains(key, 99))
         {
             return nbt.getBoolean(key);
         }
@@ -443,9 +441,9 @@ public class IndicatiaSettings extends Settings
         }
     }
 
-    private int getInteger(CompoundNBT nbt, String key, int defaultValue)
+    private int getInteger(CompoundTag nbt, String key, int defaultValue)
     {
-        if (nbt.contains(key, Constants.NBT.TAG_ANY_NUMERIC))
+        if (nbt.contains(key, 99))
         {
             return nbt.getInt(key);
         }
@@ -455,9 +453,9 @@ public class IndicatiaSettings extends Settings
         }
     }
 
-    private String getString(CompoundNBT nbt, String key, String defaultValue)
+    private String getString(CompoundTag nbt, String key, String defaultValue)
     {
-        if (nbt.contains(key, Constants.NBT.TAG_STRING))
+        if (nbt.contains(key, 8))
         {
             return nbt.getString(key);
         }
@@ -467,9 +465,9 @@ public class IndicatiaSettings extends Settings
         }
     }
 
-    private long getLong(CompoundNBT nbt, String key, long defaultValue)
+    private long getLong(CompoundTag nbt, String key, long defaultValue)
     {
-        if (nbt.contains(key, Constants.NBT.TAG_ANY_NUMERIC))
+        if (nbt.contains(key, 99))
         {
             return nbt.getLong(key);
         }

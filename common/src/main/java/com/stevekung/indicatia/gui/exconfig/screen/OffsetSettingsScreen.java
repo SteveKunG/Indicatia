@@ -1,16 +1,15 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screen.widget.ConfigButtonListWidget;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.config.AbstractSettings;
-
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TextComponent;
 
 public class OffsetSettingsScreen extends Screen
 {
@@ -20,7 +19,7 @@ public class OffsetSettingsScreen extends Screen
 
     public OffsetSettingsScreen(Screen parent)
     {
-        super(StringTextComponent.EMPTY);
+        super(TextComponent.EMPTY);
         this.parent = parent;
     }
 
@@ -30,12 +29,12 @@ public class OffsetSettingsScreen extends Screen
         this.addButton(new Button(this.width / 2 + 5, this.height - 25, 100, 20, LangUtils.translate("gui.done"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(this.parent);
+            this.minecraft.setScreen(this.parent);
         }));
         this.addButton(new Button(this.width / 2 - 105, this.height - 25, 100, 20, LangUtils.translate("menu.preview"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
-            this.minecraft.displayGuiScreen(new OffsetRenderPreviewScreen(this));
+            this.minecraft.setScreen(new OffsetRenderPreviewScreen(this));
         }));
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 16, this.height - 30, 25);
@@ -51,17 +50,17 @@ public class OffsetSettingsScreen extends Screen
     }
 
     @Override
-    public void closeScreen()
+    public void onClose()
     {
-        this.minecraft.displayGuiScreen(this.parent);
+        this.minecraft.setScreen(this.parent);
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
         this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.offset.title"), this.width / 2, 5, 16777215);
+        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.offset.title"), this.width / 2, 5, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

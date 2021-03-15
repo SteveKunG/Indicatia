@@ -1,13 +1,12 @@
 package com.stevekung.indicatia.gui.exconfig.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.stevekungslib.utils.LangUtils;
-
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.DialogTexts;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TextComponent;
 
 public class CustomColorSettingsScreen extends Screen
 {
@@ -15,28 +14,28 @@ public class CustomColorSettingsScreen extends Screen
 
     CustomColorSettingsScreen(Screen parent)
     {
-        super(StringTextComponent.EMPTY);
+        super(TextComponent.EMPTY);
         this.parent = parent;
     }
 
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("menu.render_info_custom_color.title"), button -> this.minecraft.displayGuiScreen(new CustomRenderInfoColorSettingsScreen(this))));
-        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, DialogTexts.GUI_DONE, button -> this.minecraft.displayGuiScreen(this.parent)));
+        this.addButton(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("menu.render_info_custom_color.title"), button -> this.minecraft.setScreen(new CustomRenderInfoColorSettingsScreen(this))));
+        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, CommonComponents.GUI_DONE, button -> this.minecraft.setScreen(this.parent)));
     }
 
     @Override
-    public void closeScreen()
+    public void onClose()
     {
-        this.minecraft.displayGuiScreen(this.parent);
+        this.minecraft.setScreen(this.parent);
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.custom_color.title"), this.width / 2, 15, 16777215);
+        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.custom_color.title"), this.width / 2, 15, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

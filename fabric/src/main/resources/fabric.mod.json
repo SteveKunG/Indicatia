@@ -1,34 +1,43 @@
 {
-  "schemaVersion": 1,
-  "id": "examplemod",
-  "version": "${version}",
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": [
-    "Me!"
-  ],
-  "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
-  },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.examplemod.fabric.ExampleModFabric"
-    ]
-  },
-  "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "minecraft": ">=1.16.4",
-    "architectury": ">=1.1.55"
-  },
-  "mixins": [
-    "mixins.examplemod.json"
-  ],
-  "suggests": {
-    "flamingo": "*"
-  }
+    "schemaVersion": 1,
+    "id": "indicatia",
+    "version": "${version}",
+    "name": "Indicatia",
+    "description": "Simple in-game info and small utilities!",
+    "authors": [
+        "SteveKunG"
+    ],
+    "contact": {
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/indicatia",
+        "sources": "https://github.com/SteveKunG/Indicatia",
+        "issues": "https://github.com/SteveKunG/Indicatia/issues"
+    },
+    "license": "MIT License",
+    "icon": "logo.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "com.stevekung.indicatia.core.IndicatiaFabricMod"
+        ],
+        "modmenu": [
+            "com.stevekung.indicatia.modmenu.ModMenuIntegrationIN"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=0.11",
+        "fabric": "*",
+        "minecraft": ">=1.16.4",
+        "stevekungs_lib": ">=4.1.0",
+        "architectury": ">=1.8.131"
+    },
+    "mixins": [
+        "mixins.indicatia.json"
+    ],
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.discord": "https://discord.gg/6JhEjeY"
+            }
+        }
+    }
 }

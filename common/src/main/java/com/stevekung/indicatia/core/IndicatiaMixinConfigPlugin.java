@@ -6,7 +6,6 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-
 import com.stevekung.stevekungslib.utils.LoggerBase;
 
 public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin

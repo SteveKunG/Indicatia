@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;

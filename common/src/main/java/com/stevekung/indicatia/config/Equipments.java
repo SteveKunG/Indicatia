@@ -3,7 +3,7 @@ package com.stevekung.indicatia.config;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 public class Equipments
 {
@@ -12,11 +12,11 @@ public class Equipments
         DEFAULT(0, "indicatia.default"),
         REVERSE(1, "equipment.reverse");
 
-        private static final Ordering[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Ordering::getId)).toArray(id -> new Ordering[id]);
+        private static final Ordering[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Ordering::getId)).toArray(Ordering[]::new);
         private final int id;
         private final String key;
 
-        private Ordering(int id, String key)
+        Ordering(int id, String key)
         {
             this.id = id;
             this.key = key;
@@ -34,7 +34,7 @@ public class Equipments
 
         public static Ordering byId(int id)
         {
-            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
+            return VALUES[Mth.positiveModulo(id, VALUES.length)];
         }
     }
 
@@ -43,11 +43,11 @@ public class Equipments
         VERTICAL(0, "equipment.vertical"),
         HORIZONTAL(1, "equipment.horizontal");
 
-        private static final Direction[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Direction::getId)).toArray(id -> new Direction[id]);
+        private static final Direction[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Direction::getId)).toArray(Direction[]::new);
         private final int id;
         private final String key;
 
-        private Direction(int id, String key)
+        Direction(int id, String key)
         {
             this.id = id;
             this.key = key;
@@ -65,7 +65,7 @@ public class Equipments
 
         public static Direction byId(int id)
         {
-            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
+            return VALUES[Mth.positiveModulo(id, VALUES.length)];
         }
     }
 
@@ -78,11 +78,11 @@ public class Equipments
         AMOUNT(4, "equipment.amount"),
         AMOUNT_AND_STACK(5, "equipment.amount_and_stack");
 
-        private static final Status[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Status::getId)).toArray(id -> new Status[id]);
+        private static final Status[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Status::getId)).toArray(Status[]::new);
         private final int id;
         private final String key;
 
-        private Status(int id, String key)
+        Status(int id, String key)
         {
             this.id = id;
             this.key = key;
@@ -100,7 +100,7 @@ public class Equipments
 
         public static Status byId(int id)
         {
-            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
+            return VALUES[Mth.positiveModulo(id, VALUES.length)];
         }
     }
 
@@ -110,11 +110,11 @@ public class Equipments
         RIGHT(1, "indicatia.right"),
         HOTBAR(2, "indicatia.hotbar");
 
-        private static final Position[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Position::getId)).toArray(id -> new Position[id]);
+        private static final Position[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Position::getId)).toArray(Position[]::new);
         private final int id;
         private final String key;
 
-        private Position(int id, String key)
+        Position(int id, String key)
         {
             this.id = id;
             this.key = key;
@@ -132,7 +132,7 @@ public class Equipments
 
         public static Position byId(int id)
         {
-            return VALUES[MathHelper.normalizeAngle(id, VALUES.length)];
+            return VALUES[Mth.positiveModulo(id, VALUES.length)];
         }
     }
 }

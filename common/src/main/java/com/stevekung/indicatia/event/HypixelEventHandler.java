@@ -1,14 +1,12 @@
 package com.stevekung.indicatia.event;
 
 import org.lwjgl.glfw.GLFW;
-
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.hud.InfoUtils;
-
+import me.shedaniel.architectury.event.events.client.ClientRawInputEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.client.player.RemotePlayer;
+import net.minecraft.world.InteractionResult;
 
 public class HypixelEventHandler
 {
@@ -17,20 +15,21 @@ public class HypixelEventHandler
     public HypixelEventHandler()
     {
         this.mc = Minecraft.getInstance();
+        ClientRawInputEvent.MOUSE_CLICKED_PRE.register(this::onMouseClick);
     }
 
-    @SubscribeEvent
-    public void onMouseClick(InputEvent.MouseInputEvent event)
+    private InteractionResult onMouseClick(Minecraft client, int button, int action, int mods)
     {
-        if (event.getButton() == GLFW.GLFW_PRESS && event.getAction() == GLFW.GLFW_MOUSE_BUTTON_2 && this.mc.pointedEntity != null && this.mc.pointedEntity instanceof RemoteClientPlayerEntity && !this.mc.player.isCrouching() && this.mc.player.getHeldItemMainhand().isEmpty() && InfoUtils.INSTANCE.isHypixel() && IndicatiaSettings.INSTANCE.rightClickToAddParty)
+        if (button == GLFW.GLFW_PRESS && action == GLFW.GLFW_MOUSE_BUTTON_2 && this.mc.crosshairPickEntity != null && this.mc.crosshairPickEntity instanceof RemotePlayer && !this.mc.player.isCrouching() && this.mc.player.getMainHandItem().isEmpty() && InfoUtils.INSTANCE.isHypixel() && IndicatiaSettings.INSTANCE.rightClickToAddParty)
         {
-            RemoteClientPlayerEntity player = (RemoteClientPlayerEntity)this.mc.pointedEntity;
+            RemotePlayer player = (RemotePlayer)this.mc.crosshairPickEntity;
 
-            if (this.mc.player.connection.getPlayerInfoMap().stream().anyMatch(info -> info.getGameProfile().getName().equals(player.getGameProfile().getName())))
+            if (this.mc.player.connection.getOnlinePlayers().stream().anyMatch(info -> info.getProfile().getName().equals(player.getGameProfile().getName())))
             {
-                this.mc.player.sendChatMessage("/p " + player.getName());
-                event.setCanceled(true);
+                this.mc.player.chat("/p " + player.getName());
+                return InteractionResult.SUCCESS;
             }
         }
+        return InteractionResult.PASS;
     }
 }

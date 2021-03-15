@@ -1,10 +1,10 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "5.0.0"
-    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "com.matthewprenger.cursegradle"
 }
 
 configurations {
-    shadowCommon
+    shadow
 }
 
 architectury {
@@ -13,7 +13,7 @@ architectury {
 }
 
 loom {
-    mixinConfig "mixins.indicatia.json"
+    mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
     useFabricMixin = true
 
     /*launches {
@@ -34,15 +34,15 @@ dependencies {
     developmentForge(project(path: ":common")) {
         transitive = false
     }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
+    shadow(project(path: ":common", configuration: "transformProductionForge")) {
         transitive = false
     }
 
-    if (file("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar").exists()) {
-        compile files("libs/SteveKunG's-Lib-${mc_version}-dev-deobf.jar")
+    if (file("libs/SteveKunG's-Lib-mc${mc_version}-dev.jar").exists()) {
+        compile files("libs/SteveKunG's-Lib-mc${mc_version}-dev.jar")
         println("Use existing deobf artifact")
     } else {
-        modCompile("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_deobf}")
+        modCompile("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_forge_deobf}")
         println("Use CurseForge deobf artifact")
     }
 }
@@ -55,29 +55,65 @@ processResources {
     }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
+def fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"
 
-    configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+jar {
+    version "v${project.version}"
+    baseName fileName
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    classifier "dev"
+    version "v${project.version}"
+    baseName fileName
+}
+
+sourcesJar {
+    classifier "source"
+    version "v${project.version}"
+    baseName fileName
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
     classifier "forge"
+    version "v${project.version}"
+    baseName fileName
 }
 
-jar {
-    classifier "dev"
+artifacts {
+    archives sourcesJar
+    archives shadowJar
 }
 
-java {
-    withSourcesJar()
-}
+curseforge {
+    if (project.hasProperty("upload_api_key")) {
+        apiKey = project.upload_api_key
+        project {
+            id = "272146"
+            changelog = file("../CHANGE_LOG.md")
+            changelogType = "markdown"
+            releaseType = "beta"
+            addGameVersion "Forge"
+            addGameVersion rootProject.mc_version
 
-sourcesJar {
-    def commonSources = project(":common").remapSourcesJar
-    dependsOn commonSources
-    from zipTree(commonSources.output)
+            mainArtifact(remapJar.archiveFile) {
+                displayName = "[Forge] ${rootProject.archives_base_name}-mc${rootProject.mc_version}-v${project.version}"
+            }
+            relations {
+                requiredDependency "stevekungs-lib"
+                requiredDependency "architectury-forge"
+            }
+            afterEvaluate {
+                uploadTask.dependsOn(remapJar)
+            }
+            addArtifact sourcesJar
+            addArtifact shadowJar
+        }
+        options {
+            forgeGradleIntegration = false
+        }
+    }
 }
