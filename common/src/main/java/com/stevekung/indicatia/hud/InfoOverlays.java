@@ -7,16 +7,14 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.indicatia.utils.MinecraftServerTick;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
+import me.shedaniel.architectury.annotations.ExpectPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 
 public class InfoOverlays
 {
@@ -24,7 +22,7 @@ public class InfoOverlays
     public static InfoOverlay OVERWORLD_TPS = InfoOverlay.empty();
     public static InfoOverlay TPS = InfoOverlay.empty();
     public static final List<InfoOverlay> ALL_TPS = Lists.newArrayList();
-    private static final ModDecimalFormat TPS_FORMAT = new ModDecimalFormat("########0.00");
+    public static final ModDecimalFormat TPS_FORMAT = new ModDecimalFormat("########0.00");
 
     public static InfoOverlay getDirection(Minecraft mc)
     {
@@ -93,37 +91,9 @@ public class InfoOverlays
         return new InfoOverlay("hud.direction", direction, IndicatiaSettings.INSTANCE.directionColor, IndicatiaSettings.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);
     }
 
+    @ExpectPlatform
     public static void getTPS(MinecraftServer server)
     {
-        double overallTPS = InfoOverlays.mean(server.tickTimes) * 1.0E-6D;
-        double overworldTPS = InfoOverlays.mean(MinecraftServerTick.getTickTime(server, Level.OVERWORLD)) * 1.0E-6D;
-        double tps = Math.min(1000.0D / overallTPS, 20);
-
-        InfoOverlays.ALL_TPS.clear();
-        InfoOverlays.OVERALL_TPS = new InfoOverlay("Overall TPS", InfoOverlays.TPS_FORMAT.format(overallTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
-
-        if (IndicatiaSettings.INSTANCE.tpsAllDims)
-        {
-            InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();
-
-            for (ServerLevel world : server.getAllLevels())
-            {
-                long[] values = MinecraftServerTick.getTickTime(server, world.dimension());
-                String dimensionName = world.dimension().location().toString();
-
-                if (values == null)
-                {
-                    continue;
-                }
-                double dimensionTPS = InfoOverlays.mean(values) * 1.0E-6D;
-                InfoOverlays.ALL_TPS.add(new InfoOverlay("Dimension " + dimensionName, InfoOverlays.TPS_FORMAT.format(dimensionTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT));
-            }
-        }
-        else
-        {
-            InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworldTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
-        }
-        InfoOverlays.TPS = new InfoOverlay("TPS", InfoOverlays.TPS_FORMAT.format(tps), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
     }
 
     public static InfoOverlay getRealWorldTime()
@@ -178,7 +148,7 @@ public class InfoOverlays
         return new InfoOverlay("hud.time", builder.toString(), IndicatiaSettings.INSTANCE.gameTimeColor, IndicatiaSettings.INSTANCE.gameTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 
-    private static long mean(long[] values)
+    public static long mean(long[] values)
     {
         long sum = 0L;
 
