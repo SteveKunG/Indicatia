@@ -21,6 +21,7 @@ repositories {
 
 loom {
     mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_fabric.json"]
+    useFabricMixin = true
 }
 
 dependencies {

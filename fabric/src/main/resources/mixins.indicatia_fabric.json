@@ -4,8 +4,9 @@
     "compatibilityLevel": "JAVA_8",
     "package": "com.stevekung.indicatia.mixin",
     "client": [
-        "MixinMinecraftServer",
-        "MixinServerSelectionList_NormalEntry"
+        "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
+        "renderer.entity.layers.MixinHumanoidArmorLayer",
+        "server.MixinMinecraftServer"
     ],
     "injectors": {
         "defaultRequire": 1

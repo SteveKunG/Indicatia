@@ -2,9 +2,12 @@
     "required": true,
     "minVersion": "0.8.2",
     "compatibilityLevel": "JAVA_8",
-    "package": "com.stevekung.indicatia.mixin",
+    "package": "com.stevekung.indicatia.mixin.forge",
     "client": [
-        "gui.screen.MixinServerSelectionList_NormalEntry"
+        "gui.MixinForgeIngameGui",
+        "gui.components.MixinBossHealthOverlay",
+        "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
+        "renderer.entity.layers.MixinHumanoidArmorLayer"
     ],
     "injectors": {
         "defaultRequire": 1

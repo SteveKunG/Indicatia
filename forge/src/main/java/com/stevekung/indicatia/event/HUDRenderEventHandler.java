@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.indicatia.gui.exconfig.screen.OffsetRenderPreviewScreen;
+import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
 import com.stevekung.indicatia.hud.InfoOverlays;

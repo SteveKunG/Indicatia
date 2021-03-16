@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.command.*;
 import com.stevekung.indicatia.command.config.ConfigHandlerIN;
-import com.stevekung.indicatia.gui.exconfig.screen.ExtendedConfigScreen;
+import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;

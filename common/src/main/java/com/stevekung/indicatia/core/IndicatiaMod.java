@@ -9,7 +9,7 @@ import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.event.HypixelEventHandler;
-import com.stevekung.indicatia.gui.screen.IndicatiaChatScreen;
+import com.stevekung.indicatia.gui.screens.IndicatiaChatScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.utils.CommonUtils;

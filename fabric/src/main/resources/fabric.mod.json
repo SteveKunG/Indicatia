@@ -31,7 +31,8 @@
         "architectury": ">=1.8.131"
     },
     "mixins": [
-        "mixins.indicatia.json"
+        "mixins.indicatia.json",
+        "mixins.indicatia_fabric.json"
     ],
     "custom": {
         "modmenu": {

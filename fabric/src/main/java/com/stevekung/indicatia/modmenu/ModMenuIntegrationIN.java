@@ -38,7 +38,7 @@ public class ModMenuIntegrationIN implements ModMenuApi
         });
         ConfigEntryBuilder entry = ConfigEntryBuilder.create();
         ConfigCategory generalCategory = builder.getOrCreateCategory(TextComponentUtils.component("General Settings"));
-        generalCategory.addEntry(entry.startIntSlider(LangUtils.translate("indicatia.configgui.afk_message_time"), 1, 5, 60).setSaveConsumer(value -> config.afkMessageTime = value).setDefaultValue(5).build());
+        generalCategory.addEntry(entry.startIntSlider(LangUtils.translate("indicatia.configgui.afk_message_time"), 5, 5, 60).setSaveConsumer(value -> config.afkMessageTime = value).setDefaultValue(5).build());
         generalCategory.addEntry(entry.startBooleanToggle(LangUtils.translate("indicatia.configgui.enable_render_info"), config.enableRenderInfo).setSaveConsumer(value -> config.enableRenderInfo = value).setDefaultValue(true).build());
         generalCategory.addEntry(entry.startBooleanToggle(LangUtils.translate("indicatia.configgui.enable_blockhit_animation"), config.enableBlockhitAnimation).setSaveConsumer(value -> config.enableBlockhitAnimation = value).setDefaultValue(false).build());
         generalCategory.addEntry(entry.startBooleanToggle(LangUtils.translate("indicatia.configgui.enable_old_armor_render"), config.enableOldArmorRender).setSaveConsumer(value -> config.enableOldArmorRender = value).setDefaultValue(false).build());

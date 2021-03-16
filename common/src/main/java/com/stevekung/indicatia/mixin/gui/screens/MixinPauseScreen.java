@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
-import com.stevekung.indicatia.gui.screen.DisconnectConfirmationScreen;
+import com.stevekung.indicatia.gui.screens.DisconnectConfirmationScreen;
 import com.stevekung.indicatia.utils.PlatformConfig;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
