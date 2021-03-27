@@ -46,7 +46,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
         if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
             TextFieldSettingsWidget<IndicatiaSettings> text = this.getSelected().getTextField();
-            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeightRealms();//FIXME STILL BRUH
+            this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeight();
             text.setFocused2(false);
         }
         return super.mouseClicked(mouseX, mouseY, button);
@@ -83,7 +83,7 @@ public class ConfigTextFieldWidgetList extends AbstractOptionList<ConfigTextFiel
             {
                 textField.y = rowTop;
                 textField.render(matrixStack, mouseX, mouseY, partialTicks);
-                Minecraft.getInstance().fontRenderer.func_243248_b(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
+                Minecraft.getInstance().fontRenderer.drawTextWithShadow(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
             }
         }
 

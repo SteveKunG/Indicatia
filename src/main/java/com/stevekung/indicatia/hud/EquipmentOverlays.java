@@ -110,7 +110,7 @@ public class EquipmentOverlays
             if (!StringUtils.isNullOrEmpty(arrowInfo.getString()))
             {
                 RenderSystem.disableDepthTest();
-                mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                mc.fontRenderer.drawTextWithShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                 RenderSystem.enableDepthTest();
             }
             ++i;
@@ -174,7 +174,7 @@ public class EquipmentOverlays
                     int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iLeft - 32;
 
                     RenderSystem.disableDepthTest();
-                    mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                    mc.fontRenderer.drawTextWithShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iLeft;
@@ -198,7 +198,7 @@ public class EquipmentOverlays
                     int arrowYOffset = mc.getMainWindow().getScaledHeight() - 16 * iRight - 32;
 
                     RenderSystem.disableDepthTest();
-                    mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                    mc.fontRenderer.drawTextWithShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iRight;

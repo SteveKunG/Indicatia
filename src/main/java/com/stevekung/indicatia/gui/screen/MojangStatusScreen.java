@@ -45,7 +45,7 @@ public class MojangStatusScreen extends Screen
                 for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
                 {
                     MojangServerStatus status = checker.getStatus();
-                    this.statusList.add(TextComponentUtils.component(checker.getName() + ": ").append(status.getStatus()));
+                    this.statusList.add(TextComponentUtils.component(checker.getName() + ": ").appendSibling(status.getStatus()));
                 }
                 this.check = false;
                 this.checkButton.active = true;

@@ -60,11 +60,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
         if (InfoUtils.INSTANCE.isHypixel() && IndicatiaConfig.GENERAL.enableHypixelChatMode.get())
         {
             Minecraft mc = Minecraft.getInstance();
-            IFormattableTextComponent chatMode = LangUtils.translate("menu.chat_mode").deepCopy().appendString(": ").append(LangUtils.translate(this.mode.desc).deepCopy().mergeStyle(this.mode.color, TextFormatting.BOLD));
+            IFormattableTextComponent chatMode = LangUtils.translate("menu.chat_mode").deepCopy().appendString(": ").appendSibling(LangUtils.translate(this.mode.desc).deepCopy().mergeStyle(this.mode.color, TextFormatting.BOLD));
             int x = 4;
             int y = mc.currentScreen.height - 30;
             AbstractGui.fill(event.getMatrixStack(), x - 2, y - 3, x + mc.fontRenderer.getStringPropertyWidth(chatMode) + 2, y + 10, ColorUtils.to32Bit(0, 0, 0, 128));
-            mc.fontRenderer.func_243246_a(event.getMatrixStack(), chatMode, x, y, ColorUtils.toDecimal(255, 255, 255));
+            mc.fontRenderer.drawTextWithShadow(event.getMatrixStack(), chatMode, x, y, ColorUtils.toDecimal(255, 255, 255));
         }
     }
 

@@ -92,7 +92,7 @@ public class ExtendedConfigScreen extends Screen
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
-        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.main.title").deepCopy().appendString(" : ").append(LangUtils.formatted("menu.current_selected_profile", TextFormatting.YELLOW, IndicatiaSettings.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.main.title").deepCopy().appendString(" : ").appendSibling(LangUtils.formatted("menu.current_selected_profile", TextFormatting.YELLOW, IndicatiaSettings.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 

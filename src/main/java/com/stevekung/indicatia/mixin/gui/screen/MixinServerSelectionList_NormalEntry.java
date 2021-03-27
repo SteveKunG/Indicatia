@@ -142,9 +142,9 @@ public abstract class MixinServerSelectionList_NormalEntry
                 ping = TextComponentUtils.formatted(responseTimeText + "ms", TextFormatting.GREEN);
             }
 
-            ITextComponent s2 = flag2 ? this.server.gameVersion.deepCopy().mergeStyle(TextFormatting.DARK_RED) : this.server.populationInfo.deepCopy().appendString(" ").append(ping);
+            ITextComponent s2 = flag2 ? this.server.gameVersion.deepCopy().mergeStyle(TextFormatting.DARK_RED) : this.server.populationInfo.deepCopy().appendString(" ").appendSibling(ping);
             int j = this.mc.fontRenderer.getStringPropertyWidth(s2);
-            this.mc.fontRenderer.func_243248_b(matrixStack, s2, x + listWidth - j - 6, y + 1, 8421504);
+            this.mc.fontRenderer.drawTextWithShadow(matrixStack, s2, x + listWidth - j - 6, y + 1, 8421504);
             List<ITextComponent> s = Collections.emptyList();
 
             if (flag2)

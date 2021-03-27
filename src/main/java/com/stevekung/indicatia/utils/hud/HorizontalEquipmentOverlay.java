@@ -39,7 +39,7 @@ public class HorizontalEquipmentOverlay extends EquipmentOverlay
         if (this.itemStack.getItem() instanceof BowItem)
         {
             RenderSystem.disableDepthTest();
-            this.mc.fontRenderer.func_243246_a(matrixStack, arrowInfo, right ? x - this.mc.fontRenderer.getStringPropertyWidth(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+            this.mc.fontRenderer.drawTextWithShadow(matrixStack, arrowInfo, right ? x - this.mc.fontRenderer.getStringPropertyWidth(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
             RenderSystem.enableDepthTest();
         }
     }

@@ -85,7 +85,7 @@ public class MixinPlayerTabOverlayGui
                 pingText = TextComponentUtils.formatted(String.valueOf(ping) + "/" + String.format("%.2f", (float)ping / 1000) + "s", color);
                 pingText.setStyle(pingText.getStyle().setFontId(ClientUtils.UNICODE));
             }
-            this.mc.fontRenderer.func_243246_a(matrixStack, pingText, x1 + x2 - this.mc.fontRenderer.getStringPropertyWidth(pingText), y + 0.625F, 0);
+            this.mc.fontRenderer.drawTextWithShadow(matrixStack, pingText, x1 + x2 - this.mc.fontRenderer.getStringPropertyWidth(pingText), y + 0.625F, 0);
             info.cancel();
         }
     }

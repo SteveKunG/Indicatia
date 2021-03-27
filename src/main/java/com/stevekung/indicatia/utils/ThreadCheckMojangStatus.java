@@ -15,7 +15,7 @@ public class ThreadCheckMojangStatus implements Runnable
     {
         for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
         {
-            ClientUtils.printClientMessage(TextComponentUtils.component(checker.getName() + ": ").append(checker.getStatus().getStatus()));
+            ClientUtils.printClientMessage(TextComponentUtils.component(checker.getName() + ": ").appendSibling(checker.getStatus().getStatus()));
         }
     }
 }
