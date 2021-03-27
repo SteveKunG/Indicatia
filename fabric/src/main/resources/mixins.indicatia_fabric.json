@@ -4,7 +4,10 @@
     "compatibilityLevel": "JAVA_8",
     "package": "com.stevekung.indicatia.mixin",
     "client": [
+        "gui.MixinGui",
         "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
+        "player.MixinLocalPlayer",
+        "renderer.MixinItemInHandRenderer",
         "renderer.entity.layers.MixinHumanoidArmorLayer",
         "server.MixinMinecraftServer"
     ],

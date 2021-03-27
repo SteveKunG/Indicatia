@@ -189,8 +189,6 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 this.screen.setToolTip(s);
             }
 
-            //ClientHooks.drawForgePingInfo(this.screen, this.serverData, matrixStack, x, y, listWidth, i1, j1);TODO
-
             if (this.minecraft.options.touchscreen || isSelected)
             {
                 this.minecraft.getTextureManager().bind(InvokerServerSelectionList.getOverlayIcon());
