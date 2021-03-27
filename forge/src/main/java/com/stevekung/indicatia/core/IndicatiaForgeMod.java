@@ -10,6 +10,7 @@ import com.stevekung.indicatia.key.KeypadChatKey;
 import com.stevekung.stevekungslib.utils.ForgeCommonUtils;
 import com.stevekung.stevekungslib.utils.ModVersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
+import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +30,7 @@ public class IndicatiaForgeMod
 
     public IndicatiaForgeMod()
     {
+        EventBuses.registerModEventBus(IndicatiaMod.MOD_ID, ForgeCommonUtils.getModEventBus());
         IndicatiaMod.init();
         ForgeCommonUtils.addModListener(this::phaseOne);
         ForgeCommonUtils.addModListener(this::loadComplete);
