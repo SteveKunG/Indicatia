@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.optifine.renderer.tileentity;
+package com.stevekung.indicatia.mixin.optifine.renderer;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.SkullBlock;
 
 @Mixin(BlockEntityWithoutLevelRenderer.class)
-public class MixinItemStackTileEntityRendererOptifine
+public class MixinBlockEntityWithoutLevelRendererOptifine
 {
     @Redirect(method = "renderRaw(Lnet/minecraft/item/ItemStack;Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;II)V", remap = false, at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/tileentity/SkullTileEntityRenderer.func_228879_a_(Lnet/minecraft/util/Direction;FLnet/minecraft/block/SkullBlock$ISkullType;Lcom/mojang/authlib/GameProfile;FLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;I)V"))
     private void renderEnchantedSkullOptifine(Direction direction, float rotationYaw, SkullBlock.Type skullType, GameProfile gameProfile, float animationProgress, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, ItemStack itemStack, PoseStack _matrixStack, MultiBufferSource _buffer, int _combinedLight, int _combinedOverlay)
