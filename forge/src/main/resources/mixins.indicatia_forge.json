@@ -5,7 +5,6 @@
     "package": "com.stevekung.indicatia.mixin.forge",
     "client": [
         "gui.MixinForgeIngameGui",
-        "gui.components.MixinBossHealthOverlay",
         "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
         "renderer.entity.layers.MixinHumanoidArmorLayer"
     ],
