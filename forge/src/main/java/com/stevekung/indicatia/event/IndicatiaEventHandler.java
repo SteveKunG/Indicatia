@@ -2,10 +2,10 @@ package com.stevekung.indicatia.event;
 
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.core.IndicatiaForgeMod;
+import com.stevekung.indicatia.gui.components.MojangStatusButton;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.gui.screens.MojangStatusScreen;
-import com.stevekung.indicatia.gui.components.MojangStatusButton;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
