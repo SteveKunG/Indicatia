@@ -55,7 +55,7 @@ public class IndicatiaEventHandler
         if (screen instanceof TitleScreen)
         {
             int height = screen.height / 4 + 48;
-            Screens.getButtons(screen).add(new MojangStatusButton(screen.width / 2 + 104, height + 63, button -> mc.setScreen(new MojangStatusScreen(screen))));
+            Screens.getButtons(screen).add(new MojangStatusButton(screen.width / 2 + 104, height + 75, button -> mc.setScreen(new MojangStatusScreen(screen))));
         }
     }
 }
