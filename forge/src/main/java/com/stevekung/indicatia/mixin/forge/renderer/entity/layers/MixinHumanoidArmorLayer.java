@@ -20,7 +20,15 @@ import net.minecraft.world.entity.LivingEntity;
 @Mixin(HumanoidArmorLayer.class)
 public class MixinHumanoidArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>>
 {
-    @Redirect(method = "renderArmorPiece", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/BipedArmorLayer.func_241738_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;IZLnet/minecraft/client/renderer/entity/model/BipedModel;FFFLnet/minecraft/util/ResourceLocation;)V", remap = false), require = 3, allow = 3)
+    // Work in production
+    /*@Redirect(method = "renderArmorPiece", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/BipedArmorLayer.renderModel(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;IZLnet/minecraft/client/renderer/entity/model/BipedModel;FFFLnet/minecraft/util/ResourceLocation;)V", remap = false), require = 3, allow = 3)
+    private void renderArmor(HumanoidArmorLayer<T, M, A> armorLayer, PoseStack _matrixStackIn, MultiBufferSource _bufferIn, int _packedLightIn, boolean glintIn, A modelIn, float red, float green, float blue, ResourceLocation armorResource, PoseStack matrixStackIn, MultiBufferSource bufferIn, T entityLivingBaseIn, EquipmentSlot slotIn, int packedLightIn, A model)
+    {
+        this.renderArmorModified(_matrixStackIn, _bufferIn, entityLivingBaseIn, _packedLightIn, glintIn, modelIn, red, green, blue, armorResource);
+    }*/
+
+    // Work in dev
+    @Redirect(method = "renderArmorPiece", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/HumanoidArmorLayer.renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IZLnet/minecraft/client/model/HumanoidModel;FFFLnet/minecraft/resources/ResourceLocation;)V", remap = false), require = 3, allow = 3)
     private void renderArmor(HumanoidArmorLayer<T, M, A> armorLayer, PoseStack _matrixStackIn, MultiBufferSource _bufferIn, int _packedLightIn, boolean glintIn, A modelIn, float red, float green, float blue, ResourceLocation armorResource, PoseStack matrixStackIn, MultiBufferSource bufferIn, T entityLivingBaseIn, EquipmentSlot slotIn, int packedLightIn, A model)
     {
         this.renderArmorModified(_matrixStackIn, _bufferIn, entityLivingBaseIn, _packedLightIn, glintIn, modelIn, red, green, blue, armorResource);
