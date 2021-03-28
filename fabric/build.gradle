@@ -109,7 +109,7 @@ curseforge {
             }
             relations {
                 requiredDependency "architectury-fabric"
-                requiredDependency "stevekung-lib"
+                requiredDependency "stevekungs-lib"
                 requiredDependency "fabric-api"
             }
             afterEvaluate {
