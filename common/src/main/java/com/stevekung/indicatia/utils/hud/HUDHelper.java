@@ -42,7 +42,6 @@ public class HUDHelper
     public static boolean START_AUTO_FISH;
     private static int autoFishTick;
 
-
     public static void getRealTimeServerPing(ServerData server)
     {
         REALTIME_PINGER.submit(() ->

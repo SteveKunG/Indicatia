@@ -1,3 +1,5 @@
 # Change Log
 
-* * Fix mod version check
+### Please report if you found the issues!
+
+* * Now using Architectury API
