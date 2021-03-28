@@ -6,14 +6,14 @@ import com.stevekung.indicatia.utils.IMinecraftServerTick;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 
 public class InfoOverlaysImpl
 {
     public static void getTPS(MinecraftServer server)
     {
         double overallTPS = InfoOverlays.mean(server.tickTimes) * 1.0E-6D;
-        double overworldTPS = InfoOverlays.mean(((IMinecraftServerTick)server).getTickTime(Level.OVERWORLD)) * 1.0E-6D;
+        double overworldTPS = overallTPS;//TODO Fix overworld tps
+        //double overworldTPS = InfoOverlays.mean(((IMinecraftServerTick)server).getTickTime(Level.OVERWORLD)) * 1.0E-6D;
         double tps = Math.min(1000.0D / overallTPS, 20);
 
         InfoOverlays.ALL_TPS.clear();

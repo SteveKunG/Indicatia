@@ -23,7 +23,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
 
@@ -31,12 +31,9 @@ public class HUDRenderEventHandler
 {
     public static final HUDRenderEventHandler INSTANCE = new HUDRenderEventHandler();
 
-    public void onClientTick(MinecraftServer server)
+    public void onClientTick(ServerLevel level)
     {
-        if (server != null)
-        {
-            InfoOverlays.getTPS(server);
-        }
+        InfoOverlays.getTPS(level.getServer());
     }
 
     public void onPreInfoRender(Minecraft mc, PoseStack poseStack)
