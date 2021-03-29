@@ -64,10 +64,6 @@ dependencies {
 
 repositories {
     maven {
-        name "CurseGradle"
-        url "https://plugins.gradle.org/m2/"
-    }
-    maven {
         name "CurseMaven"
         url "https://www.cursemaven.com/"
     }
