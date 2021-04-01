@@ -32,10 +32,12 @@ public class IndicatiaForgeMod
     {
         EventBuses.registerModEventBus(IndicatiaMod.MOD_ID, ForgeCommonUtils.getModEventBus());
         IndicatiaMod.init();
+        ForgeCommonUtils.registerClientOnly();
         ForgeCommonUtils.addModListener(this::phaseOne);
         ForgeCommonUtils.addModListener(this::loadComplete);
 
         ForgeCommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
+        ForgeCommonUtils.registerConfigScreen(() -> (mc, parent) -> ForgeCommonUtils.openConfigFile(parent, IndicatiaMod.MOD_ID, ModConfig.Type.CLIENT));
         ForgeCommonUtils.registerModEventBus(IndicatiaConfig.class);
         ForgeCommonUtils.registerEventHandler(new IndicatiaEventHandler());
         ForgeCommonUtils.registerEventHandler(new HUDRenderEventHandler());
