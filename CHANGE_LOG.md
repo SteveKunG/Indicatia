@@ -2,4 +2,5 @@
 
 ### Please report if you found the issues!
 
-* * Now using Architectury API
+* * Config can now opened in mod list screen (Forge)
+* * Update Thai Language

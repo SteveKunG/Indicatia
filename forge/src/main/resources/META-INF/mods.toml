@@ -37,6 +37,6 @@ side = "CLIENT"
 [[dependencies.indicatia]]
 modId = "stevekungs_lib"
 mandatory = true
-versionRange = "[4.1.0,)"
+versionRange = "[4.1.1,)"
 ordering = "NONE"
 side = "CLIENT"
