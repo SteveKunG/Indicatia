@@ -30,15 +30,14 @@ public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        if (mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine"))
+        if (foundOptifine)
         {
-            return foundOptifine;
+            return !mixinClassName.equals("com.stevekung.indicatia.mixin.renderer.MixinBlockEntityWithoutLevelRenderer");
         }
-        else if (mixinClassName.equals("com.stevekung.indicatia.mixin.renderer.MixinBlockEntityWithoutLevelRenderer"))
+        else
         {
-            return !foundOptifine;
+            return !mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine");
         }
-        return true;
     }
 
     @Override

@@ -22,11 +22,14 @@ public class IndicatiaForgeMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        if (!FMLLoader.isProduction())
+        if (FMLLoader.isProduction())
+        {
+            return !mixinClassName.equals("com.stevekung.indicatia.mixin.forge.renderer.entity.layers.MixinHumanoidArmorLayerDev");
+        }
+        else
         {
             return !mixinClassName.equals("com.stevekung.indicatia.mixin.forge.renderer.entity.layers.MixinHumanoidArmorLayer");
         }
-        return true;
     }
 
     @Override
