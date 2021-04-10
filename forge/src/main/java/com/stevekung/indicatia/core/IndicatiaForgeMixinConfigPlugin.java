@@ -6,10 +6,19 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import com.stevekung.stevekungslib.utils.LoggerBase;
 import net.minecraftforge.fml.loading.FMLLoader;
 
 public class IndicatiaForgeMixinConfigPlugin implements IMixinConfigPlugin
 {
+    static final LoggerBase LOGGER = new LoggerBase("Indicatia:Forge MixinConfig");
+    static boolean foundOptifine;
+
+    static
+    {
+        foundOptifine = findAndDetectModClass("net/optifine/Config.class", "OptiFine");
+    }
+
     @Override
     public void onLoad(String mixinPackage) {}
 
@@ -24,6 +33,10 @@ public class IndicatiaForgeMixinConfigPlugin implements IMixinConfigPlugin
     {
         if (FMLLoader.isProduction())
         {
+            if (mixinClassName.equals("com.stevekung.indicatia.mixin.forge.optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine"))
+            {
+                return foundOptifine;
+            }
             return !mixinClassName.equals("com.stevekung.indicatia.mixin.forge.renderer.entity.layers.MixinHumanoidArmorLayerDev");
         }
         else
@@ -46,4 +59,11 @@ public class IndicatiaForgeMixinConfigPlugin implements IMixinConfigPlugin
 
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
+
+    private static boolean findAndDetectModClass(String classPath, String modName)
+    {
+        boolean found = Thread.currentThread().getContextClassLoader().getResourceAsStream(classPath) != null;
+        LOGGER.info(found ? modName + " detected!" : modName + " not detected!");
+        return found;
+    }
 }
