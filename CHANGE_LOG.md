@@ -2,5 +2,5 @@
 
 ### Please report if you found the issues!
 
-* * Config can now opened in mod list screen (Forge)
-* * Update Thai Language
+* * Fix crash with OptiFine
+* * Dropped OptiFine support (Fabric)
