@@ -19,8 +19,7 @@
         "renderer.MixinItemInHandRenderer",
         "renderer.entity.layers.MixinCapeLayer",
         "renderer.entity.layers.MixinCustomHeadLayer",
-        "renderer.entity.layers.MixinElytraLayer",
-        "optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine"
+        "renderer.entity.layers.MixinElytraLayer"
     ],
     "injectors": {
         "defaultRequire": 1

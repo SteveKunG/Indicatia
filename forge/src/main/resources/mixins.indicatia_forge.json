@@ -6,10 +6,7 @@
     "plugin": "com.stevekung.indicatia.core.IndicatiaForgeMixinConfigPlugin",
     "client": [
         "gui.MixinForgeIngameGui",
-        "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
-        "renderer.entity.layers.MixinHumanoidArmorLayer",
-        "renderer.entity.layers.MixinHumanoidArmorLayerDev",
-        "optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine"
+        "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry"
     ],
     "injectors": {
         "defaultRequire": 1

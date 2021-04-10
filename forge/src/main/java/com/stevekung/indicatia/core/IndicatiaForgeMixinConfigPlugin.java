@@ -6,6 +6,7 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import com.google.common.collect.Lists;
 import com.stevekung.stevekungslib.utils.LoggerBase;
 import net.minecraftforge.fml.loading.FMLLoader;
 
@@ -31,18 +32,7 @@ public class IndicatiaForgeMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        if (FMLLoader.isProduction())
-        {
-            if (mixinClassName.equals("com.stevekung.indicatia.mixin.forge.optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine"))
-            {
-                return foundOptifine;
-            }
-            return !mixinClassName.equals("com.stevekung.indicatia.mixin.forge.renderer.entity.layers.MixinHumanoidArmorLayerDev");
-        }
-        else
-        {
-            return !mixinClassName.equals("com.stevekung.indicatia.mixin.forge.renderer.entity.layers.MixinHumanoidArmorLayer");
-        }
+        return true;
     }
 
     @Override
@@ -51,7 +41,21 @@ public class IndicatiaForgeMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public List<String> getMixins()
     {
-        return null;
+        List<String> mixins = Lists.newArrayList();
+
+        if (FMLLoader.isProduction())
+        {
+            if (foundOptifine)
+            {
+                mixins.add("optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine");
+            }
+            mixins.add("renderer.entity.layers.MixinHumanoidArmorLayer");
+        }
+        else
+        {
+            mixins.add("renderer.entity.layers.MixinHumanoidArmorLayerDev");
+        }
+        return mixins;
     }
 
     @Override

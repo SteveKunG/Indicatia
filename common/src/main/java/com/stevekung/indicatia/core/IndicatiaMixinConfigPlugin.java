@@ -34,10 +34,7 @@ public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin
         {
             return !mixinClassName.equals("com.stevekung.indicatia.mixin.renderer.MixinBlockEntityWithoutLevelRenderer");
         }
-        else
-        {
-            return !mixinClassName.equals("com.stevekung.indicatia.mixin.optifine.renderer.MixinBlockEntityWithoutLevelRendererOptifine");
-        }
+        return true;
     }
 
     @Override
