@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.renderer.entity.layers;
+package com.stevekung.indicatia.mixin.fabric.renderer.entity.layers;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.renderer;
+package com.stevekung.indicatia.mixin.fabric.renderer;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

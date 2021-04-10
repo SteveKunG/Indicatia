@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.server;
+package com.stevekung.indicatia.mixin.fabric.server;
 
 import java.util.Iterator;
 import java.util.Map;

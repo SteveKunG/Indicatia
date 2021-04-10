@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.gui.screens.multiplayer;
+package com.stevekung.indicatia.mixin.fabric.gui.screens.multiplayer;
 
 import java.net.UnknownHostException;
 import java.util.Collections;

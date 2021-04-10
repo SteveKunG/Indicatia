@@ -6,18 +6,17 @@ import java.util.Set;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import com.google.common.collect.Lists;
 import com.stevekung.stevekungslib.utils.LoggerBase;
 
-public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin
+public class IndicatiaFabricMixinConfigPlugin implements IMixinConfigPlugin
 {
-    static final LoggerBase LOGGER = new LoggerBase("Indicatia MixinConfig");
+    static final LoggerBase LOGGER = new LoggerBase("Indicatia:Fabric MixinConfig");
     static boolean foundOptifine;
-    static boolean foundOptifabric;
 
     static
     {
-        foundOptifine = findAndDetectModClass("net/optifine/Config.class", "OptiFine");
-        foundOptifabric = findAndDetectModClass("me/modmuss50/optifabric/mod/OptifabricSetup.class", "OptiFabric");
+        foundOptifine = findAndDetectModClass("me/modmuss50/optifabric/mod/OptifabricSetup.class", "OptiFabric");
     }
 
     @Override
@@ -32,10 +31,6 @@ public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
     {
-        if (foundOptifine || foundOptifabric)
-        {
-            return !mixinClassName.equals("com.stevekung.indicatia.mixin.renderer.MixinBlockEntityWithoutLevelRenderer");
-        }
         return true;
     }
 
@@ -45,7 +40,13 @@ public class IndicatiaMixinConfigPlugin implements IMixinConfigPlugin
     @Override
     public List<String> getMixins()
     {
-        return null;
+        List<String> mixins = Lists.newArrayList();
+
+        if (!foundOptifine)
+        {
+            mixins.add("renderer.entity.layers.MixinHumanoidArmorLayer");
+        }
+        return mixins;
     }
 
     @Override
