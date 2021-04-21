@@ -74,6 +74,9 @@ shadowJar {
 }
 
 sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
     classifier "source"
     version "v${project.version}"
     baseName fileName
