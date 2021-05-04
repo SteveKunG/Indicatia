@@ -75,7 +75,7 @@ public class HUDRenderEventHandler
         }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
-            if (!this.mc.options.renderDebug)
+            if (!this.mc.options.renderDebug && !this.mc.options.hideGui)
             {
                 if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && this.mc.player != null && this.mc.level != null && !(this.mc.screen instanceof OffsetRenderPreviewScreen))
                 {
