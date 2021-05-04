@@ -3,6 +3,7 @@ package com.stevekung.indicatia.event;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
@@ -38,7 +39,7 @@ public class HUDRenderEventHandler
 
     public void onPreInfoRender(Minecraft mc, PoseStack poseStack)
     {
-        if (!mc.options.renderDebug)
+        if (!mc.options.renderDebug && !mc.options.hideGui)
         {
             if (IndicatiaFabricMod.CONFIG.getConfig().enableRenderInfo && mc.player != null && mc.level != null && !(mc.screen instanceof OffsetRenderPreviewScreen))
             {
@@ -47,7 +48,7 @@ public class HUDRenderEventHandler
 
                 for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(mc))
                 {
-                    if (info.isEmpty())
+                    if (info == null || info.isEmpty())
                     {
                         continue;
                     }
