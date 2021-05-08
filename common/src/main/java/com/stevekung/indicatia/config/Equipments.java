@@ -7,37 +7,6 @@ import net.minecraft.util.Mth;
 
 public class Equipments
 {
-    public enum Ordering
-    {
-        DEFAULT(0, "indicatia.default"),
-        REVERSE(1, "equipment.reverse");
-
-        private static final Ordering[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Ordering::getId)).toArray(Ordering[]::new);
-        private final int id;
-        private final String key;
-
-        Ordering(int id, String key)
-        {
-            this.id = id;
-            this.key = key;
-        }
-
-        public String getTranslationKey()
-        {
-            return this.key;
-        }
-
-        public int getId()
-        {
-            return this.id;
-        }
-
-        public static Ordering byId(int id)
-        {
-            return VALUES[Mth.positiveModulo(id, VALUES.length)];
-        }
-    }
-
     public enum Direction
     {
         VERTICAL(0, "equipment.vertical"),

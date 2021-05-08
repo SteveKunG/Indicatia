@@ -3,7 +3,6 @@ package com.stevekung.indicatia.event;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
@@ -18,7 +17,6 @@ import com.stevekung.indicatia.utils.event.InfoOverlayEvents;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientHandshakePacketListenerImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
@@ -98,7 +96,7 @@ public class HUDRenderEventHandler
         }
     }
 
-    public void onLoggedOut(ClientHandshakePacketListenerImpl handler, Minecraft mc)
+    public void onLoggedOut()
     {
         InfoOverlays.OVERALL_TPS = InfoOverlay.empty();
         InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();

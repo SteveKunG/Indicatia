@@ -39,16 +39,6 @@ public class InfoOverlay
         return this.value;
     }
 
-    public String getTitleColor()
-    {
-        return this.titleColor;
-    }
-
-    public String getValueColor()
-    {
-        return this.valueColor;
-    }
-
     public Position getPos()
     {
         return this.pos;

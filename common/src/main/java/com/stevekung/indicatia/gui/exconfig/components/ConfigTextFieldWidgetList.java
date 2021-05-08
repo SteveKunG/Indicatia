@@ -14,7 +14,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 
 public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<ConfigTextFieldWidgetList.Row>
 {
-    public boolean selected = false;
+    public boolean selected;
 
     public ConfigTextFieldWidgetList(int width, int height, int top, int bottom, int slotHeight)
     {

@@ -12,15 +12,17 @@ architectury {
     forge()
 }
 
+def username = project.username
+def password = project.password
+
 loom {
     mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
 
-    /*launches {
+    launches {
         client {
-            args "--mixin", "mixins.indicatia.json", "--username", project.username, "--password", project.password
-            jvmArgs "-Dmixin.debug.export=true", "-Dmixin.debug.verbose=true"
+            arg "--username", username, "--password", password
         }
-    }*/
+    }
 }
 
 dependencies {

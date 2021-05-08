@@ -51,9 +51,9 @@ public class IndicatiaFabricMod implements ClientModInitializer
 
         ClientTickEvents.START_CLIENT_TICK.register(IndicatiaEventHandler.INSTANCE::onClientTick);
         ClientLoginConnectionEvents.DISCONNECT.register((handler, mc) -> HUDHelper.stopCommandTicks());
-        ScreenEvents.AFTER_INIT.register(IndicatiaEventHandler.INSTANCE::onInitGui);
+        ScreenEvents.AFTER_INIT.register((mc, screen, scaledWidth, scaledHeight) -> IndicatiaEventHandler.INSTANCE.onInitGui(mc, screen));
 
         ServerTickEvents.END_WORLD_TICK.register(HUDRenderEventHandler.INSTANCE::onClientTick);
-        ClientLoginConnectionEvents.DISCONNECT.register(HUDRenderEventHandler.INSTANCE::onLoggedOut);
+        ClientLoginConnectionEvents.DISCONNECT.register((handler, mc) -> HUDRenderEventHandler.INSTANCE.onLoggedOut());
     }
 }

@@ -50,7 +50,7 @@ public class IndicatiaEventHandler
         }
     }
 
-    public void onInitGui(Minecraft mc, Screen screen, int scaledWidth, int scaledHeight)
+    public void onInitGui(Minecraft mc, Screen screen)
     {
         if (screen instanceof TitleScreen)
         {
