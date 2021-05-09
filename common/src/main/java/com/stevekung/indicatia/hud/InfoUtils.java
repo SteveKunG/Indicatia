@@ -26,7 +26,7 @@ public class InfoUtils
 
         if (info != null)
         {
-            if (info.getLatency() > 0)
+            if (info.getLatency() > 1)
             {
                 return info.getLatency();
             }

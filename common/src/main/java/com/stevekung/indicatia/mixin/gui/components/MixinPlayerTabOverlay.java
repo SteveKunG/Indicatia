@@ -12,6 +12,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.config.PingMode;
 import com.stevekung.indicatia.utils.PlatformConfig;
+import com.stevekung.indicatia.utils.hud.HUDHelper;
+import com.stevekung.stevekungslib.utils.GameProfileUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import net.minecraft.ChatFormatting;
@@ -42,28 +44,38 @@ public class MixinPlayerTabOverlay
     @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/scores/Scoreboard;Lnet/minecraft/world/scores/Objective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/PlayerTabOverlay.getNameForDisplay(Lnet/minecraft/client/multiplayer/PlayerInfo;)Lnet/minecraft/network/chat/Component;", ordinal = 0))
     private Component getPingPlayerInfo(PlayerTabOverlay overlay, PlayerInfo playerInfo)
     {
-        boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
-        int ping = playerInfo.getLatency();
-        MutableComponent pingText = TextComponentUtils.component(String.valueOf(ping));
-
-        if (pingDelay)
+        if (PlatformConfig.getCustomPlayerList())
         {
-            pingText = pingText.append("/" + String.format("%.2f", ping / 1000.0F) + "s");
-            pingText.setStyle(pingText.getStyle().withFont(ClientUtils.UNICODE));
+            boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+            int ping = playerInfo.getLatency();
+            MutableComponent pingText = TextComponentUtils.component(String.valueOf(ping));
+
+            if (pingDelay)
+            {
+                pingText = pingText.append("/" + String.format("%.2f", ping / 1000.0F) + "s");
+                pingText.setStyle(pingText.getStyle().withFont(ClientUtils.UNICODE));
+            }
+            this.pingWidth = PlatformConfig.getCustomPlayerList() ? this.minecraft.font.width(pingText) : 0;
         }
-        this.pingWidth = PlatformConfig.getCustomPlayerList() ? this.minecraft.font.width(pingText) : 0;
         return overlay.getNameForDisplay(playerInfo);
     }
 
     @Inject(method = "renderPingIcon(Lcom/mojang/blaze3d/vertex/PoseStack;IIILnet/minecraft/client/multiplayer/PlayerInfo;)V", cancellable = true, at = @At("HEAD"))
     private void drawPing(PoseStack poseStack, int x1, int x2, int y, PlayerInfo playerInfo, CallbackInfo info)
     {
-        boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
-        int ping = playerInfo.getLatency();
-
         if (PlatformConfig.getCustomPlayerList())
         {
+            boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+            int ping = playerInfo.getLatency();
             ChatFormatting color = ChatFormatting.GREEN;
+
+            if (GameProfileUtils.getUsername().equals(playerInfo.getProfile().getName()) || playerInfo.getTabListDisplayName() != null && GameProfileUtils.getUsername().equals(playerInfo.getTabListDisplayName().getString()))
+            {
+                if (ping <= 1)
+                {
+                    ping = HUDHelper.currentServerPing;
+                }
+            }
 
             if (ping >= 200 && ping < 300)
             {
