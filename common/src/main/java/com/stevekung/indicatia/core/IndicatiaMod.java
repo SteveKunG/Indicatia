@@ -14,6 +14,7 @@ import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
 import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.LoggerBase;
+import me.shedaniel.architectury.platform.Platform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.nbt.CompoundTag;
 
@@ -33,6 +34,7 @@ public class IndicatiaMod
 
     public static void init()
     {
+        isGalacticraftLoaded = Platform.isModLoaded("galacticraft");
         IndicatiaMod.loadProfileOption();
         new HypixelEventHandler();
         new IndicatiaChatScreen();

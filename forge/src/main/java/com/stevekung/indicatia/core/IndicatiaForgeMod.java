@@ -7,12 +7,12 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.key.KeypadChatKey;
+import com.stevekung.stevekungslib.client.ForgeKeyMappingBase;
 import com.stevekung.stevekungslib.utils.ForgeCommonUtils;
 import com.stevekung.stevekungslib.utils.ModVersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 import me.shedaniel.architectury.platform.forge.EventBuses;
-import net.minecraft.client.KeyMapping;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -25,7 +25,7 @@ public class IndicatiaForgeMod
 
     static
     {
-        IndicatiaMod.keyBindAltChat = new KeyMapping("key.chatAlt", new KeypadChatKey(), InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+        IndicatiaMod.keyBindAltChat = new ForgeKeyMappingBase("key.chatAlt", new KeypadChatKey(), KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
     }
 
     public IndicatiaForgeMod()
@@ -41,8 +41,6 @@ public class IndicatiaForgeMod
         ForgeCommonUtils.registerModEventBus(IndicatiaConfig.class);
         ForgeCommonUtils.registerEventHandler(new IndicatiaEventHandler());
         ForgeCommonUtils.registerEventHandler(new HUDRenderEventHandler());
-
-        IndicatiaMod.isGalacticraftLoaded = ModList.get().isLoaded("galacticraftcore");
     }
 
     private void phaseOne(FMLClientSetupEvent event)

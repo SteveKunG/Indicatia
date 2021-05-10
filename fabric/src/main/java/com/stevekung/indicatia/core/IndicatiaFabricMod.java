@@ -9,26 +9,29 @@ import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
+import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 
 public class IndicatiaFabricMod implements ClientModInitializer
 {
     public static final ConfigHandlerIN CONFIG = new ConfigHandlerIN();
 
+    static
+    {
+        IndicatiaMod.keyBindAltChat = new KeyMapping("key.chatAlt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+    }
+
     @Override
     public void onInitializeClient()
     {
         IndicatiaMod.init();
-        IndicatiaMod.isGalacticraftLoaded = FabricLoader.getInstance().isModLoaded("galacticraftcore");
-        IndicatiaMod.keyBindAltChat = KeyBindingHelper.registerKeyBinding(new KeyMapping("key.chatAlt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer"));
+        ClientRegistryUtils.registerKeyBinding(IndicatiaMod.keyBindAltChat);
 
         new AFKCommand(ClientCommandManager.DISPATCHER);
         new AutoFishCommand(ClientCommandManager.DISPATCHER);
