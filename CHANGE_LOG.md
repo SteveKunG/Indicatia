@@ -2,8 +2,6 @@
 
 ### Please report if you found the issues!
 
-* + Re-implemented real time ping
-* * Hide Render Info when hide GUI with chat opened
-* * Fixed whitespace not removed from color code
-* * Fixed crash on Fabric
-* * Fixed hotbar transparent issue
+* * Overworld TPS is now working correctly (Fabric)
+* * Fixed nether and the end client world freeze (Fabric)
+* * Fixed client data not clean up on disconnected (Fabric)
