@@ -37,14 +37,10 @@ public class MixinMinecraftServer implements IMinecraftServerTick
         this.tickStart = Util.getNanos();
     }
 
-    @Inject(method = "tickChildren(Ljava/util/function/BooleanSupplier;)V", at = @At(value = "INVOKE", target = "net/minecraft/util/profiling/ProfilerFiller.pop()V", shift = At.Shift.AFTER, ordinal = 2), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void addGetTickTime(BooleanSupplier supplier, CallbackInfo info, Iterator<?> var2)
+    @Inject(method = "tickChildren(Ljava/util/function/BooleanSupplier;)V", at = @At(value = "INVOKE", target = "net/minecraft/server/level/ServerLevel.tick(Ljava/util/function/BooleanSupplier;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
+    private void addGetTickTime(BooleanSupplier supplier, CallbackInfo info, Iterator<?> iterator, ServerLevel serverLevel)
     {
-        while (var2.hasNext())
-        {
-            ServerLevel serverLevel = (ServerLevel)var2.next();
-            this.perWorldTickTimes.computeIfAbsent(serverLevel.dimension(), k -> new long[100])[this.tickCount % 100] = Util.getNanos() - this.tickStart;
-        }
+        this.perWorldTickTimes.computeIfAbsent(serverLevel.dimension(), k -> new long[100])[this.tickCount % 100] = Util.getNanos() - this.tickStart;
     }
 
     @Override
