@@ -12,8 +12,6 @@ public class InfoOverlaysImpl
     public static void getTPS(MinecraftServer server)
     {
         double overallTPS = InfoOverlays.mean(server.tickTimes) * 1.0E-6D;
-        double overworldTPS = overallTPS;//TODO Fix overworld tps
-        //double overworldTPS = InfoOverlays.mean(((IMinecraftServerTick)server).getTickTime(Level.OVERWORLD)) * 1.0E-6D;
         double tps = Math.min(1000.0D / overallTPS, 20);
 
         InfoOverlays.ALL_TPS.clear();
@@ -23,10 +21,10 @@ public class InfoOverlaysImpl
         {
             InfoOverlays.OVERWORLD_TPS = InfoOverlay.empty();
 
-            for (ServerLevel world : server.getAllLevels())
+            for (ServerLevel level : server.getAllLevels())
             {
-                long[] values = (((IMinecraftServerTick)server).getTickTime(world.dimension()));
-                String dimensionName = world.dimension().location().toString();
+                long[] values = (((IMinecraftServerTick)server).getTickTime(level.dimension()));
+                String dimensionName = level.dimension().location().toString();
 
                 if (values == null)
                 {
@@ -38,7 +36,18 @@ public class InfoOverlaysImpl
         }
         else
         {
-            InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworldTPS), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+            for (ServerLevel level : server.getAllLevels())
+            {
+                long[] values = (((IMinecraftServerTick)server).getTickTime(level.dimension()));
+                String dimensionName = level.dimension().location().toString();
+
+                if (values == null || !dimensionName.equals("minecraft:overworld"))
+                {
+                    continue;
+                }
+                double overworld = InfoOverlays.mean(values) * 1.0E-6D;
+                InfoOverlays.OVERWORLD_TPS = new InfoOverlay("Overworld TPS", InfoOverlays.TPS_FORMAT.format(overworld), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
+            }
         }
         InfoOverlays.TPS = new InfoOverlay("TPS", InfoOverlays.TPS_FORMAT.format(tps), IndicatiaSettings.INSTANCE.tpsColor, IndicatiaSettings.INSTANCE.tpsValueColor, InfoOverlay.Position.LEFT);
     }
