@@ -10,10 +10,10 @@ import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
 import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
+import me.shedaniel.architectury.event.events.client.ClientPlayerEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.KeyMapping;
@@ -53,10 +53,10 @@ public class IndicatiaFabricMod implements ClientModInitializer
         });
 
         ClientTickEvents.START_CLIENT_TICK.register(IndicatiaEventHandler.INSTANCE::onClientTick);
-        ClientLoginConnectionEvents.DISCONNECT.register((handler, mc) -> HUDHelper.stopCommandTicks());
+        ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> HUDHelper.stopCommandTicks());
         ScreenEvents.AFTER_INIT.register((mc, screen, scaledWidth, scaledHeight) -> IndicatiaEventHandler.INSTANCE.onInitGui(mc, screen));
 
         ServerTickEvents.END_WORLD_TICK.register(HUDRenderEventHandler.INSTANCE::onClientTick);
-        ClientLoginConnectionEvents.DISCONNECT.register((handler, mc) -> HUDRenderEventHandler.INSTANCE.onLoggedOut());
+        ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> HUDRenderEventHandler.INSTANCE.onLoggedOut());
     }
 }
