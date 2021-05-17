@@ -29,9 +29,9 @@ public class MojangStatusButton extends Button
     {
         if (this.mc.screen instanceof TitleScreen)
         {
-            TitleScreen main = (TitleScreen)this.mc.screen;
-            float f = ((InvokerTitleScreen)main).getFading() ? (Util.getMillis() - ((InvokerTitleScreen)main).getFadeInStart()) / 1000.0F : 1.0F;
-            float f1 = ((InvokerTitleScreen)main).getFading() ? Mth.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
+            TitleScreen main = (TitleScreen) this.mc.screen;
+            float f = ((InvokerTitleScreen) main).getFading() ? (Util.getMillis() - ((InvokerTitleScreen) main).getFadeInStart()) / 1000.0F : 1.0F;
+            float f1 = ((InvokerTitleScreen) main).getFading() ? Mth.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
 
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();

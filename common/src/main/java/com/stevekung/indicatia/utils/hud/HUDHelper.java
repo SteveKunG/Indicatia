@@ -67,7 +67,7 @@ public class HUDHelper
                     {
                         long i = this.currentSystemTime;
                         long j = Util.getMillis();
-                        HUDHelper.currentServerPing = (int)(j - i);
+                        HUDHelper.currentServerPing = (int) (j - i);
                     }
 
                     @Override
@@ -116,10 +116,10 @@ public class HUDHelper
                     afkMoveTicks %= 8;
                     break;
                 case RANDOM_360:
-                    player.turn((float)(Math.random() + 1.0F), 0.0F);
+                    player.turn((float) (Math.random() + 1.0F), 0.0F);
                     break;
                 case RANDOM_MOVE_360:
-                    player.turn((float)(Math.random() + 1.0F), 0.0F);
+                    player.turn((float) (Math.random() + 1.0F), 0.0F);
                     afkMoveTicks++;
                     afkMoveTicks %= 8;
                     break;
@@ -175,7 +175,7 @@ public class HUDHelper
                         {
                             if (mc.hitResult.getType() == HitResult.Type.BLOCK)
                             {
-                                BlockHitResult blockRayTrace = (BlockHitResult)mc.hitResult;
+                                BlockHitResult blockRayTrace = (BlockHitResult) mc.hitResult;
                                 InteractionResult result = mc.gameMode.useItemOn(mc.player, mc.level, hand, blockRayTrace);
 
                                 if (result.consumesAction())

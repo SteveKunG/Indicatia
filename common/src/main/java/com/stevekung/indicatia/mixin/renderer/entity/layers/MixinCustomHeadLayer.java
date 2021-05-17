@@ -30,11 +30,11 @@ public class MixinCustomHeadLayer<T extends LivingEntity>
 
         if (EnchantedSkullTileEntityRenderer.isVanillaHead(skullType))
         {
-            EnchantedSkullTileEntityRenderer.render(((AbstractSkullBlock)((BlockItem)itemStack.getItem()).getBlock()).getType(), gameProfile, _matrixStack, _buffer, _packedLight, PlatformConfig.getOldArmorRender() ? LivingEntityRenderer.getOverlayCoords(entity, 0.0F) : OverlayTexture.NO_OVERLAY, itemStack.hasFoil());
+            EnchantedSkullTileEntityRenderer.render(((AbstractSkullBlock) ((BlockItem) itemStack.getItem()).getBlock()).getType(), gameProfile, _matrixStack, _buffer, _packedLight, PlatformConfig.getOldArmorRender() ? LivingEntityRenderer.getOverlayCoords(entity, 0.0F) : OverlayTexture.NO_OVERLAY, itemStack.hasFoil());
         }
         else
         {
-            SkullBlockRenderer.renderSkull(null, 180.0F, ((AbstractSkullBlock)((BlockItem)itemStack.getItem()).getBlock()).getType(), gameProfile, limbSwing, _matrixStack, _buffer, _packedLight);
+            SkullBlockRenderer.renderSkull(null, 180.0F, ((AbstractSkullBlock) ((BlockItem) itemStack.getItem()).getBlock()).getType(), gameProfile, limbSwing, _matrixStack, _buffer, _packedLight);
         }
     }
 }

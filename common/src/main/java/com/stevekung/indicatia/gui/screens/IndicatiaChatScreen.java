@@ -83,7 +83,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             {
                 if (button instanceof MinigameButton)
                 {
-                    MinigameButton customButton = (MinigameButton)button;
+                    MinigameButton customButton = (MinigameButton) button;
                     customButton.render(poseStack, mouseX, mouseY);
                 }
             }
@@ -106,7 +106,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             {
                 if (button instanceof MinigameButton)
                 {
-                    MinigameButton buttonCustom = (MinigameButton)button;
+                    MinigameButton buttonCustom = (MinigameButton) button;
                     buttonCustom.visible = clicked;
                 }
             }

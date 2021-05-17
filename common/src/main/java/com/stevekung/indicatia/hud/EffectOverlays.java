@@ -65,7 +65,7 @@ public class EffectOverlays
                 if (!effectIns.isAmbient() && duration <= 200)
                 {
                     int j1 = 10 - duration / 20;
-                    alpha = Mth.clamp(duration / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + Mth.cos(duration * (float)Math.PI / 5.0F) * Mth.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
+                    alpha = Mth.clamp(duration / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + Mth.cos(duration * (float) Math.PI / 5.0F) * Mth.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
                 }
 
                 RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
@@ -80,7 +80,7 @@ public class EffectOverlays
                 int stringwidth2 = mc.font.width(durationTxt);
                 int yOffset = iconAndTime ? 11 : 16;
                 alpha = alpha * 255.0F;
-                int alphaRGB = (int)alpha << 24 & -16777216;
+                int alphaRGB = (int) alpha << 24 & -16777216;
                 int textColor = IndicatiaSettings.INSTANCE.alternatePotionHUDTextColor ? effect.getColor() | alphaRGB : 16777215 | alphaRGB;
 
                 if (amplifier >= 1 && amplifier <= 9)

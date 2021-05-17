@@ -34,7 +34,7 @@ import net.minecraftforge.fml.client.ClientHooks;
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public abstract class MixinServerSelectionList_OnlineServerEntry
 {
-    private final ServerSelectionList.OnlineServerEntry that = (ServerSelectionList.OnlineServerEntry)(Object)this;
+    private final ServerSelectionList.OnlineServerEntry that = (ServerSelectionList.OnlineServerEntry) (Object) this;
 
     @Shadow
     @Final

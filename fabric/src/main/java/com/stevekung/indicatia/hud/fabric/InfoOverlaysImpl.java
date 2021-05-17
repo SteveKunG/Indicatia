@@ -23,7 +23,7 @@ public class InfoOverlaysImpl
 
             for (ServerLevel level : server.getAllLevels())
             {
-                long[] values = (((IMinecraftServerTick)server).getTickTime(level.dimension()));
+                long[] values = (((IMinecraftServerTick) server).getTickTime(level.dimension()));
                 String dimensionName = level.dimension().location().toString();
 
                 if (values == null)
@@ -38,7 +38,7 @@ public class InfoOverlaysImpl
         {
             for (ServerLevel level : server.getAllLevels())
             {
-                long[] values = (((IMinecraftServerTick)server).getTickTime(level.dimension()));
+                long[] values = (((IMinecraftServerTick) server).getTickTime(level.dimension()));
                 String dimensionName = level.dimension().location().toString();
 
                 if (values == null || !dimensionName.equals("minecraft:overworld"))

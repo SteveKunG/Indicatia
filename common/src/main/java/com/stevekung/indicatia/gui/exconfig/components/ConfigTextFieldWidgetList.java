@@ -95,7 +95,7 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
         @SuppressWarnings("unchecked")
         public static ConfigTextFieldWidgetList.Row createItems(int x, AbstractSettings<IndicatiaSettings> configOpt)
         {
-            return new ConfigTextFieldWidgetList.Row(ImmutableList.of((TextFieldSettingsWidget<IndicatiaSettings>)configOpt.createWidget(IndicatiaSettings.INSTANCE, x / 2 + 40, 0, 80)));
+            return new ConfigTextFieldWidgetList.Row(ImmutableList.of((TextFieldSettingsWidget<IndicatiaSettings>) configOpt.createWidget(IndicatiaSettings.INSTANCE, x / 2 + 40, 0, 80)));
         }
 
         @SuppressWarnings("unchecked")
@@ -103,7 +103,7 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
         {
             if (this.getFocused() != null)
             {
-                return (TextFieldSettingsWidget<IndicatiaSettings>)this.getFocused();
+                return (TextFieldSettingsWidget<IndicatiaSettings>) this.getFocused();
             }
             return null;
         }

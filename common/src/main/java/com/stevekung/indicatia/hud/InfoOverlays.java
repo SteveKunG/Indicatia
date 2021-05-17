@@ -28,7 +28,7 @@ public class InfoOverlays
     {
         Entity entity = mc.getCameraEntity();
         Direction coordDirection = entity.getDirection();
-        int yaw = (int)entity.yRot + 22;
+        int yaw = (int) entity.yRot + 22;
         String direction;
         String coord;
 
@@ -128,8 +128,8 @@ public class InfoOverlays
     private static InfoOverlay getVanillaGameTime(long worldTicks)
     {
         StringBuilder builder = new StringBuilder();
-        int hours = (int)((worldTicks / 1000 + 6) % 24);
-        int minutes = (int)(60 * (worldTicks % 1000) / 1000);
+        int hours = (int) ((worldTicks / 1000 + 6) % 24);
+        int minutes = (int) (60 * (worldTicks % 1000) / 1000);
 
         if (hours <= 9)
         {

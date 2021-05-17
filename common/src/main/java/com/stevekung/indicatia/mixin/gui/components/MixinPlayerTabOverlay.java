@@ -94,7 +94,7 @@ public class MixinPlayerTabOverlay
 
             if (pingDelay)
             {
-                pingText = TextComponentUtils.formatted(ping + "/" + String.format("%.2f", (float)ping / 1000) + "s", color);
+                pingText = TextComponentUtils.formatted(ping + "/" + String.format("%.2f", (float) ping / 1000) + "s", color);
                 pingText.setStyle(pingText.getStyle().withFont(ClientUtils.UNICODE));
             }
             this.minecraft.font.drawShadow(poseStack, pingText, x1 + x2 - this.minecraft.font.width(pingText), y + 0.625F, 0);

@@ -19,7 +19,7 @@ public class HypixelEventHandler
     {
         if (button == GLFW.GLFW_PRESS && action == GLFW.GLFW_MOUSE_BUTTON_2 && mc.crosshairPickEntity instanceof RemotePlayer && !mc.player.isCrouching() && mc.player.getMainHandItem().isEmpty() && InfoUtils.INSTANCE.isHypixel() && IndicatiaSettings.INSTANCE.rightClickToAddParty)
         {
-            RemotePlayer player = (RemotePlayer)mc.crosshairPickEntity;
+            RemotePlayer player = (RemotePlayer) mc.crosshairPickEntity;
 
             if (mc.player.connection.getOnlinePlayers().stream().anyMatch(info -> info.getProfile().getName().equals(player.getGameProfile().getName())))
             {

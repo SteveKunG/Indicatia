@@ -93,7 +93,7 @@ public class EquipmentOverlay
     private static String getItemStackCount(ItemStack itemStack, int count)
     {
         Equipments.Status status = IndicatiaSettings.INSTANCE.equipmentStatus;
-        double stack = count / (double)itemStack.getMaxStackSize();
+        double stack = count / (double) itemStack.getMaxStackSize();
         return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.AMOUNT_AND_STACK ? count + "/" + EquipmentOverlay.STACK.format(stack) : count);
     }
 

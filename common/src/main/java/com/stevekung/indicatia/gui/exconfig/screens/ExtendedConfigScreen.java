@@ -34,15 +34,15 @@ public class ExtendedConfigScreen extends Screen
         {
             if (options instanceof SliderPercentageSettings)
             {
-                this.addButton(((SliderPercentageSettings<IndicatiaSettings>)options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addButton(((SliderPercentageSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else if (options instanceof BooleanSettings)
             {
-                this.addButton(((BooleanSettings<IndicatiaSettings>)options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addButton(((BooleanSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else
             {
-                this.addButton(((IteratableSettings<IndicatiaSettings>)options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addButton(((IteratableSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             ++i;
         }

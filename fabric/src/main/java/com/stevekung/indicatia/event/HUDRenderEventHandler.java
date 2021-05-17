@@ -125,7 +125,7 @@ public class HUDRenderEventHandler
                 if (IndicatiaSettings.INSTANCE.pingToSecond)
                 {
                     double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int)(responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int) (responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
                 }
             }
             if (IndicatiaSettings.INSTANCE.serverIP && mc.getCurrentServer() != null)

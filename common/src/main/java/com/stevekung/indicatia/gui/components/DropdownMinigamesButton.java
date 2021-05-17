@@ -122,7 +122,7 @@ public class DropdownMinigamesButton extends Button
             if (mouseX >= this.x && mouseY >= this.y + 15 && mouseX < this.x + this.width - 16 && mouseY < this.y + 15 + this.height * this.displayLength)
             {
                 double optionClicked = (mouseY - this.y - 16) / this.height + IndicatiaSettings.INSTANCE.hypixelMinigameScrollPos;
-                this.selectedMinigame = (int)optionClicked % this.minigameLists.size();
+                this.selectedMinigame = (int) optionClicked % this.minigameLists.size();
                 this.dropdownClicked = false;
                 this.parentClass.onSelectionChanged(this, this.selectedMinigame);
                 this.playDownSound(Minecraft.getInstance().getSoundManager());
