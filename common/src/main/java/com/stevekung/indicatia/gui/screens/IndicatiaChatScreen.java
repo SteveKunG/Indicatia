@@ -19,6 +19,7 @@ import com.stevekung.stevekungslib.utils.ItemUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
+import me.shedaniel.architectury.event.EventResult;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -30,7 +31,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.StringUtil;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 
 public class IndicatiaChatScreen implements IDropboxCallback
@@ -118,7 +118,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         IndicatiaSettings.INSTANCE.save();
     }
 
-    private InteractionResult onChatMouseScrolled(List<AbstractWidget> buttons, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
+    private EventResult onChatMouseScrolled(List<AbstractWidget> buttons, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
     {
         double delta = scrollDelta;
 
@@ -137,9 +137,9 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 delta *= 7;
             }
             this.dropdown.scroll(delta);
-            return InteractionResult.PASS;
+            return EventResult.interruptTrue();
         }
-        return InteractionResult.SUCCESS;
+        return EventResult.pass();
     }
 
     @Override

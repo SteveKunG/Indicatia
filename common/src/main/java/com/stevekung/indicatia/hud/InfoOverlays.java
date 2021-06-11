@@ -10,7 +10,7 @@ import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
-import me.shedaniel.architectury.annotations.ExpectPlatform;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
