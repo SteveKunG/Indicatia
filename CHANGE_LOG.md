@@ -2,6 +2,5 @@
 
 ### Please report if you found the issues!
 
-* * Overworld TPS is now working correctly (Fabric)
-* * Fixed nether and the end client world freeze (Fabric)
-* * Fixed client data not clean up on disconnected (Fabric)
+* * Required SteveKunG's Lib 4.1.3
+* * Update Architectury API to 1.17
