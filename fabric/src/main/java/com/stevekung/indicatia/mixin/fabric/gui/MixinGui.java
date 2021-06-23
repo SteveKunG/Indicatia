@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -25,7 +25,7 @@ public class MixinGui
     @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/BossHealthOverlay.render(Lcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void redirectBossOverlay(BossHealthOverlay overlay, PoseStack poseStack)
     {
-        if (IndicatiaFabricMod.CONFIG.getConfig().enableRenderBossHealthStatus)
+        if (IndicatiaFabric.CONFIG.getConfig().enableRenderBossHealthStatus)
         {
             overlay.render(poseStack);
         }
@@ -39,7 +39,7 @@ public class MixinGui
     @Inject(method = "renderEffects(Lcom/mojang/blaze3d/vertex/PoseStack;)V", cancellable = true, at = @At("HEAD"))
     private void disableVanillaHUD(PoseStack poseStack, CallbackInfo info)
     {
-        if (!IndicatiaFabricMod.CONFIG.getConfig().enableVanillaPotionHUD)
+        if (!IndicatiaFabric.CONFIG.getConfig().enableVanillaPotionHUD)
         {
             info.cancel();
         }

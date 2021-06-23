@@ -1,17 +1,17 @@
 package com.stevekung.indicatia.utils.fabric;
 
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
-import com.stevekung.indicatia.core.IndicatiaMod;
+import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 
 public class KeypadHandlerImpl
 {
     public static boolean isAltChatEnabled()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableAlternateChatKey && IndicatiaMod.keyBindAltChat.consumeClick();
+        return IndicatiaFabric.CONFIG.getConfig().enableAlternateChatKey && Indicatia.keyBindAltChat.consumeClick();
     }
 
     public static boolean isAltChatMatches(int keysym, int scancode)
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableAlternateChatKey && IndicatiaMod.keyBindAltChat.matches(keysym, scancode);
+        return IndicatiaFabric.CONFIG.getConfig().enableAlternateChatKey && Indicatia.keyBindAltChat.matches(keysym, scancode);
     }
 }

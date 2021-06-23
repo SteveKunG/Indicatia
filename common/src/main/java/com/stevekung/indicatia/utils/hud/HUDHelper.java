@@ -5,7 +5,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.stevekung.indicatia.core.IndicatiaMod;
+import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.PlatformConfig;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -140,13 +140,13 @@ public class HUDHelper
             afkTicks = 0;
             afkMoveTicks = 0;
             AFK_MODE = AFKMode.IDLE;
-            IndicatiaMod.LOGGER.info("Stopping AFK Command");
+            Indicatia.LOGGER.info("Stopping AFK Command");
         }
         if (START_AUTO_FISH)
         {
             START_AUTO_FISH = false;
             autoFishTick = 0;
-            IndicatiaMod.LOGGER.info("Stopping Autofish Command");
+            Indicatia.LOGGER.info("Stopping Autofish Command");
         }
     }
 

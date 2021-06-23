@@ -3,7 +3,7 @@ package com.stevekung.indicatia.modmenu;
 import java.io.IOException;
 
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -23,13 +23,13 @@ public class ModMenuIntegrationIN implements ModMenuApi
 
     private Screen createConfigScreen(Screen screen)
     {
-        IndicatiaConfig config = IndicatiaFabricMod.CONFIG.getConfig();
+        IndicatiaConfig config = IndicatiaFabric.CONFIG.getConfig();
         ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen).setTitle(LangUtils.translate("ui.indicatia.config.title"));
         builder.setSavingRunnable(() ->
         {
             try
             {
-                IndicatiaFabricMod.CONFIG.saveConfig();
+                IndicatiaFabric.CONFIG.saveConfig();
             }
             catch (IOException e)
             {

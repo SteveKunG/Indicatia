@@ -18,7 +18,7 @@ import me.shedaniel.architectury.platform.Platform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.nbt.CompoundTag;
 
-public class IndicatiaMod
+public class Indicatia
 {
     public static final String MOD_ID = "indicatia";
     private static final File PROFILE = new File(IndicatiaSettings.USER_DIR, "profile.txt");
@@ -29,13 +29,13 @@ public class IndicatiaMod
 
     static
     {
-        IndicatiaMod.initProfileFile();
+        Indicatia.initProfileFile();
     }
 
     public static void init()
     {
         isGalacticraftLoaded = Platform.isModLoaded("galacticraft");
-        IndicatiaMod.loadProfileOption();
+        Indicatia.loadProfileOption();
         new HypixelEventHandler();
         new IndicatiaChatScreen();
         KeyBindingHandler.init();
@@ -50,7 +50,7 @@ public class IndicatiaMod
         }
         if (!IndicatiaSettings.DEFAULT_CONFIG_FILE.exists())
         {
-            IndicatiaMod.LOGGER.info("Creating default profile...");
+            Indicatia.LOGGER.info("Creating default profile...");
             IndicatiaSettings.setCurrentProfile("default");
             IndicatiaSettings.INSTANCE.save();
         }
@@ -63,7 +63,7 @@ public class IndicatiaMod
             {
                 try
                 {
-                    Iterator<String> iterator = IndicatiaMod.COLON_SPLITTER.split(option).iterator();
+                    Iterator<String> iterator = Indicatia.COLON_SPLITTER.split(option).iterator();
                     nbt.putString(iterator.next(), iterator.next());
                 }
                 catch (Exception ignored) {}
@@ -80,7 +80,7 @@ public class IndicatiaMod
 
             if ("profile".equals(property))
             {
-                IndicatiaMod.LOGGER.info("Load current profile '{}'", key);
+                Indicatia.LOGGER.info("Load current profile '{}'", key);
                 IndicatiaSettings.setCurrentProfile(key);
                 IndicatiaSettings.INSTANCE.load();
             }
@@ -98,16 +98,16 @@ public class IndicatiaMod
             IndicatiaSettings.USER_DIR.mkdirs();
         }
 
-        if (!IndicatiaMod.PROFILE.exists())
+        if (!Indicatia.PROFILE.exists())
         {
-            try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(IndicatiaMod.PROFILE), StandardCharsets.UTF_8)))
+            try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(Indicatia.PROFILE), StandardCharsets.UTF_8)))
             {
                 writer.println("profile:default");
-                IndicatiaMod.LOGGER.info("Creating profile option at {}", IndicatiaMod.PROFILE.getPath());
+                Indicatia.LOGGER.info("Creating profile option at {}", Indicatia.PROFILE.getPath());
             }
             catch (IOException e)
             {
-                IndicatiaMod.LOGGER.error("Failed to save profile");
+                Indicatia.LOGGER.error("Failed to save profile");
                 e.printStackTrace();
             }
         }

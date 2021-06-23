@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 import com.stevekung.indicatia.mixin.InvokerServerSelectionList;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
@@ -70,7 +70,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(PoseStack matrixStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
-        if (IndicatiaFabricMod.CONFIG.getConfig().multiplayerScreenEnhancement)
+        if (IndicatiaFabric.CONFIG.getConfig().multiplayerScreenEnhancement)
         {
             if (!this.serverData.pinged)
             {

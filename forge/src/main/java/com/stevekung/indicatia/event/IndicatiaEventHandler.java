@@ -1,7 +1,7 @@
 package com.stevekung.indicatia.event;
 
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.core.IndicatiaForgeMod;
+import com.stevekung.indicatia.core.IndicatiaForge;
 import com.stevekung.indicatia.gui.components.MojangStatusButton;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
@@ -39,11 +39,11 @@ public class IndicatiaEventHandler
         {
             if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
             {
-                if (!IndicatiaForgeMod.CHECKER.hasChecked())
+                if (!IndicatiaForge.CHECKER.hasChecked())
                 {
-                    IndicatiaForgeMod.CHECKER.checkFail();
-                    IndicatiaForgeMod.CHECKER.printInfo();
-                    IndicatiaForgeMod.CHECKER.setChecked(true);
+                    IndicatiaForge.CHECKER.checkFail();
+                    IndicatiaForge.CHECKER.printInfo();
+                    IndicatiaForge.CHECKER.setChecked(true);
                 }
             }
 

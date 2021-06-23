@@ -18,20 +18,20 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.KeyMapping;
 
-public class IndicatiaFabricMod implements ClientModInitializer
+public class IndicatiaFabric implements ClientModInitializer
 {
     public static final ConfigHandlerIN CONFIG = new ConfigHandlerIN();
 
     static
     {
-        IndicatiaMod.keyBindAltChat = new KeyMapping("key.chatAlt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+        Indicatia.keyBindAltChat = new KeyMapping("key.chatAlt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
     }
 
     @Override
     public void onInitializeClient()
     {
-        IndicatiaMod.init();
-        ClientRegistryUtils.registerKeyBinding(IndicatiaMod.keyBindAltChat);
+        Indicatia.init();
+        ClientRegistryUtils.registerKeyBinding(Indicatia.keyBindAltChat);
 
         new AFKCommand(ClientCommandManager.DISPATCHER);
         new AutoFishCommand(ClientCommandManager.DISPATCHER);

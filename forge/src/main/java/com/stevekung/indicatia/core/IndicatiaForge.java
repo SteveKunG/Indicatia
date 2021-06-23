@@ -18,26 +18,26 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
-@Mod(IndicatiaMod.MOD_ID)
-public class IndicatiaForgeMod
+@Mod(Indicatia.MOD_ID)
+public class IndicatiaForge
 {
-    public static final ModVersionChecker CHECKER = new ModVersionChecker(IndicatiaMod.MOD_ID);
+    public static final ModVersionChecker CHECKER = new ModVersionChecker(Indicatia.MOD_ID);
 
     static
     {
-        IndicatiaMod.keyBindAltChat = new ForgeKeyMappingBase("key.chatAlt", new KeypadChatKey(), KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+        Indicatia.keyBindAltChat = new ForgeKeyMappingBase("key.chatAlt", new KeypadChatKey(), KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
     }
 
-    public IndicatiaForgeMod()
+    public IndicatiaForge()
     {
-        EventBuses.registerModEventBus(IndicatiaMod.MOD_ID, ForgeCommonUtils.getModEventBus());
-        IndicatiaMod.init();
+        EventBuses.registerModEventBus(Indicatia.MOD_ID, ForgeCommonUtils.getModEventBus());
+        Indicatia.init();
         ForgeCommonUtils.registerClientOnly();
         ForgeCommonUtils.addModListener(this::phaseOne);
         ForgeCommonUtils.addModListener(this::loadComplete);
 
         ForgeCommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
-        ForgeCommonUtils.registerConfigScreen(() -> (mc, parent) -> ForgeCommonUtils.openConfigFile(parent, IndicatiaMod.MOD_ID, ModConfig.Type.CLIENT));
+        ForgeCommonUtils.registerConfigScreen(() -> (mc, parent) -> ForgeCommonUtils.openConfigFile(parent, Indicatia.MOD_ID, ModConfig.Type.CLIENT));
         ForgeCommonUtils.registerModEventBus(IndicatiaConfig.class);
         ForgeCommonUtils.registerEventHandler(new IndicatiaEventHandler());
         ForgeCommonUtils.registerEventHandler(new HUDRenderEventHandler());
@@ -52,7 +52,7 @@ public class IndicatiaForgeMod
     {
         if (IndicatiaConfig.GENERAL.enableVersionChecker.get())
         {
-            IndicatiaForgeMod.CHECKER.startCheck();
+            IndicatiaForge.CHECKER.startCheck();
         }
     }
 
@@ -64,6 +64,6 @@ public class IndicatiaForgeMod
         ClientCommands.register(new PingAllCommand());
         ClientCommands.register(new ProfileCommand());
         ClientCommands.register(new SlimeSeedCommand());
-        IndicatiaMod.LOGGER.info("Registering client side commands");
+        Indicatia.LOGGER.info("Registering client side commands");
     }
 }

@@ -1,51 +1,51 @@
 package com.stevekung.indicatia.utils.fabric;
 
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 
 public class PlatformConfigImpl
 {
     public static boolean getOldArmorRender()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableOldArmorRender;
+        return IndicatiaFabric.CONFIG.getConfig().enableOldArmorRender;
     }
 
     public static boolean getBlockHitAnimation()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableBlockhitAnimation;
+        return IndicatiaFabric.CONFIG.getConfig().enableBlockhitAnimation;
     }
 
     public static boolean getCustomPlayerList()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableCustomPlayerList;
+        return IndicatiaFabric.CONFIG.getConfig().enableCustomPlayerList;
     }
 
     public static boolean getConfirmToDisconnect()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableConfirmToDisconnect;
+        return IndicatiaFabric.CONFIG.getConfig().enableConfirmToDisconnect;
     }
 
     public static boolean getHypixelChatMode()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableHypixelChatMode;
+        return IndicatiaFabric.CONFIG.getConfig().enableHypixelChatMode;
     }
 
     public static boolean getHypixelDropdownShortcut()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableHypixelDropdownShortcutGame;
+        return IndicatiaFabric.CONFIG.getConfig().enableHypixelDropdownShortcutGame;
     }
 
     public static boolean getRenderBossHealthBar()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableBossHealthBarRender;
+        return IndicatiaFabric.CONFIG.getConfig().enableBossHealthBarRender;
     }
 
     public static boolean getAFKMessage()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().enableAFKMessage;
+        return IndicatiaFabric.CONFIG.getConfig().enableAFKMessage;
     }
 
     public static int getAFKMessageTime()
     {
-        return IndicatiaFabricMod.CONFIG.getConfig().afkMessageTime;
+        return IndicatiaFabric.CONFIG.getConfig().afkMessageTime;
     }
 }

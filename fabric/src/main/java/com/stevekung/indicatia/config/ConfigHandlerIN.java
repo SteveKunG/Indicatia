@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import com.stevekung.indicatia.core.IndicatiaMod;
+import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.stevekungslib.utils.ConfigHandlerBase;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 
@@ -14,7 +14,7 @@ public class ConfigHandlerIN extends ConfigHandlerBase
 
     public ConfigHandlerIN()
     {
-        super(IndicatiaMod.MOD_ID);
+        super(Indicatia.MOD_ID);
     }
 
     public IndicatiaConfig getConfig()
@@ -27,7 +27,7 @@ public class ConfigHandlerIN extends ConfigHandlerBase
             }
             catch (IOException e)
             {
-                IndicatiaMod.LOGGER.error("Failed to load config, using default.", e);
+                Indicatia.LOGGER.error("Failed to load config, using default.", e);
                 return new IndicatiaConfig();
             }
         }
@@ -41,7 +41,7 @@ public class ConfigHandlerIN extends ConfigHandlerBase
 
         if (!this.configFile.exists())
         {
-            IndicatiaMod.LOGGER.error("Unable to find config file, creating new one.");
+            Indicatia.LOGGER.error("Unable to find config file, creating new one.");
             this.config = new IndicatiaConfig();
             this.saveConfig();
         }

@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
@@ -39,7 +39,7 @@ public class HUDRenderEventHandler
     {
         if (!mc.options.renderDebug && !mc.options.hideGui)
         {
-            if (IndicatiaFabricMod.CONFIG.getConfig().enableRenderInfo && mc.player != null && mc.level != null && !(mc.screen instanceof OffsetRenderPreviewScreen))
+            if (IndicatiaFabric.CONFIG.getConfig().enableRenderInfo && mc.player != null && mc.level != null && !(mc.screen instanceof OffsetRenderPreviewScreen))
             {
                 int iLeft = 0;
                 int iRight = 0;

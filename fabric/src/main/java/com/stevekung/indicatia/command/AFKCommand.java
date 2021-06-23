@@ -2,7 +2,7 @@ package com.stevekung.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.stevekung.indicatia.core.IndicatiaFabricMod;
+import com.stevekung.indicatia.core.IndicatiaFabric;
 import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
@@ -53,7 +53,7 @@ public class AFKCommand
 
             String message = LangUtils.translate("commands.afk.afk_now").getString();
 
-            if (IndicatiaFabricMod.CONFIG.getConfig().enableAFKMessage)
+            if (IndicatiaFabric.CONFIG.getConfig().enableAFKMessage)
             {
                 Minecraft.getInstance().player.chat(message + reason);
             }
@@ -72,7 +72,7 @@ public class AFKCommand
             HUDHelper.START_AFK = false;
             HUDHelper.afkMoveTicks = 0;
 
-            if (IndicatiaFabricMod.CONFIG.getConfig().enableAFKMessage)
+            if (IndicatiaFabric.CONFIG.getConfig().enableAFKMessage)
             {
                 if (StringUtil.isNullOrEmpty(HUDHelper.AFK_REASON))
                 {

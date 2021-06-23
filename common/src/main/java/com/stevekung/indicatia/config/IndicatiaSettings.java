@@ -3,7 +3,7 @@ package com.stevekung.indicatia.config;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-import com.stevekung.indicatia.core.IndicatiaMod;
+import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.stevekungslib.utils.GameProfileUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
@@ -296,7 +296,7 @@ public class IndicatiaSettings extends Settings
             this.hypixelMinigameScrollPos = this.getInteger(nbt, "HypixelMinigameScrollPos", this.hypixelMinigameScrollPos);
             this.chatMode = this.getInteger(nbt, "ChatMode", this.chatMode);
 
-            IndicatiaMod.LOGGER.info("Loading extended config {}", IndicatiaSettings.PROFILE_FILE.getPath());
+            Indicatia.LOGGER.info("Loading extended config {}", IndicatiaSettings.PROFILE_FILE.getPath());
         }
         catch (Exception ignored) {}
     }
@@ -414,11 +414,11 @@ public class IndicatiaSettings extends Settings
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {
             writer.println("profile:" + profileName);
-            IndicatiaMod.LOGGER.info("Saving profile name!");
+            Indicatia.LOGGER.info("Saving profile name!");
         }
         catch (IOException e)
         {
-            IndicatiaMod.LOGGER.error("Failed to save profile", e);
+            Indicatia.LOGGER.error("Failed to save profile", e);
         }
     }
 

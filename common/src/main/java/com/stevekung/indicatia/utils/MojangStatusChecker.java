@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.stevekung.indicatia.core.IndicatiaMod;
+import com.stevekung.indicatia.core.Indicatia;
 
 public enum MojangStatusChecker
 {
@@ -46,7 +46,7 @@ public enum MojangStatusChecker
         catch (IOException e)
         {
             e.printStackTrace();
-            IndicatiaMod.LOGGER.error("Couldn't get status data from Mojang Service!");
+            Indicatia.LOGGER.error("Couldn't get status data from Mojang Service!");
             return MojangServerStatus.UNKNOWN;
         }
     }

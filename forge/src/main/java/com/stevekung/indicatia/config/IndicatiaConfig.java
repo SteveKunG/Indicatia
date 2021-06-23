@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.config;
 
-import com.stevekung.indicatia.core.IndicatiaMod;
+import com.stevekung.indicatia.core.Indicatia;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
@@ -73,12 +73,12 @@ public class IndicatiaConfig
     @SubscribeEvent
     public static void onLoad(ModConfig.Loading event)
     {
-        IndicatiaMod.LOGGER.info("Loaded config file {}", event.getConfig().getFileName());
+        Indicatia.LOGGER.info("Loaded config file {}", event.getConfig().getFileName());
     }
 
     @SubscribeEvent
     public static void onFileChange(ModConfig.Reloading event)
     {
-        IndicatiaMod.LOGGER.info("Indicatia config just got changed on the file system");
+        Indicatia.LOGGER.info("Indicatia config just got changed on the file system");
     }
 }
