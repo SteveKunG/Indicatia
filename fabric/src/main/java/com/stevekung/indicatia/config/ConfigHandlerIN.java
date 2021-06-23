@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.command.config;
+package com.stevekung.indicatia.config;
 
 import java.io.FileWriter;
 import java.io.IOException;

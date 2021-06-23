@@ -3,7 +3,7 @@ package com.stevekung.indicatia.core;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.command.*;
-import com.stevekung.indicatia.command.config.ConfigHandlerIN;
+import com.stevekung.indicatia.config.ConfigHandlerIN;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;

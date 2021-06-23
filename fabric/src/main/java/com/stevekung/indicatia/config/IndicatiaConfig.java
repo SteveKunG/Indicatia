@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.command.config;
+package com.stevekung.indicatia.config;
 
 public class IndicatiaConfig
 {

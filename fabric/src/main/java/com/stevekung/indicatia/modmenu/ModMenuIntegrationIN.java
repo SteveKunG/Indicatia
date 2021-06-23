@@ -2,7 +2,7 @@ package com.stevekung.indicatia.modmenu;
 
 import java.io.IOException;
 
-import com.stevekung.indicatia.command.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.core.IndicatiaFabricMod;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
