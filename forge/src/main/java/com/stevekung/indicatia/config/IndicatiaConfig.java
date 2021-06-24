@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.config;
 
+import org.apache.commons.lang3.tuple.Pair;
 import com.stevekung.indicatia.core.Indicatia;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -7,8 +8,15 @@ import net.minecraftforge.fml.config.ModConfig;
 
 public class IndicatiaConfig
 {
-    public static final ForgeConfigSpec.Builder GENERAL_BUILDER = new ForgeConfigSpec.Builder();
-    public static final IndicatiaConfig.General GENERAL = new IndicatiaConfig.General(IndicatiaConfig.GENERAL_BUILDER);
+    public static final ForgeConfigSpec GENERAL_SPEC;
+    public static final General GENERAL;
+
+    static
+    {
+        Pair<General, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(General::new);
+        GENERAL_SPEC = specPair.getRight();
+        GENERAL = specPair.getLeft();
+    }
 
     public static class General
     {
@@ -32,7 +40,8 @@ public class IndicatiaConfig
 
         General(ForgeConfigSpec.Builder builder)
         {
-            builder.comment("General settings").push("general");
+            builder.comment("General settings");
+            builder.push("general");
 
             this.afkMessageTime = builder.translation("indicatia.configgui.afk_message_time").defineInRange("afkMessageTime", 5, 1, 60);
 

@@ -36,7 +36,7 @@ public class IndicatiaForge
         ForgeCommonUtils.addModListener(this::phaseOne);
         ForgeCommonUtils.addModListener(this::loadComplete);
 
-        ForgeCommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_BUILDER);
+        ForgeCommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_SPEC);
         ForgeCommonUtils.registerConfigScreen(() -> (mc, parent) -> ForgeCommonUtils.openConfigFile(parent, Indicatia.MOD_ID, ModConfig.Type.CLIENT));
         ForgeCommonUtils.registerModEventBus(IndicatiaConfig.class);
         ForgeCommonUtils.registerEventHandler(new IndicatiaEventHandler());
