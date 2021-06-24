@@ -21,85 +21,85 @@ public class ProfileCommand implements IClientCommand
     public void register(CommandDispatcher<IClientSharedSuggestionProvider> dispatcher)
     {
         dispatcher.register(ClientCommands.literal("inprofile")
-                .then(ClientCommands.literal("add").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.ADD)).executes(requirement -> ProfileCommand.addProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
-                .then(ClientCommands.literal("load").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create()).executes(requirement -> ProfileCommand.loadProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
-                .then(ClientCommands.literal("save").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create()).executes(requirement -> ProfileCommand.saveProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
-                .then(ClientCommands.literal("remove").then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.REMOVE)).executes(requirement -> ProfileCommand.removeProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
-                .then(ClientCommands.literal("list").executes(requirement -> ProfileCommand.getProfileList(requirement.getSource()))));
+                .then(ClientCommands.literal("add")
+                        .then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.ADD))
+                                .executes(requirement -> ProfileCommand.addProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
+                .then(ClientCommands.literal("load")
+                        .then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create())
+                                .executes(requirement -> ProfileCommand.loadProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
+                .then(ClientCommands.literal("save")
+                        .then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create())
+                                .executes(requirement -> ProfileCommand.saveProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
+                .then(ClientCommands.literal("remove")
+                        .then(ClientCommands.argument("profile_name", ProfileNameArgumentType.create(ProfileNameArgumentType.Mode.REMOVE))
+                                .executes(requirement -> ProfileCommand.removeProfile(requirement.getSource(), ProfileNameArgumentType.getProfile(requirement, "profile_name")))))
+                .then(ClientCommands.literal("list")
+                        .executes(requirement -> ProfileCommand.getProfileList(requirement.getSource()))));
     }
 
     private static int addProfile(IClientSharedSuggestionProvider source, String name)
     {
-        boolean exist = false;
+        File file = ProfileNameArgumentType.getProfileFile(name);
 
         if (name.equalsIgnoreCase("default"))
         {
             source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_create_default"));
-            return 0;
+            return 1;
         }
 
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        if (file != null && file.exists())
         {
-            if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
-            {
-                exist = file.getName().equalsIgnoreCase(name + ".dat") && file.exists();
-            }
-        }
-
-        if (exist)
-        {
-            source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_already_created", name));
-            return 0;
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.already_exist", name));
         }
         else
         {
             source.sendFeedback(LangUtils.translate("commands.inprofile.created", name));
             IndicatiaSettings.INSTANCE.save(name);
-            return 1;
         }
+        return 1;
     }
 
     private static int loadProfile(IClientSharedSuggestionProvider source, String name)
     {
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        File file = ProfileNameArgumentType.getProfileFile(name);
+
+        if (file != null)
         {
-            if (!file.getName().equals(name + ".dat"))
+            if (file.exists())
             {
-                source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_load"));
-                return 0;
+                IndicatiaSettings.setCurrentProfile(name);
+                IndicatiaSettings.saveProfileFile(name);
+                IndicatiaSettings.INSTANCE.load();
+                source.sendFeedback(LangUtils.translate("commands.inprofile.load", name));
+                IndicatiaSettings.INSTANCE.save(name); // save current settings
             }
+            else
+            {
+                source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_not_exist", name));
+            }
+            return 1;
         }
-        IndicatiaSettings.setCurrentProfile(name);
-        IndicatiaSettings.saveProfileFile(name);
-        IndicatiaSettings.INSTANCE.load();
-        source.sendFeedback(LangUtils.translate("commands.inprofile.load", name));
-        IndicatiaSettings.INSTANCE.save(name); // save current settings
+        else
+        {
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_not_exist", name));
+        }
         return 1;
     }
 
     private static int saveProfile(IClientSharedSuggestionProvider source, String name)
     {
-        boolean exist = false;
+        File file = ProfileNameArgumentType.getProfileFile(name);
 
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
-        {
-            if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
-            {
-                exist = file.getName().equalsIgnoreCase(name + ".dat") && file.exists();
-            }
-        }
-
-        if (exist)
+        if (file != null && file.exists())
         {
             IndicatiaSettings.INSTANCE.save(name);
             source.sendFeedback(LangUtils.translate("commands.inprofile.save", name));
-            return 1;
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_save", name));
-            return 0;
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_not_exist", name));
         }
+        return 1;
     }
 
     private static int removeProfile(IClientSharedSuggestionProvider source, String name)
@@ -107,33 +107,31 @@ public class ProfileCommand implements IClientCommand
         if (name.equals("default"))
         {
             source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_remove_default"));
-            return 0;
+            return 1;
         }
 
-        boolean exist = false;
+        File file = ProfileNameArgumentType.getProfileFile(name);
 
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
-        {
-            if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
-            {
-                exist = file.getName().equalsIgnoreCase(name + ".dat") && file.exists();
-            }
-        }
-
-        if (exist)
+        if (file != null && file.exists())
         {
             File toDel = new File(IndicatiaSettings.USER_DIR, name + ".dat");
-            toDel.delete();
-            IndicatiaSettings.setCurrentProfile("default");
-            IndicatiaSettings.INSTANCE.load();
-            source.sendFeedback(LangUtils.translate("commands.inprofile.remove", name));
-            return 1;
+
+            if (toDel.delete())
+            {
+                IndicatiaSettings.setCurrentProfile("default");
+                IndicatiaSettings.INSTANCE.load();
+                source.sendFeedback(LangUtils.translate("commands.inprofile.remove", name));
+            }
+            else
+            {
+                source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_not_exist", name));
+            }
         }
         else
         {
-            source.sendErrorMessage(LangUtils.translate("commands.inprofile.cannot_remove", name));
-            return 0;
+            source.sendErrorMessage(LangUtils.translate("commands.inprofile.profile_not_exist", name));
         }
+        return 1;
     }
 
     private static int getProfileList(IClientSharedSuggestionProvider source)
@@ -143,7 +141,6 @@ public class ProfileCommand implements IClientCommand
         if (collection.isEmpty())
         {
             source.sendErrorMessage(LangUtils.translate("commands.inprofile.list.empty"));
-            return 0;
         }
         else
         {
@@ -156,9 +153,9 @@ public class ProfileCommand implements IClientCommand
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
                 boolean current = realName.equals(IndicatiaSettings.CURRENT_PROFILE);
-                source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + ChatFormatting.RED + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
+                source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + ChatFormatting.GREEN + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
             });
-            return 1;
         }
+        return 1;
     }
 }

@@ -28,76 +28,67 @@ public class ProfileCommand
 
     private static int addProfile(FabricClientCommandSource source, String name)
     {
-        boolean exist = false;
+        File file = ProfileNameArgumentType.getProfileFile(name);
 
         if (name.equalsIgnoreCase("default"))
         {
             source.sendError(LangUtils.translate("commands.inprofile.cannot_create_default"));
-            return 0;
+            return 1;
         }
 
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        if (file != null && file.exists())
         {
-            if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
-            {
-                exist = file.getName().equalsIgnoreCase(name + ".dat") && file.exists();
-            }
-        }
-
-        if (exist)
-        {
-            source.sendError(LangUtils.translate("commands.inprofile.profile_already_created", name));
-            return 0;
+            source.sendError(LangUtils.translate("commands.inprofile.already_exist", name));
         }
         else
         {
             source.sendFeedback(LangUtils.translate("commands.inprofile.created", name));
             IndicatiaSettings.INSTANCE.save(name);
-            return 1;
         }
+        return 1;
     }
 
     private static int loadProfile(FabricClientCommandSource source, String name)
     {
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        File file = ProfileNameArgumentType.getProfileFile(name);
+
+        if (file != null)
         {
-            if (!file.getName().equals(name + ".dat"))
+            if (file.exists())
             {
-                source.sendError(LangUtils.translate("commands.inprofile.cannot_load"));
-                return 0;
+                IndicatiaSettings.setCurrentProfile(name);
+                IndicatiaSettings.saveProfileFile(name);
+                IndicatiaSettings.INSTANCE.load();
+                source.sendFeedback(LangUtils.translate("commands.inprofile.load", name));
+                IndicatiaSettings.INSTANCE.save(name); // save current settings
             }
+            else
+            {
+                source.sendError(LangUtils.translate("commands.inprofile.profile_not_exist", name));
+            }
+            return 1;
         }
-        IndicatiaSettings.setCurrentProfile(name);
-        IndicatiaSettings.saveProfileFile(name);
-        IndicatiaSettings.INSTANCE.load();
-        source.sendFeedback(LangUtils.translate("commands.inprofile.load", name));
-        IndicatiaSettings.INSTANCE.save(name); // save current settings
+        else
+        {
+            source.sendError(LangUtils.translate("commands.inprofile.profile_not_exist", name));
+        }
         return 1;
     }
 
     private static int saveProfile(FabricClientCommandSource source, String name)
     {
-        boolean exist = false;
+        File file = ProfileNameArgumentType.getProfileFile(name);
 
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
-        {
-            if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
-            {
-                exist = file.getName().equalsIgnoreCase(name + ".dat") && file.exists();
-            }
-        }
-
-        if (exist)
+        if (file != null && file.exists())
         {
             IndicatiaSettings.INSTANCE.save(name);
             source.sendFeedback(LangUtils.translate("commands.inprofile.save", name));
-            return 1;
         }
         else
         {
-            source.sendError(LangUtils.translate("commands.inprofile.cannot_save", name));
-            return 0;
+            source.sendError(LangUtils.translate("commands.inprofile.profile_not_exist", name));
         }
+        return 1;
     }
 
     private static int removeProfile(FabricClientCommandSource source, String name)
@@ -105,33 +96,31 @@ public class ProfileCommand
         if (name.equals("default"))
         {
             source.sendError(LangUtils.translate("commands.inprofile.cannot_remove_default"));
-            return 0;
+            return 1;
         }
 
-        boolean exist = false;
+        File file = ProfileNameArgumentType.getProfileFile(name);
 
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
-        {
-            if (name.equalsIgnoreCase(file.getName().replace(".dat", "")))
-            {
-                exist = file.getName().equalsIgnoreCase(name + ".dat") && file.exists();
-            }
-        }
-
-        if (exist)
+        if (file != null && file.exists())
         {
             File toDel = new File(IndicatiaSettings.USER_DIR, name + ".dat");
-            toDel.delete();
-            IndicatiaSettings.setCurrentProfile("default");
-            IndicatiaSettings.INSTANCE.load();
-            source.sendFeedback(LangUtils.translate("commands.inprofile.remove", name));
-            return 1;
+
+            if (toDel.delete())
+            {
+                IndicatiaSettings.setCurrentProfile("default");
+                IndicatiaSettings.INSTANCE.load();
+                source.sendFeedback(LangUtils.translate("commands.inprofile.remove", name));
+            }
+            else
+            {
+                source.sendError(LangUtils.translate("commands.inprofile.profile_not_exist", name));
+            }
         }
         else
         {
-            source.sendError(LangUtils.translate("commands.inprofile.cannot_remove", name));
-            return 0;
+            source.sendError(LangUtils.translate("commands.inprofile.profile_not_exist", name));
         }
+        return 1;
     }
 
     private static int getProfileList(FabricClientCommandSource source)
@@ -141,7 +130,6 @@ public class ProfileCommand
         if (collection.isEmpty())
         {
             source.sendError(LangUtils.translate("commands.inprofile.list.empty"));
-            return 0;
         }
         else
         {
@@ -154,9 +142,9 @@ public class ProfileCommand
                 String name = file.getName();
                 String realName = name.replace(".dat", "");
                 boolean current = realName.equals(IndicatiaSettings.CURRENT_PROFILE);
-                source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + ChatFormatting.RED + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
+                source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + ChatFormatting.GREEN + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
             });
-            return 1;
         }
+        return 1;
     }
 }

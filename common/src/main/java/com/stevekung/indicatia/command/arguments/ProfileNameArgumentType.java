@@ -7,11 +7,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
@@ -22,9 +22,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ProfileNameArgumentType implements ArgumentType<String>
 {
-    private static final DynamicCommandExceptionType PROFILE_NOT_FOUND = new DynamicCommandExceptionType(obj -> new TranslatableComponent("commands.inprofile.not_found", obj));
-    private static final SimpleCommandExceptionType CANNOT_REMOVE_DEFAULT = new SimpleCommandExceptionType(new TranslatableComponent("commands.inprofile.cannot_remove_default"));
-    private static final SimpleCommandExceptionType CANNOT_CREATE_DEFAULT = new SimpleCommandExceptionType(new TranslatableComponent("commands.inprofile.cannot_create_default"));
     private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableComponent("argument.id.invalid"));
     private final Mode mode;
 
@@ -58,61 +55,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException
     {
-        String fileName = ProfileNameArgumentType.read(reader);
-        boolean exist = false;
-        boolean remove = false;
-
-        if (IndicatiaSettings.USER_DIR.exists())
-        {
-            for (File file : IndicatiaSettings.USER_DIR.listFiles())
-            {
-                String name = file.getName();
-
-                if (name.equals(fileName + ".dat") && name.endsWith(".dat"))
-                {
-                    exist = true;
-                }
-                if ((this.mode == Mode.REMOVE || this.mode == Mode.ADD) && fileName.equals("default") && name.equals(fileName + ".dat"))
-                {
-                    remove = true;
-                }
-            }
-        }
-
-        if (remove)
-        {
-            if (this.mode == Mode.ADD)
-            {
-                throw ProfileNameArgumentType.CANNOT_CREATE_DEFAULT.create();
-            }
-            else
-            {
-                throw ProfileNameArgumentType.CANNOT_REMOVE_DEFAULT.create();
-            }
-        }
-
-        if (this.mode == Mode.REMOVE)
-        {
-            try
-            {
-                if (exist)
-                {
-                    return fileName;
-                }
-                else
-                {
-                    throw ProfileNameArgumentType.PROFILE_NOT_FOUND.create(fileName);
-                }
-            }
-            catch (Exception e)
-            {
-                return fileName;
-            }
-        }
-        else
-        {
-            return fileName;
-        }
+        return ProfileNameArgumentType.read(reader);
     }
 
     @Override
@@ -161,6 +104,19 @@ public class ProfileNameArgumentType implements ArgumentType<String>
             reader.setCursor(cursor);
             throw ProfileNameArgumentType.INVALID_ARGS.createWithContext(reader);
         }
+    }
+
+    @Nullable
+    public static File getProfileFile(String name)
+    {
+        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        {
+            if (file.getName().equals(name + ".dat"))
+            {
+                return file;
+            }
+        }
+        return null;
     }
 
     public enum Mode
