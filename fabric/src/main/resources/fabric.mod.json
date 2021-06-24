@@ -17,7 +17,7 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-            "com.stevekung.indicatia.core.IndicatiaFabricMod"
+            "com.stevekung.indicatia.core.IndicatiaFabric"
         ],
         "modmenu": [
             "com.stevekung.indicatia.modmenu.ModMenuIntegrationIN"
