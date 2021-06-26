@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.gui.components;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
@@ -43,24 +42,16 @@ public class MinigameButton extends Button
 
             if (!this.head.isEmpty())
             {
-                RenderSystem.enableDepthTest();
-                RenderSystem.enableRescaleNormal();
-                RenderSystem.enableBlend();
-                RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-                Lighting.turnBackOn();
-                RenderSystem.enableLighting();
                 this.mc.getItemRenderer().renderAndDecorateItem(this.head, this.x + 2, this.y + 2);
             }
         }
     }
 
-    @SuppressWarnings("deprecation")
     public void render(PoseStack matrixStack, int mouseX, int mouseY)
     {
         if (this.visible && this.isMouseOver(mouseX, mouseY))
         {
             this.mc.screen.renderTooltip(matrixStack, this.tooltips, mouseX, mouseY);
-            RenderSystem.disableLighting();
         }
     }
 }
