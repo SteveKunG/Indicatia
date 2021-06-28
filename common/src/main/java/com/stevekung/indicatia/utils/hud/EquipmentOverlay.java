@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.utils.hud;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
@@ -59,12 +60,17 @@ public class EquipmentOverlay
         return "";
     }
 
+    @SuppressWarnings("deprecation")
     public static void renderItem(ItemStack itemStack, int x, int y)
     {
+        RenderSystem.pushMatrix();
+        RenderSystem.enableAlphaTest();
         ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
         itemRender.blitOffset = -200.0F;
         itemRender.renderAndDecorateItem(itemStack, x, y);
         itemRender.blitOffset = 0.0F;
+        RenderSystem.disableAlphaTest();
+        RenderSystem.popMatrix();
     }
 
     private static String getArmorDurabilityStatus(ItemStack itemStack)
