@@ -13,7 +13,6 @@ import com.stevekung.indicatia.hud.EffectOverlays;
 import com.stevekung.indicatia.hud.EquipmentOverlays;
 import com.stevekung.indicatia.hud.InfoOverlays;
 import com.stevekung.indicatia.hud.InfoUtils;
-import com.stevekung.indicatia.mixin.InvokerMinecraft;
 import com.stevekung.indicatia.utils.event.InfoOverlayEvents;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import com.stevekung.stevekungslib.utils.LangUtils;
@@ -158,7 +157,7 @@ public class HUDRenderEventHandler
 
         if (IndicatiaSettings.INSTANCE.fps)
         {
-            int fps = InvokerMinecraft.getFPS();
+            int fps = Minecraft.fps;
             infos.add(new InfoOverlay("hud.fps", String.valueOf(fps), IndicatiaSettings.INSTANCE.fpsColor, fps <= 25 ? IndicatiaSettings.INSTANCE.fpsLow25Color : fps <= 49 ? IndicatiaSettings.INSTANCE.fps26And49Color : IndicatiaSettings.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
         }
 

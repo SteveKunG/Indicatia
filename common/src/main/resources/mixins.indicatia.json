@@ -5,10 +5,6 @@
     "package": "com.stevekung.indicatia.mixin",
     "plugin": "com.stevekung.indicatia.core.IndicatiaMixinConfigPlugin",
     "client": [
-        "InvokerMinecraft",
-        "InvokerServerSelectionList",
-        "InvokerSkullBlockRenderer",
-        "InvokerTitleScreen",
         "MixinMinecraft",
         "gui.components.MixinBossHealthOverlay",
         "gui.components.MixinPlayerTabOverlay",

@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.mixin.InvokerServerSelectionList;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import net.minecraft.ChatFormatting;
@@ -80,7 +79,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 this.serverData.motd = TextComponent.EMPTY;
                 this.serverData.status = TextComponent.EMPTY;
 
-                InvokerServerSelectionList.getThreadPool().submit(() ->
+                ServerSelectionList.THREAD_POOL.submit(() ->
                 {
                     try
                     {
@@ -179,7 +178,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
             }
             else
             {
-                this.drawIcon(matrixStack, x, y, InvokerServerSelectionList.getMissingIcon());
+                this.drawIcon(matrixStack, x, y, ServerSelectionList.ICON_MISSING);
             }
 
             int i1 = mouseX - x;
@@ -194,7 +193,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
 
             if (this.minecraft.options.touchscreen || isSelected)
             {
-                this.minecraft.getTextureManager().bind(InvokerServerSelectionList.getOverlayIcon());
+                this.minecraft.getTextureManager().bind(ServerSelectionList.ICON_OVERLAY_LOCATION);
                 GuiComponent.fill(matrixStack, x, y, x + 32, y + 32, -1601138544);
                 RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 int k1 = mouseX - x;

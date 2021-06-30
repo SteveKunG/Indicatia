@@ -2,7 +2,6 @@ package com.stevekung.indicatia.gui.components;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.mixin.InvokerTitleScreen;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -30,8 +29,8 @@ public class MojangStatusButton extends Button
         if (this.mc.screen instanceof TitleScreen)
         {
             TitleScreen main = (TitleScreen) this.mc.screen;
-            float f = ((InvokerTitleScreen) main).getFading() ? (Util.getMillis() - ((InvokerTitleScreen) main).getFadeInStart()) / 1000.0F : 1.0F;
-            float f1 = ((InvokerTitleScreen) main).getFading() ? Mth.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
+            float f = main.fading ? (Util.getMillis() - main.fadeInStart) / 1000.0F : 1.0F;
+            float f1 = main.fading ? Mth.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
 
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
