@@ -2,5 +2,8 @@
 
 ### Please report if you found the issues!
 
-* * Required SteveKunG's Lib 4.1.3
-* * Update Architectury API to 1.17
+* * Disable open config file when 'Configurated' mod is present (Forge)
+* * Fixed /inprofile command not working properly
+* * Fixed item lighting on buttons
+* * Fixed alpha rendering on Equipment HUD
+* * Fixed crashed when open preview screen, closed #33
