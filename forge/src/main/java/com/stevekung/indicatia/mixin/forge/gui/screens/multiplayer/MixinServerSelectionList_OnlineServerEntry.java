@@ -33,8 +33,6 @@ import net.minecraftforge.fml.client.ClientHooks;
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public abstract class MixinServerSelectionList_OnlineServerEntry
 {
-    private final ServerSelectionList.OnlineServerEntry that = (ServerSelectionList.OnlineServerEntry) (Object) this;
-
     @Shadow
     @Final
     private JoinMultiplayerScreen screen;
@@ -70,6 +68,8 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(PoseStack matrixStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
+        ServerSelectionList.OnlineServerEntry entry = (ServerSelectionList.OnlineServerEntry) (Object) this;
+
         if (IndicatiaConfig.GENERAL.multiplayerScreenEnhancement.get())
         {
             if (!this.serverData.pinged)
@@ -83,7 +83,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 {
                     try
                     {
-                        this.screen.getPinger().pingServer(this.serverData, () -> this.minecraft.execute(this.that::updateServerList));
+                        this.screen.getPinger().pingServer(this.serverData, () -> this.minecraft.execute(entry::updateServerList));
                     }
                     catch (UnknownHostException e)
                     {
@@ -168,7 +168,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 else
                 {
                     this.serverData.setIconB64(null);
-                    this.that.updateServerList();
+                    entry.updateServerList();
                 }
             }
 
