@@ -1,0 +1,6 @@
+{
+    "schemaVersion": 1,
+    "id": "indicatia_temp",
+    "version": "${version}",
+    "accessWidener": "indicatia.accesswidener"
+}
