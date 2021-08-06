@@ -16,7 +16,7 @@ authors = "SteveKunG"
 [[dependencies.indicatia]]
 modId = "forge"
 mandatory = true
-versionRange = "[36.1.0,)"
+versionRange = "[36.2.0,)"
 ordering = "NONE"
 side = "CLIENT"
 
@@ -37,6 +37,6 @@ side = "CLIENT"
 [[dependencies.indicatia]]
 modId = "stevekungs_lib"
 mandatory = true
-versionRange = "[4.1.3,)"
+versionRange = "[4.1.5,)"
 ordering = "NONE"
 side = "CLIENT"

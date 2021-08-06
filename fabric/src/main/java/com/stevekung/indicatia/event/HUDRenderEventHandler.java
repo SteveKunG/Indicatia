@@ -38,7 +38,7 @@ public class HUDRenderEventHandler
     {
         if (!mc.options.renderDebug && !mc.options.hideGui)
         {
-            if (IndicatiaFabric.CONFIG.getConfig().enableRenderInfo && mc.player != null && mc.level != null && !(mc.screen instanceof OffsetRenderPreviewScreen))
+            if (IndicatiaFabric.CONFIG.general.enableRenderInfo && mc.player != null && mc.level != null && !(mc.screen instanceof OffsetRenderPreviewScreen))
             {
                 int iLeft = 0;
                 int iRight = 0;

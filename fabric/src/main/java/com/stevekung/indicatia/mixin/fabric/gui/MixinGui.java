@@ -25,7 +25,7 @@ public class MixinGui
     @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/BossHealthOverlay.render(Lcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void redirectBossOverlay(BossHealthOverlay overlay, PoseStack poseStack)
     {
-        if (IndicatiaFabric.CONFIG.getConfig().enableRenderBossHealthStatus)
+        if (IndicatiaFabric.CONFIG.general.enableRenderBossHealthStatus)
         {
             overlay.render(poseStack);
         }
@@ -39,7 +39,7 @@ public class MixinGui
     @Inject(method = "renderEffects(Lcom/mojang/blaze3d/vertex/PoseStack;)V", cancellable = true, at = @At("HEAD"))
     private void disableVanillaHUD(PoseStack poseStack, CallbackInfo info)
     {
-        if (!IndicatiaFabric.CONFIG.getConfig().enableVanillaPotionHUD)
+        if (!IndicatiaFabric.CONFIG.general.enableVanillaPotionHUD)
         {
             info.cancel();
         }

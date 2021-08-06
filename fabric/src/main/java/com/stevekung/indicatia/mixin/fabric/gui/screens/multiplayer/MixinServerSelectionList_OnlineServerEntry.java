@@ -69,7 +69,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
     {
         ServerSelectionList.OnlineServerEntry entry = (ServerSelectionList.OnlineServerEntry) (Object) this;
 
-        if (IndicatiaFabric.CONFIG.getConfig().multiplayerScreenEnhancement)
+        if (IndicatiaFabric.CONFIG.general.multiplayerScreenEnhancement)
         {
             if (!this.serverData.pinged)
             {

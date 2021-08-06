@@ -3,7 +3,7 @@ package com.stevekung.indicatia.core;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.command.*;
-import com.stevekung.indicatia.config.ConfigHandlerIN;
+import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
@@ -11,6 +11,8 @@ import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
 import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
 import me.shedaniel.architectury.event.events.client.ClientPlayerEvent;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -20,7 +22,7 @@ import net.minecraft.client.KeyMapping;
 
 public class IndicatiaFabric implements ClientModInitializer
 {
-    public static final ConfigHandlerIN CONFIG = new ConfigHandlerIN();
+    public static IndicatiaConfig CONFIG;
 
     static
     {
@@ -32,6 +34,9 @@ public class IndicatiaFabric implements ClientModInitializer
     {
         Indicatia.init();
         ClientRegistryUtils.registerKeyBinding(Indicatia.keyBindAltChat);
+
+        AutoConfig.register(IndicatiaConfig.class, GsonConfigSerializer::new);
+        IndicatiaFabric.CONFIG = AutoConfig.getConfigHolder(IndicatiaConfig.class).getConfig();
 
         new AFKCommand(ClientCommandManager.DISPATCHER);
         new AutoFishCommand(ClientCommandManager.DISPATCHER);

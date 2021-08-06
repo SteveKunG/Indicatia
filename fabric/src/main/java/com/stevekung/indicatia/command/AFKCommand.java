@@ -53,7 +53,7 @@ public class AFKCommand
 
             String message = LangUtils.translate("commands.afk.afk_now").getString();
 
-            if (IndicatiaFabric.CONFIG.getConfig().enableAFKMessage)
+            if (IndicatiaFabric.CONFIG.general.enableAFKMessage)
             {
                 Minecraft.getInstance().player.chat(message + reason);
             }
@@ -72,7 +72,7 @@ public class AFKCommand
             HUDHelper.START_AFK = false;
             HUDHelper.afkMoveTicks = 0;
 
-            if (IndicatiaFabric.CONFIG.getConfig().enableAFKMessage)
+            if (IndicatiaFabric.CONFIG.general.enableAFKMessage)
             {
                 if (StringUtil.isNullOrEmpty(HUDHelper.AFK_REASON))
                 {

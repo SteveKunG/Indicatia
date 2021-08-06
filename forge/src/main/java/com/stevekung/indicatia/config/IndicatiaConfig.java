@@ -43,37 +43,37 @@ public class IndicatiaConfig
             builder.comment("General settings");
             builder.push("general");
 
-            this.afkMessageTime = builder.translation("indicatia.configgui.afk_message_time").defineInRange("afkMessageTime", 5, 1, 60);
+            this.afkMessageTime = builder.translation("text.autoconfig.indicatia.option.general.afkMessageTime").defineInRange("afkMessageTime", 5, 1, 60);
 
-            this.enableRenderInfo = builder.translation("indicatia.configgui.enable_render_info").define("enableRenderInfo", true);
+            this.enableRenderInfo = builder.translation("text.autoconfig.indicatia.option.general.enableRenderInfo").define("enableRenderInfo", true);
 
-            this.enableBlockhitAnimation = builder.comment("Improved hand animation and restore animation when Eating/Blocking/Pulling/Drinking with left click from 1.7.").translation("indicatia.configgui.enable_blockhit_animation").define("enableBlockhitAnimation", false);
+            this.enableBlockhitAnimation = builder.comment("Improved hand animation and restore animation when Eating/Blocking/Pulling/Drinking with left click from 1.7.").translation("text.autoconfig.indicatia.option.general.enableBlockhitAnimation").define("enableBlockhitAnimation", false);
 
-            this.enableOldArmorRender = builder.comment("This will using old armor hurt effect render. (red overlay)").translation("indicatia.configgui.enable_old_armor_render").define("enableOldArmorRender", false);
+            this.enableOldArmorRender = builder.comment("This will using old armor hurt effect render. (red overlay)").translation("text.autoconfig.indicatia.option.general.enableOldArmorRender").define("enableOldArmorRender", false);
 
-            this.enableVersionChecker = builder.translation("indicatia.configgui.enable_version_checker").define("enableVersionChecker", true);
+            this.enableVersionChecker = builder.translation("text.autoconfig.indicatia.option.general.enableVersionChecker").define("enableVersionChecker", true);
 
-            this.enableAFKMessage = builder.translation("indicatia.configgui.enable_afk_message").define("enableAFKMessage", true);
+            this.enableAFKMessage = builder.translation("text.autoconfig.indicatia.option.general.enableAFKMessage").define("enableAFKMessage", true);
 
-            this.enableCustomPlayerList = builder.comment("Show response time as number instead.").translation("indicatia.configgui.enable_custom_player_list").define("enableCustomPlayerList", false);
+            this.enableCustomPlayerList = builder.comment("Show response time as number instead.").translation("text.autoconfig.indicatia.option.general.enableCustomPlayerList").define("enableCustomPlayerList", false);
 
-            this.multiplayerScreenEnhancement = builder.comment("Show response time as number instead and improved server info.").translation("indicatia.configgui.multiplayer_screen_enhancement").define("multiplayerScreenEnhancement", false);
+            this.multiplayerScreenEnhancement = builder.comment("Show response time as number instead and improved server info.").translation("text.autoconfig.indicatia.option.general.multiplayerScreenEnhancement").define("multiplayerScreenEnhancement", false);
 
-            this.enableConfirmToDisconnect = builder.comment("This will display confirmation screen when try to disconnect.").translation("indicatia.configgui.enable_confirm_to_disconnect").define("enableConfirmToDisconnect", false);
+            this.enableConfirmToDisconnect = builder.comment("This will display confirmation screen when try to disconnect.").translation("text.autoconfig.indicatia.option.general.enableConfirmToDisconnect").define("enableConfirmToDisconnect", false);
 
-            this.enableVanillaPotionHUD = builder.comment("Show Vanilla Potion HUD in-game.").translation("indicatia.configgui.enable_vanilla_potion_hud").define("enableVanillaPotionHUD", true);
+            this.enableVanillaPotionHUD = builder.comment("Show Vanilla Potion HUD in-game.").translation("text.autoconfig.indicatia.option.general.enableVanillaPotionHUD").define("enableVanillaPotionHUD", true);
 
-            this.enableBossHealthBarRender = builder.translation("indicatia.configgui.enable_boss_health_bar_render").define("enableBossHealthBarRender", true);
+            this.enableBossHealthBarRender = builder.translation("text.autoconfig.indicatia.option.general.enableBossHealthBarRender").define("enableBossHealthBarRender", true);
 
-            this.enableRenderBossHealthStatus = builder.translation("indicatia.configgui.enable_boss_health_status_render").define("enableRenderBossHealthStatus", true);
+            this.enableRenderBossHealthStatus = builder.translation("text.autoconfig.indicatia.option.general.enableRenderBossHealthStatus").define("enableRenderBossHealthStatus", true);
 
-            this.enableSidebarScoreboardRender = builder.translation("indicatia.configgui.enable_sidebar_scoreboard_render").define("enableSidebarScoreboardRender", true);
+            this.enableSidebarScoreboardRender = builder.translation("text.autoconfig.indicatia.option.general.enableSidebarScoreboardRender").define("enableSidebarScoreboardRender", true);
 
-            this.enableHypixelChatMode = builder.translation("indicatia.configgui.enable_hypixel_chat_mode").define("enableHypixelChatMode", true);
+            this.enableHypixelChatMode = builder.translation("text.autoconfig.indicatia.option.general.enableHypixelChatMode").define("enableHypixelChatMode", true);
 
-            this.enableHypixelDropdownShortcutGame = builder.translation("indicatia.configgui.enable_hypixel_dropdown_shortcut_game").define("enableHypixelDropdownShortcutGame", true);
+            this.enableHypixelDropdownShortcutGame = builder.translation("text.autoconfig.indicatia.option.general.enableHypixelDropdownShortcutGame").define("enableHypixelDropdownShortcutGame", true);
 
-            this.enableAlternateChatKey = builder.comment("This allowed to use Numpad Enter key to open chat.").translation("indicatia.configgui.enable_alternate_chat_key").define("enableAlternateChatKey", true);
+            this.enableAlternateChatKey = builder.comment("This allowed to use Numpad Enter key to open chat.").translation("text.autoconfig.indicatia.option.general.enableAlternateChatKey").define("enableAlternateChatKey", true);
 
             builder.pop();
         }
