@@ -146,17 +146,17 @@ public class HUDRenderEventHandler
             if (IndicatiaSettings.INSTANCE.ping)
             {
                 int responseTime = InfoUtils.INSTANCE.getPing();
-                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", IndicatiaSettings.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", IndicatiaSettings.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.LEFT));
 
                 if (IndicatiaSettings.INSTANCE.pingToSecond)
                 {
                     double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int) (responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int) (responseTimeSecond * 1000.0D)), InfoOverlay.Position.LEFT));
                 }
             }
             if (IndicatiaSettings.INSTANCE.serverIP && mc.getCurrentServer() != null)
             {
-                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServer().ip) + (IndicatiaSettings.INSTANCE.serverIPMCVersion ? "/" + Minecraft.getInstance().getVersionType() : ""), IndicatiaSettings.INSTANCE.serverIPColor, IndicatiaSettings.INSTANCE.serverIPValueColor, InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServer().ip) + (IndicatiaSettings.INSTANCE.serverIPMCVersion ? "/" + Minecraft.getInstance().getVersionType() : ""), IndicatiaSettings.INSTANCE.serverIPColor, IndicatiaSettings.INSTANCE.serverIPValueColor, InfoOverlay.Position.LEFT));
             }
         }
 
