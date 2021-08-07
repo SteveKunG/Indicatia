@@ -10,7 +10,8 @@ public class StatusEffects
     public enum Style
     {
         DEFAULT(0, "indicatia.default"),
-        ICON_AND_TIME(1, "potion_hud.icon_and_time");
+        ICON_AND_TIME(1, "potion_hud.icon_and_time"),
+        TIME_ON_VANILLA(2, "potion_hud.time_on_vanilla");
 
         private static final Style[] VALUES = Arrays.stream(values()).sorted(Comparator.comparingInt(Style::getId)).toArray(Style[]::new);
         private final int id;

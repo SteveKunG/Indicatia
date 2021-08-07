@@ -132,6 +132,7 @@
     "equipment.amount": "Amount",
     "equipment.amount_and_stack": "Amount & Stack",
     "potion_hud.icon_and_time": "Icon/Time",
+    "potion_hud.time_on_vanilla": "Time on Vanilla HUD",
     "indicatia.ping": "Ping",
     "indicatia.ping_and_delay": "Ping & Delay",
     "_comment": "HUD INFO",
