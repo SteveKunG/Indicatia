@@ -21,13 +21,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 
 @Mixin(HumanoidArmorLayer.class)
-public class MixinHumanoidArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>>
+public abstract class MixinHumanoidArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>>
 {
     @Shadow
-    private ResourceLocation getArmorLocation(ArmorItem armorItem, boolean legs, @Nullable String armorResource)
-    {
-        return null;
-    }
+    abstract ResourceLocation getArmorLocation(ArmorItem armorItem, boolean legs, @Nullable String armorResource);
 
     @Redirect(method = "renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/HumanoidArmorLayer.renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;ZLnet/minecraft/client/model/HumanoidModel;ZFFFLjava/lang/String;)V"), require = 3, allow = 3)
     private void renderArmor(HumanoidArmorLayer<T, M, A> armorLayer, PoseStack _matrixStackIn, MultiBufferSource _bufferIn, int _packedLightIn, ArmorItem armorItem, boolean glintIn, A modelIn, boolean legs, float red, float green, float blue, String armorResource, PoseStack matrixStackIn, MultiBufferSource bufferIn, T entityLivingBaseIn, EquipmentSlot slotIn, int packedLightIn, A model)

@@ -20,7 +20,7 @@ public class MixinGui
 {
     @Shadow
     @Final
-    private Minecraft minecraft;
+    Minecraft minecraft;
 
     @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/BossHealthOverlay.render(Lcom/mojang/blaze3d/vertex/PoseStack;)V"))
     private void redirectBossOverlay(BossHealthOverlay overlay, PoseStack poseStack)

@@ -35,34 +35,34 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
 {
     @Shadow
     @Final
-    private JoinMultiplayerScreen screen;
+    JoinMultiplayerScreen screen;
 
     @Shadow
     @Final
-    private Minecraft minecraft;
+    Minecraft minecraft;
 
     @Shadow
     @Final
-    private ServerData serverData;
+    ServerData serverData;
 
     @Shadow
     @Final
-    private ResourceLocation iconLocation;
+    ResourceLocation iconLocation;
 
     @Shadow
-    private String lastIconB64;
+    String lastIconB64;
 
     @Shadow
-    private DynamicTexture icon;
+    DynamicTexture icon;
 
     @Shadow
-    protected abstract void drawIcon(PoseStack matrixStack, int x, int y, ResourceLocation resource);
+    abstract void drawIcon(PoseStack matrixStack, int x, int y, ResourceLocation resource);
 
     @Shadow
-    protected abstract boolean uploadServerIcon(String icon);
+    abstract boolean uploadServerIcon(String icon);
 
     @Shadow
-    protected abstract boolean canJoin();
+    abstract boolean canJoin();
 
     @SuppressWarnings("deprecation")
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))

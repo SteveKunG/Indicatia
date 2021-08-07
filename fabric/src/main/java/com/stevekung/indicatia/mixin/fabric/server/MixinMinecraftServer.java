@@ -23,13 +23,13 @@ import net.minecraft.world.level.Level;
 public class MixinMinecraftServer implements IMinecraftServerTick
 {
     @Unique
-    private final Map<ResourceKey<Level>, long[]> perWorldTickTimes = Maps.newIdentityHashMap();
+    final Map<ResourceKey<Level>, long[]> perWorldTickTimes = Maps.newIdentityHashMap();
 
     @Unique
-    private long tickStart;
+    long tickStart;
 
     @Shadow
-    private int tickCount;
+    int tickCount;
 
     @Inject(method = "tickChildren(Ljava/util/function/BooleanSupplier;)V", at = @At(value = "INVOKE", target = "net/minecraft/util/profiling/ProfilerFiller.push(Ljava/util/function/Supplier;)V", shift = At.Shift.AFTER))
     private void addStartTickTime(BooleanSupplier supplier, CallbackInfo info)

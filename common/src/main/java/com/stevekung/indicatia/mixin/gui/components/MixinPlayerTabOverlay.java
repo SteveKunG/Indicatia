@@ -29,11 +29,11 @@ import net.minecraft.network.chat.MutableComponent;
 public class MixinPlayerTabOverlay
 {
     @Unique
-    private int pingWidth;
+    int pingWidth;
 
     @Shadow
     @Final
-    private Minecraft minecraft;
+    Minecraft minecraft;
 
     @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/scores/Scoreboard;Lnet/minecraft/world/scores/Objective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/Font.width(Lnet/minecraft/network/chat/FormattedText;)I"))
     private int addPingWidth(Font font, FormattedText formattedText)
