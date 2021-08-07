@@ -33,6 +33,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
@@ -63,21 +64,8 @@ public class HUDRenderEventHandler
     @SubscribeEvent
     public void onPreInfoRender(RenderGameOverlayEvent.Pre event)
     {
-        PoseStack matrixStack = event.getMatrixStack();
+        PoseStack poseStack = event.getMatrixStack();
 
-//        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
-//        {
-//            event.setCanceled(!IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get());
-//            RenderSystem.enableDepthTest();
-//            RenderSystem.defaultBlendFunc();
-//        }
-//        if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
-//        {
-//            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
-//            {
-//                event.setCanceled(true);
-//            }
-//        }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
             if (!this.mc.options.renderDebug && !this.mc.options.hideGui)
@@ -120,7 +108,7 @@ public class HUDRenderEventHandler
                         }
 
                         float xOffset = this.mc.getWindow().getGuiScaledWidth() - 2 - this.mc.font.width(value.getString());
-                        this.mc.font.drawShadow(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
+                        this.mc.font.drawShadow(poseStack, value, pos == InfoOverlay.Position.LEFT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
                         if (pos == InfoOverlay.Position.LEFT)
                         {
@@ -137,24 +125,24 @@ public class HUDRenderEventHandler
                 {
                     if (IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.HOTBAR)
                     {
-                        EquipmentOverlays.renderHotbarEquippedItems(this.mc, matrixStack);
+                        EquipmentOverlays.renderHotbarEquippedItems(this.mc, poseStack);
                     }
                     else
                     {
                         if (IndicatiaSettings.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
                         {
-                            EquipmentOverlays.renderVerticalEquippedItems(this.mc, matrixStack);
+                            EquipmentOverlays.renderVerticalEquippedItems(this.mc, poseStack);
                         }
                         else
                         {
-                            EquipmentOverlays.renderHorizontalEquippedItems(this.mc, matrixStack);
+                            EquipmentOverlays.renderHorizontalEquippedItems(this.mc, poseStack);
                         }
                     }
                 }
 
                 if (IndicatiaSettings.INSTANCE.potionHUD)
                 {
-                    EffectOverlays.renderPotionHUD(this.mc, matrixStack);
+                    EffectOverlays.renderPotionHUD(this.mc, poseStack);
                 }
             }
         }
@@ -164,6 +152,25 @@ public class HUDRenderEventHandler
             {
                 event.setCanceled(true);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderPreLayer(RenderGameOverlayEvent.PreLayer event)
+    {
+        if (event.getOverlay() == ForgeIngameGui.SCOREBOARD_ELEMENT && !IndicatiaConfig.GENERAL.enableSidebarScoreboardRender.get())
+        {
+            event.setCanceled(true);
+        }
+        if (event.getOverlay() == ForgeIngameGui.BOSS_HEALTH_ELEMENT && IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get())
+        {
+            event.setCanceled(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.defaultBlendFunc();
+        }
+        if (event.getOverlay() == ForgeIngameGui.POTION_ICONS_ELEMENT && IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
+        {
+            event.setCanceled(true);
         }
     }
 

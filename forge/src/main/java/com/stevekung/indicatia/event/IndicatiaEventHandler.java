@@ -18,7 +18,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -75,7 +74,6 @@ public class IndicatiaEventHandler
                 }
             }
         }
-//        ForgeIngameGui.renderObjective = IndicatiaConfig.GENERAL.enableSidebarScoreboardRender.get();
     }
 
     @SubscribeEvent
