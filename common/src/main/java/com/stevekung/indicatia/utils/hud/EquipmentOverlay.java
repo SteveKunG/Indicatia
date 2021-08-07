@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.utils.hud;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
@@ -37,7 +36,7 @@ public class EquipmentOverlay
             return "";
         }
 
-        int itemCount = EquipmentOverlay.getInventoryItemCount(this.mc.player.inventory, this.itemStack);
+        int itemCount = EquipmentOverlay.getInventoryItemCount(this.mc.player.getInventory(), this.itemStack);
 
         if (this.itemStack.isDamageableItem())
         {
@@ -51,7 +50,7 @@ public class EquipmentOverlay
 
     public String renderArrowInfo()
     {
-        int arrowCount = EquipmentOverlay.getInventoryArrowCount(this.mc.player.inventory);
+        int arrowCount = EquipmentOverlay.getInventoryArrowCount(this.mc.player.getInventory());
 
         if (this.itemStack.getItem() instanceof BowItem && arrowCount > 0)
         {
@@ -63,32 +62,21 @@ public class EquipmentOverlay
     @SuppressWarnings("deprecation")
     public static void renderItem(ItemStack itemStack, int x, int y)
     {
-        RenderSystem.pushMatrix();
-        RenderSystem.enableAlphaTest();
         ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
         itemRender.blitOffset = -200.0F;
         itemRender.renderAndDecorateItem(itemStack, x, y);
         itemRender.blitOffset = 0.0F;
-        RenderSystem.disableAlphaTest();
-        RenderSystem.popMatrix();
     }
 
     private static String getArmorDurabilityStatus(ItemStack itemStack)
     {
-        switch (IndicatiaSettings.INSTANCE.equipmentStatus)
-        {
-            case DAMAGE_AND_MAX_DAMAGE:
-            default:
-                return itemStack.getMaxDamage() - itemStack.getDamageValue() + "/" + itemStack.getMaxDamage();
-            case PERCENT:
-                return EquipmentOverlay.calculateItemDurabilityPercent(itemStack) + "%";
-            case DAMAGE:
-                return String.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue());
-            case NONE:
-            case AMOUNT:
-            case AMOUNT_AND_STACK:
-                return "";
-        }
+        return switch (IndicatiaSettings.INSTANCE.equipmentStatus)
+                {
+                    default -> itemStack.getMaxDamage() - itemStack.getDamageValue() + "/" + itemStack.getMaxDamage();
+                    case PERCENT -> EquipmentOverlay.calculateItemDurabilityPercent(itemStack) + "%";
+                    case DAMAGE -> String.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue());
+                    case NONE, AMOUNT, AMOUNT_AND_STACK -> "";
+                };
     }
 
     private static int calculateItemDurabilityPercent(ItemStack itemStack)

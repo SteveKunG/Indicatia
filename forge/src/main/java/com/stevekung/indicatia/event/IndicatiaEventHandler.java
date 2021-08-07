@@ -75,7 +75,7 @@ public class IndicatiaEventHandler
                 }
             }
         }
-        ForgeIngameGui.renderObjective = IndicatiaConfig.GENERAL.enableSidebarScoreboardRender.get();
+//        ForgeIngameGui.renderObjective = IndicatiaConfig.GENERAL.enableSidebarScoreboardRender.get();
     }
 
     @SubscribeEvent

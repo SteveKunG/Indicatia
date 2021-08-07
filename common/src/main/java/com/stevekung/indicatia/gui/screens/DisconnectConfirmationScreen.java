@@ -1,6 +1,7 @@
 package com.stevekung.indicatia.gui.screens;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.realmsclient.RealmsMainScreen;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.realms.RealmsBridge;
 
 public class DisconnectConfirmationScreen extends Screen
 {
@@ -41,18 +41,19 @@ public class DisconnectConfirmationScreen extends Screen
                 this.minecraft.clearLevel();
             }
 
+            TitleScreen title = new TitleScreen();
+
             if (flag)
             {
-                this.minecraft.setScreen(new TitleScreen());
+                this.minecraft.setScreen(title);
             }
             else if (flag1)
             {
-                RealmsBridge realmsbridgescreen = new RealmsBridge();
-                realmsbridgescreen.switchToRealms(new TitleScreen());
+                this.minecraft.setScreen(new RealmsMainScreen(title));
             }
             else
             {
-                this.minecraft.setScreen(new JoinMultiplayerScreen(new TitleScreen()));
+                this.minecraft.setScreen(new JoinMultiplayerScreen(title));
             }
         }));
         this.addRenderableWidget(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, CommonComponents.GUI_NO, button -> this.minecraft.setScreen(this.parent)));

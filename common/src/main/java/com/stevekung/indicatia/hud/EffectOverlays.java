@@ -126,9 +126,8 @@ public class EffectOverlays
                     if (showIcon)
                     {
                         TextureAtlasSprite sprite = mobEffectTextures.get(effectIns.getEffect());
-                        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
-                        RenderSystem.disableLighting();
-                        mc.getTextureManager().bind(sprite.atlas().location());
+                        RenderSystem.setShaderTexture(0, sprite.atlas().location());
+                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
                         GuiComponent.blit(poseStack, right ? xPotion + 12 : xPotion + xPotionAdd, yPotion + 6, mc.gui.getBlitOffset(), 18, 18, mc.getMobEffectTextures().get(effect));
                     }
                     yPotion -= length;

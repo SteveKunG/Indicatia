@@ -28,7 +28,7 @@ public class InfoOverlays
     {
         Entity entity = mc.getCameraEntity();
         Direction coordDirection = entity.getDirection();
-        int yaw = (int) entity.yRot + 22;
+        int yaw = (int) entity.getYRot() + 22;
         String direction;
         String coord;
 
@@ -41,51 +41,27 @@ public class InfoOverlays
 
         int facing = yaw / 45;
 
-        switch (coordDirection)
-        {
-            default:
-            case NORTH:
-                coord = "-Z";
-                break;
-            case SOUTH:
-                coord = "+Z";
-                break;
-            case WEST:
-                coord = "-X";
-                break;
-            case EAST:
-                coord = "+X";
-                break;
-        }
+        coord = switch (coordDirection)
+                {
+                    case NORTH -> "-Z";
+                    case SOUTH -> "+Z";
+                    case WEST -> "-X";
+                    case EAST -> "+X";
+                    default -> throw new IllegalStateException("Invalid direction");
+                };
 
-        switch (facing)
-        {
-            case 0:
-                direction = "hud.direction.south";
-                break;
-            case 1:
-                direction = "hud.direction.south_west";
-                break;
-            case 2:
-                direction = "hud.direction.west";
-                break;
-            case 3:
-                direction = "hud.direction.north_west";
-                break;
-            default:
-            case 4:
-                direction = "hud.direction.north";
-                break;
-            case 5:
-                direction = "hud.direction.north_east";
-                break;
-            case 6:
-                direction = "hud.direction.east";
-                break;
-            case 7:
-                direction = "hud.direction.south_east";
-                break;
-        }
+        direction = switch (facing)
+                {
+                    case 0 -> "hud.direction.south";
+                    case 1 -> "hud.direction.south_west";
+                    case 2 -> "hud.direction.west";
+                    case 3 -> "hud.direction.north_west";
+                    case 4 -> "hud.direction.north";
+                    case 5 -> "hud.direction.north_east";
+                    case 6 -> "hud.direction.east";
+                    case 7 -> "hud.direction.south_east";
+                    default -> throw new IllegalStateException("Invalid direction");
+                };
         direction = LangUtils.translateString(direction);
         direction += " (" + coord + ")";
         return new InfoOverlay("hud.direction", direction, IndicatiaSettings.INSTANCE.directionColor, IndicatiaSettings.INSTANCE.directionValueColor, InfoOverlay.Position.LEFT);

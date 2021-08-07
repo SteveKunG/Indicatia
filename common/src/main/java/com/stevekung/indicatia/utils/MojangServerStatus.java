@@ -25,16 +25,12 @@ public enum MojangServerStatus
 
     public static MojangServerStatus get(String status)
     {
-        switch (status)
-        {
-            case "green":
-                return MojangServerStatus.ONLINE;
-            case "yellow":
-                return MojangServerStatus.UNSTABLE;
-            case "red":
-                return MojangServerStatus.OFFLINE;
-            default:
-                return MojangServerStatus.UNKNOWN;
-        }
+        return switch (status)
+                {
+                    case "green" -> MojangServerStatus.ONLINE;
+                    case "yellow" -> MojangServerStatus.UNSTABLE;
+                    case "red" -> MojangServerStatus.OFFLINE;
+                    default -> MojangServerStatus.UNKNOWN;
+                };
     }
 }

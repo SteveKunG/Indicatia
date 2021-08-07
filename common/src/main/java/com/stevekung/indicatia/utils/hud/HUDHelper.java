@@ -1,6 +1,7 @@
 package com.stevekung.indicatia.utils.hud;
 
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -12,8 +13,10 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.resolver.ResolvedServerAddress;
+import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.client.multiplayer.resolver.ServerNameResolver;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.ConnectionProtocol;
@@ -49,38 +52,42 @@ public class HUDHelper
             try
             {
                 ServerAddress address = ServerAddress.parseString(server.ip);
-                Connection manager = Connection.connectToServer(InetAddress.getByName(address.getHost()), address.getPort(), false);
+                Optional<InetSocketAddress> optional = ServerNameResolver.DEFAULT.resolveAddress(address).map(ResolvedServerAddress::asInetSocketAddress);
 
-                manager.setListener(new ClientStatusPacketListener()
+                if (optional.isPresent())
                 {
-                    private long currentSystemTime = 0L;
-
-                    @Override
-                    public void handleStatusResponse(ClientboundStatusResponsePacket packet)
+                    Connection manager = Connection.connectToServer(optional.get(), false);
+                    manager.setListener(new ClientStatusPacketListener()
                     {
-                        this.currentSystemTime = Util.getMillis();
-                        manager.send(new ServerboundPingRequestPacket(this.currentSystemTime));
-                    }
+                        private long currentSystemTime = 0L;
 
-                    @Override
-                    public void handlePongResponse(ClientboundPongResponsePacket packet)
-                    {
-                        long i = this.currentSystemTime;
-                        long j = Util.getMillis();
-                        HUDHelper.currentServerPing = (int) (j - i);
-                    }
+                        @Override
+                        public void handleStatusResponse(ClientboundStatusResponsePacket packet)
+                        {
+                            this.currentSystemTime = Util.getMillis();
+                            manager.send(new ServerboundPingRequestPacket(this.currentSystemTime));
+                        }
 
-                    @Override
-                    public void onDisconnect(Component component) {}
+                        @Override
+                        public void handlePongResponse(ClientboundPongResponsePacket packet)
+                        {
+                            long i = this.currentSystemTime;
+                            long j = Util.getMillis();
+                            HUDHelper.currentServerPing = (int) (j - i);
+                        }
 
-                    @Override
-                    public Connection getConnection()
-                    {
-                        return manager;
-                    }
-                });
-                manager.send(new ClientIntentionPacket(address.getHost(), address.getPort(), ConnectionProtocol.STATUS));
-                manager.send(new ServerboundStatusRequestPacket());
+                        @Override
+                        public void onDisconnect(Component component) {}
+
+                        @Override
+                        public Connection getConnection()
+                        {
+                            return manager;
+                        }
+                    });
+                    manager.send(new ClientIntentionPacket(address.getHost(), address.getPort(), ConnectionProtocol.STATUS));
+                    manager.send(new ServerboundStatusRequestPacket());
+                }
             }
             catch (Exception ignored) {}
         });
@@ -107,22 +114,18 @@ public class HUDHelper
 
             switch (AFK_MODE)
             {
-                case IDLE:
-                    player.turn(angle, angle);
-                    break;
-                case RANDOM_MOVE:
+                case IDLE -> player.turn(angle, angle);
+                case RANDOM_MOVE -> {
                     player.turn(angle, angle);
                     afkMoveTicks++;
                     afkMoveTicks %= 8;
-                    break;
-                case RANDOM_360:
-                    player.turn((float) (Math.random() + 1.0F), 0.0F);
-                    break;
-                case RANDOM_MOVE_360:
+                }
+                case RANDOM_360 -> player.turn((float) (Math.random() + 1.0F), 0.0F);
+                case RANDOM_MOVE_360 -> {
                     player.turn((float) (Math.random() + 1.0F), 0.0F);
                     afkMoveTicks++;
                     afkMoveTicks %= 8;
-                    break;
+                }
             }
         }
         else

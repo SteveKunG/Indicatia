@@ -11,7 +11,7 @@ import com.stevekung.stevekungslib.client.ForgeKeyMappingBase;
 import com.stevekung.stevekungslib.utils.ForgeCommonUtils;
 import com.stevekung.stevekungslib.utils.ModVersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
-import me.shedaniel.architectury.platform.forge.EventBuses;
+import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -37,7 +37,7 @@ public class IndicatiaForge
         ForgeCommonUtils.addModListener(this::loadComplete);
 
         ForgeCommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_SPEC);
-        ForgeCommonUtils.registerConfigScreen(() -> (mc, parent) -> ForgeCommonUtils.openConfigFile(parent, Indicatia.MOD_ID, ModConfig.Type.CLIENT));
+        ForgeCommonUtils.registerConfigScreen((mc, parent) -> ForgeCommonUtils.openConfigFile(parent, Indicatia.MOD_ID, ModConfig.Type.CLIENT));
         ForgeCommonUtils.registerModEventBus(IndicatiaConfig.class);
         ForgeCommonUtils.registerEventHandler(new IndicatiaEventHandler());
         ForgeCommonUtils.registerEventHandler(new HUDRenderEventHandler());

@@ -5,19 +5,9 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
 
-public class MinigameData
+public record MinigameData(String name, boolean sort, List<Command> commands)
 {
     public static List<MinigameData> DATA = Lists.newArrayList();
-    private final String name;
-    private final boolean sort;
-    private final List<MinigameData.Command> commands;
-
-    public MinigameData(String name, boolean sort, List<MinigameData.Command> commands)
-    {
-        this.name = name;
-        this.sort = sort;
-        this.commands = commands;
-    }
 
     public String getName()
     {
@@ -39,24 +29,8 @@ public class MinigameData
         MinigameData.DATA.add(data);
     }
 
-    public static class Command
+    public record Command(String name, String command, @SerializedName("minigame") boolean isMinigame, String uuid, String texture)
     {
-        private final String name;
-        private final String command;
-        @SerializedName("minigame")
-        private final boolean isMinigame;
-        private final String uuid;
-        private final String texture;
-
-        public Command(String name, String command, boolean isMinigame, String uuid, String texture)
-        {
-            this.name = name;
-            this.command = command;
-            this.isMinigame = isMinigame;
-            this.uuid = uuid;
-            this.texture = texture;
-        }
-
         public String getName()
         {
             return this.name;
@@ -67,6 +41,7 @@ public class MinigameData
             return this.command;
         }
 
+        @Override
         public boolean isMinigame()
         {
             return this.isMinigame;

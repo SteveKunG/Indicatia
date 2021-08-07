@@ -35,7 +35,7 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 
 public class HUDRenderEventHandler
 {
@@ -65,19 +65,19 @@ public class HUDRenderEventHandler
     {
         PoseStack matrixStack = event.getMatrixStack();
 
-        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
-        {
-            event.setCanceled(!IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get());
-            RenderSystem.enableDepthTest();
-            RenderSystem.defaultBlendFunc();
-        }
-        if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
-        {
-            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
-            {
-                event.setCanceled(true);
-            }
-        }
+//        if (event.getType() == RenderGameOverlayEvent.ElementType.BOSSHEALTH)
+//        {
+//            event.setCanceled(!IndicatiaConfig.GENERAL.enableRenderBossHealthStatus.get());
+//            RenderSystem.enableDepthTest();
+//            RenderSystem.defaultBlendFunc();
+//        }
+//        if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS)
+//        {
+//            if (!IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
+//            {
+//                event.setCanceled(true);
+//            }
+//        }
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
             if (!this.mc.options.renderDebug && !this.mc.options.hideGui)

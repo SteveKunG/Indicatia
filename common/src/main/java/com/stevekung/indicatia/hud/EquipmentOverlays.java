@@ -33,7 +33,7 @@ public class EquipmentOverlays
         {
             for (int i = 3; i >= 0; i--)
             {
-                equippedLists.add(new HorizontalEquipmentOverlay(mc.player.inventory.armor.get(i)));
+                equippedLists.add(new HorizontalEquipmentOverlay(mc.player.getInventory().armor.get(i)));
             }
         }
 
@@ -72,7 +72,7 @@ public class EquipmentOverlays
         {
             for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
             {
-                equippedLists.add(new EquipmentOverlay(mc.player.inventory.armor.get(armorSlot)));
+                equippedLists.add(new EquipmentOverlay(mc.player.getInventory().armor.get(armorSlot)));
             }
         }
 
@@ -128,11 +128,11 @@ public class EquipmentOverlays
         {
             for (int i = 2; i <= 3; i++)
             {
-                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armor.get(i), HotbarEquipmentOverlay.Side.LEFT));
+                equippedLists.add(new HotbarEquipmentOverlay(mc.player.getInventory().armor.get(i), HotbarEquipmentOverlay.Side.LEFT));
             }
             for (int i = 0; i <= 1; i++)
             {
-                equippedLists.add(new HotbarEquipmentOverlay(mc.player.inventory.armor.get(i), HotbarEquipmentOverlay.Side.RIGHT));
+                equippedLists.add(new HotbarEquipmentOverlay(mc.player.getInventory().armor.get(i), HotbarEquipmentOverlay.Side.RIGHT));
             }
         }
 

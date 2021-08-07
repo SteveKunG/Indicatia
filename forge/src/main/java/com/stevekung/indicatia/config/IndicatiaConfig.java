@@ -4,7 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.stevekung.indicatia.core.Indicatia;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 public class IndicatiaConfig
 {
@@ -80,13 +80,13 @@ public class IndicatiaConfig
     }
 
     @SubscribeEvent
-    public static void onLoad(ModConfig.Loading event)
+    public static void onLoad(ModConfigEvent.Loading event)
     {
         Indicatia.LOGGER.info("Loaded config file {}", event.getConfig().getFileName());
     }
 
     @SubscribeEvent
-    public static void onFileChange(ModConfig.Reloading event)
+    public static void onFileChange(ModConfigEvent.Reloading event)
     {
         Indicatia.LOGGER.info("Indicatia config just got changed on the file system");
     }

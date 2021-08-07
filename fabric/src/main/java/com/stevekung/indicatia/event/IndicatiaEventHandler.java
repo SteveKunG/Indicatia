@@ -4,7 +4,7 @@ import com.stevekung.indicatia.gui.components.MojangStatusButton;
 import com.stevekung.indicatia.gui.screens.MojangStatusScreen;
 import com.stevekung.indicatia.utils.PlatformConfig;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;

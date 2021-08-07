@@ -10,6 +10,7 @@ import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class DropdownMinigamesButton extends Button
@@ -57,8 +58,8 @@ public class DropdownMinigamesButton extends Button
             this.selectedMinigame = initSelect;
         }
 
-        RenderSystem.pushMatrix();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         GuiComponent.fill(matrixStack, this.x, this.y, this.x + this.width - 15, this.y + (this.dropdownClicked ? this.height * this.displayLength + 15 : this.height), ColorUtils.to32Bit(0, 0, 0, 255));
         GuiComponent.fill(matrixStack, this.x + 1, this.y + 1, this.x + this.width - 16, this.y + (this.dropdownClicked ? this.height * this.displayLength + 15 : this.height) - 1, ColorUtils.to32Bit(hoverColor, hoverColor, hoverColor, 255));
@@ -96,9 +97,8 @@ public class DropdownMinigamesButton extends Button
                 mc.font.drawShadow(matrixStack, this.minigameLists.get(this.selectedMinigame), this.x + this.width / 2F - 7 - mc.font.width(this.minigameLists.get(this.selectedMinigame)) / 2F, this.y + (this.height - 6) / 2F, ColorUtils.to32Bit(255, 255, 255, 255));
             }
         }
-        mc.getTextureManager().bind(DropdownMinigamesButton.TEXTURE);
+        RenderSystem.setShaderTexture(0, DropdownMinigamesButton.TEXTURE);
         GuiComponent.blit(matrixStack, this.x + this.width - 12, this.y + 5, 0, 0, 7, 4, 7, 4);
-        RenderSystem.popMatrix();
     }
 
     @Override

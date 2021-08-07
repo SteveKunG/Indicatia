@@ -6,6 +6,7 @@ import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -35,8 +36,9 @@ public class MinigameButton extends Button
     {
         if (this.visible)
         {
-            this.mc.getTextureManager().bind(this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             GuiComponent.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
 

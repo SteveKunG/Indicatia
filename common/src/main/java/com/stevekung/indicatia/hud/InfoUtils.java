@@ -67,37 +67,17 @@ public class InfoUtils
     public String getMoonPhase(Minecraft mc)
     {
         int[] moonPhaseFactors = {4, 3, 2, 1, 0, -1, -2, -3};
-        String status;
-
-        switch (moonPhaseFactors[mc.level.dimensionType().moonPhase(mc.level.getDayTime())])
-        {
-            case 4:
-            default:
-                status = "hud.moon_phase.full_moon";
-                break;
-            case 3:
-                status = "hud.moon_phase.waning_gibbous";
-                break;
-            case 2:
-                status = "hud.moon_phase.last_quarter";
-                break;
-            case 1:
-                status = "hud.moon_phase.waning_crescent";
-                break;
-            case 0:
-                status = "hud.moon_phase.new_moon";
-                break;
-            case -1:
-                status = "hud.moon_phase.waxing_crescent";
-                break;
-            case -2:
-                status = "hud.moon_phase.first_quarter";
-                break;
-            case -3:
-                status = "hud.moon_phase.waxing_gibbous";
-                break;
-        }
-        return status;
+        return switch (moonPhaseFactors[mc.level.dimensionType().moonPhase(mc.level.getDayTime())])
+                {
+                    default -> "hud.moon_phase.full_moon";
+                    case 3 -> "hud.moon_phase.waning_gibbous";
+                    case 2 -> "hud.moon_phase.last_quarter";
+                    case 1 -> "hud.moon_phase.waning_crescent";
+                    case 0 -> "hud.moon_phase.new_moon";
+                    case -1 -> "hud.moon_phase.waxing_crescent";
+                    case -2 -> "hud.moon_phase.first_quarter";
+                    case -3 -> "hud.moon_phase.waxing_gibbous";
+                };
     }
 
     public boolean isSlimeChunk(BlockPos pos)

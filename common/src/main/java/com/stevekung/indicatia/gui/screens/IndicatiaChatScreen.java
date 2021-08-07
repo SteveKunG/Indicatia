@@ -20,13 +20,12 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import dev.architectury.event.EventResult;
-import me.shedaniel.architectury.event.EventResult;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.player.LocalPlayer;
@@ -51,11 +50,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
         ScreenEvents.CHAT_SCREEN_MOUSE_SCROLL.register(this::onChatMouseScrolled);
     }
 
-    private void onChatInit(List<Widget> buttons, List<GuiEventListener> children, int width, int height)
+    private void onChatInit(List<Widget> renderables, List<GuiEventListener> children, int width, int height)
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
-            this.updateButton(buttons, children, width, height);
+            this.updateButton(renderables, children, width, height);
 
             if (IndicatiaSettings.INSTANCE.chatMode < ChatMode.values().length)
             {
@@ -64,7 +63,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    private void onChatRenderPre(List<Widget> buttons, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+    private void onChatRenderPre(List<Widget> renderables, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelChatMode())
         {
@@ -77,11 +76,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    private void onChatRenderPost(List<Widget> buttons, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+    private void onChatRenderPost(List<Widget> renderables, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelDropdownShortcut())
         {
-            for (Widget button : buttons)
+            for (Widget button : renderables)
             {
                 if (button instanceof MinigameButton customButton)
                 {
@@ -91,19 +90,19 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    private void onChatTick(List<Widget> buttons, List<GuiEventListener> children, int width, int height)
+    private void onChatTick(List<Widget> renderables, List<GuiEventListener> children, int width, int height)
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelDropdownShortcut())
         {
             if (this.prevSelect != IndicatiaSettings.INSTANCE.selectedHypixelMinigame)
             {
-                this.updateButton(buttons, children, width, height);
+                this.updateButton(renderables, children, width, height);
                 this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
             }
 
             boolean clicked = !this.dropdown.dropdownClicked;
 
-            for (Widget button : buttons)
+            for (Widget button : renderables)
             {
                 if (button instanceof MinigameButton buttonCustom)
                 {
@@ -113,12 +112,12 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    private void onChatClose(List<Widget> buttons, List<GuiEventListener> children)
+    private void onChatClose(List<Widget> renderables, List<GuiEventListener> children)
     {
         IndicatiaSettings.INSTANCE.save();
     }
 
-    private EventResult onChatMouseScrolled(List<Widget> buttons, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
+    private EventResult onChatMouseScrolled(List<Widget> renderables, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
     {
         double delta = scrollDelta;
 
@@ -155,11 +154,12 @@ public class IndicatiaChatScreen implements IDropboxCallback
         return IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
     }
 
-    private void updateButton(List<AbstractWidget> buttons, List<GuiEventListener> children, int width, int height)
+    private void updateButton(List<Widget> renderables, List<GuiEventListener> children, int width, int height)
     {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        buttons.clear();
+        List<AbstractWidget> buttons = Lists.newArrayList();
+        renderables.clear();
         children.clear();
 
         if (player == null || !(mc.screen instanceof ChatScreen))
@@ -259,6 +259,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 minigameButton.visible = false;
             }
         }
+        renderables.addAll(buttons);
         children.addAll(buttons);
     }
 
