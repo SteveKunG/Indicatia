@@ -17,7 +17,7 @@ import net.minecraft.network.chat.TextComponent;
 
 public class ExtendedConfigScreen extends Screen
 {
-    private static final ImmutableList<?> OPTIONS = ImmutableList.of(IndicatiaSettings.SWAP_INFO_POS, IndicatiaSettings.EQUIPMENT_DIRECTION, IndicatiaSettings.EQUIPMENT_STATUS, IndicatiaSettings.EQUIPMENT_POSITION, IndicatiaSettings.POTION_HUD_STYLE, IndicatiaSettings.POTION_HUD_POSITION, IndicatiaSettings.PING_MODE);
+    private static final ImmutableList<?> OPTIONS = ImmutableList.of(IndicatiaSettings.SWAP_INFO_POS, IndicatiaSettings.EQUIPMENT_DIRECTION, IndicatiaSettings.EQUIPMENT_STATUS, IndicatiaSettings.EQUIPMENT_POSITION, IndicatiaSettings.POTION_HUD_STYLE, IndicatiaSettings.POTION_HUD_POSITION, IndicatiaSettings.PING_MODE, IndicatiaSettings.TIME_ON_VANILLA_POTION_HUD);
 
     public ExtendedConfigScreen()
     {

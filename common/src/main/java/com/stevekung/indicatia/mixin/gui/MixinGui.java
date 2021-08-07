@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.indicatia.config.StatusEffects;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import net.minecraft.client.Minecraft;
@@ -40,7 +39,7 @@ public class MixinGui
     @Inject(method = "renderEffects(Lcom/mojang/blaze3d/vertex/PoseStack;)V", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int n, int o, float g)
     {
-        if (IndicatiaSettings.INSTANCE.potionHUDStyle == StatusEffects.Style.TIME_ON_VANILLA)
+        if (IndicatiaSettings.INSTANCE.timeOnVanillaPotionHUD)
         {
             list.add(() ->
             {

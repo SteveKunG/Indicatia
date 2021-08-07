@@ -44,6 +44,7 @@ public class IndicatiaSettings extends Settings
     public boolean tps = false;
     public boolean tpsAllDims = false;
     public boolean alternatePotionHUDTextColor = false;
+    public boolean timeOnVanillaPotionHUD = true;
 
     // Main
     public boolean swapRenderInfo = false;
@@ -140,6 +141,7 @@ public class IndicatiaSettings extends Settings
     public static final BooleanSettings<IndicatiaSettings> TPS = new BooleanSettings<>("indicatia_setting.tps", config -> config.tps, (config, value) -> config.tps = value);
     public static final BooleanSettings<IndicatiaSettings> TPS_ALL_DIMS = new BooleanSettings<>("indicatia_setting.tps_all_dims", config -> config.tpsAllDims, (config, value) -> config.tpsAllDims = value);
     public static final BooleanSettings<IndicatiaSettings> ALTERNATE_POTION_COLOR = new BooleanSettings<>("indicatia_setting.alternate_potion_color", config -> config.alternatePotionHUDTextColor, (config, value) -> config.alternatePotionHUDTextColor = value);
+    public static final BooleanSettings<IndicatiaSettings> TIME_ON_VANILLA_POTION_HUD = new BooleanSettings<>("indicatia_setting.time_on_vanilla_potion_hud", config -> config.timeOnVanillaPotionHUD, (config, value) -> config.timeOnVanillaPotionHUD = value);
 
 
     public static final BooleanSettings<IndicatiaSettings> RIGHT_CLICK_ADD_PARTY = new BooleanSettings<>("indicatia_setting.right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
@@ -229,6 +231,7 @@ public class IndicatiaSettings extends Settings
             this.tps = this.getBoolean(nbt, "TPS", this.tps);
             this.tpsAllDims = this.getBoolean(nbt, "TPSAllDimensions", this.tpsAllDims);
             this.alternatePotionHUDTextColor = this.getBoolean(nbt, "AlternatePotionHUDTextColor", this.alternatePotionHUDTextColor);
+            this.timeOnVanillaPotionHUD = this.getBoolean(nbt, "TimeOnVanillaPotionHUD", this.timeOnVanillaPotionHUD);
 
             // Main
             this.swapRenderInfo = this.getBoolean(nbt, "SwapRenderInfo", this.swapRenderInfo);
@@ -335,6 +338,7 @@ public class IndicatiaSettings extends Settings
             nbt.putBoolean("TPS", this.tps);
             nbt.putBoolean("TPSAllDimensions", this.tpsAllDims);
             nbt.putBoolean("AlternatePotionHUDTextColor", this.alternatePotionHUDTextColor);
+            nbt.putBoolean("TimeOnVanillaPotionHUD", this.timeOnVanillaPotionHUD);
 
             // Main
             nbt.putBoolean("ShowCustomCape", this.showCustomCape);

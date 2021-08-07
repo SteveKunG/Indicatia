@@ -1,7 +1,10 @@
 package com.stevekung.indicatia.hud;
 
 import java.util.Collection;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -28,7 +31,7 @@ public class EffectOverlays
         int size = IndicatiaSettings.INSTANCE.maximumPotionDisplay;
         int length = IndicatiaSettings.INSTANCE.potionLengthYOffset;
         int lengthOverlap = IndicatiaSettings.INSTANCE.potionLengthYOffsetOverlap;
-        Collection<MobEffectInstance> collection = mc.player.getActiveEffects();
+        Collection<MobEffectInstance> collection = mc.player.getActiveEffects().stream().sorted((mob1, mob2) -> new CompareToBuilder().append(mob1.getDuration(), mob2.getDuration()).build()).collect(Collectors.toCollection(TreeSet::new));
         MobEffectTextureManager mobEffectTextures = mc.getMobEffectTextures();
         int xPotion;
         int yPotion;
