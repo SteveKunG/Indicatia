@@ -20,8 +20,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.AbstractSkullBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 
 @Mixin(BlockEntityWithoutLevelRenderer.class)
@@ -31,12 +29,12 @@ public class MixinBlockEntityWithoutLevelRenderer
     private void renderEnchantedSkull(Direction direction, float rotationYaw, float mouthAnimation, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, SkullModelBase skullModelBase, RenderType renderType, ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack _poseStack, MultiBufferSource _multiBufferSource, int _combinedLight, int _combinedOverlay)
     {
         GameProfile gameProfile = null;
-        Block block = ((BlockItem) itemStack.getItem()).getBlock();
-        SkullBlock.Type type = ((AbstractSkullBlock) block).getType();
+        var block = ((BlockItem) itemStack.getItem()).getBlock();
+        var type = ((AbstractSkullBlock) block).getType();
 
         if (itemStack.hasTag())
         {
-            CompoundTag compoundTag = itemStack.getTag();
+            var compoundTag = itemStack.getTag();
 
             if (compoundTag.contains("SkullOwner", 10))
             {

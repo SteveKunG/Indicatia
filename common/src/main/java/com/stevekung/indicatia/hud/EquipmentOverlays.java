@@ -14,24 +14,22 @@ import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.StringUtil;
-import net.minecraft.world.item.ItemStack;
 
 public class EquipmentOverlays
 {
-    public static void renderHorizontalEquippedItems(Minecraft mc, PoseStack matrixStack)
+    public static void renderHorizontalEquippedItems(Minecraft mc, PoseStack poseStack)
     {
-        boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        int baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
-        ItemStack mainhandStack = mc.player.getMainHandItem();
-        ItemStack offhandStack = mc.player.getOffhandItem();
-        List<HorizontalEquipmentOverlay> equippedLists = Lists.newArrayList();
-        int prevX = 0;
+        var right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
+        var baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
+        var mainhandStack = mc.player.getMainHandItem();
+        var offhandStack = mc.player.getOffhandItem();
+        var equippedLists = Lists.<HorizontalEquipmentOverlay>newArrayList();
+        var prevX = 0;
 
         if (IndicatiaSettings.INSTANCE.equipmentArmorItems)
         {
-            for (int i = 3; i >= 0; i--)
+            for (var i = 3; i >= 0; i--)
             {
                 equippedLists.add(new HorizontalEquipmentOverlay(mc.player.getInventory().armor.get(i)));
             }
@@ -43,34 +41,34 @@ public class EquipmentOverlays
             equippedLists.add(new HorizontalEquipmentOverlay(offhandStack));
         }
 
-        for (HorizontalEquipmentOverlay equipment : equippedLists)
+        for (var equipment : equippedLists)
         {
-            ItemStack itemStack = equipment.getItemStack();
-            int totalWidth = EquipmentOverlays.getTotalWidth(equippedLists);
+            var itemStack = equipment.getItemStack();
+            var totalWidth = EquipmentOverlays.getTotalWidth(equippedLists);
 
             if (itemStack.isEmpty())
             {
                 continue;
             }
-            int xBaseRight = mc.getWindow().getGuiScaledWidth() - totalWidth - 2;
-            equipment.render(matrixStack, right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
+            var xBaseRight = mc.getWindow().getGuiScaledWidth() - totalWidth - 2;
+            equipment.render(poseStack, right ? xBaseRight + prevX + equipment.getWidth() : 2 + prevX, baseYOffset);
             prevX += equipment.getWidth();
         }
     }
 
-    public static void renderVerticalEquippedItems(Minecraft mc, PoseStack matrixStack)
+    public static void renderVerticalEquippedItems(Minecraft mc, PoseStack poseStack)
     {
-        int i = 0;
-        List<EquipmentOverlay> equippedLists = Lists.newArrayList();
-        ItemStack mainhandStack = mc.player.getMainHandItem();
-        ItemStack offhandStack = mc.player.getOffhandItem();
-        boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        int baseXOffset = right ? mc.getWindow().getGuiScaledWidth() - 18 : 2;
-        int baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
+        var i = 0;
+        var equippedLists = Lists.<EquipmentOverlay>newArrayList();
+        var mainhandStack = mc.player.getMainHandItem();
+        var offhandStack = mc.player.getOffhandItem();
+        var right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
+        var baseXOffset = right ? mc.getWindow().getGuiScaledWidth() - 18 : 2;
+        var baseYOffset = IndicatiaSettings.INSTANCE.armorHUDYOffset;
 
         if (IndicatiaSettings.INSTANCE.equipmentArmorItems)
         {
-            for (int armorSlot = 3; armorSlot >= 0; armorSlot--)
+            for (var armorSlot = 3; armorSlot >= 0; armorSlot--)
             {
                 equippedLists.add(new EquipmentOverlay(mc.player.getInventory().armor.get(armorSlot)));
             }
@@ -82,55 +80,55 @@ public class EquipmentOverlays
             equippedLists.add(new EquipmentOverlay(offhandStack));
         }
 
-        for (EquipmentOverlay equipment : equippedLists)
+        for (var equipment : equippedLists)
         {
-            ItemStack itemStack = equipment.getItemStack();
+            var itemStack = equipment.getItemStack();
 
             if (itemStack.isEmpty())
             {
                 continue;
             }
-            int equipmentYOffset = baseYOffset + 16 * i;
-            String info = equipment.renderInfo();
-            MutableComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).copy();
+            var equipmentYOffset = baseYOffset + 16 * i;
+            var info = equipment.renderInfo();
+            var arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).copy();
             arrowInfo.setStyle(arrowInfo.getStyle().withFont(ClientUtils.UNICODE));
-            float fontHeight = (mc.font.lineHeight + 7) * i;
-            float infoXOffset = right ? mc.getWindow().getGuiScaledWidth() - mc.font.width(info) - 20.0625F : baseXOffset + 18.0625F;
-            float infoYOffset = baseYOffset + 4 + fontHeight;
-            float arrowXOffset = right ? mc.getWindow().getGuiScaledWidth() - mc.font.width(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
-            float arrowYOffset = baseYOffset + 8 + fontHeight;
+            var fontHeight = (mc.font.lineHeight + 7) * i;
+            var infoXOffset = right ? mc.getWindow().getGuiScaledWidth() - mc.font.width(info) - 20.0625F : baseXOffset + 18.0625F;
+            var infoYOffset = baseYOffset + 4 + fontHeight;
+            var arrowXOffset = right ? mc.getWindow().getGuiScaledWidth() - mc.font.width(arrowInfo) - 2.0625F : baseXOffset + 8.0625F;
+            var arrowYOffset = baseYOffset + 8 + fontHeight;
 
             EquipmentOverlay.renderItem(itemStack, baseXOffset, equipmentYOffset);
 
             if (!StringUtil.isNullOrEmpty(info))
             {
-                mc.font.drawShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+                mc.font.drawShadow(poseStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
             }
             if (!StringUtil.isNullOrEmpty(arrowInfo.getString()))
             {
                 RenderSystem.disableDepthTest();
-                mc.font.drawShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                mc.font.drawShadow(poseStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                 RenderSystem.enableDepthTest();
             }
             ++i;
         }
     }
 
-    public static void renderHotbarEquippedItems(Minecraft mc, PoseStack matrixStack)
+    public static void renderHotbarEquippedItems(Minecraft mc, PoseStack poseStack)
     {
-        List<HotbarEquipmentOverlay> equippedLists = Lists.newArrayList();
-        ItemStack mainhandStack = mc.player.getMainHandItem();
-        ItemStack offhandStack = mc.player.getOffhandItem();
-        int iLeft = 0;
-        int iRight = 0;
+        var equippedLists = Lists.<HotbarEquipmentOverlay>newArrayList();
+        var mainhandStack = mc.player.getMainHandItem();
+        var offhandStack = mc.player.getOffhandItem();
+        var iLeft = 0;
+        var iRight = 0;
 
         if (IndicatiaSettings.INSTANCE.equipmentArmorItems)
         {
-            for (int i = 2; i <= 3; i++)
+            for (var i = 2; i <= 3; i++)
             {
                 equippedLists.add(new HotbarEquipmentOverlay(mc.player.getInventory().armor.get(i), HotbarEquipmentOverlay.Side.LEFT));
             }
-            for (int i = 0; i <= 1; i++)
+            for (var i = 0; i <= 1; i++)
             {
                 equippedLists.add(new HotbarEquipmentOverlay(mc.player.getInventory().armor.get(i), HotbarEquipmentOverlay.Side.RIGHT));
             }
@@ -142,11 +140,11 @@ public class EquipmentOverlays
             equippedLists.add(new HotbarEquipmentOverlay(offhandStack, HotbarEquipmentOverlay.Side.RIGHT));
         }
 
-        for (HotbarEquipmentOverlay equipment : equippedLists)
+        for (var equipment : equippedLists)
         {
-            ItemStack itemStack = equipment.getItemStack();
-            String info = equipment.renderInfo();
-            MutableComponent arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).copy();
+            var itemStack = equipment.getItemStack();
+            var info = equipment.renderInfo();
+            var arrowInfo = TextComponentUtils.component(equipment.renderArrowInfo()).copy();
             arrowInfo.setStyle(arrowInfo.getStyle().withFont(ClientUtils.UNICODE));
 
             if (itemStack.isEmpty())
@@ -156,48 +154,48 @@ public class EquipmentOverlays
 
             if (equipment.getSide() == HotbarEquipmentOverlay.Side.LEFT)
             {
-                int baseXOffset = mc.getWindow().getGuiScaledWidth() / 2 - 111;
-                int armorYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 40;
-                float infoXOffset = mc.getWindow().getGuiScaledWidth() / 2F - 114 - mc.font.width(info);
-                int infoYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 36;
+                var baseXOffset = mc.getWindow().getGuiScaledWidth() / 2 - 111;
+                var armorYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 40;
+                var infoXOffset = mc.getWindow().getGuiScaledWidth() / 2F - 114 - mc.font.width(info);
+                var infoYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
                 if (!StringUtil.isNullOrEmpty(info))
                 {
-                    mc.font.drawShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+                    mc.font.drawShadow(poseStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
                 }
                 if (!StringUtil.isNullOrEmpty(arrowInfo.getString()))
                 {
-                    float arrowXOffset = mc.getWindow().getGuiScaledWidth() / 2F - 104;
-                    int arrowYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 32;
+                    var arrowXOffset = mc.getWindow().getGuiScaledWidth() / 2F - 104;
+                    var arrowYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iLeft - 32;
 
                     RenderSystem.disableDepthTest();
-                    mc.font.drawShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                    mc.font.drawShadow(poseStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iLeft;
             }
             else
             {
-                int baseXOffset = mc.getWindow().getGuiScaledWidth() / 2 + 95;
-                int armorYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 40;
-                float infoXOffset = mc.getWindow().getGuiScaledWidth() / 2F + 114;
-                int infoYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 36;
+                var baseXOffset = mc.getWindow().getGuiScaledWidth() / 2 + 95;
+                var armorYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 40;
+                var infoXOffset = mc.getWindow().getGuiScaledWidth() / 2F + 114;
+                var infoYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 36;
 
                 EquipmentOverlay.renderItem(itemStack, baseXOffset, armorYOffset);
 
                 if (!StringUtil.isNullOrEmpty(info))
                 {
-                    mc.font.drawShadow(matrixStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+                    mc.font.drawShadow(poseStack, info, infoXOffset, infoYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
                 }
                 if (!StringUtil.isNullOrEmpty(arrowInfo.getString()))
                 {
-                    float arrowXOffset = mc.getWindow().getGuiScaledWidth() / 2F + 112 - mc.font.width(arrowInfo);
-                    int arrowYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 32;
+                    var arrowXOffset = mc.getWindow().getGuiScaledWidth() / 2F + 112 - mc.font.width(arrowInfo);
+                    var arrowYOffset = mc.getWindow().getGuiScaledHeight() - 16 * iRight - 32;
 
                     RenderSystem.disableDepthTest();
-                    mc.font.drawShadow(matrixStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+                    mc.font.drawShadow(poseStack, arrowInfo, arrowXOffset, arrowYOffset, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
                     RenderSystem.enableDepthTest();
                 }
                 ++iRight;
@@ -207,11 +205,11 @@ public class EquipmentOverlays
 
     private static int getTotalWidth(List<HorizontalEquipmentOverlay> equippedLists)
     {
-        int width = 0;
+        var width = 0;
 
-        for (HorizontalEquipmentOverlay equipment : equippedLists)
+        for (var equipment : equippedLists)
         {
-            ItemStack itemStack = equipment.getItemStack();
+            var itemStack = equipment.getItemStack();
 
             if (itemStack.isEmpty())
             {

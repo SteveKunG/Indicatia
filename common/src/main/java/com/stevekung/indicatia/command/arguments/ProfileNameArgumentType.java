@@ -1,7 +1,10 @@
 package com.stevekung.indicatia.command.arguments;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -42,7 +45,7 @@ public record ProfileNameArgumentType(ProfileNameArgumentType.Mode mode) impleme
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
     {
-        List<String> resList = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
+        var resList = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> this.mode == Mode.REMOVE ? file.getName().endsWith(".dat") && !file.getName().equals("default.dat") : file.getName().endsWith(".dat")).map(file -> file.getName().replace(".dat", "")).collect(Collectors.toList());
         return this.mode == Mode.ADD ? Suggestions.empty() : ProfileNameArgumentType.suggestIterable(resList, builder);
     }
 
@@ -60,16 +63,16 @@ public record ProfileNameArgumentType(ProfileNameArgumentType.Mode mode) impleme
 
     private static CompletableFuture<Suggestions> suggestIterable(Iterable<String> iterable, SuggestionsBuilder builder)
     {
-        String typedString = builder.getRemaining().toLowerCase(Locale.ROOT);
+        var typedString = builder.getRemaining().toLowerCase(Locale.ROOT);
         ProfileNameArgumentType.applySuggest(iterable, typedString, string1 -> string1, builder::suggest);
         return builder.buildFuture();
     }
 
     private static void applySuggest(Iterable<String> iterable, String typedString, Function<String, String> function, Consumer<String> consumer)
     {
-        for (String name : iterable)
+        for (var name : iterable)
         {
-            String name2 = function.apply(name);
+            var name2 = function.apply(name);
 
             if (name2.startsWith(typedString))
             {
@@ -80,14 +83,14 @@ public record ProfileNameArgumentType(ProfileNameArgumentType.Mode mode) impleme
 
     private static String read(StringReader reader) throws CommandSyntaxException
     {
-        int cursor = reader.getCursor();
+        var cursor = reader.getCursor();
 
         while (reader.canRead() && ResourceLocation.isAllowedInResourceLocation(reader.peek()))
         {
             reader.skip();
         }
 
-        String string = reader.getString().substring(cursor, reader.getCursor());
+        var string = reader.getString().substring(cursor, reader.getCursor());
 
         try
         {
@@ -103,7 +106,7 @@ public record ProfileNameArgumentType(ProfileNameArgumentType.Mode mode) impleme
     @Nullable
     public static File getProfileFile(String name)
     {
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        for (var file : IndicatiaSettings.USER_DIR.listFiles())
         {
             if (file.getName().equals(name + ".dat"))
             {

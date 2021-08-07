@@ -28,9 +28,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.item.ItemStack;
 
@@ -67,10 +65,10 @@ public class IndicatiaChatScreen implements IDropboxCallback
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelChatMode())
         {
-            Minecraft mc = Minecraft.getInstance();
-            MutableComponent chatMode = LangUtils.translate("menu.chat_mode").copy().append(": ").append(LangUtils.translate(this.mode.desc).copy().withStyle(this.mode.color, ChatFormatting.BOLD));
-            int x = 4;
-            int y = mc.screen.height - 30;
+            var mc = Minecraft.getInstance();
+            var chatMode = LangUtils.translate("menu.chat_mode").copy().append(": ").append(LangUtils.translate(this.mode.desc).copy().withStyle(this.mode.color, ChatFormatting.BOLD));
+            var x = 4;
+            var y = mc.screen.height - 30;
             GuiComponent.fill(poseStack, x - 2, y - 3, x + mc.font.width(chatMode) + 2, y + 10, ColorUtils.to32Bit(0, 0, 0, 128));
             mc.font.drawShadow(poseStack, chatMode, x, y, ColorUtils.toDecimal(255, 255, 255));
         }
@@ -80,7 +78,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelDropdownShortcut())
         {
-            for (Widget button : renderables)
+            for (var button : renderables)
             {
                 if (button instanceof MinigameButton customButton)
                 {
@@ -100,9 +98,9 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
             }
 
-            boolean clicked = !this.dropdown.dropdownClicked;
+            var clicked = !this.dropdown.dropdownClicked;
 
-            for (Widget button : renderables)
+            for (var button : renderables)
             {
                 if (button instanceof MinigameButton buttonCustom)
                 {
@@ -119,7 +117,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
     private EventResult onChatMouseScrolled(List<Widget> renderables, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
     {
-        double delta = scrollDelta;
+        var delta = scrollDelta;
 
         if (PlatformConfig.getHypixelDropdownShortcut() && this.dropdown != null && this.dropdown.dropdownClicked && this.dropdown.isHoverDropdown(mouseX, mouseY))
         {
@@ -156,9 +154,9 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
     private void updateButton(List<Widget> renderables, List<GuiEventListener> children, int width, int height)
     {
-        Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = mc.player;
-        List<AbstractWidget> buttons = Lists.newArrayList();
+        var mc = Minecraft.getInstance();
+        var player = mc.player;
+        var buttons = Lists.<AbstractWidget>newArrayList();
         renderables.clear();
         children.clear();
 
@@ -167,19 +165,19 @@ public class IndicatiaChatScreen implements IDropboxCallback
             return;
         }
 
-        List<String> list = Lists.newArrayList();
+        var list = Lists.<String>newArrayList();
 
-        for (MinigameData data : MinigameData.DATA)
+        for (var data : MinigameData.DATA)
         {
-            list.add(data.getName());
+            list.add(data.name());
         }
 
-        String max = Collections.max(list, Comparator.comparing(String::length));
-        int length = mc.font.width(max) + 32;
+        var max = Collections.max(list, Comparator.comparing(String::length));
+        var length = mc.font.width(max) + 32;
 
         if (PlatformConfig.getHypixelChatMode())
         {
-            for (ChatMode mode : ChatMode.values())
+            for (var mode : ChatMode.values())
             {
                 buttons.add(new Button(width - mode.x, height - mode.y, mode.width, mode.height, mode.message, button ->
                 {
@@ -196,8 +194,8 @@ public class IndicatiaChatScreen implements IDropboxCallback
             this.dropdown.setWidth(length);
             this.prevSelect = IndicatiaSettings.INSTANCE.selectedHypixelMinigame;
 
-            List<MinigameButton> gameBtn = Lists.newArrayList();
-            int xPos2 = width - 99;
+            var gameBtn = Lists.<MinigameButton>newArrayList();
+            var xPos2 = width - 99;
 
             if (this.prevSelect > list.size())
             {
@@ -206,26 +204,26 @@ public class IndicatiaChatScreen implements IDropboxCallback
                 IndicatiaSettings.INSTANCE.selectedHypixelMinigame = 0;
             }
 
-            for (MinigameData data : MinigameData.DATA)
+            for (var data : MinigameData.DATA)
             {
-                for (MinigameData.Command command : data.getCommands())
+                for (var command : data.commands())
                 {
-                    if (data.getName().equals(list.get(this.prevSelect)))
+                    if (data.name().equals(list.get(this.prevSelect)))
                     {
-                        ItemStack skull = ItemStack.EMPTY;
+                        var skull = ItemStack.EMPTY;
 
-                        if (!StringUtil.isNullOrEmpty(command.getUUID()))
+                        if (!StringUtil.isNullOrEmpty(command.uuid()))
                         {
-                            skull = ItemUtils.getSkullItemStack(command.getUUID(), command.getTexture());
+                            skull = ItemUtils.getSkullItemStack(command.uuid(), command.texture());
                         }
-                        gameBtn.add(new MinigameButton(width, TextComponentUtils.component(command.getName()), command.isMinigame(), button -> player.chat(command.getCommand().startsWith("/") ? command.getCommand() : command.isMinigame() ? "/play " + command.getCommand() : "/lobby " + command.getCommand()), skull));
+                        gameBtn.add(new MinigameButton(width, TextComponentUtils.component(command.name()), command.isMinigame(), button -> player.chat(command.command().startsWith("/") ? command.command() : command.isMinigame() ? "/play " + command.command() : "/lobby " + command.command()), skull));
                     }
                 }
             }
 
-            for (int i = 0; i < gameBtn.size(); i++)
+            for (var i = 0; i < gameBtn.size(); i++)
             {
-                MinigameButton button = gameBtn.get(i);
+                var button = gameBtn.get(i);
 
                 if (i >= 6 && i <= 10)
                 {
@@ -252,7 +250,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
             }
         }
 
-        for (Widget button : buttons)
+        for (var button : buttons)
         {
             if (button instanceof MinigameButton minigameButton)
             {

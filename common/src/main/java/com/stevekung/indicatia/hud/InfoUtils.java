@@ -5,8 +5,6 @@ import java.util.Random;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 
@@ -22,7 +20,7 @@ public class InfoUtils
 
     public int getPing()
     {
-        PlayerInfo info = this.mc.getConnection().getPlayerInfo(this.mc.player.getUUID());
+        var info = this.mc.getConnection().getPlayerInfo(this.mc.player.getUUID());
 
         if (info != null)
         {
@@ -60,13 +58,13 @@ public class InfoUtils
 
     public boolean isHypixel()
     {
-        ServerData server = this.mc.getCurrentServer();
+        var server = this.mc.getCurrentServer();
         return server != null && server.ip.contains("hypixel");
     }
 
     public String getMoonPhase(Minecraft mc)
     {
-        int[] moonPhaseFactors = {4, 3, 2, 1, 0, -1, -2, -3};
+        var moonPhaseFactors = new int[] {4, 3, 2, 1, 0, -1, -2, -3};
         return switch (moonPhaseFactors[mc.level.dimensionType().moonPhase(mc.level.getDayTime())])
                 {
                     default -> "hud.moon_phase.full_moon";
@@ -82,9 +80,9 @@ public class InfoUtils
 
     public boolean isSlimeChunk(BlockPos pos)
     {
-        int x = Mth.intFloorDiv(pos.getX(), 16);
-        int z = Mth.intFloorDiv(pos.getZ(), 16);
-        Random rand = new Random(IndicatiaSettings.INSTANCE.slimeChunkSeed + x * x * 4987142L + x * 5947611L + z * z * 4392871L + z * 389711L ^ 987234911L);
+        var x = Mth.intFloorDiv(pos.getX(), 16);
+        var z = Mth.intFloorDiv(pos.getZ(), 16);
+        var rand = new Random(IndicatiaSettings.INSTANCE.slimeChunkSeed + x * x * 4987142L + x * 5947611L + z * z * 4392871L + z * 389711L ^ 987234911L);
         return rand.nextInt(10) == 0;
     }
 }

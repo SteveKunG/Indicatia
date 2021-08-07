@@ -2,7 +2,6 @@ package com.stevekung.indicatia.mixin.fabric.gui.screens.multiplayer;
 
 import java.net.UnknownHostException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 import org.spongepowered.asm.mixin.Final;
@@ -28,7 +27,6 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public abstract class MixinServerSelectionList_OnlineServerEntry
@@ -56,7 +54,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
     DynamicTexture icon;
 
     @Shadow
-    abstract void drawIcon(PoseStack matrixStack, int x, int y, ResourceLocation resource);
+    abstract void drawIcon(PoseStack poseStack, int x, int y, ResourceLocation resource);
 
     @Shadow
     abstract boolean uploadServerIcon(String icon);
@@ -68,7 +66,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
     private void render(PoseStack poseStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
-        ServerSelectionList.OnlineServerEntry entry = (ServerSelectionList.OnlineServerEntry) (Object) this;
+        var entry = (ServerSelectionList.OnlineServerEntry) (Object) this;
 
         if (IndicatiaFabric.CONFIG.general.multiplayerScreenEnhancement)
         {
@@ -98,20 +96,20 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 });
             }
 
-            boolean flag = this.serverData.protocol > SharedConstants.getCurrentVersion().getProtocolVersion();
-            boolean flag1 = this.serverData.protocol < SharedConstants.getCurrentVersion().getProtocolVersion();
-            boolean flag2 = flag || flag1;
+            var flag = this.serverData.protocol > SharedConstants.getCurrentVersion().getProtocolVersion();
+            var flag1 = this.serverData.protocol < SharedConstants.getCurrentVersion().getProtocolVersion();
+            var flag2 = flag || flag1;
             this.minecraft.font.draw(poseStack, this.serverData.name, x + 32 + 3, y + 1, 16777215);
-            List<FormattedCharSequence> list = this.minecraft.font.split(this.serverData.motd, listWidth - 50);
+            var list = this.minecraft.font.split(this.serverData.motd, listWidth - 50);
 
-            for (int i = 0; i < Math.min(list.size(), 2); ++i)
+            for (var i = 0; i < Math.min(list.size(), 2); ++i)
             {
                 this.minecraft.font.draw(poseStack, list.get(i), x + 35, y + 12 + 9 * i, 8421504);
             }
 
             Component ping;
-            long responseTime = this.serverData.ping;
-            String responseTimeText = String.valueOf(responseTime);
+            var responseTime = this.serverData.ping;
+            var responseTimeText = String.valueOf(responseTime);
 
             if (this.serverData.motd.getString().contains(LangUtils.translateString("multiplayer.status.cannot_connect")))
             {
@@ -138,10 +136,10 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 ping = TextComponentUtils.formatted(responseTimeText + "ms", ChatFormatting.GREEN);
             }
 
-            Component s2 = flag2 ? this.serverData.version.copy().withStyle(ChatFormatting.DARK_RED) : this.serverData.status.copy().append(" ").append(ping);
-            int j = this.minecraft.font.width(s2);
+            var s2 = flag2 ? this.serverData.version.copy().withStyle(ChatFormatting.DARK_RED) : this.serverData.status.copy().append(" ").append(ping);
+            var j = this.minecraft.font.width(s2);
             this.minecraft.font.draw(poseStack, s2, x + listWidth - j - 6, y + 1, 8421504);
-            List<Component> s = Collections.emptyList();
+            var s = Collections.<Component>emptyList();
 
             if (flag2)
             {
@@ -155,7 +153,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 }
             }
 
-            String icon = this.serverData.getIconB64();
+            var icon = this.serverData.getIconB64();
 
             if (!Objects.equals(icon, this.lastIconB64))
             {
@@ -179,8 +177,8 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 this.drawIcon(poseStack, x, y, ServerSelectionList.ICON_MISSING);
             }
 
-            int i1 = mouseX - x;
-            int j1 = mouseY - y;
+            var i1 = mouseX - x;
+            var j1 = mouseY - y;
 
             if (i1 >= listWidth - j - 6 && i1 <= listWidth - 7 && j1 >= 0 && j1 <= 8)
             {
@@ -193,8 +191,8 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 GuiComponent.fill(poseStack, x, y, x + 32, y + 32, -1601138544);
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                int k1 = mouseX - x;
-                int l1 = mouseY - y;
+                var k1 = mouseX - x;
+                var l1 = mouseY - y;
 
                 if (this.canJoin())
                 {

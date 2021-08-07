@@ -3,7 +3,6 @@
     "minVersion": "0.8.2",
     "compatibilityLevel": "JAVA_8",
     "package": "com.stevekung.indicatia.mixin",
-    "plugin": "com.stevekung.indicatia.core.IndicatiaMixinConfigPlugin",
     "client": [
         "MixinMinecraft",
         "gui.MixinGui",

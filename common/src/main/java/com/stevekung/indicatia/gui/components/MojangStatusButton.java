@@ -25,12 +25,12 @@ public class MojangStatusButton extends Button
 
     @SuppressWarnings("deprecation")
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
         if (this.mc.screen instanceof TitleScreen main)
         {
-            float f = main.fading ? (Util.getMillis() - main.fadeInStart) / 1000.0F : 1.0F;
-            float f1 = main.fading ? Mth.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
+            var f = main.fading ? (Util.getMillis() - main.fadeInStart) / 1000.0F : 1.0F;
+            var f1 = main.fading ? Mth.clamp(f - 1.0F, 0.0F, 1.0F) : 1.0F;
 
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -39,8 +39,8 @@ public class MojangStatusButton extends Button
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
             this.setAlpha(f1);
 
-            boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            GuiComponent.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
+            var flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            GuiComponent.blit(poseStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
         }
     }
 }

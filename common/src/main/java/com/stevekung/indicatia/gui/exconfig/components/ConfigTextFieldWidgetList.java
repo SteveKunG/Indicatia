@@ -45,7 +45,7 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
     {
         if (this.getSelected() != null && this.getSelected().getTextField() != null)
         {
-            TextFieldSettingsWidget<IndicatiaSettings> text = this.getSelected().getTextField();
+            var text = this.getSelected().getTextField();
             this.selected = mouseX >= text.x && mouseX < text.x + text.getWidth() && mouseY >= text.y && mouseY < text.y + text.getHeight();
             text.setFocus(false);
         }
@@ -77,13 +77,13 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
         }
 
         @Override
-        public void render(PoseStack matrixStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
+        public void render(PoseStack poseStack, int index, int rowTop, int rowLeft, int rowWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
         {
-            for (TextFieldSettingsWidget<IndicatiaSettings> textField : this.textFields)
+            for (var textField : this.textFields)
             {
                 textField.y = rowTop;
-                textField.render(matrixStack, mouseX, mouseY, partialTicks);
-                Minecraft.getInstance().font.draw(matrixStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
+                textField.render(poseStack, mouseX, mouseY, partialTicks);
+                Minecraft.getInstance().font.draw(poseStack, textField.getDisplayName(), rowLeft + 64, rowTop + 5, ColorUtils.toDecimal(255, 255, 255));
             }
         }
 
@@ -119,7 +119,7 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
         {
             if (this.getTextField() != null)
             {
-                TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
+                var text = this.getTextField();
                 text.setValue(IndicatiaSettings.INSTANCE, text.getValue());
             }
         }
@@ -128,7 +128,7 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
         {
             if (this.getTextField() != null)
             {
-                TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
+                var text = this.getTextField();
                 text.tick();
             }
         }
@@ -137,8 +137,8 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
         {
             if (this.getTextField() != null)
             {
-                TextFieldSettingsWidget<IndicatiaSettings> text = this.getTextField();
-                String textTemp = text.getValue();
+                var text = this.getTextField();
+                var textTemp = text.getValue();
                 text.setValue(textTemp);
             }
         }

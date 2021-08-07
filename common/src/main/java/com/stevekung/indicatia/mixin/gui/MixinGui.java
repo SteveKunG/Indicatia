@@ -21,7 +21,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.Mth;
@@ -43,8 +42,8 @@ public class MixinGui
         {
             list.add(() ->
             {
-                int ticks = Mth.floor((float) mobEffectInstance.getDuration());
-                Component text = new TextComponent(StringUtil.formatTickDuration(ticks)).withStyle(Style.EMPTY.withFont(ClientUtils.UNICODE));
+                var ticks = Mth.floor((float) mobEffectInstance.getDuration());
+                var text = new TextComponent(StringUtil.formatTickDuration(ticks)).withStyle(Style.EMPTY.withFont(ClientUtils.UNICODE));
                 GuiComponent.drawCenteredString(poseStack, this.minecraft.font, text, x + 12, y + 15, ColorUtils.to32Bit(255, 255, 255, (int) (alpha * 255)));
                 RenderSystem.enableBlend();
             });

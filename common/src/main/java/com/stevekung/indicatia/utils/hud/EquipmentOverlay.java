@@ -4,7 +4,6 @@ import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
@@ -29,14 +28,14 @@ public class EquipmentOverlay
 
     public String renderInfo()
     {
-        Equipments.Status status = IndicatiaSettings.INSTANCE.equipmentStatus;
+        var status = IndicatiaSettings.INSTANCE.equipmentStatus;
 
         if (status == Equipments.Status.NONE || this.itemStack.isDamageableItem() && (status == Equipments.Status.AMOUNT || status == Equipments.Status.AMOUNT_AND_STACK))
         {
             return "";
         }
 
-        int itemCount = EquipmentOverlay.getInventoryItemCount(this.mc.player.getInventory(), this.itemStack);
+        var itemCount = EquipmentOverlay.getInventoryItemCount(this.mc.player.getInventory(), this.itemStack);
 
         if (this.itemStack.isDamageableItem())
         {
@@ -50,7 +49,7 @@ public class EquipmentOverlay
 
     public String renderArrowInfo()
     {
-        int arrowCount = EquipmentOverlay.getInventoryArrowCount(this.mc.player.getInventory());
+        var arrowCount = EquipmentOverlay.getInventoryArrowCount(this.mc.player.getInventory());
 
         if (this.itemStack.getItem() instanceof BowItem && arrowCount > 0)
         {
@@ -62,7 +61,7 @@ public class EquipmentOverlay
     @SuppressWarnings("deprecation")
     public static void renderItem(ItemStack itemStack, int x, int y)
     {
-        ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
+        var itemRender = Minecraft.getInstance().getItemRenderer();
         itemRender.blitOffset = -200.0F;
         itemRender.renderAndDecorateItem(itemStack, x, y);
         itemRender.blitOffset = 0.0F;
@@ -86,18 +85,18 @@ public class EquipmentOverlay
 
     private static String getItemStackCount(ItemStack itemStack, int count)
     {
-        Equipments.Status status = IndicatiaSettings.INSTANCE.equipmentStatus;
+        var status = IndicatiaSettings.INSTANCE.equipmentStatus;
         double stack = count / (double) itemStack.getMaxStackSize();
         return count == 1 || itemStack.hasTag() && itemStack.getTag().getBoolean("Unbreakable") ? "" : String.valueOf(status == Equipments.Status.AMOUNT_AND_STACK ? count + "/" + EquipmentOverlay.STACK.format(stack) : count);
     }
 
     private static int getInventoryItemCount(Inventory inventory, ItemStack other)
     {
-        int count = 0;
+        var count = 0;
 
-        for (int i = 0; i < inventory.getContainerSize(); i++)
+        for (var i = 0; i < inventory.getContainerSize(); i++)
         {
-            ItemStack playerItems = inventory.getItem(i);
+            var playerItems = inventory.getItem(i);
 
             if (playerItems.isEmpty())
             {
@@ -113,11 +112,11 @@ public class EquipmentOverlay
 
     private static int getInventoryArrowCount(Inventory inventory)
     {
-        int arrowCount = 0;
+        var arrowCount = 0;
 
-        for (int i = 0; i < inventory.getContainerSize(); ++i)
+        for (var i = 0; i < inventory.getContainerSize(); ++i)
         {
-            ItemStack itemStack = inventory.getItem(i);
+            var itemStack = inventory.getItem(i);
 
             if (itemStack.isEmpty())
             {

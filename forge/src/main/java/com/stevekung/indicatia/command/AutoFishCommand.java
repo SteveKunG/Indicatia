@@ -8,7 +8,6 @@ import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
 import com.stevekung.stevekungslib.utils.client.command.IClientSharedSuggestionProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.world.item.FishingRodItem;
 
@@ -29,9 +28,9 @@ public class AutoFishCommand implements IClientCommand
 
         if (!HUDHelper.START_AUTO_FISH)
         {
-            LocalPlayer player = Minecraft.getInstance().player;
-            boolean mainHand = player.getMainHandItem().getItem() instanceof FishingRodItem;
-            boolean offHand = player.getOffhandItem().getItem() instanceof FishingRodItem;
+            var player = Minecraft.getInstance().player;
+            var mainHand = player.getMainHandItem().getItem() instanceof FishingRodItem;
+            var offHand = player.getOffhandItem().getItem() instanceof FishingRodItem;
 
             if (player.getMainHandItem().getItem() instanceof FishingRodItem)
             {

@@ -29,7 +29,7 @@ public class IndicatiaEventHandler
 
             if (mc.getCurrentServer() != null)
             {
-                long now = Util.getMillis();
+                var now = Util.getMillis();
 
                 if (this.lastPinger == -1L || now - this.lastPinger > 5000L)
                 {
@@ -38,7 +38,7 @@ public class IndicatiaEventHandler
                 }
             }
 
-            for (UseAnim action : UseAnim.values())
+            for (var action : UseAnim.values())
             {
                 if (action != UseAnim.NONE)
                 {
@@ -55,7 +55,7 @@ public class IndicatiaEventHandler
     {
         if (screen instanceof TitleScreen)
         {
-            int height = screen.height / 4 + 48;
+            var height = screen.height / 4 + 48;
             Screens.getButtons(screen).add(new MojangStatusButton(screen.width / 2 + 104, height + (Platform.isFabric() && Platform.isModLoaded("modmenu") ? 75 : 63), button -> mc.setScreen(new MojangStatusScreen(screen))));
         }
     }

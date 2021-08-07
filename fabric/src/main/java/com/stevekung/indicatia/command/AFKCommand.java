@@ -51,7 +51,7 @@ public class AFKCommand
                 reason = ", " + LangUtils.translate("commands.afk.reason").getString() + ": " + reason;
             }
 
-            String message = LangUtils.translate("commands.afk.afk_now").getString();
+            var message = LangUtils.translate("commands.afk.afk_now").getString();
 
             if (IndicatiaFabric.CONFIG.general.enableAFKMessage)
             {
@@ -95,7 +95,7 @@ public class AFKCommand
     {
         if (HUDHelper.START_AFK)
         {
-            String oldReason = HUDHelper.AFK_REASON;
+            var oldReason = HUDHelper.AFK_REASON;
             HUDHelper.AFK_REASON = newReason;
             source.sendFeedback(LangUtils.translate("commands.afk.change_afk_reason", oldReason, newReason));
         }

@@ -7,7 +7,6 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.world.item.FishingRodItem;
 
@@ -27,9 +26,9 @@ public class AutoFishCommand
 
         if (!HUDHelper.START_AUTO_FISH)
         {
-            LocalPlayer player = Minecraft.getInstance().player;
-            boolean mainHand = player.getMainHandItem().getItem() instanceof FishingRodItem;
-            boolean offHand = player.getOffhandItem().getItem() instanceof FishingRodItem;
+            var player = Minecraft.getInstance().player;
+            var mainHand = player.getMainHandItem().getItem() instanceof FishingRodItem;
+            var offHand = player.getOffhandItem().getItem() instanceof FishingRodItem;
 
             if (player.getMainHandItem().getItem() instanceof FishingRodItem)
             {

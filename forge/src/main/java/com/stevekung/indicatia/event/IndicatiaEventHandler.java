@@ -11,9 +11,7 @@ import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.player.Input;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.phys.HitResult;
@@ -53,7 +51,7 @@ public class IndicatiaEventHandler
 
                 if (this.mc.getCurrentServer() != null)
                 {
-                    long now = Util.getMillis();
+                    var now = Util.getMillis();
 
                     if (this.lastPinger == -1L || now - this.lastPinger > 5000L)
                     {
@@ -62,7 +60,7 @@ public class IndicatiaEventHandler
                     }
                 }
 
-                for (UseAnim action : UseAnim.values())
+                for (var action : UseAnim.values())
                 {
                     if (action != UseAnim.NONE)
                     {
@@ -79,7 +77,7 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onInputUpdate(InputUpdateEvent event)
     {
-        Input movement = event.getMovementInput();
+        var movement = event.getMovementInput();
 
         // afk stuff
         if (HUDHelper.AFK_MODE == AFKMode.RANDOM_MOVE_360)
@@ -127,11 +125,11 @@ public class IndicatiaEventHandler
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
     {
-        Screen screen = event.getGui();
+        var screen = event.getGui();
 
         if (screen instanceof TitleScreen)
         {
-            int height = screen.height / 4 + 48;
+            var height = screen.height / 4 + 48;
             event.addWidget(new MojangStatusButton(screen.width / 2 + 104, height + 63, button -> this.mc.setScreen(new MojangStatusScreen(screen))));
         }
     }

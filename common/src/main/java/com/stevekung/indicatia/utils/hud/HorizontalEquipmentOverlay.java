@@ -7,7 +7,6 @@ import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 
@@ -27,18 +26,18 @@ public class HorizontalEquipmentOverlay extends EquipmentOverlay
         return this.width;
     }
 
-    public void render(PoseStack matrixStack, int x, int y)
+    public void render(PoseStack poseStack, int x, int y)
     {
-        boolean right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
-        MutableComponent arrowInfo = TextComponentUtils.component(this.renderArrowInfo()).copy();
+        var right = IndicatiaSettings.INSTANCE.equipmentPosition == Equipments.Position.RIGHT;
+        var arrowInfo = TextComponentUtils.component(this.renderArrowInfo()).copy();
         arrowInfo.setStyle(arrowInfo.getStyle().withFont(ClientUtils.UNICODE));
         EquipmentOverlay.renderItem(this.itemStack, right ? x - 18 : x, y);
-        this.mc.font.drawShadow(matrixStack, this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
+        this.mc.font.drawShadow(poseStack, this.renderInfo(), right ? x - 20 - this.itemDamageWidth : x + 18, y + 4, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.equipmentStatusColor));
 
         if (this.itemStack.getItem() instanceof BowItem)
         {
             RenderSystem.disableDepthTest();
-            this.mc.font.drawShadow(matrixStack, arrowInfo, right ? x - this.mc.font.width(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
+            this.mc.font.drawShadow(poseStack, arrowInfo, right ? x - this.mc.font.width(arrowInfo) : x + 6, y + 8, ColorUtils.rgbToDecimal(IndicatiaSettings.INSTANCE.arrowCountColor));
             RenderSystem.enableDepthTest();
         }
     }

@@ -7,7 +7,6 @@ import com.stevekung.indicatia.gui.exconfig.components.ConfigTextFieldWidgetList
 import com.stevekung.stevekungslib.utils.ColorUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.config.AbstractSettings;
-import com.stevekung.stevekungslib.utils.config.TextFieldSettingsWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
@@ -76,21 +75,21 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(matrixStack);
-        this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
+        this.renderBackground(poseStack);
+        this.optionsRowList.render(poseStack, mouseX, mouseY, partialTicks);
+        GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.render_info_custom_color.title"), this.width / 2, 5, 16777215);
 
         if (this.optionsRowList.selected && this.optionsRowList.getSelected() != null && this.optionsRowList.getSelected().getTextField() != null)
         {
-            TextFieldSettingsWidget<IndicatiaSettings> textField = this.optionsRowList.getSelected().getTextField();
-            GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.example") + ": " + textField.getDisplayName(), this.width / 2, 15, ColorUtils.rgbToDecimal(textField.getValue()));
+            var textField = this.optionsRowList.getSelected().getTextField();
+            GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.example") + ": " + textField.getDisplayName(), this.width / 2, 15, ColorUtils.rgbToDecimal(textField.getValue()));
         }
         else
         {
-            GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.color_format_info"), this.width / 2, 15, 16777215);
+            GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.color_format_info"), this.width / 2, 15, 16777215);
         }
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 }

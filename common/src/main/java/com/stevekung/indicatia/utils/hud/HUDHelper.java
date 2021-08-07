@@ -1,7 +1,5 @@
 package com.stevekung.indicatia.utils.hud;
 
-import java.net.InetSocketAddress;
-import java.util.Optional;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -27,7 +25,6 @@ import net.minecraft.util.StringUtil;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.FishingRodItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -51,12 +48,12 @@ public class HUDHelper
         {
             try
             {
-                ServerAddress address = ServerAddress.parseString(server.ip);
-                Optional<InetSocketAddress> optional = ServerNameResolver.DEFAULT.resolveAddress(address).map(ResolvedServerAddress::asInetSocketAddress);
+                var address = ServerAddress.parseString(server.ip);
+                var optional = ServerNameResolver.DEFAULT.resolveAddress(address).map(ResolvedServerAddress::asInetSocketAddress);
 
                 if (optional.isPresent())
                 {
-                    Connection manager = Connection.connectToServer(optional.get(), false);
+                    var manager = Connection.connectToServer(optional.get(), false);
                     manager.setListener(new ClientStatusPacketListener()
                     {
                         private long currentSystemTime = 0L;
@@ -71,8 +68,8 @@ public class HUDHelper
                         @Override
                         public void handlePongResponse(ClientboundPongResponsePacket packet)
                         {
-                            long i = this.currentSystemTime;
-                            long j = Util.getMillis();
+                            var i = this.currentSystemTime;
+                            var j = Util.getMillis();
                             HUDHelper.currentServerPing = (int) (j - i);
                         }
 
@@ -89,7 +86,9 @@ public class HUDHelper
                     manager.send(new ServerboundStatusRequestPacket());
                 }
             }
-            catch (Exception ignored) {}
+            catch (Exception ignored)
+            {
+            }
         });
     }
 
@@ -98,15 +97,15 @@ public class HUDHelper
         if (START_AFK)
         {
             afkTicks++;
-            int tick = afkTicks;
-            int messageMin = 1200 * PlatformConfig.getAFKMessageTime();
-            float angle = tick % 2 == 0 ? 0.0001F : -0.0001F;
+            var tick = afkTicks;
+            var messageMin = 1200 * PlatformConfig.getAFKMessageTime();
+            var angle = tick % 2 == 0 ? 0.0001F : -0.0001F;
 
             if (PlatformConfig.getAFKMessage())
             {
                 if (tick % messageMin == 0)
                 {
-                    String reason = AFK_REASON;
+                    var reason = AFK_REASON;
                     reason = StringUtil.isNullOrEmpty(reason) ? "" : ", " + LangUtils.translate("commands.afk.reason") + ": " + reason;
                     player.chat("AFK : " + StringUtil.formatTickDuration(tick) + " minute" + (tick == 0 ? "" : "s") + reason);
                 }
@@ -163,11 +162,11 @@ public class HUDHelper
             {
                 if (autoFishTick % 4 == 0)
                 {
-                    for (InteractionHand hand : InteractionHand.values())
+                    for (var hand : InteractionHand.values())
                     {
-                        ItemStack itemStack = mc.player.getItemInHand(hand);
-                        boolean mainHand = mc.player.getMainHandItem().getItem() instanceof FishingRodItem;
-                        boolean offHand = mc.player.getOffhandItem().getItem() instanceof FishingRodItem;
+                        var itemStack = mc.player.getItemInHand(hand);
+                        var mainHand = mc.player.getMainHandItem().getItem() instanceof FishingRodItem;
+                        var offHand = mc.player.getOffhandItem().getItem() instanceof FishingRodItem;
 
                         if (mc.player.getMainHandItem().getItem() instanceof FishingRodItem)
                         {
@@ -178,8 +177,8 @@ public class HUDHelper
                         {
                             if (mc.hitResult.getType() == HitResult.Type.BLOCK)
                             {
-                                BlockHitResult blockRayTrace = (BlockHitResult) mc.hitResult;
-                                InteractionResult result = mc.gameMode.useItemOn(mc.player, mc.level, hand, blockRayTrace);
+                                var blockRayTrace = (BlockHitResult) mc.hitResult;
+                                var result = mc.gameMode.useItemOn(mc.player, mc.level, hand, blockRayTrace);
 
                                 if (result.consumesAction())
                                 {
@@ -205,7 +204,7 @@ public class HUDHelper
 
                         if (!itemStack.isEmpty())
                         {
-                            InteractionResult result = mc.gameMode.useItem(mc.player, mc.level, hand);
+                            var result = mc.gameMode.useItem(mc.player, mc.level, hand);
 
                             if (result.consumesAction())
                             {

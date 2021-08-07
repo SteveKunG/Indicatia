@@ -38,11 +38,11 @@ public class ThreadMinigameData implements Runnable
         try
         {
             var gson = new GsonBuilder().registerTypeAdapterFactory(new RecordTypeAdapterFactory()).create();
-            URL url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/minigame_data/minigames.json");
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
+            var url = new URL("https://raw.githubusercontent.com/SteveKunG/Indicatia/minigame_data/minigames.json");
+            var in = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
             MinigameData.DATA = Arrays.stream(gson.fromJson(in, MinigameData[].class)).collect(Collectors.toList());
-            MinigameData.DATA.forEach(command -> command.getCommands().sort((minigame1, minigame2) -> !command.isSorted() ? 1 : new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.getName(), minigame2.getName()).build()));
-            MinigameData.DATA.sort((minigame1, minigame2) -> minigame2.getName().equals("Main") ? 1 : new CompareToBuilder().append(minigame1.getName(), minigame2.getName()).build());
+            MinigameData.DATA.forEach(command -> command.commands().sort((minigame1, minigame2) -> !command.sort() ? 1 : new CompareToBuilder().append(minigame1.isMinigame(), minigame2.isMinigame()).append(minigame1.name(), minigame2.name()).build()));
+            MinigameData.DATA.sort((minigame1, minigame2) -> minigame2.name().equals("Main") ? 1 : new CompareToBuilder().append(minigame1.name(), minigame2.name()).build());
             Indicatia.LOGGER.info("Successfully getting Minigames data from GitHub!");
         }
         catch (IOException | JsonIOException | JsonSyntaxException e)

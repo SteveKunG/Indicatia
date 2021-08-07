@@ -52,11 +52,11 @@ public class HypixelSettingsScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(matrixStack);
-        this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.hypixel.title"), this.width / 2, 5, 16777215);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderBackground(poseStack);
+        this.optionsRowList.render(poseStack, mouseX, mouseY, partialTicks);
+        GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.hypixel.title"), this.width / 2, 5, 16777215);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 }

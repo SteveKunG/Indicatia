@@ -23,7 +23,6 @@ import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.MutableComponent;
 
 @Mixin(PlayerTabOverlay.class)
 public class MixinPlayerTabOverlay
@@ -46,9 +45,9 @@ public class MixinPlayerTabOverlay
     {
         if (PlatformConfig.getCustomPlayerList())
         {
-            boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
-            int ping = playerInfo.getLatency();
-            MutableComponent pingText = TextComponentUtils.component(String.valueOf(ping));
+            var pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+            var ping = playerInfo.getLatency();
+            var pingText = TextComponentUtils.component(String.valueOf(ping)).copy();
 
             if (pingDelay)
             {
@@ -65,9 +64,9 @@ public class MixinPlayerTabOverlay
     {
         if (PlatformConfig.getCustomPlayerList())
         {
-            boolean pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
-            int ping = playerInfo.getLatency();
-            ChatFormatting color = ChatFormatting.GREEN;
+            var pingDelay = IndicatiaSettings.INSTANCE.pingMode == PingMode.PING_AND_DELAY;
+            var ping = playerInfo.getLatency();
+            var color = ChatFormatting.GREEN;
 
             if (GameProfileUtils.getUsername().equals(playerInfo.getProfile().getName()) || playerInfo.getTabListDisplayName() != null && GameProfileUtils.getUsername().equals(playerInfo.getTabListDisplayName().getString()))
             {
@@ -90,7 +89,7 @@ public class MixinPlayerTabOverlay
                 color = ChatFormatting.DARK_RED;
             }
 
-            MutableComponent pingText = TextComponentUtils.formatted(String.valueOf(ping), color);
+            var pingText = TextComponentUtils.formatted(String.valueOf(ping), color);
 
             if (pingDelay)
             {

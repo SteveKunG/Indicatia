@@ -2,7 +2,6 @@ package com.stevekung.indicatia.command;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -12,7 +11,6 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 
 public class ProfileCommand
 {
@@ -28,7 +26,7 @@ public class ProfileCommand
 
     private static int addProfile(FabricClientCommandSource source, String name)
     {
-        File file = ProfileNameArgumentType.getProfileFile(name);
+        var file = ProfileNameArgumentType.getProfileFile(name);
 
         if (name.equalsIgnoreCase("default"))
         {
@@ -50,7 +48,7 @@ public class ProfileCommand
 
     private static int loadProfile(FabricClientCommandSource source, String name)
     {
-        File file = ProfileNameArgumentType.getProfileFile(name);
+        var file = ProfileNameArgumentType.getProfileFile(name);
 
         if (file != null)
         {
@@ -77,7 +75,7 @@ public class ProfileCommand
 
     private static int saveProfile(FabricClientCommandSource source, String name)
     {
-        File file = ProfileNameArgumentType.getProfileFile(name);
+        var file = ProfileNameArgumentType.getProfileFile(name);
 
         if (file != null && file.exists())
         {
@@ -99,11 +97,11 @@ public class ProfileCommand
             return 1;
         }
 
-        File file = ProfileNameArgumentType.getProfileFile(name);
+        var file = ProfileNameArgumentType.getProfileFile(name);
 
         if (file != null && file.exists())
         {
-            File toDel = new File(IndicatiaSettings.USER_DIR, name + ".dat");
+            var toDel = new File(IndicatiaSettings.USER_DIR, name + ".dat");
 
             if (toDel.delete())
             {
@@ -125,7 +123,7 @@ public class ProfileCommand
 
     private static int getProfileList(FabricClientCommandSource source)
     {
-        Collection<File> collection = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> file.getName().endsWith(".dat")).collect(Collectors.toList());
+        var collection = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> file.getName().endsWith(".dat")).collect(Collectors.toList());
 
         if (collection.isEmpty())
         {
@@ -133,15 +131,15 @@ public class ProfileCommand
         }
         else
         {
-            Component translation = LangUtils.translate("commands.inprofile.list.count", collection.size());
+            var translation = LangUtils.translate("commands.inprofile.list.count", collection.size());
             translation.getStyle().withColor(ChatFormatting.DARK_GREEN);
             source.sendFeedback(translation);
 
             collection.forEach(file ->
             {
-                String name = file.getName();
-                String realName = name.replace(".dat", "");
-                boolean current = realName.equals(IndicatiaSettings.CURRENT_PROFILE);
+                var name = file.getName();
+                var realName = name.replace(".dat", "");
+                var current = realName.equals(IndicatiaSettings.CURRENT_PROFILE);
                 source.sendFeedback(LangUtils.translate("commands.inprofile.list.entry", realName, current ? "- " + ChatFormatting.GREEN + LangUtils.translate("commands.inprofile.current_profile").getString() : ""));
             });
         }

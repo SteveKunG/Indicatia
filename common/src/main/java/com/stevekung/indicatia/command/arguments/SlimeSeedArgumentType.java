@@ -17,7 +17,7 @@ public class SlimeSeedArgumentType implements ArgumentType<String>
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException
     {
-        String text = reader.readString();
+        var text = reader.readString();
 
         if (text.equals("0"))
         {

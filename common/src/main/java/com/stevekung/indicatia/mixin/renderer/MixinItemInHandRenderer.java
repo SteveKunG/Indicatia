@@ -23,8 +23,8 @@ public class MixinItemInHandRenderer
     {
         if (PlatformConfig.getBlockHitAnimation())
         {
-            float f = Mth.sin(swingProgress * swingProgress * (float) Math.PI);
-            float f1 = Mth.sin(Mth.sqrt(swingProgress) * (float) Math.PI);
+            var f = Mth.sin(swingProgress * swingProgress * (float) Math.PI);
+            var f1 = Mth.sin(Mth.sqrt(swingProgress) * (float) Math.PI);
             poseStack.translate(0.0F, equipProgress * 0.6F, 0.0F);
             poseStack.mulPose(Vector3f.YP.rotationDegrees(f * 20.0F));
             poseStack.mulPose(Vector3f.ZP.rotationDegrees(f1 * 20.0F));

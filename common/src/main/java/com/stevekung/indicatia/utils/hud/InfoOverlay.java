@@ -51,12 +51,12 @@ public class InfoOverlay
 
     public MutableComponent toFormatted()
     {
-        MutableComponent formatted = TextComponent.EMPTY.copy();
-        MutableComponent title = LangUtils.translate(this.title).copy();
+        var formatted = TextComponent.EMPTY.copy();
+        var title = LangUtils.translate(this.title).copy();
 
         formatted.append(title.setStyle(title.getStyle().withColor(TextColor.fromRgb(ColorUtils.rgbToDecimal(this.titleColor.replaceAll("\\s+", ""))))).append(": "));
 
-        MutableComponent value = LangUtils.translate(this.value).copy();
+        var value = LangUtils.translate(this.value).copy();
 
         formatted.append(value.setStyle(value.getStyle().withColor(TextColor.fromRgb(ColorUtils.rgbToDecimal(this.valueColor.replaceAll("\\s+", ""))))));
         return this.isEmpty ? TextComponent.EMPTY.copy() : formatted;

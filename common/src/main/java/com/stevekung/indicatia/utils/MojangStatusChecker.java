@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.stevekung.indicatia.core.Indicatia;
 
@@ -39,8 +38,8 @@ public enum MojangStatusChecker
     {
         try
         {
-            URL url = new URL("http://status.mojang.com/check?service=" + this.serviceURL);
-            JsonElement element = new JsonParser().parse(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)).getAsJsonObject().get(this.serviceURL);
+            var url = new URL("http://status.mojang.com/check?service=" + this.serviceURL);
+            var element = new JsonParser().parse(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)).getAsJsonObject().get(this.serviceURL);
             return MojangServerStatus.get(element.getAsString());
         }
         catch (IOException e)

@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.event;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.config.IndicatiaSettings;
@@ -24,13 +22,8 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.gui.ForgeIngameGui;
@@ -52,7 +45,7 @@ public class HUDRenderEventHandler
     {
         if (event.phase == TickEvent.Phase.START)
         {
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            var server = ServerLifecycleHooks.getCurrentServer();
 
             if (server != null)
             {
@@ -64,7 +57,7 @@ public class HUDRenderEventHandler
     @SubscribeEvent
     public void onPreInfoRender(RenderGameOverlayEvent.Pre event)
     {
-        PoseStack poseStack = event.getMatrixStack();
+        var poseStack = event.getMatrixStack();
 
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT)
         {
@@ -72,20 +65,20 @@ public class HUDRenderEventHandler
             {
                 if (IndicatiaConfig.GENERAL.enableRenderInfo.get() && this.mc.player != null && this.mc.level != null && !(this.mc.screen instanceof OffsetRenderPreviewScreen))
                 {
-                    int iLeft = 0;
-                    int iRight = 0;
+                    var iLeft = 0;
+                    var iRight = 0;
 
-                    for (InfoOverlay info : HUDRenderEventHandler.getInfoOverlays(this.mc))
+                    for (var info : HUDRenderEventHandler.getInfoOverlays(this.mc))
                     {
                         if (info.isEmpty())
                         {
                             continue;
                         }
 
-                        Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects().stream().sorted((mob1, mob2) -> new CompareToBuilder().append(mob1.getDuration(), mob2.getDuration()).build()).collect(Collectors.toCollection(TreeSet::new));
-                        int goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
-                        int badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
-                        int state = 0;
+                        var collection = this.mc.player.getActiveEffects().stream().sorted((mob1, mob2) -> new CompareToBuilder().append(mob1.getDuration(), mob2.getDuration()).build()).collect(Collectors.toCollection(TreeSet::new));
+                        var goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
+                        var badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
+                        var state = 0;
 
                         if (goodCount > 0)
                         {
@@ -96,18 +89,18 @@ public class HUDRenderEventHandler
                             state = 2;
                         }
 
-                        MutableComponent value = info.toFormatted();
-                        InfoOverlay.Position pos = info.getPos();
-                        float defaultPos = 3.0625F;
-                        float fontHeight = this.mc.font.lineHeight + 1;
-                        float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
+                        var value = info.toFormatted();
+                        var pos = info.getPos();
+                        var defaultPos = 3.0625F;
+                        var fontHeight = this.mc.font.lineHeight + 1;
+                        var yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
 
                         if (pos == InfoOverlay.Position.RIGHT && !IndicatiaSettings.INSTANCE.swapRenderInfo || pos == InfoOverlay.Position.LEFT && IndicatiaSettings.INSTANCE.swapRenderInfo)
                         {
                             yOffset += state == 1 ? 24 : state == 2 ? 49 : 0;
                         }
 
-                        float xOffset = this.mc.getWindow().getGuiScaledWidth() - 2 - this.mc.font.width(value.getString());
+                        var xOffset = this.mc.getWindow().getGuiScaledWidth() - 2 - this.mc.font.width(value.getString());
                         this.mc.font.drawShadow(poseStack, value, pos == InfoOverlay.Position.LEFT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
                         if (pos == InfoOverlay.Position.LEFT)
@@ -185,12 +178,12 @@ public class HUDRenderEventHandler
 
     public static List<InfoOverlay> getInfoOverlays(Minecraft mc)
     {
-        List<InfoOverlay> infos = Lists.newArrayList();
-        BlockPos playerPos = new BlockPos(mc.getCameraEntity().getX(), mc.getCameraEntity().getBoundingBox().minY, mc.getCameraEntity().getZ());
+        var infos = Lists.<InfoOverlay>newArrayList();
+        var playerPos = new BlockPos(mc.getCameraEntity().getX(), mc.getCameraEntity().getBoundingBox().minY, mc.getCameraEntity().getZ());
 
         if (IndicatiaSettings.INSTANCE.fps)
         {
-            int fps = Minecraft.fps;
+            var fps = Minecraft.fps;
             infos.add(new InfoOverlay("hud.fps", String.valueOf(fps), IndicatiaSettings.INSTANCE.fpsColor, fps <= 25 ? IndicatiaSettings.INSTANCE.fpsLow25Color : fps <= 49 ? IndicatiaSettings.INSTANCE.fps26And49Color : IndicatiaSettings.INSTANCE.fpsValueColor, InfoOverlay.Position.LEFT));
         }
 
@@ -198,12 +191,12 @@ public class HUDRenderEventHandler
         {
             if (IndicatiaSettings.INSTANCE.ping)
             {
-                int responseTime = InfoUtils.INSTANCE.getPing();
+                var responseTime = InfoUtils.INSTANCE.getPing();
                 infos.add(new InfoOverlay("hud.ping", responseTime + "ms", IndicatiaSettings.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.LEFT));
 
                 if (IndicatiaSettings.INSTANCE.pingToSecond)
                 {
-                    double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
+                    var responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
                     infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int) (responseTimeSecond * 1000.0D)), InfoOverlay.Position.LEFT));
                 }
             }
@@ -215,13 +208,13 @@ public class HUDRenderEventHandler
 
         if (IndicatiaSettings.INSTANCE.xyz)
         {
-            String stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
-            String nether = mc.player.level.dimensionType().piglinSafe() ? "Nether " : "";
+            var stringPos = playerPos.getX() + " " + playerPos.getY() + " " + playerPos.getZ();
+            var nether = mc.player.level.dimensionType().piglinSafe() ? "Nether " : "";
             infos.add(new InfoOverlay(nether + "XYZ", stringPos, IndicatiaSettings.INSTANCE.xyzColor, IndicatiaSettings.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
 
             if (mc.player.level.dimensionType().piglinSafe())
             {
-                String stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
+                var stringNetherPos = playerPos.getX() * 8 + " " + playerPos.getY() + " " + playerPos.getZ() * 8;
                 infos.add(new InfoOverlay("Overworld XYZ", stringNetherPos, IndicatiaSettings.INSTANCE.xyzColor, IndicatiaSettings.INSTANCE.xyzValueColor, InfoOverlay.Position.LEFT));
             }
         }
@@ -233,10 +226,10 @@ public class HUDRenderEventHandler
 
         if (IndicatiaSettings.INSTANCE.biome)
         {
-            ChunkPos chunkPos = new ChunkPos(playerPos);
-            LevelChunk worldChunk = mc.level.getChunk(chunkPos.x, chunkPos.z);
-            ResourceLocation biomeResource = mc.level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(mc.level.getBiome(playerPos));
-            String biomeName = "biome." + biomeResource.getNamespace() + "." + biomeResource.getPath();
+            var chunkPos = new ChunkPos(playerPos);
+            var worldChunk = mc.level.getChunk(chunkPos.x, chunkPos.z);
+            var biomeResource = mc.level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(mc.level.getBiome(playerPos));
+            var biomeName = "biome." + biomeResource.getNamespace() + "." + biomeResource.getPath();
             infos.add(new InfoOverlay("hud.biome", !worldChunk.isEmpty() ? new TranslatableComponent(biomeName).getString() : LangUtils.translate("hud.biome.waiting_for_chunk").getString(), IndicatiaSettings.INSTANCE.biomeColor, IndicatiaSettings.INSTANCE.biomeValueColor, InfoOverlay.Position.LEFT));
         }
 
@@ -263,7 +256,7 @@ public class HUDRenderEventHandler
         }
         if (IndicatiaSettings.INSTANCE.gameWeather && mc.level.isRaining())
         {
-            String weather = !mc.level.isThundering() ? "hud.weather.raining" : "hud.weather.thundering";
+            var weather = !mc.level.isThundering() ? "hud.weather.raining" : "hud.weather.thundering";
             infos.add(new InfoOverlay("hud.weather", weather, IndicatiaSettings.INSTANCE.gameWeatherColor, IndicatiaSettings.INSTANCE.gameWeatherValueColor, InfoOverlay.Position.RIGHT));
         }
         if (IndicatiaSettings.INSTANCE.moonPhase)

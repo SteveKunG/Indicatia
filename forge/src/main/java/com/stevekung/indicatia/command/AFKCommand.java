@@ -53,7 +53,7 @@ public class AFKCommand implements IClientCommand
                 reason = ", " + LangUtils.translate("commands.afk.reason").getString() + ": " + reason;
             }
 
-            String message = LangUtils.translate("commands.afk.afk_now").getString();
+            var message = LangUtils.translate("commands.afk.afk_now").getString();
 
             if (IndicatiaConfig.GENERAL.enableAFKMessage.get())
             {
@@ -97,7 +97,7 @@ public class AFKCommand implements IClientCommand
     {
         if (HUDHelper.START_AFK)
         {
-            String oldReason = HUDHelper.AFK_REASON;
+            var oldReason = HUDHelper.AFK_REASON;
             HUDHelper.AFK_REASON = newReason;
             source.sendFeedback(LangUtils.translate("commands.afk.change_afk_reason", oldReason, newReason));
         }

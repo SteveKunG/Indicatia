@@ -202,7 +202,7 @@ public class IndicatiaSettings extends Settings
     {
         try
         {
-            CompoundTag nbt = NbtIo.read(IndicatiaSettings.PROFILE_FILE);
+            var nbt = NbtIo.read(IndicatiaSettings.PROFILE_FILE);
 
             if (nbt == null)
             {
@@ -314,7 +314,7 @@ public class IndicatiaSettings extends Settings
     {
         try
         {
-            CompoundTag nbt = new CompoundTag();
+            var nbt = new CompoundTag();
 
             // Render Info
             nbt.putBoolean("FPS", this.fps);
@@ -413,9 +413,9 @@ public class IndicatiaSettings extends Settings
 
     public static void saveProfileFile(String profileName)
     {
-        File profile = new File(IndicatiaSettings.USER_DIR, "profile.txt");
+        var profile = new File(IndicatiaSettings.USER_DIR, "profile.txt");
 
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
+        try (var writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(profile), StandardCharsets.UTF_8)))
         {
             writer.println("profile:" + profileName);
             Indicatia.LOGGER.info("Saving profile name!");

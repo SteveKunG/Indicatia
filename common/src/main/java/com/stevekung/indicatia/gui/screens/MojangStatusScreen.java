@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.utils.MojangServerStatus;
 import com.stevekung.indicatia.utils.MojangStatusChecker;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
@@ -35,11 +34,11 @@ public class MojangStatusScreen extends Screen
         this.addRenderableWidget(this.checkButton = new Button(this.width / 2 - 101, this.height / 6 + 145, 200, 20, LangUtils.translate("menu.check"), button ->
         {
             this.statusList.clear();
-            Thread thread = new Thread(() ->
+            var thread = new Thread(() ->
             {
-                for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
+                for (var checker : MojangStatusChecker.VALUES)
                 {
-                    MojangServerStatus status = checker.getStatus();
+                    var status = checker.getStatus();
                     this.statusList.add(TextComponentUtils.component(checker.getName() + ": ").append(status.getStatus()));
                 }
                 this.check = false;
@@ -61,17 +60,17 @@ public class MojangStatusScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(matrixStack);
-        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.mojang_status.title"), this.width / 2, 15, 16777215);
-        int height = 0;
+        this.renderBackground(poseStack);
+        GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.mojang_status.title"), this.width / 2, 15, 16777215);
+        var height = 0;
 
-        for (Component statusList : this.statusList)
+        for (var statusList : this.statusList)
         {
-            GuiComponent.drawString(matrixStack, this.font, statusList, this.width / 2 - 120, 35 + height, 16777215);
+            GuiComponent.drawString(poseStack, this.font, statusList, this.width / 2 - 120, 35 + height, 16777215);
             height += 12;
         }
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 }

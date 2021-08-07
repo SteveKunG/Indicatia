@@ -28,8 +28,9 @@ public class DisconnectConfirmationScreen extends Screen
     {
         this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 96, 150, 20, CommonComponents.GUI_YES, button ->
         {
-            boolean flag = this.minecraft.isLocalServer();
-            boolean flag1 = this.minecraft.isConnectedToRealms();
+            var flag = this.minecraft.isLocalServer();
+            var flag1 = this.minecraft.isConnectedToRealms();
+            var title = new TitleScreen();
             this.minecraft.level.disconnect();
 
             if (flag)
@@ -40,8 +41,6 @@ public class DisconnectConfirmationScreen extends Screen
             {
                 this.minecraft.clearLevel();
             }
-
-            TitleScreen title = new TitleScreen();
 
             if (flag)
             {
@@ -60,10 +59,10 @@ public class DisconnectConfirmationScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(matrixStack);
-        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.confirm_disconnect"), this.width / 2, 70, 16777215);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderBackground(poseStack);
+        GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.confirm_disconnect"), this.width / 2, 70, 16777215);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 }

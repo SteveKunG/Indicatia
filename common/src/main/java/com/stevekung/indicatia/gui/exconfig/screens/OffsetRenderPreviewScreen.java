@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.gui.exconfig.screens;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
@@ -26,18 +26,18 @@ public class OffsetRenderPreviewScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        GlStateManager._enableBlend();
-        EffectOverlays.renderPotionHUD(this.minecraft, matrixStack);
+        RenderSystem.enableBlend();
+        EffectOverlays.renderPotionHUD(this.minecraft, poseStack);
 
         if (IndicatiaSettings.INSTANCE.equipmentDirection == Equipments.Direction.VERTICAL)
         {
-            EquipmentOverlays.renderVerticalEquippedItems(this.minecraft, matrixStack);
+            EquipmentOverlays.renderVerticalEquippedItems(this.minecraft, poseStack);
         }
         else
         {
-            EquipmentOverlays.renderHorizontalEquippedItems(this.minecraft, matrixStack);
+            EquipmentOverlays.renderHorizontalEquippedItems(this.minecraft, poseStack);
         }
     }
 

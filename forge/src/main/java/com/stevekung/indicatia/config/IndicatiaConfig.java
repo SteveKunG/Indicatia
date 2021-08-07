@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.config;
 
-import org.apache.commons.lang3.tuple.Pair;
 import com.stevekung.indicatia.core.Indicatia;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,7 +12,7 @@ public class IndicatiaConfig
 
     static
     {
-        Pair<General, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(General::new);
+        var specPair = new ForgeConfigSpec.Builder().configure(General::new);
         GENERAL_SPEC = specPair.getRight();
         GENERAL = specPair.getLeft();
     }

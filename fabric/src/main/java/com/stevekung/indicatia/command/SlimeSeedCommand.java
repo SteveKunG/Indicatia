@@ -18,7 +18,7 @@ public class SlimeSeedCommand
     {
         try
         {
-            long longSeed = Long.parseLong(seed);
+            var longSeed = Long.parseLong(seed);
             IndicatiaSettings.INSTANCE.slimeChunkSeed = longSeed;
             source.sendFeedback(LangUtils.translate("commands.slime_seed.set", longSeed));
         }

@@ -32,15 +32,15 @@ public class MinigameButton extends Button
 
     @SuppressWarnings("deprecation")
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
         if (this.visible)
         {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, this.head.isEmpty() ? this.isPlay ? PLAY : MAIN : BLANK);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            GuiComponent.blit(matrixStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
+            var flag = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            GuiComponent.blit(poseStack, this.x, this.y, flag ? 20 : 0, 0, this.width, this.height, 40, 20);
 
             if (!this.head.isEmpty())
             {
@@ -49,11 +49,11 @@ public class MinigameButton extends Button
         }
     }
 
-    public void render(PoseStack matrixStack, int mouseX, int mouseY)
+    public void render(PoseStack poseStack, int mouseX, int mouseY)
     {
         if (this.visible && this.isMouseOver(mouseX, mouseY))
         {
-            this.mc.screen.renderTooltip(matrixStack, this.tooltips, mouseX, mouseY);
+            this.mc.screen.renderTooltip(poseStack, this.tooltips, mouseX, mouseY);
         }
     }
 }

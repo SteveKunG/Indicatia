@@ -28,17 +28,17 @@ public class ExtendedConfigScreen extends Screen
     @Override
     public void init()
     {
-        int i = 0;
+        var i = 0;
 
-        for (Object options : OPTIONS)
+        for (var options : OPTIONS)
         {
-            if (options instanceof SliderPercentageSettings)
+            if (options instanceof SliderPercentageSettings sliderPercentageSettings)
             {
-                this.addRenderableWidget(((SliderPercentageSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addRenderableWidget(sliderPercentageSettings.createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
-            else if (options instanceof BooleanSettings)
+            else if (options instanceof BooleanSettings booleanSettings)
             {
-                this.addRenderableWidget(((BooleanSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addRenderableWidget(booleanSettings.createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else
             {
@@ -87,11 +87,11 @@ public class ExtendedConfigScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(matrixStack);
-        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.main.title").copy().append(" : ").append(LangUtils.formatted("menu.current_selected_profile", ChatFormatting.YELLOW, IndicatiaSettings.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderBackground(poseStack);
+        GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.main.title").copy().append(" : ").append(LangUtils.formatted("menu.current_selected_profile", ChatFormatting.YELLOW, IndicatiaSettings.CURRENT_PROFILE)), this.width / 2, 10, 16777215);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 
     private void resetConfig(boolean condition)

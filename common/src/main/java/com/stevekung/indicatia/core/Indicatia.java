@@ -2,7 +2,6 @@ package com.stevekung.indicatia.core;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
@@ -55,15 +54,15 @@ public class Indicatia
             IndicatiaSettings.INSTANCE.save();
         }
 
-        CompoundTag nbt = new CompoundTag();
+        var nbt = new CompoundTag();
 
-        try (BufferedReader reader = Files.newReader(PROFILE, Charsets.UTF_8))
+        try (var reader = Files.newReader(PROFILE, Charsets.UTF_8))
         {
             reader.lines().forEach(option ->
             {
                 try
                 {
-                    Iterator<String> iterator = Indicatia.COLON_SPLITTER.split(option).iterator();
+                    var iterator = Indicatia.COLON_SPLITTER.split(option).iterator();
                     nbt.putString(iterator.next(), iterator.next());
                 }
                 catch (Exception ignored) {}
@@ -74,9 +73,9 @@ public class Indicatia
             e.printStackTrace();
         }
 
-        for (String property : nbt.getAllKeys())
+        for (var property : nbt.getAllKeys())
         {
-            String key = nbt.getString(property);
+            var key = nbt.getString(property);
 
             if ("profile".equals(property))
             {
@@ -100,7 +99,7 @@ public class Indicatia
 
         if (!Indicatia.PROFILE.exists())
         {
-            try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(Indicatia.PROFILE), StandardCharsets.UTF_8)))
+            try (var writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(Indicatia.PROFILE), StandardCharsets.UTF_8)))
             {
                 writer.println("profile:default");
                 Indicatia.LOGGER.info("Creating profile option at {}", Indicatia.PROFILE.getPath());

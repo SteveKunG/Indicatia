@@ -13,7 +13,7 @@ public class ThreadCheckMojangStatus implements Runnable
     @Override
     public void run()
     {
-        for (MojangStatusChecker checker : MojangStatusChecker.VALUES)
+        for (var checker : MojangStatusChecker.VALUES)
         {
             ClientUtils.printClientMessage(TextComponentUtils.component(checker.getName() + ": ").append(checker.getStatus().getStatus()));
         }

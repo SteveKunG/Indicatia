@@ -32,10 +32,10 @@ public class CustomColorSettingsScreen extends Screen
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
-        this.renderBackground(matrixStack);
-        GuiComponent.drawCenteredString(matrixStack, this.font, LangUtils.translate("menu.custom_color.title"), this.width / 2, 15, 16777215);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderBackground(poseStack);
+        GuiComponent.drawCenteredString(poseStack, this.font, LangUtils.translate("menu.custom_color.title"), this.width / 2, 15, 16777215);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 }

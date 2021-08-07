@@ -12,9 +12,7 @@ import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.ModDecimalFormat;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.Entity;
 
 public class InfoOverlays
 {
@@ -26,9 +24,9 @@ public class InfoOverlays
 
     public static InfoOverlay getDirection(Minecraft mc)
     {
-        Entity entity = mc.getCameraEntity();
-        Direction coordDirection = entity.getDirection();
-        int yaw = (int) entity.getYRot() + 22;
+        var entity = mc.getCameraEntity();
+        var coordDirection = entity.getDirection();
+        var yaw = (int) entity.getYRot() + 22;
         String direction;
         String coord;
 
@@ -39,7 +37,7 @@ public class InfoOverlays
             yaw += 360;
         }
 
-        int facing = yaw / 45;
+        var facing = yaw / 45;
 
         coord = switch (coordDirection)
                 {
@@ -74,9 +72,9 @@ public class InfoOverlays
 
     public static InfoOverlay getRealWorldTime()
     {
-        Date date = new Date();
-        String dateIns = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
-        String timeIns = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
+        var date = new Date();
+        var dateIns = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
+        var timeIns = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date);
         return new InfoOverlay("hud.real_time", dateIns + " " + timeIns, IndicatiaSettings.INSTANCE.realTimeColor, IndicatiaSettings.INSTANCE.realTimeValueColor, InfoOverlay.Position.RIGHT);
     }
 
@@ -103,9 +101,9 @@ public class InfoOverlays
 
     private static InfoOverlay getVanillaGameTime(long worldTicks)
     {
-        StringBuilder builder = new StringBuilder();
-        int hours = (int) ((worldTicks / 1000 + 6) % 24);
-        int minutes = (int) (60 * (worldTicks % 1000) / 1000);
+        var builder = new StringBuilder();
+        var hours = (int) ((worldTicks / 1000 + 6) % 24);
+        var minutes = (int) (60 * (worldTicks % 1000) / 1000);
 
         if (hours <= 9)
         {
@@ -126,9 +124,9 @@ public class InfoOverlays
 
     public static long mean(long[] values)
     {
-        long sum = 0L;
+        var sum = 0L;
 
-        for (long value : values)
+        for (var value : values)
         {
             sum += value;
         }
