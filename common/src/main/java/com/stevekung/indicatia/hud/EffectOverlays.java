@@ -20,7 +20,7 @@ import net.minecraft.world.effect.MobEffectUtil;
 public class EffectOverlays
 {
     @SuppressWarnings("deprecation")
-    public static void renderPotionHUD(Minecraft mc, PoseStack matrixStack)
+    public static void renderPotionHUD(Minecraft mc, PoseStack poseStack)
     {
         boolean iconAndTime = IndicatiaSettings.INSTANCE.potionHUDStyle == StatusEffects.Style.ICON_AND_TIME;
         boolean right = IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.RIGHT;
@@ -29,7 +29,7 @@ public class EffectOverlays
         int length = IndicatiaSettings.INSTANCE.potionLengthYOffset;
         int lengthOverlap = IndicatiaSettings.INSTANCE.potionLengthYOffsetOverlap;
         Collection<MobEffectInstance> collection = mc.player.getActiveEffects();
-        MobEffectTextureManager uploader = mc.getMobEffectTextures();
+        MobEffectTextureManager mobEffectTextures = mc.getMobEffectTextures();
         int xPotion;
         int yPotion;
 
@@ -60,7 +60,6 @@ public class EffectOverlays
             {
                 float alpha = 1.0F;
                 int duration = effectIns.getDuration();
-                TextureAtlasSprite sprite = uploader.get(effectIns.getEffect());
 
                 if (!effectIns.isAmbient() && duration <= 200)
                 {
@@ -68,16 +67,13 @@ public class EffectOverlays
                     alpha = Mth.clamp(duration / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + Mth.cos(duration * (float) Math.PI / 5.0F) * Mth.clamp(j1 / 10.0F * 0.25F, 0.0F, 0.25F);
                 }
 
-                RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
-                RenderSystem.disableLighting();
-                mc.getTextureManager().bind(sprite.atlas().location());
-
                 MobEffect effect = effectIns.getEffect();
                 int amplifier = effectIns.getAmplifier();
                 String name = LangUtils.translateString(effect.getDescriptionId());
                 String durationTxt = MobEffectUtil.formatDuration(effectIns, 1.0F);
-                int stringwidth1 = mc.font.width(name);
-                int stringwidth2 = mc.font.width(durationTxt);
+                int nameWidth = mc.font.width(name);
+                int durationWidth = mc.font.width(durationTxt);
+                int xPotionAdd;
                 int yOffset = iconAndTime ? 11 : 16;
                 alpha = alpha * 255.0F;
                 int alphaRGB = (int) alpha << 24 & -16777216;
@@ -90,40 +86,47 @@ public class EffectOverlays
 
                 if (duration > 16)
                 {
-                    if (showIcon)
-                    {
-                        GuiComponent.blit(matrixStack, right ? xPotion + 12 : xPotion + 28, yPotion + 6, mc.gui.getBlitOffset(), 18, 18, mc.getMobEffectTextures().get(effect));
-                    }
                     if (IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_LEFT)
                     {
+                        xPotionAdd = 12;
                         int xOffset = showIcon ? 8 : 28;
 
                         if (!iconAndTime)
                         {
-                            mc.font.drawShadow(matrixStack, name, xPotion + xOffset - stringwidth2, yPotion + 6, textColor);
+                            mc.font.drawShadow(poseStack, name, xPotion + xOffset - nameWidth, yPotion + 6, textColor);
                         }
-                        mc.font.drawShadow(matrixStack, durationTxt, xPotion + xOffset - stringwidth1, yPotion + yOffset, textColor);
+                        mc.font.drawShadow(poseStack, durationTxt, xPotion + xOffset - durationWidth, yPotion + yOffset, textColor);
                     }
                     else if (IndicatiaSettings.INSTANCE.potionHUDPosition == StatusEffects.Position.HOTBAR_RIGHT)
                     {
-                        int xOffset = showIcon ? 46 : 28;
+                        xPotionAdd = 24;
+                        int xOffset = showIcon ? 48 : 28;
 
                         if (!iconAndTime)
                         {
-                            mc.font.drawShadow(matrixStack, name, xPotion + xOffset, yPotion + 6, textColor);
+                            mc.font.drawShadow(poseStack, name, xPotion + xOffset, yPotion + 6, textColor);
                         }
-                        mc.font.drawShadow(matrixStack, durationTxt, xPotion + xOffset, yPotion + yOffset, textColor);
+                        mc.font.drawShadow(poseStack, durationTxt, xPotion + xOffset, yPotion + yOffset, textColor);
                     }
                     else
                     {
+                        xPotionAdd = 28;
                         int leftXOffset = showIcon ? 50 : 28;
                         int rightXOffset = showIcon ? 8 : 28;
 
                         if (!iconAndTime)
                         {
-                            mc.font.drawShadow(matrixStack, name, right ? xPotion + rightXOffset - stringwidth2 : xPotion + leftXOffset, yPotion + 6, textColor);
+                            mc.font.drawShadow(poseStack, name, right ? xPotion + rightXOffset - nameWidth : xPotion + leftXOffset, yPotion + 6, textColor);
                         }
-                        mc.font.drawShadow(matrixStack, durationTxt, right ? xPotion + rightXOffset - stringwidth1 : xPotion + leftXOffset, yPotion + yOffset, textColor);
+                        mc.font.drawShadow(poseStack, durationTxt, right ? xPotion + rightXOffset - durationWidth : xPotion + leftXOffset, yPotion + yOffset, textColor);
+                    }
+                    if (showIcon)
+                    {
+                        TextureAtlasSprite sprite = mobEffectTextures.get(effectIns.getEffect());
+                        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+                        RenderSystem.disableLighting();
+                        mc.getTextureManager().bind(sprite.atlas().location());
+                        GuiComponent.blit(poseStack, right ? xPotion + 12 : xPotion + xPotionAdd, yPotion + 6, mc.gui.getBlitOffset(), 18, 18, mc.getMobEffectTextures().get(effect));
                     }
                     yPotion -= length;
                 }
