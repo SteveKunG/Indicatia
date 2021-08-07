@@ -50,7 +50,7 @@ public class MixinBlockEntityWithoutLevelRenderer
 
         if (EnchantedSkullTileEntityRenderer.isVanillaHead(type))
         {
-            EnchantedSkullTileEntityRenderer.render(gameProfile, type, poseStack, multiBufferSource, combinedLight, OverlayTexture.NO_OVERLAY, skullModelBase, renderType, itemStack.hasFoil());
+            EnchantedSkullTileEntityRenderer.render(gameProfile, rotationYaw, mouthAnimation, type, poseStack, multiBufferSource, combinedLight, OverlayTexture.NO_OVERLAY, skullModelBase, renderType, itemStack.hasFoil());
         }
         else
         {

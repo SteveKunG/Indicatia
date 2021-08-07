@@ -14,12 +14,12 @@ import net.minecraft.world.level.block.SkullBlock;
 
 public class EnchantedSkullTileEntityRenderer
 {
-    public static void render(GameProfile gameProfile, SkullBlock.Type type, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, int combinedHurt, SkullModelBase skullModelBase, RenderType renderType, boolean glint)
+    public static void render(GameProfile gameProfile, float rotationYaw, float mouthAnimation, SkullBlock.Type type, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, int combinedHurt, SkullModelBase skullModelBase, RenderType renderType, boolean glint)
     {
         poseStack.pushPose();
         poseStack.translate(0.5D, 0.0D, 0.5D);
         poseStack.scale(-1.0F, -1.0F, 1.0F);
-        skullModelBase.setupAnim(0.0F, 180.0F, 0.0F);
+        skullModelBase.setupAnim(mouthAnimation, rotationYaw, 0.0F);
         VertexConsumer vertexConsumer;
 
         if (gameProfile == null)

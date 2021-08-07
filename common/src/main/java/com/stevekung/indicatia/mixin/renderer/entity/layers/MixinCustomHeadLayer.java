@@ -44,11 +44,11 @@ public class MixinCustomHeadLayer<T extends LivingEntity>
 
         if (EnchantedSkullTileEntityRenderer.isVanillaHead(type))
         {
-            EnchantedSkullTileEntityRenderer.render(gameProfile, type, poseStack, multiBufferSource, combinedLight, PlatformConfig.getOldArmorRender() ? LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0F) : OverlayTexture.NO_OVERLAY, skullModelBase, renderType, itemStack.hasFoil());
+            EnchantedSkullTileEntityRenderer.render(gameProfile, rotationYaw, mouthAnimation, type, poseStack, multiBufferSource, combinedLight, PlatformConfig.getOldArmorRender() ? LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0F) : OverlayTexture.NO_OVERLAY, skullModelBase, renderType, itemStack.hasFoil());
         }
         else
         {
-            SkullBlockRenderer.renderSkull(null, 180.0F, mouthAnimation, poseStack, multiBufferSource, combinedLight, skullModelBase, renderType);
+            SkullBlockRenderer.renderSkull(direction, rotationYaw, mouthAnimation, poseStack, multiBufferSource, combinedLight, skullModelBase, renderType);
         }
     }
 }

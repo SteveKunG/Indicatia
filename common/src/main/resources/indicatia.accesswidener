@@ -3,9 +3,6 @@ accessible field net/minecraft/client/Minecraft fps I
 accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList THREAD_POOL Ljava/util/concurrent/ThreadPoolExecutor;
 accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList ICON_MISSING Lnet/minecraft/resources/ResourceLocation;
 accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList ICON_OVERLAY_LOCATION Lnet/minecraft/resources/ResourceLocation;
-accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer MODEL_BY_TYPE Ljava/util/Map;
-accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer SKIN_BY_TYPE Ljava/util/Map;
 accessible field net/minecraft/client/gui/screens/TitleScreen fading Z
 accessible field net/minecraft/client/gui/screens/TitleScreen fadeInStart J
-
-accessible method net/minecraft/client/renderer/blockentity/SkullBlockRenderer getRenderType (Lnet/minecraft/world/level/block/SkullBlock$Type;Lcom/mojang/authlib/GameProfile;)Lnet/minecraft/client/renderer/RenderType;
+accessible field net/minecraft/client/renderer/blockentity/SkullBlockRenderer SKIN_BY_TYPE Ljava/util/Map;
