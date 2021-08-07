@@ -53,22 +53,18 @@ public class HUDRenderEventHandler
                         continue;
                     }
 
-                    int state = 0;
                     Collection<MobEffectInstance> collection = mc.player.getActiveEffects();
+                    int goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
+                    int badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
+                    int state = 0;
 
-                    if (!collection.isEmpty())
+                    if (goodCount > 0)
                     {
-                        if (collection.size() > 0)
-                        {
-                            state = 1;
-                        }
-                        for (MobEffectInstance mobEffectInstance : Ordering.natural().reverse().sortedCopy(collection))
-                        {
-                            if (mobEffectInstance.showIcon() && !mobEffectInstance.getEffect().isBeneficial())
-                            {
-                                state = 2;
-                            }
-                        }
+                        state = 1;
+                    }
+                    if (badCount > 0)
+                    {
+                        state = 2;
                     }
 
                     MutableComponent value = info.toFormatted();
