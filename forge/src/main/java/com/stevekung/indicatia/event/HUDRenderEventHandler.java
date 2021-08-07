@@ -2,7 +2,10 @@ package com.stevekung.indicatia.event;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -91,7 +94,7 @@ public class HUDRenderEventHandler
                             continue;
                         }
 
-                        Collection<MobEffectInstance> collection = mc.player.getActiveEffects();
+                        Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects().stream().sorted((mob1, mob2) -> new CompareToBuilder().append(mob1.getDuration(), mob2.getDuration()).build()).collect(Collectors.toCollection(TreeSet::new));
                         int goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
                         int badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
                         int state = 0;
