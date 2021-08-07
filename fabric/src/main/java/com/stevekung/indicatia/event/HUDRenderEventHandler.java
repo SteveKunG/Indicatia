@@ -1,8 +1,10 @@
 package com.stevekung.indicatia.event;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
@@ -22,6 +24,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
 
@@ -50,11 +53,35 @@ public class HUDRenderEventHandler
                         continue;
                     }
 
+                    int state = 0;
+                    Collection<MobEffectInstance> collection = mc.player.getActiveEffects();
+
+                    if (!collection.isEmpty())
+                    {
+                        if (collection.size() > 0)
+                        {
+                            state = 1;
+                        }
+                        for (MobEffectInstance mobEffectInstance : Ordering.natural().reverse().sortedCopy(collection))
+                        {
+                            if (mobEffectInstance.showIcon() && !mobEffectInstance.getEffect().isBeneficial())
+                            {
+                                state = 2;
+                            }
+                        }
+                    }
+
                     MutableComponent value = info.toFormatted();
                     InfoOverlay.Position pos = info.getPos();
                     float defaultPos = 3.0625F;
                     float fontHeight = mc.font.lineHeight + 1;
                     float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
+
+                    if (pos == InfoOverlay.Position.RIGHT && !IndicatiaSettings.INSTANCE.swapRenderInfo || pos == InfoOverlay.Position.LEFT && IndicatiaSettings.INSTANCE.swapRenderInfo)
+                    {
+                        yOffset += state == 1 ? 24 : state == 2 ? 49 : 0;
+                    }
+
                     float xOffset = mc.getWindow().getGuiScaledWidth() - 2 - mc.font.width(value.getString());
                     mc.font.drawShadow(poseStack, value, pos == InfoOverlay.Position.LEFT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
