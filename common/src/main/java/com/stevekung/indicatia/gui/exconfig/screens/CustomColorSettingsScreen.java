@@ -21,8 +21,8 @@ public class CustomColorSettingsScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("menu.render_info_custom_color.title"), button -> this.minecraft.setScreen(new CustomRenderInfoColorSettingsScreen(this))));
-        this.addButton(new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, CommonComponents.GUI_DONE, button -> this.minecraft.setScreen(this.parent)));
+        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 - 12, 150, 20, LangUtils.translate("menu.render_info_custom_color.title"), button -> this.minecraft.setScreen(new CustomRenderInfoColorSettingsScreen(this))));
+        this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 6 + 175, 200, 20, CommonComponents.GUI_DONE, button -> this.minecraft.setScreen(this.parent)));
     }
 
     @Override

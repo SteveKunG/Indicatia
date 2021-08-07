@@ -27,7 +27,7 @@ public class HypixelSettingsScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, CommonComponents.GUI_DONE, button ->
+        this.addRenderableWidget(new Button(this.width / 2 - 100, this.height - 25, 200, 20, CommonComponents.GUI_DONE, button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(this.parent);
@@ -35,7 +35,7 @@ public class HypixelSettingsScreen extends Screen
 
         this.optionsRowList = new ConfigButtonListWidget(this.width, this.height, 16, this.height - 30, 25);
         this.optionsRowList.addAll(OPTIONS);
-        this.children.add(this.optionsRowList);
+        this.addWidget(this.optionsRowList);
     }
 
     @Override

@@ -19,11 +19,13 @@ import com.stevekung.stevekungslib.utils.ItemUtils;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
+import dev.architectury.event.EventResult;
 import me.shedaniel.architectury.event.EventResult;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -49,7 +51,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         ScreenEvents.CHAT_SCREEN_MOUSE_SCROLL.register(this::onChatMouseScrolled);
     }
 
-    private void onChatInit(List<AbstractWidget> buttons, List<GuiEventListener> children, int width, int height)
+    private void onChatInit(List<Widget> buttons, List<GuiEventListener> children, int width, int height)
     {
         if (InfoUtils.INSTANCE.isHypixel())
         {
@@ -62,7 +64,7 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    private void onChatRenderPre(List<AbstractWidget> buttons, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+    private void onChatRenderPre(List<Widget> buttons, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelChatMode())
         {
@@ -75,22 +77,21 @@ public class IndicatiaChatScreen implements IDropboxCallback
         }
     }
 
-    private void onChatRenderPost(List<AbstractWidget> buttons, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+    private void onChatRenderPost(List<Widget> buttons, List<GuiEventListener> children, PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelDropdownShortcut())
         {
-            for (AbstractWidget button : buttons)
+            for (Widget button : buttons)
             {
-                if (button instanceof MinigameButton)
+                if (button instanceof MinigameButton customButton)
                 {
-                    MinigameButton customButton = (MinigameButton) button;
                     customButton.render(poseStack, mouseX, mouseY);
                 }
             }
         }
     }
 
-    private void onChatTick(List<AbstractWidget> buttons, List<GuiEventListener> children, int width, int height)
+    private void onChatTick(List<Widget> buttons, List<GuiEventListener> children, int width, int height)
     {
         if (InfoUtils.INSTANCE.isHypixel() && PlatformConfig.getHypixelDropdownShortcut())
         {
@@ -102,23 +103,22 @@ public class IndicatiaChatScreen implements IDropboxCallback
 
             boolean clicked = !this.dropdown.dropdownClicked;
 
-            for (AbstractWidget button : buttons)
+            for (Widget button : buttons)
             {
-                if (button instanceof MinigameButton)
+                if (button instanceof MinigameButton buttonCustom)
                 {
-                    MinigameButton buttonCustom = (MinigameButton) button;
                     buttonCustom.visible = clicked;
                 }
             }
         }
     }
 
-    private void onChatClose(List<AbstractWidget> buttons, List<GuiEventListener> children)
+    private void onChatClose(List<Widget> buttons, List<GuiEventListener> children)
     {
         IndicatiaSettings.INSTANCE.save();
     }
 
-    private EventResult onChatMouseScrolled(List<AbstractWidget> buttons, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
+    private EventResult onChatMouseScrolled(List<Widget> buttons, List<GuiEventListener> children, double mouseX, double mouseY, double scrollDelta)
     {
         double delta = scrollDelta;
 
@@ -252,11 +252,11 @@ public class IndicatiaChatScreen implements IDropboxCallback
             }
         }
 
-        for (AbstractWidget button : buttons)
+        for (Widget button : buttons)
         {
-            if (button instanceof MinigameButton)
+            if (button instanceof MinigameButton minigameButton)
             {
-                button.visible = false;
+                minigameButton.visible = false;
             }
         }
         children.addAll(buttons);

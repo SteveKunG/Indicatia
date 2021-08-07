@@ -34,45 +34,45 @@ public class ExtendedConfigScreen extends Screen
         {
             if (options instanceof SliderPercentageSettings)
             {
-                this.addButton(((SliderPercentageSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addRenderableWidget(((SliderPercentageSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else if (options instanceof BooleanSettings)
             {
-                this.addButton(((BooleanSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addRenderableWidget(((BooleanSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             else
             {
-                this.addButton(((IteratableSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
+                this.addRenderableWidget(((IteratableSettings<IndicatiaSettings>) options).createWidget(IndicatiaSettings.INSTANCE, this.width / 2 - 160 + i % 2 * 165, this.height / 6 - 17 + 24 * (i >> 1), 160));
             }
             ++i;
         }
 
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.render_info.title"), button ->
+        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.render_info.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(new RenderInfoSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.custom_color.title"), button ->
+        this.addRenderableWidget(new Button(this.width / 2 + 10, this.height / 6 + 127, 150, 20, LangUtils.translate("menu.custom_color.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(new CustomColorSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.offset.title"), button ->
+        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.offset.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(new OffsetSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.hypixel.title"), button ->
+        this.addRenderableWidget(new Button(this.width / 2 + 10, this.height / 6 + 151, 150, 20, LangUtils.translate("menu.hypixel.title"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(new HypixelSettingsScreen(this));
         }));
-        this.addButton(new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, CommonComponents.GUI_DONE, button ->
+        this.addRenderableWidget(new Button(this.width / 2 + 5, this.height / 6 + 175, 160, 20, CommonComponents.GUI_DONE, button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(null);
         }));
-        this.addButton(new Button(this.width / 2 - 160, this.height / 6 + 175, 160, 20, LangUtils.translate("menu.reset_config"), button ->
+        this.addRenderableWidget(new Button(this.width / 2 - 160, this.height / 6 + 175, 160, 20, LangUtils.translate("menu.reset_config"), button ->
         {
             IndicatiaSettings.INSTANCE.save();
             this.minecraft.setScreen(new ConfirmScreen(this::resetConfig, LangUtils.translate("menu.reset_config_confirm"), TextComponent.EMPTY));

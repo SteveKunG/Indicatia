@@ -26,7 +26,7 @@ public class DisconnectConfirmationScreen extends Screen
     @Override
     public void init()
     {
-        this.addButton(new Button(this.width / 2 - 155, this.height / 6 + 96, 150, 20, CommonComponents.GUI_YES, button ->
+        this.addRenderableWidget(new Button(this.width / 2 - 155, this.height / 6 + 96, 150, 20, CommonComponents.GUI_YES, button ->
         {
             boolean flag = this.minecraft.isLocalServer();
             boolean flag1 = this.minecraft.isConnectedToRealms();
@@ -55,7 +55,7 @@ public class DisconnectConfirmationScreen extends Screen
                 this.minecraft.setScreen(new JoinMultiplayerScreen(new TitleScreen()));
             }
         }));
-        this.addButton(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, CommonComponents.GUI_NO, button -> this.minecraft.setScreen(this.parent)));
+        this.addRenderableWidget(new Button(this.width / 2 - 155 + 160, this.height / 6 + 96, 150, 20, CommonComponents.GUI_NO, button -> this.minecraft.setScreen(this.parent)));
     }
 
     @Override

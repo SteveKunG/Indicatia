@@ -20,15 +20,9 @@ import net.minecraft.ResourceLocationException;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
-public class ProfileNameArgumentType implements ArgumentType<String>
+public record ProfileNameArgumentType(ProfileNameArgumentType.Mode mode) implements ArgumentType<String>
 {
     private static final SimpleCommandExceptionType INVALID_ARGS = new SimpleCommandExceptionType(new TranslatableComponent("argument.id.invalid"));
-    private final Mode mode;
-
-    private ProfileNameArgumentType(Mode mode)
-    {
-        this.mode = mode;
-    }
 
     public static ProfileNameArgumentType create()
     {

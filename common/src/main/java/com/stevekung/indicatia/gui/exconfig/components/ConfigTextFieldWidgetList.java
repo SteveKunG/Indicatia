@@ -11,6 +11,7 @@ import com.stevekung.stevekungslib.utils.config.TextFieldSettingsWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 
 public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<ConfigTextFieldWidgetList.Row>
 {
@@ -88,6 +89,12 @@ public class ConfigTextFieldWidgetList extends ContainerObjectSelectionList<Conf
 
         @Override
         public List<? extends GuiEventListener> children()
+        {
+            return this.textFields;
+        }
+
+        @Override
+        public List<? extends NarratableEntry> narratables()
         {
             return this.textFields;
         }

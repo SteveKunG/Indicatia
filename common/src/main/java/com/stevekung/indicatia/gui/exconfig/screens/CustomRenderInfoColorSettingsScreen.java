@@ -31,7 +31,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
     public void init()
     {
         this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
-        this.addButton(new Button(this.width / 2 - 100, this.height - 25, 200, 20, CommonComponents.GUI_DONE, button ->
+        this.addRenderableWidget(new Button(this.width / 2 - 100, this.height - 25, 200, 20, CommonComponents.GUI_DONE, button ->
         {
             this.optionsRowList.saveCurrentValue();
             IndicatiaSettings.INSTANCE.save();
@@ -44,7 +44,7 @@ public class CustomRenderInfoColorSettingsScreen extends Screen
         {
             this.optionsRowList.addButton(option);
         }
-        this.children.add(this.optionsRowList);
+        this.addWidget(this.optionsRowList);
     }
 
     @Override
