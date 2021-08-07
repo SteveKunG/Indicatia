@@ -1,8 +1,10 @@
 package com.stevekung.indicatia.event;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
@@ -23,6 +25,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -88,11 +91,35 @@ public class HUDRenderEventHandler
                             continue;
                         }
 
+                        int state = 0;
+                        Collection<MobEffectInstance> collection = mc.player.getActiveEffects();
+
+                        if (!collection.isEmpty())
+                        {
+                            if (collection.size() > 0)
+                            {
+                                state = 1;
+                            }
+                            for (MobEffectInstance mobEffectInstance : Ordering.natural().reverse().sortedCopy(collection))
+                            {
+                                if (mobEffectInstance.showIcon() && !mobEffectInstance.getEffect().isBeneficial())
+                                {
+                                    state = 2;
+                                }
+                            }
+                        }
+
                         MutableComponent value = info.toFormatted();
                         InfoOverlay.Position pos = info.getPos();
                         float defaultPos = 3.0625F;
                         float fontHeight = this.mc.font.lineHeight + 1;
                         float yOffset = 3 + fontHeight * (pos == InfoOverlay.Position.LEFT ? iLeft : iRight);
+
+                        if (pos == InfoOverlay.Position.RIGHT && !IndicatiaSettings.INSTANCE.swapRenderInfo || pos == InfoOverlay.Position.LEFT && IndicatiaSettings.INSTANCE.swapRenderInfo)
+                        {
+                            yOffset += state == 1 ? 24 : state == 2 ? 49 : 0;
+                        }
+
                         float xOffset = this.mc.getWindow().getGuiScaledWidth() - 2 - this.mc.font.width(value.getString());
                         this.mc.font.drawShadow(matrixStack, value, pos == InfoOverlay.Position.LEFT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? defaultPos : xOffset : pos == InfoOverlay.Position.RIGHT ? !IndicatiaSettings.INSTANCE.swapRenderInfo ? xOffset : defaultPos : defaultPos, yOffset, 16777215);
 
@@ -166,17 +193,17 @@ public class HUDRenderEventHandler
             if (IndicatiaSettings.INSTANCE.ping)
             {
                 int responseTime = InfoUtils.INSTANCE.getPing();
-                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", IndicatiaSettings.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("hud.ping", responseTime + "ms", IndicatiaSettings.INSTANCE.pingColor, InfoUtils.INSTANCE.getResponseTimeColor(responseTime), InfoOverlay.Position.LEFT));
 
                 if (IndicatiaSettings.INSTANCE.pingToSecond)
                 {
                     double responseTimeSecond = InfoUtils.INSTANCE.getPing() / 1000.0D;
-                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int) (responseTimeSecond * 1000.0D)), InfoOverlay.Position.RIGHT));
+                    infos.add(new InfoOverlay("hud.ping.delay", responseTimeSecond + "s", IndicatiaSettings.INSTANCE.pingToSecondColor, InfoUtils.INSTANCE.getResponseTimeColor((int) (responseTimeSecond * 1000.0D)), InfoOverlay.Position.LEFT));
                 }
             }
             if (IndicatiaSettings.INSTANCE.serverIP && mc.getCurrentServer() != null)
             {
-                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServer().ip) + (IndicatiaSettings.INSTANCE.serverIPMCVersion ? "/" + Minecraft.getInstance().getVersionType() : ""), IndicatiaSettings.INSTANCE.serverIPColor, IndicatiaSettings.INSTANCE.serverIPValueColor, InfoOverlay.Position.RIGHT));
+                infos.add(new InfoOverlay("IP", (mc.isConnectedToRealms() ? "Realms Server" : mc.getCurrentServer().ip) + (IndicatiaSettings.INSTANCE.serverIPMCVersion ? "/" + Minecraft.getInstance().getVersionType() : ""), IndicatiaSettings.INSTANCE.serverIPColor, IndicatiaSettings.INSTANCE.serverIPValueColor, InfoOverlay.Position.LEFT));
             }
         }
 
