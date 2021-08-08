@@ -3,7 +3,6 @@
     "minVersion": "0.8.2",
     "compatibilityLevel": "JAVA_8",
     "package": "com.stevekung.indicatia.mixin.forge",
-    "plugin": "com.stevekung.indicatia.core.IndicatiaForgeMixinConfigPlugin",
     "client": [
         "gui.MixinForgeIngameGui",
         "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry"
