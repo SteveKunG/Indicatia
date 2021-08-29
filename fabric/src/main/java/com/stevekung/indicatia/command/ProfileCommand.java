@@ -1,13 +1,12 @@
 package com.stevekung.indicatia.command;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.ProfileNameArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
+import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
@@ -125,7 +124,7 @@ public class ProfileCommand
 
     private static int getProfileList(FabricClientCommandSource source)
     {
-        Collection<File> collection = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> file.getName().endsWith(".dat")).collect(Collectors.toList());
+        Collection<File> collection = Indicatia.getProfileList();
 
         if (collection.isEmpty())
         {

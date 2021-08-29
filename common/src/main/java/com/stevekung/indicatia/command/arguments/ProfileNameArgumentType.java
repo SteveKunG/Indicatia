@@ -16,6 +16,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.stevekung.indicatia.config.IndicatiaSettings;
+import com.stevekung.indicatia.core.Indicatia;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -109,7 +110,7 @@ public class ProfileNameArgumentType implements ArgumentType<String>
     @Nullable
     public static File getProfileFile(String name)
     {
-        for (File file : IndicatiaSettings.USER_DIR.listFiles())
+        for (File file : Indicatia.getProfileList())
         {
             if (file.getName().equals(name + ".dat"))
             {
