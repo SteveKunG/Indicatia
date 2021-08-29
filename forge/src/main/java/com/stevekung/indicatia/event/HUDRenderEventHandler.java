@@ -23,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -76,7 +77,7 @@ public class HUDRenderEventHandler
                         }
 
                         var collection = this.mc.player.getActiveEffects().stream().sorted((mob1, mob2) -> new CompareToBuilder().append(mob1.getDuration(), mob2.getDuration()).build()).collect(Collectors.toCollection(TreeSet::new));
-                        var goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
+                        var goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && (mobEffectInstance.getEffect().isBeneficial() || mobEffectInstance.getEffect().getCategory() == MobEffectCategory.NEUTRAL)).count();
                         var badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
                         var state = 0;
 

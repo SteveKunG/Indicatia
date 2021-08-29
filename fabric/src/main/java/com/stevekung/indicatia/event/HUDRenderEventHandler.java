@@ -21,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.level.ChunkPos;
 
 public class HUDRenderEventHandler
@@ -49,8 +50,8 @@ public class HUDRenderEventHandler
                     }
 
                     var collection = mc.player.getActiveEffects();
-                    var goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
-                    var badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
+                    var goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.showIcon() && (mobEffectInstance.getEffect().isBeneficial() || mobEffectInstance.getEffect().getCategory() == MobEffectCategory.NEUTRAL)).count();
+                    var badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.showIcon() && !mobEffectInstance.getEffect().isBeneficial()).count();
                     var state = 0;
 
                     if (goodCount > 0)
