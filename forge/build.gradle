@@ -45,8 +45,8 @@ dependencies {
         transitive = false
     }
 
-    if (file("libs/SteveKunG's-Lib-mc${mc_version}-dev.jar").exists()) {
-        modImplementation(":SteveKunG's-Lib-mc${mc_version}-dev")
+    if (file("libs/SteveKunG's-Lib-mc${mc_version}-forge.jar").exists()) {
+        modImplementation(":SteveKunG's-Lib-mc${mc_version}-forge")
         println("Use existing deobf artifact")
     } else {
         modCompile("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_forge_deobf}")
@@ -62,7 +62,7 @@ processResources {
     }
 }
 
-def fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"
+String fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"
 
 jar {
     version "v${project.version}"
