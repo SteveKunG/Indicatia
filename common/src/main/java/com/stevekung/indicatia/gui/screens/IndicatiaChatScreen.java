@@ -267,13 +267,13 @@ public class IndicatiaChatScreen implements IDropboxCallback
         PARTY("menu.chat_mode.party_chat", ChatFormatting.BLUE, 23, 56, 20, 20, "P", "/chat p"),
         GUILD("menu.chat_mode.guild_chat", ChatFormatting.DARK_GREEN, 23, 77, 20, 20, "G", "/chat g");
 
-        protected final String desc;
-        protected final ChatFormatting color;
-        protected final int x;
-        protected final int y;
-        protected final int width;
-        protected final int height;
-        protected final Component message;
+        private final String desc;
+        private final ChatFormatting color;
+        private final int x;
+        private final int y;
+        private final int width;
+        private final int height;
+        private final Component message;
         public final String command;
 
         ChatMode(String desc, ChatFormatting color, int x, int y, int width, int height, String message, String command)

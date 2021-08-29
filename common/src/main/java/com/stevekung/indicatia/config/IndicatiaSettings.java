@@ -147,12 +147,12 @@ public class IndicatiaSettings extends Settings
     public static final BooleanSettings<IndicatiaSettings> RIGHT_CLICK_ADD_PARTY = new BooleanSettings<>("indicatia_setting.right_click_add_party", config -> config.rightClickToAddParty, (config, value) -> config.rightClickToAddParty = value);
 
 
-    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_DIRECTION = new IteratableSettings<>("indicatia_setting.equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentDirection.getTranslationKey())));
-    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_STATUS = new IteratableSettings<>("indicatia_setting.equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentStatus.getTranslationKey())));
-    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_POSITION = new IteratableSettings<>("indicatia_setting.equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentPosition.getTranslationKey())));
-    public static final IteratableSettings<IndicatiaSettings> POTION_HUD_STYLE = new IteratableSettings<>("indicatia_setting.potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.potionHUDStyle.getTranslationKey())));
-    public static final IteratableSettings<IndicatiaSettings> POTION_HUD_POSITION = new IteratableSettings<>("indicatia_setting.potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.potionHUDPosition.getTranslationKey())));
-    public static final IteratableSettings<IndicatiaSettings> PING_MODE = new IteratableSettings<>("indicatia_setting.ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.getId() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.pingMode.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_DIRECTION = new IteratableSettings<>("indicatia_setting.equipment_direction", (config, value) -> config.equipmentDirection = Equipments.Direction.byId(config.equipmentDirection.ordinal() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentDirection.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_STATUS = new IteratableSettings<>("indicatia_setting.equipment_status", (config, value) -> config.equipmentStatus = Equipments.Status.byId(config.equipmentStatus.ordinal() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentStatus.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> EQUIPMENT_POSITION = new IteratableSettings<>("indicatia_setting.equipment_position", (config, value) -> config.equipmentPosition = Equipments.Position.byId(config.equipmentPosition.ordinal() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.equipmentPosition.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> POTION_HUD_STYLE = new IteratableSettings<>("indicatia_setting.potion_hud_style", (config, value) -> config.potionHUDStyle = StatusEffects.Style.byId(config.potionHUDStyle.ordinal() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.potionHUDStyle.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> POTION_HUD_POSITION = new IteratableSettings<>("indicatia_setting.potion_hud_position", (config, value) -> config.potionHUDPosition = StatusEffects.Position.byId(config.potionHUDPosition.ordinal() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.potionHUDPosition.getTranslationKey())));
+    public static final IteratableSettings<IndicatiaSettings> PING_MODE = new IteratableSettings<>("indicatia_setting.ping_mode", (config, value) -> config.pingMode = PingMode.byId(config.pingMode.ordinal() + value), (config, stringOpt) -> stringOpt.getGenericValueComponent(LangUtils.translate(config.pingMode.getTranslationKey())));
 
 
     public static final TextFieldSettings<IndicatiaSettings> FPS_COLOR = new TextFieldSettings<>("indicatia_setting.fps_color", config -> config.fpsColor, (config, value) -> config.fpsColor = value);
@@ -236,12 +236,12 @@ public class IndicatiaSettings extends Settings
             // Main
             this.swapRenderInfo = this.getBoolean(nbt, "SwapRenderInfo", this.swapRenderInfo);
             this.showCustomCape = this.getBoolean(nbt, "ShowCustomCape", this.showCustomCape);
-            this.equipmentDirection = Equipments.Direction.byId(this.getInteger(nbt, "EquipmentDirection", this.equipmentDirection.getId()));
-            this.equipmentStatus = Equipments.Status.byId(this.getInteger(nbt, "EquipmentStatus", this.equipmentStatus.getId()));
-            this.equipmentPosition = Equipments.Position.byId(this.getInteger(nbt, "EquipmentPosition", this.equipmentPosition.getId()));
-            this.potionHUDStyle = StatusEffects.Style.byId(this.getInteger(nbt, "PotionHUDStyle", this.potionHUDStyle.getId()));
-            this.potionHUDPosition = StatusEffects.Position.byId(this.getInteger(nbt, "PotionHUDPosition", this.potionHUDPosition.getId()));
-            this.pingMode = PingMode.byId(this.getInteger(nbt, "PingMode", this.pingMode.getId()));
+            this.equipmentDirection = Equipments.Direction.byId(this.getInteger(nbt, "EquipmentDirection", this.equipmentDirection.ordinal()));
+            this.equipmentStatus = Equipments.Status.byId(this.getInteger(nbt, "EquipmentStatus", this.equipmentStatus.ordinal()));
+            this.equipmentPosition = Equipments.Position.byId(this.getInteger(nbt, "EquipmentPosition", this.equipmentPosition.ordinal()));
+            this.potionHUDStyle = StatusEffects.Style.byId(this.getInteger(nbt, "PotionHUDStyle", this.potionHUDStyle.ordinal()));
+            this.potionHUDPosition = StatusEffects.Position.byId(this.getInteger(nbt, "PotionHUDPosition", this.potionHUDPosition.ordinal()));
+            this.pingMode = PingMode.byId(this.getInteger(nbt, "PingMode", this.pingMode.ordinal()));
 
             // Offset
             this.armorHUDYOffset = this.getInteger(nbt, "ArmorHUDYOffset", this.armorHUDYOffset);
@@ -343,12 +343,12 @@ public class IndicatiaSettings extends Settings
             // Main
             nbt.putBoolean("ShowCustomCape", this.showCustomCape);
             nbt.putBoolean("SwapRenderInfo", this.swapRenderInfo);
-            nbt.putInt("EquipmentDirection", this.equipmentDirection.getId());
-            nbt.putInt("EquipmentStatus", this.equipmentStatus.getId());
-            nbt.putInt("EquipmentPosition", this.equipmentPosition.getId());
-            nbt.putInt("PotionHUDStyle", this.potionHUDStyle.getId());
-            nbt.putInt("PotionHUDPosition", this.potionHUDPosition.getId());
-            nbt.putInt("PingMode", this.pingMode.getId());
+            nbt.putInt("EquipmentDirection", this.equipmentDirection.ordinal());
+            nbt.putInt("EquipmentStatus", this.equipmentStatus.ordinal());
+            nbt.putInt("EquipmentPosition", this.equipmentPosition.ordinal());
+            nbt.putInt("PotionHUDStyle", this.potionHUDStyle.ordinal());
+            nbt.putInt("PotionHUDPosition", this.potionHUDPosition.ordinal());
+            nbt.putInt("PingMode", this.pingMode.ordinal());
 
             // Offset
             nbt.putInt("ArmorHUDYOffset", this.armorHUDYOffset);
