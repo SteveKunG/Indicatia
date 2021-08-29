@@ -1,5 +1,8 @@
 package com.stevekung.indicatia.core;
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.commons.io.FilenameUtils;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -10,6 +13,7 @@ import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
+import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
 import me.shedaniel.architectury.event.events.client.ClientPlayerEvent;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -20,6 +24,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 
 public class IndicatiaFabric implements ClientModInitializer
 {
@@ -34,6 +39,8 @@ public class IndicatiaFabric implements ClientModInitializer
     public void onInitializeClient()
     {
         Indicatia.init();
+        CommonUtils.initAntisteal("indicatia", IndicatiaFabric.class, () -> Minecraft.getInstance().close());
+
         ClientRegistryUtils.registerKeyBinding(Indicatia.keyBindAltChat);
 
         AutoConfig.register(IndicatiaConfig.class, GsonConfigSerializer::new);
@@ -58,15 +65,15 @@ public class IndicatiaFabric implements ClientModInitializer
 
                 try
                 {
-                    var listFiles = Indicatia.getProfileList();
+                    List<File> listFiles = Indicatia.getProfileList();
 
                     if (Indicatia.index < 0)
                     {
                         Indicatia.index = listFiles.size() - 1;
                     }
 
-                    var file = listFiles.get(Indicatia.index);
-                    var fileName = FilenameUtils.getBaseName(file.getName());
+                    File file = listFiles.get(Indicatia.index);
+                    String fileName = FilenameUtils.getBaseName(file.getName());
                     Indicatia.selectProfile(fileName);
                 }
                 catch (Exception e)
@@ -80,15 +87,15 @@ public class IndicatiaFabric implements ClientModInitializer
 
                 try
                 {
-                    var listFiles = Indicatia.getProfileList();
+                    List<File> listFiles = Indicatia.getProfileList();
 
                     if (Indicatia.index > listFiles.size() - 1)
                     {
                         Indicatia.index = 0;
                     }
 
-                    var file = listFiles.get(Indicatia.index);
-                    var fileName = FilenameUtils.getBaseName(file.getName());
+                    File file = listFiles.get(Indicatia.index);
+                    String fileName = FilenameUtils.getBaseName(file.getName());
                     Indicatia.selectProfile(fileName);
                 }
                 catch (Exception e)
