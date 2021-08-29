@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.core;
 
+import org.apache.commons.io.FilenameUtils;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.command.*;
@@ -47,13 +48,53 @@ public class IndicatiaFabric implements ClientModInitializer
 
         ClientTickEvents.END_CLIENT_TICK.register(mc ->
         {
-            while (KeyBindingHandler.KEY_QUICK_CONFIG.consumeClick())
+            if (KeyBindingHandler.KEY_QUICK_CONFIG.consumeClick())
             {
                 mc.setScreen(new ExtendedConfigScreen());
             }
-            if (KeyBindingHandler.KEY_QUICK_CONFIG.isDown())
+            if (KeyBindingHandler.KEY_PREVIOUS_PROFILE.consumeClick())
             {
-                mc.setScreen(new ExtendedConfigScreen());
+                Indicatia.index--;
+
+                try
+                {
+                    var listFiles = Indicatia.getProfileList();
+
+                    if (Indicatia.index < 0)
+                    {
+                        Indicatia.index = listFiles.size() - 1;
+                    }
+
+                    var file = listFiles.get(Indicatia.index);
+                    var fileName = FilenameUtils.getBaseName(file.getName());
+                    Indicatia.selectProfile(fileName);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (KeyBindingHandler.KEY_NEXT_PROFILE.consumeClick())
+            {
+                Indicatia.index++;
+
+                try
+                {
+                    var listFiles = Indicatia.getProfileList();
+
+                    if (Indicatia.index > listFiles.size() - 1)
+                    {
+                        Indicatia.index = 0;
+                    }
+
+                    var file = listFiles.get(Indicatia.index);
+                    var fileName = FilenameUtils.getBaseName(file.getName());
+                    Indicatia.selectProfile(fileName);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         });
 

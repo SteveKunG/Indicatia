@@ -1,12 +1,11 @@
 package com.stevekung.indicatia.command;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.ProfileNameArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
+import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 import com.stevekung.stevekungslib.utils.client.command.IClientCommand;
@@ -134,7 +133,7 @@ public class ProfileCommand implements IClientCommand
 
     private static int getProfileList(IClientSharedSuggestionProvider source)
     {
-        var collection = Arrays.stream(IndicatiaSettings.USER_DIR.listFiles()).filter(file -> file.getName().endsWith(".dat")).collect(Collectors.toList());
+        var collection = Indicatia.getProfileList();
 
         if (collection.isEmpty())
         {
