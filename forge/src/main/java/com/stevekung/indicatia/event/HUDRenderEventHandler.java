@@ -28,6 +28,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -95,7 +96,7 @@ public class HUDRenderEventHandler
                         }
 
                         Collection<MobEffectInstance> collection = this.mc.player.getActiveEffects().stream().sorted((mob1, mob2) -> new CompareToBuilder().append(mob1.getDuration(), mob2.getDuration()).build()).collect(Collectors.toCollection(TreeSet::new));
-                        int goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && mobEffectInstance.getEffect().isBeneficial()).count();
+                        int goodCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.showIcon() && (mobEffectInstance.getEffect().isBeneficial() || mobEffectInstance.getEffect().getCategory() == MobEffectCategory.NEUTRAL)).count();
                         int badCount = (int) Ordering.natural().reverse().sortedCopy(collection).stream().filter(mobEffectInstance -> mobEffectInstance.isVisible() && !mobEffectInstance.getEffect().isBeneficial()).count();
                         int state = 0;
 
