@@ -170,6 +170,7 @@
     "_comment": "KEY BINDING",
     "key.categories.indicatia": "Indicatia",
     "key.quick_config.desc": "Quick Config GUI",
+    "key.chat_alt.desc": "Alternate Chat",
     "key.next_profile.desc": "Select Next Profile",
     "key.previous_profile.desc": "Select Previous Profile",
     "_comment": "MENU",

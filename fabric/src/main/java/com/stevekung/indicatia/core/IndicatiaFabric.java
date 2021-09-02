@@ -29,7 +29,7 @@ public class IndicatiaFabric implements ClientModInitializer
 
     static
     {
-        Indicatia.keyBindAltChat = new KeyMapping("key.chatAlt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+        Indicatia.keyBindAltChat = new KeyMapping("key.chat_alt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
     }
 
     @Override
@@ -52,6 +52,8 @@ public class IndicatiaFabric implements ClientModInitializer
 
         ClientTickEvents.END_CLIENT_TICK.register(mc ->
         {
+            var listFiles = Indicatia.getProfileList();
+
             if (KeyBindingHandler.KEY_QUICK_CONFIG.consumeClick())
             {
                 mc.setScreen(new ExtendedConfigScreen());
@@ -60,45 +62,27 @@ public class IndicatiaFabric implements ClientModInitializer
             {
                 Indicatia.index--;
 
-                try
+                if (Indicatia.index < 0)
                 {
-                    var listFiles = Indicatia.getProfileList();
-
-                    if (Indicatia.index < 0)
-                    {
-                        Indicatia.index = listFiles.size() - 1;
-                    }
-
-                    var file = listFiles.get(Indicatia.index);
-                    var fileName = FilenameUtils.getBaseName(file.getName());
-                    Indicatia.selectProfile(fileName);
+                    Indicatia.index = listFiles.size() - 1;
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+
+                var file = listFiles.get(Indicatia.index);
+                var fileName = FilenameUtils.getBaseName(file.getName());
+                Indicatia.selectProfile(fileName);
             }
             if (KeyBindingHandler.KEY_NEXT_PROFILE.consumeClick())
             {
                 Indicatia.index++;
 
-                try
+                if (Indicatia.index > listFiles.size() - 1)
                 {
-                    var listFiles = Indicatia.getProfileList();
-
-                    if (Indicatia.index > listFiles.size() - 1)
-                    {
-                        Indicatia.index = 0;
-                    }
-
-                    var file = listFiles.get(Indicatia.index);
-                    var fileName = FilenameUtils.getBaseName(file.getName());
-                    Indicatia.selectProfile(fileName);
+                    Indicatia.index = 0;
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+
+                var file = listFiles.get(Indicatia.index);
+                var fileName = FilenameUtils.getBaseName(file.getName());
+                Indicatia.selectProfile(fileName);
             }
         });
 
