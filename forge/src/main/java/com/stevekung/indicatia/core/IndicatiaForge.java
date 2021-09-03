@@ -8,10 +8,12 @@ import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.key.KeypadChatKey;
 import com.stevekung.stevekungslib.client.ForgeKeyMappingBase;
+import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.ForgeCommonUtils;
 import com.stevekung.stevekungslib.utils.ModVersionChecker;
 import com.stevekung.stevekungslib.utils.client.command.ClientCommands;
 import me.shedaniel.architectury.platform.forge.EventBuses;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -45,6 +47,7 @@ public class IndicatiaForge
 
     private void phaseOne(FMLClientSetupEvent event)
     {
+        CommonUtils.initAntisteal("indicatia", IndicatiaForge.class, Minecraft.getInstance()::close);
         this.registerClientCommands();
     }
 

@@ -39,7 +39,7 @@ public class IndicatiaFabric implements ClientModInitializer
     public void onInitializeClient()
     {
         Indicatia.init();
-        CommonUtils.initAntisteal("indicatia", IndicatiaFabric.class, () -> Minecraft.getInstance().close());
+        CommonUtils.initAntisteal("indicatia", IndicatiaFabric.class, Minecraft.getInstance()::close);
 
         ClientRegistryUtils.registerKeyBinding(Indicatia.keyBindAltChat);
 
