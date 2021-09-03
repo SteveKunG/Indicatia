@@ -55,6 +55,8 @@ public class IndicatiaFabric implements ClientModInitializer
 
         ClientTickEvents.END_CLIENT_TICK.register(mc ->
         {
+            List<File> listFiles = Indicatia.getProfileList();
+
             if (KeyBindingHandler.KEY_QUICK_CONFIG.consumeClick())
             {
                 mc.setScreen(new ExtendedConfigScreen());
@@ -63,45 +65,27 @@ public class IndicatiaFabric implements ClientModInitializer
             {
                 Indicatia.index--;
 
-                try
+                if (Indicatia.index < 0)
                 {
-                    List<File> listFiles = Indicatia.getProfileList();
-
-                    if (Indicatia.index < 0)
-                    {
-                        Indicatia.index = listFiles.size() - 1;
-                    }
-
-                    File file = listFiles.get(Indicatia.index);
-                    String fileName = FilenameUtils.getBaseName(file.getName());
-                    Indicatia.selectProfile(fileName);
+                    Indicatia.index = listFiles.size() - 1;
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+
+                File file = listFiles.get(Indicatia.index);
+                String fileName = FilenameUtils.getBaseName(file.getName());
+                Indicatia.selectProfile(fileName);
             }
             if (KeyBindingHandler.KEY_NEXT_PROFILE.consumeClick())
             {
                 Indicatia.index++;
 
-                try
+                if (Indicatia.index > listFiles.size() - 1)
                 {
-                    List<File> listFiles = Indicatia.getProfileList();
-
-                    if (Indicatia.index > listFiles.size() - 1)
-                    {
-                        Indicatia.index = 0;
-                    }
-
-                    File file = listFiles.get(Indicatia.index);
-                    String fileName = FilenameUtils.getBaseName(file.getName());
-                    Indicatia.selectProfile(fileName);
+                    Indicatia.index = 0;
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+
+                File file = listFiles.get(Indicatia.index);
+                String fileName = FilenameUtils.getBaseName(file.getName());
+                Indicatia.selectProfile(fileName);
             }
         });
 
