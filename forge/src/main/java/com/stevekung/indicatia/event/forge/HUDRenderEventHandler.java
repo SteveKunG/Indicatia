@@ -162,7 +162,7 @@ public class HUDRenderEventHandler
             RenderSystem.enableDepthTest();
             RenderSystem.defaultBlendFunc();
         }
-        if (event.getOverlay() == ForgeIngameGui.POTION_ICONS_ELEMENT && IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
+        if (event.getOverlay() == ForgeIngameGui.POTION_ICONS_ELEMENT && !IndicatiaConfig.GENERAL.enableVanillaPotionHUD.get())
         {
             event.setCanceled(true);
         }
