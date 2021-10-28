@@ -1,15 +1,23 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.1.0"
     id "com.matthewprenger.cursegradle"
 }
 
-configurations {
-    shadow
+loom {
+    accessWidenerPath = file("../common/src/main/resources/indicatia.accesswidener")
 }
 
 architectury {
     platformSetupLoomIde()
     fabric()
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
 }
 
 repositories {
@@ -20,15 +28,6 @@ repositories {
         name "ModMenu Maven"
         url "https://maven.terraformersmc.com/releases/"
     }
-    maven { url 'https://jitpack.io' }
-}
-
-loom {
-    mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_fabric.json"]
-}
-
-minecraft {
-    accessWidener = file("../common/src/main/resources/indicatia.accesswidener")
 }
 
 dependencies {
@@ -36,29 +35,25 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modApi "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
-    implementation("com.github.i-am-cal:antisteal:${rootProject.antisteal_version}")
 
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    implementation(project(path: ":common")) {
+    common(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
-    developmentFabric(project(path: ":common")) {
-        transitive = false
-    }
-    shadow(project(path: ":common", configuration: "transformProductionFabric")) {
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
         transitive = false
     }
 
     if (file("libs/SteveKunG's-Lib-mc${mc_version}-fabric.jar").exists()) {
         modImplementation(":SteveKunG's-Lib-mc${mc_version}-fabric")
         include ":SteveKunG's-Lib-mc${mc_version}-fabric"
-        println("Use existing deobf artifact")
+        println("Use existing artifact")
     } else {
-        modCompile("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_fabric_deobf}")
-        println("Use CurseForge deobf artifact")
+        modCompile("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_fabric}")
+        println("Use CurseForge artifact")
     }
 }
 
@@ -73,13 +68,14 @@ processResources {
 String fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"
 
 jar {
+    classifier "dev"
     version "v${project.version}"
     baseName fileName
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
-    classifier "dev"
+    classifier "dev-shadow"
     version "v${project.version}"
     baseName fileName
 }

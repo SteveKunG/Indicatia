@@ -10,10 +10,18 @@ dependencies {
     modImplementation(":SteveKunG's-Lib-common")
 }
 
-minecraft {
-    accessWidener = file("../common/src/main/resources/indicatia.accesswidener")
+loom {
+    accessWidenerPath = file("../common/src/main/resources/indicatia.accesswidener")
 }
 
 architectury {
     common()
+}
+
+configurations {
+    dev
+}
+
+artifacts {
+    dev(jar)
 }
