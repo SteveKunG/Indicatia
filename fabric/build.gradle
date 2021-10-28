@@ -74,7 +74,7 @@ jar {
 }
 
 shadowJar {
-    configurations = [project.configurations.shadow]
+    configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
     version "v${project.version}"
     baseName fileName
