@@ -6,7 +6,8 @@
     "client": [
         "gui.MixinForgeIngameGui",
         "gui.MixinGui",
-        "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry"
+        "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
+        "renderer.entity.layers.MixinHumanoidArmorLayer"
     ],
     "injectors": {
         "defaultRequire": 1
