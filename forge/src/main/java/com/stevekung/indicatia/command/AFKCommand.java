@@ -2,7 +2,7 @@ package com.stevekung.indicatia.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.forge.IndicatiaConfig;
 import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.hud.HUDHelper;

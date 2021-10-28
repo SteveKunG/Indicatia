@@ -1,11 +1,12 @@
-package com.stevekung.indicatia.core;
+package com.stevekung.indicatia.core.forge;
 
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.command.*;
-import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.event.HUDRenderEventHandler;
-import com.stevekung.indicatia.event.IndicatiaEventHandler;
+import com.stevekung.indicatia.config.forge.IndicatiaConfig;
+import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.event.forge.HUDRenderEventHandler;
+import com.stevekung.indicatia.event.forge.IndicatiaEventHandler;
 import com.stevekung.indicatia.key.KeypadChatKey;
 import com.stevekung.stevekungslib.client.forge.ForgeKeyMappingBase;
 import com.stevekung.stevekungslib.utils.forge.ForgeCommonUtils;

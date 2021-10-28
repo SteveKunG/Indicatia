@@ -1,7 +1,7 @@
-package com.stevekung.indicatia.event;
+package com.stevekung.indicatia.event.forge;
 
-import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.core.IndicatiaForge;
+import com.stevekung.indicatia.config.forge.IndicatiaConfig;
+import com.stevekung.indicatia.core.forge.IndicatiaForge;
 import com.stevekung.indicatia.gui.components.MojangStatusButton;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;

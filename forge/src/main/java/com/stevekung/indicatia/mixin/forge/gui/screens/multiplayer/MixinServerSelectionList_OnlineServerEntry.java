@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.forge.IndicatiaConfig;
 import com.stevekung.stevekungslib.utils.LangUtils;
 import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import net.minecraft.ChatFormatting;

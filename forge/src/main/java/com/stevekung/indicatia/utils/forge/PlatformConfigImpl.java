@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.utils.forge;
 
-import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.forge.IndicatiaConfig;
 
 public class PlatformConfigImpl
 {

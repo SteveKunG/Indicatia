@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.event;
+package com.stevekung.indicatia.event.forge;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stevekung.indicatia.config.Equipments;
-import com.stevekung.indicatia.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.forge.IndicatiaConfig;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.hud.EffectOverlays;

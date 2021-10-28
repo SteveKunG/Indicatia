@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.config;
+package com.stevekung.indicatia.config.forge;
 
 import com.stevekung.indicatia.core.Indicatia;
 import net.minecraftforge.common.ForgeConfigSpec;
