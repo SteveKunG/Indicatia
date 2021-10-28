@@ -10,7 +10,6 @@ import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
-import com.stevekung.stevekungslib.utils.CommonUtils;
 import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -21,7 +20,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 
 public class IndicatiaFabric implements ClientModInitializer
 {
@@ -36,8 +34,6 @@ public class IndicatiaFabric implements ClientModInitializer
     public void onInitializeClient()
     {
         Indicatia.init();
-        CommonUtils.initAntisteal("indicatia", IndicatiaFabric.class, () -> Minecraft.getInstance().close());
-
         ClientRegistryUtils.registerKeyBinding(Indicatia.keyBindAltChat);
 
         AutoConfig.register(IndicatiaConfig.class, GsonConfigSerializer::new);
