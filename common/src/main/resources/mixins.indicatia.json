@@ -5,7 +5,6 @@
     "package": "com.stevekung.indicatia.mixin",
     "client": [
         "MixinMinecraft",
-        "gui.MixinGui",
         "gui.components.MixinBossHealthOverlay",
         "gui.components.MixinPlayerTabOverlay",
         "gui.screens.MixinPauseScreen",

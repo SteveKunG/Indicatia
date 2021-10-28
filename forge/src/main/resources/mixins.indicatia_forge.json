@@ -5,6 +5,7 @@
     "package": "com.stevekung.indicatia.mixin.forge",
     "client": [
         "gui.MixinForgeIngameGui",
+        "gui.MixinGui",
         "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry"
     ],
     "injectors": {

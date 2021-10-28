@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.gui;
+package com.stevekung.indicatia.mixin.forge.gui;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -27,6 +27,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraftforge.client.EffectRenderer;
 
 @Mixin(Gui.class)
 public class MixinGui
@@ -36,7 +37,7 @@ public class MixinGui
     Minecraft minecraft;
 
     @Inject(method = "renderEffects(Lcom/mojang/blaze3d/vertex/PoseStack;)V", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int n, int o, float g)
+    private void addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, EffectRenderer renderer, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int j1, int k1, float f1)
     {
         if (IndicatiaSettings.INSTANCE.timeOnVanillaPotionHUD)
         {
