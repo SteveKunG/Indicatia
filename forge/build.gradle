@@ -73,7 +73,7 @@ jar {
 shadowJar {
     exclude "fabric.mod.json"
     exclude "indicatia.accesswidener"
-    configurations = [project.configurations.shadow]
+    configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
     version "v${project.version}"
     baseName fileName
