@@ -2,7 +2,7 @@ package com.stevekung.indicatia.hud.fabric;
 
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.hud.InfoOverlays;
-import com.stevekung.indicatia.utils.IMinecraftServerTick;
+import com.stevekung.indicatia.fabric.utils.IMinecraftServerTick;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
 import net.minecraft.server.MinecraftServer;
 

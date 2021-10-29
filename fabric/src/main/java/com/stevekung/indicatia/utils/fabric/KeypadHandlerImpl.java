@@ -1,7 +1,7 @@
 package com.stevekung.indicatia.utils.fabric;
 
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.indicatia.core.IndicatiaFabric;
+import com.stevekung.indicatia.fabric.core.IndicatiaFabric;
 
 public class KeypadHandlerImpl
 {

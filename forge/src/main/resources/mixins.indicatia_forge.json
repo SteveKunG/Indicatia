@@ -2,7 +2,7 @@
     "required": true,
     "minVersion": "0.8.2",
     "compatibilityLevel": "JAVA_8",
-    "package": "com.stevekung.indicatia.mixin.forge",
+    "package": "com.stevekung.indicatia.forge.mixin",
     "client": [
         "gui.MixinForgeIngameGui",
         "gui.MixinGui",

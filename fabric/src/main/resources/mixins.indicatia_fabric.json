@@ -2,7 +2,7 @@
     "required": true,
     "minVersion": "0.8.2",
     "compatibilityLevel": "JAVA_8",
-    "package": "com.stevekung.indicatia.mixin.fabric",
+    "package": "com.stevekung.indicatia.fabric.mixin",
     "client": [
         "gui.MixinGui",
         "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
