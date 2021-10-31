@@ -62,7 +62,7 @@ public class MixinGui
         }
     }
 
-    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "FIELD", target = "net/minecraft/client/Options.hideGui:Z", shift = At.Shift.BEFORE))
+    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "FIELD", target = "net/minecraft/client/Options.hideGui:Z", shift = At.Shift.BEFORE, ordinal = 0))
     private void renderHUD(PoseStack poseStack, float partialTicks, CallbackInfo info)
     {
         HUDRenderEventHandler.INSTANCE.onPreInfoRender(this.minecraft, poseStack);
