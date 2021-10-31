@@ -17,11 +17,3 @@ loom {
 architectury {
     common()
 }
-
-configurations {
-    dev
-}
-
-artifacts {
-    dev(jar)
-}

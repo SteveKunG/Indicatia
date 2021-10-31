@@ -40,12 +40,8 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    common(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
-        transitive = false
-    }
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     if (file("libs/SteveKunG's-Lib-mc${mc_version}-fabric.jar").exists()) {
         modImplementation(":SteveKunG's-Lib-mc${mc_version}-fabric")
