@@ -15,6 +15,7 @@ import com.stevekung.stevekungslib.utils.TextComponentUtils;
 import com.stevekung.stevekungslib.utils.client.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringUtil;
+import net.minecraft.world.entity.HumanoidArm;
 
 public class EquipmentOverlays
 {
@@ -137,7 +138,7 @@ public class EquipmentOverlays
         if (IndicatiaSettings.INSTANCE.equipmentHandItems)
         {
             equippedLists.add(new HotbarEquipmentOverlay(mainhandStack, HotbarEquipmentOverlay.Side.LEFT));
-            equippedLists.add(new HotbarEquipmentOverlay(offhandStack, HotbarEquipmentOverlay.Side.RIGHT));
+            equippedLists.add(new HotbarEquipmentOverlay(offhandStack, mc.options.mainHand == HumanoidArm.RIGHT ? HotbarEquipmentOverlay.Side.LEFT : HotbarEquipmentOverlay.Side.RIGHT));
         }
 
         for (var equipment : equippedLists)
