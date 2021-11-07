@@ -61,7 +61,6 @@ public class IndicatiaForge
     {
         ClientCommands.register(new AFKCommand());
         ClientCommands.register(new AutoFishCommand());
-        ClientCommands.register(new MojangStatusCheckCommand());
         ClientCommands.register(new PingAllCommand());
         ClientCommands.register(new ProfileCommand());
         ClientCommands.register(new SlimeSeedCommand());

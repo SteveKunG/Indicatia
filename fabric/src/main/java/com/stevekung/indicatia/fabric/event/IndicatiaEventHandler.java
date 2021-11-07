@@ -1,15 +1,9 @@
 package com.stevekung.indicatia.fabric.event;
 
-import com.stevekung.indicatia.gui.components.MojangStatusButton;
-import com.stevekung.indicatia.gui.screens.MojangStatusScreen;
 import com.stevekung.indicatia.utils.PlatformConfig;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
-import dev.architectury.platform.Platform;
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.phys.HitResult;
@@ -48,15 +42,6 @@ public class IndicatiaEventHandler
                     }
                 }
             }
-        }
-    }
-
-    public void onInitGui(Minecraft mc, Screen screen)
-    {
-        if (screen instanceof TitleScreen)
-        {
-            var height = screen.height / 4 + 48;
-            Screens.getButtons(screen).add(new MojangStatusButton(screen.width / 2 + 104, height + (Platform.isFabric() && Platform.isModLoaded("modmenu") ? 75 : 63), button -> mc.setScreen(new MojangStatusScreen(screen))));
         }
     }
 }

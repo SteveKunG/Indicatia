@@ -2,20 +2,20 @@ package com.stevekung.indicatia.forge.event;
 
 import com.stevekung.indicatia.forge.config.IndicatiaConfig;
 import com.stevekung.indicatia.forge.core.IndicatiaForge;
-import com.stevekung.indicatia.gui.components.MojangStatusButton;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
-import com.stevekung.indicatia.gui.screens.MojangStatusScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -119,18 +119,6 @@ public class IndicatiaEventHandler
         if (KeyBindingHandler.KEY_QUICK_CONFIG.isDown())
         {
             this.mc.setScreen(new ExtendedConfigScreen());
-        }
-    }
-
-    @SubscribeEvent
-    public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
-    {
-        var screen = event.getGui();
-
-        if (screen instanceof TitleScreen)
-        {
-            var height = screen.height / 4 + 48;
-            event.addWidget(new MojangStatusButton(screen.width / 2 + 104, height + 63, button -> this.mc.setScreen(new MojangStatusScreen(screen))));
         }
     }
 

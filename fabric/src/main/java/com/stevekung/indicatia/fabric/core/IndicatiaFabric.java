@@ -18,7 +18,6 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.KeyMapping;
 
@@ -42,7 +41,6 @@ public class IndicatiaFabric implements ClientModInitializer
 
         new AFKCommand(ClientCommandManager.DISPATCHER);
         new AutoFishCommand(ClientCommandManager.DISPATCHER);
-        new MojangStatusCheckCommand(ClientCommandManager.DISPATCHER);
         new PingAllCommand(ClientCommandManager.DISPATCHER);
         new ProfileCommand(ClientCommandManager.DISPATCHER);
         new SlimeSeedCommand(ClientCommandManager.DISPATCHER);
@@ -85,7 +83,6 @@ public class IndicatiaFabric implements ClientModInitializer
 
         ClientTickEvents.START_CLIENT_TICK.register(IndicatiaEventHandler.INSTANCE::onClientTick);
         ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> HUDHelper.stopCommandTicks());
-        ScreenEvents.AFTER_INIT.register((mc, screen, scaledWidth, scaledHeight) -> IndicatiaEventHandler.INSTANCE.onInitGui(mc, screen));
 
         ServerTickEvents.END_WORLD_TICK.register(HUDRenderEventHandler.INSTANCE::onClientTick);
         ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> HUDRenderEventHandler.INSTANCE.onLoggedOut());

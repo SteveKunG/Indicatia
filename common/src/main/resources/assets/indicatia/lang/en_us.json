@@ -193,11 +193,6 @@
     "menu.chat_mode.party_chat": "Party Chat",
     "menu.chat_mode.guild_chat": "Guild Chat",
     "menu.color_format_info": "Color Format is '255,255,255'",
-    "menu.mojang_status.title": "Mojang Status Checker",
     "_comment": "MISC",
-    "misc.extended_config.reset_config": "Config '%s' has been reset to default setting!",
-    "status.mojang.online": "Online",
-    "status.mojang.offline": "Offline",
-    "status.mojang.unstable": "Unstable",
-    "status.mojang.unknown": "Unknown"
+    "misc.extended_config.reset_config": "Config '%s' has been reset to default setting!"
 }
