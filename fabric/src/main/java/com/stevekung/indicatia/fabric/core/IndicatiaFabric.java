@@ -11,7 +11,6 @@ import com.stevekung.indicatia.fabric.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
-import com.stevekung.stevekunglib.utils.client.ClientRegistryUtils;
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -27,14 +26,13 @@ public class IndicatiaFabric implements ClientModInitializer
 
     static
     {
-        Indicatia.keyBindAltChat = new KeyMapping("key.chat_alt", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+        Indicatia.KEY_ALT_OPEN_CHAT = new KeyMapping("key.alt_open_chat", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
     }
 
     @Override
     public void onInitializeClient()
     {
         Indicatia.init();
-        ClientRegistryUtils.registerKeyBinding(Indicatia.keyBindAltChat);
 
         AutoConfig.register(IndicatiaConfig.class, GsonConfigSerializer::new);
         IndicatiaFabric.CONFIG = AutoConfig.getConfigHolder(IndicatiaConfig.class).getConfig();

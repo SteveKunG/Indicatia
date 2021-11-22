@@ -14,11 +14,12 @@ public class KeyBindingHandler
 
     public static void init()
     {
-        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyMappingBase("key.quick_config.desc", GLFW.GLFW_KEY_F4, Indicatia.MOD_ID);
-        KeyBindingHandler.KEY_PREVIOUS_PROFILE = new KeyMappingBase("key.previous_profile.desc", GLFW.GLFW_KEY_LEFT_BRACKET, Indicatia.MOD_ID);
-        KeyBindingHandler.KEY_NEXT_PROFILE = new KeyMappingBase("key.next_profile.desc", GLFW.GLFW_KEY_RIGHT_BRACKET, Indicatia.MOD_ID);
+        KeyBindingHandler.KEY_QUICK_CONFIG = new KeyMappingBase("key.quick_config", GLFW.GLFW_KEY_F4, Indicatia.MOD_ID);
+        KeyBindingHandler.KEY_PREVIOUS_PROFILE = new KeyMappingBase("key.previous_profile", GLFW.GLFW_KEY_LEFT_BRACKET, Indicatia.MOD_ID);
+        KeyBindingHandler.KEY_NEXT_PROFILE = new KeyMappingBase("key.next_profile", GLFW.GLFW_KEY_RIGHT_BRACKET, Indicatia.MOD_ID);
         ClientRegistryUtils.registerKeyBinding(KeyBindingHandler.KEY_QUICK_CONFIG);
         ClientRegistryUtils.registerKeyBinding(KeyBindingHandler.KEY_PREVIOUS_PROFILE);
         ClientRegistryUtils.registerKeyBinding(KeyBindingHandler.KEY_NEXT_PROFILE);
+        ClientRegistryUtils.registerKeyBinding(Indicatia.KEY_ALT_OPEN_CHAT);
     }
 }

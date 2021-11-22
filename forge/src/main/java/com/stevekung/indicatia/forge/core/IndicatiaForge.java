@@ -26,7 +26,7 @@ public class IndicatiaForge
 
     static
     {
-        Indicatia.keyBindAltChat = new ForgeKeyMappingBase("key.chat_alt", new KeypadChatKey(), KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "key.categories.multiplayer");
+        Indicatia.KEY_ALT_OPEN_CHAT = new ForgeKeyMappingBase("key.alt_open_chat", new KeypadChatKey(), KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, "multiplayer");
     }
 
     public IndicatiaForge()

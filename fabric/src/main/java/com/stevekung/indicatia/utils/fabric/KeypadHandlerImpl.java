@@ -7,11 +7,11 @@ public class KeypadHandlerImpl
 {
     public static boolean isAltChatEnabled()
     {
-        return IndicatiaFabric.CONFIG.general.enableAlternateChatKey && Indicatia.keyBindAltChat.consumeClick();
+        return IndicatiaFabric.CONFIG.general.enableAlternateChatKey && Indicatia.KEY_ALT_OPEN_CHAT.consumeClick();
     }
 
     public static boolean isAltChatMatches(int keysym, int scancode)
     {
-        return IndicatiaFabric.CONFIG.general.enableAlternateChatKey && Indicatia.keyBindAltChat.matches(keysym, scancode);
+        return IndicatiaFabric.CONFIG.general.enableAlternateChatKey && Indicatia.KEY_ALT_OPEN_CHAT.matches(keysym, scancode);
     }
 }

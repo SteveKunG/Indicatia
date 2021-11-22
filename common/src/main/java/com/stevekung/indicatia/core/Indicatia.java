@@ -31,7 +31,7 @@ public class Indicatia
     public static int index;
     public static final LoggerBase LOGGER = new LoggerBase("Indicatia");
     private static final Splitter COLON_SPLITTER = Splitter.on(':').limit(2);
-    public static KeyMapping keyBindAltChat;
+    public static KeyMapping KEY_ALT_OPEN_CHAT;
 
     static
     {
