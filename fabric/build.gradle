@@ -43,14 +43,14 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    if (file("libs/stevekung-lib-fabric.jar").exists()) {
-        modImplementation(":stevekung-lib-fabric")
-        include ":stevekung-lib-fabric"
-        println("Use existing artifact")
-    } else {
-        modCompileOnly("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_fabric}")
+    String lib = ":stevekung-lib-fabric"
+
+    if (!file("libs/stevekung-lib-fabric.jar").exists()) {
+        lib = "curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_fabric}"
         println("Use CurseForge artifact")
     }
+    modImplementation(lib)
+    include lib
 }
 
 String fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"

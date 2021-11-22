@@ -41,13 +41,13 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 
-    if (file("libs/stevekung-lib-forge.jar").exists()) {
-        modImplementation(":stevekung-lib-forge")
-        println("Use existing deobf artifact")
-    } else {
-        modCompileOnly("curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_forge_deobf}")
-        println("Use CurseForge deobf artifact")
+    String lib = ":stevekung-lib-forge"
+
+    if (!file("libs/stevekung-lib-forge.jar").exists()) {
+        lib = "curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_forge}"
+        println("Use CurseForge artifact")
     }
+    modImplementation(lib)
 }
 
 processResources {
