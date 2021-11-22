@@ -27,6 +27,10 @@ loom {
         mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
     }
 
+    mixin {
+        defaultRefmapName = "mixins.indicatia_forge.refmap.json"
+    }
+
     launches {
         client {
             arg "--username", "${username}", "--uuid", "${uuid}"

@@ -5,6 +5,10 @@ plugins {
 
 loom {
     accessWidenerPath = file("../common/src/main/resources/indicatia.accesswidener")
+
+    mixin {
+        defaultRefmapName = "mixins.indicatia_fabric.refmap.json"
+    }
 }
 
 architectury {

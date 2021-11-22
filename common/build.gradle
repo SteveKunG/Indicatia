@@ -16,6 +16,10 @@ dependencies {
 
 loom {
     accessWidenerPath = file("../common/src/main/resources/indicatia.accesswidener")
+
+    mixin {
+        defaultRefmapName = "mixins.indicatia.refmap.json"
+    }
 }
 
 architectury {
