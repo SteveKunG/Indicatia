@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 public class MixinCustomHeadLayer<T extends LivingEntity>
 {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V"))
-    private void renderEnchantedSkull(Direction direction, float rotationYaw, float mouthAnimation, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, SkullModelBase skullModelBase, RenderType renderType, PoseStack _poseStack, MultiBufferSource _multiBufferSource, int _combinedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+    private void indicatia$renderEnchantedSkull(Direction direction, float rotationYaw, float mouthAnimation, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, SkullModelBase skullModelBase, RenderType renderType, PoseStack _poseStack, MultiBufferSource _multiBufferSource, int _combinedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
     {
         var itemStack = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
         GameProfile gameProfile = null;

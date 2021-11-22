@@ -31,14 +31,14 @@ public class MixinMinecraftServer implements IMinecraftServerTick
     @Shadow
     int tickCount;
 
-    @Inject(method = "tickChildren(Ljava/util/function/BooleanSupplier;)V", at = @At(value = "INVOKE", target = "net/minecraft/util/profiling/ProfilerFiller.push(Ljava/util/function/Supplier;)V", shift = At.Shift.AFTER))
-    private void addStartTickTime(BooleanSupplier supplier, CallbackInfo info)
+    @Inject(method = "tickChildren", at = @At(value = "INVOKE", target = "net/minecraft/util/profiling/ProfilerFiller.push(Ljava/util/function/Supplier;)V", shift = At.Shift.AFTER))
+    private void indicatia$addStartTickTime(BooleanSupplier supplier, CallbackInfo info)
     {
         this.tickStart = Util.getNanos();
     }
 
-    @Inject(method = "tickChildren(Ljava/util/function/BooleanSupplier;)V", at = @At(value = "INVOKE", target = "net/minecraft/server/level/ServerLevel.tick(Ljava/util/function/BooleanSupplier;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void addGetTickTime(BooleanSupplier supplier, CallbackInfo info, Iterator<?> iterator, ServerLevel serverLevel)
+    @Inject(method = "tickChildren", at = @At(value = "INVOKE", target = "net/minecraft/server/level/ServerLevel.tick(Ljava/util/function/BooleanSupplier;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
+    private void indicatia$addGetTickTime(BooleanSupplier supplier, CallbackInfo info, Iterator<?> iterator, ServerLevel serverLevel)
     {
         this.perWorldTickTimes.computeIfAbsent(serverLevel.dimension(), k -> new long[100])[this.tickCount % 100] = Util.getNanos() - this.tickStart;
     }

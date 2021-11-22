@@ -34,14 +34,14 @@ public class MixinPlayerTabOverlay
     @Final
     Minecraft minecraft;
 
-    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/scores/Scoreboard;Lnet/minecraft/world/scores/Objective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/Font.width(Lnet/minecraft/network/chat/FormattedText;)I"))
-    private int addPingWidth(Font font, FormattedText formattedText)
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/Font.width(Lnet/minecraft/network/chat/FormattedText;)I"))
+    private int indicatia$addPingWidth(Font font, FormattedText formattedText)
     {
         return this.minecraft.font.width(formattedText) + this.pingWidth;
     }
 
-    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;ILnet/minecraft/world/scores/Scoreboard;Lnet/minecraft/world/scores/Objective;)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/PlayerTabOverlay.getNameForDisplay(Lnet/minecraft/client/multiplayer/PlayerInfo;)Lnet/minecraft/network/chat/Component;", ordinal = 0))
-    private Component getPingPlayerInfo(PlayerTabOverlay overlay, PlayerInfo playerInfo)
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/PlayerTabOverlay.getNameForDisplay(Lnet/minecraft/client/multiplayer/PlayerInfo;)Lnet/minecraft/network/chat/Component;", ordinal = 0))
+    private Component indicatia$getPingFromPlayerInfo(PlayerTabOverlay overlay, PlayerInfo playerInfo)
     {
         if (PlatformConfig.getCustomPlayerList())
         {
@@ -59,8 +59,8 @@ public class MixinPlayerTabOverlay
         return overlay.getNameForDisplay(playerInfo);
     }
 
-    @Inject(method = "renderPingIcon(Lcom/mojang/blaze3d/vertex/PoseStack;IIILnet/minecraft/client/multiplayer/PlayerInfo;)V", cancellable = true, at = @At("HEAD"))
-    private void drawPing(PoseStack poseStack, int x1, int x2, int y, PlayerInfo playerInfo, CallbackInfo info)
+    @Inject(method = "renderPingIcon", cancellable = true, at = @At("HEAD"))
+    private void indicatia$renderPingAsNumber(PoseStack poseStack, int x1, int x2, int y, PlayerInfo playerInfo, CallbackInfo info)
     {
         if (PlatformConfig.getCustomPlayerList())
         {

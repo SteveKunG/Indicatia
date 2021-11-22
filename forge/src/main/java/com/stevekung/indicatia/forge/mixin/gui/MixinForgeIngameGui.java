@@ -12,13 +12,13 @@ import net.minecraftforge.client.gui.ForgeIngameGui;
 public class MixinForgeIngameGui
 {
     @Inject(method = "renderChat", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/vertex/PoseStack.translate(DDD)V", shift = At.Shift.AFTER))
-    private void renderChatBefore(int width, int height, PoseStack poseStack, CallbackInfo info)
+    private void indicatia$fixChatBefore(int width, int height, PoseStack poseStack, CallbackInfo info)
     {
         RenderSystem.disableDepthTest();
     }
 
     @Inject(method = "renderChat", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/vertex/PoseStack.popPose()V", shift = At.Shift.BEFORE))
-    private void renderChatAfter(int width, int height, PoseStack poseStack, CallbackInfo info)
+    private void indicatia$fixChatAfter(int width, int height, PoseStack poseStack, CallbackInfo info)
     {
         RenderSystem.enableDepthTest();
     }

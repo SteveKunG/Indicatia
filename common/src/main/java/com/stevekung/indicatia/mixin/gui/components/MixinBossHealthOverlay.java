@@ -10,8 +10,8 @@ import net.minecraft.client.gui.components.BossHealthOverlay;
 @Mixin(BossHealthOverlay.class)
 public class MixinBossHealthOverlay
 {
-    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;)V", cancellable = true, at = @At("HEAD"))
-    private void render(PoseStack poseStack, CallbackInfo info)
+    @Inject(method = "render", cancellable = true, at = @At("HEAD"))
+    private void indicatia$cancelBossBarRender(PoseStack poseStack, CallbackInfo info)
     {
         if (!PlatformConfig.getRenderBossHealthBar())
         {
@@ -19,14 +19,14 @@ public class MixinBossHealthOverlay
         }
     }
 
-    @ModifyVariable(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;)V", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/platform/Window.getGuiScaledHeight()I", shift = At.Shift.BEFORE), index = 3, ordinal = 1)
-    private int modifyIncrement(int defaultValue)
+    @ModifyVariable(method = "render", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/platform/Window.getGuiScaledHeight()I", shift = At.Shift.BEFORE), index = 3, ordinal = 1)
+    private int indicatia$modifyBossBarIncrement(int defaultValue)
     {
         return PlatformConfig.getRenderBossHealthBar() ? defaultValue : 12;
     }
 
-    @ModifyConstant(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;)V", constant = @Constant(intValue = 3))
-    private int modifyHeight(int defaultValue)
+    @ModifyConstant(method = "render", constant = @Constant(intValue = 3))
+    private int indicatia$modifyBossBarHeight(int defaultValue)
     {
         return PlatformConfig.getRenderBossHealthBar() ? defaultValue : 4;
     }

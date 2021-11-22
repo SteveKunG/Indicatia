@@ -15,8 +15,8 @@ import net.minecraft.client.renderer.entity.layers.CapeLayer;
 @Mixin(CapeLayer.class)
 public class MixinCapeLayer
 {
-    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;FFFFFF)V", at = @At(value = "INVOKE", target = "net/minecraft/client/model/PlayerModel.renderCloak(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
-    private void renderCape(PlayerModel<?> playerModel, PoseStack _poseStackIn, VertexConsumer _bufferIn, int _packedLightIn, int _packedOverlayIn, PoseStack poseStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/model/PlayerModel.renderCloak(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
+    private void indicatia$renderCapeWithHurt(PlayerModel<?> playerModel, PoseStack _poseStackIn, VertexConsumer _bufferIn, int _packedLightIn, int _packedOverlayIn, PoseStack poseStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch)
     {
         playerModel.renderCloak(_poseStackIn, _bufferIn, _packedLightIn, PlatformConfig.getOldArmorRender() ? LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F) : _packedOverlayIn);
     }

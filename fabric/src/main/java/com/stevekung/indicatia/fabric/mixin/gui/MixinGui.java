@@ -39,8 +39,8 @@ public class MixinGui
     @Final
     Minecraft minecraft;
 
-    @Redirect(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/BossHealthOverlay.render(Lcom/mojang/blaze3d/vertex/PoseStack;)V"))
-    private void redirectBossOverlay(BossHealthOverlay overlay, PoseStack poseStack)
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/BossHealthOverlay.render(Lcom/mojang/blaze3d/vertex/PoseStack;)V"))
+    private void indicatia$renderBossOverlay(BossHealthOverlay overlay, PoseStack poseStack)
     {
         if (IndicatiaFabric.CONFIG.general.enableRenderBossHealthStatus)
         {
@@ -53,8 +53,8 @@ public class MixinGui
         }
     }
 
-    @Inject(method = "renderEffects(Lcom/mojang/blaze3d/vertex/PoseStack;)V", cancellable = true, at = @At("HEAD"))
-    private void disableVanillaHUD(PoseStack poseStack, CallbackInfo info)
+    @Inject(method = "renderEffects", cancellable = true, at = @At("HEAD"))
+    private void indicatia$disableVanillaHUD(PoseStack poseStack, CallbackInfo info)
     {
         if (!IndicatiaFabric.CONFIG.general.enableVanillaPotionHUD)
         {
@@ -62,15 +62,15 @@ public class MixinGui
         }
     }
 
-    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At(value = "FIELD", target = "net/minecraft/client/Options.hideGui:Z", shift = At.Shift.BEFORE, ordinal = 0))
-    private void renderHUD(PoseStack poseStack, float partialTicks, CallbackInfo info)
+    @Inject(method = "render", at = @At(value = "FIELD", target = "net/minecraft/client/Options.hideGui:Z", shift = At.Shift.BEFORE, ordinal = 0))
+    private void indicatia$renderHUD(PoseStack poseStack, float partialTicks, CallbackInfo info)
     {
         HUDRenderEventHandler.INSTANCE.onPreInfoRender(this.minecraft, poseStack);
         RenderSystem.enableBlend();
     }
 
-    @Inject(method = "renderEffects(Lcom/mojang/blaze3d/vertex/PoseStack;)V", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int n, int o, float g)
+    @Inject(method = "renderEffects", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
+    private void indicatia$addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int n, int o, float g)
     {
         if (IndicatiaSettings.INSTANCE.timeOnVanillaPotionHUD)
         {

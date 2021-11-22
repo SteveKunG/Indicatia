@@ -66,8 +66,8 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
     abstract boolean canJoin();
 
     @SuppressWarnings("deprecation")
-    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;IIIIIIIZF)V", cancellable = true, at = @At("HEAD"))
-    private void render(PoseStack poseStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
+    @Inject(method = "render", cancellable = true, at = @At("HEAD"))
+    private void indicatia$render(PoseStack poseStack, int slotIndex, int y, int x, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks, CallbackInfo info)
     {
         ServerSelectionList.OnlineServerEntry entry = (ServerSelectionList.OnlineServerEntry) (Object) this;
 

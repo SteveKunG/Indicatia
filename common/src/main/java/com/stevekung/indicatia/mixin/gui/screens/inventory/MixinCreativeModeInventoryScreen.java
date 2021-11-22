@@ -10,8 +10,8 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 @Mixin(CreativeModeInventoryScreen.class)
 public class MixinCreativeModeInventoryScreen
 {
-    @Redirect(method = "keyPressed(III)Z", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(II)Z"))
-    private boolean addAltChatKey(KeyMapping key, int keysym, int scancode)
+    @Redirect(method = "keyPressed", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(II)Z"))
+    private boolean indicatia$addAltChatKey(KeyMapping key, int keysym, int scancode)
     {
         return key.matches(keysym, scancode) || KeypadHandler.isAltChatMatches(keysym, scancode);
     }

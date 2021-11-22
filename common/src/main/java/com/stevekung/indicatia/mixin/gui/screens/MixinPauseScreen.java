@@ -19,8 +19,8 @@ public class MixinPauseScreen extends Screen
         super(null);
     }
 
-    @Redirect(method = "createPauseMenu()V", slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/server/IntegratedServer.isPublished()Z"), to = @At("TAIL")), at = @At(value = "NEW", target = "net/minecraft/client/gui/components/Button"))
-    private Button replacedOnPress(int x, int y, int width, int height, Component title, Button.OnPress onPress)
+    @Redirect(method = "createPauseMenu", slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/server/IntegratedServer.isPublished()Z"), to = @At("TAIL")), at = @At(value = "NEW", target = "net/minecraft/client/gui/components/Button"))
+    private Button indicatia$replaceDisconnectButton(int x, int y, int width, int height, Component title, Button.OnPress onPress)
     {
         return new Button(x, y, width, height, title, PlatformConfig.getConfirmToDisconnect() && !this.minecraft.isLocalServer() ? button2 -> this.minecraft.setScreen(new DisconnectConfirmationScreen(this)) : onPress);
     }

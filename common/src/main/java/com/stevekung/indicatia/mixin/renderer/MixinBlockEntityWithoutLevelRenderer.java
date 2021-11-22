@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.entity.SkullBlockEntity;
 public class MixinBlockEntityWithoutLevelRenderer
 {
     @Redirect(method = "renderByItem", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V"))
-    private void renderEnchantedSkull(Direction direction, float rotationYaw, float mouthAnimation, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, SkullModelBase skullModelBase, RenderType renderType, ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack _poseStack, MultiBufferSource _multiBufferSource, int _combinedLight, int _combinedOverlay)
+    private void indicatia$renderEnchantedSkull(Direction direction, float rotationYaw, float mouthAnimation, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, SkullModelBase skullModelBase, RenderType renderType, ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack _poseStack, MultiBufferSource _multiBufferSource, int _combinedLight, int _combinedOverlay)
     {
         GameProfile gameProfile = null;
         var block = ((BlockItem) itemStack.getItem()).getBlock();

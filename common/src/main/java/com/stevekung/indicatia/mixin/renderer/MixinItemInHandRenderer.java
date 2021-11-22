@@ -18,8 +18,8 @@ import net.minecraft.world.item.ItemStack;
 @Mixin(ItemInHandRenderer.class)
 public class MixinItemInHandRenderer
 {
-    @Inject(method = "renderArmWithItem(Lnet/minecraft/client/player/AbstractClientPlayer;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemInHandRenderer.applyEatTransform(Lcom/mojang/blaze3d/vertex/PoseStack;FLnet/minecraft/world/entity/HumanoidArm;Lnet/minecraft/world/item/ItemStack;)V"), to = @At(value = "INVOKE", target = "net/minecraft/client/player/AbstractClientPlayer.isAutoSpinAttack()Z")), at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemInHandRenderer.applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", shift = At.Shift.AFTER))
-    private void renderArmWithItem(AbstractClientPlayer player, float partialTicks, float rotationPitch, InteractionHand hand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource buffer, int color, CallbackInfo info)
+    @Inject(method = "renderArmWithItem", slice = @Slice(from = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemInHandRenderer.applyEatTransform(Lcom/mojang/blaze3d/vertex/PoseStack;FLnet/minecraft/world/entity/HumanoidArm;Lnet/minecraft/world/item/ItemStack;)V"), to = @At(value = "INVOKE", target = "net/minecraft/client/player/AbstractClientPlayer.isAutoSpinAttack()Z")), at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/ItemInHandRenderer.applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", shift = At.Shift.AFTER))
+    private void indicatia$renderBlockHitAnimation(AbstractClientPlayer player, float partialTicks, float rotationPitch, InteractionHand hand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource buffer, int color, CallbackInfo info)
     {
         if (PlatformConfig.getBlockHitAnimation())
         {

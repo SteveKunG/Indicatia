@@ -1,6 +1,8 @@
 package com.stevekung.indicatia.fabric.mixin.renderer;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,10 +18,14 @@ import net.minecraft.world.item.ItemStack;
 @Mixin(ItemInHandRenderer.class)
 public class MixinItemInHandRenderer
 {
-    @Inject(method = "renderArmWithItem(Lnet/minecraft/client/player/AbstractClientPlayer;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", cancellable = true, at = @At("HEAD"))
-    private void preventRenderHand(AbstractClientPlayer abstractClientPlayer, float f, float g, InteractionHand interactionHand, float h, ItemStack itemStack, float i, PoseStack poseStack, MultiBufferSource multiBufferSource, int j, CallbackInfo info)
+    @Shadow
+    @Final
+    private Minecraft minecraft;
+
+    @Inject(method = "renderArmWithItem", cancellable = true, at = @At("HEAD"))
+    private void indicatia$cancelRenderHand(AbstractClientPlayer abstractClientPlayer, float f, float g, InteractionHand interactionHand, float h, ItemStack itemStack, float i, PoseStack poseStack, MultiBufferSource multiBufferSource, int j, CallbackInfo info)
     {
-        if (Minecraft.getInstance().screen instanceof OffsetRenderPreviewScreen)
+        if (this.minecraft.screen instanceof OffsetRenderPreviewScreen)
         {
             info.cancel();
         }

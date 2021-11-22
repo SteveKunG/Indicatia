@@ -11,8 +11,8 @@ import net.minecraft.client.player.LocalPlayer;
 @Mixin(LocalPlayer.class)
 public class MixinLocalPlayer
 {
-    @Inject(method = "aiStep()V", at = @At(value = "INVOKE", target = "net/minecraft/client/player/Input.tick(Z)V"))
-    private void tickMovement(CallbackInfo info)
+    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "net/minecraft/client/player/Input.tick(Z)V"))
+    private void indicatia$tickMovement(CallbackInfo info)
     {
         var input = ((LocalPlayer) (Object) this).input;
 
