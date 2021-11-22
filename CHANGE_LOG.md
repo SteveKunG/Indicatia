@@ -2,8 +2,8 @@
 
 ### Please report if you found the issues!
 
-* Update 1.17.1
-* Added Select Next/Previous Profile keys
-* Added Antisteal
-* Optimized assets. Thanks to RDKRACZ
-* Fixed natural potion detection for render info
+* Move Offhand item displayed on Hotbar to left side
+* Forge: Fixed alternate chat key not registered
+* Fixed Equipment HUD render twice
+* Fixed alternate chat key translation
+* Removed Mojang Status Checker
