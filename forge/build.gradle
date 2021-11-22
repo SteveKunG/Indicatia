@@ -116,7 +116,7 @@ curseforge {
             addGameVersion rootProject.mc_version
 
             mainArtifact(remapJar.archiveFile) {
-                displayName = "[Forge] ${rootProject.archives_base_name}-mc${rootProject.mc_version}-v${project.version}"
+                displayName = "[Forge] " + fileName + "-v${project.version}"
             }
             relations {
                 requiredDependency "stevekungs-lib"

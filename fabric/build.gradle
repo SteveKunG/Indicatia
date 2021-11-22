@@ -53,14 +53,6 @@ dependencies {
     }
 }
 
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
 String fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"
 
 jar {
@@ -111,7 +103,7 @@ curseforge {
             addGameVersion rootProject.mc_version
 
             mainArtifact(remapJar.archiveFile) {
-                displayName = "[Fabric] ${rootProject.archives_base_name}-mc${rootProject.mc_version}-v${project.version}"
+                displayName = "[Fabric] " + fileName + "-v${project.version}"
             }
             relations {
                 requiredDependency "architectury-fabric"

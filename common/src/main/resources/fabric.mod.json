@@ -12,7 +12,7 @@
         "sources": "https://github.com/SteveKunG/Indicatia",
         "issues": "https://github.com/SteveKunG/Indicatia/issues"
     },
-    "license": "MIT License",
+    "license": "MIT",
     "icon": "logo.png",
     "environment": "client",
     "entrypoints": {

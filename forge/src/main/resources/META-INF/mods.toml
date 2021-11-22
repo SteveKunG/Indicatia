@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[37,)"
-license = "MIT License"
+license = "MIT"
 issueTrackerURL = "https://github.com/SteveKunG/Indicatia/issues"
 
 [[mods]]
