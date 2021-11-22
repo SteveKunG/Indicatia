@@ -6,7 +6,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.ProfileNameArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;

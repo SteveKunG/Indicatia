@@ -2,10 +2,10 @@ package com.stevekung.indicatia.forge.command;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
-import com.stevekung.stevekungslib.forge.utils.client.command.ClientCommands;
-import com.stevekung.stevekungslib.forge.utils.client.command.IClientCommand;
-import com.stevekung.stevekungslib.forge.utils.client.command.IClientSharedSuggestionProvider;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.forge.utils.client.command.ClientCommands;
+import com.stevekung.stevekunglib.forge.utils.client.command.IClientCommand;
+import com.stevekung.stevekunglib.forge.utils.client.command.IClientSharedSuggestionProvider;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.minecraft.client.Minecraft;
 
 public class PingAllCommand implements IClientCommand

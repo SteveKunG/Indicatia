@@ -14,7 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.stevekungslib.utils.RecordTypeAdapterFactory;
+import com.stevekung.stevekunglib.utils.RecordTypeAdapterFactory;
 
 public class ThreadMinigameData implements Runnable
 {

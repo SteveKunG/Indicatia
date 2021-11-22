@@ -6,10 +6,10 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.ProfileNameArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.stevekungslib.forge.utils.client.command.ClientCommands;
-import com.stevekung.stevekungslib.forge.utils.client.command.IClientCommand;
-import com.stevekung.stevekungslib.forge.utils.client.command.IClientSharedSuggestionProvider;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.forge.utils.client.command.ClientCommands;
+import com.stevekung.stevekunglib.forge.utils.client.command.IClientCommand;
+import com.stevekung.stevekunglib.forge.utils.client.command.IClientSharedSuggestionProvider;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.minecraft.ChatFormatting;
 
 public class ProfileCommand implements IClientCommand

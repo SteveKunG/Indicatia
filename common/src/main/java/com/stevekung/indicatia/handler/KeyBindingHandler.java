@@ -2,8 +2,8 @@ package com.stevekung.indicatia.handler;
 
 import org.lwjgl.glfw.GLFW;
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.stevekungslib.client.KeyMappingBase;
-import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
+import com.stevekung.stevekunglib.client.KeyMappingBase;
+import com.stevekung.stevekunglib.utils.client.ClientRegistryUtils;
 import net.minecraft.client.KeyMapping;
 
 public class KeyBindingHandler

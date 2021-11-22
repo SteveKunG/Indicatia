@@ -18,7 +18,7 @@ import com.stevekung.indicatia.hud.InfoOverlays;
 import com.stevekung.indicatia.hud.InfoUtils;
 import com.stevekung.indicatia.utils.event.InfoOverlayEvents;
 import com.stevekung.indicatia.utils.hud.InfoOverlay;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;

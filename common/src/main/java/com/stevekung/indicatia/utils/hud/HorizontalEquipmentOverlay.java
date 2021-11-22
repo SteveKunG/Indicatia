@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.stevekungslib.utils.ColorUtils;
-import com.stevekung.stevekungslib.utils.TextComponentUtils;
-import com.stevekung.stevekungslib.utils.client.ClientUtils;
+import com.stevekung.stevekunglib.utils.ColorUtils;
+import com.stevekung.stevekunglib.utils.TextComponentUtils;
+import com.stevekung.stevekunglib.utils.client.ClientUtils;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 

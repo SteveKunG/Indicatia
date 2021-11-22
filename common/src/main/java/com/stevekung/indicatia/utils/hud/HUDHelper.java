@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.PlatformConfig;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;

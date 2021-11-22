@@ -3,7 +3,7 @@ package com.stevekung.indicatia.fabric.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.SlimeSeedArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 

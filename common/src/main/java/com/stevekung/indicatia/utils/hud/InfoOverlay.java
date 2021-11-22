@@ -1,7 +1,7 @@
 package com.stevekung.indicatia.utils.hud;
 
-import com.stevekung.stevekungslib.utils.ColorUtils;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.ColorUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;

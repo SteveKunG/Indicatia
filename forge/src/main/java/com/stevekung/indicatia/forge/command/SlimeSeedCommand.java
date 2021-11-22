@@ -3,10 +3,10 @@ package com.stevekung.indicatia.forge.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.stevekung.indicatia.command.arguments.SlimeSeedArgumentType;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.stevekungslib.forge.utils.client.command.ClientCommands;
-import com.stevekung.stevekungslib.forge.utils.client.command.IClientCommand;
-import com.stevekung.stevekungslib.forge.utils.client.command.IClientSharedSuggestionProvider;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.forge.utils.client.command.ClientCommands;
+import com.stevekung.stevekunglib.forge.utils.client.command.IClientCommand;
+import com.stevekung.stevekunglib.forge.utils.client.command.IClientSharedSuggestionProvider;
+import com.stevekung.stevekunglib.utils.LangUtils;
 
 public class SlimeSeedCommand implements IClientCommand
 {

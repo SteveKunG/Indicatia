@@ -2,7 +2,7 @@ package com.stevekung.indicatia.utils.hud;
 
 import com.stevekung.indicatia.config.Equipments;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.stevekungslib.utils.ModDecimalFormat;
+import com.stevekung.stevekunglib.utils.ModDecimalFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ArrowItem;

@@ -11,7 +11,7 @@ import com.stevekung.indicatia.fabric.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
-import com.stevekung.stevekungslib.utils.client.ClientRegistryUtils;
+import com.stevekung.stevekunglib.utils.client.ClientRegistryUtils;
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
