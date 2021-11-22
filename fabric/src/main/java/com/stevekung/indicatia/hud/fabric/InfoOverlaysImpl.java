@@ -22,7 +22,7 @@ public class InfoOverlaysImpl
 
             for (var level : server.getAllLevels())
             {
-                var values = (((IMinecraftServerTick) server).getTickTime(level.dimension()));
+                var values = (((IMinecraftServerTick) server).indicatia$getTickTime(level.dimension()));
                 var dimensionName = level.dimension().location().toString();
 
                 if (values == null)
@@ -37,7 +37,7 @@ public class InfoOverlaysImpl
         {
             for (var level : server.getAllLevels())
             {
-                var values = (((IMinecraftServerTick) server).getTickTime(level.dimension()));
+                var values = (((IMinecraftServerTick) server).indicatia$getTickTime(level.dimension()));
                 var dimensionName = level.dimension().location().toString();
 
                 if (values == null || !dimensionName.equals("minecraft:overworld"))

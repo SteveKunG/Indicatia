@@ -23,10 +23,10 @@ public class MixinHumanoidArmorLayer<T extends LivingEntity, M extends HumanoidM
     @Redirect(method = "renderArmorPiece", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/entity/layers/HumanoidArmorLayer.renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IZLnet/minecraft/client/model/HumanoidModel;FFFLnet/minecraft/resources/ResourceLocation;)V", remap = false), require = 3, allow = 3)
     private void indicatia$renderArmorWithHurt(HumanoidArmorLayer<T, M, A> armorLayer, PoseStack _poseStack, MultiBufferSource _bufferIn, int _packedLightIn, boolean glintIn, A modelIn, float red, float green, float blue, ResourceLocation armorResource, PoseStack poseStack, MultiBufferSource buffer, T entityLivingBaseIn, EquipmentSlot slot, int packedLight, A model)
     {
-        this.renderArmorModified(_poseStack, _bufferIn, entityLivingBaseIn, _packedLightIn, glintIn, modelIn, red, green, blue, armorResource);
+        this.indicatia$renderArmorModified(_poseStack, _bufferIn, entityLivingBaseIn, _packedLightIn, glintIn, modelIn, red, green, blue, armorResource);
     }
 
-    private void renderArmorModified(PoseStack poseStack, MultiBufferSource buffer, T entity, int packedLight, boolean glint, A model, float red, float green, float blue, ResourceLocation armorResource)
+    private void indicatia$renderArmorModified(PoseStack poseStack, MultiBufferSource buffer, T entity, int packedLight, boolean glint, A model, float red, float green, float blue, ResourceLocation armorResource)
     {
         VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(armorResource), false, glint);
         model.renderToBuffer(poseStack, ivertexbuilder, packedLight, PlatformConfig.getOldArmorRender() ? LivingEntityRenderer.getOverlayCoords(entity, 0.0F) : OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);

@@ -44,7 +44,7 @@ public class MixinMinecraftServer implements IMinecraftServerTick
     }
 
     @Override
-    public long[] getTickTime(ResourceKey<Level> dim)
+    public long[] indicatia$getTickTime(ResourceKey<Level> dim)
     {
         return this.perWorldTickTimes.get(dim);
     }
