@@ -6,6 +6,12 @@ plugins {
 loom {
     accessWidenerPath = file("../common/src/main/resources/indicatia.accesswidener")
 
+    launches {
+        client {
+            arg "--username", "${username}", "--uuid", "${uuid}"
+        }
+    }
+
     mixin {
         defaultRefmapName = "mixins.indicatia_fabric.refmap.json"
     }
@@ -52,6 +58,8 @@ dependencies {
     if (!file("libs/stevekung-lib-fabric.jar").exists()) {
         lib = "curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_fabric}"
         println("Use CurseForge artifact")
+    } else {
+        println("Use existing artifact")
     }
     modImplementation(lib)
     include lib

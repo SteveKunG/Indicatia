@@ -50,6 +50,8 @@ dependencies {
     if (!file("libs/stevekung-lib-forge.jar").exists()) {
         lib = "curse.maven:stevekungs-lib-296019:${rootProject.stevekung_lib_forge}"
         println("Use CurseForge artifact")
+    } else {
+        println("Use existing artifact")
     }
     modImplementation(lib)
 }
