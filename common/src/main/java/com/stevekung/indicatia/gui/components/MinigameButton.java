@@ -2,7 +2,7 @@ package com.stevekung.indicatia.gui.components;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.stevekungslib.utils.TextComponentUtils;
+import com.stevekung.stevekunglib.utils.TextComponentUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;

@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.config.IndicatiaSettings;
-import com.stevekung.stevekungslib.utils.config.AbstractSettings;
+import com.stevekung.stevekunglib.utils.config.AbstractSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;

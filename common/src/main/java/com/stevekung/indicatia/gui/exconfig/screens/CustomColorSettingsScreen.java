@@ -1,7 +1,7 @@
 package com.stevekung.indicatia.gui.exconfig.screens;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.stevekungslib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;

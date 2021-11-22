@@ -4,10 +4,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.stevekungslib.utils.GameProfileUtils;
-import com.stevekung.stevekungslib.utils.LangUtils;
-import com.stevekung.stevekungslib.utils.client.ClientUtils;
-import com.stevekung.stevekungslib.utils.config.*;
+import com.stevekung.stevekunglib.utils.GameProfileUtils;
+import com.stevekung.stevekunglib.utils.LangUtils;
+import com.stevekung.stevekunglib.utils.client.ClientUtils;
+import com.stevekung.stevekunglib.utils.config.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
