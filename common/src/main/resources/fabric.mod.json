@@ -27,8 +27,8 @@
         "fabricloader": ">=0.11",
         "fabric": "*",
         "minecraft": ">=1.17.1",
-        "stevekungs_lib": ">=5.0.0",
-        "architectury": ">=2.3"
+        "stevekung_lib": ">=5.0.1",
+        "architectury": ">=2.6"
     },
     "mixins": [
         "mixins.indicatia.json",

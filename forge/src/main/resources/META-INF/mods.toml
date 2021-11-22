@@ -30,13 +30,13 @@ side = "CLIENT"
 [[dependencies.indicatia]]
 modId = "architectury"
 mandatory = true
-versionRange = "[2.3,)"
+versionRange = "[2.6,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
-modId = "stevekungs_lib"
+modId = "stevekung_lib"
 mandatory = true
-versionRange = "[5.0.0,)"
+versionRange = "[5.0.1,)"
 ordering = "NONE"
 side = "CLIENT"

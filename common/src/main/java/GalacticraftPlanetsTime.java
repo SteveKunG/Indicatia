@@ -2,7 +2,7 @@
 //
 //import com.stevekung.indicatia.config.ExtendedConfig;
 //import com.stevekung.indicatia.hud.InfoOverlay;
-//import com.stevekung.stevekungslib.utils.LangUtils;
+//import com.stevekung.stevekunglib.utils.LangUtils;
 //
 //import micdoodle8.mods.galacticraft.api.prefab.world.gen.WorldProviderSpace;
 //import net.minecraft.client.Minecraft;
