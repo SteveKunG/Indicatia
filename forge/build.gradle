@@ -113,6 +113,7 @@ curseforge {
             changelogType = "markdown"
             releaseType = "release"
             addGameVersion "Forge"
+            addGameVersion "Java 16"
             addGameVersion rootProject.mc_version
 
             mainArtifact(remapJar.archiveFile) {
