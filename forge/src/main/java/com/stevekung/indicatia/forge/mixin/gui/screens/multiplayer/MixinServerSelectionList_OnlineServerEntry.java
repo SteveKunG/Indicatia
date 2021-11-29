@@ -29,7 +29,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraftforge.fmlclient.ClientHooks;
+import net.minecraftforge.client.ForgeHooksClient;
 
 @Mixin(ServerSelectionList.OnlineServerEntry.class)
 public abstract class MixinServerSelectionList_OnlineServerEntry
@@ -192,7 +192,7 @@ public abstract class MixinServerSelectionList_OnlineServerEntry
                 this.screen.setToolTip(s);
             }
 
-            ClientHooks.drawForgePingInfo(this.screen, this.serverData, poseStack, x, y, listWidth, i1, j1);
+            ForgeHooksClient.drawForgePingInfo(this.screen, this.serverData, poseStack, x, y, listWidth, i1, j1);
 
             if (this.minecraft.options.touchscreen || isSelected)
             {
