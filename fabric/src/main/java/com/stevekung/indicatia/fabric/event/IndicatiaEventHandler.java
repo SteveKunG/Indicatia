@@ -18,9 +18,6 @@ public class IndicatiaEventHandler
     {
         if (mc.player != null)
         {
-            HUDHelper.afkTick(mc.player);
-            HUDHelper.autoFishTick(mc);
-
             if (mc.getCurrentServer() != null)
             {
                 var now = Util.getMillis();

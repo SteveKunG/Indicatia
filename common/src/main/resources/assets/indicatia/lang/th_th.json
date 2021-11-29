@@ -1,11 +1,9 @@
 {
     "_comment": "การกำหนดค่า",
-    "indicatia.configgui.afk_message_time": "เวลาข้อความ AFK (นาที)",
     "indicatia.configgui.enable_render_info": "เปิดใช้งานข้อมูลการ Render",
     "indicatia.configgui.enable_blockhit_animation": "เปิดใช้งานแอนิเมชัน Blockhit",
     "indicatia.configgui.enable_old_armor_render": "เปิดใช้งานการแสดงผลชุดเกราะเก่า",
     "indicatia.configgui.enable_version_checker": "เปิดใช้งานตัวตรวจสอบเวอร์ชัน",
-    "indicatia.configgui.enable_afk_message": "เปิดใช้งานข้อความ AFK",
     "indicatia.configgui.enable_custom_player_list": "เปิดใช้งานรายการผู้เล่นที่กำหนดเอง",
     "indicatia.configgui.multiplayer_screen_enhancement": "การยกระดับหน้าจอผู้เล่นหลายคน",
     "indicatia.configgui.enable_confirm_to_disconnect": "เปิดใช้งานยืนยันการตัดการเชื่อมต่อ",
@@ -20,20 +18,6 @@
 
     "_comment": "คำสั่ง",
     "commands.not_allowed_hypixel": "คำสั่งนี้ไม่สามารถใช้ได้บน Hypixel!",
-
-    "commands.afk.reason": "เหตุผล",
-    "commands.afk.afk_now": "ตอนนี้ AFK",
-    "commands.afk.afk_started": "เริ่ม AFK แล้ว!",
-    "commands.afk.afk_stopped": "ฉันกลับมาแล้ว! เวลาที่ใช้ในการ AFK คือ %s minutes",
-    "commands.afk.afk_stopped_with_reason": "ฉันกลับมาจาก %s แล้ว! เวลาที่ใช้ในการ AFK คือ %s minutes",
-    "commands.afk.afk_not_started": "ตอนนี้ยังไม่ได้เริ่ม AFK!",
-    "commands.afk.change_afk_reason": "เปลี่ยนเหตุผลจาก '%s' เป็น '%s'",
-    "commands.afk.set_afk_mode": "กำหนดโหมด AFK เป็น '%s'",
-
-    "commands.auto_fish.enable": "เปิดการใช้งาน AutoFish",
-    "commands.auto_fish.disable": "ปิดการใช้งาน AutoFish",
-    "commands.auto_fish.not_equipped_fishing_rod": "คุณยังไม่ได้ถือเบ็ดตกปลา!",
-    "commands.auto_fish.auto_fish_started": "มีการเริ่ม Autofish ไปแล้ว!",
 
     "commands.ping_all.result": "%s: Ping %s ms",
 

@@ -38,14 +38,4 @@ public class PlatformConfigImpl
     {
         return IndicatiaConfig.GENERAL.enableBossHealthBarRender.get();
     }
-
-    public static boolean getAFKMessage()
-    {
-        return IndicatiaConfig.GENERAL.enableAFKMessage.get();
-    }
-
-    public static int getAFKMessageTime()
-    {
-        return IndicatiaConfig.GENERAL.afkMessageTime.get();
-    }
 }

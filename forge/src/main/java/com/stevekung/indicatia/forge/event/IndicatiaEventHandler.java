@@ -5,16 +5,13 @@ import com.stevekung.indicatia.forge.core.IndicatiaForge;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
-import com.stevekung.indicatia.utils.AFKMode;
 import com.stevekung.indicatia.utils.hud.HUDHelper;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,9 +43,6 @@ public class IndicatiaEventHandler
 
             if (event.phase == TickEvent.Phase.START)
             {
-                HUDHelper.afkTick(this.mc.player);
-                HUDHelper.autoFishTick(this.mc);
-
                 if (this.mc.getCurrentServer() != null)
                 {
                     var now = Util.getMillis();
@@ -72,45 +66,6 @@ public class IndicatiaEventHandler
                 }
             }
         }
-    }
-
-    @SubscribeEvent
-    public void onInputUpdate(InputUpdateEvent event)
-    {
-        var movement = event.getMovementInput();
-
-        // afk stuff
-        if (HUDHelper.AFK_MODE == AFKMode.RANDOM_MOVE_360)
-        {
-            int afkMoveTick = HUDHelper.afkMoveTicks;
-
-            if (afkMoveTick == 1)
-            {
-                movement.forwardImpulse += Math.random();
-                movement.up = true;
-            }
-            else if (afkMoveTick == 3)
-            {
-                movement.leftImpulse += Math.random();
-                movement.left = true;
-            }
-            else if (afkMoveTick == 5)
-            {
-                movement.forwardImpulse -= Math.random();
-                movement.down = true;
-            }
-            else if (afkMoveTick == 7)
-            {
-                movement.leftImpulse -= Math.random();
-                movement.right = true;
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event)
-    {
-        HUDHelper.stopCommandTicks();
     }
 
     @SubscribeEvent

@@ -20,12 +20,10 @@ public class IndicatiaConfig
     public static class General
     {
         // General
-        public final ForgeConfigSpec.IntValue afkMessageTime;
         public final ForgeConfigSpec.BooleanValue enableRenderInfo;
         public final ForgeConfigSpec.BooleanValue enableBlockhitAnimation;
         public final ForgeConfigSpec.BooleanValue enableOldArmorRender;
         public final ForgeConfigSpec.BooleanValue enableVersionChecker;
-        public final ForgeConfigSpec.BooleanValue enableAFKMessage;
         public final ForgeConfigSpec.BooleanValue enableCustomPlayerList;
         public final ForgeConfigSpec.BooleanValue multiplayerScreenEnhancement;
         public final ForgeConfigSpec.BooleanValue enableConfirmToDisconnect;
@@ -42,8 +40,6 @@ public class IndicatiaConfig
             builder.comment("General settings");
             builder.push("general");
 
-            this.afkMessageTime = builder.translation("text.autoconfig.indicatia.option.general.afkMessageTime").defineInRange("afkMessageTime", 5, 1, 60);
-
             this.enableRenderInfo = builder.translation("text.autoconfig.indicatia.option.general.enableRenderInfo").define("enableRenderInfo", true);
 
             this.enableBlockhitAnimation = builder.comment("Improved hand animation and restore animation when Eating/Blocking/Pulling/Drinking with left click from 1.7.").translation("text.autoconfig.indicatia.option.general.enableBlockhitAnimation").define("enableBlockhitAnimation", false);
@@ -51,8 +47,6 @@ public class IndicatiaConfig
             this.enableOldArmorRender = builder.comment("This will using old armor hurt effect render. (red overlay)").translation("text.autoconfig.indicatia.option.general.enableOldArmorRender").define("enableOldArmorRender", false);
 
             this.enableVersionChecker = builder.translation("text.autoconfig.indicatia.option.general.enableVersionChecker").define("enableVersionChecker", true);
-
-            this.enableAFKMessage = builder.translation("text.autoconfig.indicatia.option.general.enableAFKMessage").define("enableAFKMessage", true);
 
             this.enableCustomPlayerList = builder.comment("Show response time as number instead.").translation("text.autoconfig.indicatia.option.general.enableCustomPlayerList").define("enableCustomPlayerList", false);
 

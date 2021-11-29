@@ -20,14 +20,11 @@ public final class IndicatiaConfig implements ConfigData
 
     public static class GeneralCategory
     {
-        @ConfigEntry.BoundedDiscrete(min = 5, max = 60)
-        public int afkMessageTime = 5;
         public boolean enableRenderInfo = true;
         @Comment("Improved hand animation and restore animation when Eating/Blocking/Pulling/Drinking with left click from 1.7.\n" + "(default value: false)")
         public boolean enableBlockhitAnimation = false;
         @Comment("This will using old armor hurt effect render. (red overlay)\n" + "(default value: false)")
         public boolean enableOldArmorRender = false;
-        public boolean enableAFKMessage = true;
         @Comment("Show response time as number instead.\n" + "(default value: true)")
         public boolean enableCustomPlayerList = true;
         @Comment("Show response time as number instead and improved server info.\n" + "(default value: true)")

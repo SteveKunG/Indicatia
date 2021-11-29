@@ -6,7 +6,6 @@
     "client": [
         "gui.MixinGui",
         "gui.screens.multiplayer.MixinServerSelectionList_OnlineServerEntry",
-        "player.MixinLocalPlayer",
         "renderer.MixinItemInHandRenderer",
         "server.MixinMinecraftServer"
     ],

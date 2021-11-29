@@ -3,7 +3,7 @@ package com.stevekung.indicatia.forge.core;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.core.Indicatia;
-import com.stevekung.indicatia.forge.command.*;
+import com.stevekung.indicatia.forge.command.ProfileCommand;
 import com.stevekung.indicatia.forge.config.IndicatiaConfig;
 import com.stevekung.indicatia.forge.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.forge.event.IndicatiaEventHandler;
@@ -59,11 +59,7 @@ public class IndicatiaForge
 
     private void registerClientCommands()
     {
-        ClientCommands.register(new AFKCommand());
-        ClientCommands.register(new AutoFishCommand());
-        ClientCommands.register(new PingAllCommand());
         ClientCommands.register(new ProfileCommand());
-        ClientCommands.register(new SlimeSeedCommand());
         Indicatia.LOGGER.info("Registering client side commands");
     }
 }
