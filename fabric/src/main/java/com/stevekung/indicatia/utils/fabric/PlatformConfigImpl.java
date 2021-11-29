@@ -4,6 +4,11 @@ import com.stevekung.indicatia.fabric.core.IndicatiaFabric;
 
 public class PlatformConfigImpl
 {
+    public static boolean getRenderInfo()
+    {
+        return IndicatiaFabric.CONFIG.general.enableRenderInfo;
+    }
+
     public static boolean getOldArmorRender()
     {
         return IndicatiaFabric.CONFIG.general.enableOldArmorRender;

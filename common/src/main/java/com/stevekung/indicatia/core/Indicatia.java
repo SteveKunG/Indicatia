@@ -10,7 +10,9 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import com.stevekung.indicatia.config.IndicatiaSettings;
+import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.event.HypixelEventHandler;
+import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.screens.IndicatiaChatScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
 import com.stevekung.indicatia.utils.ThreadMinigameData;
@@ -18,6 +20,8 @@ import com.stevekung.stevekunglib.utils.CommonUtils;
 import com.stevekung.stevekunglib.utils.LoggerBase;
 import com.stevekung.stevekunglib.utils.TextComponentUtils;
 import com.stevekung.stevekunglib.utils.client.ClientUtils;
+import dev.architectury.event.events.client.ClientPlayerEvent;
+import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.platform.Platform;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -46,6 +50,9 @@ public class Indicatia
         new IndicatiaChatScreen();
         KeyBindingHandler.init();
         CommonUtils.runAsync(ThreadMinigameData::new);
+
+        ClientTickEvent.CLIENT_PRE.register(IndicatiaEventHandler.INSTANCE::onClientTick);
+        ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> HUDRenderEventHandler.INSTANCE.onLoggedOut());
     }
 
     private static void loadProfileOption()

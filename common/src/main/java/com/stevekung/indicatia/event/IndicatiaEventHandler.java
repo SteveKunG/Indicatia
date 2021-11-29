@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.fabric.event;
+package com.stevekung.indicatia.event;
 
 import com.stevekung.indicatia.utils.PlatformConfig;
 import com.stevekung.indicatia.utils.hud.HUDHelper;

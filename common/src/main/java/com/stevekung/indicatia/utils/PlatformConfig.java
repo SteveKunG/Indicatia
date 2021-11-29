@@ -5,6 +5,12 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 public class PlatformConfig
 {
     @ExpectPlatform
+    public static boolean getRenderInfo()
+    {
+        throw new Error();
+    }
+
+    @ExpectPlatform
     public static boolean getOldArmorRender()
     {
         throw new Error();
@@ -42,18 +48,6 @@ public class PlatformConfig
 
     @ExpectPlatform
     public static boolean getRenderBossHealthBar()
-    {
-        throw new Error();
-    }
-
-    @ExpectPlatform
-    public static boolean getAFKMessage()
-    {
-        throw new Error();
-    }
-
-    @ExpectPlatform
-    public static int getAFKMessageTime()
     {
         throw new Error();
     }

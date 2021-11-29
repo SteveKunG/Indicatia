@@ -4,6 +4,11 @@ import com.stevekung.indicatia.forge.config.IndicatiaConfig;
 
 public class PlatformConfigImpl
 {
+    public static boolean getRenderInfo()
+    {
+        return IndicatiaConfig.GENERAL.enableRenderInfo.get();
+    }
+
     public static boolean getOldArmorRender()
     {
         return IndicatiaConfig.GENERAL.enableOldArmorRender.get();

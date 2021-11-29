@@ -1,27 +1,22 @@
 package com.stevekung.indicatia.forge.event;
 
+import com.stevekung.indicatia.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.forge.config.IndicatiaConfig;
 import com.stevekung.indicatia.forge.core.IndicatiaForge;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.gui.exconfig.screens.OffsetRenderPreviewScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
-import com.stevekung.indicatia.utils.hud.HUDHelper;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class IndicatiaEventHandler
+public class IndicatiaForgeEventHandler
 {
     private final Minecraft mc;
-    private long lastPinger = -1L;
 
-    public IndicatiaEventHandler()
+    public IndicatiaForgeEventHandler()
     {
         this.mc = Minecraft.getInstance();
     }
@@ -40,31 +35,7 @@ public class IndicatiaEventHandler
                     IndicatiaForge.CHECKER.setChecked(true);
                 }
             }
-
-            if (event.phase == TickEvent.Phase.START)
-            {
-                if (this.mc.getCurrentServer() != null)
-                {
-                    var now = Util.getMillis();
-
-                    if (this.lastPinger == -1L || now - this.lastPinger > 5000L)
-                    {
-                        this.lastPinger = now;
-                        HUDHelper.getRealTimeServerPing(this.mc.getCurrentServer());
-                    }
-                }
-
-                for (var action : UseAnim.values())
-                {
-                    if (action != UseAnim.NONE)
-                    {
-                        if (IndicatiaConfig.GENERAL.enableBlockhitAnimation.get() && this.mc.options.keyAttack.isDown() && this.mc.hitResult != null && this.mc.hitResult.getType() == HitResult.Type.BLOCK && !this.mc.player.getMainHandItem().isEmpty() && this.mc.player.getMainHandItem().getUseAnimation() == action)
-                        {
-                            this.mc.player.swing(InteractionHand.MAIN_HAND);
-                        }
-                    }
-                }
-            }
+            IndicatiaEventHandler.INSTANCE.onClientTick(this.mc);
         }
     }
 

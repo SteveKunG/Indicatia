@@ -4,13 +4,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.event.HUDRenderEventHandler;
 import com.stevekung.indicatia.fabric.command.ProfileCommand;
 import com.stevekung.indicatia.fabric.config.IndicatiaConfig;
-import com.stevekung.indicatia.fabric.event.HUDRenderEventHandler;
-import com.stevekung.indicatia.fabric.event.IndicatiaEventHandler;
 import com.stevekung.indicatia.gui.exconfig.screens.ExtendedConfigScreen;
 import com.stevekung.indicatia.handler.KeyBindingHandler;
-import dev.architectury.event.events.client.ClientPlayerEvent;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -73,9 +71,6 @@ public class IndicatiaFabric implements ClientModInitializer
                 Indicatia.selectProfile(fileName);
             }
         });
-
-        ClientTickEvents.START_CLIENT_TICK.register(IndicatiaEventHandler.INSTANCE::onClientTick);
         ServerTickEvents.END_WORLD_TICK.register(HUDRenderEventHandler.INSTANCE::onClientTick);
-        ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> HUDRenderEventHandler.INSTANCE.onLoggedOut());
     }
 }

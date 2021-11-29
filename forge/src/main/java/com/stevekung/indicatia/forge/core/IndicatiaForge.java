@@ -5,8 +5,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.indicatia.forge.command.ProfileCommand;
 import com.stevekung.indicatia.forge.config.IndicatiaConfig;
-import com.stevekung.indicatia.forge.event.HUDRenderEventHandler;
-import com.stevekung.indicatia.forge.event.IndicatiaEventHandler;
+import com.stevekung.indicatia.forge.event.HUDRenderForgeEventHandler;
+import com.stevekung.indicatia.forge.event.IndicatiaForgeEventHandler;
 import com.stevekung.indicatia.forge.key.KeypadChatKey;
 import com.stevekung.stevekunglib.forge.client.ForgeKeyMappingBase;
 import com.stevekung.stevekunglib.forge.utils.ForgeCommonUtils;
@@ -40,8 +40,8 @@ public class IndicatiaForge
         ForgeCommonUtils.registerConfig(ModConfig.Type.CLIENT, IndicatiaConfig.GENERAL_SPEC);
         ForgeCommonUtils.registerConfigScreen((mc, parent) -> ForgeCommonUtils.openConfigFile(parent, Indicatia.MOD_ID, ModConfig.Type.CLIENT));
         ForgeCommonUtils.registerModEventBus(IndicatiaConfig.class);
-        ForgeCommonUtils.registerEventHandler(new IndicatiaEventHandler());
-        ForgeCommonUtils.registerEventHandler(new HUDRenderEventHandler());
+        ForgeCommonUtils.registerEventHandler(new IndicatiaForgeEventHandler());
+        ForgeCommonUtils.registerEventHandler(new HUDRenderForgeEventHandler());
     }
 
     private void phaseOne(FMLClientSetupEvent event)
