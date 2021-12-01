@@ -24,11 +24,11 @@
         ]
     },
     "depends": {
-        "fabricloader": ">=0.11",
+        "fabricloader": ">=0.12",
         "fabric": "*",
-        "minecraft": ">=1.17.1",
-        "stevekung_lib": ">=5.0.1",
-        "architectury": ">=2.6"
+        "minecraft": ">=1.18",
+        "stevekung_lib": ">=6.0.0",
+        "architectury": ">=3.0"
     },
     "mixins": [
         "mixins.indicatia.json",
