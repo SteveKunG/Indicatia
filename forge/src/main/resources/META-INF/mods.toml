@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[37,)"
+loaderVersion = "[39,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/SteveKunG/Indicatia/issues"
 
@@ -7,7 +7,7 @@ issueTrackerURL = "https://github.com/SteveKunG/Indicatia/issues"
 modId = "indicatia"
 version = "${version}"
 displayName = "Indicatia"
-description = "Simple in-game info and small utilities!"
+description = "A small quality of life mod!"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/indicatia"
 updateJSONURL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 logoFile = "logo.png"
@@ -16,27 +16,13 @@ authors = "SteveKunG"
 [[dependencies.indicatia]]
 modId = "forge"
 mandatory = true
-versionRange = "[37.0.0,)"
+versionRange = "[39.0.0,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.17.1,)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.indicatia]]
-modId = "architectury"
-mandatory = true
-versionRange = "[2.6,)"
-ordering = "NONE"
-side = "CLIENT"
-
-[[dependencies.indicatia]]
-modId = "stevekung_lib"
-mandatory = true
-versionRange = "[5.0.1,)"
+versionRange = "[1.18.1,)"
 ordering = "NONE"
 side = "CLIENT"
