@@ -30,6 +30,7 @@
         "minecraft": ">=1.18.1"
     },
     "mixins": [
+        "mixins.indicatia.json",
         "mixins.indicatia_fabric.json"
     ],
     "custom": {

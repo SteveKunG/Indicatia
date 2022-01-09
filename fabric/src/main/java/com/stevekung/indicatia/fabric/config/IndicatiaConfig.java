@@ -6,7 +6,6 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = Indicatia.MOD_ID)
-@Config.Gui.Background("minecraft:textures/block/dirt.png")
 public final class IndicatiaConfig implements ConfigData
 {
     @Comment("This allowed to use Numpad Enter key to open the chat.")

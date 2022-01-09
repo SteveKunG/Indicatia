@@ -1,7 +1,6 @@
 architectury {
     platformSetupLoomIde()
     forge()
-    injectInjectables = false
 }
 
 configurations {

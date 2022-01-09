@@ -1,9 +1,9 @@
-package com.stevekung.indicatia.fabric.utils;
+package com.stevekung.indicatia.utils.fabric;
 
 import com.stevekung.indicatia.core.Indicatia;
 import com.stevekung.indicatia.fabric.core.IndicatiaFabric;
 
-public class KeypadHandler
+public class PlatformKeyInputImpl
 {
     public static boolean isAltChatEnabled()
     {
