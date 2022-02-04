@@ -16,6 +16,7 @@ public class IndicatiaConfig
     public final ForgeConfigSpec.BooleanValue displayDurationOnTopRightPotionHUD;
     public final ForgeConfigSpec.BooleanValue confirmationOnDisconnect;
     public final ForgeConfigSpec.BooleanValue enableEnchantedRenderingOnSkull;
+    public final ForgeConfigSpec.BooleanValue reloadResourcesButton;
 
     static
     {
@@ -30,6 +31,7 @@ public class IndicatiaConfig
         this.displayDurationOnTopRightPotionHUD = builder.comment("Display potion duration time on top right Potion HUD.").translation("text.autoconfig.indicatia.option.general.displayDurationOnTopRightPotionHUD").define("displayDurationOnTopRightPotionHUD", true);
         this.confirmationOnDisconnect = builder.comment("Enable confirmation screen on pressing disconnect button.").translation("text.autoconfig.indicatia.option.general.confirmationOnDisconnect").define("confirmationOnDisconnect", true);
         this.enableEnchantedRenderingOnSkull = builder.comment("Enable enchant effect rendering on skull.").translation("text.autoconfig.indicatia.option.general.enableEnchantedRenderingOnSkull").define("enableEnchantedRenderingOnSkull", true);
+        this.reloadResourcesButton = builder.comment("Enable reload resources button on a pack selection screen.").translation("text.autoconfig.indicatia.option.general.reloadResourcesButton").define("reloadResourcesButton", true);
     }
 
     @SubscribeEvent

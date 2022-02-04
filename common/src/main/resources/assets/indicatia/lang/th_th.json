@@ -4,6 +4,8 @@
     "text.autoconfig.indicatia.option.timeOnVanillaPotionHUD": "เปิดใช้งานระยะเวลาของยาที่ Potion HUD ด้านบนขวา",
     "text.autoconfig.indicatia.option.confirmationOnDisconnect": "เปิดใช้งานยืนยันก่อนเลิกการเชื่อมต่อ",
     "text.autoconfig.indicatia.option.enableEnchantedRenderingOnSkull": "เปิดใช้งานการแสดงเอฟเฟ็กต์เอนชานต์ที่กะโหลก",
+    "text.autoconfig.indicatia.option.reloadResourcesButton": "เปิดใช้งานปุ่มรีโหลดรีซอร์ส",
     "key.alt_open_chat": "แชทสำรอง",
-    "menu.confirm_disconnect": "คุณต้องการตัดการเชื่อมต่อหรือไม่?"
+    "menu.confirm_disconnect": "คุณต้องการตัดการเชื่อมต่อหรือไม่?",
+    "menu.reload_resources": "รีโหลดรีซอร์ส"
 }

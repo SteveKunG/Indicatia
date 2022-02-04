@@ -16,4 +16,6 @@ public final class IndicatiaConfig implements ConfigData
     public boolean confirmationOnDisconnect = true;
     @Comment("Enable enchant effect rendering on skull.")
     public boolean enableEnchantedRenderingOnSkull = true;
+    @Comment("Enable reload resources button on a pack selection screen.")
+    public boolean reloadResourcesButton = true;
 }

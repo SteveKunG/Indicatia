@@ -8,7 +8,10 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 
 public class IndicatiaFabric implements ClientModInitializer
 {
@@ -25,5 +28,12 @@ public class IndicatiaFabric implements ClientModInitializer
         AutoConfig.register(IndicatiaConfig.class, GsonConfigSerializer::new);
         IndicatiaFabric.CONFIG = AutoConfig.getConfigHolder(IndicatiaConfig.class).getConfig();
         KeyBindingHelper.registerKeyBinding(Indicatia.KEY_ALT_OPEN_CHAT);
+        ScreenEvents.AFTER_INIT.register((minecraft, screen, scaledWidth, scaledHeight) ->
+        {
+            if (IndicatiaFabric.CONFIG.reloadResourcesButton && screen instanceof PackSelectionScreen)
+            {
+                Screens.getButtons(screen).add(Indicatia.getReloadResourcesButton(screen, minecraft));
+            }
+        });
     }
 }

@@ -13,7 +13,7 @@ configurations {
 
 loom {
     forge {
-        mixinConfig "mixins.indicatia_forge.json"
+        mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
     }
 
     launches {
