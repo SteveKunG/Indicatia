@@ -46,8 +46,6 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    include fabricApi.module("fabric-key-binding-api-v1", project.fabric_api_version)
-
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
@@ -99,6 +97,7 @@ curseforge {
                 displayName = "[Fabric] " + fileName + "-v${project.version}"
             }
             relations {
+                requiredDependency "fabric-api"
                 requiredDependency "cloth-config"
                 optionalDependency "modmenu"
             }
