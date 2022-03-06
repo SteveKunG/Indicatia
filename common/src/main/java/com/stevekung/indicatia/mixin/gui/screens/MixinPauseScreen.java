@@ -33,6 +33,10 @@ public class MixinPauseScreen extends Screen
             {
                 onPress.onPress(button);
             }
+            else
+            {
+                this.minecraft.setScreen(this);
+            }
         }, TITLE, TextComponent.EMPTY, CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
     }
 }
