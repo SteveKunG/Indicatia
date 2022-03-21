@@ -2,4 +2,5 @@
 
 ### Please report if you found the issues!
 
-* Update to 1.18
+* Rewrite and big clean up entire mod
+* Update to 1.18.2

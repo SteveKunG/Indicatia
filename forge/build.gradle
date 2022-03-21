@@ -16,16 +16,11 @@ loom {
         mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
     }
 
-    launches {
-        client {
-            arg "--username", "${username}", "--uuid", "${uuid}"
-        }
-    }
-
     runs {
         client {
             vmArg("-Dmixin.debug.export=true")
             vmArg("-Dmixin.hotSwap=true")
+            vmArg("-Ddevauth.configDir=${devauth_dir}")
         }
     }
 
@@ -39,6 +34,7 @@ dependencies {
 
     modRuntimeOnly "curse.maven:configured-457570:${rootProject.configured_version}"
     modRuntimeOnly "curse.maven:catalogue-459701:${rootProject.catalogue_version}"
+    modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${rootProject.devauth_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
@@ -62,7 +58,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier = "forge"
     archiveVersion = "v${project.version}"

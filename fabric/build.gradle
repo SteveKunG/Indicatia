@@ -1,14 +1,9 @@
 loom {
-    launches {
-        client {
-            arg "--username", "${username}", "--uuid", "${uuid}"
-        }
-    }
-
     runs {
         client {
             vmArg("-Dmixin.debug.export=true")
             vmArg("-Dmixin.hotSwap=true")
+            vmArg("-Ddevauth.configDir=${devauth_dir}")
         }
     }
 
@@ -41,6 +36,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
+    modRuntimeOnly "me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}"
 
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
@@ -68,7 +64,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier = "fabric"
     archiveVersion = "v${project.version}"
