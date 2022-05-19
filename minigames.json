@@ -741,7 +741,7 @@
         ]
     },
     {
-        "name": "Prototype: SkyBlock",
+        "name": "Prototype: SkyBlock[MVP+]",
         "sort": false,
         "commands": [
             {
@@ -764,6 +764,13 @@
             {
                 "name": "SkyBlock: Hub",
                 "command": "/warp hub",
+                "minigame": true,
+                "uuid": "32edac82-4acc-4dd5-9ecc-3344dab6852b",
+                "texture": "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8"
+            },
+            {
+                "name": "SkyBlock: Museum",
+                "command": "/warp museum",
                 "minigame": true,
                 "uuid": "32edac82-4acc-4dd5-9ecc-3344dab6852b",
                 "texture": "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8"
@@ -860,18 +867,67 @@
                 "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
             },
             {
-                "name": "SkyBlock: Blazing Fortress",
+                "name": "SkyBlock: The Forge",
+                "command": "/warp forge",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
+                "name": "SkyBlock: Crystal Hollows",
+                "command": "/warp ch",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
+                "name": "SkyBlock: Crystal Nucleus",
+                "command": "/warp nucleus",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
+                "name": "SkyBlock: Crimson Isle",
                 "command": "/warp nether",
                 "minigame": true,
                 "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
                 "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
             },
             {
-                "name": "SkyBlock: Magma Fields",
-                "command": "/warp magma",
+                "name": "SkyBlock: Forgotten Skull",
+                "command": "/warp kuudra",
                 "minigame": true,
-                "uuid": "930a9075-7ac3-46c0-b6cd-b158773acb17",
-                "texture": "38957d5023c937c4c41aa2412d43410bda23cf79a9f6ab36b76fef2d7c429"
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
+            },
+            {
+                "name": "SkyBlock: The Wasteland",
+                "command": "/warp wasteland",
+                "minigame": true,
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
+            },
+            {
+                "name": "SkyBlock: Dragontail",
+                "command": "/warp dragontail",
+                "minigame": true,
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
+            },
+            {
+                "name": "SkyBlock: Scarleton",
+                "command": "/warp scarleton",
+                "minigame": true,
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
+            },
+            {
+                "name": "SkyBlock: Smoldering Tomb",
+                "command": "/warp smold",
+                "minigame": true,
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
             },
             {
                 "name": "SkyBlock: The Park",
@@ -893,6 +949,134 @@
                 "minigame": true,
                 "uuid": "ed1bdb05-5876-4ef6-aa6e-89ae8b66730a",
                 "texture": "1832d53997b451635c9cf9004b0f22bb3d99ab5a093942b5b5f6bb4e4de47065"
+            },
+            {
+                "name": "SkyBlock: Jerry's Workshop",
+                "command": "/savethejerrys",
+                "minigame": true,
+                "uuid": "7732c5e4-1800-3b90-a70f-727d2969254b",
+                "texture": "10f5398510b1a05afc5b201ead8bfc583e57d7202f5193b0b761fcbd0ae2"
+            }
+        ]
+    },
+    {
+        "name": "Prototype: SkyBlock[Non-MVP+]",
+        "sort": false,
+        "commands": [
+            {
+                "name": "Prototype Lobby",
+                "command": "ptl",
+                "minigame": false
+            },
+            {
+                "name": "Play SkyBlock",
+                "command": "skyblock",
+                "minigame": true
+            },
+            {
+                "name": "SkyBlock: Home",
+                "command": "/warp home",
+                "minigame": true,
+                "uuid": "ba6a1a99-73c8-4f01-8db6-c97e36700227",
+                "texture": "c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56"
+            },
+            {
+                "name": "SkyBlock: Hub",
+                "command": "/warp hub",
+                "minigame": true,
+                "uuid": "32edac82-4acc-4dd5-9ecc-3344dab6852b",
+                "texture": "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8"
+            },
+            {
+                "name": "SkyBlock: Museum",
+                "command": "/warp museum",
+                "minigame": true,
+                "uuid": "32edac82-4acc-4dd5-9ecc-3344dab6852b",
+                "texture": "d7cc6687423d0570d556ac53e0676cb563bbdd9717cd8269bdebed6f6d4e7bf8"
+            },
+            {
+                "name": "SkyBlock: Dungeon Hub",
+                "command": "/warp dungeon_hub",
+                "minigame": true,
+                "uuid": "96605f99-2804-4b0a-9d1b-53546fd89bb9",
+                "texture": "9b56895b9659896ad647f58599238af532d46db9c1b0389b8bbeb70999dab33d"
+            },
+            {
+                "name": "SkyBlock: The End",
+                "command": "/warp end",
+                "minigame": true,
+                "uuid": "d9ab9fb4-8362-42c8-8766-df51e001fabe",
+                "texture": "7840b87d52271d2a755dedc82877e0ed3df67dcc42ea479ec146176b02779a5"
+            },
+            {
+                "name": "SkyBlock: Spider's Den",
+                "command": "/warp spider",
+                "minigame": true,
+                "uuid": "0453774f-1c2e-4fb9-89be-9411e5f0733b",
+                "texture": "c754318a3376f470e481dfcd6c83a59aa690ad4b4dd7577fdad1c2ef08d8aee6"
+            },
+            {
+                "name": "SkyBlock: The Barn",
+                "command": "/warp barn",
+                "minigame": true,
+                "uuid": "b80cb9a7-5536-4cf2-8cf9-59cceefc991c",
+                "texture": "4d3a6bd98ac1833c664c4909ff8d2dc62ce887bdcf3cc5b3848651ae5af6b"
+            },
+            {
+                "name": "SkyBlock: Mushroom Island",
+                "command": "/warp desert",
+                "minigame": true,
+                "uuid": "7720c8e0-bea7-4684-93b3-454f06fb2aab",
+                "texture": "2116b9d8df346a25edd05f842e7a9345beaf16dca4118abf5a68c75bcaae10"
+            },
+            {
+                "name": "SkyBlock: Gold Mine",
+                "command": "/warp gold",
+                "minigame": true,
+                "uuid": "a91bb5ac-5ccb-46cb-9ff4-ed573c6831e0",
+                "texture": "73bc965d579c3c6039f0a17eb7c2e6faf538c7a5de8e60ec7a719360d0a857a9"
+            },
+            {
+                "name": "SkyBlock: Deep Cavern",
+                "command": "/warp deep",
+                "minigame": true,
+                "uuid": "358c998d-0503-4c71-98d2-6e5f38f0abe0",
+                "texture": "569a1f114151b4521373f34bc14c2963a5011cdc25a6554c48c708cd96ebfc"
+            },
+            {
+                "name": "SkyBlock: Dwarven Mines",
+                "command": "/warp mines",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
+                "name": "SkyBlock: The Forge",
+                "command": "/warp forge",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
+                "name": "SkyBlock: Crystal Hollows",
+                "command": "/warp ch",
+                "minigame": true,
+                "uuid": "c591ceaa-f47a-40b6-b665-59b03905785d",
+                "texture": "97e56140686e476aef5520acbabc239535ff97e24b14d87f4982f13675c"
+            },
+            {
+                "name": "SkyBlock: Crimson Isle",
+                "command": "/warp nether",
+                "minigame": true,
+                "uuid": "590b6dbf-1c9d-45cf-97ec-87c273e8661a",
+                "texture": "c3687e25c632bce8aa61e0d64c24e694c3eea629ea944f4cf30dcfb4fbce071"
+            },
+            {
+                "name": "SkyBlock: The Park",
+                "command": "/warp park",
+                "minigame": true,
+                "uuid": "8d2669ee-79f8-468a-893d-65801864d0dc",
+                "texture": "a221f813dacee0fef8c59f76894dbb26415478d9ddfc44c2e708a6d3b7549b"
             },
             {
                 "name": "SkyBlock: Jerry's Workshop",
