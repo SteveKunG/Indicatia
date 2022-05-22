@@ -1,18 +1,6 @@
 # folder
 .architectury-transformer
-.settings
 .gradle
 .idea
-.vscode
-bin
 build
-libs
 run
-
-# file
-*.bat
-*.launch
-.metadata
-.classpath
-.project
-!gradlew.bat

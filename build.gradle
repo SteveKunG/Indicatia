@@ -1,12 +1,12 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "com.github.johnrengelman.shadow" version "7.1.2"
-    id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
     id "com.matthewprenger.cursegradle" version "1.4.0" apply false
 }
 
 architectury {
-    minecraft = rootProject.mc_version
+    minecraft = project.mc_version
 }
 
 subprojects {
@@ -26,10 +26,10 @@ subprojects {
     }
 
     dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.mc_version}"
+        minecraft "com.mojang:minecraft:${project.mc_version}"
         mappings loom.layered() {
             officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${rootProject.parchmentmc_version}@zip")
+            parchment("org.parchmentmc.data:parchment-${project.parchmentmc_version}@zip")
         }
     }
 }
@@ -38,9 +38,9 @@ allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"
 
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
-    group = rootProject.maven_group
+    archivesBaseName = project.archives_base_name
+    version = project.mod_version
+    group = project.maven_group
 
     repositories {
         maven {

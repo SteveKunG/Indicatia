@@ -3,15 +3,9 @@ architectury {
     forge()
 }
 
-configurations {
-    common
-    shadowCommon
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
-}
-
 loom {
+    clientOnlyMinecraftJar()
+
     forge {
         mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
     }
@@ -29,12 +23,20 @@ loom {
     }
 }
 
-dependencies {
-    forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
 
-    modRuntimeOnly "curse.maven:configured-457570:${rootProject.configured_version}"
-    modRuntimeOnly "curse.maven:catalogue-459701:${rootProject.catalogue_version}"
-    modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${rootProject.devauth_version}"
+dependencies {
+    forge "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
+
+    modRuntimeOnly "curse.maven:configured-457570:${project.configured_version}"
+    modRuntimeOnly "curse.maven:catalogue-459701:${project.catalogue_version}"
+    modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${project.devauth_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
@@ -48,7 +50,7 @@ processResources {
     }
 }
 
-String fileName = "${rootProject.archives_base_name}-mc${rootProject.mc_version}"
+String fileName = "${project.archives_base_name}-mc${project.mc_version}"
 
 shadowJar {
     configurations = [project.configurations.shadowCommon]
@@ -81,7 +83,7 @@ curseforge {
             releaseType = "release"
             addGameVersion "Forge"
             addGameVersion "Java 17"
-            addGameVersion rootProject.mc_version
+            addGameVersion project.mc_version
 
             mainArtifact(remapJar.archiveFile) {
                 displayName = "[Forge] " + fileName + "-v${project.version}"
