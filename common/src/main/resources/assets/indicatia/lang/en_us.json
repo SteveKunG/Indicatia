@@ -1,11 +1,11 @@
 {
-    "text.autoconfig.indicatia.title": "Indicatia Config",
-    "text.autoconfig.indicatia.option.enableAlternateChatKey": "Enable Alternate Chat Key",
-    "text.autoconfig.indicatia.option.timeOnVanillaPotionHUD": "Enable Duration on Top Right Potion HUD",
-    "text.autoconfig.indicatia.option.confirmationOnDisconnect": "Enable Confirmation on Disconnect",
-    "text.autoconfig.indicatia.option.enableEnchantedRenderingOnSkull": "Enable Enchanted Effect on Skull",
-    "text.autoconfig.indicatia.option.reloadResourcesButton": "Enable Reload resources button",
-    "key.alt_open_chat": "Alternate Open Chat",
-    "menu.confirm_disconnect": "Do you want to disconnect?",
-    "menu.reload_resources": "Reload resources"
+  "text.autoconfig.indicatia.title": "Indicatia Config",
+  "text.autoconfig.indicatia.option.enableAlternateChatKey": "Enable Alternate Chat Key",
+  "text.autoconfig.indicatia.option.timeOnVanillaPotionHUD": "Enable Duration on Top Right Potion HUD",
+  "text.autoconfig.indicatia.option.confirmationOnDisconnect": "Enable Confirmation on Disconnect",
+  "text.autoconfig.indicatia.option.enableEnchantedRenderingOnSkull": "Enable Enchanted Effect on Skull",
+  "text.autoconfig.indicatia.option.reloadResourcesButton": "Enable Reload resources button",
+  "key.alt_open_chat": "Alternate Open Chat",
+  "menu.confirm_disconnect": "Do you want to disconnect?",
+  "menu.reload_resources": "Reload resources"
 }

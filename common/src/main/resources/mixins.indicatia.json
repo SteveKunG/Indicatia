@@ -1,17 +1,17 @@
 {
-    "required": true,
-    "minVersion": "0.8.4",
-    "compatibilityLevel": "JAVA_17",
-    "package": "com.stevekung.indicatia.mixin",
-    "client": [
-        "gui.screens.inventory.MixinCreativeModeInventoryScreen",
-        "gui.screens.recipebook.MixinRecipeBookComponent",
-        "gui.screens.MixinPauseScreen",
-        "renderer.entity.layers.MixinCustomHeadLayer",
-        "renderer.MixinBlockEntityWithoutLevelRenderer",
-        "MixinMinecraft"
-    ],
-    "injectors": {
-        "defaultRequire": 1
-    }
+  "required": true,
+  "minVersion": "0.8.4",
+  "compatibilityLevel": "JAVA_17",
+  "package": "com.stevekung.indicatia.mixin",
+  "client": [
+    "gui.screens.inventory.MixinCreativeModeInventoryScreen",
+    "gui.screens.recipebook.MixinRecipeBookComponent",
+    "gui.screens.MixinPauseScreen",
+    "renderer.entity.layers.MixinCustomHeadLayer",
+    "renderer.MixinBlockEntityWithoutLevelRenderer",
+    "MixinMinecraft"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
