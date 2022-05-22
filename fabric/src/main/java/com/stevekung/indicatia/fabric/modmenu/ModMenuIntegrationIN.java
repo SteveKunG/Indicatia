@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.fabric.modmenu;
 
-import com.stevekung.indicatia.fabric.config.IndicatiaConfig;
+import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.autoconfig.AutoConfig;

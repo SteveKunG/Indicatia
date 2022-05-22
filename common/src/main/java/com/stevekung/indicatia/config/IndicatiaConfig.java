@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.fabric.config;
+package com.stevekung.indicatia.config;
 
 import com.stevekung.indicatia.core.Indicatia;
 import me.shedaniel.autoconfig.ConfigData;
