@@ -2,6 +2,13 @@ architectury {
     common(project.enabled_platforms.split(","))
 }
 
+repositories {
+    maven {
+        name "ModMenu Maven"
+        url "https://maven.terraformersmc.com/releases/"
+    }
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 

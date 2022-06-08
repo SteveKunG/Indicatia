@@ -11,13 +11,11 @@ import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 @Mixin(PauseScreen.class)
 public class MixinPauseScreen extends Screen
 {
-    private static final Component TITLE = new TranslatableComponent("menu.confirm_disconnect");
+    private static final Component TITLE = Component.translatable("menu.confirm_disconnect");
 
     MixinPauseScreen()
     {
@@ -37,6 +35,6 @@ public class MixinPauseScreen extends Screen
             {
                 this.minecraft.setScreen(this);
             }
-        }, TITLE, TextComponent.EMPTY, CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
+        }, TITLE, Component.empty(), CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
     }
 }
