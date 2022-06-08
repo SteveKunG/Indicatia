@@ -102,3 +102,23 @@ curseforge {
         }
     }
 }
+
+import com.modrinth.minotaur.dependencies.ModDependency
+import com.modrinth.minotaur.dependencies.DependencyType
+
+modrinth {
+    if (project.hasProperty("modrinth_api_token")) {
+        token = project.modrinth_api_token
+        projectId = "Grr1HrUE"
+        changelog = file("../CHANGE_LOG.md").text
+        versionName = "[Forge] Indicatia " + "v${project.version}" + " for Minecraft " + project.mc_version
+        versionNumber = project.mod_version + "-forge"
+        versionType = "release"
+        uploadFile = remapJar
+        gameVersions = ["${project.mc_version}"]
+        loaders = ["forge"]
+        dependencies = [
+                new ModDependency("9s6osm5g", DependencyType.REQUIRED) // Cloth Config
+        ]
+    }
+}
