@@ -2,4 +2,4 @@
 
 ### Please report if you found the issues!
 
-* Update to 1.19
+* [Forge] Required Forge 41.0.94
