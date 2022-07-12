@@ -21,7 +21,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraftforge.client.EffectRenderer;
+import net.minecraftforge.client.extensions.common.IClientMobEffectExtensions;
 
 @Mixin(Gui.class)
 public class MixinGui
@@ -31,7 +31,7 @@ public class MixinGui
     Minecraft minecraft;
 
     @Inject(method = "renderEffects", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void indicatia$addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, Screen screen, int j1, int k1, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, EffectRenderer renderer, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int l, int i1, float f1)
+    private void indicatia$addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, Screen screen, int j1, int k1, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, IClientMobEffectExtensions extensions, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int l, int i1, float f1)
     {
         if (Indicatia.CONFIG.timeOnVanillaPotionHUD)
         {
