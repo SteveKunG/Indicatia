@@ -95,6 +95,20 @@ components.java {
     }
 }
 
+tasks.getByName("configureLaunch") {
+    doFirst {
+        loom {
+            runs {
+                def mixinJarFile = configurations.compileClasspath.files { it.group == "net.fabricmc" && it.name == "sponge-mixin" }.find { true }
+
+                client {
+                    vmArg("-javaagent:$mixinJarFile")
+                }
+            }
+        }
+    }
+}
+
 def uploadDebug = true
 
 curseforge {
