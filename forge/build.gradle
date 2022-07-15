@@ -14,7 +14,10 @@ loom {
         client {
             vmArg("-Dmixin.debug.export=true")
             vmArg("-Dmixin.hotSwap=true")
-            vmArg("-Ddevauth.configDir=${devauth_dir}")
+
+            if (project.hasProperty("devauth_dir")) {
+                vmArg("-Ddevauth.configDir=${devauth_dir}")
+            }
         }
     }
 
@@ -32,31 +35,42 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
+    forge "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    modRuntimeOnly "curse.maven:configured-457570:${project.configured_version}"
-    modRuntimeOnly "curse.maven:catalogue-459701:${project.catalogue_version}"
-    modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${project.devauth_version}"
-    modImplementation "me.shedaniel.cloth:cloth-config-forge:${project.cloth_config_version}"
+    modRuntimeOnly "curse.maven:configured-457570:${configured_version}"
+    modRuntimeOnly "curse.maven:catalogue-459701:${catalogue_version}"
+    modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${devauth_version}"
+    modImplementation "me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", rootProject.mod_version
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand "version": rootProject.mod_version
     }
 }
 
-String fileName = "${project.archives_base_name}-mc${project.mc_version}"
+String fileName = "${archives_base_name}-mc${mc_version}"
 
 shadowJar {
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
-    archiveVersion = "v${project.version}"
+    archiveClassifier = "dev"
+    archiveVersion = "v${mod_version}"
+    archiveBaseName = fileName
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+remapSourcesJar {
+    archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
 }
 
@@ -64,7 +78,7 @@ remapJar {
     inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier = "forge"
-    archiveVersion = "v${project.version}"
+    archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
 }
 
@@ -74,31 +88,67 @@ components.java {
     }
 }
 
-curseforge {
-    if (project.hasProperty("upload_api_key")) {
-        apiKey = project.upload_api_key
-        project {
-            id = "272146"
-            changelog = file("../CHANGE_LOG.md")
-            changelogType = "markdown"
-            releaseType = "release"
-            addGameVersion "Forge"
-            addGameVersion "Java 17"
-            addGameVersion project.mc_version
+// TODO Enable when hot swapping working on Forge -.-
+/*tasks.getByName("configureLaunch") {
+    doFirst {
+        loom {
+            runs {
+                def mixinJarFile = configurations.compileClasspath.files { it.name == "mixin-patched" }.find { true }
 
-            mainArtifact(remapJar.archiveFile) {
-                displayName = "[Forge] " + fileName + "-v${project.version}"
-            }
-            relations {
-                requiredDependency "cloth-config"
-                optionalDependency "configured"
-            }
-            afterEvaluate {
-                uploadTask.dependsOn(remapJar)
+                client {
+                    vmArg("-javaagent:$mixinJarFile")
+                }
             }
         }
-        options {
-            forgeGradleIntegration = false
+    }
+}*/
+
+def uploadDebug = true
+
+curseforge {
+    apiKey = project.hasProperty("curseforge_api_token") ? project.curseforge_api_token : ""
+    project {
+        id = "272146"
+        changelog = rootProject.file("CHANGE_LOG.md")
+        changelogType = "markdown"
+        releaseType = "release"
+        addGameVersion "Forge"
+        addGameVersion "Java 17"
+        addGameVersion project.mc_version
+
+        mainArtifact(remapJar.archiveFile) {
+            displayName = "[Forge] " + fileName + "-v${mod_version}"
         }
+        relations {
+            requiredDependency "cloth-config"
+            optionalDependency "configured"
+        }
+        afterEvaluate {
+            uploadTask.dependsOn(remapJar)
+        }
+        addArtifact shadowJar
+        addArtifact remapSourcesJar
+    }
+    options {
+        debug uploadDebug
+        forgeGradleIntegration = false
+    }
+}
+
+modrinth {
+    debugMode = uploadDebug
+    token = project.hasProperty("modrinth_api_token") ? project.modrinth_api_token : ""
+    projectId = "indicatia"
+    changelog = rootProject.file("CHANGE_LOG.md").text
+    versionName = "[Forge] Indicatia " + "v${mod_version}" + " for Minecraft " + project.mc_version
+    versionNumber = project.mod_version + "-forge"
+    versionType = "release"
+    uploadFile = remapJar
+    additionalFiles = [shadowJar, remapSourcesJar]
+    gameVersions = ["${mc_version}"]
+    loaders = ["forge"]
+    dependencies {
+        required.project "cloth-config"
+        // optional.project "configured" TODO Enable when "Configured" mod is on Modrinth, Thank you Emmaffle!
     }
 }
