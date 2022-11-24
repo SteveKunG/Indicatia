@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,8 @@ public class Indicatia
 
     public static ImageButton getReloadResourcesButton(Screen screen, Minecraft minecraft)
     {
-        return new ImageButton(screen.width / 2 + 155, screen.height - 48, 20, 20, 0, 0, 20, Indicatia.RELOAD_TEXTURE, 32, 64, button -> minecraft.reloadResourcePacks(), (button, poseStack, x, y) -> screen.renderTooltip(poseStack, Indicatia.RELOAD_COMPONENT, x, y), Component.empty());
+        var imageButton = new ImageButton(screen.width / 2 + 155, screen.height - 48, 20, 20, 0, 0, 20, Indicatia.RELOAD_TEXTURE, 32, 64, button -> minecraft.reloadResourcePacks(), Indicatia.RELOAD_COMPONENT);
+        imageButton.setTooltip(Tooltip.create(RELOAD_COMPONENT));
+        return imageButton;
     }
 }
