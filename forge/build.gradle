@@ -1,3 +1,7 @@
+plugins {
+    id "com.modrinth.minotaur" version "2.+"
+}
+
 architectury {
     platformSetupLoomIde()
     forge()
@@ -40,6 +44,7 @@ dependencies {
     modRuntimeOnly "curse.maven:configured-457570:${configured_version}"
     modRuntimeOnly "curse.maven:catalogue-459701:${catalogue_version}"
     modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${devauth_version}"
+    modRuntimeOnly "curse.maven:lazy-dfu-forge-460819:3831644"
     modImplementation "me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -122,11 +127,11 @@ curseforge {
         addGameVersion project.mc_version
 
         mainArtifact(remapJar.archiveFile) {
-            displayName = "[Forge] " + fileName + "-v${mod_version}"
+            it.displayName = "[Forge] " + fileName + "-v${mod_version}"
         }
         relations {
-            requiredDependency "cloth-config"
-            optionalDependency "configured"
+            it.requiredDependency "cloth-config"
+            it.optionalDependency "configured"
         }
         afterEvaluate {
             uploadTask.dependsOn(remapJar)
@@ -145,6 +150,7 @@ modrinth {
     token = project.hasProperty("modrinth_api_token") ? project.modrinth_api_token : ""
     projectId = "indicatia"
     changelog = rootProject.file("CHANGE_LOG.md").text
+    syncBodyFrom = rootProject.file("README.md").text
     versionName = "[Forge] Indicatia " + "v${mod_version}" + " for Minecraft " + project.mc_version
     versionNumber = project.mod_version + "-forge"
     versionType = "release"
