@@ -16,11 +16,11 @@ loom {
 
     runs {
         client {
-            vmArg("-Dmixin.debug.export=true")
-            vmArg("-Dmixin.hotSwap=true")
+            property "mixin.debug.export", "true"
+            property "mixin.hotSwap", "true"
 
             if (project.hasProperty("devauth_dir")) {
-                vmArg("-Ddevauth.configDir=${devauth_dir}")
+                property "devauth.configDir", "${devauth_dir}"
             }
         }
     }
@@ -56,6 +56,10 @@ processResources {
 
     filesMatching("META-INF/mods.toml") {
         expand "version": rootProject.mod_version
+    }
+
+    doLast {
+        project(":common").minifyJson(outputs)
     }
 }
 
