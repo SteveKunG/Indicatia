@@ -4,10 +4,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import com.stevekung.indicatia.Indicatia;
+import com.stevekung.indicatia.utils.OpenFromParent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
+import net.minecraft.client.multiplayer.ClientAdvancements;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -35,5 +38,14 @@ public class MixinPauseScreen extends Screen
                 this.minecraft.setScreen(this);
             }
         }, TITLE, Component.empty(), CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
+    }
+
+    @SuppressWarnings("target")
+    @Redirect(method = "method_47896()Lnet/minecraft/client/gui/screens/Screen;", at = @At(value = "NEW", target = "net/minecraft/client/gui/screens/advancements/AdvancementsScreen"))
+    private AdvancementsScreen indicatia$setParentScreen(ClientAdvancements advancements)
+    {
+        var screen = new AdvancementsScreen(advancements);
+        ((OpenFromParent)screen).setOpen(true);
+        return screen;
     }
 }
