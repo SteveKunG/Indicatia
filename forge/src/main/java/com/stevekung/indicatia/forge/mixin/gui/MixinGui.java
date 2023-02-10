@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -35,7 +35,7 @@ public class MixinGui
     {
         if (Indicatia.CONFIG.timeOnVanillaPotionHUD)
         {
-            list.add(() -> RenderUtils.renderDurationTRPotion(this.minecraft, poseStack, mobEffectInstance, x, y, alpha));
+            list.add(() -> RenderUtils.renderPotionDurationOnTopRight(this.minecraft, poseStack, mobEffectInstance, x, y, alpha));
         }
     }
 }

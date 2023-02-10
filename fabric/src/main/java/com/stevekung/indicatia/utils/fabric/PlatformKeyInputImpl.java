@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.utils.fabric;
 
-import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.Indicatia;
 
 public class PlatformKeyInputImpl
 {

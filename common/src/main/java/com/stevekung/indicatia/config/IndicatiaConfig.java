@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.config;
 
-import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.Indicatia;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;

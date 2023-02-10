@@ -1,12 +1,11 @@
-package com.stevekung.indicatia.forge.core;
+package com.stevekung.indicatia.forge;
 
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import com.stevekung.indicatia.core.Indicatia;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -59,9 +58,11 @@ public class IndicatiaForge
     @SubscribeEvent
     public void initScreen(ScreenEvent.Init event)
     {
-        if (Indicatia.CONFIG.reloadResourcesButton && event.getScreen() instanceof PackSelectionScreen)
+        var screen = event.getScreen();
+
+        if (Indicatia.canAddReloadButton(screen))
         {
-            event.addListener(Indicatia.getReloadResourcesButton(event.getScreen(), event.getScreen().getMinecraft()));
+            event.addListener(Indicatia.getReloadResourcesButton(screen, screen.getMinecraft()));
         }
     }
 }

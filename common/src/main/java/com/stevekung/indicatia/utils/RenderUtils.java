@@ -12,7 +12,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class RenderUtils
 {
-    public static void renderDurationTRPotion(Minecraft minecraft, PoseStack poseStack, MobEffectInstance mobEffectInstance, int x, int y, float alpha)
+    public static void renderPotionDurationOnTopRight(Minecraft minecraft, PoseStack poseStack, MobEffectInstance mobEffectInstance, int x, int y, float alpha)
     {
         var ticks = Mth.floor((float) mobEffectInstance.getDuration());
         var text = Component.literal(StringUtil.formatTickDuration(ticks)).withStyle(Style.EMPTY.withFont(Minecraft.UNIFORM_FONT));

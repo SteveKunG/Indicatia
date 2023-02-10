@@ -3,7 +3,7 @@ package com.stevekung.indicatia.mixin.gui.screens;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.Indicatia;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.PauseScreen;

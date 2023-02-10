@@ -2,7 +2,7 @@ package com.stevekung.indicatia.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.stevekung.indicatia.core.Indicatia;
+import com.stevekung.indicatia.Indicatia;
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
