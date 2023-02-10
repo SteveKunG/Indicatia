@@ -4,9 +4,10 @@ import groovy.json.JsonSlurper
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "com.github.johnrengelman.shadow" version "7.1.2" apply false
-    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
     id "io.github.CDAGaming.cursegradle" version "1.6.0" apply false
     id "com.modrinth.minotaur" version "2.+" apply false
+    id "io.github.juuxel.loom-quiltflower" version "1.8.0" apply false
 }
 
 architectury {
@@ -17,15 +18,31 @@ subprojects {
     apply plugin: "dev.architectury.loom"
     apply plugin: "com.github.johnrengelman.shadow"
     apply plugin: "com.matthewprenger.cursegradle"
+    apply plugin: "com.modrinth.minotaur"
+    apply plugin: "io.github.juuxel.loom-quiltflower"
 
     loom {
         silentMojangMappingsLicense()
+    }
+
+    quiltflower {
+        preferences {
+            // Max line length before formatting
+            pll = 32767
+
+            // Indentation string
+            ind = "    "
+        }
+        quiltflowerVersion = "1.9.0"
     }
 
     repositories {
         maven {
             name "ParchmentMC"
             url "https://maven.parchmentmc.org"
+            content {
+                includeGroup "org.parchmentmc.data"
+            }
         }
     }
 
@@ -60,9 +77,11 @@ allprojects {
         }
     }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 17
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+            options.release = 17
+        }
     }
 
     java {
@@ -70,18 +89,21 @@ allprojects {
     }
 }
 
-task curseforgeModrinthFabric(dependsOn: [
-        ":fabric:modrinth",
-        ":fabric:curseforge"
-], group: "publishing")
+tasks.register("curseforgeModrinthFabric") {
+    group "publishing"
+    dependsOn ":fabric:modrinth"
+    dependsOn ":fabric:curseforge"
+}
 
-task curseforgeModrinthForge(dependsOn: [
-        ":forge:modrinth",
-        ":forge:curseforge"
-], group: "publishing")
+tasks.register("curseforgeModrinthForge") {
+    group "publishing"
+    dependsOn ":forge:modrinth"
+    dependsOn ":forge:curseforge"
+}
 
 if (project.hasProperty("version_lib_dir")) {
-    task updateVersionLib(group: "publishing") {
+    tasks.register("updateVersionLib") {
+        group "publishing"
         def versionFile = file("${version_lib_dir}/indicatia_version.json")
         def jsonBuilder = new JsonBuilder(new JsonSlurper().parseText(versionFile.text))
         def jsonElement = jsonBuilder.content
