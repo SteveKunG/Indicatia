@@ -2,4 +2,5 @@
 
 ### Please report if you found the issues!
 
-* Update to 1.19.3
+* Display reload button only on resource pack selection screen
+* Open parent screen (Pause screen) when close advancement screen
