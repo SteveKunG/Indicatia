@@ -4,8 +4,6 @@ architectury {
 }
 
 loom {
-    clientOnlyMinecraftJar()
-
     runs {
         client {
             property "mixin.debug.export", "true"
