@@ -4,8 +4,6 @@ architectury {
 }
 
 loom {
-    clientOnlyMinecraftJar()
-
     forge {
         mixinConfigs = ["mixins.indicatia.json", "mixins.indicatia_forge.json"]
     }
