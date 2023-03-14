@@ -1,6 +1,8 @@
 package com.stevekung.indicatia.utils;
 
+import net.minecraft.client.gui.screens.Screen;
+
 public interface OpenFromParent
 {
-    void setOpen(boolean open);
+    void setParent(Screen parent);
 }
