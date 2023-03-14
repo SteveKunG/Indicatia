@@ -17,8 +17,6 @@ import net.minecraft.network.chat.Component;
 @Mixin(PauseScreen.class)
 public class MixinPauseScreen extends Screen
 {
-    private static final Component TITLE = Component.translatable("menu.confirm_disconnect");
-
     MixinPauseScreen()
     {
         super(null);
@@ -37,7 +35,7 @@ public class MixinPauseScreen extends Screen
             {
                 this.minecraft.setScreen(this);
             }
-        }, TITLE, Component.empty(), CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
+        }, Component.translatable("menu.confirm_disconnect"), Component.empty(), CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
     }
 
     @SuppressWarnings("target")
@@ -45,7 +43,7 @@ public class MixinPauseScreen extends Screen
     private AdvancementsScreen indicatia$setParentScreen(ClientAdvancements advancements)
     {
         var screen = new AdvancementsScreen(advancements);
-        ((OpenFromParent)screen).setOpen(true);
+        ((OpenFromParent)screen).setParent(this);
         return screen;
     }
 }

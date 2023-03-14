@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.stevekung.indicatia.utils.OpenFromParent;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 
@@ -14,7 +13,7 @@ import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 public class MixinAdvancementsScreen extends Screen implements OpenFromParent
 {
     @Unique
-    private boolean open;
+    private Screen parent;
 
     MixinAdvancementsScreen()
     {
@@ -24,17 +23,16 @@ public class MixinAdvancementsScreen extends Screen implements OpenFromParent
     @Inject(method = "keyPressed", cancellable = true, at = @At("HEAD"))
     private void indicatia$openParentScreen(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> info)
     {
-        if (this.open)
+        if (this.parent != null)
         {
-            var showPauseMenu = this.minecraft.hasSingleplayerServer() && !this.minecraft.getSingleplayerServer().isPublished();
-            this.minecraft.setScreen(new PauseScreen(showPauseMenu));
+            this.minecraft.setScreen(this.parent);
             info.setReturnValue(true);
         }
     }
 
     @Override
-    public void setOpen(boolean open)
+    public void setParent(Screen parent)
     {
-        this.open = open;
+        this.parent = parent;
     }
 }
