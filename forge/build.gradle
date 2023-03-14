@@ -17,6 +17,9 @@ loom {
                 property "devauth.configDir", "${devauth_dir}"
             }
         }
+        server {
+            ideConfigGenerated = false
+        }
     }
 
     mixin {
