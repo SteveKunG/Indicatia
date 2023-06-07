@@ -18,4 +18,6 @@ public final class IndicatiaConfig implements ConfigData
     public boolean enableEnchantedRenderingOnSkull = true;
     @Comment("Enable reload resources button on a pack selection screen.")
     public boolean reloadResourcesButton = true;
+    @Comment("Recipe Book will save your last search.")
+    public boolean savedLastSearchInRecipeBook = true;
 }

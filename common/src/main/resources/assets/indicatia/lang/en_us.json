@@ -5,6 +5,7 @@
   "text.autoconfig.indicatia.option.confirmationOnDisconnect": "Enable Confirmation on Disconnect",
   "text.autoconfig.indicatia.option.enableEnchantedRenderingOnSkull": "Enable Enchanted Effect on Skull",
   "text.autoconfig.indicatia.option.reloadResourcesButton": "Enable Reload resources button",
+  "text.autoconfig.indicatia.option.savedLastSearchInRecipeBook": "Enable Saved Last Search in Recipe Book",
   "key.alt_open_chat": "Alternate Open Chat",
   "menu.confirm_disconnect": "Do you want to disconnect?",
   "menu.reload_resources": "Reload resources"
