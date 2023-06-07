@@ -16,6 +16,7 @@ import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.MobEffectTextureManager;
 import net.minecraft.world.effect.MobEffect;
@@ -29,11 +30,11 @@ public class MixinGui
     Minecraft minecraft;
 
     @Inject(method = "renderEffects", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void indicatia$addPotionTime(PoseStack poseStack, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int n, int o, float g)
+    private void indicatia$addPotionTime(GuiGraphics guiGraphics, CallbackInfo info, Collection<MobEffectInstance> collection, int i, int j, MobEffectTextureManager mobEffectTextureManager, List<Runnable> list, Iterator<MobEffectInstance> iterator, MobEffectInstance mobEffectInstance, MobEffect mobEffect, int x, int y, float alpha, TextureAtlasSprite textureAtlasSprite, int n, int o, float g)
     {
         if (Indicatia.CONFIG.timeOnVanillaPotionHUD)
         {
-            list.add(() -> RenderUtils.renderPotionDurationOnTopRight(this.minecraft, poseStack, mobEffectInstance, x, y, alpha));
+            list.add(() -> RenderUtils.renderPotionDurationOnTopRight(this.minecraft, guiGraphics, mobEffectInstance, x, y, alpha));
         }
     }
 }

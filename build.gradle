@@ -65,6 +65,13 @@ allprojects {
             }
         }
         maven {
+            name "Modrinth Maven"
+            url "https://api.modrinth.com/maven"
+            content {
+                includeGroup "maven.modrinth"
+            }
+        }
+        maven {
             name "DevAuth"
             url "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
         }
