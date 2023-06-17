@@ -135,7 +135,7 @@ curseforge {
         addGameVersion project.mc_version
 
         mainArtifact(remapJar.archiveFile) {
-            it.displayName = "[Fabric] " + fileName + "-v${project.version}"
+            it.displayName = "[Fabric ${project.mc_version}] Indicatia v${mod_version}"
         }
         relations {
             it.requiredDependency "fabric-api"
@@ -160,7 +160,7 @@ modrinth {
     projectId = "indicatia"
     changelog = rootProject.file("CHANGE_LOG.md").text
     syncBodyFrom = rootProject.file("README.md").text
-    versionName = "[Fabric] Indicatia " + "v${mod_version}" + " for Minecraft " + project.mc_version
+    versionName = "[Fabric ${project.mc_version}] Indicatia v${mod_version}"
     versionNumber = project.mod_version + "-fabric"
     versionType = "release"
     uploadFile = remapJar
