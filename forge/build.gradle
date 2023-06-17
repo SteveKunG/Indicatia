@@ -38,7 +38,7 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    modRuntimeOnly "curse.maven:configured-457570:${configured_version}"
+//    modRuntimeOnly "curse.maven:configured-457570:${configured_version}"TODO
     modRuntimeOnly "curse.maven:catalogue-459701:${catalogue_version}"
     modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${devauth_version}"
     modImplementation "me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}"
