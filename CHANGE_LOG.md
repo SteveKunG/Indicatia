@@ -1,5 +1,4 @@
 # Change Log
 
-### Please report if you found the issues!
-
-* Fix close advancements screen does not open previous screen properly
+* Update to support 1.20/1.20.1
+* Added Saved Last Search in recipe book feature
