@@ -7,6 +7,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
@@ -18,7 +19,7 @@ public class Indicatia
     public static KeyMapping KEY_ALT_OPEN_CHAT;
     public static IndicatiaConfig CONFIG;
 
-    private static final ResourceLocation RELOAD_TEXTURE = new ResourceLocation(MOD_ID, "textures/gui/reload.png");
+    private static final WidgetSprites RELOAD_BUTTON_SPRITES = new WidgetSprites(new ResourceLocation(MOD_ID, "widget/reload"), new ResourceLocation(MOD_ID, "widget/reload_highlighted"));
     private static final Component RELOAD_COMPONENT = Component.translatable("menu.reload_resources");
 
     public static void initConfig()
@@ -34,7 +35,7 @@ public class Indicatia
 
     public static ImageButton getReloadResourcesButton(Screen screen, Minecraft minecraft)
     {
-        var imageButton = new ImageButton(screen.width / 2 + 155, screen.height - 48, 20, 20, 0, 0, 20, Indicatia.RELOAD_TEXTURE, 32, 64, button -> minecraft.reloadResourcePacks(), Indicatia.RELOAD_COMPONENT);
+        var imageButton = new ImageButton(screen.width / 2 + 155, screen.height - 48, 20, 20, RELOAD_BUTTON_SPRITES, button -> minecraft.reloadResourcePacks(), Indicatia.RELOAD_COMPONENT);
         imageButton.setTooltip(Tooltip.create(RELOAD_COMPONENT));
         return imageButton;
     }
