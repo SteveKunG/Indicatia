@@ -38,8 +38,7 @@ public class MixinPauseScreen extends Screen
         }, Component.translatable("menu.confirm_disconnect"), Component.empty(), CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : onPress);
     }
 
-    @SuppressWarnings("target")
-    @Redirect(method = "method_47896()Lnet/minecraft/client/gui/screens/Screen;", at = @At(value = "NEW", target = "net/minecraft/client/gui/screens/advancements/AdvancementsScreen"))
+    @Redirect(method = "method_47896", at = @At(value = "NEW", target = "net/minecraft/client/gui/screens/advancements/AdvancementsScreen"))
     private AdvancementsScreen indicatia$setParentScreen(ClientAdvancements advancements)
     {
         var screen = new AdvancementsScreen(advancements);

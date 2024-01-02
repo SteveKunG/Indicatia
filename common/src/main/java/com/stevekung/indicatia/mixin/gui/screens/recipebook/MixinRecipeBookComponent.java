@@ -5,12 +5,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.PlatformKeyInput;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 
@@ -23,8 +22,9 @@ public abstract class MixinRecipeBookComponent
     @Shadow
     String lastSearch;
 
+    @SuppressWarnings("SameParameterValue")
     @Shadow
-    abstract void updateCollections(boolean bl);
+    abstract void updateCollections(boolean resetPageNumber);
 
     private static String lastSearchStatic = "";
 
@@ -46,10 +46,10 @@ public abstract class MixinRecipeBookComponent
         }
     }
 
-    @Redirect(method = "mouseClicked", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.mouseClicked(DDI)Z", ordinal = 0))
-    private boolean indicatia$rightClickClearText(EditBox editBox, double mouseX, double mouseY, int button)
+    @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.mouseClicked(DDI)Z", ordinal = 0))
+    private boolean indicatia$rightClickClearText(boolean original, double mouseX, double mouseY, int button)
     {
-        var inBox = mouseX >= (double) editBox.getX() && mouseX < (double) (editBox.getX() + editBox.getWidth()) && mouseY >= (double) editBox.getY() && mouseY < (double) (editBox.getY() + editBox.getHeight());
+        var inBox = mouseX >= (double) this.searchBox.getX() && mouseX < (double) (this.searchBox.getX() + this.searchBox.getWidth()) && mouseY >= (double) this.searchBox.getY() && mouseY < (double) (this.searchBox.getY() + this.searchBox.getHeight());
 
         if (Indicatia.CONFIG.savedLastSearchInRecipeBook && !this.searchBox.getValue().isEmpty() && inBox && button == 1)
         {
@@ -58,12 +58,13 @@ public abstract class MixinRecipeBookComponent
             lastSearchStatic = "";
             this.updateCollections(false);
         }
-        return editBox.mouseClicked(mouseX, mouseY, button);
+        return original;
     }
 
-    @Redirect(method = "keyPressed", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(II)Z"))
-    private boolean indicatia$addAltChatKey(KeyMapping key, int keysym, int scancode)
+    @SuppressWarnings("ConstantValue")
+    @ModifyExpressionValue(method = "keyPressed", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(II)Z"))
+    private boolean indicatia$addAltChatKey(boolean original, int keyCode, int scanCode)
     {
-        return key.matches(keysym, scancode) || PlatformKeyInput.isAltChatMatches(keysym, scancode);
+        return original || PlatformKeyInput.isAltChatMatches(keyCode, scanCode);
     }
 }

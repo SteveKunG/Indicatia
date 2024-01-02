@@ -43,6 +43,9 @@ dependencies {
     modRuntimeOnly "me.djtheredstoner:DevAuth-forge-latest:${devauth_version}"
     modImplementation "me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}"
 
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    implementation(include("io.github.llamalad7:mixinextras-forge:${mixinextras_version}"))
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
