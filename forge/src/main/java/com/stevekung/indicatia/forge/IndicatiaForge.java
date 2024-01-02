@@ -18,7 +18,6 @@ import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkConstants;
 
 @Mod(Indicatia.MOD_ID)
 public class IndicatiaForge
@@ -43,7 +42,7 @@ public class IndicatiaForge
 
     public IndicatiaForge()
     {
-        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (remote, isServer) -> true));
+        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> IExtensionPoint.DisplayTest.IGNORESERVERONLY, (remote, isServer) -> true));
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterKey);
         MinecraftForge.EVENT_BUS.register(this);
         Indicatia.initConfig();
