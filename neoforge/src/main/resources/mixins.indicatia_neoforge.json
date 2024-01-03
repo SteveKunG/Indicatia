@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_17",
+  "package": "com.stevekung.indicatia.neoforge.mixin",
+  "client": [
+    "gui.MixinGui"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

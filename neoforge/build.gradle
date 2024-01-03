@@ -1,0 +1,156 @@
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+
+loom {
+    runs {
+        client {
+            property "mixin.debug.export", "true"
+            property "mixin.hotSwap", "true"
+
+            if (project.hasProperty("devauth_dir")) {
+                property "devauth.configDir", "${devauth_dir}"
+            }
+        }
+        server {
+            ideConfigGenerated = false
+        }
+    }
+
+    mixin {
+        useLegacyMixinAp = true
+        defaultRefmapName = "mixins.indicatia_neoforge.refmap.json"
+    }
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+}
+
+repositories {
+    maven { url "https://maven.neoforged.net/releases/" }
+}
+
+dependencies {
+    neoForge "net.neoforged:neoforge:${neoforge_version}"
+
+    modRuntimeOnly "me.djtheredstoner:DevAuth-neoforge:${devauth_version}"
+    modImplementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixinextras_version}"))
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
+}
+
+processResources {
+    inputs.property "version", mod_version
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": mod_version
+    }
+}
+
+String fileName = "${archives_base_name}-mc${mc_version}"
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = "dev"
+    archiveVersion = "v${mod_version}"
+    archiveBaseName = fileName
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    commonSources.exclude ".cache"
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+remapSourcesJar {
+    archiveVersion = "v${mod_version}"
+    archiveBaseName = fileName
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier = "neoforge"
+    archiveVersion = "v${mod_version}"
+    archiveBaseName = fileName
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+//TODO https://github.com/SpongePowered/Mixin/issues/408
+/*afterEvaluate {
+    loom {
+        runs {
+            configureEach {
+                def mixinJarFile = configurations.compileClasspath.files { it.name == "mixin-patched" }.first()
+                vmArg("-javaagent:$mixinJarFile")
+            }
+        }
+    }
+}*/
+
+def uploadDebug = true
+
+curseforge {
+    apiKey = project.hasProperty("curseforge_api_token") ? project.curseforge_api_token : ""
+    project {
+        id = "272146"
+        changelog = rootProject.file("CHANGE_LOG.md")
+        changelogType = "markdown"
+        releaseType = "release"
+        addGameVersion "NeoForge"
+        addGameVersion "Java 17"
+        addGameVersion project.mc_version
+
+        mainArtifact(remapJar.archiveFile) {
+            it.displayName = "[NeoForge ${project.mc_version}] Indicatia v${mod_version}"
+        }
+        relations {
+            it.requiredDependency "cloth-config"
+            it.optionalDependency "configured"
+        }
+        afterEvaluate {
+            uploadTask.dependsOn(remapJar)
+        }
+        addArtifact shadowJar
+        addArtifact remapSourcesJar
+    }
+    options {
+        debug uploadDebug
+        forgeGradleIntegration = false
+    }
+}
+
+modrinth {
+    debugMode = uploadDebug
+    token = project.hasProperty("modrinth_api_token") ? project.modrinth_api_token : ""
+    projectId = "indicatia"
+    changelog = rootProject.file("CHANGE_LOG.md").text
+    syncBodyFrom = rootProject.file("README.md").text
+    versionName = "[NeoForge ${project.mc_version}] Indicatia v${mod_version}"
+    versionNumber = project.mod_version + "-neoforge"
+    versionType = "release"
+    uploadFile = remapJar
+    additionalFiles = [shadowJar, remapSourcesJar]
+    gameVersions = ["${mc_version}"]
+    loaders = ["neoforge"]
+    dependencies {
+        required.project "cloth-config"
+    }
+}
