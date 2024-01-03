@@ -69,7 +69,6 @@ shadowJar {
 sourcesJar {
     def commonSources = project(":common").sourcesJar
     dependsOn commonSources
-    commonSources.exclude ".cache"
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
     from commonSources.archiveFile.map { zipTree(it) }
 }
@@ -123,7 +122,6 @@ curseforge {
         }
         relations {
             it.requiredDependency "cloth-config"
-            it.optionalDependency "configured"
         }
         afterEvaluate {
             uploadTask.dependsOn(remapJar)

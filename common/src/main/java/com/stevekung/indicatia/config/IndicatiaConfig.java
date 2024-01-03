@@ -3,21 +3,26 @@ package com.stevekung.indicatia.config;
 import com.stevekung.indicatia.Indicatia;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = Indicatia.MOD_ID)
 public final class IndicatiaConfig implements ConfigData
 {
-    @Comment("This allowed to use Numpad Enter key to open the chat.")
+    @ConfigEntry.Gui.Tooltip
     public boolean enableAlternateChatKey = true;
-    @Comment("Display potion duration time on top right Potion HUD.")
-    public boolean timeOnVanillaPotionHUD = true;
-    @Comment("Enable confirmation screen on pressing disconnect button.")
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean displayPotionDurationOnTopRightPotionHUD = true;
+
+    @ConfigEntry.Gui.Tooltip
     public boolean confirmationOnDisconnect = true;
-    @Comment("Enable enchant effect rendering on skull.")
-    public boolean enableEnchantedRenderingOnSkull = true;
-    @Comment("Enable reload resources button on a pack selection screen.")
-    public boolean reloadResourcesButton = true;
-    @Comment("Recipe Book will save your last search.")
-    public boolean savedLastSearchInRecipeBook = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableEnchantedRenderingOnSkulls = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean enableReloadResourcesButton = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean saveLastSearchInRecipeBook = true;
 }

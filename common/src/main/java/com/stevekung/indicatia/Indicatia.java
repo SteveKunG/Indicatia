@@ -30,7 +30,7 @@ public class Indicatia
 
     public static boolean canAddReloadButton(Screen screen)
     {
-        return Indicatia.CONFIG.reloadResourcesButton && screen instanceof PackSelectionScreen && screen.getTitle().equals(Component.translatable("resourcePack.title"));
+        return Indicatia.CONFIG.enableReloadResourcesButton && screen instanceof PackSelectionScreen && screen.getTitle().equals(Component.translatable("resourcePack.title"));
     }
 
     public static ImageButton getReloadResourcesButton(Screen screen, Minecraft minecraft)

@@ -20,7 +20,7 @@ public class MixinGui
     @Inject(method = "renderEffects", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void indicatia$addPotionTime(GuiGraphics guiGraphics, CallbackInfo info, @Local List<Runnable> list, @Local MobEffectInstance mobEffectInstance, @Local(index = 12, ordinal = 2) int x, @Local(index = 13, ordinal = 3) int y, @Local(index = 17, ordinal = 1) float alpha)
     {
-        if (Indicatia.CONFIG.timeOnVanillaPotionHUD)
+        if (Indicatia.CONFIG.displayPotionDurationOnTopRightPotionHUD)
         {
             list.add(() -> RenderUtils.renderPotionDurationOnTopRight(Gui.class.cast(this).getFont(), guiGraphics, mobEffectInstance, x, y, alpha));
         }

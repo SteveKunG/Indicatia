@@ -11,7 +11,7 @@ public class PlatformKeyInput
     }
 
     @ExpectPlatform
-    public static boolean isAltChatMatches(int keysym, int scancode)
+    public static boolean isAltChatMatches(int keyCode, int scanCode)
     {
         throw new AssertionError();
     }

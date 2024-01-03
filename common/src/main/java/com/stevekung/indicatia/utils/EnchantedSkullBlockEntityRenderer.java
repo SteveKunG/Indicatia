@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 
-public class EnchantedSkullTileEntityRenderer
+public class EnchantedSkullBlockEntityRenderer
 {
     public static void render(GameProfile gameProfile, float rotationYaw, float mouthAnimation, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, SkullModelBase skullModelBase, RenderType renderType, boolean glint)
     {
