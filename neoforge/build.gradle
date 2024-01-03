@@ -17,11 +17,6 @@ loom {
             ideConfigGenerated = false
         }
     }
-
-    mixin {
-        useLegacyMixinAp = true
-        defaultRefmapName = "mixins.indicatia_neoforge.refmap.json"
-    }
 }
 
 configurations {
