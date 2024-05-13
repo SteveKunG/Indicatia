@@ -9,7 +9,6 @@ import net.minecraft.client.KeyMapping;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.client.ConfigScreenHandler;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
@@ -41,7 +40,7 @@ public class IndicatiaNeoForge
 
     public IndicatiaNeoForge()
     {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterKey);
+        ModLoadingContext.get().getActiveContainer().getEventBus().addListener(this::onRegisterKey);
         NeoForge.EVENT_BUS.register(this);
         Indicatia.initConfig();
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> AutoConfig.getConfigScreen(IndicatiaConfig.class, screen).get()));
