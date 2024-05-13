@@ -6,7 +6,7 @@ loom {
         vmArgs project.commonVmArgs
         vmArgs project.hotswapVmArgs
     }
-    
+
     runs {
         client {
             if (project.hasProperty("usernameAndUUID")) {
@@ -49,57 +49,4 @@ remapJar {
     archiveClassifier = "fabric"
     archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
-}
-
-def uploadDebug = true
-
-curseforge {
-    apiKey = project.hasProperty("curseforge_api_token") ? curseforge_api_token : ""
-    project {
-        id = "272146"
-        changelog = rootProject.file("CHANGE_LOG.md")
-        changelogType = "markdown"
-        releaseType = "release"
-        addGameVersion "Fabric"
-        addGameVersion "Java ${java_version}"
-        addGameVersion minecraft_version
-
-        mainArtifact(remapJar.archiveFile) {
-            it.displayName = "[Fabric ${minecraft_version}] Indicatia v${mod_version}"
-        }
-        relations {
-            it.requiredDependency "fabric-api"
-            it.requiredDependency "cloth-config"
-            it.optionalDependency "modmenu"
-        }
-        afterEvaluate {
-            uploadTask.dependsOn(remapJar)
-        }
-        addArtifact shadowJar
-        addArtifact remapSourcesJar
-    }
-    options {
-        debug uploadDebug
-        forgeGradleIntegration = false
-    }
-}
-
-modrinth {
-    debugMode = uploadDebug
-    token = project.hasProperty("modrinth_api_token") ? modrinth_api_token : ""
-    projectId = "indicatia"
-    changelog = rootProject.file("CHANGE_LOG.md").text
-    syncBodyFrom = rootProject.file("README.md").text
-    versionName = "[Fabric ${minecraft_version}] Indicatia v${mod_version}"
-    versionNumber = project.mod_version + "-fabric"
-    versionType = "release"
-    uploadFile = remapJar
-    additionalFiles = [shadowJar, remapSourcesJar]
-    gameVersions = ["${minecraft_version}"]
-    loaders = ["fabric"]
-    dependencies {
-        required.project "fabric-api"
-        required.project "cloth-config"
-        optional.project "modmenu"
-    }
 }
