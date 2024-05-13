@@ -1,20 +1,5 @@
-architectury {
-    common(project.enabled_platforms.split(","))
-}
-
-loom {
-    mixin {
-        defaultRefmapName = "mixins.indicatia.refmap.json"
-    }
-}
+apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/architectury/common.gradle"
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-
-    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
-        exclude group: "net.fabricmc.fabric-api"
-        exclude group: "net.fabricmc", module: "fabric-loader"
-    }
-
     implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${mixinsquared_version}"))
 }
