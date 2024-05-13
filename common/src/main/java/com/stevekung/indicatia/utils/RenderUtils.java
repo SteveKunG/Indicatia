@@ -11,11 +11,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class RenderUtils
 {
-    public static void renderPotionDurationOnTopRight(Font font, GuiGraphics guiGraphics, MobEffectInstance mobEffectInstance, int x, int y, float alpha)
+    public static void renderPotionDurationOnTopRight(Font font, GuiGraphics guiGraphics, MobEffectInstance mobEffectInstance, int x, int y, float alpha, float ticksPerSecond)
     {
         var isInfinite = mobEffectInstance.isInfiniteDuration();
         var ticks = Mth.floor((float) mobEffectInstance.getDuration());
-        var component = isInfinite ? Component.translatable("effect.duration.infinite") : Component.literal(StringUtil.formatTickDuration(ticks));
+        var component = isInfinite ? Component.translatable("effect.duration.infinite") : Component.literal(StringUtil.formatTickDuration(ticks, ticksPerSecond));
         var text = component.withStyle(Style.EMPTY.withFont(isInfinite ? null : Minecraft.UNIFORM_FONT));
         var color = 0xFFFFFF | Mth.floor(alpha * 255.0F) << 24 & 0xFF000000;
         guiGraphics.drawCenteredString(font, text, x + 12, y + 15, color);
