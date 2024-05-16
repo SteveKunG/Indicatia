@@ -1,6 +1,6 @@
 {
   "pack": {
-    "pack_format": 18,
-    "description": "Indicatia resources"
+    "description": "Indicatia resources",
+    "pack_format": 22
   }
 }
