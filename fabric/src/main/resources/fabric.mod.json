@@ -26,8 +26,8 @@
   "depends": {
     "fabricloader": ">=0.15",
     "fabric": ">=0.97",
-    "cloth-config": ">=13.0",
-    "minecraft": "1.20.4"
+    "cloth-config": ">=14.0",
+    "minecraft": "1.20.6"
   },
   "mixins": [
     "mixins.indicatia.json",

@@ -19,6 +19,17 @@ loom {
     }
 }
 
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            version: version
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
 String fileName = "${archives_base_name}-mc${minecraft_version}"
 
 shadowJar {

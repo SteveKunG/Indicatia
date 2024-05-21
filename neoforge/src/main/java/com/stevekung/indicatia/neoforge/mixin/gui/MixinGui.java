@@ -25,7 +25,7 @@ public class MixinGui
     Minecraft minecraft;
 
     @Inject(method = "renderEffects", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void indicatia$addPotionTime(GuiGraphics guiGraphics, CallbackInfo info, @Local List<Runnable> list, @Local MobEffectInstance mobEffectInstance, @Local(index = 12, ordinal = 2) int x, @Local(index = 13, ordinal = 3) int y, @Local(index = 17, ordinal = 1) float alpha)
+    private void indicatia$addPotionTime(GuiGraphics guiGraphics, float partialTick, CallbackInfo info, @Local List<Runnable> list, @Local MobEffectInstance mobEffectInstance, @Local(index = 12, ordinal = 2) int x, @Local(index = 13, ordinal = 3) int y, @Local(index = 14, ordinal = 1) float alpha)
     {
         if (Indicatia.CONFIG.displayPotionDurationOnTopRightPotionHUD)
         {

@@ -7,7 +7,6 @@
   "client": [
     "gui.screens.inventory.MixinCreativeModeInventoryScreen",
     "gui.screens.recipebook.MixinRecipeBookComponent",
-    "gui.screens.MixinAdvancementsScreen",
     "gui.screens.MixinPauseScreen",
     "renderer.entity.layers.MixinCustomHeadLayer",
     "renderer.MixinBlockEntityWithoutLevelRenderer",

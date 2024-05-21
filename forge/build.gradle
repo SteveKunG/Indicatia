@@ -27,6 +27,11 @@ dependencies {
     implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-forge:${mixinsquared_version}"))
 }
 
+// TODO Temporary exclude cloth-config for forge
+configurations.modImplementation {
+    exclude group: "me.shedaniel.cloth"
+}
+
 String fileName = "${archives_base_name}-mc${minecraft_version}"
 
 shadowJar {
