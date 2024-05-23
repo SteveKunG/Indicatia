@@ -20,7 +20,7 @@ public class MixinSkullBlockRenderer
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
-            return EnchantedSkullItemCache.lastGameProfile == null ? ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBufferDirect(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext);
+            return EnchantedSkullItemCache.lastGameProfile == null ? ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBufferDirect(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext);
         }
         return original;
     }

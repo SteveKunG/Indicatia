@@ -19,7 +19,7 @@ public class Indicatia
     public static KeyMapping KEY_ALT_OPEN_CHAT;
     public static IndicatiaConfig CONFIG;
 
-    private static final WidgetSprites RELOAD_BUTTON_SPRITES = new WidgetSprites(new ResourceLocation(MOD_ID, "widget/reload"), new ResourceLocation(MOD_ID, "widget/reload_highlighted"));
+    private static final WidgetSprites RELOAD_BUTTON_SPRITES = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/reload"), ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/reload_highlighted"));
     private static final Component RELOAD_COMPONENT = Component.translatable("menu.reload_resources");
 
     public static void initConfig()
