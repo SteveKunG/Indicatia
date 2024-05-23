@@ -20,10 +20,7 @@ public class MixinBlockEntityWithoutLevelRenderer
     @Inject(method = "renderByItem", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V"))
     private void indicatia$storeEnchantedCachePre(ItemStack itemStack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, CallbackInfo info, @Local @Nullable ResolvableProfile resolvableProfile)
     {
-        if (resolvableProfile != null)
-        {
-            EnchantedSkullItemCache.preCache(resolvableProfile.gameProfile(), itemStack.hasFoil());
-        }
+        EnchantedSkullItemCache.preCache(resolvableProfile, itemStack.hasFoil());
     }
 
     @Inject(method = "renderByItem", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V", shift = At.Shift.AFTER))

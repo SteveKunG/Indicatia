@@ -20,10 +20,7 @@ public class MixinCustomHeadLayer
     @Inject(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V"))
     private void indicatia$storeEnchantedCachePre(PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo info, @Local ItemStack itemStack, @Local @Nullable ResolvableProfile resolvableProfile)
     {
-        if (resolvableProfile != null)
-        {
-            EnchantedSkullItemCache.preCache(resolvableProfile.gameProfile(), itemStack.hasFoil());
-        }
+        EnchantedSkullItemCache.preCache(resolvableProfile, itemStack.hasFoil());
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.renderSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;)V", shift = At.Shift.AFTER))
