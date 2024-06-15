@@ -19,15 +19,8 @@ loom {
     }
 }
 
-tasks.withType(ProcessResources).configureEach {
-    var replaceProperties = [
-            version: version
-    ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/neoforge.mods.toml']) {
-        expand replaceProperties
-    }
+dependencies {
+    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:${mixinsquared_version}")))
 }
 
 String fileName = "${archives_base_name}-mc${minecraft_version}"

@@ -1,2 +1,1 @@
-* Added fully NeoForge support
-* Update MixinExtras and MixinSquared
+* Update to 1.20.6
