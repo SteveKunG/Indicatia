@@ -21,6 +21,9 @@ loom {
 
 dependencies {
     include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:${mixinsquared_version}")))
+    include(implementation("com.github.Fallen-Breath.conditional-mixin:conditional-mixin-neoforge:${conditional_mixin_version}")) {
+        exclude group: "net.fabricmc", module: "fabric-loader"
+    }
 }
 
 String fileName = "${archives_base_name}-mc${minecraft_version}"
