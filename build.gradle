@@ -13,6 +13,16 @@ allprojects {
         maven {
             name "MixinSquared"
             url "https://jitpack.io"
+            content {
+                includeGroup "com.github.bawnorton.mixinsquared"
+            }
+        }
+        maven {
+            name "ConditionalMixin"
+            url "https://maven.fallenbreath.me/releases"
+            content {
+                includeGroup "me.fallenbreath"
+            }
         }
     }
 }

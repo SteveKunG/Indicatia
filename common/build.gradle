@@ -2,4 +2,7 @@ apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/arch
 
 dependencies {
     implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${mixinsquared_version}"))
+    implementation("me.fallenbreath:conditional-mixin-fabric:${conditional_mixin_version}") {
+        exclude group: "net.fabricmc", module: "fabric-loader"
+    }
 }

@@ -8,12 +8,15 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.EnchantedSkullItemCache;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 
 @Mixin(value = SkullBlockRenderer.class, priority = 1100)
+@Restriction(require = @Condition("skinlayers3d"))
 public class MixinSkullBlockRenderer_3DSkinLayers
 {
     @TargetHandler(mixin = "dev.tr7zw.skinlayers.mixin.SkullBlockEntityRendererMixin", name = "renderSkull", prefix = "handler")
