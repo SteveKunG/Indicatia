@@ -25,7 +25,10 @@ public abstract class MixinRecipeBookComponent
 
     @SuppressWarnings("SameParameterValue")
     @Shadow
-    abstract void updateCollections(boolean resetPageNumber);
+    abstract void updateCollections(boolean resetPageNumber, boolean filtering);
+
+    @Shadow
+    abstract boolean isFiltering();
 
     @Unique
     private static String lastSearchStatic = "";
@@ -58,7 +61,7 @@ public abstract class MixinRecipeBookComponent
             this.searchBox.setValue("");
             this.lastSearch = "";
             lastSearchStatic = "";
-            this.updateCollections(false);
+            this.updateCollections(false, this.isFiltering());
         }
         return original;
     }

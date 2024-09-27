@@ -25,7 +25,7 @@ public class MixinSkullBlockRenderer_3DSkinLayers
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
-            return EnchantedSkullItemCache.lastResolvableProfile == null ? ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBufferDirect(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext);
+            return EnchantedSkullItemCache.lastResolvableProfile == null ? ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBuffer(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext);
         }
         return original;
     }
