@@ -9,7 +9,7 @@
     "gui.screens.recipebook.MixinRecipeBookComponent",
     "gui.screens.MixinPauseScreen",
     "renderer.entity.layers.MixinCustomHeadLayer",
-    "renderer.MixinBlockEntityWithoutLevelRenderer",
+    "renderer.MixinSkullSpecialRenderer",
     "renderer.MixinSkullBlockRenderer",
     "renderer.MixinSkullBlockRenderer_3DSkinLayers",
     "MixinMinecraft"
