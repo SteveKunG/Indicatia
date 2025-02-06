@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "indicatia",
+  "id": "${mod_id}",
   "version": "${version}",
-  "name": "Indicatia",
-  "description": "A small quality of life mod!",
+  "name": "${display_name}",
+  "description": "${mod_description}",
   "authors": [
     "SteveKunG"
   ],
@@ -24,10 +24,10 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.15",
-    "fabric": ">=0.100",
-    "cloth-config": ">=15.0",
-    "minecraft": ">=1.21"
+    "fabricloader": ">=0.16",
+    "fabric": ">=0.115",
+    "cloth-config": ">=17.0",
+    "minecraft": ">=1.21.4"
   },
   "mixins": [
     "mixins.indicatia.json",

@@ -4,10 +4,10 @@ license = "MIT"
 issueTrackerURL = "https://github.com/SteveKunG/Indicatia/issues"
 
 [[mods]]
-modId = "indicatia"
+modId = "${mod_id}"
 version = "${version}"
-displayName = "Indicatia"
-description = "A small quality of life mod!"
+displayName = "${display_name}"
+description = "${mod_description}"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/indicatia"
 updateJSONURL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
 logoFile = "logo.png"
@@ -22,20 +22,20 @@ config = "mixins.indicatia_neoforge.json"
 [[dependencies.indicatia]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0,)"
+versionRange = "[21.4,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[15.0,)"
+versionRange = "[17.0,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "CLIENT"
