@@ -38,7 +38,7 @@ shadowJar {
 sourcesJar {
     Jar commonSources = project(":common").sourcesJar
     dependsOn commonSources
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from commonSources.archiveFile.map { zipTree(it) }
 }
 

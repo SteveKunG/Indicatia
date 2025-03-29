@@ -11,15 +11,15 @@ apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/arch
 allprojects {
     repositories {
         maven {
-            name "MixinSquared"
-            url "https://jitpack.io"
+            name = "MixinSquared"
+            url = "https://jitpack.io"
             content {
                 includeGroup "com.github.bawnorton.mixinsquared"
             }
         }
         maven {
-            name "ConditionalMixin"
-            url "https://maven.fallenbreath.me/releases"
+            name = "ConditionalMixin"
+            url = "https://maven.fallenbreath.me/releases"
             content {
                 includeGroup "me.fallenbreath"
             }
