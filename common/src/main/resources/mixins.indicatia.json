@@ -13,7 +13,6 @@
     "renderer.MixinLivingEntityRenderState",
     "renderer.MixinSkullSpecialRenderer",
     "renderer.MixinSkullBlockRenderer",
-    "renderer.MixinSkullBlockRenderer_3DSkinLayers",
     "MixinMinecraft"
   ],
   "injectors": {
