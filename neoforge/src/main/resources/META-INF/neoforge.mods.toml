@@ -29,7 +29,7 @@ side = "CLIENT"
 [[dependencies.indicatia]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[17.0,)"
+versionRange = "[18.0,)"
 ordering = "NONE"
 side = "CLIENT"
 

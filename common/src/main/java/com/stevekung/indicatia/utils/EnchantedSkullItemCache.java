@@ -1,6 +1,5 @@
 package com.stevekung.indicatia.utils;
 
-import com.mojang.authlib.GameProfile;
 import com.stevekung.indicatia.Indicatia;
 import net.minecraft.world.item.component.ResolvableProfile;
 
