@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.PlatformKeyInput;
 import net.minecraft.client.gui.components.EditBox;
@@ -42,8 +42,8 @@ public abstract class MixinRecipeBookComponent
         }
     }
 
-    @Inject(method = "checkSearchStringUpdate", at = @At(value = "FIELD", target = "net/minecraft/client/gui/screens/recipebook/RecipeBookComponent.lastSearch:Ljava/lang/String;", opcode = Opcodes.PUTFIELD), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void indicatia$staticLastSearchUpdate(CallbackInfo info, String string)
+    @Inject(method = "checkSearchStringUpdate", at = @At(value = "FIELD", target = "net/minecraft/client/gui/screens/recipebook/RecipeBookComponent.lastSearch:Ljava/lang/String;", opcode = Opcodes.PUTFIELD))
+    private void indicatia$staticLastSearchUpdate(CallbackInfo info, @Local String string)
     {
         if (Indicatia.CONFIG.saveLastSearchInRecipeBook)
         {

@@ -19,26 +19,22 @@ loom {
     }
 }
 
-dependencies {
-    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${mixinsquared_version}")))
-    include(implementation("me.fallenbreath:conditional-mixin-fabric:${conditional_mixin_version}")) {
-        exclude group: "net.fabricmc", module: "fabric-loader"
-    }
-}
-
 String fileName = "${archives_base_name}-mc${minecraft_version}"
+List<String> devExcludes = ["architectury.common.json"]
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = "dev"
     archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
+    excludes = devExcludes
 }
 
 sourcesJar {
     Jar commonSources = project(":common").sourcesJar
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
+    excludes = devExcludes
 }
 
 remapSourcesJar {

@@ -1,0 +1,7 @@
+{
+  "injected_interfaces": {
+    "net/minecraft/class_11533\u0024class_11534": [
+      "com/stevekung/indicatia/PlayerHeadRenderInfoExtender"
+    ]
+  }
+}
