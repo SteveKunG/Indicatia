@@ -11,6 +11,21 @@ public class MixinLivingEntityRenderState implements LivingEntityRenderStateExte
     @Unique
     private boolean glint;
 
+    @Unique
+    private boolean playerHead;
+
+    @Override
+    public void indicatia$setPlayerHead(boolean playerHead)
+    {
+        this.playerHead = playerHead;
+    }
+
+    @Override
+    public boolean indicatia$isPlayerHead()
+    {
+        return this.playerHead;
+    }
+
     @Override
     public void indicatia$setHeadGlint(boolean glint)
     {

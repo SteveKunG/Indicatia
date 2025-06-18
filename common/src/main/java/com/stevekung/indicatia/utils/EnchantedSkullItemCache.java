@@ -1,18 +1,17 @@
 package com.stevekung.indicatia.utils;
 
 import com.stevekung.indicatia.Indicatia;
-import net.minecraft.world.item.component.ResolvableProfile;
 
 public class EnchantedSkullItemCache
 {
-    public static ResolvableProfile lastResolvableProfile;
+    public static boolean playerHead;
     public static boolean glintNext;
 
-    public static void preCache(ResolvableProfile resolvableProfile, boolean hasFoil)
+    public static void preCache(boolean playerHead, boolean hasFoil)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
-            EnchantedSkullItemCache.lastResolvableProfile = resolvableProfile;
+            EnchantedSkullItemCache.playerHead = playerHead;
             EnchantedSkullItemCache.glintNext = hasFoil;
         }
     }
@@ -21,7 +20,7 @@ public class EnchantedSkullItemCache
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
-            EnchantedSkullItemCache.lastResolvableProfile = null;
+            EnchantedSkullItemCache.playerHead = false;
             EnchantedSkullItemCache.glintNext = false;
         }
     }

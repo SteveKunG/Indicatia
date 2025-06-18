@@ -3,10 +3,12 @@ package com.stevekung.indicatia.mixin.renderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.EnchantedSkullItemCache;
+
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
@@ -20,7 +22,7 @@ public class MixinSkullBlockRenderer
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
-            return EnchantedSkullItemCache.lastResolvableProfile == null ? ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBuffer(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext);
+            return !EnchantedSkullItemCache.playerHead ? ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBuffer(bufferSource, renderType, false, EnchantedSkullItemCache.glintNext);
         }
         return original;
     }
