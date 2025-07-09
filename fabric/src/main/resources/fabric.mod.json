@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "indicatia",
+  "id": "${mod_id}",
   "version": "${version}",
-  "name": "Indicatia",
-  "description": "A small quality of life mod!",
+  "name": "${display_name}",
+  "description": "${mod_description}",
   "authors": [
     "SteveKunG"
   ],

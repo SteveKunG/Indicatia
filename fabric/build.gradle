@@ -19,13 +19,6 @@ loom {
     }
 }
 
-dependencies {
-    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${mixinsquared_version}")))
-    include(implementation("me.fallenbreath:conditional-mixin-fabric:${conditional_mixin_version}")) {
-        exclude group: "net.fabricmc", module: "fabric-loader"
-    }
-}
-
 String fileName = "${archives_base_name}-mc${minecraft_version}"
 
 shadowJar {
