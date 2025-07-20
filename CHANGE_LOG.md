@@ -1,1 +1,1 @@
-* Update to 1.21.1
+* Fix Enchant Glint effect crash with 3D Skin Layer
