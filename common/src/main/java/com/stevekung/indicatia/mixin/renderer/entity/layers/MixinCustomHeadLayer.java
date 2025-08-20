@@ -18,13 +18,13 @@ public class MixinCustomHeadLayer
 {
     //TODO Fix player head does not render glint when wearing
 
-    @Inject(method = "submit", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;I)V"))
+    @Inject(method = "submit", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;I)V"))
     private void indicatia$storeEnchantedCachePre(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, LivingEntityRenderState livingEntityRenderState, float yRot, float xRot, CallbackInfo info)
     {
         EnchantedSkullItemCache.preCache(livingEntityRenderState.indicatia$isPlayerHead(), livingEntityRenderState.indicatia$hasHeadGlint());
     }
 
-    @Inject(method = "submit", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;I)V", shift = At.Shift.AFTER))
+    @Inject(method = "submit", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;I)V", shift = At.Shift.AFTER))
     private void indicatia$storeEnchantedCachePost(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, LivingEntityRenderState livingEntityRenderState, float yRot, float xRot, CallbackInfo info)
     {
         EnchantedSkullItemCache.postCache();

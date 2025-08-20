@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 public class MixinMinecraft
 {
     @SuppressWarnings("ConstantValue")
-    @ModifyExpressionValue(method = "handleKeybinds", slice = @Slice(from = @At(value = "FIELD", target = "net/minecraft/client/Options.keyChat:Lnet/minecraft/client/KeyMapping;"), to = @At(value = "INVOKE", target = "net/minecraft/client/Minecraft.openChatScreen(Ljava/lang/String;)V", ordinal = 0)), at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.consumeClick()Z"))
+    @ModifyExpressionValue(method = "handleKeybinds", slice = @Slice(from = @At(value = "FIELD", target = "net/minecraft/client/Options.keyChat:Lnet/minecraft/client/KeyMapping;"), to = @At(value = "INVOKE", target = "net/minecraft/client/Minecraft.openChatScreen(Lnet/minecraft/client/gui/components/ChatComponent$ChatMethod;)V", ordinal = 0)), at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.consumeClick()Z"))
     private boolean indicatia$addAltChatKey(boolean original)
     {
         return original || PlatformKeyInput.isAltChatEnabled();

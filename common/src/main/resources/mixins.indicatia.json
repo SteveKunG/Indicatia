@@ -10,8 +10,8 @@
     "renderer.entity.layers.MixinCustomHeadLayer",
     "renderer.MixinLivingEntityRenderer",
     "renderer.MixinLivingEntityRenderState",
+    "renderer.MixinModelFeatureRenderer",
     "renderer.MixinPlayerHeadSpecialRenderer",
-    "renderer.MixinSkullBlockRenderer",
     "renderer.MixinSkullSpecialRenderer",
     "MixinMinecraft"
   ],
