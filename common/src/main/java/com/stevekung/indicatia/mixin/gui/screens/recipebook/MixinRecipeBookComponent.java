@@ -14,6 +14,7 @@ import com.stevekung.indicatia.utils.PlatformKeyInput;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 
 @Mixin(RecipeBookComponent.class)
 public abstract class MixinRecipeBookComponent
@@ -52,12 +53,12 @@ public abstract class MixinRecipeBookComponent
         }
     }
 
-    @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.mouseClicked(DDI)Z", ordinal = 0))
-    private boolean indicatia$rightClickClearText(boolean original, double mouseX, double mouseY, int button)
+    @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z", ordinal = 0))
+    private boolean indicatia$rightClickClearText(boolean original, MouseButtonEvent mouseButtonEvent, boolean bl)
     {
-        var inBox = mouseX >= (double) this.searchBox.getX() && mouseX < (double) (this.searchBox.getX() + this.searchBox.getWidth()) && mouseY >= (double) this.searchBox.getY() && mouseY < (double) (this.searchBox.getY() + this.searchBox.getHeight());
+        var inBox = mouseButtonEvent.x() >= (double) this.searchBox.getX() && mouseButtonEvent.x() < (double) (this.searchBox.getX() + this.searchBox.getWidth()) && mouseButtonEvent.y() >= (double) this.searchBox.getY() && mouseButtonEvent.y() < (double) (this.searchBox.getY() + this.searchBox.getHeight());
 
-        if (Indicatia.CONFIG.saveLastSearchInRecipeBook && !this.searchBox.getValue().isEmpty() && inBox && button == 1)
+        if (Indicatia.CONFIG.saveLastSearchInRecipeBook && !this.searchBox.getValue().isEmpty() && inBox && mouseButtonEvent.button() == 1)
         {
             this.searchBox.setValue("");
             this.lastSearch = "";
