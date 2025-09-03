@@ -13,6 +13,7 @@ import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.PlatformKeyInput;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.input.KeyEvent;
 
 @Mixin(RecipeBookComponent.class)
 public abstract class MixinRecipeBookComponent
@@ -67,9 +68,9 @@ public abstract class MixinRecipeBookComponent
     }
 
     @SuppressWarnings("ConstantValue")
-    @ModifyExpressionValue(method = "keyPressed", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(II)Z"))
-    private boolean indicatia$addAltChatKey(boolean original, int keyCode, int scanCode)
+    @ModifyExpressionValue(method = "keyPressed", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(Lnet/minecraft/client/input/KeyEvent;)Z"))
+    private boolean indicatia$addAltChatKey(boolean original, KeyEvent keyEvent)
     {
-        return original || PlatformKeyInput.isAltChatMatches(keyCode, scanCode);
+        return original || PlatformKeyInput.isAltChatMatches(keyEvent);
     }
 }

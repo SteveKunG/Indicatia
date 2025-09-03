@@ -2,6 +2,8 @@ package com.stevekung.indicatia.utils.fabric;
 
 import com.stevekung.indicatia.Indicatia;
 
+import net.minecraft.client.input.KeyEvent;
+
 public class PlatformKeyInputImpl
 {
     public static boolean isAltChatEnabled()
@@ -9,8 +11,8 @@ public class PlatformKeyInputImpl
         return Indicatia.CONFIG.enableAlternateChatKey && Indicatia.KEY_ALT_OPEN_CHAT.consumeClick();
     }
 
-    public static boolean isAltChatMatches(int keyCode, int scanCode)
+    public static boolean isAltChatMatches(KeyEvent keyEvent)
     {
-        return Indicatia.CONFIG.enableAlternateChatKey && Indicatia.KEY_ALT_OPEN_CHAT.matches(keyCode, scanCode);
+        return Indicatia.CONFIG.enableAlternateChatKey && Indicatia.KEY_ALT_OPEN_CHAT.matches(keyEvent);
     }
 }

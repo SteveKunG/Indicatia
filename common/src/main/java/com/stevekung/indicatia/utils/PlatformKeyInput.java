@@ -1,5 +1,7 @@
 package com.stevekung.indicatia.utils;
 
+import net.minecraft.client.input.KeyEvent;
+
 import dev.architectury.injectables.annotations.ExpectPlatform;
 
 public class PlatformKeyInput
@@ -11,7 +13,7 @@ public class PlatformKeyInput
     }
 
     @ExpectPlatform
-    public static boolean isAltChatMatches(int keyCode, int scanCode)
+    public static boolean isAltChatMatches(KeyEvent keyEvent)
     {
         throw new AssertionError();
     }
