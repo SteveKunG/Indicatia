@@ -2,6 +2,9 @@
   "injected_interfaces": {
     "net/minecraft/class_10042": [
       "com/stevekung/indicatia/LivingEntityRenderStateExtender"
+    ],
+    "net/minecraft/class_5598": [
+      "com/stevekung/indicatia/SkullModelBaseExtender"
     ]
   }
 }

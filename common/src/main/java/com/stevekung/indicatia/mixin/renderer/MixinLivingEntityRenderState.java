@@ -9,32 +9,17 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 public class MixinLivingEntityRenderState implements LivingEntityRenderStateExtender
 {
     @Unique
-    private boolean glint;
-
-    @Unique
-    private boolean playerHead;
+    private boolean hasFoil;
 
     @Override
-    public void indicatia$setPlayerHead(boolean playerHead)
+    public void indicatia$setFoil(boolean hasFoil)
     {
-        this.playerHead = playerHead;
+        this.hasFoil = hasFoil;
     }
 
     @Override
-    public boolean indicatia$isPlayerHead()
+    public boolean indicatia$hasFoil()
     {
-        return this.playerHead;
-    }
-
-    @Override
-    public void indicatia$setHeadGlint(boolean glint)
-    {
-        this.glint = glint;
-    }
-
-    @Override
-    public boolean indicatia$hasHeadGlint()
-    {
-        return this.glint;
+        return this.hasFoil;
     }
 }

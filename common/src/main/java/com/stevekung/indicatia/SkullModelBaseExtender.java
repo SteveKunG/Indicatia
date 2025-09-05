@@ -1,6 +1,6 @@
 package com.stevekung.indicatia;
 
-public interface LivingEntityRenderStateExtender
+public interface SkullModelBaseExtender
 {
     default void indicatia$setFoil(boolean hasFoil)
     {

@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.stevekung.indicatia.Indicatia;
-import com.stevekung.indicatia.utils.EnchantedSkullItemCache;
 
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,9 +28,9 @@ public class MixinModelFeatureRenderer
         {
             var modelSubmit = translucentModelSubmit.modelSubmit();
 
-            if (modelSubmit.model() instanceof SkullModelBase && modelSubmit.state() instanceof SkullModelBase.State)
+            if (modelSubmit.model() instanceof SkullModelBase skullModel && modelSubmit.state() instanceof SkullModelBase.State && skullModel.indicatia$hasFoil())
             {
-                return !EnchantedSkullItemCache.playerHead ? ItemRenderer.getFoilBuffer(bufferSource, RenderType.armorEntityGlint(), false, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBuffer(bufferSource, translucentModelSubmit.renderType(), false, EnchantedSkullItemCache.glintNext);
+                return ItemRenderer.getFoilBuffer(bufferSource, translucentModelSubmit.renderType(), false, true);
             }
         }
         return original;
@@ -42,9 +41,9 @@ public class MixinModelFeatureRenderer
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
-            if (modelSubmit.model() instanceof SkullModelBase && modelSubmit.state() instanceof SkullModelBase.State)
+            if (modelSubmit.model() instanceof SkullModelBase skullModel && modelSubmit.state() instanceof SkullModelBase.State && skullModel.indicatia$hasFoil())
             {
-                return !EnchantedSkullItemCache.playerHead ? ItemRenderer.getFoilBuffer(bufferSource, RenderType.armorEntityGlint(), false, EnchantedSkullItemCache.glintNext) : ItemRenderer.getFoilBuffer(bufferSource, entry.getKey(), false, EnchantedSkullItemCache.glintNext);
+                return ItemRenderer.getFoilBuffer(bufferSource, entry.getKey(), false, true);
             }
         }
         return original;

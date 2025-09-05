@@ -12,6 +12,7 @@
     "renderer.MixinLivingEntityRenderState",
     "renderer.MixinModelFeatureRenderer",
     "renderer.MixinPlayerHeadSpecialRenderer",
+    "renderer.MixinSkullModelBase",
     "renderer.MixinSkullSpecialRenderer",
     "MixinMinecraft"
   ],
