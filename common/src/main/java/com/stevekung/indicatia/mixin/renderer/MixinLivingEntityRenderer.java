@@ -17,7 +17,8 @@ public class MixinLivingEntityRenderer
 {
     @Inject(method = "extractRenderState", at = @At(
             value = "FIELD",
-            target = "net/minecraft/client/renderer/entity/state/LivingEntityRenderState.wornHeadProfile:Lnet/minecraft/world/item/component/ResolvableProfile;", ordinal = 0))
+            target = "net/minecraft/client/renderer/entity/state/LivingEntityRenderState.wornHeadProfile:Lnet/minecraft/world/item/component/ResolvableProfile;",
+            ordinal = 0))
     private void indicatia$extractHeadGlintState(LivingEntity livingEntity, LivingEntityRenderState livingEntityRenderState, float partialTicks, CallbackInfo info, @Local ItemStack itemStack)
     {
         livingEntityRenderState.indicatia$setFoil(itemStack.hasFoil());
@@ -25,7 +26,8 @@ public class MixinLivingEntityRenderer
 
     @Inject(method = "extractRenderState", at = @At(
             value = "FIELD",
-            target = "net/minecraft/client/renderer/entity/state/LivingEntityRenderState.wornHeadProfile:Lnet/minecraft/world/item/component/ResolvableProfile;", ordinal = 1))
+            target = "net/minecraft/client/renderer/entity/state/LivingEntityRenderState.wornHeadProfile:Lnet/minecraft/world/item/component/ResolvableProfile;",
+            ordinal = 1))
     private void indicatia$clearHeadGlintState(LivingEntity livingEntity, LivingEntityRenderState livingEntityRenderState, float partialTicks, CallbackInfo info)
     {
         livingEntityRenderState.indicatia$setFoil(false);

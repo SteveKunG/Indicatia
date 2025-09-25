@@ -1,22 +1,34 @@
 package com.stevekung.indicatia.mixin.renderer.entity.layers;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.stevekung.indicatia.EnchantedSkullRenderer;
+import com.stevekung.indicatia.Indicatia;
 
 import net.minecraft.client.model.SkullModelBase;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.core.Direction;
 
 @Mixin(CustomHeadLayer.class)
 public class MixinCustomHeadLayer
 {
-    @ModifyArg(method = "submit", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"), index = 6)
-    private SkullModelBase indicatia$storeEnchantedCacheIntoModel(SkullModelBase model, @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState)
+    @Redirect(method = "submit", at = @At(
+            value = "INVOKE",
+            target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
+    private void indicatia$useCustomEnchantedSkullRenderer(@Nullable Direction direction, float yRot, float animationPos, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, SkullModelBase skullModelBase, RenderType renderType, int outlineColor, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState)
     {
-        model.indicatia$setFoil(livingEntityRenderState.indicatia$hasFoil());
-        return model;
+        if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
+        {
+            EnchantedSkullRenderer.submitSkull(direction, yRot, animationPos, poseStack, submitNodeCollector, packedLight, skullModelBase, renderType, outlineColor, crumblingOverlay, livingEntityRenderState.indicatia$hasFoil());
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.stevekung.indicatia;
 
-public interface SkullModelBaseExtender
+public interface SkullModelBase_StateExtender
 {
     default void indicatia$setFoil(boolean hasFoil)
     {

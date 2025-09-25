@@ -43,8 +43,8 @@
       "net/minecraft/class_10042": [
         "com/stevekung/indicatia/LivingEntityRenderStateExtender"
       ],
-      "net/minecraft/class_5598": [
-        "com/stevekung/indicatia/SkullModelBaseExtender"
+      "net/minecraft/class_5598\u0024class_11652": [
+        "com/stevekung/indicatia/SkullModelBase_StateExtender"
       ]
     }
   }
