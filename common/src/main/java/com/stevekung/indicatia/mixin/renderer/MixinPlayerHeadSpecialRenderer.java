@@ -1,10 +1,7 @@
 package com.stevekung.indicatia.mixin.renderer;
 
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -14,13 +11,11 @@ import com.stevekung.indicatia.EnchantedSkullRenderer;
 import com.stevekung.indicatia.Indicatia;
 
 import net.minecraft.client.model.SkullModelBase;
-import net.minecraft.client.renderer.PlayerSkinRenderCache;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.special.PlayerHeadSpecialRenderer;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemDisplayContext;
 
 @Mixin(PlayerHeadSpecialRenderer.class)
 public class MixinPlayerHeadSpecialRenderer

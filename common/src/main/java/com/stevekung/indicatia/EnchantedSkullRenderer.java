@@ -27,7 +27,7 @@ public class EnchantedSkullRenderer
         }
 
         poseStack.scale(-1.0F, -1.0F, 1.0F);
-        SkullModelBase.State state = new SkullModelBase.State();
+        var state = new SkullModelBase.State();
         state.animationPos = animationPos;
         state.yRot = yRot;
         state.indicatia$setFoil(hasFoil);
