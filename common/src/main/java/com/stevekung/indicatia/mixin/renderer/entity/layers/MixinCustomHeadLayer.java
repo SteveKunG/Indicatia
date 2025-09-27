@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.EnchantedSkullRenderer;
-import com.stevekung.indicatia.Indicatia;
 
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.renderer.RenderType;
@@ -26,9 +25,6 @@ public class MixinCustomHeadLayer
             target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(Lnet/minecraft/core/Direction;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/SkullModelBase;Lnet/minecraft/client/renderer/RenderType;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
     private void indicatia$useCustomEnchantedSkullRenderer(@Nullable Direction direction, float yRot, float animationPos, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, SkullModelBase skullModelBase, RenderType renderType, int outlineColor, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState)
     {
-        if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
-        {
-            EnchantedSkullRenderer.submitSkull(direction, yRot, animationPos, poseStack, submitNodeCollector, packedLight, skullModelBase, renderType, outlineColor, crumblingOverlay, livingEntityRenderState.indicatia$hasFoil());
-        }
+        EnchantedSkullRenderer.submitSkull(direction, yRot, animationPos, poseStack, submitNodeCollector, packedLight, skullModelBase, renderType, outlineColor, crumblingOverlay, livingEntityRenderState.indicatia$hasFoil());
     }
 }

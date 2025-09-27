@@ -2,11 +2,13 @@ package com.stevekung.indicatia.mixin.renderer;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import com.stevekung.indicatia.LivingEntityRenderStateExtender;
+
+import com.stevekung.indicatia.EnchantedFoilExtender;
+
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
 @Mixin(LivingEntityRenderState.class)
-public class MixinLivingEntityRenderState implements LivingEntityRenderStateExtender
+public class MixinLivingEntityRenderState implements EnchantedFoilExtender
 {
     @Unique
     private boolean hasFoil;

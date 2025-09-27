@@ -21,6 +21,9 @@ public final class IndicatiaConfig implements ConfigData
     public boolean enableEnchantedRenderingOnSkulls = true;
 
     @ConfigEntry.Gui.Tooltip
+    public boolean enableEnchantedRenderingOnAllBlockEntities = true;
+
+    @ConfigEntry.Gui.Tooltip
     public boolean enableReloadResourcesButton = true;
 
     @ConfigEntry.Gui.Tooltip

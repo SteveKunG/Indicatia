@@ -30,8 +30,13 @@ public class EnchantedSkullRenderer
         var state = new SkullModelBase.State();
         state.animationPos = animationPos;
         state.yRot = yRot;
-        state.indicatia$setFoil(hasFoil);
         submitNodeCollector.submitModel(skullModelBase, state, poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, outlineColor, crumblingOverlay);
+
+        if (hasFoil)
+        {
+            submitNodeCollector.submitModel(skullModelBase, state, poseStack, RenderType.entityGlint(), packedLight, OverlayTexture.NO_OVERLAY, outlineColor, crumblingOverlay);
+        }
+
         poseStack.popPose();
     }
 }

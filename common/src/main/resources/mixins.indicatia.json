@@ -10,12 +10,22 @@
 
     "renderer.entity.layers.MixinCustomHeadLayer",
 
+    "renderer.special.MixinBannerSpecialRenderer",
+    "renderer.special.MixinBedSpecialRenderer",
+    "renderer.special.MixinChestSpecialRenderer",
+    "renderer.special.MixinConduitSpecialRenderer",
+    "renderer.special.MixinCopperGolemStatueSpecialRenderer",
+    "renderer.special.MixinDecoratedPotSpecialRenderer",
+    "renderer.special.MixinShulkerBoxSpecialRenderer",
+
+    "renderer.MixinBedRenderer",
+    "renderer.MixinBannerRenderer",
+    "renderer.MixinDecoratedPotRenderer",
     "renderer.MixinLivingEntityRenderer",
     "renderer.MixinLivingEntityRenderState",
-    "renderer.MixinModelFeatureRenderer",
     "renderer.MixinPlayerHeadSpecialRenderer",
+    "renderer.MixinShulkerBoxRenderer",
     "renderer.MixinSkullBlockRenderer",
-    "renderer.MixinSkullModelBase_State",
     "renderer.MixinSkullSpecialRenderer",
 
     "MixinMinecraft"

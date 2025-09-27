@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.stevekung.indicatia.Indicatia;
 
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -21,7 +22,10 @@ public class MixinLivingEntityRenderer
             ordinal = 0))
     private void indicatia$extractHeadGlintState(LivingEntity livingEntity, LivingEntityRenderState livingEntityRenderState, float partialTicks, CallbackInfo info, @Local ItemStack itemStack)
     {
-        livingEntityRenderState.indicatia$setFoil(itemStack.hasFoil());
+        if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities)
+        {
+            livingEntityRenderState.indicatia$setFoil(itemStack.hasFoil());
+        }
     }
 
     @Inject(method = "extractRenderState", at = @At(
@@ -30,6 +34,9 @@ public class MixinLivingEntityRenderer
             ordinal = 1))
     private void indicatia$clearHeadGlintState(LivingEntity livingEntity, LivingEntityRenderState livingEntityRenderState, float partialTicks, CallbackInfo info)
     {
-        livingEntityRenderState.indicatia$setFoil(false);
+        if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities)
+        {
+            livingEntityRenderState.indicatia$setFoil(false);
+        }
     }
 }

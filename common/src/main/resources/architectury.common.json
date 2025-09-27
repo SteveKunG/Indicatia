@@ -1,10 +1,19 @@
 {
   "injected_interfaces": {
     "net/minecraft/class_10042": [
-      "com/stevekung/indicatia/LivingEntityRenderStateExtender"
+      "com/stevekung/indicatia/EnchantedFoilExtender"
     ],
-    "net/minecraft/class_5598\u0024class_11652": [
-      "com/stevekung/indicatia/SkullModelBase_StateExtender"
+    "net/minecraft/class_8188": [
+      "com/stevekung/indicatia/EnchantedFoilExtender"
+    ],
+    "net/minecraft/class_825": [
+      "com/stevekung/indicatia/EnchantedFoilExtender"
+    ],
+    "net/minecraft/class_834": [
+      "com/stevekung/indicatia/EnchantedFoilExtender"
+    ],
+    "net/minecraft/class_823": [
+      "com/stevekung/indicatia/EnchantedFoilExtender"
     ]
   }
 }

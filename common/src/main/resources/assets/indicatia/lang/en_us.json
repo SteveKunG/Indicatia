@@ -8,6 +8,8 @@
   "text.autoconfig.indicatia.option.confirmationOnDisconnect.@Tooltip": "Show confirmation screen before disconnect from the server.",
   "text.autoconfig.indicatia.option.enableEnchantedRenderingOnSkulls": "Enable Enchanted Rendering on Skulls",
   "text.autoconfig.indicatia.option.enableEnchantedRenderingOnSkulls.@Tooltip": "Enable enchanting effect rendering on skulls.",
+  "text.autoconfig.indicatia.option.enableEnchantedRenderingOnAllBlockEntities": "Enable Enchanted Rendering on all Block Entities",
+  "text.autoconfig.indicatia.option.enableEnchantedRenderingOnAllBlockEntities.@Tooltip": "Enable enchanting effect rendering on vanilla block entities. May caused some z-fighting on certain block entities.",
   "text.autoconfig.indicatia.option.enableReloadResourcesButton": "Enable reload resources button",
   "text.autoconfig.indicatia.option.enableReloadResourcesButton.@Tooltip": "Enable reload resources button on a pack selection screen.",
   "text.autoconfig.indicatia.option.saveLastSearchInRecipeBook": "Save Last Search in the Recipe Book",
