@@ -1,48 +1,33 @@
 package com.stevekung.indicatia.mixin.renderer.special;
 
-import org.spongepowered.asm.mixin.Final;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.Indicatia;
 
-import net.minecraft.client.model.ChestModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.special.ChestSpecialRenderer;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
-import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 @Mixin(ChestSpecialRenderer.class)
 public class MixinChestSpecialRenderer
 {
-    @Shadow
-    @Final
-    MaterialSet materials;
-
-    @Shadow
-    @Final
-    ChestModel model;
-
-    @Shadow
-    @Final
-    Material material;
-
-    @Shadow
-    @Final
-    float openness;
-
-    @Inject(method = "submit", at = @At("TAIL"))
-    private void indicatia$addEnchantedGlint(ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
+    @WrapOperation(method = "submit", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/SubmitNodeCollector.submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;IIILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
+    private <S> void indicatia$addEnchantedGlint(SubmitNodeCollector submitNodeCollector, Model<? super S> model, S object, PoseStack poseStack, RenderType renderType, int lightCoords, int overlayCoords, int tintedColor, @Nullable TextureAtlasSprite textureAtlasSprite, int outlineColor, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, Operation<Void> operation, @Local(argsOnly = true) boolean hasFoil)
     {
+        operation.call(submitNodeCollector, model, object, poseStack, renderType, lightCoords, overlayCoords, tintedColor, textureAtlasSprite, outlineColor, crumblingOverlay);
+
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities && hasFoil)
         {
-            submitNodeCollector.submitModel(this.model, this.openness, poseStack, RenderType.entityGlint(), packedLight, packedOverlay, -1, this.materials.get(this.material), 0, null);
+            operation.call(submitNodeCollector, model, object, poseStack, RenderType.entityGlint(), lightCoords, overlayCoords, tintedColor, textureAtlasSprite, outlineColor, crumblingOverlay);
         }
     }
 }
