@@ -22,7 +22,7 @@ config = "mixins.indicatia_neoforge.json"
 [[dependencies.indicatia]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.6,)"
+versionRange = "[21.9,)"
 ordering = "NONE"
 side = "CLIENT"
 
@@ -36,6 +36,6 @@ side = "CLIENT"
 [[dependencies.indicatia]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.6,)"
+versionRange = "[1.21.9,)"
 ordering = "NONE"
 side = "CLIENT"

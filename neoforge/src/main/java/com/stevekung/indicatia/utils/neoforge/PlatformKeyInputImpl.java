@@ -2,6 +2,8 @@ package com.stevekung.indicatia.utils.neoforge;
 
 import com.stevekung.indicatia.Indicatia;
 
+import net.minecraft.client.input.KeyEvent;
+
 public class PlatformKeyInputImpl
 {
     public static boolean isAltChatEnabled()
