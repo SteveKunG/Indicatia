@@ -16,17 +16,17 @@
     "renderer.special.MixinConduitSpecialRenderer",
     "renderer.special.MixinCopperGolemStatueSpecialRenderer",
     "renderer.special.MixinDecoratedPotSpecialRenderer",
+    "renderer.special.MixinPlayerHeadSpecialRenderer",
     "renderer.special.MixinShulkerBoxSpecialRenderer",
+    "renderer.special.MixinSkullSpecialRenderer",
 
     "renderer.MixinBedRenderer",
     "renderer.MixinBannerRenderer",
     "renderer.MixinDecoratedPotRenderer",
     "renderer.MixinLivingEntityRenderer",
     "renderer.MixinLivingEntityRenderState",
-    "renderer.MixinPlayerHeadSpecialRenderer",
     "renderer.MixinShulkerBoxRenderer",
     "renderer.MixinSkullBlockRenderer",
-    "renderer.MixinSkullSpecialRenderer",
 
     "MixinMinecraft"
   ],

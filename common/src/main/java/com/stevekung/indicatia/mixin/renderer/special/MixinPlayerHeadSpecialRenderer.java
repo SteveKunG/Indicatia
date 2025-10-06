@@ -1,4 +1,4 @@
-package com.stevekung.indicatia.mixin.renderer;
+package com.stevekung.indicatia.mixin.renderer.special;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
