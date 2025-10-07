@@ -22,20 +22,20 @@ config = "mixins.indicatia_neoforge.json"
 [[dependencies.indicatia]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.9,)"
+versionRange = "[21.10.0-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[19.0,)"
+versionRange = "[20.0,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.9,)"
+versionRange = "[1.21.10,)"
 ordering = "NONE"
 side = "CLIENT"
