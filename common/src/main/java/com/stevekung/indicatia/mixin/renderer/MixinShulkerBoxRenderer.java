@@ -11,10 +11,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.EnchantedFoilExtender;
 
 import net.minecraft.client.model.Model;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.ShulkerBoxRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 @Mixin(ShulkerBoxRenderer.class)
@@ -35,14 +36,14 @@ public class MixinShulkerBoxRenderer implements EnchantedFoilExtender
         return this.hasFoil;
     }
 
-    @WrapOperation(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/core/Direction;FLnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;Lnet/minecraft/client/resources/model/Material;I)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/SubmitNodeCollector.submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/RenderType;IIILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
+    @WrapOperation(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/core/Direction;FLnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;Lnet/minecraft/client/resources/model/Material;I)V", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/SubmitNodeCollector.submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/rendertype/RenderType;IIILnet/minecraft/client/renderer/texture/TextureAtlasSprite;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
     private <S> void indicatia$addEnchantedGlint(SubmitNodeCollector submitNodeCollector, Model<? super S> model, S object, PoseStack poseStack, RenderType renderType, int lightCoords, int overlayCoords, int tintedColor, @Nullable TextureAtlasSprite textureAtlasSprite, int outlineColor, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, Operation<Void> operation)
     {
         operation.call(submitNodeCollector, model, object, poseStack, renderType, lightCoords, overlayCoords, tintedColor, textureAtlasSprite, outlineColor, crumblingOverlay);
 
         if (this.hasFoil)
         {
-            operation.call(submitNodeCollector, model, object, poseStack, RenderType.entityGlint(), lightCoords, overlayCoords, tintedColor, textureAtlasSprite, outlineColor, crumblingOverlay);
+            operation.call(submitNodeCollector, model, object, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, tintedColor, textureAtlasSprite, outlineColor, crumblingOverlay);
         }
     }
 }

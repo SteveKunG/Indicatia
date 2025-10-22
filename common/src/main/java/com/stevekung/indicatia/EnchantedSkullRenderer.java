@@ -5,9 +5,10 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.SkullModelBase;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 
@@ -34,7 +35,7 @@ public class EnchantedSkullRenderer
 
         if (hasFoil)
         {
-            submitNodeCollector.submitModel(skullModelBase, state, poseStack, RenderType.entityGlint(), packedLight, OverlayTexture.NO_OVERLAY, outlineColor, crumblingOverlay);
+            submitNodeCollector.submitModel(skullModelBase, state, poseStack, RenderTypes.entityGlint(), packedLight, OverlayTexture.NO_OVERLAY, outlineColor, crumblingOverlay);
         }
 
         poseStack.popPose();

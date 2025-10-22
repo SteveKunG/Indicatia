@@ -11,8 +11,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.Indicatia;
 
 import net.minecraft.client.model.CopperGolemStatueModel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.CopperGolemStatueSpecialRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -29,7 +29,7 @@ public class MixinCopperGolemStatueSpecialRenderer
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities && hasFoil)
         {
-            submitNodeCollector.submitModel(this.model, Direction.SOUTH, poseStack, RenderType.entityGlint(), packedLight, packedOverlay, -1, null, outlineColor, null);
+            submitNodeCollector.submitModel(this.model, Direction.SOUTH, poseStack, RenderTypes.entityGlint(), packedLight, packedOverlay, -1, null, outlineColor, null);
         }
     }
 }

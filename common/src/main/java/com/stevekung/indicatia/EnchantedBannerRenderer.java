@@ -7,10 +7,10 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.model.BannerFlagModel;
 import net.minecraft.client.model.BannerModel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.util.Unit;
@@ -26,11 +26,11 @@ public class EnchantedBannerRenderer
         poseStack.mulPose(Axis.YP.rotationDegrees(rotationDegrees));
         poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
         var material = ModelBakery.BANNER_BASE;
-        submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, material.renderType(RenderType::entitySolid), lightCoords, overlayCoords, -1, materialSet.get(material), outlineColor, crumblingOverlay);
+        submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, material.renderType(RenderTypes::entitySolid), lightCoords, overlayCoords, -1, materialSet.get(material), outlineColor, crumblingOverlay);
 
         if (hasFoil)
         {
-            submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, RenderType.entityGlint(), lightCoords, overlayCoords, -1, materialSet.get(material), outlineColor, crumblingOverlay);
+            submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, materialSet.get(material), outlineColor, crumblingOverlay);
         }
 
         BannerRenderer.submitPatterns(materialSet, poseStack, submitNodeCollector, lightCoords, overlayCoords, bannerFlagModel, phase, material, true, dyeColor, bannerPatternLayers, hasFoil, crumblingOverlay, outlineColor);
