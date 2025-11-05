@@ -10,15 +10,15 @@ import com.stevekung.indicatia.Indicatia;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @Mixin(SkullBlockRenderer.class)
 public class MixinSkullBlockRenderer
 {
     @WrapOperation(method = "getSkullRenderType", at = @At(
             value = "INVOKE",
-            target = "net/minecraft/client/renderer/rendertype/RenderTypes.entityCutoutNoCullZOffset(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/rendertype/RenderType;"))
-    private static RenderType indicatia$changeSkullRenderType(ResourceLocation resourceLocation, Operation<RenderType> original)
+            target = "net/minecraft/client/renderer/rendertype/RenderTypes.entityCutoutNoCullZOffset(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/rendertype/RenderType;"))
+    private static RenderType indicatia$changeSkullRenderType(Identifier resourceLocation, Operation<RenderType> original)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)
         {
