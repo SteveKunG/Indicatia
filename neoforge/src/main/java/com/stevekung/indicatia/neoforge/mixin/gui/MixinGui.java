@@ -26,7 +26,7 @@ public class MixinGui
 
     @Inject(method = "renderEffects", at = @At(
             value = "INVOKE",
-            target = "net/minecraft/client/gui/GuiGraphics.blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIIII)V",
+            target = "net/minecraft/client/gui/GuiGraphics.blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIIII)V",
             shift = At.Shift.AFTER))
     private void indicatia$addPotionTime(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info, @Local MobEffectInstance mobEffectInstance, @Local(index = 10, ordinal = 2) int x, @Local(index = 11, ordinal = 3) int y, @Local(index = 12) float alpha)
     {
