@@ -11,8 +11,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.EnchantedBannerRenderer;
 import com.stevekung.indicatia.EnchantedFoilExtender;
 
-import net.minecraft.client.model.BannerFlagModel;
-import net.minecraft.client.model.BannerModel;
+import net.minecraft.client.model.object.banner.BannerFlagModel;
+import net.minecraft.client.model.object.banner.BannerModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
@@ -38,7 +38,7 @@ public class MixinBannerRenderer implements EnchantedFoilExtender
         return this.hasFoil;
     }
 
-    @WrapOperation(method = "submitSpecial", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/BannerRenderer.submitBanner (Lnet/minecraft/client/resources/model/MaterialSet;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/BannerModel;Lnet/minecraft/client/model/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"))
+    @WrapOperation(method = "submitSpecial", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/BannerRenderer.submitBanner(Lnet/minecraft/client/resources/model/MaterialSet;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"))
     private void indicatia$addEnchantedGlint(MaterialSet materialSet, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, float rotationDegrees, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, int outlineColor, Operation<Void> operation)
     {
         EnchantedBannerRenderer.submitEnchantedBanner(materialSet, poseStack, submitNodeCollector, lightCoords, overlayCoords, rotationDegrees, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers, crumblingOverlay, outlineColor, this.hasFoil);

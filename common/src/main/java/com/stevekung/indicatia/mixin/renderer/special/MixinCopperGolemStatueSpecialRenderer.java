@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.stevekung.indicatia.Indicatia;
 
-import net.minecraft.client.model.CopperGolemStatueModel;
+import net.minecraft.client.model.object.statue.CopperGolemStatueModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.CopperGolemStatueSpecialRenderer;
