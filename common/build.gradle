@@ -3,3 +3,9 @@ apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/arch
 tasks.shadowJar {
     zip64 = true
 }
+
+loom {
+    mixin {
+        useLegacyMixinAp = true
+    }
+}

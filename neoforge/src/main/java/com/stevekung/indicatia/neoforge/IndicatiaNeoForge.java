@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.config.IndicatiaConfig;
-import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfigClient;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
@@ -43,7 +43,7 @@ public class IndicatiaNeoForge
         ModLoadingContext.get().getActiveContainer().getEventBus().addListener(this::onRegisterKey);
         NeoForge.EVENT_BUS.register(this);
         Indicatia.initConfig();
-        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (mc, screen) -> AutoConfig.getConfigScreen(IndicatiaConfig.class, screen).get());
+        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (mc, screen) -> AutoConfigClient.getConfigScreen(IndicatiaConfig.class, screen).get());
     }
 
     private void onRegisterKey(RegisterKeyMappingsEvent event)

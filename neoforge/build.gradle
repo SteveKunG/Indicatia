@@ -17,6 +17,10 @@ loom {
             ideConfigGenerated = false
         }
     }
+
+    mixin {
+        useLegacyMixinAp = true
+    }
 }
 
 String fileName = "${archives_base_name}-mc${minecraft_version}"
