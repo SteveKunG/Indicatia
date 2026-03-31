@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.mixin.renderer.special;
 
+import net.minecraft.util.Unit;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,8 +15,6 @@ import net.minecraft.client.model.object.statue.CopperGolemStatueModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.CopperGolemStatueSpecialRenderer;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemDisplayContext;
 
 @Mixin(CopperGolemStatueSpecialRenderer.class)
 public class MixinCopperGolemStatueSpecialRenderer
@@ -25,11 +24,11 @@ public class MixinCopperGolemStatueSpecialRenderer
     CopperGolemStatueModel model;
 
     @Inject(method = "submit", at = @At("TAIL"))
-    private void indicatia$addEnchantedGlint(ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
+    private void indicatia$addEnchantedGlint(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities && hasFoil)
         {
-            submitNodeCollector.submitModel(this.model, Direction.SOUTH, poseStack, RenderTypes.entityGlint(), packedLight, packedOverlay, -1, null, outlineColor, null);
+            submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), packedLight, packedOverlay, -1, null, outlineColor, null);
         }
     }
 }

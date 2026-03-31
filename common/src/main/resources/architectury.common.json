@@ -1,18 +1,18 @@
 {
   "injected_interfaces": {
-    "net/minecraft/class_10042": [
+    "net/minecraft/client/renderer/entity/state/LivingEntityRenderState": [
       "com/stevekung/indicatia/EnchantedFoilExtender"
     ],
-    "net/minecraft/class_8188": [
+    "net/minecraft/client/renderer/blockentity/DecoratedPotRenderer": [
       "com/stevekung/indicatia/EnchantedFoilExtender"
     ],
-    "net/minecraft/class_825": [
+    "net/minecraft/client/renderer/blockentity/BedRenderer": [
       "com/stevekung/indicatia/EnchantedFoilExtender"
     ],
-    "net/minecraft/class_834": [
+    "net/minecraft/client/renderer/blockentity/ShulkerBoxRenderer": [
       "com/stevekung/indicatia/EnchantedFoilExtender"
     ],
-    "net/minecraft/class_823": [
+    "net/minecraft/client/renderer/blockentity/BannerRenderer": [
       "com/stevekung/indicatia/EnchantedFoilExtender"
     ]
   }

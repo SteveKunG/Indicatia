@@ -25,9 +25,9 @@
   },
   "depends": {
     "fabricloader": ">=0.18",
-    "fabric": ">=0.139",
-    "cloth-config": ">=20.0",
-    "minecraft": "~1.21.11"
+    "fabric-api": ">=0.144",
+    "cloth-config": ">=26.1",
+    "minecraft": "~26.1"
   },
   "mixins": [
     "mixins.indicatia.json",
@@ -40,19 +40,19 @@
       }
     },
     "loom:injected_interfaces": {
-      "net/minecraft/class_10042": [
+      "net/minecraft/client/renderer/entity/state/LivingEntityRenderState": [
         "com/stevekung/indicatia/EnchantedFoilExtender"
       ],
-      "net/minecraft/class_8188": [
+      "net/minecraft/client/renderer/blockentity/DecoratedPotRenderer": [
         "com/stevekung/indicatia/EnchantedFoilExtender"
       ],
-      "net/minecraft/class_825": [
+      "net/minecraft/client/renderer/blockentity/BedRenderer": [
         "com/stevekung/indicatia/EnchantedFoilExtender"
       ],
-      "net/minecraft/class_834": [
+      "net/minecraft/client/renderer/blockentity/ShulkerBoxRenderer": [
         "com/stevekung/indicatia/EnchantedFoilExtender"
       ],
-      "net/minecraft/class_823": [
+      "net/minecraft/client/renderer/blockentity/BannerRenderer": [
         "com/stevekung/indicatia/EnchantedFoilExtender"
       ]
     }

@@ -1,4 +1,4 @@
-apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/architectury/fabric.gradle"
+apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/refs/heads/v2/architectury/fabric.gradle"
 
 loom {
     runs.configureEach {
@@ -17,21 +17,24 @@ loom {
             ideConfigGenerated = false
         }
     }
-
-    mixin {
-        useLegacyMixinAp = true
-    }
 }
 
 String fileName = "${archives_base_name}-mc${minecraft_version}"
 List<String> devExcludes = ["architectury.common.json"]
 
+jar {
+    excludes = devExcludes
+}
+
 shadowJar {
+    dependsOn jar
+    mainSpec.sourcePaths.clear()       // Remove default source set inclusion
+    from zipTree(jar.archiveFile)     // Unpack jar output (preserves Loom modifications)
+
     configurations = [project.configurations.shadowBundle]
-    archiveClassifier = "dev"
+    archiveClassifier = "fabric" + (release_type != "release" ? "-${release_type}" : "")
     archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
-    excludes = devExcludes
 }
 
 sourcesJar {
@@ -39,17 +42,6 @@ sourcesJar {
     dependsOn commonSources
     from commonSources.archiveFile.map { zipTree(it) }
     excludes = devExcludes
-}
-
-remapSourcesJar {
-    archiveVersion = "v${mod_version}"
-    archiveBaseName = fileName
-}
-
-remapJar {
-    inputFile.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier = "fabric"
     archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
 }

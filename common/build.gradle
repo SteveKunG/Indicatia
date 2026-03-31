@@ -1,11 +1,5 @@
-apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/architectury/common.gradle"
+apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/refs/heads/v2/architectury/common.gradle"
 
-tasks.shadowJar {
-    zip64 = true
-}
-
-loom {
-    mixin {
-        useLegacyMixinAp = true
-    }
+tasks.named("shadowJar") {
+    enabled = false
 }

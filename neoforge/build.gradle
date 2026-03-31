@@ -1,4 +1,4 @@
-apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/main/architectury/neoforge.gradle"
+apply from: "https://raw.githubusercontent.com/SteveKunG/GradleScripts/refs/heads/v2/architectury/neoforge.gradle"
 
 loom {
     runs.configureEach {
@@ -17,17 +17,17 @@ loom {
             ideConfigGenerated = false
         }
     }
-
-    mixin {
-        useLegacyMixinAp = true
-    }
 }
 
 String fileName = "${archives_base_name}-mc${minecraft_version}"
 
 shadowJar {
+    dependsOn jar
+    mainSpec.sourcePaths.clear()       // Remove default source set inclusion
+    from zipTree(jar.archiveFile)     // Unpack jar output (preserves Loom modifications)
+
     configurations = [project.configurations.shadowBundle]
-    archiveClassifier = "dev"
+    archiveClassifier = "neoforge" + (release_type != "release" ? "-${release_type}" : "")
     archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
 }
@@ -37,17 +37,6 @@ sourcesJar {
     dependsOn commonSources
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from commonSources.archiveFile.map { zipTree(it) }
-}
-
-remapSourcesJar {
-    archiveVersion = "v${mod_version}"
-    archiveBaseName = fileName
-}
-
-remapJar {
-    inputFile.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier = "neoforge"
     archiveVersion = "v${mod_version}"
     archiveBaseName = fileName
 }

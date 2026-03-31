@@ -17,7 +17,7 @@ public class MixinSkullBlockRenderer
 {
     @WrapOperation(method = "getSkullRenderType", at = @At(
             value = "INVOKE",
-            target = "net/minecraft/client/renderer/rendertype/RenderTypes.entityCutoutNoCullZOffset(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/rendertype/RenderType;"))
+            target = "net/minecraft/client/renderer/rendertype/RenderTypes.entityCutoutZOffset(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/rendertype/RenderType;"))
     private static RenderType indicatia$changeSkullRenderType(Identifier identifier, Operation<RenderType> original)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnSkulls)

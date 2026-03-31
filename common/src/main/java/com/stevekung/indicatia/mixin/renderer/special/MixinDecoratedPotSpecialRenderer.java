@@ -13,7 +13,6 @@ import com.stevekung.indicatia.Indicatia;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.DecoratedPotRenderer;
 import net.minecraft.client.renderer.special.DecoratedPotSpecialRenderer;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.entity.PotDecorations;
 
 @Mixin(DecoratedPotSpecialRenderer.class)
@@ -23,7 +22,7 @@ public class MixinDecoratedPotSpecialRenderer
     DecoratedPotRenderer decoratedPotRenderer;
 
     @Inject(method = "submit", at = @At("HEAD"))
-    private void indicatia$preHasFoil(@Nullable PotDecorations potDecorations, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
+    private void indicatia$preHasFoil(@Nullable PotDecorations potDecorations, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities)
         {
@@ -32,7 +31,7 @@ public class MixinDecoratedPotSpecialRenderer
     }
 
     @Inject(method = "submit", at = @At("TAIL"))
-    private void indicatia$postHasFoil(@Nullable PotDecorations potDecorations, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
+    private void indicatia$postHasFoil(@Nullable PotDecorations potDecorations, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities)
         {

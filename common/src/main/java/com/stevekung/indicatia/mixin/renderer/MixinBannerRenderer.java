@@ -1,5 +1,6 @@
 package com.stevekung.indicatia.mixin.renderer;
 
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,7 +17,6 @@ import net.minecraft.client.model.object.banner.BannerModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
@@ -38,9 +38,9 @@ public class MixinBannerRenderer implements EnchantedFoilExtender
         return this.hasFoil;
     }
 
-    @WrapOperation(method = "submitSpecial", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/BannerRenderer.submitBanner(Lnet/minecraft/client/resources/model/MaterialSet;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIFLnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"))
-    private void indicatia$addEnchantedGlint(MaterialSet materialSet, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, float rotationDegrees, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor dyeColor, BannerPatternLayers bannerPatternLayers, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, int outlineColor, Operation<Void> operation)
+    @WrapOperation(method = "submitSpecial", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/BannerRenderer.submitBanner(Lnet/minecraft/client/resources/model/sprite/SpriteGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"))
+    private void indicatia$addEnchantedGlint(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor baseColor, BannerPatternLayers patterns, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress, int outlineColor, Operation<Void> operation)
     {
-        EnchantedBannerRenderer.submitEnchantedBanner(materialSet, poseStack, submitNodeCollector, lightCoords, overlayCoords, rotationDegrees, bannerModel, bannerFlagModel, phase, dyeColor, bannerPatternLayers, crumblingOverlay, outlineColor, this.hasFoil);
+        EnchantedBannerRenderer.submitEnchantedBanner(sprites, poseStack, submitNodeCollector, lightCoords, overlayCoords, bannerModel, bannerFlagModel, phase, baseColor, patterns, breakProgress, outlineColor, this.hasFoil);
     }
 }

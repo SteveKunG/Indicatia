@@ -12,7 +12,6 @@ import com.stevekung.indicatia.Indicatia;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.ShulkerBoxRenderer;
 import net.minecraft.client.renderer.special.ShulkerBoxSpecialRenderer;
-import net.minecraft.world.item.ItemDisplayContext;
 
 @Mixin(ShulkerBoxSpecialRenderer.class)
 public class MixinShulkerBoxSpecialRenderer
@@ -21,7 +20,7 @@ public class MixinShulkerBoxSpecialRenderer
     ShulkerBoxRenderer shulkerBoxRenderer;
 
     @Inject(method = "submit", at = @At("HEAD"))
-    private void indicatia$preHasFoil(ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
+    private void indicatia$preHasFoil(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities)
         {
@@ -30,7 +29,7 @@ public class MixinShulkerBoxSpecialRenderer
     }
 
     @Inject(method = "submit", at = @At("TAIL"))
-    private void indicatia$postHasFoil(ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
+    private void indicatia$postHasFoil(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor, CallbackInfo info)
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities)
         {

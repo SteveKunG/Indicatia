@@ -1,7 +1,5 @@
 package com.stevekung.indicatia;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.object.skull.SkullModelBase;
@@ -10,34 +8,19 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Direction;
+import org.jspecify.annotations.Nullable;
 
 public class EnchantedSkullRenderer
 {
-    public static void submitSkull(@Nullable Direction direction, float yRot, float animationPos, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, SkullModelBase skullModelBase, RenderType renderType, int outlineColor, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, boolean hasFoil)
+    public static void submitSkull(float animationValue, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, SkullModelBase model, RenderType renderType, int outlineColor, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress, boolean hasFoil)
     {
-        poseStack.pushPose();
-
-        if (direction == null)
-        {
-            poseStack.translate(0.5F, 0.0F, 0.5F);
-        }
-        else
-        {
-            poseStack.translate(0.5F - direction.getStepX() * 0.25F, 0.25F, 0.5F - direction.getStepZ() * 0.25F);
-        }
-
-        poseStack.scale(-1.0F, -1.0F, 1.0F);
-        var state = new SkullModelBase.State();
-        state.animationPos = animationPos;
-        state.yRot = yRot;
-        submitNodeCollector.submitModel(skullModelBase, state, poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, outlineColor, crumblingOverlay);
+	    var modelState = new SkullModelBase.State();
+        modelState.animationPos = animationValue;
+        submitNodeCollector.submitModel(model, modelState, poseStack, renderType, lightCoords, OverlayTexture.NO_OVERLAY, outlineColor, breakProgress);
 
         if (hasFoil)
         {
-            submitNodeCollector.submitModel(skullModelBase, state, poseStack, RenderTypes.entityGlint(), packedLight, OverlayTexture.NO_OVERLAY, outlineColor, crumblingOverlay);
+            submitNodeCollector.submitModel(model, modelState, poseStack, RenderTypes.entityGlint(), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor, breakProgress);
         }
-
-        poseStack.popPose();
     }
 }
