@@ -43,7 +43,7 @@ public class MixinShulkerBoxRenderer implements EnchantedFoilExtender
 
         if (this.hasFoil)
         {
-            operation.call(submitNodeCollector, model, state, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, tintedColor, null, outlineColor, crumblingOverlay);
+            submitNodeCollector.submitModel(model, state, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, tintedColor, null, outlineColor, crumblingOverlay);
         }
     }
 }

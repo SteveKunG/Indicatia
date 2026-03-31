@@ -22,13 +22,14 @@ public class EnchantedBannerRenderer
     {
         var sprite = Sheets.BANNER_BASE;
         submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, sprite, sprites, outlineColor, breakProgress);
+        submitNodeCollector.submitModel(flagModel, phase, poseStack, lightCoords, overlayCoords, -1, sprite, sprites, outlineColor, breakProgress);
 
         if (hasFoil)
         {
             submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, null, outlineColor, breakProgress);
+            submitNodeCollector.submitModel(flagModel, phase, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, null, outlineColor, breakProgress);
         }
 
         BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, lightCoords, overlayCoords, flagModel, phase, true, baseColor, patterns, breakProgress);
-        poseStack.popPose();
     }
 }
