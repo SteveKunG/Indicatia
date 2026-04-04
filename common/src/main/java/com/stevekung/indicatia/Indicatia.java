@@ -35,7 +35,7 @@ public class Indicatia
 
     public static ImageButton getReloadResourcesButton(Screen screen, Minecraft minecraft)
     {
-        var imageButton = new ImageButton(screen.width / 2 + 155, screen.height - 26, 20, 20, RELOAD_BUTTON_SPRITES, button -> minecraft.reloadResourcePacks(), Indicatia.RELOAD_COMPONENT);
+        var imageButton = new ImageButton(screen.width / 2 + 155, screen.height - 26, 20, 20, RELOAD_BUTTON_SPRITES, _ -> minecraft.reloadResourcePacks(), Indicatia.RELOAD_COMPONENT);
         imageButton.setTooltip(Tooltip.create(RELOAD_COMPONENT));
         return imageButton;
     }

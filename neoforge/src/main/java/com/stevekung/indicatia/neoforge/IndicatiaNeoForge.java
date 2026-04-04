@@ -43,7 +43,7 @@ public class IndicatiaNeoForge
         ModLoadingContext.get().getActiveContainer().getEventBus().addListener(this::onRegisterKey);
         NeoForge.EVENT_BUS.register(this);
         Indicatia.initConfig();
-        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (mc, screen) -> AutoConfigClient.getConfigScreen(IndicatiaConfig.class, screen).get());
+        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (_, screen) -> AutoConfigClient.getConfigScreen(IndicatiaConfig.class, screen).get());
     }
 
     private void onRegisterKey(RegisterKeyMappingsEvent event)
