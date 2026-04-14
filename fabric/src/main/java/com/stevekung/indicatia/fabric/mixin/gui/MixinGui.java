@@ -8,12 +8,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.stevekung.indicatia.Indicatia;
+import com.stevekung.indicatia.utils.FlashbackHelper;
 import com.stevekung.indicatia.utils.RenderUtils;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.GameType;
 
 @Mixin(Gui.class)
 public class MixinGui
@@ -32,5 +37,11 @@ public class MixinGui
         {
             RenderUtils.renderPotionDurationOnTopRight(this.minecraft.font, guiGraphics, mobEffectInstance, x, y, alpha, this.minecraft.level.tickRateManager().tickrate());
         }
+    }
+
+    @Inject(method = "renderHotbarAndDecorations", at = @At("TAIL"))
+    private void renderPhantomIndicator(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info)
+    {
+        Indicatia.renderPhantomIndicator(guiGraphics, this.minecraft);
     }
 }

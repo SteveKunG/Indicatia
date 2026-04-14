@@ -35,4 +35,10 @@ public class MixinGui
             RenderUtils.renderPotionDurationOnTopRight(this.minecraft.font, guiGraphics, mobEffectInstance, x, y, alpha, this.minecraft.level.tickRateManager().tickrate());
         }
     }
+
+    @Inject(method = "renderHotbar", remap = false, at = @At("TAIL"))
+    private void indicatia$renderPhantomIndicator(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info)
+    {
+        Indicatia.renderPhantomIndicator(guiGraphics, this.minecraft);
+    }
 }
