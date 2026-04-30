@@ -14,6 +14,8 @@
   "text.autoconfig.indicatia.option.enableReloadResourcesButton.@Tooltip": "Enable reload resources button on a pack selection screen.",
   "text.autoconfig.indicatia.option.saveLastSearchInRecipeBook": "Save Last Search in the Recipe Book",
   "text.autoconfig.indicatia.option.saveLastSearchInRecipeBook.@Tooltip": "This option saves your last search in the recipe book.",
+  "text.autoconfig.indicatia.option.phantomIndicator": "Phantom Indicator",
+  "text.autoconfig.indicatia.option.phantomIndicator.@Tooltip": "This option will display phantom indicator left side at the hotbar, but this will work only vanilla server which can send player stats packet.",
   "key.alt_open_chat": "Alternate Open Chat",
   "menu.confirm_disconnect": "Do you want to disconnect?",
   "menu.reload_resources": "Reload resources"

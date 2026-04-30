@@ -28,4 +28,7 @@ public final class IndicatiaConfig implements ConfigData
 
     @ConfigEntry.Gui.Tooltip
     public boolean saveLastSearchInRecipeBook = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean phantomIndicator = true;
 }

@@ -6,9 +6,13 @@ import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.config.IndicatiaConfig;
 import me.shedaniel.autoconfig.AutoConfigClient;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.InBedChatScreen;
+import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -59,6 +63,22 @@ public class IndicatiaNeoForge
         if (Indicatia.canAddReloadButton(screen))
         {
             event.addListener(Indicatia.getReloadResourcesButton(screen, screen.getMinecraft()));
+        }
+
+        if (Indicatia.CONFIG.phantomIndicator && screen instanceof InBedChatScreen)
+        {
+            screen.getMinecraft().getConnection().send(new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.REQUEST_STATS));
+        }
+    }
+
+    @SubscribeEvent
+    public void initScreen(ClientTickEvent.Pre event)
+    {
+        var minecraft = Minecraft.getInstance();
+
+        if (Indicatia.CONFIG.phantomIndicator && minecraft.player != null && minecraft.player.tickCount % 1200 == 0)
+        {
+            minecraft.getConnection().send(new ServerboundClientCommandPacket(ServerboundClientCommandPacket.Action.REQUEST_STATS));
         }
     }
 }
