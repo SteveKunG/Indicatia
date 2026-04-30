@@ -1,18 +1,19 @@
 package com.stevekung.indicatia.utils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.font.FontOption;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffectInstance;
 
 public class RenderUtils
 {
-    private static final FontDescription UNIFORM = new FontDescription.Resource(Minecraft.UNIFORM_FONT);
+    private static final FontDescription UNIFORM = new FontDescription.Resource(Identifier.withDefaultNamespace(FontOption.UNIFORM.name()));
 
     public static void renderPotionDurationOnTopRight(Font font, GuiGraphicsExtractor graphics, MobEffectInstance mobEffectInstance, int x, int y, float alpha, float ticksPerSecond)
     {

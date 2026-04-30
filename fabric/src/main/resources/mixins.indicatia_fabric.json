@@ -4,7 +4,7 @@
   "compatibilityLevel": "JAVA_25",
   "package": "com.stevekung.indicatia.fabric.mixin",
   "client": [
-    "gui.MixinGui"
+    "gui.MixinHud"
   ],
   "injectors": {
     "defaultRequire": 1

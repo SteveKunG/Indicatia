@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_25",
   "package": "com.stevekung.indicatia.mixin",
   "client": [
+    "gui.MixinGui",
     "gui.screens.inventory.MixinCreativeModeInventoryScreen",
     "gui.screens.recipebook.MixinRecipeBookComponent",
     "gui.screens.MixinPauseScreen",
@@ -11,7 +12,6 @@
     "renderer.entity.layers.MixinCustomHeadLayer",
 
     "renderer.special.MixinBannerSpecialRenderer",
-    "renderer.special.MixinBedSpecialRenderer",
     "renderer.special.MixinChestSpecialRenderer",
     "renderer.special.MixinConduitSpecialRenderer",
     "renderer.special.MixinCopperGolemStatueSpecialRenderer",
@@ -20,15 +20,12 @@
     "renderer.special.MixinShulkerBoxSpecialRenderer",
     "renderer.special.MixinSkullSpecialRenderer",
 
-    "renderer.MixinBedRenderer",
     "renderer.MixinBannerRenderer",
     "renderer.MixinDecoratedPotRenderer",
     "renderer.MixinLivingEntityRenderer",
     "renderer.MixinLivingEntityRenderState",
     "renderer.MixinShulkerBoxRenderer",
-    "renderer.MixinSkullBlockRenderer",
-
-    "MixinMinecraft"
+    "renderer.MixinSkullBlockRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -22,7 +22,7 @@ public class MixinPauseScreen extends Screen
     @ModifyArg(method = "createPauseMenu", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/Button.builder(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;", ordinal = 1), index = 1)
     private Button.OnPress indicatia$replaceDisconnectButton(Button.OnPress originalOnPress)
     {
-        return Indicatia.CONFIG.confirmationOnDisconnect && !this.minecraft.isLocalServer() ? button -> this.minecraft.setScreen(new ConfirmScreen(yes ->
+        return Indicatia.CONFIG.confirmationOnDisconnect && !this.minecraft.isLocalServer() ? button -> this.minecraft.gui.setScreen(new ConfirmScreen(yes ->
         {
             if (yes)
             {
@@ -30,7 +30,7 @@ public class MixinPauseScreen extends Screen
             }
             else
             {
-                this.minecraft.setScreen(this);
+                this.minecraft.gui.setScreen(this);
             }
         }, Component.translatable("menu.confirm_disconnect"), Component.empty(), CommonComponents.GUI_YES, CommonComponents.GUI_CANCEL)) : originalOnPress;
     }

@@ -1,6 +1,7 @@
 package com.stevekung.indicatia.fabric.mixin.gui;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,11 +13,10 @@ import com.stevekung.indicatia.Indicatia;
 import com.stevekung.indicatia.utils.RenderUtils;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.world.effect.MobEffectInstance;
 
-@Mixin(Gui.class)
-public class MixinGui
+@Mixin(Hud.class)
+public class MixinHud
 {
     @Shadow
     @Final

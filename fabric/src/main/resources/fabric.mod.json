@@ -27,7 +27,7 @@
     "fabricloader": ">=0.18",
     "fabric-api": ">=0.144",
     "cloth-config": ">=26.1",
-    "minecraft": "~26.1"
+    "minecraft": ">=26.1"
   },
   "mixins": [
     "mixins.indicatia.json",
