@@ -26,8 +26,8 @@ public class EnchantedBannerRenderer
 
         if (hasFoil)
         {
-            submitNodeCollector.submitModel(bannerModel, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, null, outlineColor, breakProgress);
-            submitNodeCollector.submitModel(flagModel, phase, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, null, outlineColor, breakProgress);
+            submitNodeCollector.order(1).submitModel(bannerModel, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, null, outlineColor, breakProgress);
+            submitNodeCollector.order(1).submitModel(flagModel, phase, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, null, outlineColor, breakProgress);
         }
 
         BannerRenderer.submitPatterns(sprites, poseStack, submitNodeCollector, lightCoords, overlayCoords, flagModel, phase, true, baseColor, patterns, breakProgress);

@@ -28,7 +28,6 @@ public class MixinConduitSpecialRenderer
     {
         operation.call(submitNodeCollector, modelPart, poseStack, renderType, lightCoords, overlayCoords, sprite, tintedColor, crumblingOverlay, outlineColor);
 
-        //TODO Test
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities && hasFoil)
         {
             submitNodeCollector.order(1).submitModelPart(modelPart, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, sprite, tintedColor, crumblingOverlay, outlineColor);

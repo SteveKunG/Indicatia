@@ -28,7 +28,7 @@ public class MixinChestSpecialRenderer
 
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities && hasFoil)
         {
-            submitNodeCollector.submitModel(model, object, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, tintedColor, null, outlineColor, crumblingOverlay);
+            submitNodeCollector.order(1).submitModel(model, object, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, tintedColor, null, outlineColor, crumblingOverlay);
         }
     }
 }

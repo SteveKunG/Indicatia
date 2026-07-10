@@ -44,7 +44,6 @@ public class MixinDecoratedPotRenderer implements EnchantedFoilExtender
     private void indicatia$addEnchantedGlint(SubmitNodeCollector submitNodeCollector, ModelPart modelPart, PoseStack poseStack, RenderType renderType, int lightCoords, int overlayCoords, @Nullable TextureAtlasSprite sprite, int tintedColor, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay, int outlineColor, Operation<Void> operation) {
         operation.call(submitNodeCollector, modelPart, poseStack, renderType, lightCoords, overlayCoords, sprite, tintedColor, crumblingOverlay, outlineColor);
 
-        //TODO Test
         if (this.hasFoil)
         {
             submitNodeCollector.order(1).submitModelPart(modelPart, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, sprite, tintedColor, crumblingOverlay, outlineColor);

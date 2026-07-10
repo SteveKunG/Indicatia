@@ -20,7 +20,7 @@ public class EnchantedSkullRenderer
 
         if (hasFoil)
         {
-            submitNodeCollector.submitModel(model, modelState, poseStack, RenderTypes.entityGlint(), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor, breakProgress);
+            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, RenderTypes.entityGlint(), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor, breakProgress);
         }
     }
 }
