@@ -1,1 +1,1 @@
-* Added Phantom Indicator - display gauge based on how long you haven't been slept.
+* Fixed Options Button replaced by confirm disconnect button action
