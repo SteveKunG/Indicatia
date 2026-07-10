@@ -13,7 +13,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class RenderUtils
 {
-    private static final FontDescription UNIFORM = new FontDescription.Resource(Identifier.withDefaultNamespace(FontOption.UNIFORM.name()));
+    private static final FontDescription UNIFORM = new FontDescription.Resource(Identifier.withDefaultNamespace(FontOption.UNIFORM.getSerializedName()));
 
     public static void renderPotionDurationOnTopRight(Font font, GuiGraphicsExtractor graphics, MobEffectInstance mobEffectInstance, int x, int y, float alpha, float ticksPerSecond)
     {
