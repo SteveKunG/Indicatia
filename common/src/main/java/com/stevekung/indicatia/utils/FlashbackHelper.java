@@ -46,7 +46,7 @@ public class FlashbackHelper
                 // static method Flashback.getSpectatingPlayer()
                 GET_SPECTATING_PLAYER = lookup.findStatic(flashbackClazz, "getSpectatingPlayer", MethodType.methodType(AbstractClientPlayer.class));
             }
-            catch (Throwable e)
+            catch (Exception e)
             {
                 LOGGER.error("Couldn't initialize Flashback compatibility", e);
                 throw new RuntimeException(e);

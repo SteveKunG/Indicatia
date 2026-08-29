@@ -18,7 +18,7 @@ public class RenderUtils
     public static void renderPotionDurationOnTopRight(Font font, GuiGraphicsExtractor graphics, MobEffectInstance mobEffectInstance, int x, int y, float alpha, float ticksPerSecond)
     {
         var isInfinite = mobEffectInstance.isInfiniteDuration();
-        var ticks = Mth.floor((float) mobEffectInstance.getDuration());
+        var ticks = Mth.floor(mobEffectInstance.getDuration());
         var component = isInfinite ? Component.translatable("effect.duration.infinite") : Component.literal(StringUtil.formatTickDuration(ticks, ticksPerSecond));
         var text = component.withStyle(Style.EMPTY.withFont(isInfinite ? null : UNIFORM));
         var color = 0xFFFFFF | Mth.floor(alpha * 255.0F) << 24 & 0xFF000000;

@@ -56,7 +56,7 @@ public abstract class MixinRecipeBookComponent
     @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z", ordinal = 0))
     private boolean indicatia$rightClickClearText(boolean original, MouseButtonEvent mouseButtonEvent, boolean doubleClicked)
     {
-        var inBox = mouseButtonEvent.x() >= (double) this.searchBox.getX() && mouseButtonEvent.x() < (double) (this.searchBox.getX() + this.searchBox.getWidth()) && mouseButtonEvent.y() >= (double) this.searchBox.getY() && mouseButtonEvent.y() < (double) (this.searchBox.getY() + this.searchBox.getHeight());
+        var inBox = mouseButtonEvent.x() >= this.searchBox.getX() && mouseButtonEvent.x() < this.searchBox.getX() + this.searchBox.getWidth() && mouseButtonEvent.y() >= this.searchBox.getY() && mouseButtonEvent.y() < this.searchBox.getY() + this.searchBox.getHeight();
 
         if (Indicatia.CONFIG.saveLastSearchInRecipeBook && !this.searchBox.getValue().isEmpty() && inBox && mouseButtonEvent.button() == 1)
         {
