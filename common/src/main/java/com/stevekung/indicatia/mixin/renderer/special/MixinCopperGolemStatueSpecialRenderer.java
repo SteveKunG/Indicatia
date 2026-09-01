@@ -28,7 +28,7 @@ public class MixinCopperGolemStatueSpecialRenderer
     {
         if (Indicatia.CONFIG.enableEnchantedRenderingOnAllBlockEntities && hasFoil)
         {
-            submitNodeCollector.order(1).submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), packedLight, packedOverlay, -1, null, outlineColor, null);
+            submitNodeCollector.order(1).submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.patternedShieldGlint(), packedLight, packedOverlay, -1, null, outlineColor);
         }
     }
 }

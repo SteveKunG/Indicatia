@@ -24,6 +24,6 @@ public class MixinCustomHeadLayer
             target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/object/skull/SkullModelBase;Lnet/minecraft/client/renderer/rendertype/RenderType;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
     private void indicatia$useCustomEnchantedSkullRenderer(float animationValue, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, SkullModelBase model, RenderType renderType, int outlineColor, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress, @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState)
     {
-        EnchantedSkullRenderer.submitSkull(animationValue, poseStack, submitNodeCollector, lightCoords, model, renderType, outlineColor, breakProgress, livingEntityRenderState.indicatia$hasFoil());
+        EnchantedSkullRenderer.submitSkull(animationValue, poseStack, submitNodeCollector, lightCoords, model, renderType, outlineColor, livingEntityRenderState.indicatia$hasFoil());
     }
 }

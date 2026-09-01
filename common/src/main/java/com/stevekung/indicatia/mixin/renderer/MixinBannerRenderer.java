@@ -41,6 +41,6 @@ public class MixinBannerRenderer implements EnchantedFoilExtender
     @WrapOperation(method = "submitSpecial", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/blockentity/BannerRenderer.submitBanner(Lnet/minecraft/client/resources/model/sprite/SpriteGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/client/model/object/banner/BannerModel;Lnet/minecraft/client/model/object/banner/BannerFlagModel;FLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;I)V"))
     private void indicatia$addEnchantedGlint(SpriteGetter sprites, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, BannerModel bannerModel, BannerFlagModel bannerFlagModel, float phase, DyeColor baseColor, BannerPatternLayers patterns, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress, int outlineColor, Operation<Void> operation)
     {
-        EnchantedBannerRenderer.submitEnchantedBanner(sprites, poseStack, submitNodeCollector, lightCoords, overlayCoords, bannerModel, bannerFlagModel, phase, baseColor, patterns, breakProgress, outlineColor, this.hasFoil);
+        EnchantedBannerRenderer.submitEnchantedBanner(sprites, poseStack, submitNodeCollector, lightCoords, overlayCoords, bannerModel, bannerFlagModel, phase, baseColor, patterns, outlineColor, this.hasFoil);
     }
 }

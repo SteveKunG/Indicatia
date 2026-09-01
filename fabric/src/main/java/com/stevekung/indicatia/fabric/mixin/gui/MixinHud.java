@@ -24,7 +24,7 @@ public class MixinHud
 
     @Inject(method = "extractEffects", at = @At(
             value = "INVOKE",
-            target = "net/minecraft/client/gui/GuiGraphicsExtractor.blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIIII)V",
+            target = "net/minecraft/client/gui/GuiGraphicsExtractor.blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
             shift = At.Shift.AFTER))
     private void indicatia$addPotionTime(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info, @Local MobEffectInstance mobEffectInstance, @Local(index = 9, ordinal = 2) int x, @Local(index = 10, ordinal = 3) int y, @Local(index = 11) float alpha)
     {

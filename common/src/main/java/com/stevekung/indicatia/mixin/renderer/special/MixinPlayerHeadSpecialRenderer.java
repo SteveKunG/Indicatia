@@ -24,6 +24,6 @@ public class MixinPlayerHeadSpecialRenderer
             target = "net/minecraft/client/renderer/blockentity/SkullBlockRenderer.submitSkull(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/model/object/skull/SkullModelBase;Lnet/minecraft/client/renderer/rendertype/RenderType;ILnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V"))
     private void indicatia$useCustomEnchantedSkullRenderer(float animationValue, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, SkullModelBase model, RenderType renderType, int outlineColor, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress, @Local(argsOnly = true) boolean hasFoil)
     {
-        EnchantedSkullRenderer.submitSkull(animationValue, poseStack, submitNodeCollector, lightCoords, model, renderType, outlineColor, breakProgress, Indicatia.CONFIG.enableEnchantedRenderingOnSkulls && hasFoil);
+        EnchantedSkullRenderer.submitSkull(animationValue, poseStack, submitNodeCollector, lightCoords, model, renderType, outlineColor, Indicatia.CONFIG.enableEnchantedRenderingOnSkulls && hasFoil);
     }
 }
