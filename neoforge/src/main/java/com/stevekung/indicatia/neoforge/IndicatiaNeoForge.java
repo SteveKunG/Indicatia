@@ -39,7 +39,7 @@ public class IndicatiaNeoForge
             {
                 return false;
             }
-        }, KeyModifier.NONE, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_KP_ENTER, KeyMapping.Category.MULTIPLAYER);
+        }, KeyModifier.NONE, InputConstants.Type.KEYBOARD, GLFW.GLFW_KEY_KP_ENTER, KeyMapping.Category.MULTIPLAYER);
     }
 
     public IndicatiaNeoForge()
