@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_25",
   "package": "com.stevekung.indicatia.mixin",
   "client": [
+    "accessor.SkullBlockRendererAccessor",
+
     "gui.MixinGui",
     "gui.screens.inventory.MixinCreativeModeInventoryScreen",
     "gui.screens.recipebook.MixinRecipeBookComponent",
@@ -19,6 +21,7 @@
     "renderer.special.MixinPlayerHeadSpecialRenderer",
     "renderer.special.MixinShulkerBoxSpecialRenderer",
     "renderer.special.MixinSkullSpecialRenderer",
+    "renderer.special.MixinSkullSpecialRenderer$MixinSkullSpecialRenderer_Unbaked",
 
     "renderer.MixinBannerRenderer",
     "renderer.MixinDecoratedPotRenderer",
