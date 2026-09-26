@@ -24,7 +24,7 @@ public class EnchantedSkullRenderer
         if (hasFoil)
         {
             var texture = argument != null ? argument.playerSkin().body().texturePath() : DefaultPlayerSkin.getDefaultTexture();
-            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, ModRenderTypes.entityTranslucentGlint(texture), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
+            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, argument != null ? ModRenderTypes.playerAndDragonHeadGlint(argument.playerSkin().body().texturePath()) : ModRenderTypes.mobSkullGlint(texture), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
         }
     }
 
@@ -36,7 +36,8 @@ public class EnchantedSkullRenderer
 
         if (hasFoil)
         {
-            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, ModRenderTypes.entityTranslucentGlint(SkullBlockRendererAccessor.getSkinByType().get(type)), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
+            var texture = SkullBlockRendererAccessor.getSkinByType().get(type);
+            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, type == SkullBlock.Types.DRAGON ? ModRenderTypes.playerAndDragonHeadGlint(texture) : ModRenderTypes.mobSkullGlint(texture), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
         }
     }
 }
