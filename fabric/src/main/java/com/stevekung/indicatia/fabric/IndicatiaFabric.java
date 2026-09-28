@@ -1,6 +1,6 @@
 package com.stevekung.indicatia.fabric;
 
-import org.lwjgl.sdl.SDLKeycode;
+import org.lwjgl.sdl.SDLScancode;
 
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -17,7 +17,7 @@ public class IndicatiaFabric implements ClientModInitializer
 {
     static
     {
-        Indicatia.KEY_ALT_OPEN_CHAT = new KeyMapping("key.alt_open_chat", InputConstants.Type.KEYBOARD, SDLKeycode.SDLK_KP_ENTER, KeyMapping.Category.MULTIPLAYER);
+        Indicatia.KEY_ALT_OPEN_CHAT = new KeyMapping("key.alt_open_chat", InputConstants.Type.KEYBOARD, SDLScancode.SDL_SCANCODE_KP_ENTER, KeyMapping.Category.MULTIPLAYER);
     }
 
     @Override
