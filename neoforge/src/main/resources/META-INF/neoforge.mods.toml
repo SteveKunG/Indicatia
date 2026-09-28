@@ -10,7 +10,7 @@ displayName = "${display_name}"
 description = "${mod_description}"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/indicatia"
 updateJSONURL = "https://raw.githubusercontent.com/SteveKunG/VersionCheckLibrary/master/indicatia_version.json"
-logoFile = "logo.png"
+iconFile = "logo.png"
 authors = "SteveKunG"
 displayTest = "IGNORE_SERVER_VERSION"
 
@@ -22,20 +22,20 @@ config = "mixins.indicatia_neoforge.json"
 [[dependencies.indicatia]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1.0.17-beta,)"
+versionRange = "[26.3.0.12-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.3,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.indicatia]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.3,)"
 ordering = "NONE"
 side = "CLIENT"

@@ -24,10 +24,10 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.18",
-    "fabric-api": ">=0.144",
-    "cloth-config": ">=26.1",
-    "minecraft": ">=26.1"
+    "fabricloader": ">=0.19",
+    "fabric-api": ">=0.161",
+    "cloth-config": ">=26.3",
+    "minecraft": ">=26.3"
   },
   "mixins": [
     "mixins.indicatia.json",
