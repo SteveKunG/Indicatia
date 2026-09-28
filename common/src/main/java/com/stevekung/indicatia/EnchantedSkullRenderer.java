@@ -7,7 +7,6 @@ import net.minecraft.client.model.object.skull.SkullModelBase;
 import net.minecraft.client.renderer.PlayerSkinRenderCache;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.world.level.block.SkullBlock;
@@ -24,8 +23,8 @@ public class EnchantedSkullRenderer
 
         if (hasFoil)
         {
-            //var texture = argument != null ? argument.playerSkin().body().texturePath() : DefaultPlayerSkin.getDefaultTexture();
-            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, RenderTypes.patternedShieldGlint(), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
+            var texture = argument != null ? argument.playerSkin().body().texturePath() : DefaultPlayerSkin.getDefaultTexture();
+            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, argument != null ? ModRenderTypes.playerAndDragonHeadGlint(argument.playerSkin().body().texturePath()) : ModRenderTypes.mobSkullGlint(texture), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
         }
     }
 
@@ -37,7 +36,8 @@ public class EnchantedSkullRenderer
 
         if (hasFoil)
         {
-            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, RenderTypes.armorCutoutNoCullGlint(SkullBlockRendererAccessor.getSkinByType().get(type)), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
+            var texture = SkullBlockRendererAccessor.getSkinByType().get(type);
+            submitNodeCollector.order(1).submitModel(model, modelState, poseStack, type == SkullBlock.Types.DRAGON ? ModRenderTypes.playerAndDragonHeadGlint(texture) : ModRenderTypes.mobSkullGlint(texture), lightCoords, OverlayTexture.NO_OVERLAY, outlineColor);
         }
     }
 }

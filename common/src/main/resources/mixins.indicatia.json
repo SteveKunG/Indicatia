@@ -4,6 +4,8 @@
   "compatibilityLevel": "JAVA_25",
   "package": "com.stevekung.indicatia.mixin",
   "client": [
+    "accessor.RenderPipelinesAccessor",
+    "accessor.RenderTypeAccessor",
     "accessor.SkullBlockRendererAccessor",
 
     "gui.MixinGui",
