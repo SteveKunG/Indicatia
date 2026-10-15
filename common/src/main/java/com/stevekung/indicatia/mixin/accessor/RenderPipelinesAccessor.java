@@ -1,12 +1,12 @@
 package com.stevekung.indicatia.mixin.accessor;
 
-import com.mojang.renderpearl.api.pipeline.RenderPipeline;
-
 import net.minecraft.client.renderer.RenderPipelines;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
+
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 
 @Mixin(RenderPipelines.class)
 public interface RenderPipelinesAccessor

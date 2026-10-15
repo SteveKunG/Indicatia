@@ -24,13 +24,13 @@ public class MixinHud
 
     @Inject(method = "extractEffects", at = @At(
             value = "INVOKE",
-            target = "net/minecraft/client/gui/GuiGraphicsExtractor.blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
+            target = "net/minecraft/client/gui/GuiGraphicsExtractor.blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
             shift = At.Shift.AFTER))
-    private void indicatia$addPotionTime(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info, @Local MobEffectInstance mobEffectInstance, @Local(index = 9, ordinal = 2) int x, @Local(index = 10, ordinal = 3) int y, @Local(index = 11) float alpha)
+    private void indicatia$addPotionTime(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info, @Local(name = "instance") MobEffectInstance instance, @Local(name = "x") int x, @Local(name = "y") int y, @Local(name = "alpha") float alpha)
     {
         if (Indicatia.CONFIG.displayPotionDurationOnTopRightPotionHUD)
         {
-            RenderUtils.renderPotionDurationOnTopRight(this.minecraft.font, graphics, mobEffectInstance, x, y, alpha, this.minecraft.level.tickRateManager().tickrate());
+            RenderUtils.renderPotionDurationOnTopRight(this.minecraft.font, graphics, instance, x, y, alpha, this.minecraft.level.tickRateManager().tickrate());
         }
     }
 

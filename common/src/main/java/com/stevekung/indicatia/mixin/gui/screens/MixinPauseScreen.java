@@ -23,14 +23,14 @@ public class MixinPauseScreen extends Screen
 
     @ModifyArg(method = "createPauseMenu", at = @At(
             value = "INVOKE",
-            target = "net/minecraft/client/gui/components/Button.builder(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;",
+            target = "net/minecraft/client/gui/screens/reporting/DraftIconButton.<init>(IILnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;Lnet/minecraft/client/gui/components/Tooltip;Ljava/util/function/Predicate;)V",
             ordinal = 0),
             slice = @Slice(
                     from = @At(
                             value = "INVOKE",
                             target = "net/minecraft/network/chat/CommonComponents.disconnectButtonLabel(Z)Lnet/minecraft/network/chat/Component;",
                             shift = At.Shift.BEFORE)),
-            index = 1)
+            index = 3)
     private Button.OnPress indicatia$replaceDisconnectButton(Button.OnPress originalOnPress)
     {
         return Indicatia.CONFIG.confirmationOnDisconnect && !this.minecraft.isLocalServer() ? button -> this.minecraft.gui.setScreen(new ConfirmScreen(yes ->

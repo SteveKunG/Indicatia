@@ -1,5 +1,6 @@
 package com.stevekung.indicatia;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.renderpearl.api.pipeline.*;
 import com.stevekung.indicatia.mixin.accessor.RenderPipelinesAccessor;
 
