@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.stevekung.indicatia.mixin.accessor.RenderTypeAccessor;
 
 import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.TextureTransform;
@@ -15,7 +16,7 @@ public class ModRenderTypes
 {
     private static final Function<Identifier, RenderType> MOB_SKULL_GLINT = Util.memoize(texture ->
     {
-        var state = RenderSetup.nonOitBuilder(ModRenderPipelines.MOB_SKULL_GLINT)
+        var state = RenderSetup.nonOitBuilder(RenderPipelines.entity(new RenderPipelines.EntityParameters(ModEntityRenderPipelineVariant.MOB_SKULL_GLINT, null)))
                             .withTexture("Sampler0", texture)
                             .withTexture("Sampler1", texture)
                             .withTexture("GlintSampler", ItemFeatureRenderer.ENCHANTED_GLINT_ITEM)
@@ -27,7 +28,7 @@ public class ModRenderTypes
 
     private static final Function<Identifier, RenderType> PLAYER_AND_DRAGON_HEAD_GLINT = Util.memoize(texture ->
     {
-        var state = RenderSetup.nonOitBuilder(ModRenderPipelines.PLAYER_AND_DRAGON_HEAD_GLINT)
+        var state = RenderSetup.nonOitBuilder(RenderPipelines.entity(new RenderPipelines.EntityParameters(ModEntityRenderPipelineVariant.PLAYER_AND_DRAGON_HEAD_GLINT, null)))
                           .withTexture("Sampler0", texture)
                           .withTexture("GlintSampler", ItemFeatureRenderer.ENCHANTED_GLINT_ITEM)
                           .setTextureTransform(TextureTransform.ENTITY_GLINT_TEXTURING)
