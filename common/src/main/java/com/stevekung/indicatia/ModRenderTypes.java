@@ -15,7 +15,7 @@ public class ModRenderTypes
 {
     private static final Function<Identifier, RenderType> MOB_SKULL_GLINT = Util.memoize(texture ->
     {
-        var state = RenderSetup.builder(ModRenderPipelines.MOB_SKULL_GLINT)
+        var state = RenderSetup.nonOitBuilder(ModRenderPipelines.MOB_SKULL_GLINT)
                             .withTexture("Sampler0", texture)
                             .withTexture("Sampler1", texture)
                             .withTexture("GlintSampler", ItemFeatureRenderer.ENCHANTED_GLINT_ITEM)
@@ -27,7 +27,7 @@ public class ModRenderTypes
 
     private static final Function<Identifier, RenderType> PLAYER_AND_DRAGON_HEAD_GLINT = Util.memoize(texture ->
     {
-        var state = RenderSetup.builder(ModRenderPipelines.PLAYER_AND_DRAGON_HEAD_GLINT)
+        var state = RenderSetup.nonOitBuilder(ModRenderPipelines.PLAYER_AND_DRAGON_HEAD_GLINT)
                           .withTexture("Sampler0", texture)
                           .withTexture("GlintSampler", ItemFeatureRenderer.ENCHANTED_GLINT_ITEM)
                           .setTextureTransform(TextureTransform.ENTITY_GLINT_TEXTURING)
