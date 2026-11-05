@@ -10,12 +10,12 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stats;
@@ -61,8 +61,8 @@ public class Indicatia
             var textureSize = 18;
             var v = textureSize - (int) (textureSize * (1.0F - (float) Math.min(timeSinceRest, phantomStartSpawnTick) / phantomStartSpawnTick));
 
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, PHANTOM_INDICATOR_SPRITE, textureSize, textureSize, 0, textureSize - v, width - 120, guiGraphics.guiHeight() - 28 - v, textureSize, v);
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, PHANTOM_INDICATOR_OVERLAY_SPRITE, textureSize, textureSize, 0, 0, width - 120, guiGraphics.guiHeight() - 46, textureSize, textureSize);
+            guiGraphics.blitSprite(GuiPipeline.TEXTURED, PHANTOM_INDICATOR_SPRITE, textureSize, textureSize, 0, textureSize - v, width - 120, guiGraphics.guiHeight() - 28 - v, textureSize, v);
+            guiGraphics.blitSprite(GuiPipeline.TEXTURED, PHANTOM_INDICATOR_OVERLAY_SPRITE, textureSize, textureSize, 0, 0, width - 120, guiGraphics.guiHeight() - 46, textureSize, textureSize);
         }
     }
 
