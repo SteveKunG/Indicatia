@@ -5,11 +5,13 @@
   "package": "com.stevekung.indicatia.mixin",
   "client": [
     "accessor.EntityRenderPipelineVariantAccessor",
+    "accessor.RecipeBookComponentAccessor",
     "accessor.RenderTypeAccessor",
     "accessor.SkullBlockRendererAccessor",
 
     "gui.MixinGui",
     "gui.screens.inventory.MixinCreativeModeInventoryScreen",
+    "gui.screens.recipebook.MixinAbstractRecipeBookScreen",
     "gui.screens.recipebook.MixinRecipeBookComponent",
     "gui.screens.MixinPauseScreen",
 

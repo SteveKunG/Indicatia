@@ -3,75 +3,37 @@ package com.stevekung.indicatia.mixin.gui.screens.recipebook;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+
 import com.llamalad7.mixinextras.sugar.Local;
 import com.stevekung.indicatia.Indicatia;
-import com.stevekung.indicatia.utils.PlatformKeyInput;
+
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.MouseButtonEvent;
 
 @Mixin(RecipeBookComponent.class)
-public abstract class MixinRecipeBookComponent
+public class MixinRecipeBookComponent
 {
     @Shadow
     EditBox searchBox;
-
-    @Shadow
-    String lastSearch;
-
-    @SuppressWarnings("SameParameterValue")
-    @Shadow
-    abstract void updateCollections(boolean resetPageNumber, boolean filtering);
-
-    @Shadow
-    abstract boolean isFiltering();
-
-    @Unique
-    private static String lastSearchStatic = "";
 
     @Inject(method = "initVisuals", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.setValue(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     private void indicatia$initStaticLastSearch(CallbackInfo info)
     {
         if (Indicatia.CONFIG.saveLastSearchInRecipeBook)
         {
-            this.searchBox.setValue(lastSearchStatic);
+            this.searchBox.setValue(Indicatia.lastSearchStatic);
         }
     }
 
     @Inject(method = "checkSearchStringUpdate", at = @At(value = "FIELD", target = "net/minecraft/client/gui/screens/recipebook/RecipeBookComponent.lastSearch:Ljava/lang/String;", opcode = Opcodes.PUTFIELD))
-    private void indicatia$staticLastSearchUpdate(CallbackInfo info, @Local String string)
+    private void indicatia$staticLastSearchUpdate(CallbackInfo info, @Local(name = "searchText") String searchText)
     {
         if (Indicatia.CONFIG.saveLastSearchInRecipeBook)
         {
-            lastSearchStatic = string;
+            Indicatia.lastSearchStatic = searchText;
         }
-    }
-
-    @ModifyExpressionValue(method = "mouseClicked", at = @At(value = "INVOKE", target = "net/minecraft/client/gui/components/EditBox.mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z", ordinal = 0))
-    private boolean indicatia$rightClickClearText(boolean original, MouseButtonEvent mouseButtonEvent, boolean doubleClicked)
-    {
-        var inBox = mouseButtonEvent.x() >= this.searchBox.getX() && mouseButtonEvent.x() < this.searchBox.getX() + this.searchBox.getWidth() && mouseButtonEvent.y() >= this.searchBox.getY() && mouseButtonEvent.y() < this.searchBox.getY() + this.searchBox.getHeight();
-
-        if (Indicatia.CONFIG.saveLastSearchInRecipeBook && !this.searchBox.getValue().isEmpty() && inBox && mouseButtonEvent.button() == 1)
-        {
-            this.searchBox.setValue("");
-            this.lastSearch = "";
-            lastSearchStatic = "";
-            this.updateCollections(false, this.isFiltering());
-        }
-        return original;
-    }
-
-    @SuppressWarnings("ConstantValue")
-    @ModifyExpressionValue(method = "keyPressed", at = @At(value = "INVOKE", target = "net/minecraft/client/KeyMapping.matches(Lnet/minecraft/client/input/KeyEvent;)Z"))
-    private boolean indicatia$addAltChatKey(boolean original, KeyEvent keyEvent)
-    {
-        return original || PlatformKeyInput.isAltChatMatches(keyEvent);
     }
 }

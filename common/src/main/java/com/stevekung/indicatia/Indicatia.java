@@ -4,9 +4,6 @@ import com.stevekung.indicatia.config.IndicatiaConfig;
 import com.stevekung.indicatia.utils.FlashbackHelper;
 import com.stevekung.indicatia.utils.Platform;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -21,6 +18,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.level.GameType;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+
 public class Indicatia
 {
     public static final String MOD_ID = "indicatia";
@@ -32,6 +32,8 @@ public class Indicatia
     private static final Component RELOAD_COMPONENT = Component.translatable("menu.reload_resources");
     private static final Identifier PHANTOM_INDICATOR_SPRITE = Indicatia.id("hud/phantom_indicator");
     private static final Identifier PHANTOM_INDICATOR_OVERLAY_SPRITE = Indicatia.id("hud/phantom_indicator_overlay");
+
+    public static String lastSearchStatic = "";
 
     public static void initConfig()
     {
